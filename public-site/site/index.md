@@ -4,7 +4,7 @@ title: Radix, the Equinor software platform
 useFullTitle: true
 ---
 
-# Radix makes your app **develop** !
+# Radix makes your app **develop**  
 
 ## Build
 
