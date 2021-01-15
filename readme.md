@@ -4,6 +4,7 @@
 
 [www.radix.equinor.com (public site)](https://www.radix.equinor.com)
 
+New repository
 This repository is the umbrella for Omnia Radix with issue tracking and feature requests and pointers to other resources.
 
 Radix is [Equinor](https://www.equinor.com/)'s Platform-as-a-Service that offers testing, building, deploying, running and monitoring of software. Its goal is to automate "the boring stuff" and let developers focus on business logic and features and offloading much of the tooling and automation to Radix.
