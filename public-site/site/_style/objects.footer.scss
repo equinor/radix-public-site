@@ -1,0 +1,14 @@
+.o-footer-left {
+  float: left;
+}
+
+.o-footer-right {
+  float: right;
+}
+
+.o-version-info {
+  color: var(--color-aux-info)
+}
+:root {
+  --color-aux-info: hsl(180, 60%, 40%);
+}

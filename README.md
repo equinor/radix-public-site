@@ -5,9 +5,9 @@ platform. It is a static site built with [Jekyll](https://jekyllrb.com).
 
 [www.radix.equinor.com (public site)](https://www.radix.equinor.com)
 
-`tag` in git repository (in `main` branch) - matching to the version of Version in docs/docs.go
-
-Run following command to set tag (with corresponding version)
+### Versioning
+* Set the `version` in `public-site/_config.yml` - it is shown at the footer of the site
+* After merging changes to the branch `main` - set `tag` in git repository (in `main` branch) - matching to the `version` in `public-site/_config.yml`
     ```
     git tag v1.0.0
     git push origin v1.0.0
