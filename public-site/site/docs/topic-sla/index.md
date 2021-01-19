@@ -5,7 +5,7 @@ parent: ["Docs", "../../docs.html"]
 toc: true
 ---
 
-# Service level agreement
+# Service, support, uptime and availability
 
 We are experimenting with an approach with "release channels" which differ in update frequency, service level agreement (SLA) and expected stability.
 
