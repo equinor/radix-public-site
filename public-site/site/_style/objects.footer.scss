@@ -1,14 +1,16 @@
-.o-footer-left {
-  float: left;
+.o-footer-container {
+  display: flex;
 }
 
-.o-footer-right {
-  float: right;
+.o-footer-container div:last-child {
+  margin-left: auto;
 }
 
 .o-version-info {
-  color: var(--color-aux-info)
+  color: var(--color-aux-info);
+  align-items: flex-end;
 }
+
 :root {
   --color-aux-info: hsl(180, 60%, 40%);
 }
