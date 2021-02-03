@@ -14,7 +14,7 @@ We are experimenting with an approach with "release channels" which differ in up
 | **Production** | Products under development or in production |   Every ~6 months   |     Yes     |
 | **Playground** | Testing and experimenting with Radix        |                     | Best-effort |
 
-## Cluster availability — Production
+## Production cluster availability and services
 
 The Radix Production cluster should be used when your team has chosen Radix as PaaS (Platform-as-a-Service) for a product under development or in production.
 
