@@ -30,7 +30,7 @@ Schedule for Radix DevOps/Support team - 08:00 - 16:00 CET/CEST on Norwegian wor
 ### Uptime
 
 - **Platform monthly uptime: 99.9%** - expected uptime for Radix as a hosting platform
-  - Metrics for platform uptime last 3 months is 99,95%  
+  - Measured platform uptime last 3 months: 99,95%
 - **Radix services monthly uptime: 99%** - expected uptime for Radix services, like CI/CD and monitoring
 - **Planned maintenance:** We will announce planned maintenance at least 2 business days in advance. Downtime during planned maintenance does not affect uptime goals
 - **Disaster Recovery:** Procedure is in place and the procedure is executed on a weekly basis. Estimated time to recover a cluster is 15 minutes, estimated time to rebuild and recover a complete cluster is 1 hour. 
@@ -52,4 +52,4 @@ Use Playground for testing Radix, see if it’s a good fit for your projects, an
 
 - **Uptime:** "Best-effort", but no guarantee of uptime. Planned maintenance is announced as early as possible.
 
-**Please note:** applications hosted in the Playground cluster may need to be re-registered after maintenance, upgrades or migrations. All such required actions from your part will be communicated in the Radix channels.
+**Please note:** applications hosted in the Playground cluster may need to be re-registered after maintenance, upgrades or migrations. All such required actions from your part will be communicated in the Radix slack channel.
