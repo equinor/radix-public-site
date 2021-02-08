@@ -42,7 +42,7 @@ Each cluster type has exactly one **active cluster**, which can change.
 
 For instance, the Radix admins can have two `prod` clusters, `prod-27` and `prod-28` while performing a migration. Only one of those two will be the active cluster. At the end of the migration, `prod-28` becomes active and all traffic should be directed there.
 
-The _public name_ always points to components in the active cluster, and is the domain name that should be publicised. It is also the domain name that has [SLA guarantees](../topic-sla/).
+The _public name_ always points to components in the active cluster, and is the domain name that should be publicised. It is also the domain name that has [SLA guarantees](../topic-uptime/).
 
 - Only allocated for **active clusters**
 - Automatically allocated
