@@ -18,10 +18,11 @@ Let us together build the Radix community!..
 
 If you think you found a bug, or you have a concrete proposal, [log an issue](https://github.com/equinor/radix-platform/issues) on GitHub. We have multiple repositories, but all issues are tracked in **radix-platform**.
 
-# [Release register](../../docs/release/)
+# Release register
 
-New features are publically announced in the [Omnia Radix slack channel](https://equinor.slack.com/messages/C8U7XGGAJ), and added to the release page.  
+New features are publically announced in the [Omnia Radix slack channel](https://equinor.slack.com/messages/C8U7XGGAJ), and added to the release register page.  
 
+Check out the [Release register](../../docs/release/)
 
 # The Radix team
 
