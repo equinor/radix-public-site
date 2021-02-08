@@ -20,7 +20,7 @@ toc: true
 
 ## About the platform
 
-- Service, support and availability [SLA](docs/topic-sla/)
+- Service, support and availability [Uptime](docs/topic-uptime/)
 - [Rolling updates](docs/topic-rollingupdate/) in Radix
 - [Cost](docs/topic-cost/) calculation principles
 
