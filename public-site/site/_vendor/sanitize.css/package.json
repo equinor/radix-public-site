@@ -46,7 +46,7 @@
   "deprecated": false,
   "description": "A best-practices CSS foundation",
   "devDependencies": {
-    "stylelint": "^9.6.0",
+    "stylelint": "^13.0.0",
     "stylelint-config-standard": "^18.2.0"
   },
   "files": [
