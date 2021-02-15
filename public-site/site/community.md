@@ -18,11 +18,15 @@ Let us together build the Radix community!..
 
 If you think you found a bug, or you have a concrete proposal, [log an issue](https://github.com/equinor/radix-platform/issues) on GitHub. We have multiple repositories, but all issues are tracked in **radix-platform**.
 
+# Release register
+
+New features are publically announced in the [Omnia Radix slack channel](https://equinor.slack.com/messages/C8U7XGGAJ), and added to the release register page.  
+
+Check out the [Release register](../../docs/release/)
+
 # The Radix team
 
 We are based in Vassbotnen - S4 in Stavanger. If you see us on the corridor, say hello!
-  
-
   
 Marko Horvat - Infrastructure  
 ![Marko](images/marko.jpg)  
