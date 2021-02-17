@@ -13,7 +13,7 @@ The process for setting up the alias depends on the service used to register and
 
 ## Acquire an Equinor alias
 
-1. Open the [Services@Equinor](https://equinor.service-now.com) portal and find the service "IT infrastructure operational tasks"
+1. Open the [Services@Equinor](https://equinor.service-now.com) portal and find the service "Domain name system (DNS)"
 2. Request an alias, and specify which [public name](../../docs/topic-domain-names/#public-name) the alias should point to.  
     _Example:_
 
