@@ -44,6 +44,27 @@ Schedule for Radix DevOps/Support team - 08:00 - 16:00 CET/CEST on Norwegian wor
 
 A risk assessment for cluster uptime has been done, and the most critical risk scenarios are identified, and risk mitigation actions have been agreed upon and are implemented as required.
 
+### Disaster recovery
+
+Application configuration is backed up every hour using Velero and that backup is stored in the Azure Storage account. We have created a script that can create a new AKS instance and migrate all applications from the affected cluster to the new one.
+
+**RTO (Recovery Time Objective)** has been estimated at 20 minutes from the moment the Radix team starts working on it. Keep in mind that the RTO is only an estimate since external factors can also influence the recovery time. For example, this time will increase if there is a high load on Azure REST API or Azure managed Kubernetes API server.
+
+Some of the failure events that can take down the service or introduce delays and timeouts:
+- Bad commit can introduce a bad code/bug in Radix components
+- Executing a command in the wrong cluster
+- Resource exhaustion, CPU, Memory, Disk issues
+- Upgrading 3rd party components
+- Azure resources/services are deleted
+- MS Azure services unavailable
+- Kubernetes bugs
+- Kubernetes API changes
+- Expired certificates
+- Network issues, DDOS 
+- Expired secrets
+
+We are working hard to mitigate as much of these as possible.
+
 ## Radix Playground cluster services
 
 Use Playground for testing Radix, see if it’s a good fit for your projects, and provide feedback. When you are ready to commit, register your application in the Production cluster, which has improved stability.
