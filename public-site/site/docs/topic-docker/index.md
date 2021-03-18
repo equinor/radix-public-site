@@ -39,10 +39,10 @@ WORKDIR /src
 
 COPY . /src
 
-# Add a new group "radix-non-root" with group id 1000 
+# Add a new group "radix-non-root-group" with group id 1000 
 RUN groupadd -g 1000 radix-non-root-group
 
-# Add a new user "radix-non-root" with user id 1000 and include in the above group
+# Add a new user "radix-non-root-user" with user id 1000 and include in the above group
 RUN useradd -u 1000 -g radix-non-root-group radix-non-root-user
 
 USER 1000
