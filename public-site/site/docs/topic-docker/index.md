@@ -28,11 +28,9 @@ Docker build speed can be reduced by understanding caching of layers. In short, 
 ## Security
 
 
-### Running as non-root
+### Running as non root
 
-
-Application hosted on Radix will run in a non-root environment. This requires that the image used is configured to run as non-root. The following example is using a non-root configuration and will run as user 1000.
-
+Application hosted on Radix must run with non-root privileges in container, policy enabled in Radix platform will disallow containers running with root privileges. Here's how you can run change a Docker container to run as a non-root user.
 
 ```yaml
 FROM golang:alpine
@@ -41,8 +39,11 @@ WORKDIR /src
 
 COPY . /src
 
-RUN groupadd -g 1000 radix-non-root
-RUN useradd -u 1000 -g radix-non-root radix-non-root
+# Add a new group "radix-non-root" with group id 1000 
+RUN groupadd -g 1000 radix-non-root-group
+
+# Add a new user "radix-non-root" with user id 1000 and include in the above group
+RUN useradd -u 1000 -g radix-non-root-group radix-non-root-user
 
 USER 1000
 ENTRYPOINT ["/src/entrypoint.sh"]
@@ -56,9 +57,9 @@ The ID of the group and user can be anything in the range 1-65535.
 
 
 
- **USER <USER_ID>** command near the end of the Dockerfile specifies which user to run as, this **must** be the ID of the user, not the name. This is to ensure that kubernetes can verify the container is running as a non-root user.
+ **USER <USER_ID>** command specifies which user to run as, this **must** be the ID of the user, not the name. This will ensure that Kubernetes can verify that the container is running as a non-root user.
 
-> You may experience error messages regarding user already exists. In these cases you can modify the ID of your user, or use the existing user. 
+> You may experience error messages regarding user already exists. In these cases you can select to use another ID or use the ID of the existing user. 
 
 
 > There are many great articles on securing docker images. See [this](https://www.wintellect.com/security-best-practices-for-docker-images/) list for best practices.
