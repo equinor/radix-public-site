@@ -358,6 +358,25 @@ The `volumeMounts` field contains the following sub-fields: `type` field can cur
 
 > See [this](../../guides/volume-mounts/) guide on how make use of `volumeMounts`.
 
+#### `runAsNonRoot`
+
+To accomodate for a way of managing which component and which environment will be run as non-root, this configuration option can be used.
+
+```yaml
+spec:
+  components:
+    - name: backend
+      environmentConfig:
+        - environment: prod
+          runAsNonRoot: false
+        - environment: qa
+          runAsNonRoot: true
+```
+
+The `runAsNonRoot` field of a component environment config is used to determine if the component should run as root in the environment.  
+
+> See [this](../topic-docker/) on how to correctly configure your Dockerfile for running as non-root in Radix.
+
 ## `dnsAppAlias`
 
 ```yaml

@@ -27,7 +27,42 @@ Docker build speed can be reduced by understanding caching of layers. In short, 
 
 ## Security
 
-There are many great articles on securing docker images. See [link](https://www.wintellect.com/security-best-practices-for-docker-images/) for one list.
+
+### Running as non root
+
+Application hosted on Radix must run with non-root privileges in container, policy enabled in Radix platform will disallow containers running with root privileges. Here's how you can run change a Docker container to run as a non-root user.
+
+```yaml
+FROM golang:alpine
+
+WORKDIR /src
+
+COPY . /src
+
+# Add a new group "radix-non-root-group" with group id 1000 
+RUN groupadd -g 1000 radix-non-root-group
+
+# Add a new user "radix-non-root-user" with user id 1000 and include in the above group
+RUN useradd -u 1000 -g radix-non-root-group radix-non-root-user
+
+USER 1000
+ENTRYPOINT ["/src/entrypoint.sh"]
+```
+
+The ID of the group and user can be anything in the range 1-65535. 
+
+`groupadd` command follows the syntax `groupadd -g <GROUP_ID> <GROUP-NAME>`
+
+`useradd` command follows the syntax `useradd -u <USER_ID> -g <GROUP_NAME> <USER_NAME>`
+
+
+
+ **USER <USER_ID>** command specifies which user to run as, this **must** be the ID of the user, not the name. This will ensure that Kubernetes can verify that the container is running as a non-root user.
+
+> You may experience error messages regarding user already exists. In these cases you can select to use another ID or use the ID of the existing user. 
+
+
+> There are many great articles on securing docker images. See [this](https://www.wintellect.com/security-best-practices-for-docker-images/) list for best practices.
 
 # Radix specific
 
