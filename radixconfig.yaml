@@ -19,6 +19,7 @@ spec:
       public: true
       environmentConfig:
         - environment: prod
+          runAsNonRoot: true
           replicas: 2
           resources:
             requests:
@@ -27,3 +28,6 @@ spec:
             limits:
               memory: "20Mi"
               cpu: "10m"
+        - environment: qa
+          runAsNonRoot: true
+              
