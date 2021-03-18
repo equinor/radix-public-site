@@ -360,7 +360,7 @@ The `volumeMounts` field contains the following sub-fields: `type` field can cur
 
 #### `runAsNonRoot`
 
-To accomodate for a way of managing which component and environment chich will be run as non-root, this configuration option can be used.
+To accomodate for a way of managing which component and which environment will be run as non-root, this configuration option can be used.
 
 ```yaml
 spec:
