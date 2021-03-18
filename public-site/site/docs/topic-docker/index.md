@@ -58,6 +58,7 @@ The ID of the group and user can be anything in the range 1-65535.
 
  **USER <USER_ID>** command near the end of the Dockerfile specifies which user to run as, this **must** be the ID of the user, not the name. This is to ensure that kubernetes can verify the container is running as a non-root user.
 
+> You may experience error messages regarding user already exists. In these cases you can modify the ID of your user, or use the existing user. 
 
 
 > There are many great articles on securing docker images. See [this](https://www.wintellect.com/security-best-practices-for-docker-images/) list for best practices.
