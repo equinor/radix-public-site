@@ -28,7 +28,7 @@ Docker build speed can be reduced by understanding caching of layers. In short, 
 ## Security
 
 
-### Running as non root
+### Running as non-root
 
 Application hosted on Radix must run with non-root privileges in container, policy enabled in Radix platform will disallow containers running with root privileges. Here's how you can run change a Docker container to run as a non-root user.
 
@@ -42,7 +42,7 @@ COPY . /src
 # Add a new group "radix-non-root-group" with group id 1000 
 RUN groupadd -g 1000 radix-non-root-group
 
-# Add a new user "radix-non-root-user" with user id 1000 and include in the above group
+# Add a new user "radix-non-root-user" with user id 1000 and include in group
 RUN useradd -u 1000 -g radix-non-root-group radix-non-root-user
 
 USER 1000
