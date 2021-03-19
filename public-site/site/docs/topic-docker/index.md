@@ -13,7 +13,7 @@ For a general understanding of what Docker and Container is, have a look at [Wha
 
 ### Running as non-root
 
-Application hosted on Radix must run with non-root privileges in container, security policy enabled in the Radix platform will prevent the application from running if not configured to run as non-root. Here's an sample on how you can run change a Docker container to run as a non-root user, the principle is that you create a dedicated user and group on the image and use this user to run the process.   
+Application hosted on Radix must be run with non-root privileges in the container. A security policy enabled in the Radix platform will prevent the application from running if it is not configured to run as non-root. Here's an sample on how you can run change a Docker container to run as a non-root user, the principle is that you create a dedicated user and group on the image and use this user to run the process.   
 
 This is a sample on how it can be done for node based images.
 
