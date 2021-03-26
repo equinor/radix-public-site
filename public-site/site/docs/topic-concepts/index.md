@@ -47,6 +47,7 @@ If a component's `publicPort` is defined, endpoints are made available on the pu
 
 Components can further be configured independently on each environment. Besides [environment variables](#environment-variable) and [secrets](#secret), a component can have different resource usage and monitoring settings.
 
+
 ## Replica
 
 A replica is a running instance of a [component](#component). As a normal process, it can write to the standard output (`stdout`), which is made available for inspection by Radix.
