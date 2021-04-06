@@ -5,8 +5,8 @@ COPY . .
 RUN bundle install
 RUN bundle exec jekyll build
 
-FROM nginx:1.18-alpine
+FROM nginxinc/nginx-unprivileged:1.18-alpine
 WORKDIR /site
 COPY --from=builder /site/build /site
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-USER 1000
+USER 101
