@@ -47,6 +47,15 @@ If a component's `publicPort` is defined, endpoints are made available on the pu
 
 Components can further be configured independently on each environment. Besides [environment variables](#environment-variable) and [secrets](#secret), a component can have different resource usage and monitoring settings.
 
+## Job
+
+A [job](../../guides/configure-jobs/) represents an on-demand and short lived container/process, running within an [environment](#environment), that performs a set of tasks and exits when it is done. Jobs are defined in the [`radixconfig.yaml`](../reference-radix-config/#jobs) file. They share the same configuration as a component with a few exceptions; a job does not have publicPort, ingressConfiguration, replicas, horizontalScaling and alwaysPullImageOnDeploy. A job has two extra configuration options; [`schedulerPort`](../../guides/configure-jobs#schedulerport) (required), which is the port the job-scheduler will listen to, and [`payload`](../../guides/configure-jobs#payload) (optional), which is a directory in the container where the payload, sent via the job-scheduler, is mounted.
+
+Radix creates a [job-scheduler](../../guides/configure-jobs#job-scheduler) service for each job defined in radixconfig.yaml. The job-scheduler is a web API that you use to create, delete and monitor containers from the Docker image built or defined for the job. HTTP requests to the job-scheduler can only be sent by components running in the same application and environment.
+
+When creating a new job, a payload with arbitrary arguments can be specified in the body of the HTTP request to the job-scheduler. The payload is a string and can therefore contain any type of data (text, json, binary) as long as you encode it as a string, e.g. base64, when sending the request to the job-scheduler, and decode it when reading it from the file in the container where the payload is mounted.
+
+Multiple job containers can run simultaneously. Each container is assigned a unique name that can be used to monitor the state of the job through the job-scheduler API. This name is also the internal DNS name that you can use to communicate with a specific job if it exposes any ports, e.g. a custom metrics HTTP endpoint.
 
 ## Replica
 
@@ -70,9 +79,9 @@ For each environment, a secret can be **consistent** or **missing**. A missing s
 
 # Continuous integration and deployment
 
-## Job
+## Pipeline Jobs
 
-Jobs are the core of the continuous integration/deployment (CI/CD) capabilities of Radix. Jobs perform tasks, which can causes changes in an application, its environments, and components. Depending on the type of job (its [pipeline](#pipeline)), different behaviours can be expected.
+Pipeline jobs are the core of the continuous integration/deployment (CI/CD) capabilities of Radix. Pipeline jobs perform tasks, which can causes changes in an application, its environments, and components. Depending on the type of job (its [pipeline](#pipeline)), different behaviours can be expected.
 
 Jobs consist of a series of _steps_, run either in parallel or sequentially (this is also defined by the pipeline). Each step is a stand-alone process, and its output can be inspected.
 
