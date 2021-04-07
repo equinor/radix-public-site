@@ -5,12 +5,12 @@ parent: ['Guides', '../../guides.html']
 toc: true
 ---
 
-A job is an on-demand and short lived container/process that performs a set of tasks, e.g. a ML training job or and ETL job, and exits when it is done.
+A job is an on-demand and short lived container/process that performs a set of tasks, e.g. a ML training job or an ETL job, and exits when it is done.
 The duration of a job can span from seconds to hours, depending on what tasks it performs, but it is expected to exit when it has completed the work. Multiple jobs can be created and running simultaneously.
 
 CPU, GPU and memory resources requested by a job are reserved when it starts, and released when it exits. This will help reduce the total cost for an application since cost is only calculated for running containers. A job that requests 10GB of memory and 2 CPUs, started once per day and runs for one hour, will only accumulate cost for the hour it is running. A component that requests the same resources will accumulate cost for all 24 hours of a day.
 
-Docker images built from the definition in the components section in radixconfig.yaml are started automatically when a new build-deploy, promote or deploy pipeline completes. Jobs must be managed through the [job-scheduler](#job-scheduler) web API service. Radix creates a job-scheduler for each job and environment defined in [`radixconfig.yaml`](../../docs/reference-radix-config/#jobs). The job-scheduler can start new containers from the Docker image build by the pipeline, delete and list existing jobs.
+Docker images built from the definition in the components section in radixconfig.yaml are started automatically when a new build-deploy, promote or deploy pipeline completes. Jobs on the other hand, must be managed through the [job-scheduler](#job-scheduler) web API service. Radix creates a job-scheduler for each job and environment defined in [`radixconfig.yaml`](../../docs/reference-radix-config/#jobs). The job-scheduler can start new containers from the Docker image build by the pipeline, delete and list existing jobs.
 The job-scheduler does not require any authentication since it is not exposed to the Internet and is only accessible by components in the same application and environment.
 
 
@@ -32,6 +32,9 @@ spec:
       schedulerPort: 8000
       payload:
         path: "/compute/args"
+      ports:
+        - name: http
+          port: 3000
     - name: etl
       src: etl
       schedulerPort: 9000
@@ -42,7 +45,7 @@ They share many of the same configuration options with a few exceptions.
 A job does not have `publicPort`, `ingressConfiguration`, `replicas`, `horizontalScaling` and `alwaysPullImageOnDeploy`:
 - `publicPort` and `ingressConfiguration` controls exposure of component to the Internet. Jobs cannot be exposed to the Internet, so these options do not apply.
 - `replicas` and `hortizontalScaling` controls how many containers of a Docker image a component should run. A job is always one container.
-- `alwaysPullImageOnDeploy` is used by Radix to restart components that use static Docker image tags, and thereby pulling the newest image if the SHA has changed. Jobs will always pull and check the SHA of the cached image with the SHA of the source image.
+- `alwaysPullImageOnDeploy` is used by Radix to restart components that use static Docker image tags, and pulling the newest image if the SHA has changed. Jobs will always pull and check the SHA of the cached image with the SHA of the source image.
 
 Jobs have two extra configuration options; `schedulerPort` and `payload`:
 - `schedulerPort` (required) defines the port that the job-scheduler for a job will listen to.
@@ -59,8 +62,8 @@ The job-scheduler for the `etl` job listens for HTTP requests on port 9000, and 
 ## Payload
 
 Arguments required by a job is sent in the request body to the job-scheduler as a JSON document with an element named `payload`.
-The content of the payload is then mounted in the job container as a file named `payload` in the directory specified by `payload.path` in radixconfig.yaml.
-The data type of the `payload` value is string, and can therefore contain any type of data (text, json, binary) as long as you encode it as a string, e.g. base64, when sending it to the job-scheduler, and decoding it when reading it from the mounted file inside the job container. The max size of the payload is 1MB.
+The content of the payload is then mounted in the job container as a file named `payload` in the directory specified in `payload.path` in radixconfig.yaml.
+The data type of the `payload` value is string, and it can therefore contain any type of data (text, json, binary) as long as you encode it as a string, e.g. base64, when sending it to the job-scheduler, and decoding it when reading it from the mounted file inside the job container. The max size of the payload is 1MB.
 
 The compute job in the example above has payload.path set to `/compute/args`. Any payload send to the compute job-scheduler will available inside the job container in the file `/compute/args/payload`
 
@@ -88,9 +91,8 @@ The job-scheduler exposes four methods for managing jobs:
 
 ## Starting a new job
 
-Using the example configuration in the top, we have a `backend` component and two job-schedulers, one for `compute` and one for `etl`.
-The job-scheduler for `compute` listens to `http://compute:8000`, and job-scheduler for `etl` listens to `http://etl:9000`.
-We want to start a new `compute` job. Let's assume that `compute` requires a JSON document with elements `x` and `y`.
+Using the example configuration in the top, we have a `backend` component and two jobs, `compute` and `etl`. Radix creates two job-schedulers, one for each job. The job-scheduler for `compute` listens to `http://compute:8000`, and job-scheduler for `etl` listens to `http://etl:9000`.
+We want to start a new `compute` job. Let's assume that the `compute` job requires a JSON document with elements `x` and `y`.
 
 From our `backend` component we send a `POST` request to `http://compute:8000/api/v1/jobs` with request body set to
 ```json
@@ -98,8 +100,8 @@ From our `backend` component we send a `POST` request to `http://compute:8000/ap
     "payload": "{\"x\": 10, \"y\": 20}"
 }
 ```
-The job-scheduler creates a new job and mounts the payload in received in the request body to a file named `payload` in the directory `/compute/args`.
-Once the job has been created successfully, the `job-scheduler` responds to `backend` with:
+The job-scheduler creates a new job and mounts the payload we sent in the request body to a file named `payload` in the directory `/compute/args`.
+Once the job has been created successfully, the `job-scheduler` responds to `backend` with a job object:
 ```json
 {
     "name": "compute-20210407105556-rkwaibwe",
@@ -108,14 +110,14 @@ Once the job has been created successfully, the `job-scheduler` responds to `bac
     "status": "Running"
 }
 ```
-- `name` is the unique name for the job. This is the value you must use in the `GET /api/v1/jobs/{jobName}` and `DELETE /api/v1/jobs/{jobName}` methods. It is also the host name your can use if the job container exposes any HTTP endpoints.
-- `started` is the date and time the job was started. It is represented in RFC3339 form and is in UTC. The value is usually empty when creating new jobs, due to the fact that it can take a few seconds to initialize the Docker container.
-- `ended` is the date and the the job successfully ended. Also represented in RFC3339 form and is in UTC. This value will be empty if the job fails.
-- `status` is the current status of the job container. Possible values are `Running`, `Successful` and `Failed`. Status is `Failed` if the container exists with a non-zero exit code, and `Successful` if the exit code is zero.
+- `name` is the unique name for the job. This is the value we must use in the `GET /api/v1/jobs/{jobName}` and `DELETE /api/v1/jobs/{jobName}` methods. It is also the host name we can use if the job listens to incoming requests, e.g. `http://compute-20210407090837-mll3kxxh:3000`
+- `started` is the date and time the job was started. It is represented in RFC3339 form and is in UTC. The value is normally empty when a new job is created, due to the fact that it can take a few seconds to initialize the Docker container for the job.
+- `ended` is the date and the the job successfully ended. Also represented in RFC3339 form and is in UTC. This value is only set for `Successful` jobs.
+- `status` is the current status of the job container. Possible values are `Running`, `Successful` and `Failed`. Status is `Failed` if the container exits with a non-zero exit code, and `Successful` if the exit code is zero.
 
 ## Getting the status of existing jobs
 
-You can get a list of all jobs and their status by sending a `GET` request to `http://compute:8000/api/v1/jobs`. The response is an array of jobs, similar to the response we received when creating a new job
+We can get a list of all jobs and their status by sending a `GET` request to `http://compute:8000/api/v1/jobs`. The response is an array of job objects, similar to the response we received when creating a new job
 ```json
 [
   {
@@ -133,7 +135,7 @@ You can get a list of all jobs and their status by sending a `GET` request to `h
 ]
 ```
 
-If you want to get status for a specific job, let say `compute-20210407090837-mll3kxxh`, you send a request to `http://compute:8000/api/v1/jobs/compute-20210407090837-mll3kxxh`. The response is a single job object
+If we want to get status for a specific job, let say `compute-20210407090837-mll3kxxh`, we send a request to `http://compute:8000/api/v1/jobs/compute-20210407090837-mll3kxxh`. The response is a single job object
 ```json
 {
   "name": "compute-20210407090837-mll3kxxh",
@@ -147,7 +149,7 @@ If you want to get status for a specific job, let say `compute-20210407090837-ml
  
 The job-scheduler keeps the last 10 jobs with status `Successful`. The oldest jobs exceeding this limit is automatically deleted. Jobs with status `Failed` will never be delete by the job-scheduler and must be deleted manually by calling `DELETE /api/v1/jobs/{jobName}`.
 
-In our job list we have one job with status `Failed`. If we want to delete it we must send a `DELETE` request to `http://compute:8000/api/v1/jobs/compute-20210407105556-rkwaibwe`. A successful deletion will respond with
+In our job list we have one job with status `Failed`. If we want to delete it, we must send a `DELETE` request to `http://compute:8000/api/v1/jobs/compute-20210407105556-rkwaibwe`. A successful deletion will respond with
 ```json
 {
   "status": "Success",
