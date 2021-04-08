@@ -650,6 +650,50 @@ To get more information on how to connect to a private Azure container registry 
 
 > See [guide](../../guides/deploy-only/) on how make use of `privateImageHubs` in a deploy-only scenario.
 
+## `node`
+
+`node` section describes settings of [Kubernetes node](https://kubernetes.io/docs/concepts/architecture/nodes/) on which Radix application components are scheduled to run.
+
+### `gpu`
+
+```yaml
+spec:
+  components:
+    - name: server
+      ports:
+        - name: http
+          port: 3000
+      node:
+        gpu: nvidia-v100, -nvidia-k80
+        gpuCount: 4
+```
+
+When a component should run on a Kubernetes node with a GPU card on it, this can be specified in the `gpu` key of the `node` section. 
+```yaml
+  node:
+    gpu: nvidia-v100, nvidia-p100
+```
+Put one or multiple (comma separated) GPU types, which is currently supported by Radix Kubernetes cluster and which fits to component logic, which requires GPU.
+Currently available nodes with GPUs:
+* `nvidia-v100`, 1 GPU
+
+```yaml
+  node:
+    gpu: nvidia-v100, -nvidia-k80
+```
+When particular type of GPUs do not fit to component's logic - prefix GPU type with _minus_ `-`, component will not be scheduled on nodes with such GPU types. 
+```yaml
+  node:
+    gpu: nvidia-v100
+    gpuCount: 4
+```
+When the component required multiple GPUs available on a node - put required minimum GPU count in the `gpuCount` key (default value is `1`). 
+
+When `gpuCount` is specified, but `gpu` key is not set - component will be running on a node with any type of available GPU, which has required amount of GPUs. 
+```yaml
+  node:
+    gpuCount: 4
+```
 # Example `radixconfig.yaml` file
 
 This example showcases all options; in many cases the defaults will be a good choice instead.
