@@ -87,7 +87,7 @@ The job-scheduler exposes the following methods for managing jobs:
 
 ![Diagram of jobs and job-scheduler](job-scheduler-diagram.png "Job Scheduler overview")
 
-> Job Scheduler keeps the 10 latest `Succeeded` jobs. Jobs with status `Failed` is not automatically cleaned up, and must be deleted with the `DELETE /api/v1/jobs/{jobName}` method.
+> The job-scheduler keeps the 10 latest `Succeeded` and the 10 latest `Failed` jobs.
 
 ## Starting a new job
 
@@ -145,10 +145,8 @@ To get status for a specific job, e.g. `compute-20210407090837-mll3kxxh`, send a
 ```
 
 ## Deleting an existing job
- 
-The job-scheduler keeps the 10 latest completed jobs. The oldest jobs exceeding this limit is automatically deleted. Jobs with status `Failed` will never be delete by the job-scheduler and must be deleted manually by calling `DELETE /api/v1/jobs/{jobName}`.
 
-The job list in the example above contains one job with status `Failed`. To delete it, send a `DELETE` request to `http://compute:8000/api/v1/jobs/compute-20210407105556-rkwaibwe`. A successful deletion will respond with
+The job list in the example above has a job named `compute-20210407105556-rkwaibwe`. To delete it, send a `DELETE` request to `http://compute:8000/api/v1/jobs/compute-20210407105556-rkwaibwe`. A successful deletion will respond with
 ```json
 {
   "status": "Success",
@@ -156,8 +154,6 @@ The job list in the example above contains one job with status `Failed`. To dele
   "code": 200
 }
 ```
-
-> The `DELETE` method is not limited to jobs with status `Failed`. Both `Running` and `Successful` jobs can be deleted with this method.
 
 ## OpenAPI/Swagger spec
 
