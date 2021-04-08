@@ -116,7 +116,7 @@ Once the job has been created successfully, the `job-scheduler` responds to `bac
 
 ## Getting the status of existing jobs
 
-Get a list of all jobs with their states by sending a `GET` request to `http://compute:8000/api/v1/jobs`. The response is an array of job objects, similar to the response received when creating a new job
+Get a list of all jobs with their states by sending a `GET` request to `http://compute:8000/api/v1/jobs`. The response is an array of job state objects, similar to the response received when creating a new job
 ```json
 [
   {
