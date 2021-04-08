@@ -377,6 +377,221 @@ The `runAsNonRoot` field of a component environment config is used to determine 
 
 > See [this](../topic-docker/#running-as-non-root) on how to correctly configure your Dockerfile for running as non-root in Radix.
 
+## `jobs`
+
+This is where you specify the various [jobs](../../guides/configure-jobs) for your application.
+
+### `src`
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      src: compute
+      schedulerPort: 8000
+    - name: etl
+      src: etl
+      schedulerPort: 8000
+```
+
+See [src](#src) for a component for more information.
+
+### `dockerfileName`
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      dockerfileName: compute.Dockerfile
+      schedulerPort: 8000
+```
+
+See [dockerfileName](#dockerfilename) for a component for more information.
+
+### `image`
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      image: privaterepodeleteme.azurecr.io/compute:latest
+      schedulerPort: 8000
+```
+
+See [image](#image) for a component for more information.
+
+### `schedulerPort`
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      schedulerPort: 8000
+```
+
+The port number that the [job-scheduler](../../guides/configure-jobs/#job-scheduler) will listen to for HTTP requests to manage jobs. schedulerPort is a **required** field.
+
+### `payload`
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      schedulerPort: 8000
+      payload:
+        path: /compute/args
+```
+
+Job specific arguments must be sent in the request body to the [job-scheduler](../../guides/configure-jobs/#job-scheduler) as a JSON document with an element named `payload` and a value of type string.
+The content of the payload is then mounted into the job container as a file named `payload` in the directory specified in the `payload.path`.
+In the example above, a payload sent to the job-scheduler will be mounted as file `/compute/args/payload`
+
+### `secrets`
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      schedulerPort: 8000
+      secrets:
+        - DB_PASS
+```
+
+See [secrets](#secrets) for a component for more information.
+
+### `resources` (common)
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      schedulerPort: 8000
+      resources:
+        requests:
+          memory: "6Gi"
+          cpu: "1000m"
+        limits:
+          memory: "12Gi"
+          cpu: "2000m"
+```
+
+See [resources](#resources-common) for a component for more information.
+
+### `variables` (common)
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      schedulerPort: 8000
+      variables:
+        DB_NAME: my-db
+```
+
+See [variables](#variables-common) for a component for more information.
+
+### `environmentConfig`
+
+The `environmentConfig` section is to set environment-specific settings for each job.
+
+#### `monitoring`
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      environmentConfig:
+        - environment: prod
+          monitoring: true
+```
+
+See [monitoring](#monitoring) for a component for more information.
+
+#### `resources`
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      environmentConfig:
+        - environment: prod
+          resources:
+            requests:
+              memory: "6Gi"
+              cpu: "1000m"
+            limits:
+              memory: "12Gi"
+              cpu: "2000m"
+```
+
+See [resources](#resources) for a component for more information.
+
+#### `variables`
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      environmentConfig:
+        - environment: dev
+          variables:
+            DB_HOST: "db-dev"
+            DB_PORT: "1234"
+        - environment: prod
+          variables:
+            DB_HOST: "db-prod"
+            DB_PORT: "9876"
+```
+
+See [variables](#variables) for a component for more information.
+
+#### `imageTagName`
+
+```yaml
+jobs:
+  - name: compute
+    image: docker.pkg.github.com/equinor/myapp/compute:{imageTagName}
+    environmentConfig:
+      - environment: qa
+        imageTagName: master-latest
+      - environment: prod
+        imageTagName: release-39f1a082
+```
+
+See [imageTagName](#imagetagname) for a component for more information.
+
+#### `volumeMounts`
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      environmentConfig:
+        - environment: prod
+          volumeMounts:
+            - type: blob
+              name: volume-name
+              container: container-name
+              path: /path/in/container/to/mount/to
+```
+
+See [volumeMounts](#volumemounts) for a component for more information.
+
+#### `runAsNonRoot`
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      environmentConfig:
+        - environment: prod
+          runAsNonRoot: false
+        - environment: qa
+          runAsNonRoot: true
+```
+
+See [runAsNonRoot](#runasnonroot) for a component for more information.
+
 ## `dnsAppAlias`
 
 ```yaml
@@ -503,7 +718,7 @@ spec:
       src: frontend
       ports:
         - name: http
-          port: 80
+          port: 8000
       publicPort: http
       environmentConfig:
         - environment: prod
@@ -532,6 +747,29 @@ spec:
             DB_PORT: "9876"
       secrets:
         - DB_PASS
+  jobs:
+    - name: compute
+      schedulerPort: 8000
+      ports:
+        - name: http
+          port: 9000
+      payload:
+        path: /compute/args
+      variables:
+        DB_NAME: "compute-db"
+      secrets:
+        - DB_USER
+        - DB_PASS
+      environmentConfig:
+        - environment: dev
+          variables:
+            DB_HOST: "db-dev"
+            DB_PORT: "1234"
+        - environment: dev
+          monitoring: true
+          variables:
+            DB_HOST: "db-prod"
+            DB_PORT: "1234"
   dnsAppAlias:
     environment: prod
     component: frontend
