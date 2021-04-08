@@ -65,12 +65,12 @@ Arguments required by a job is sent in the request body to the job-scheduler as 
 The content of the payload is then mounted in the job container as a file named `payload` in the directory specified in `payload.path` in [`radixconfig.yaml`](../../docs/reference-radix-config/#jobs).
 The data type of the `payload` value is string, and it can therefore contain any type of data (text, json, binary) as long as you encode it as a string, e.g. base64, when sending it to the job-scheduler, and decoding it when reading it from the mounted file inside the job container. The max size of the payload is 1MB.
 
-The compute job in the example above has payload.path set to `/compute/args`. Any payload send to the compute job-scheduler will available inside the job container in the file `/compute/args/payload`
+The compute job in the example above has `payload.path` set to `/compute/args`. Any payload, send to the compute job-scheduler, will available inside the job container in the file `/compute/args/payload`
 
 
 # Job Scheduler
 
-The job-scheduler is a web API service that you use to create, delete and monitor the state of jobs.
+The job-scheduler is a web API service, that you use to create, delete and monitor the state of jobs.
 Radix creates one job-scheduler per job defined in [`radixconfig.yaml`](../../docs/reference-radix-config/#jobs). A job-scheduler will listen to the port defined by `schedulerPort` and host name equal to the `name` of the job. The job-scheduler API can only be accessed by components running in the same environment, and it is not exposed to the Internet. No authentication is required.
 
 The job-scheduler exposes the following methods for managing jobs:
@@ -81,7 +81,7 @@ The job-scheduler exposes the following methods for managing jobs:
 }
 ```
 
-- `GET /api/v1/jobs` List name and state for all jobs
+- `GET /api/v1/jobs` Get states (with names and statuses) for all jobs
 - `GET /api/v1/jobs/{jobName}` Get state for a named job
 - `DELETE /api/v1/jobs/{jobName}` Delete a named job
 
@@ -91,7 +91,7 @@ The job-scheduler exposes the following methods for managing jobs:
 
 ## Starting a new job
 
-The example configuration at the top has component named `backend` and two jobs, `compute` and `etl`. Radix creates two job-schedulers, one for each job. The job-scheduler for `compute` listens to `http://compute:8000`, and job-scheduler for `etl` listens to `http://etl:9000`.
+The example configuration at the top has component named `backend` and two jobs, `compute` and `etl`. Radix creates two job-schedulers, one for each of the two jobs. The job-scheduler for `compute` listens to `http://compute:8000`, and job-scheduler for `etl` listens to `http://etl:9000`.
 
 To start a new job, send a `POST` request to `http://compute:8000/api/v1/jobs` with request body set to
 ```json
@@ -100,7 +100,7 @@ To start a new job, send a `POST` request to `http://compute:8000/api/v1/jobs` w
 }
 ```
 The job-scheduler creates a new job and mounts the payload from the request body to a file named `payload` in the directory `/compute/args`.
-Once the job has been created successfully, the `job-scheduler` responds to `backend` with a job object:
+Once the job has been created successfully, the `job-scheduler` responds to `backend` with a job state object:
 ```json
 {
     "name": "compute-20210407105556-rkwaibwe",
@@ -116,7 +116,7 @@ Once the job has been created successfully, the `job-scheduler` responds to `bac
 
 ## Getting the status of existing jobs
 
-Get a list of all jobs with their statuses by sending a `GET` request to `http://compute:8000/api/v1/jobs`. The response is an array of job objects, similar to the response received when creating a new job
+Get a list of all jobs with their states by sending a `GET` request to `http://compute:8000/api/v1/jobs`. The response is an array of job objects, similar to the response received when creating a new job
 ```json
 [
   {
@@ -134,7 +134,7 @@ Get a list of all jobs with their statuses by sending a `GET` request to `http:/
 ]
 ```
 
-To get status for a specific job, e.g. `compute-20210407090837-mll3kxxh`, send a `GET` request to `http://compute:8000/api/v1/jobs/compute-20210407090837-mll3kxxh`. The response is a single job object
+To get state for a specific job, e.g. `compute-20210407090837-mll3kxxh`, send a `GET` request to `http://compute:8000/api/v1/jobs/compute-20210407090837-mll3kxxh`. The response is a single job state object
 ```json
 {
   "name": "compute-20210407090837-mll3kxxh",
@@ -146,7 +146,7 @@ To get status for a specific job, e.g. `compute-20210407090837-mll3kxxh`, send a
 
 ## Deleting an existing job
 
-The job list in the example above has a job named `compute-20210407105556-rkwaibwe`. To delete it, send a `DELETE` request to `http://compute:8000/api/v1/jobs/compute-20210407105556-rkwaibwe`. A successful deletion will respond with
+The job list in the example above has a job named `compute-20210407105556-rkwaibwe`. To delete it, send a `DELETE` request to `http://compute:8000/api/v1/jobs/compute-20210407105556-rkwaibwe`. A successful deletion will respond with result object
 ```json
 {
   "status": "Success",
