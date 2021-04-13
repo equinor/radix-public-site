@@ -28,4 +28,5 @@ toc: true
 
 - [The `radixconfig.yaml` file](docs/reference-radix-config/)
 - [Radix API](docs/reference-radix-api/)
+- [Private Link](docs/reference-private-link/)
 
