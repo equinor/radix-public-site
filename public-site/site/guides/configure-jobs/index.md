@@ -155,12 +155,37 @@ The job list in the example above has a job named `compute-20210407105556-rkwaib
 }
 ```
 
-## OpenAPI/Swagger spec
+# OpenAPI/Swagger spec
 
 [Download][1] Swagger/OpenAPI specification for job-scheduler
 
-## Managing jobs in Web Console
+## Generating client code
+
+The [openapi-generator](https://github.com/OpenAPITools/openapi-generator) can be used to generate client code for communicating with the `job-scheduler` API. It can also generate server stub code to be used for local development and debugging purposes.
+
+The tool can be installed using [Homebrew](https://github.com/OpenAPITools/openapi-generator#15---homebrew), [npm](https://github.com/OpenAPITools/openapi-generator#17---npm), or by downloading the [JAR file](https://github.com/OpenAPITools/openapi-generator#13---download-jar). It can also be executed using a pre-built [Docker image](https://github.com/OpenAPITools/openapi-generator#16---docker).
+
+Get a full list of supported languages and frameworks by executing
+```
+openapi-generator-cli list
+```
+
+See [Usage](https://github.com/OpenAPITools/openapi-generator#3---usage) for more information on how to use [openapi-generator](https://github.com/OpenAPITools/openapi-generator).
+## Examples
+
+NET Core (C#) client:
+```
+openapi-generator-cli generate -g csharp-netcore -i https://www.radix.equinor.com/guides/configure-jobs/swagger.json
+```
+
+AspNetCore (C#) server stub:
+```
+openapi-generator-cli generate -g aspnetcore -i https://www.radix.equinor.com/guides/configure-jobs/swagger.json
+```
+
+# Managing Jobs in Web Console
 
 TBA
+
 
 [1]:swagger.json
