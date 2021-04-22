@@ -31,8 +31,8 @@ We are based in Vassbotnen - S4 in Stavanger. If you see us on the corridor, say
 Marko Horvat - Infrastructure  
 ![Marko](images/marko.jpg)  
   
-Christer Time - Infrastructure  
-![Christer](images/christer.jfif)  
+Ole Markus Kristiansen Ternø - Infrastructure  
+![ole markus](images/olemarkus.jpg)
   
 Sergey Smolnikov - Developer  
 ![Sergey](images/sergey.jpg)     
@@ -40,9 +40,9 @@ Sergey Smolnikov - Developer
 Nils Gustav Stråbø - Developer  
 ![Nils](images/nilsgustav.png)   
 
-Ole Joar Austbø Moi - Developer  
-![Ole](images/ole.jfif)  
+Fredrik Hatletvedt - Developer  
+![fredrik](images/fredrik.png)
   
-Elsa Mâyrä Irgens     - Team Leader  
+Elsa Mâyrä Irgens - Team Leader  
 ![Elsa](images/elsa.jpg)  
 
