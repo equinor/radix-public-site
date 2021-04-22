@@ -16,7 +16,7 @@ spec:
       ports:
         - name: http
           port: 8080
-      public: true
+      publicPort: http
       environmentConfig:
         - environment: prod
           runAsNonRoot: true
