@@ -7,7 +7,7 @@ toc: true
 
 Make sure you are familiar with [the requirements](../getting-started/).
 
-> Visual learner? Check out the [Introduction to Radix video](https://statoilsrm.sharepoint.com/portals/hub/_layouts/15/PointPublishing.aspx?app=video&p=p&chid=653b6223-6ef5-4e5b-8388-ca8c77da4c7a&vid=3a64412f-0227-489d-9fda-f5f9845aacae) 🎥
+> Visual learner? Check out the [Introduction to Radix video](https://web.microsoftstream.com/video/fa523b5c-3509-4e11-97b0-868ae499f603) 🎥
 
 In this guide we'll set up an application in Radix. Here's what we need:
 
