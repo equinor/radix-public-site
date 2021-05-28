@@ -28,21 +28,21 @@ Check out the [Release register](../../docs/release/)
 
 We are based in Vassbotnen - S4 in Stavanger. If you see us on the corridor, say hello!
   
-Marko Horvat - Infrastructure  
-![Marko](images/marko.jpg)  
+Marko Horvat - Infrastructure     
+![Marko](images/radix-marko.jpg)  
   
 Ole Markus Kristiansen Ternø - Infrastructure  
-![ole markus](images/olemarkus.jpg)
+![ole markus](images/radix-ole.jpg)
   
 Sergey Smolnikov - Developer  
-![Sergey](images/sergey.jpg)     
+![Sergey](images/radix-sergey.jpg)     
   
 Nils Gustav Stråbø - Developer  
-![Nils](images/nilsgustav.png)   
+![Nils](images/radix-nils.jpg)   
 
 Fredrik Hatletvedt - Developer  
-![fredrik](images/fredrik.png)
+![fredrik](images/radix-fredrik.jpg)
   
 Elsa Mâyrä Irgens - Team Leader  
-![Elsa](images/elsa.jpg)  
+![Elsa](images/radix-elsa.jpg)  
 
