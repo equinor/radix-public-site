@@ -11,7 +11,7 @@ As part of hosting an application on Radix, each application will take it's shar
 
 ## How is the cost calculated
 
-Cost is calculated based on the total time the replicas(containers) belonging to an application has been running, and how much CPU and memory the replicas requested. The cost is split between applications by dividing each application's CPU and memory time by the total CPU and memory time for all applications.
+Cost calculation is based on the total time the replicas(containers) belonging to an application has been running, and how much CPU and memory the replicas requested. The cost is split between applications by dividing each application's CPU and memory time by the total CPU and memory time for all applications.
 Cluster cost is split 50/50 between CPU and memory time.
 
 ## Example
