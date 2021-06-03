@@ -23,11 +23,11 @@ spec:
           replicas: 2
           resources:
             requests:
-              memory: "30Mi"
-              cpu: "5m"
+              memory: "100Mi"
+              cpu: "100m"
             limits:
-              memory: "30Mi"
-              cpu: "10m"
+              memory: "150Mi"
+              cpu: "120m"
         - environment: qa
           runAsNonRoot: true
               
