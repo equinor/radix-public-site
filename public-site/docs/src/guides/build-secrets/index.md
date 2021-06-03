@@ -9,7 +9,7 @@ title: Docker Build secrets
 ```dockerfile
 FROM alpine
 
-#argument, passed to `docker build` with `--build-arg` option
+#an argument, passed to `docker build` with `--build-arg` option
 ARG SECRET1
 
 #decode `SECRET1` argument and assign it to `BUILD_ARG` variable for further commands in this `RUN`
@@ -24,4 +24,25 @@ In the example above - the actual command can be used instead of `echo` command.
 
 ```sh
 docker build . --build-arg SECRET1=$(echo "some-build-arg"|base64) --progress=plain --no-cache
+```
+
+> Note! An `ARG` instruction _goes out of scope_ at the end of the build stage where it was defined. To use an `ARG` in multiple stages, each stage must include the `ARG` instruction ([docs](https://docs.docker.com/engine/reference/builder/#arg)):
+
+
+```dockerfile
+# Use SDK image (first stage)
+FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build-env
+
+#an argument, passed to `docker build` with `--build-arg` option
+ARG SECRET1
+
+#.....
+
+# Build runtime image (second stage)
+FROM mcr.microsoft.com/dotnet/aspnet:5.0
+
+#repeate the argument, passed to `docker build` with `--build-arg` option
+ARG SECRET1
+
+#.....
 ```
