@@ -5,7 +5,9 @@ parent: ["Guides", "../../guides.html"]
 toc: true
 ---
 
-Currently, we support only one type of volume mount. The supported type is to mount Azure Blob Container using blobfuse FlexVolume driver for Kubernetes. See [this](https://github.com/Azure/kubernetes-volume-drivers/tree/master/flexvolume/blobfuse) for more information.
+The supported volume mount type is to mount CSI Azure Blob Container, using CSI Azure blob driver for Kubernetes. See [this](https://github.com/kubernetes-sigs/blob-csi-driver) for more information.
+
+>Blobfuse FlexVolume is considered obsolete and recommended being replaced with CSI Azure blob driver.
 
 In order to make use of this functionality you have to:
 
@@ -21,11 +23,11 @@ Name of container
 
 ```yaml
       environmentConfig:
-        - environment: prod
+        - environment: dev
           volumeMounts:
-            - type: blob
+            - type: azure-blob
               name: storage
-              container: blobfusevolumetestdata
+              storage: blobfusevolumetestdata
               path: /app/image-storage
 ```
 
@@ -33,7 +35,7 @@ Name of container
 
 ![SetSecrets](SetSecrets.png)
 
-This results in the Kubernetes deployment holding the volume mount in its spec:
+This results in the Kubernetes deployment holding the volume mount in PersistentVolumeClaim and its StorageClass:
 
 ```yaml
       spec:
@@ -42,23 +44,16 @@ This results in the Kubernetes deployment holding the volume mount in its spec:
         ...
       volumeMounts:
         - mountPath: /app/image-storage
-          name: blobfuse-frontend-storage
+          name: csi-az-blob-frontend-storage1-blobfusevolumetestdata
         ...
       volumes:
-        - flexVolume:
-            driver: azure/blobfuse
-            options:
-              container: blobfusevolumetestdata
-              mountoptions: --file-cache-timeout-in-seconds=120
-              name: storage2
-              tmppath: /tmp/radix-blob-fuse-example-prod/frontend/prod/blob/storage/blobfusevolumetestdata
-            secretRef:
-              name: frontend-storage-blobfusecreds
-          name: blobfuse-frontend-storage
+        - name: csi-az-blob-frontend-storage-blobfusevolumetestdata
+          persistentVolumeClaim:
+            claimName: pvc-csi-az-blob-frontend-storage-blobfusevolumetestdata
 ```
 and files appear inside the container. If there are folders within blob container - it will exist in the pod's container as well
 ```shell
-kubectl exec -it -n radix-blob-fuse-example-prod deploy/frontend -- ls -l /app/image-storage
+kubectl exec -it -n radix-csi-azure-example-dev deploy/frontend -- ls -l /app/image-storage
 total 0
 -rwxrwxrwx    1 root     root         21133 Nov 13 13:56 image-01.png
 -rwxrwxrwx    1 root     root         21989 Nov 13 13:56 image-02.png
@@ -71,6 +66,8 @@ Multiple volume mounts are also supported
 * for containers within multiple storage accounts
 * for containers within storage accounts within multiple subscriptions and tenants
 
+Not supported mount from same blob container to different folders within one component.
+
 Multiple containers within one storage account
   ![MultipleContainers](MultipleContainers.png)
 
@@ -81,16 +78,16 @@ To add multiple volumes
     * specify `path` for each `volumeMount`, unique within `volumeMounts` of an environment
     ```yaml
           environmentConfig:
-            - environment: prod
+            - environment: dev
               volumeMounts:
-                - type: blob
+                - type: azure-blob
                   name: storage1
-                  container: blobfusevolumetestdata
+                  storage: blobfusevolumetestdata
                   path: /app/image-storage
-                - type: blob
-                  name: storage2
-                  container: blobfusevolumetestdata2
-                  path: /app/image-storage2
+                - type: azure-blob
+                  name: storage3
+                  storage: blobfusevolumetestdata3
+                  path: /app/image-storage3
     ```
 - After environment has been built, set the generated secret to account name and key, found in step 1 - for each volume. This should ensure that key value is Consistent status. It is recommended to restart a component after a all secrets have been set in the console
 
@@ -105,38 +102,26 @@ This results in the Kubernetes deployment holding the volume mounts in its spec:
         ...
       volumeMounts:
         - mountPath: /app/image-storage
-          name: blobfuse-frontend-storage
+          name: csi-az-blob-frontend-storage1-blobfusevolumetestdata
+        - mountPath: /app/image-storage3
+          name: csi-az-blob-frontend-storage3-blobfusevolumetestdata3
         ...
-        volumes:
-          - flexVolume:
-              driver: azure/blobfuse
-              options:
-                container: blobfusevolumetestdata
-                mountoptions: --file-cache-timeout-in-seconds=120
-                name: storage1
-                tmppath: /tmp/radix-blob-fuse-example-prod/frontend/prod/blob/storage1/blobfusevolumetestdata
-              secretRef:
-                name: frontend-storage1-blobfusecreds
-            name: blobfuse-frontend-storage1
-          - flexVolume:
-              driver: azure/blobfuse
-              options:
-                container: blobfusevolumetestdata2
-                mountoptions: --file-cache-timeout-in-seconds=120
-                name: storage2
-                tmppath: /tmp/radix-blob-fuse-example-prod/frontend/prod/blob/storage2/blobfusevolumetestdata2
-              secretRef:
-                name: frontend-storage2-blobfusecreds
-            name: blobfuse-frontend-storage2
+      volumes:
+        - name: csi-az-blob-frontend-storage1-blobfusevolumetestdata
+          persistentVolumeClaim:
+            claimName: pvc-csi-az-blob-frontend-storage1-blobfusevolumetestdata
+        - name: csi-az-blob-frontend-storage3-blobfusevolumetestdata3
+          persistentVolumeClaim:
+            claimName: pvc-csi-az-blob-frontend-storage3-blobfusevolumetestdata3
 ```
 and files appear inside the container
 
 ```shell
-kubectl exec -it -n radix-blob-fuse-example-prod deploy/frontend -- ls -lR /app
+kubectl exec -it -n radix-csi-azure-example-dev deploy/frontend -- ls -lR /app
 /app:
 total 4
 drwxrwxrwx    2 root     root          4096 Dec 11 15:10 image-storage
-drwxrwxrwx    2 root     root          4096 Dec 11 15:10 image-storage2
+drwxrwxrwx    2 root     root          4096 Dec 11 15:10 image-storage3
 -rw-r--r--    1 root     root          1343 Dec 11 11:52 index.html
 
 /app/image-storage:
@@ -147,7 +132,7 @@ total 0
 -rwxrwxrwx    1 root     root         48391 Nov 26 14:50 image-06.png
 -rwxrwxrwx    1 root     root         47732 Nov 26 14:50 image-07.png
 
-/app/image-storage2:
+/app/image-storage3:
 total 0
 -rwxrwxrwx    1 root     root         27803 Dec 11 11:11 image-01.png
 -rwxrwxrwx    1 root     root         28692 Dec 11 11:11 image-02.png

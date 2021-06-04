@@ -337,7 +337,7 @@ components:
 
 > See [this](../../guides/deploy-only/) guide on how make use of `imageTagName` in a deploy-only scenario.
 
-#### `volumeMounts`
+### `volumeMounts`
 
 ```yaml
 spec:
@@ -346,15 +346,27 @@ spec:
       environmentConfig:
         - environment: prod
           volumeMounts:
-            - type: blob
+            - type: azure-blob
               name: volume-name
-              container: container-name
+              storage: container-name
               path: /path/in/container/to/mount/to
 ```
 
-The `volumeMounts` field of a component environment config is used to be able to mount a blob container into the running container.
+The `volumeMounts` field configures volume mounts within the running component.
 
-The `volumeMounts` field contains the following sub-fields: `type` field can currently only be set to `blob`, `name` is the name of the volume (unique within `volumeMounts` list), `container` is the name of the blob container, and `path` is the folder to mount to inside the running component.
+#### `volumeMounts` settings: 
+* `name` - the name of the volume. Unique within `volumeMounts` list of a component
+* `type` - type of storage. Supported types: 
+  * `azure-blob` - mount a container from blob in [Azure storage account](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview). Uses [CSI Azure blob storage driver](https://github.com/kubernetes-sigs/blob-csi-driver). Replaces obsolete type `blob` for Flex Volume obsolete driver.
+
+_Applicable for type: `azure-blob`_
+* `storage` - name of the blob container.
+* `path` - the folder inside the running container, where the external storage is mounted.
+* `gid` - Group ID (number) of a [mounted volume owner](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.21/#podsecuritycontext-v1-core). It is a Group ID of a user in the running container within component replicas. Usually a user, which is a member of one or multiple [groups](https://en.wikipedia.org/wiki/Group_identifier), is specified in the `Dockerfile` for the component with command `USER`. Read [more details](https://www.radix.equinor.com/docs/topic-docker/#running-as-non-root) about specifying user within `Dockerfile`. It is recommended to use because Blobfuse driver do [not honor fsGroup securityContext settings](https://github.com/kubernetes-sigs/blob-csi-driver/blob/master/docs/driver-parameters.md).  
+
+There are [optional settings](../../guides/volume-mounts/optional-settings/) to fine tune volumes.
+
+Access to the Azure storage need to be set in `secrets` for the component.
 
 > See [this](../../guides/volume-mounts/) guide on how make use of `volumeMounts`.
 
@@ -569,7 +581,7 @@ spec:
       environmentConfig:
         - environment: prod
           volumeMounts:
-            - type: blob
+            - type: azure-blob
               name: volume-name
               container: container-name
               path: /path/in/container/to/mount/to
