@@ -271,8 +271,6 @@ spec:
         clientCertificate:
           verification: "optional_no_ca"
       environmentConfig:
-        - environment: prod
-      environmentConfig:
         - environment: dev
           authentication:
             clientCertificate:
@@ -787,7 +785,6 @@ spec:
           authentication:
             clientCertificate:
               passCertificateToUpstream: true
-      environmentConfig:
         - environment: dev
           monitoring: false
           resources:
