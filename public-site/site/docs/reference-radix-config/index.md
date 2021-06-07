@@ -261,6 +261,57 @@ spec:
 
 The `monitoring` field of a component environment config, if set to `true`, is used to expose custom application metrics in the Radix monitoring dashboards. It is expected that the component provides a `/metrics` endpoint: this will be queried periodically (every five seconds) by an instance of [Prometheus](https://prometheus.io/) running within Radix. General metrics, such as resource usage, will always be available in monitors, regardless of this being set.
 
+#### `authentication`
+
+```yaml
+spec:
+  components:
+    - name: frontend
+      authentication:
+        clientCertificate:
+          verification: "optional_no_ca"
+      environmentConfig:
+        - environment: prod
+      environmentConfig:
+        - environment: dev
+          authentication:
+            clientCertificate:
+              verification: "off"
+```
+
+The `authentication` section can be used to configure an authentication option for either an entire component or a specific environment.
+
+> Note that the environment config will override the component config for that specific environment.
+
+#### `clientCertificate`
+
+```yaml
+spec:
+  components:
+    - name: frontend
+      environmentConfig:
+        - environment: prod
+          authentication:
+            clientCertificate:
+              verification: "optional_no_ca"
+              passCertificateToUpstream: true
+```
+
+`clientCertificate` is a subsection of [authentication](#authentication) and may be used to configure the Nginx Client Certificate Authentication.
+
+> Note that the Client Certificate configuration will be omitted if the component does not have a public port.
+
+* `verification` Specifies type of verification of client certificates. Possible values are:
+  * `off`: Don't request client certificates and don't do client certificate verification. (default)
+  * `on`: Request a client certificate that must be signed by a certificate that is included in the secret key ca.crt of the secret specified by `nginx.ingress.kubernetes.io/auth-tls-secret: secretName`. Failed certificate verification will result in a status code 400 (Bad Request).
+  * `optional`: Do optional client certificate validation against the CAs from auth-tls-secret. The request fails with status code 400 (Bad Request) when a certificate is provided that is not signed by the CA. When no or an otherwise invalid certificate is provided, the request does not fail, but instead the verification result is sent to the upstream service.
+  * `optional_no_ca`: Do optional client certificate validation, but do not fail the request when the client certificate is not signed by the CAs from `auth-tls-secret`. Certificate verification result is sent to the upstream service.
+
+* `passCertificateToUpstream` Indicates if the received certificates should be passed or not to the upstream server in the header ssl-client-cert. Possible values are "true" or "false" (default).
+
+If `verification` has been set to something other than `off`, a valid certificate will need to be applied in the `Radix Console` for the affected environment(s).
+This can be found under `Environments\[environmentName]\[componentName]\[componentName]-clientcertca` in the `Radix Console` for your application.
+
 #### `resources`
 
 ```yaml
@@ -720,6 +771,9 @@ spec:
         - name: http
           port: 8000
       publicPort: http
+      authentication:
+        clientCertificate:
+          verification: "optional_no_ca"
       environmentConfig:
         - environment: prod
           monitoring: true
@@ -730,6 +784,23 @@ spec:
             limits:
               memory: "128Mi"
               cpu: "200m"
+          authentication:
+            clientCertificate:
+              passCertificateToUpstream: true
+      environmentConfig:
+        - environment: dev
+          monitoring: false
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "200m"
+            limits:
+              memory: "256Mi"
+              cpu: "400m"
+          authentication:
+            clientCertificate:
+              verification: "off"
+              passCertificateToUpstream: false
     - name: backend
       src: backend
       ports:
