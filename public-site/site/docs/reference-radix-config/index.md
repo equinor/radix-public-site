@@ -495,6 +495,23 @@ Job specific arguments must be sent in the request body to the [job-scheduler](.
 The content of the payload is then mounted into the job container as a file named `payload` in the directory specified in the `payload.path`.
 In the example above, a payload sent to the job-scheduler will be mounted as file `/compute/args/payload`
 
+### `resources`
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      resources:
+        requests:
+          memory: "256Mi"
+          cpu: "400m"
+        limits:
+          memory: "384Mi"
+          cpu: "600m"
+```
+
+See [resources](#resources-common) for more information.
+
 ### `secrets`
 
 ```yaml
@@ -701,7 +718,7 @@ To get more information on how to connect to a private Azure container registry 
 
 ## `node`
 
-`node` section describes settings of [Kubernetes node](https://kubernetes.io/docs/concepts/architecture/nodes/) on which Radix application components are scheduled to run.
+`node` section describes settings of [Kubernetes node](https://kubernetes.io/docs/concepts/architecture/nodes/) on which Radix application components or jobs are scheduled to run.
 
 ### `gpu`
 
@@ -715,6 +732,11 @@ spec:
       node:
         gpu: nvidia-v100, -nvidia-k80
         gpuCount: 4
+  jobs:
+    - name: dev
+      node:
+        gpu: nvidia-k80
+        gpuCount: 2
 ```
 
 When a component should run on a Kubernetes node with a GPU card on it, this can be specified in the `gpu` key of the `node` section. 
@@ -823,6 +845,13 @@ spec:
           port: 9000
       payload:
         path: /compute/args
+      resources:
+        requests:
+          memory: "256Mi"
+          cpu: "400m"
+        limits:
+          memory: "384Mi"
+          cpu: "600m"
       variables:
         DB_NAME: "compute-db"
       secrets:
