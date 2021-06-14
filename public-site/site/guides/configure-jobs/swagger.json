@@ -175,11 +175,17 @@
       "description": "JobScheduleDescription holds description about scheduling job",
       "type": "object",
       "properties": {
+        "node": {
+          "$ref": "#/definitions/RadixNode"
+        },
         "payload": {
           "description": "Payload holding json data to be mapped to component",
           "type": "string",
           "x-go-name": "Payload",
           "example": "{'data':'value'}"
+        },
+        "resources": {
+          "$ref": "#/definitions/ResourceRequirements"
         }
       },
       "x-go-package": "github.com/equinor/radix-job-scheduler/models"
@@ -225,6 +231,56 @@
         }
       },
       "x-go-package": "github.com/equinor/radix-job-scheduler/models"
+    },
+    "RadixJobComponentConfig": {
+      "type": "object",
+      "properties": {
+        "node": {
+          "$ref": "#/definitions/RadixNode"
+        },
+        "resources": {
+          "$ref": "#/definitions/ResourceRequirements"
+        }
+      },
+      "x-go-package": "github.com/equinor/radix-job-scheduler/models"
+    },
+    "RadixNode": {
+      "description": "RadixNode defines node attributes, where container should be scheduled",
+      "type": "object",
+      "properties": {
+        "gpu": {
+          "description": "Gpu Optional. Holds lists of node GPU types, with dashed types to exclude",
+          "type": "string",
+          "x-go-name": "Gpu"
+        },
+        "gpuCount": {
+          "description": "GpuCount Optional. Holds minimum count of GPU on node",
+          "type": "string",
+          "x-go-name": "GpuCount"
+        }
+      },
+      "x-go-package": "github.com/equinor/radix-operator/pkg/apis/radix/v1"
+    },
+    "ResourceList": {
+      "description": "ResourceList Placeholder for resouce specifications in the config",
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "x-go-package": "github.com/equinor/radix-operator/pkg/apis/radix/v1"
+    },
+    "ResourceRequirements": {
+      "type": "object",
+      "title": "ResourceRequirements describes the compute resource requirements.",
+      "properties": {
+        "limits": {
+          "$ref": "#/definitions/ResourceList"
+        },
+        "requests": {
+          "$ref": "#/definitions/ResourceList"
+        }
+      },
+      "x-go-package": "github.com/equinor/radix-operator/pkg/apis/radix/v1"
     },
     "Status": {
       "description": "Status is a return value for calls that don't return other objects or when a request returns an error",

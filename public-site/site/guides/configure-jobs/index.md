@@ -38,6 +38,16 @@ spec:
     - name: etl
       src: etl
       schedulerPort: 9000
+      resources:
+        requests:
+          memory: "256Mi"
+          cpu: "400m"
+        limits:
+          memory: "384Mi"
+          cpu: "500m"
+      node:
+        gpu: nvidia-k80
+        gpuCount: 2
 ```
 
 They share many of the same configuration options with a few exceptions.
@@ -50,6 +60,8 @@ A job does not have `publicPort`, `ingressConfiguration`, `replicas`, `horizonta
 Jobs have two extra configuration options; `schedulerPort` and `payload`:
 - `schedulerPort` (required) defines the port of job-scheduler's endpoint.
 - `payload` (optional) defines the directory in the job container where the payload received by the job-scheduler is mounted.
+- `resources` (optional) defines cpu and memory requested for a job.
+- `node` (optional) defines gpu node requested for a job.
 
 ## schedulerPort
 
@@ -67,6 +79,21 @@ The data type of the `payload` value is string, and it can therefore contain any
 
 The compute job in the example above has `payload.path` set to `/compute/args`. Any payload, send to the compute job-scheduler, will available inside the job container in the file `/compute/args/payload`
 
+## resources
+
+The resource requirement for a job can be sent in the request body to the job scheduler as a JSON document with an element named `resources`.
+The content of the resources will be used to set the resource definition for the job [`radixconfig.yaml`](../../docs/reference-radix-config/#resources-common).
+The data type of the `resources` is of type `ResourceRequirements` an requires this specific format.
+
+The etl job in the example above has `resource` configured.
+
+## node
+
+The node requirerement for a job can be sent in the request body to the job scheduler as a JSON document with an element named `node`.
+The content of the node will be used to set the node definition for the job [`radixconfig.yaml`](../../docs/reference-radix-config/#node).
+The data type of the `node` is of type `RadixNode` an requires this specific format.
+
+The etl job in the example above has `node` configured.
 
 # Job Scheduler
 
