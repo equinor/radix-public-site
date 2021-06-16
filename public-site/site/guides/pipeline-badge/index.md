@@ -7,7 +7,7 @@ toc: true
 
 # Overview 
 
-A pipeline status badge shows the status of the latest pipeline job of a specific type in a specific environment. The badge displays pipeline type and the current job status. Status is one of **success**, **failing**, **stopped**, **pending** or **running**.
+A pipeline status badge shows the status of the latest pipeline job of a specific type in a specific environment. Status is one of **success**, **failing**, **stopped**, **pending** or **running**.
 
 The URL for generating a badge is
 
@@ -18,7 +18,7 @@ where `app-name` is the name of the application, `env-name` is the name of the e
 Requesting a badge for a non-existing application or environment, or for a pipeline type that hasn't been run yet, the badge returns with an **unknown** status.  
 ![build-deploy unknown](build-deploy-unknown.png "build-deploy unknown")
 
-> GitHub uses an image cache and proxy for images referenced in markdown files. Initial investigation shows that images are cached for up to one minute, which means that a pipeline status badge will not be "realtime" when viewed in GitHub.
+> GitHub uses an image cache and proxy for images referenced in markdown files. Initial investigation shows that images are cached for up to one minute, which means that a pipeline status badge will not be "realtime" when viewed on GitHub.
 
 # Example
 
