@@ -11,12 +11,12 @@ We are experimenting with an approach with "release channels" which differ in up
 
 | Cluster        | Purpose                                     | Upgrade             |   Support   |
 | -------------- | ------------------------------------------- | :-----------------: | :---------: |
-| **Production** | Products under development or in production |   Every ~6 months   |     Yes     |
+| **Platform**   | Products under development or in production |   Every ~6 months   |     Yes     |
 | **Playground** | Testing and experimenting with Radix        |                     | Best-effort |
 
-## Production cluster availability and services
+## Platform cluster availability and services
 
-The Radix Production cluster should be used when your team has chosen Radix as PaaS (Platform-as-a-Service) for a product under development or in production.
+The Radix Platform should be used when your team has chosen Radix as PaaS (Platform-as-a-Service) for a product under development or in production.
 
 ### Support
 
@@ -65,11 +65,11 @@ Some of the failure events that can take down the service or introduce delays an
 
 We are working hard to mitigate as much of these as possible.
 
-## Radix Playground cluster services
+## Radix Playground services
 
-Use Playground for testing Radix, see if it’s a good fit for your projects, and provide feedback. When you are ready to commit, register your application in the Production cluster, which has improved stability.
+Use Playground for testing Radix, see if it’s a good fit for your projects, and provide feedback. When you are ready to commit, register your application in the Radix Platform,even if your application still is development stage. The Radix Platform has improved services.
 
-- **Support channels:** Same as for Production cluster (see above). Help will be provided when team has capacity
+- **Support channels:** Same as for Radix Platform (see above). Help will be provided when team has capacity
 
 - **Uptime:** "Best-effort", but no guarantee of uptime. Planned maintenance is announced as early as possible.
 

@@ -30,7 +30,7 @@ It's possible to use a proxy in front of the client application that takes care 
 
 ![Diagram](radix-front-proxy.png "Application diagram")
 
-For an example using [pusher oauth2_proxy](https://github.com/pusher/oauth2_proxy) see [radix example](https://github.com/equinor/radix-example-oauth-proxy). [Radix Web Console](https://console.radix.equinor.com/) uses this service, and does API calls to radix-api through a [nginx reverse proxy](https://github.com/equinor/radix-web-console/blob/master/proxy/nginx.conf)
+For an example using [oauth2_proxy](https://github.com/oauth2-proxy/oauth2-proxy/blob/master/docs/docs/configuration/overview.md) see [Radix oauth example](https://github.com/equinor/radix-example-oauth-proxy). [Radix Web Console](https://console.radix.equinor.com/) uses this service, and does API calls to radix-api through a [nginx reverse proxy](https://github.com/equinor/radix-web-console/blob/master/proxy/nginx.conf)
 
 Pro
 - No need to introduce extra libraries and complexity in client which handles auth
