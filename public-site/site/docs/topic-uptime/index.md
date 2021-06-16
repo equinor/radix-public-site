@@ -67,7 +67,7 @@ We are working hard to mitigate as much of these as possible.
 
 ## Radix Playground services
 
-Use Playground for testing Radix, see if it’s a good fit for your projects, and provide feedback. When you are ready to commit, register your application in the Radix Platform,even if your application still is development stage. The Radix Platform has improved services.
+Use Playground for testing Radix, see if it’s a good fit for your projects, and provide feedback. When you are ready to commit, register your application in the Radix Platform, even if your application still is development stage. The Radix Platform has improved services.
 
 - **Support channels:** Same as for Radix Platform (see above). Help will be provided when team has capacity
 
