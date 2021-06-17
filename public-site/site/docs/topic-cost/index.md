@@ -7,7 +7,7 @@ toc: true
 
 # Radix cost allocation
 
-As part of hosting an application on Radix, each application will take it's share of the cloud cost assosiated with the Radix Production cluster. The cost will be allocated monthy following the routines issued by Equinor.
+As part of hosting an application on Radix, each application will take it's share of the cloud cost assosiated with the Radix Platform cluster. The cost will be allocated monthy following the routines issued by Equinor.
 
 ## How is the cost calculated
 

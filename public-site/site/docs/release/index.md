@@ -79,6 +79,6 @@ Events older than one hour are delete from the list. A Warning event will remain
 We have added support for mounting Blob Containers from Azure Storage Accounts to applications hosted in Radix.
 The current implementation uses the Blobfuse FlexVolume Driver.  
 This driver will most likely be replaced by the Blob CSI Driver, which was in preview when development started.
-Blob storage is available in both Radix Playground and Production.  
+Blob storage is available in both Radix Playground and Radix Platform.  
 
 [External storage configuration](../../guides/volume-mounts/)
