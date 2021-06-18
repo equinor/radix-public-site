@@ -83,7 +83,10 @@
           "200": {
             "description": "Successful get jobs",
             "schema": {
-              "$ref": "#/definitions/JobStatus"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/JobStatus"
+              }
             }
           },
           "500": {
