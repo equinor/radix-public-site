@@ -104,9 +104,24 @@ The job-scheduler exposes the following methods for managing jobs:
 - `POST /api/v1/jobs` Create a new job using the Docker image that Radix built for the job. Job-specific arguments can be sent in the request body:
 ```json
 {
-    "payload": "Sk9CX1BBUkFNMTogeHl6Cg=="
+    "payload": "Sk9CX1BBUkFNMTogeHl6Cg==",
+    "resources": {
+      "limits": {
+        "memory": "32Mi",
+        "cpu": "300m"
+      },
+      "requests": {
+        "memory": "16Mi",
+        "cpu": "150m"
+      }
+    },
+    "node": {
+      "gpu": "gpu1, gpu2, gpu3",
+      "gpuCount": "6"
+    }
 }
 ```
+> `payload`, `resources` and `node` are all optional fields and any of them can be omitted in the request.
 
 - `GET /api/v1/jobs` Get states (with names and statuses) for all jobs
 - `GET /api/v1/jobs/{jobName}` Get state for a named job
@@ -221,6 +236,7 @@ openapi-generator-cli generate
   -o Client
 ```
 `openapi-generator-cli` generates client code, tests and documentation
+
 ![Generated client code](netcore-client-output.png "Generated client code")
 
 
