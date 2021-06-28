@@ -48,20 +48,7 @@ The `build` section of the spec contains configuration needed during build (CI p
 
 Add the secrets to Radix config `radixconfig.yaml` in the branch defined as `Config Branch` for your application. This will trigger a new build. This build will fail as no specified build secret has been set. You will now be able to set the secret **values** in the configuration section of your app in the Radix Web Console.
 
-To ensure that multiline build secrets are handled ok by the build, **all** build secrets are passed base-64 encoded. This means that you will need to base-64 decode them before use:
-
-```
-FROM node:10.5.0-alpine
-
-# Install base64
-RUN apk update && \
-    apk add coreutils
-
-ARG SECRET_1
-
-RUN echo "${SECRET_1}" | base64 --decode
-
-```
+To ensure that multiline build secrets are handled correct by the build, **all** build secrets are passed base-64 encoded, they need to be decoded before use. The [build secrets](../../guides/build-secrets/) guide describes how to use these arguments in a Dockerfile.
 
 ## `environments`
 
