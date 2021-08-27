@@ -16,7 +16,7 @@ For non-root users id above 999 should be used.
 
 Different distributions (and their flavours) might have different options:  
 
-### Debian/Ubuntu  
+### Debian 
 https://manpages.debian.org/jessie/adduser/adduser.8.en.html (also Ubuntu, etc. http://manpages.ubuntu.com/manpages/trusty/man8/adduser.8.html )  
 
 **-g or --gid**  
@@ -25,8 +25,8 @@ groupadd --gid GID <groupname>
 useradd --gid GID --uid ID <username>  
 
 **only --gid**  
-addgroup --gid GID <groupname>
-** only --uid and --gid**  
+addgroup --gid GID <groupname>  
+**only --uid and --gid**  
 adduser --gid GID --uid ID <username>
 
 ### Alpine  
