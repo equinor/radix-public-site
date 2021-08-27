@@ -40,13 +40,13 @@ USER 1001
 EXPOSE 8001
 ```
 
-The ID of the group and user can be anything in the range 1-65535. 
+The ID of the group and user can be anything in the range 1000-65535. 
 
 `groupadd` command follows the syntax `groupadd -S -g <GROUP_ID> <GROUP-NAME>`
 
 `useradd` command follows the syntax `useradd -S -u <USER_ID> -g <GROUP_NAME> <USER_NAME>`
 
-> Be aware - [the syntax for add user and group](../../guides/docker-useradd/) can be (and often is) different for the distribution of images
+> Be aware - [the syntax for add user and group](../../guides/docker-useradd/) can be different for the distribution of images
  
 There are many great articles on securing docker images. See [Snyk and Docker top 10 tips](https://res.cloudinary.com/snyk/image/upload/v1551798390/Docker_Image_Security_Best_Practices_.pdf) and  [this](https://www.wintellect.com/security-best-practices-for-docker-images/) list for best practices.
 
