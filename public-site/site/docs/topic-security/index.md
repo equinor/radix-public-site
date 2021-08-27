@@ -20,4 +20,4 @@ If no AD group is provided during the registration the application will be avail
 
 It is important to understand that **application authentication is not handled by Radix**. The application endpoints will be public. Each team managing an application hosted on Radix is responsible for authenticating their users.
 
-For an example of in-app authentication using AD have a look at [Radix Authentication Example](https://github.com/equinor/radix-example-auth).
+For an example of in-app authentication using AD have a look at [Radix Authentication Example](https://github.com/equinor/radix-example-oauth-proxy) code.
