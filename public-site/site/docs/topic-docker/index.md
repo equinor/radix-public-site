@@ -9,17 +9,19 @@ For a general understanding of what Docker and Container is, have a look at [Wha
 
 [Katacoda](https://www.katacoda.com/) offers free courses where you can work with Docker directly in the browser, without having to install it locally. Other resources could be the official [Docker documentation](https://docs.docker.com/).
 
-## Security
+# Security
 
-### Running as non-root
+## Running as non-root
 
 Application hosted on Radix must be run with non-root privileges in the container. A security policy enabled in the Radix platform will prevent the application from running if it is not configured to run as non-root. Here's an sample on how you can run change a Docker container to run as a non-root user, the principle is that you create a dedicated user and group on the image and use this user to run the process.   
+
+> If this is not configured, your deployment will not start.  
 
 If your base image is a unprivileged image, you'll need to find the ID of the running user, and use that id in your Dockerfile.  
 
  **USER <USER_ID>** specifies which user to run as, this **must** be the ID of the user, not the name. This will ensure that Kubernetes can verify that the container is running as a non-root user.  
  
-This is a sample on how it can be done for node based images.
+This is a sample on how it can be done for **node alpine based images**.
 
 ```yaml
 FROM node:lts-alpine
@@ -35,7 +37,7 @@ RUN addgroup -S -g 1001 radix-non-root-group
 RUN adduser -S -u 1001 -G radix-non-root-group radix-non-root-user
 
 USER 1001
-ENTRYPOINT ["/src/entrypoint.sh"]
+EXPOSE 8001
 ```
 
 The ID of the group and user can be anything in the range 1-65535. 
@@ -44,10 +46,9 @@ The ID of the group and user can be anything in the range 1-65535.
 
 `useradd` command follows the syntax `useradd -S -u <USER_ID> -g <GROUP_NAME> <USER_NAME>`
 
+> Be aware - [the syntax for add user and group](../../guides/docker-useradd/) can be (and often is) different for the distribution of images
  
-> If this is not configured, your deployment will not start.  
-
-> There are many great articles on securing docker images. See [Snyk and Docker top 10 tips](https://res.cloudinary.com/snyk/image/upload/v1551798390/Docker_Image_Security_Best_Practices_.pdf) and  [this](https://www.wintellect.com/security-best-practices-for-docker-images/) list for best practices.
+There are many great articles on securing docker images. See [Snyk and Docker top 10 tips](https://res.cloudinary.com/snyk/image/upload/v1551798390/Docker_Image_Security_Best_Practices_.pdf) and  [this](https://www.wintellect.com/security-best-practices-for-docker-images/) list for best practices.
 
 # Best-practice `Dockerfile`
 
