@@ -21,11 +21,13 @@ https://manpages.debian.org/jessie/adduser/adduser.8.en.html (also Ubuntu, etc. 
 
 **-g or --gid**  
 groupadd --gid GID <groupname>  
+  
 **-g or --gid; -u or --uid**  
 useradd --gid GID --uid ID <username>  
 
 **only --gid**  
 addgroup --gid GID <groupname>  
+  
 **only --uid and --gid**  
 adduser --gid GID --uid ID <username>
 
@@ -34,6 +36,7 @@ https://wiki.alpinelinux.org/wiki/Setting_up_a_new_user
 
 **-g or --gid**  
 addgroup -g GID <groupname>  
+  
 **only -g; -u or --uid**  
 adduser -g GID -u UID <username>  
   
@@ -44,6 +47,7 @@ https://wiki.archlinux.org/title/users_and_groups https://aur.archlinux.org/pack
 
 **-g or --gid**  
 groupadd --gid GID <groupname>  
+  
 **-g or --gid; -u or --uid**  
 useradd --gid GID --uid UID <username>  
 
