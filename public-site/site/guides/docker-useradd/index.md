@@ -20,33 +20,33 @@ Different distributions (and their flavours) might have different options:
 [debian info](https://manpages.debian.org/jessie/adduser/adduser.8.en.html) (also [Ubuntu info](http://manpages.ubuntu.com/manpages/trusty/man8/adduser.8.html), etc.)  
 
 **-g or --gid**  
-groupadd --gid GID <groupname>  
+groupadd --gid GID groupname  
 
 **-g or --gid; -u or --uid**  
-useradd --gid GID --uid ID <username>  
+useradd --gid GID --uid UID username  
 
 **only --gid**  
 addgroup --gid GID <groupname>  
 
 **only --uid and --gid**  
-adduser --gid GID --uid ID <username>
+adduser --gid GID --uid UID username
 
 ### Alpine  
 [Alpine info](https://wiki.alpinelinux.org/wiki/Setting_up_a_new_user), groupadd and useradd are not available    
 
 **-g or --gid**  
-addgroup -g GID <groupname>  
+addgroup -g GID groupname  
   
 **only -g; -u or --uid**  
-adduser -g GID -u UID <username>  
+adduser -g GID -u UID username  
   
 
 ### Archlinux  
 [Archlinux info](https://wiki.archlinux.org/title/users_and_groups) - [more info...](https://aur.archlinux.org/packages/adduser/), addgroup and adduser are not available  
 
 **-g or --gid**  
-groupadd --gid GID <groupname>  
+groupadd --gid GID groupname  
 
 **-g or --gid; -u or --uid**  
-useradd --gid GID --uid UID <username>  
+useradd --gid GID --uid UID username  
 
