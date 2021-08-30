@@ -218,6 +218,8 @@ spec:
 
 The `variables` key contains environment variable names and their values, that are shared among all Radix environments in a component. These common environment variables are overriden by environment-specific environment variables that have exactly same names.
 
+Environment variables [can be changed](../../guides/environment-variables/) in Radix Console.
+
 ### `environmentConfig`
 
 The `environmentConfig` section is to set environment-specific settings for each component.
