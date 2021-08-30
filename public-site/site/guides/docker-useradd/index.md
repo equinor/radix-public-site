@@ -17,22 +17,22 @@ For non-root users id above 999 should be used.
 Different distributions (and their flavours) might have different options:  
 
 ### Debian 
-https://manpages.debian.org/jessie/adduser/adduser.8.en.html (also Ubuntu, etc. http://manpages.ubuntu.com/manpages/trusty/man8/adduser.8.html )  
+[debian info](https://manpages.debian.org/jessie/adduser/adduser.8.en.html) (also [Ubuntu info](http://manpages.ubuntu.com/manpages/trusty/man8/adduser.8.html), etc.)  
 
 **-g or --gid**  
 groupadd --gid GID <groupname>  
-  
+
 **-g or --gid; -u or --uid**  
 useradd --gid GID --uid ID <username>  
 
 **only --gid**  
 addgroup --gid GID <groupname>  
-  
+
 **only --uid and --gid**  
 adduser --gid GID --uid ID <username>
 
 ### Alpine  
-https://wiki.alpinelinux.org/wiki/Setting_up_a_new_user  
+[Alpine info](https://wiki.alpinelinux.org/wiki/Setting_up_a_new_user), groupadd and useradd are not available    
 
 **-g or --gid**  
 addgroup -g GID <groupname>  
@@ -40,15 +40,13 @@ addgroup -g GID <groupname>
 **only -g; -u or --uid**  
 adduser -g GID -u UID <username>  
   
-groupadd and useradd are not available  
 
 ### Archlinux  
-https://wiki.archlinux.org/title/users_and_groups https://aur.archlinux.org/packages/adduser/  
+[Archlinux info](https://wiki.archlinux.org/title/users_and_groups) - [more info...](https://aur.archlinux.org/packages/adduser/), addgroup and adduser are not available  
 
 **-g or --gid**  
 groupadd --gid GID <groupname>  
-  
+
 **-g or --gid; -u or --uid**  
 useradd --gid GID --uid UID <username>  
 
-addgroup and adduser are not available
