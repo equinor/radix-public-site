@@ -3,6 +3,7 @@ FROM node:alpine as builder
 WORKDIR /site
 COPY ./docs .
 RUN npm install -D vuepress vuepress-plugin-fulltext-search
+RUN npm run build
 
 FROM nginxinc/nginx-unprivileged:1.18-alpine
 WORKDIR /site
