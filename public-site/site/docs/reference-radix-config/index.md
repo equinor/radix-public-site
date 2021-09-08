@@ -407,25 +407,6 @@ Access to the Azure storage need to be set in `secrets` for the component.
 
 > See [this](../../guides/volume-mounts/) guide on how make use of `volumeMounts`.
 
-#### `runAsNonRoot`
-
-To accomodate a temporary way of managing which component and which environment will be run as non-root, this configuration option can be used. 
-
-```yaml
-spec:
-  components:
-    - name: backend
-      environmentConfig:
-        - environment: prod
-          runAsNonRoot: false
-        - environment: qa
-          runAsNonRoot: true
-```
-
-The `runAsNonRoot` field of a component environment config is used to determine if the component should run as root in the environment.  
-
-> See [this](../topic-docker/#running-as-non-root) on how to correctly configure your Dockerfile for running as non-root in Radix.
-
 ## `jobs`
 
 This is where you specify the various [jobs](../../guides/configure-jobs) for your application.
@@ -642,21 +623,6 @@ spec:
 ```
 
 See [volumeMounts](#volumemounts) for a component for more information.
-
-#### `runAsNonRoot`
-
-```yaml
-spec:
-  jobs:
-    - name: compute
-      environmentConfig:
-        - environment: prod
-          runAsNonRoot: false
-        - environment: qa
-          runAsNonRoot: true
-```
-
-See [runAsNonRoot](#runasnonroot) for a component for more information.
 
 ## `dnsAppAlias`
 
