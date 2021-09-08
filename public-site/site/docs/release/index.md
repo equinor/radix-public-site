@@ -9,6 +9,27 @@ toc: true
 
 ## 2021
 
+### 09.09.2021 - New Radix Web Console  
+### New design  
+The web console has been redesign according to EDS design guidelines, and implemented with EDS React components. This includes responsive design, new navigation, collapsable menu, new colors, icons and fonts, etc.  
+![design](./design.png)
+
+### Improved vulnerability scanning  
+The results from the vulnerability scanning running on all components deployed to Radix are now visualized in the pipeline job page as a count of critical, high, medium and low vulnerabilities. The details of each vulnerabilities can be inspected in the vulnerability page. The scanning is now performed by Snyk (due to rate limits in Trivy scans)  
+![vuln-scan](./vuln-scan.png)
+
+### Favorites  
+Applications in the Radix console can be marked as favorites. Favorites are listed at the top of the application list page. This way users can easily get an overview of their relevant applications among the longer list of available applications.  
+![favorites](./favorites.png)
+
+### Environment variables  
+Environment variables can be overridden in the web console. Previously, users have had to make a change in the radixconfig file and do a redeploy to change the value of environment variables. Now, this can be done in a moment through the console.  
+![env-var](./env-var.png)
+
+### Performance improvement  
+The application page now loads 5x faster than the previous version. Due to the increase in number of applications, the load time of the application page had become way too long (due to the chain of Kubernetes queries needed to determine which applications a user have access to). With this improvement the page loads in a few seconds. Future improvements will be considered if/when needed.  
+
+
 ### 01.09.2021 - Radix Security Policy - enforce Run as non-root  
 
 As you may know, Docker containers have root privileges enabled by default, this is unnecessary and expose security risks and vulnerabilities in your application. The policy will technically configure the PodSecurityContext for your application.  
