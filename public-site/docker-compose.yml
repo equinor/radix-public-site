@@ -9,13 +9,13 @@ services:
     container_name: radix-public-site_container
     networks:
       - radix-public-site
-    command: bundle exec jekyll serve
-    volumes:
-      - type: bind
-        source: .
-        target: /site
+#    command: npm run dev
+#    volumes:
+#      - type: bind
+#        source: ./docs
+#        target: /site
     ports:
-      - "4000:4000"
+      - "8081:8080"
 
 networks:
   radix-public-site:

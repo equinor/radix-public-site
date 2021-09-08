@@ -8,6 +8,9 @@ spec:
     - name: qa
       build:
         from: main
+    - name: v2
+      build:
+        from: convert-to-vuepress
   components:
     - name: public-site
       src: "./public-site"
@@ -15,9 +18,9 @@ spec:
         - name: http
           port: 8080
       publicPort: http
+      runAsNonRoot: true
       environmentConfig:
         - environment: prod
-          runAsNonRoot: true
           replicas: 2
           resources:
             requests:
@@ -26,6 +29,4 @@ spec:
             limits:
               memory: "150Mi"
               cpu: "120m"
-        - environment: qa
-          runAsNonRoot: true
-              
+

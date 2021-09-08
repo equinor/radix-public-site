@@ -1,5 +1,5 @@
 ---
-title: External Alias
+title: External Aliaser
 layout: document
 parent: ['Guides', '../../guides.html']
 toc: true

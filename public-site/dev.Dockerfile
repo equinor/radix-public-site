@@ -1,8 +1,8 @@
-FROM ruby:2.7-alpine
-
-RUN apk add build-base nodejs
+FROM node:alpine
 
 WORKDIR /site
-COPY Gemfile* ./
+COPY ./docs .
+RUN npm install -D vuepress vuepress-plugin-fulltext-search
+#COPY ./docs/package*.json .
 
-RUN bundle install
+CMD ls; npm run docs:dev

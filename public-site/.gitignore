@@ -3,3 +3,5 @@ build
 .jekyll-cache/
 .jekyll-metadata
 **/.DS_Store
+/docs/node_modules/
+/docs/src/.vuepress/dist/

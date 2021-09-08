@@ -1,12 +1,9 @@
-FROM ruby:2.6-alpine as builder
+FROM node:alpine as builder
 WORKDIR /site
-RUN apk add build-base nodejs
-COPY . .
-RUN bundle install
-RUN bundle exec jekyll build
+COPY ./docs .
 
 FROM nginxinc/nginx-unprivileged:1.18-alpine
 WORKDIR /site
-COPY --from=builder /site/build /site
+COPY --from=builder /site/src/.vuepress/dist /site
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 USER 101
