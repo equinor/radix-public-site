@@ -9,7 +9,7 @@ toc: true
 
 ## 2021
 
-### 09.09.2021 - New Radix Web Console  
+## 09.09.2021 - New Radix Web Console  
 ### New design  
 The web console has been redesign according to EDS design guidelines, and implemented with EDS React components. This includes responsive design, new navigation, collapsable menu, new colors, icons and fonts, etc.  
 ![design](./design.png)
@@ -20,17 +20,20 @@ The results from the vulnerability scanning running on all components deployed t
 
 ### Favorites  
 Applications in the Radix console can be marked as favorites. Favorites are listed at the top of the application list page. This way users can easily get an overview of their relevant applications among the longer list of available applications.  
+
+The favorites are stored in the browser cache.
 ![favorites](./favorites.png)
 
 ### Environment variables  
 Environment variables can be overridden in the web console. Previously, users have had to make a change in the radixconfig file and do a redeploy to change the value of environment variables. Now, this can be done in a moment through the console.  
 ![env-var](./env-var.png)
+Documentation: https://public-site-radix-platform-qa.radix.equinor.com/guides/environment-variables/
 
 ### Performance improvement  
 The application page now loads 5x faster than the previous version. Due to the increase in number of applications, the load time of the application page had become way too long (due to the chain of Kubernetes queries needed to determine which applications a user have access to). With this improvement the page loads in a few seconds. Future improvements will be considered if/when needed.  
 
 
-### 01.09.2021 - Radix Security Policy - enforce Run as non-root  
+## 01.09.2021 - Radix Security Policy - enforce Run as non-root  
 
 As you may know, Docker containers have root privileges enabled by default, this is unnecessary and expose security risks and vulnerabilities in your application. The policy will technically configure the PodSecurityContext for your application.  
 
@@ -43,7 +46,7 @@ Sample - non-root oauth application - https://github.com/equinor/radix-example-o
 Sample - dotnet non-root - https://github.com/equinor/radix-example-4-dotnet  
 Sample - node non-root - https://github.com/equinor/radix-example-scenario-5-nodejs  
 
-### 22.06.2021 Support for files in Azure blob container  
+## 22.06.2021 Support for files in Azure blob container  
 Blobfuse FlexVolume driver has been deprecated by Microsoft, Radix replaced it with Azure Blob Storage CSI driver (particularly azure-storage-fuse), which is recommended to use.  FlexVolume will be supported in Radix during transition periods for projects, which use it now.  
 
 Documentation: https://www.radix.equinor.com/docs/reference-radix-config/#volumemounts  
@@ -60,21 +63,21 @@ environmentConfig:
 
 For those, who used FlexVolume driver: container property is outdated, now it is used property storage  to specify blob's container name.  
 
-### 16.06.2021 Pipeline job status badges
+## 16.06.2021 Pipeline job status badges
 
 We have added support for generating badges that shows the status of the latest Radix pipeline job for a specific job type, environment and application.
 A common place to add a status badge is in the README.md file of your repository, but it can be added to any web page you'd like.  
 
 Read more here https://www.radix.equinor.com/guides/pipeline-badge/
 
-### 07.06.2021 Support for ClientCertificate authentication
+## 07.06.2021 Support for ClientCertificate authentication
 
 We have added support for ClientCertificates, which can be configured on a component or a specific environment.  
 
 Read more here https://www.radix.equinor.com/docs/reference-radix-config/#clientcertificate
 
 
-### 19.04.2021 Running on-demand jobs in Radix
+## 19.04.2021 Running on-demand jobs in Radix
 
 A job is an on-demand and short lived container/process that performs a set of tasks, e.g. a ML training job or an ETL job, and exits when it is done.
 The duration of a job can span from seconds to hours, depending on what tasks it performs, but it is expected to exit when it has completed the work.
@@ -90,7 +93,7 @@ The OpenAPI/Swagger definition for the job-scheduler can be downloaded here, and
 Read more about jobs here https://www.radix.equinor.com/guides/configure-jobs/
 
 
-### 22.03.2021 Regenerate webhook secret and deploy key
+## 22.03.2021 Regenerate webhook secret and deploy key
 
 To support the lifecycle managment of application, it is now possible to update the webhook secret and the deploy key for the integration from Radix to the GitHub repo.  
 
@@ -98,7 +101,7 @@ To get a brand new secret and key use the "Regenerate deploy key and webhook sec
 
 
 
-### 13.01.2021 - Radix Web Console - Indication of outdated image
+## 13.01.2021 - Radix Web Console - Indication of outdated image
 
 You will now be alerted at the application page if there is anything wrong with the running components on your application. A warning icon will now be present on the environment card on the application page if any of the active components are failing.  
 
@@ -107,7 +110,7 @@ This label will appear when your running component is using an old image and typ
 
 > Note: In the transition right after a deployment, the Outdated image  label will appear. Once the new replicas have started this will be replaced with the Ok  label.  
 
-### 12.01.2021 - Radix Web Console - Events available
+## 12.01.2021 - Radix Web Console - Events available
 
 Kubernetes events related to application environments now are displayed in the environment page, below Previous deployments.  
 
@@ -125,7 +128,7 @@ Events older than one hour are delete from the list. A Warning event will remain
 
 ## 2020
 
-### 16.12.2020 - Support for mounting external storage in app containers
+## 16.12.2020 - Support for mounting external storage in app containers
 
 We have added support for mounting Blob Containers from Azure Storage Accounts to applications hosted in Radix.
 The current implementation uses the Blobfuse FlexVolume Driver.  
