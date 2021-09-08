@@ -9,6 +9,36 @@ toc: true
 
 ## 2021
 
+### 01.09.2021 - Radix Security Policy - enforce Run as non-root  
+
+As you may know, Docker containers have root privileges enabled by default, this is unnecessary and expose security risks and vulnerabilities in your application. The policy will technically configure the PodSecurityContext for your application.  
+
+From now on every time you (build and) deploy your app, Radix will not allow apps to run as root, if you have not configured the app correctly, an error will be logged in Events (Events section can be found in the Environments page). The new image will not be deployed, and the previous will remain running.
+HOWEVER, if by any circumstances the pod running your app will need to restart, by for instance lack of required memory, a restart will be triggered and the app will not comply to the Security Policy, hence it will not start at all.  
+
+Security – running as non-root - https://www.radix.equinor.com/docs/topic-docker/#running-as-non-root  
+runAsNonRoot Radix configuration - https://www.radix.equinor.com/docs/reference-radix-config/#runasnonroot  
+Sample - non-root oauth application - https://github.com/equinor/radix-example-oauth-proxy  
+Sample - dotnet non-root - https://github.com/equinor/radix-example-4-dotnet  
+Sample - node non-root - https://github.com/equinor/radix-example-scenario-5-nodejs  
+
+### 22.06.2021 Support for files in Azure blob container  
+Blobfuse FlexVolume driver has been deprecated by Microsoft, Radix replaced it with Azure Blob Storage CSI driver (particularly azure-storage-fuse), which is recommended to use.  FlexVolume will be supported in Radix during transition periods for projects, which use it now.  
+
+Documentation: https://www.radix.equinor.com/docs/reference-radix-config/#volumemounts  
+```yaml
+environmentConfig:
+   - environment: dev
+     volumeMounts:
+       - type: azure-blob 
+         name: storage-name
+         storage: blob-container-name
+         path: /app/image-storage
+         uid: 1000
+```  
+
+For those, who used FlexVolume driver: container property is outdated, now it is used property storage  to specify blob's container name.  
+
 ### 16.06.2021 Pipeline job status badges
 
 We have added support for generating badges that shows the status of the latest Radix pipeline job for a specific job type, environment and application.
