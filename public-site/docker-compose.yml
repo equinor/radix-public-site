@@ -9,11 +9,6 @@ services:
     container_name: radix-public-site_container
     networks:
       - radix-public-site
-#    command: npm run dev
-#    volumes:
-#      - type: bind
-#        source: ./docs
-#        target: /site
     ports:
       - "8081:8080"
 
