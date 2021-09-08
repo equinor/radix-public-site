@@ -21,7 +21,7 @@ The results from the vulnerability scanning running on all components deployed t
 
 ![vuln-scan](./vuln-scan.png)  
 
-[Vulnerability scanning - more information](../../docs/topic-concepts/index.md#scanning-images-for-security-issues)
+[Vulnerability scanning - more information](../../docs/topic-concepts#scanning-images-for-security-issues)
 
 ### Favorites  
 Applications in the Radix console can be marked as favorites. Favorites are listed at the top of the application list page. This way users can easily get an overview of their relevant applications among the longer list of available applications.  
