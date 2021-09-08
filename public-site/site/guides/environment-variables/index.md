@@ -11,7 +11,7 @@ toc: true
 
 Values of application environment variables can be overridden in the Radix Console, excluding those, prefixed with `RADIX_` and `RADIXOPERATOR_`.
 
-Value of an environment variable, overridden in the Radix Console, remains overridden after new deployments. To revert the original value back - edit it again, changing to its original value, specified in the `radixconfig.yaml`.
+The value of an environment variable, changed to a new value in the Radix Console, will use this new value for all new deployments. To revert to the original value  - edit it again, changing to its original value, specified in the `radixconfig.yaml`.
 
 ### Edit environment variables
 - Navigate to the application component or job
