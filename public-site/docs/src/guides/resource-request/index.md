@@ -9,7 +9,7 @@ toc: true
 
 Radix is built on top of managed Kubernetes in Azure (AKS). Kubernetes is a container orchestration platform - orchestrating containers over a set of nodes (VMs). E.g. cluster consisting of 3 nodes, hosting a set of containers:
 
-![cluster](cluster.png)
+![cluster](./cluster.png)
 
 
 # Why should resources request and limit be set
@@ -29,7 +29,7 @@ If `resources.requests` and `resources.limits` are not provided, Radix will give
 
 Monitoring can be used to find how much resources an application use. Radix uses [prometheus](https://prometheus.io/) to gather metrics and [grafana](https://grafana.com/) for visualization. When viewing an application in Radix web console, there is a link to a default dashboard in Radix grafana instance that gives a good starting point for monitoring an app.
 
-![Grafana](link-to-grafana.png)
+![Grafana](./link-to-grafana.png)
 
 The default dashboard contains a number of graphs, monitoring different part of an application. For setting `resources` "Container CPU usage" and "Container memory usage" can be used.
 
@@ -47,7 +47,7 @@ If an underlying node hits CPU limit, it will start throttling CPU resources for
 
 By clicking a graph, "Container CPU usage", a more detailed view appears. 
 
-![container-cpu](container-cpu.png)
+![container-cpu](./container-cpu.png)
 
 The graph shows how many containers are running in production and how the CPU usage has been the last 7 days for each container. Tests are run continuously towards `radix-api`, so there will always be a base CPU usage. This does not need to be the case with other API. 
 
@@ -77,7 +77,7 @@ resources:
 
 Go back to the `Default dashboard` and select graph `Container memory usage`. 
 
-![container-memory](container-memory.png)
+![container-memory](./container-memory.png)
 
 Memory is a non-compressible resource. Meaning that if a container requires more memory to run than is available, it will be killed. Therefore to guarantee that a container gets enough memory, `resources.requests.memory` is set to the same as `resources.limits.memory`.
 
@@ -94,6 +94,6 @@ More information can be found on google - e.g. ["Kubernetes best practices: Reso
 
 For modern application development in Kubernetes and in Radix it is preferred to create applications that [scales horizontally rather than vertically](https://www.missioncloud.com/blog/horizontal-vs-vertical-scaling-which-is-right-for-your-app). In horizontal scaling, when there is need for more compute an extra container (pod) is added, but memory and CPU stays fixed. 
 
-![horizontal-pod-autoscaling](horizontal-pod-autoscaling.png)
+![horizontal-pod-autoscaling](./horizontal-pod-autoscaling.png)
 
 For Radix this can easily be done through horizontal pod autoscaling in the [radixconfig.yaml](https://www.radix.equinor.com/docs/reference-radix-config/#horizontalscaling). It will scale up based on CPU load over time for containers of a component (higher than 80%). More information can be found at [kubernetes docs](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)

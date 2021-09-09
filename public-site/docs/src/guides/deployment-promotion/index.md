@@ -11,7 +11,7 @@ toc: true
 
 Usually deployments are created by a `build-deploy` [job](../../docs/topic-concepts/#job) and deployed into an [environment](../../docs/topic-concepts/#environment). Older deployments remain accessible under the "Deployments" section of the Web Console.
 
-![Web Console deployments](web-console-deployments.png)
+![Web Console deployments](./web-console-deployments.png)
 
 A deployment can be *promoted* into any environment. In effect this creates a new, duplicate deployment, which becomes the *active deployment* in the target environment. The new deployment uses the same component images (Docker images) as the original deployment. The original deployment remains unchanged.
 

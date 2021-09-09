@@ -28,7 +28,7 @@ The user has access to a front-end client, but needs to acquire an authenticatio
 
 It's possible to use a proxy in front of the client application that takes care of the authentication flow. This can be introduced to any existing components, and is a good alternative if you have an existing web application where you do not want to implement authentication in the client itself. This is also a suitable solution if you need to make sure that only Equinor people can access your app - but there is no need for finer grained authorization.
 
-![Diagram](radix-front-proxy.png "Application diagram")
+![Diagram](./radix-front-proxy.png "Application diagram")
 
 For an example using [oauth2_proxy](https://github.com/oauth2-proxy/oauth2-proxy/blob/master/docs/docs/configuration/overview.md) see [Radix oauth example](https://github.com/equinor/radix-example-oauth-proxy). [Radix Web Console](https://console.radix.equinor.com/) uses this service, and does API calls to radix-api through a [nginx reverse proxy](https://github.com/equinor/radix-web-console/blob/master/proxy/nginx.conf)
 

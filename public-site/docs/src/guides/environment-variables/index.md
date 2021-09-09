@@ -37,4 +37,4 @@ It is an option to add empty environment variables to `radixconfig.yaml` and pop
     ```
 
 - Environment variables, entered in Radix Console. Environment variable `VAR3` got a value.
-![Edited environment variables](editable-env-vars.png)
+![Edited environment variables](./editable-env-vars.png)

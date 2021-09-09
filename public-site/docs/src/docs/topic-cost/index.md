@@ -16,7 +16,7 @@ Cluster cost is split 50/50 between CPU and memory time.
 
 ## Example
 
-![Cost Calculation Example](radix-cost.png "Cost Calculation Example")
+![Cost Calculation Example](./radix-cost.png "Cost Calculation Example")
 
 Assuming a period of 30 days where total cluster cost is 100.000NOK. Two applications, `Application 1` and `Application 2`, are running in the cluster.
 

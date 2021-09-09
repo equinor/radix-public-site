@@ -19,7 +19,7 @@ It is fine to combine these features to produce the workflow that we want. For i
 
 Let's go over the example above in more detail. We are continuously working on `master`, and we want commits here to be automatically deployed to `dev`:
 
-![Dev-only workflow](workflow-dev.png)
+![Dev-only workflow](./workflow-dev.png)
 
 In `radixconfig.yaml` we define this behaviour like so:
 
@@ -33,7 +33,7 @@ spec:
 
 Let's create a `qa` branch, which builds and deploys to a `preprod` environment. When `master` is in a "ready-to-test" state, we will merge `master` to `qa`.
 
-![Dev and QA workflow](workflow-dev-qa.png)
+![Dev and QA workflow](./workflow-dev-qa.png)
 
 Here's how `radixconfig.yaml` looks now:
 
@@ -52,7 +52,7 @@ spec:
 
 Finally, building on the previous example, if `preprod` is working fine, we can then manually **promote** the deployment to the `prod` environment:
 
-![Dev, QA, and prod workflow](workflow-dev-qa-prod.png)
+![Dev, QA, and prod workflow](./workflow-dev-qa-prod.png)
 
 This is our final workflow configuration in `radixconfig.yaml` (note that `prod` is not mapped — we will promote deployments manually via the Radix Web Console):
 

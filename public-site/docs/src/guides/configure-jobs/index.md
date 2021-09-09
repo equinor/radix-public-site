@@ -127,7 +127,7 @@ The job-scheduler exposes the following methods for managing jobs:
 - `GET /api/v1/jobs/{jobName}` Get state for a named job
 - `DELETE /api/v1/jobs/{jobName}` Delete a named job
 
-![Diagram of jobs and job-scheduler](job-scheduler-diagram.png "Job Scheduler overview")
+![Diagram of jobs and job-scheduler](./job-scheduler-diagram.png "Job Scheduler overview")
 
 > The job-scheduler keeps the 10 latest `Succeeded` and the 10 latest `Failed` jobs.
 
@@ -237,7 +237,7 @@ openapi-generator-cli generate
 ```
 `openapi-generator-cli` generates client code, tests and documentation
 
-![Generated client code](netcore-client-output.png "Generated client code")
+![Generated client code](./netcore-client-output.png "Generated client code")
 
 
 Server stub code for AspNetCore can be generated using the `aspnetcore` generator

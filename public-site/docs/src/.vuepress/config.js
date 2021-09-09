@@ -32,6 +32,7 @@ module.exports = {
     docsDir: '',
     editLinkText: '',
     lastUpdated: false,
+    sidebarDepth: 1,
     nav: [
       {
         text: 'Getting started',
@@ -55,16 +56,63 @@ module.exports = {
       }
     ],
     sidebar: {
-      '/guide/': [
+      '/community/': [
+          '/guides/',
+          '/docs/'
+      ],
+      '/guides/': [
         {
-          title: 'Guide',
           collapsable: false,
+          prefix: "/guides/",
           children: [
             '',
-            'using-vue',
+            'getting-started/',
+            'authentication/',
+            'build-secrets/',
+            'component-start-stop-restart/',
+            'configure-an-app/',
+            'configure-jobs/',
+            'deploy-only/',
+            'deployment-promotion/',
+            'docker/',
+            'docker-useradd/',
+            'environment-variables/',
+            'external-alias/',
+            'monitoring/',
+            'onboarding/',
+            'pipeline-badge/',
+            'resource-request/',
+            'scenarios/',
+            'volume-mounts/',
+            'workflows/',
+          ]
+        },
+      ],
+      '/docs/': [
+        {
+          collapsable: true,
+          prefix: "/docs/",
+          sidebarDepth: 2,
+          children: [
+            '',
+            'reference-private-link/',
+            'reference-radix-api/',
+            'reference-radix-config/',
+            'release/',
+            'topic-concepts/',
+            'topic-cost/',
+            'topic-docker/',
+            'topic-domain-names/',
+            'topic-monitoring/',
+            'topic-rollingupdate/',
+            'topic-runtime-env/',
+            'topic-security/',
+            'topic-uptime/',
           ]
         }
       ],
+      '/': [ // fallback README.md (main)
+      ]
     }
   },
 

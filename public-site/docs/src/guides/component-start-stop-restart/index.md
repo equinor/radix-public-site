@@ -11,7 +11,7 @@ Stop, Start and Restart of a running component can be done in the Web console, w
 
 > A new deployment will apply the configuration from the `radixconfig.yaml` and may overrun the actions performed in the Radix web console
 
-![Component-stop-start-restart](Component-stop-start-restart.png)
+![Component-stop-start-restart](./Component-stop-start-restart.png)
 
 # Stopping
 

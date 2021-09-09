@@ -11,7 +11,7 @@ toc: true
 
 Applications are the highest level of objects that can be created in Radix — all other objects are contained within them.
 
-![Diagram of application main concepts](application-overview.png "Application overview")
+![Diagram of application main concepts](./application-overview.png "Application overview")
 
 An application declares all its [components](#component); this allows for them to be deployed and managed together within [environments](#environment). For instance, `front-end` and `back-end` components would in principle be part of the same application.
 
@@ -31,7 +31,7 @@ Within an environment, components should address each other over the network by 
 
 Environments are targets for [deployments](#deployment); at any time an environment will contain at most one _active deployment_. When a deployment is made active, all components within the environment are shut down and new ones are started, using the images defined in the deployment.
 
-![Diagram of active deployment within environment](environment-deployment.png "Environment with active deployment")
+![Diagram of active deployment within environment](./environment-deployment.png "Environment with active deployment")
 
 Environments (not deployments) also define any [secrets](#secret) that are required by the running components. Those secrets are kept in the environment when the active deployment is changed, and applied to the new components.
 
@@ -96,7 +96,7 @@ This is triggered by a commit in GitHub to a branch mapped to an environment. In
 #### Scanning images for security issues
 Before the deployment is done, after a build, the image is scanned for security-related issues using the tool [trivy](https://github.com/aquasecurity/trivy). This scan will be a seperate step in the pipeline and the result will be logged in the step. Please note that the job will not fail if the result contains HIGH and/or SEVERE issues. However every developer should investigate and fix any security issues.
 
-![Diagram of the build-deploy pipeline](pipeline-build-deploy.png "The build-deploy pipeline")
+![Diagram of the build-deploy pipeline](./pipeline-build-deploy.png "The build-deploy pipeline")
 
 ### The `build` pipeline
 

@@ -82,7 +82,7 @@ Radix needs two pieces of information to enable the certificate for an external 
 
 These must be entered as [secrets](../../docs/topic-concepts#secret) in the page of the component chosen as the target of the alias (in the appropriate environment). The two secrets will be named `<domain-name>-cert` and `<domain-name>-key`.
 
-![List of secrets for corresponding TLS certificate](list-of-external-alias-secrets.png "List of Secrets")
+![List of secrets for corresponding TLS certificate](./list-of-external-alias-secrets.png "List of Secrets")
 
 ### Add `<domain-name>-cert` secret
 
@@ -98,13 +98,13 @@ Combine the SSL certificate and the intermediate certificate into a single certi
 -----END CERTIFICATE-----
 ```
 
-![Setting the cert part](setting-cert.png "Setting cert")
+![Setting the cert part](./setting-cert.png "Setting cert")
 
 ### Add `<domain-name>-key` secret
 
 Paste the content of the private key file that you generated at the start of the process.
 
-![Setting the private key part](setting-private-key.png "Setting private key")
+![Setting the private key part](./setting-private-key.png "Setting private key")
 
 ## What's next
 

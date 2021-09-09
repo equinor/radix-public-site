@@ -145,4 +145,4 @@ We are now ready to register our application using the Radix Web Console. Load t
 Remember that we can always change the `radixconfig.yaml` file and the `Dockerfile`s after registration to change how the application builds and deploys.  
 
 Here is an example of how a new application registration could look like
-![CreateApplication](CreateApplication.png)
+![CreateApplication](./CreateApplication.png)
