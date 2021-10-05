@@ -18,7 +18,8 @@ module.exports = {
   head: [
     ['meta', { name: 'theme-color', content: '#3eaf7c' }],
     ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
-    ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }]
+    ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }],
+    ['link', { rel: "icon", type: "image/svg", href: "/images/logo.svg"}],
   ],
 
   /**
@@ -27,6 +28,7 @@ module.exports = {
    * ref：https://v1.vuepress.vuejs.org/theme/default-theme-config.html
    */
   themeConfig: {
+    logo: '/images/logo.svg',
     repo: '',
     editLinks: false,
     docsDir: '',
@@ -40,25 +42,25 @@ module.exports = {
       },
       {
         text: 'Guides',
-        link: '/guides/'
+        link: '/guides/',
       },
       {
         text: 'Docs',
-        link: '/docs/'
+        link: '/docs/',
       },
       {
         text: 'Community',
-        link: '/community/'
+        link: '/community/',
       },
       {
         text: 'Web Console',
-        link: 'https://console.radix.equinor.com'
-      }
+        link: 'https://console.radix.equinor.com',
+      },
     ],
     sidebar: {
       '/community/': [
           '/guides/',
-          '/docs/'
+          '/docs/',
       ],
       '/guides/': [
         {
@@ -85,7 +87,7 @@ module.exports = {
             'scenarios/',
             'volume-mounts/',
             'workflows/',
-          ]
+          ],
         },
       ],
       '/docs/': [
@@ -108,12 +110,12 @@ module.exports = {
             'topic-runtime-env/',
             'topic-security/',
             'topic-uptime/',
-          ]
-        }
+          ],
+        },
       ],
       '/': [ // fallback README.md (main)
-      ]
-    }
+      ],
+    },
   },
 
   /**
@@ -123,5 +125,5 @@ module.exports = {
     '@vuepress/plugin-back-to-top',
     '@vuepress/plugin-medium-zoom',
     'fulltext-search',
-  ]
-}
+  ],
+};
