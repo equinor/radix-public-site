@@ -8,10 +8,10 @@ toc: true
 ### Difference between “adduser” and “useradd”
 
 "useradd" is native binary compiled with the system
-"adduser" is a perl script which uses useradd binary in back-end. It is more userfriendly and interactive compared to back-end useradd.
+"adduser" is a perl script which uses useradd binary in back-end. It is more user-friendly and interactive compared to back-end useradd.
 With "adduser" the system level users account when created puts a user directory in home for the system user where "useradd" does not.
 
-For non-root users id above 999 should be used.
+For non-root users ids above 999 should be used.
 
 Different distributions (and their flavours) might have different options:
 
