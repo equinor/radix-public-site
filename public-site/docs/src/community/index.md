@@ -1,6 +1,5 @@
 ---
 title: Community
-layout: document
 toc: true
 ---
 
@@ -27,22 +26,36 @@ Check out the [Release register](../../docs/release/)
 # The Radix team
 
 We are based in Vassbotnen - S4 in Stavanger. If you see us on the corridor, say hello!
-  
-Marko Horvat - Infrastructure     
-![Marko](../images/radix-marko.jpg)  
-  
-Ole Markus Kristiansen Ternø - Infrastructure  
-![ole markus](../images/radix-ole.jpg)
-  
-Sergey Smolnikov - Developer  
-![Sergey](../images/radix-sergey.jpg)     
-  
-Nils Gustav Stråbø - Developer  
-![Nils](../images/radix-nils.jpg)   
 
-Fredrik Hatletvedt - Developer  
-![fredrik](../images/radix-fredrik.jpg)
-  
-Elsa Mâyrä Irgens - Team Leader  
-![Elsa](../images/radix-elsa.jpg)  
-
+<employee-list>
+  <employee-card
+    name="Marko Horvat"
+    title="Infrastructure"
+    :image="require('../images/radix-marko.jpg')"
+  />
+  <employee-card
+    name="Ole Markus Kristiansen Ternø"
+    title="Infrastructure"
+    :image="require('../images/radix-ole.jpg')"
+  />
+  <employee-card
+    name="Sergey Smolnikov"
+    title="Developer"
+    :image="require('../images/radix-sergey.jpg')"
+  />
+  <employee-card
+    name="Nils Gustav Stråbø"
+    title="Developer"
+    :image="require('../images/radix-nils.jpg')"
+  />
+  <employee-card
+    name="Fredrik Hatletvedt"
+    title="Developer"
+    :image="require('../images/radix-fredrik.jpg')"
+  />
+  <employee-card
+    name="Elsa Mâyrä Irgens"
+    title="Team Leader"
+    :image="require('../images/radix-elsa.jpg')"
+  />
+</employee-list>
