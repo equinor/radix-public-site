@@ -92,7 +92,7 @@ module.exports = {
       ],
       '/docs/': [
         {
-          collapsable: true,
+          collapsable: false,
           prefix: "/docs/",
           sidebarDepth: 2,
           children: [

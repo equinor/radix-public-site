@@ -4,5 +4,19 @@
  * ref：https://v1.vuepress.vuejs.org/config/#index-styl
  */
 
-.home .hero img
-  max-width 450px!important
+@import '/assets/styles/tokens.css';
+@import '/assets/styles/elements.css';
+
+@font-face {
+  font-family: Equinor;
+  src: url(/assets/fonts/Equinor-Regular.woff2);
+}
+
+body {
+  font-size: 16px;
+  font-family: Equinor;
+}
+
+.home .hero img {
+  max-width 450px!important;
+}
