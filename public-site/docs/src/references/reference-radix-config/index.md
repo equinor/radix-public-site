@@ -1,6 +1,5 @@
 ---
 title: The radixconfig.yaml file
-layout: document
 parent: ["Docs", "../../docs.html"]
 toc: true
 ---

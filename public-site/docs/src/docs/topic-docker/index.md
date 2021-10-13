@@ -1,6 +1,5 @@
 ---
 title: Docker & containers
-layout: document
 parent: ["Docs", "../../docs.html"]
 toc: true
 ---
