@@ -1,7 +1,5 @@
 ---
 title: The radixconfig.yaml file
-parent: ["Docs", "../../docs.html"]
-toc: true
 ---
 
 # Overview
@@ -62,7 +60,7 @@ spec:
         from: release
 ```
 
-The `environments` section of the spec lists the environments for the application and the branch each environment will build from. If you omit the `build.from` key for the environment, no automatic builds or deployments will be created. This configuration is useful for a promotion-based [workflow](../../guides/workflows/). 
+The `environments` section of the spec lists the environments for the application and the branch each environment will build from. If you omit the `build.from` key for the environment, no automatic builds or deployments will be created. This configuration is useful for a promotion-based [workflow](../../guides/workflows/).
 
 We also support wildcard branch mapping using `*` and `?`. Examples of this are:
 
@@ -287,13 +285,13 @@ spec:
 
 > Note that the Client Certificate configuration will be omitted if the component does not have a public port.
 
-* `verification` Specifies type of verification of client certificates. Possible values are:
-  * `off`: Don't request client certificates and don't do client certificate verification. (default)
-  * `on`: Request a client certificate that must be signed by a certificate that is included in the secret key ca.crt of the secret specified by `nginx.ingress.kubernetes.io/auth-tls-secret: secretName`. Failed certificate verification will result in a status code 400 (Bad Request).
-  * `optional`: Do optional client certificate validation against the CAs from auth-tls-secret. The request fails with status code 400 (Bad Request) when a certificate is provided that is not signed by the CA. When no or an otherwise invalid certificate is provided, the request does not fail, but instead the verification result is sent to the upstream service.
-  * `optional_no_ca`: Do optional client certificate validation, but do not fail the request when the client certificate is not signed by the CAs from `auth-tls-secret`. Certificate verification result is sent to the upstream service.
+- `verification` Specifies type of verification of client certificates. Possible values are:
+  - `off`: Don't request client certificates and don't do client certificate verification. (default)
+  - `on`: Request a client certificate that must be signed by a certificate that is included in the secret key ca.crt of the secret specified by `nginx.ingress.kubernetes.io/auth-tls-secret: secretName`. Failed certificate verification will result in a status code 400 (Bad Request).
+  - `optional`: Do optional client certificate validation against the CAs from auth-tls-secret. The request fails with status code 400 (Bad Request) when a certificate is provided that is not signed by the CA. When no or an otherwise invalid certificate is provided, the request does not fail, but instead the verification result is sent to the upstream service.
+  - `optional_no_ca`: Do optional client certificate validation, but do not fail the request when the client certificate is not signed by the CAs from `auth-tls-secret`. Certificate verification result is sent to the upstream service.
 
-* `passCertificateToUpstream` Indicates if the received certificates should be passed or not to the upstream server in the header ssl-client-cert. `verification` will have to be set to something other than `off` for the certificate to be passed upstream. Possible values are `true` or `false` (default).
+- `passCertificateToUpstream` Indicates if the received certificates should be passed or not to the upstream server in the header ssl-client-cert. `verification` will have to be set to something other than `off` for the certificate to be passed upstream. Possible values are `true` or `false` (default).
 
 > If `verification` has been set to something other than `off` or `passCertificateToUpstream` is set to `true`, a valid certificate will need to be applied in the `Radix Console` for the affected environment(s). This can be found under `Environments\[environmentName]\[componentName]\[componentName]-clientcertca` in the `Radix Console` for your application.
 
@@ -335,7 +333,7 @@ spec:
             DB_PORT: "9876"
 ```
 
-The `variables` key contains environment variable names and their values, that are defined per Radix environment in a component. In addition to what is defined here, running containers will also have some [environment variables automatically set by Radix](../topic-runtime-env/#environment-variables).
+The `variables` key contains environment variable names and their values, that are defined per Radix environment in a component. In addition to what is defined here, running containers will also have some [environment variables automatically set by Radix](../../docs/topic-runtime-env/#environment-variables).
 
 For shared environment variables across Radix environments, refer to [common environment variables](./#variables-common).
 
@@ -390,15 +388,17 @@ spec:
 
 The `volumeMounts` field configures volume mounts within the running component.
 
-#### `volumeMounts` settings: 
-* `name` - the name of the volume. Unique within `volumeMounts` list of a component
-* `type` - type of storage. Supported types: 
-  * `azure-blob` - mount a container from blob in [Azure storage account](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview). Uses [CSI Azure blob storage driver](https://github.com/kubernetes-sigs/blob-csi-driver). Replaces obsolete type `blob` for Flex Volume obsolete driver.
+#### `volumeMounts` settings
+
+- `name` - the name of the volume. Unique within `volumeMounts` list of a component
+- `type` - type of storage. Supported types:
+  - `azure-blob` - mount a container from blob in [Azure storage account](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview). Uses [CSI Azure blob storage driver](https://github.com/kubernetes-sigs/blob-csi-driver). Replaces obsolete type `blob` for Flex Volume obsolete driver.
 
 _Applicable for type: `azure-blob`_
-* `storage` - name of the blob container.
-* `path` - the folder inside the running container, where the external storage is mounted.
-* `gid` - Group ID (number) of a [mounted volume owner](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.21/#podsecuritycontext-v1-core). It is a Group ID of a user in the running container within component replicas. Usually a user, which is a member of one or multiple [groups](https://en.wikipedia.org/wiki/Group_identifier), is specified in the `Dockerfile` for the component with command `USER`. Read [more details](https://www.radix.equinor.com/docs/topic-docker/#running-as-non-root) about specifying user within `Dockerfile`. It is recommended to use because Blobfuse driver do [not honor fsGroup securityContext settings](https://github.com/kubernetes-sigs/blob-csi-driver/blob/master/docs/driver-parameters.md).  
+
+- `storage` - name of the blob container.
+- `path` - the folder inside the running container, where the external storage is mounted.
+- `gid` - Group ID (number) of a [mounted volume owner](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.21/#podsecuritycontext-v1-core). It is a Group ID of a user in the running container within component replicas. Usually a user, which is a member of one or multiple [groups](https://en.wikipedia.org/wiki/Group_identifier), is specified in the `Dockerfile` for the component with command `USER`. Read [more details](https://www.radix.equinor.com/docs/topic-docker/#running-as-non-root) about specifying user within `Dockerfile`. It is recommended to use because Blobfuse driver do [not honor fsGroup securityContext settings](https://github.com/kubernetes-sigs/blob-csi-driver/blob/master/docs/driver-parameters.md).  
 
 There are [optional settings](../../guides/volume-mounts/optional-settings/) to fine tune volumes.
 
@@ -423,7 +423,7 @@ spec:
 
 The `runAsNonRoot` field of a component environment config is used to determine if the component should run as root in the environment.  
 
-> See [this](../topic-docker/#running-as-non-root) on how to correctly configure your Dockerfile for running as non-root in Radix.
+> See [this](../../docs/topic-docker/#running-as-non-root) on how to correctly configure your Dockerfile for running as non-root in Radix.
 
 ## `jobs`
 
@@ -683,9 +683,9 @@ spec:
       component: frontend
 ```
 
-It is possible to have multiple custom DNS aliases (i.e. to choose your own custom domains) for the application. The `dnsExternalAlias` needs to point to a component marked as public. It can be any domain name, which can in turn be used for public URLs to access the application — as long as the application developer provides a valid certificate for the alias. 
+It is possible to have multiple custom DNS aliases (i.e. to choose your own custom domains) for the application. The `dnsExternalAlias` needs to point to a component marked as public. It can be any domain name, which can in turn be used for public URLs to access the application — as long as the application developer provides a valid certificate for the alias.
 
-If public component is a `proxy` (like `oauth-proxy` in [this example](https://github.com/equinor/radix-example-oauth-proxy)), which is used as a public component, routing requests to `frontend` component - `dnsExternAlias.component` should point to this `proxy` component.   
+If public component is a `proxy` (like `oauth-proxy` in [this example](https://github.com/equinor/radix-example-oauth-proxy)), which is used as a public component, routing requests to `frontend` component - `dnsExternAlias.component` should point to this `proxy` component.
 
 In the example above, the component **frontend** hosted in environment **prod** will be accessible from both `some.alias.com` and `another.alias.com`, as long as the correct certificate has been set.
 
@@ -738,32 +738,40 @@ spec:
         gpuCount: 2
 ```
 
-When a component should run on a Kubernetes node with a GPU card on it, this can be specified in the `gpu` key of the `node` section. 
+When a component should run on a Kubernetes node with a GPU card on it, this can be specified in the `gpu` key of the `node` section.
+
 ```yaml
   node:
     gpu: nvidia-v100, nvidia-p100
 ```
+
 Put one or multiple (comma separated) GPU types, which is currently supported by Radix Kubernetes cluster and which fits to component logic, which requires GPU.
 Currently available nodes with GPUs:
-* `nvidia-v100`, 1 GPU
+
+- `nvidia-v100`, 1 GPU
 
 ```yaml
   node:
     gpu: nvidia-v100, -nvidia-k80
 ```
-When particular type of GPUs do not fit to component's logic - prefix GPU type with _minus_ `-`, component will not be scheduled on nodes with such GPU types. 
+
+When particular type of GPUs do not fit to component's logic - prefix GPU type with _minus_ `-`, component will not be scheduled on nodes with such GPU types.
+
 ```yaml
   node:
     gpu: nvidia-v100
     gpuCount: 4
 ```
-When the component required multiple GPUs available on a node - put required minimum GPU count in the `gpuCount` key (default value is `1`). 
 
-When `gpuCount` is specified, but `gpu` key is not set - component will be running on a node with any type of available GPU, which has required amount of GPUs. 
+When the component required multiple GPUs available on a node - put required minimum GPU count in the `gpuCount` key (default value is `1`).
+
+When `gpuCount` is specified, but `gpu` key is not set - component will be running on a node with any type of available GPU, which has required amount of GPUs.
+
 ```yaml
   node:
     gpuCount: 4
 ```
+
 # Example `radixconfig.yaml` file
 
 This example showcases all options; in many cases the defaults will be a good choice instead.
