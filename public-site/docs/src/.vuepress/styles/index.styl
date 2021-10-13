@@ -1,22 +1,120 @@
 /**
- * Custom Styles here.
+ * Custom Styles
  *
  * ref：https://v1.vuepress.vuejs.org/config/#index-styl
  */
 
-@import '/assets/styles/tokens.css';
-@import '/assets/styles/elements.css';
+@import '/assets/styles/tokens.css'
+@import '/assets/styles/elements.css'
 
-@font-face {
-  font-family: Equinor;
-  src: url(/assets/fonts/Equinor-Regular.woff2);
-}
 
-body {
-  font-size: 16px;
-  font-family: Equinor;
-}
+@font-face
+  font-family: Equinor
+  src: url(/assets/fonts/Equinor-Regular.woff2)
 
-.home .hero img {
-  max-width 450px!important;
-}
+
+/*
+ * Global
+ */
+
+body
+  font-size: 16px
+  font-family: Equinor
+
+.navbar
+  .home-link
+    display: block
+    width: fit-content
+    align-items: center
+    line-height: 16px
+    letter-spacing: 0.2px
+    .logo
+      display: inline-block
+      height: 2.000rem
+      min-width: 0
+      margin: 0
+      vertical-align: middle
+    .site-name
+      font-family: Equinor
+      font-size: 16px
+      font-weight: 400
+    .site-name, .site-name:hover
+      color: var(--eds_text_static_icons__default)
+
+
+/*
+ * Home page
+ */
+
+#app
+  .home
+    display: grid
+    #main-title
+      font-size: 2.000rem
+      line-height: 1.250em
+      margin: 2.500rem 0 0 0
+    .content__default
+      display: grid
+      grid-auto-flow: column
+      grid-column-gap: 8.000rem
+      grid-template-columns: repeat(3, 1fr)
+      grid-template-rows: repeat(3, auto)
+      img
+        /* unset max-width */
+        max-width: none
+        width: 5.300rem
+      h1, h2, p
+        text-align: center
+        border: none
+      p
+        font-size: 1.125rem
+        line-height: 1.333em
+        letter-spacing: 0.013em
+        margin: 0 0 1.000rem 0
+        /* Style links as EDS buttons */
+        > a
+          padding: 12px 16px
+          background: var(--eds_interactive_primary__resting)
+          border: 1px solid var(--eds_interactive_primary__resting)
+          border-radius: var(--eds_shape_button_border_radius)
+          color: var(--eds_text_static_icons__primary_white)
+          font-size: 0.875rem
+          font-weight: 500
+          line-height: 1.000em
+          margin: 0
+          text-align: center
+          text-decoration: none
+          position: relative
+          cursor: pointer
+          display: inline-block
+          width: 8.800rem
+          &:hover
+            background: var(--eds_interactive_primary__hover)
+            border: 1px solid
+          &:not(:last-child)
+            margin-right: var(--eds_spacing_small)
+      h1
+        font-size: 1.500rem
+        font-weight: 400
+        line-height: 1.250em
+        margin: 0 0 4.000rem 0
+        grid-column: 1 / -1
+        grid-row: 1
+      img
+        grid-row: 2
+      h2
+        align-self: baseline
+        font-size: 1.250rem
+        line-height: 1.600em
+        margin: 0 auto
+        grid-row: 3
+      hr
+        height: 1.000rem
+        grid-column: 1 / -1
+        grid-row: 5
+        ~ p
+          margin: 1.000rem 0
+          grid-column: 1 / -1
+          grid-row: 6
+        ~ p + p
+          grid-row: 7

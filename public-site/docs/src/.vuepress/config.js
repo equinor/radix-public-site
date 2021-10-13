@@ -1,19 +1,14 @@
 const { description } = require('../../package')
 
+/**
+ * Ref：https://v1.vuepress.vuejs.org/config/
+ */
 module.exports = {
-  /**
-   * Ref：https://v1.vuepress.vuejs.org/config/#title
-   */
-  title: 'OMNIA Radix',
-  /**
-   * Ref：https://v1.vuepress.vuejs.org/config/#description
-   */
+  title: 'Omnia Radix',
   description: description,
 
   /**
-   * Extra tags to be injected to the page HTML `<head>`
-   *
-   * ref：https://v1.vuepress.vuejs.org/config/#head
+   * Extra tags injected to the HTML `<head>`
    */
   head: [
     ['meta', { name: 'theme-color', content: '#3eaf7c' }],
@@ -24,8 +19,6 @@ module.exports = {
 
   /**
    * Theme configuration, here is the default theme configuration for VuePress.
-   *
-   * ref：https://v1.vuepress.vuejs.org/theme/default-theme-config.html
    */
   themeConfig: {
     logo: '/images/logo.svg',
@@ -100,7 +93,6 @@ module.exports = {
             'reference-private-link/',
             'reference-radix-api/',
             'reference-radix-config/',
-            'release/',
             'topic-concepts/',
             'topic-cost/',
             'topic-docker/',
@@ -110,6 +102,7 @@ module.exports = {
             'topic-runtime-env/',
             'topic-security/',
             'topic-uptime/',
+            'release/',
           ],
         },
       ],
@@ -119,7 +112,7 @@ module.exports = {
   },
 
   /**
-   * Apply plugins，ref：https://v1.vuepress.vuejs.org/zh/plugin/
+   * Apply plugins，ref：https://v1.vuepress.vuejs.org/plugin/
    */
   plugins: [
     '@vuepress/plugin-back-to-top',
