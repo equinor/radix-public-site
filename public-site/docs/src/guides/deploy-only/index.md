@@ -94,9 +94,9 @@ In a deploy-only scenario you will tell us when to deploy, rather than having th
 
 > The machine user token can be obtained on the application `Configuration` page, after first having enabled the machine user. Also note that if you enable the machine user for an existing application, you may need to re-trigger a deploy to Radix to have the access for the machine user propagated properly
 
-![MachineUserToken](./EnableMachineUser.png)
+![MachineUserToken](./machine-user.png)
 
-![MachineUserToken](./MachineUserToken.png)
+![MachineUserToken](./machine-user-token.png)
 
 By pressing `Regenerate token` button, you invalidate the existing token and get new token which can be copied to your clipboard.
 
@@ -235,7 +235,7 @@ In the above workflow we have a series of steps. They are:
 
 Go to the application `Configuration` page to set the secret, which will be the personal access token you have created with access to read packages in the Equinor organization. This gives Radix access to pull any package in the Equinor organization referred to in the `radixconfig.yaml`:
 
-![PrivateImageHubSecret](./PrivateImageHubSecret.png)
+![PrivateImageHubSecret](./private-image-hubs.png)
 
 # Coordinating workflow
 
