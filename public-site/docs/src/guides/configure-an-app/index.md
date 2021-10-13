@@ -130,10 +130,11 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-FROM nginx:1.14-alpine
+FROM nginx:1.20-alpine
 WORKDIR /app
 COPY --from=builder /app/build /app
 COPY nginx.conf /etc/nginx/conf.d/default.conf
+USER 101
 ```
 
 Note how the first section uses a large image (`node`) which has the dependencies needed to build the component. In the second stage, the built files are copied into a small image (`nginx`) to serve them without all the build dependencies.
@@ -144,5 +145,6 @@ We are now ready to register our application using the Radix Web Console. Load t
 
 Remember that we can always change the `radixconfig.yaml` file and the `Dockerfile`s after registration to change how the application builds and deploys.  
 
-Here is an example of how a new application registration could look like
-![CreateApplication](./CreateApplication.png)
+Here is an example of how a new application registration could look like  
+
+![CreateApplication](./create-application.png)
