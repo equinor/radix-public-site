@@ -31,4 +31,4 @@ You provide your code and a Dockerfile to build it, and Radix will take it from 
 
 [Get started](/guides/getting-started/)
 [Read the docs](/docs/)
-[Our community](/community/)
+[Our community](/other/community/)
