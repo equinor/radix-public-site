@@ -1,40 +1,40 @@
 ---
 title: Environment variables
-layout: document
-parent: ['Guides', '../../guides.html']
-toc: true
 ---
 
 # Environment variables
 
-[Environment variables](../../docs/reference-radix-config/#variables) are configured in [radixconfig.yaml](../../docs/reference-radix-config/#variables). In addition, for each application Radix sets environment variables with prefix `RADIX_` and `RADIXOPERATOR_` - these prefixes should not be used for application environment variables.
+[Environment variables](../../references/reference-radix-config/#variables) can be configured in the [radixconfig.yaml](../../references/reference-radix-config/). Additionally Radix will add some environment variables prefixed with `RADIX_` and `RADIXOPERATOR_` - these prefixes should not be used for environment variables.
 
-Values of application environment variables can be overridden in the Radix Console, excluding those, prefixed with `RADIX_` and `RADIXOPERATOR_`.
-### Edit environment variables
-- Navigate to the application component or job
-- Hit the button "Edit"
-- Change one variable or multiple variables values
-- Hit the button "Apply"
-After few seconds changed environment variable values will be shown in the table.
-> Changed environment variable values will be applied to the component or job configuration, but not to _currently running_ replicas or jobs. 
+Environment variables can be overridden in the Radix Console, excluding those marked with the `RADIX_` and `RADIXOPERATOR_` prefix.
+
+## Overriding environment variables in the Radix Console
+
+- Navigate to the application component or job page
+- Click the `Edit` button
+- Change one or more variables
+- Click the `Apply` button
+
+After a few seconds the value of the overridden environment variables will be shown in the table.
+> Note that changes made in the Radix Console will not be applied to _currently running_ replicas or jobs, meaning these will have to be restarted for the changes to take effect.
 >
 > To apply changed environment variables:
-> - to component replicas - restart the component
-> - to jobs - start new jobs
- 
-In the table with environment variables, there is column `Original`, containing value, configured originally in the `radixconfig.yaml` for changed environment variables. 
+>
+> - go to component replicas - restart the component
+> - go to jobs - start new jobs
 
-It is an option to add empty environment variables to `radixconfig.yaml` and populate them in the Radix Console.
+In the `Environment variables` table, the column marked `Original` is used to show the original value of all modified variables.
 
-#### Example:
+### Example
 
-- Environment variables, configured in `radixconfig.yaml`. `VAR3` is empty.
-    ```yaml
-    variables:
-        VAR1: "val1"
-        VAR2: "val2"
-        VAR3: "" #variable with empty value
-    ```
+- Environment variables configured in `radixconfig.yaml`.
 
-- Environment variables, entered in Radix Console. Environment variable `VAR3` got a value.
+  ```yaml
+  variables:
+    VAR1: "val1"
+    VAR2: "val2"
+    VAR3: "" # leaving a variable empty is a valid option
+  ```
+
+- Environment variables shown in the Radix Console. Variables `VAR1` and `VAR3` has been changed.
 ![Edited environment variables](./editable-env-vars.png)

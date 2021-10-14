@@ -1,17 +1,15 @@
 ---
 title: Deploy to Radix using other continuous integration (CI) tool
-layout: document
-parent: ["Guides", "../../guides.html"]
-toc: true
+sidebarDepth: 3
 ---
 
-There might be several reasons why you would opt against using Radix as a CICD platform, and just using the CD part of Radix:
+There might be several reasons why you would opt against using Radix as a CICD platform, and just using the CD part of Radix
 
 - Your application consists of a set of components (i.e. micro services), with source code hosted in separate repositories
 - Your application depends on different resources, and the deployment to Radix needs to be orchestrated
 - Your team has more advanced needs of the CI i.e. test reports, git lfs
 
-# Configuring the app
+## Configuring the app
 
 Same as with any other application deployed to Radix, a deploy-only application will need:
 
@@ -20,7 +18,7 @@ Same as with any other application deployed to Radix, a deploy-only application 
 
 These points is described below
 
-# The repository
+## The repository
 
 Unlike a regular Radix application, for a deploy-only application you have two options on how to structure your repositories. You can choose to have:
 
@@ -29,7 +27,7 @@ Unlike a regular Radix application, for a deploy-only application you have two o
 
 The documentation will use the second option and this [example repository](https://github.com/equinor/radix-example-arm-template)
 
-# The `radixconfig.yaml` file
+## The `radixconfig.yaml` file
 
 > Radix only reads `radixconfig.yaml` from the branch we set as the `Config Branch` in the application registration form. If the file is changed in other branches, those changes will be ignored. The `Config Branch` must be mapped to an environment in `radixconfig.yaml`
 
@@ -75,17 +73,17 @@ A dynamic tag in this context means that there is a new tag produced for every b
 
 A static tag will not permit radix to update an existing deployment by relying on changes to `imageTagName` to pull a new image. To force radix to pull a new image from the image-hub, the component must be restarted using the component page on the web-console or restart call to the [API](https://api.radix.equinor.com/swaggerui/#/component/restartComponent) or [CLI](https://github.com/equinor/radix-cli). There is currently no log trace of components starting and stopping. If this is necessary, one may call `deploy-only` once on the application before `restart` on each component using static tags.
 
-The second part of the `radixconfig.yaml` which distinguishes itself from a regular radix application is the [`privateImageHubs` property](../../docs/reference-radix-config/#privateImageHubs). In short, it will allow for the image produced outside of Radix to be pulled down to the Radix cluster.
+The second part of the `radixconfig.yaml` which distinguishes itself from a regular radix application is the [`privateImageHubs` property](../../references/reference-radix-config/#privateimagehubs). In short, it will allow for the image produced outside of Radix to be pulled down to the Radix cluster.
 
 Also what can be said about the configuration above is the branch to environment mapping. Since build of components happens outside of Radix the build -> from configuration seems unnecessary. You could, especially if the repository for the Radix application is a mere configuration repository, leave environments unmapped. We will explain later why we, in this example, have opted to have a branch-environment mapping.
 
-The full syntax of `radixconfig.yaml` is explained in [Radix Config reference](../../docs/reference-radix-config/).
+The full syntax of `radixconfig.yaml` is explained in [Radix Config reference](../../references/reference-radix-config/).
 
-# Registering the application
+## Registering the application
 
 Registering the Radix application follows the pattern of a regular Radix application. The only difference is that we skip adding a web-hook to Radix. We then avoid that the application is built and deployed to Radix, using the Radix CI. The mechanism for deploying to Radix will be described in the next section.
 
-# Machine user token
+## Machine user token
 
 In a deploy-only scenario you will tell us when to deploy, rather than having the web-hook tell us when changes have occurred in the repository, as for other Radix applications. In order to do that, you will make calls to the Radix API. In order to do that you have two approaches:
 
@@ -102,7 +100,7 @@ By pressing `Regenerate token` button, you invalidate the existing token and get
 
 > Note that the machine user token is a longed lived token with access to all operations that an application administrator has (i.e. deleting the application, setting secrets). Please make efforts not to have this token fall into the wrong hands.
 
-# Making calls to Radix
+## Making calls to Radix
 
 With the access token you can make calls to our API through either:
 
@@ -110,7 +108,7 @@ With the access token you can make calls to our API through either:
 - Calling the API though functions in the [Radix CLI](https://github.com/equinor/radix-cli), which allows for simpler access to the API
 - Calling the API through [Radix GitHub Actions](https://github.com/equinor/radix-github-actions). If you have opted for GitHub Actions as your CI tool, then calling the Radix API indirectly through the Radix CLI using the Radix GitHub Actions can be done. It allows for simpler access to the CLI in your actions workflow.
 
-# Building using other CI (i.e. GitHub Actions)
+### Building using other CI (i.e. GitHub Actions)
 
 To create a GitHub Actions you create a workflow file in the folder .github/workflows. In the sample workflow below we will build new images for master (qa environment) and release (prod environment) branches:
 
@@ -182,11 +180,11 @@ jobs:
 
 ### Updating deployments on static tags
 
-As part of deploying an application to kubernetes, Radix reads the radixconfig.yaml file and based on this creates kubernetes resources. If there are no changes to the radixconfig.yaml file, there will be no changes to the underlying kubernetes resources. As a default kubernetes will then do nothing. 
+As part of deploying an application to kubernetes, Radix reads the radixconfig.yaml file and based on this creates kubernetes resources. If there are no changes to the radixconfig.yaml file, there will be no changes to the underlying kubernetes resources. As a default kubernetes will then do nothing.
 
-When utilizing static tags, there will often be no changes to radixconfig.yaml when performing a deployment. Kubernetes will then continue to run its existing containers after deployment. 
+When utilizing static tags, there will often be no changes to radixconfig.yaml when performing a deployment. Kubernetes will then continue to run its existing containers after deployment.
 
-This default behavior can be overwritten in radixconfig.yaml by setting flag `alwaysPullImageOnDeploy` on component level. When this flag is set to true, a deployment will always lead to a change in the underlying kubernetes resource, which again lead to kubernetes pulling the newest image from the container registry. 
+This default behavior can be overwritten in radixconfig.yaml by setting flag `alwaysPullImageOnDeploy` on component level. When this flag is set to true, a deployment will always lead to a change in the underlying kubernetes resource, which again lead to kubernetes pulling the newest image from the container registry.
 
 ```yaml
 spec:
@@ -197,14 +195,14 @@ spec:
       alwaysPullImageOnDeploy: true
 ```
 
-## Workflow secrets
+### Workflow secrets
 
 There are a couple of GitHub secrets the workflow make use of:
 
 - `K8S_CREDENTIALS` - This is the token used for accessing Radix. In this example we are using the machine user token provided with the application. The name of the secret can be any name. However, the environment variable needs to be `APP_SERVICE_ACCOUNT_TOKEN`, as this is what the Radix CLI expect the environment variable to be named
 - `PRIVATE_TOKEN` - The private token is used for publishing a package to GitHub package repository. The name is irrelevant. It is a personal access token that you configure for your GitHub user. In this example we use the same token for producing the package, as we do for giving Radix access to pull the image to the cluster
 
-## Configuring a personal access token
+### Configuring a personal access token
 
 Go to developer settings in GitHub to generate an access token (Enable SSO in order to be able to access GitHub Equinor organization):
 
@@ -214,7 +212,7 @@ Set the privileges to allow it to create packages:
 
 ![ReadAndWritePackages](./ReadAndWritePackages.png)
 
-## The workflow
+### The workflow
 
 In the above workflow we have a series of steps. They are:
 
@@ -231,13 +229,13 @@ In the above workflow we have a series of steps. They are:
 
 > `--from-config` is an argument to `radix-cli` to tell it that there is an radixconfig in your repository that it can get information from, such as application name or branch mapping
 
-# Configure Radix to use GitHub package
+## Configure Radix to use GitHub package
 
 Go to the application `Configuration` page to set the secret, which will be the personal access token you have created with access to read packages in the Equinor organization. This gives Radix access to pull any package in the Equinor organization referred to in the `radixconfig.yaml`:
 
 ![PrivateImageHubSecret](./PrivateImageHubSecret.png)
 
-# Coordinating workflow
+## Coordinating workflow
 
 In the example repository that we have used for this documentation we are setting secrets in Radix to be values associated with resources in Azure created for the application. The additional workflow steps are shown below. They are:
 

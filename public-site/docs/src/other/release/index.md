@@ -1,8 +1,5 @@
 ---
 title: Releases
-layout: document
-parent: ['Community', '../../community.html']
-toc: true
 ---
 
 # Radix Releases
@@ -14,14 +11,13 @@ toc: true
 We have added support for generating badges that shows the status of the latest Radix pipeline job for a specific job type, environment and application.
 A common place to add a status badge is in the README.md file of your repository, but it can be added to any web page you'd like.  
 
-Read more here https://www.radix.equinor.com/guides/pipeline-badge/
+Read more here <https://www.radix.equinor.com/guides/pipeline-badge/>
 
 ### 07.06.2021 Support for ClientCertificate authentication
 
 We have added support for ClientCertificates, which can be configured on a component or a specific environment.  
 
-Read more here https://www.radix.equinor.com/docs/reference-radix-config/#clientcertificate
-
+Read more here <https://www.radix.equinor.com/docs/reference-radix-config/#clientcertificate>
 
 ### 19.04.2021 Running on-demand jobs in Radix
 
@@ -34,18 +30,15 @@ CPU, GPU and memory resources requested by a job are reserved when it starts, an
 You define jobs in the radixconfig.yaml file in your repo, similar to how you define components.  
 
 Jobs are started and monitored through a job-scheduler web API, created by Radix for each job defined in radixconfig.yaml
-The OpenAPI/Swagger definition for the job-scheduler can be downloaded here, and you can use https://github.com/OpenAPITools/openapi-generator to generate clients for your preferred language.  
+The OpenAPI/Swagger definition for the job-scheduler can be downloaded here, and you can use <https://github.com/OpenAPITools/openapi-generator> to generate clients for your preferred language.  
 
-Read more about jobs here https://www.radix.equinor.com/guides/configure-jobs/
-
+Read more about jobs here <https://www.radix.equinor.com/guides/configure-jobs/>
 
 ### 22.03.2021 Regenerate webhook secret and deploy key
 
 To support the lifecycle managment of application, it is now possible to update the webhook secret and the deploy key for the integration from Radix to the GitHub repo.  
 
 To get a brand new secret and key use the "Regenerate deploy key and webhook secret" button in the application configuration area in the Radix Web Console.
-
-
 
 ### 13.01.2021 - Radix Web Console - Indication of outdated image
 
@@ -63,6 +56,7 @@ Kubernetes events related to application environments now are displayed in the e
 These events can be helpful when diagnosing application issues, e.g. recurring crashes/restarts or incorrect port configurations.  
 
 Events are sorted descending by the time the event occurred. There are two types of events; Normal and Warning.  
+
 - Normal events are informational messages related to resources in the application environment, e.g. creating, starting, stopping and deleting containers, pulling images, syncing ingresses etc.
 Warning events are logged when there is a problem with a resource in the application environment,
 eg. backoff (container crashing/restarting), readiness probe failure (container not listening on defined port), missing secrets etc.  
@@ -70,7 +64,6 @@ eg. backoff (container crashing/restarting), readiness probe failure (container 
 If/when the cause of a pod related warning is resolved, e.g. the readiness probe receives a response on the defined port or a crashed container restarts, the warning will be flagged as Resolved. Warnings that reference pods from an old deployment will be flagged as Obsolete.
 See the attached image for an example of Warning events with Resolved and Obsolete state.
 Events older than one hour are delete from the list. A Warning event will remain in the list as long as it is not Resolved or Obsolete.
-
 
 ## 2020
 

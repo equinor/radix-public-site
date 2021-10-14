@@ -1,8 +1,5 @@
 ---
-title: External Aliaser
-layout: document
-parent: ['Guides', '../../guides.html']
-toc: true
+title: External Alias
 ---
 
 It is possible to make an application available on a custom alias via a setting in `radixconfig.yaml`, provided you register the alias and bring the corresponding TLS certificate into Radix.
@@ -14,20 +11,22 @@ The process for setting up the alias depends on the service used to register and
 ## Acquire an Equinor alias
 
 1. Open the [Services@Equinor](https://equinor.service-now.com) portal and find the service "Domain name system (DNS)"
-2. Request an alias, and specify which [public name](../../docs/topic-domain-names/#public-name) the alias should point to.  
+1. Request an alias, and specify which [public name](../../docs/topic-domain-names/#public-name) the alias should point to.  
     _Example:_
 
-    ```
+    ```raw
     New alias: myapp.equinor.com
     Point to: frontend-myapp-prod.radix.equinor.com
     ```
-3. Specify in the request if you need only "internal entry" (used within internal Equinor network) or "both - internal and external entries" (used both - within internal Equinor and public networks).
+
+1. Specify in the request if you only need "internal entry" (used within internal Equinor network) or "both - internal and external entries" (used both - within internal Equinor and public networks).
 
 ## Acquire an Equinor certificate
 
 ### What you need
 
 You need to request two certificates
+
 - SSL certificate
 - Intermediate certificate
 
@@ -37,7 +36,8 @@ These certs can be bundled into one file using the PEM container format, and qui
 
 _Example:_  
 A PEM container holding both the SSL and the intermediate certificate in the same file, in this particular order:
-```
+
+```raw
 -----BEGIN CERTIFICATE-----
 {ssl certificate content}
 -----END CERTIFICATE-----
@@ -47,11 +47,10 @@ A PEM container holding both the SSL and the intermediate certificate in the sam
 -----END CERTIFICATE-----
 ```
 
-
 ### How to get it
 
-1. Start by getting to know the appropriate procedure on how to handle keys and certificates in Equinor, as they are considered as sensitive information
-1. Create a _Certificate Signing Request_ on you local pc using the `openssl` command:  
+1. Start by getting to know the appropriate procedures on how to handle keys and certificates in Equinor, as they are considered sensitive information
+1. Create a _Certificate Signing Request_ on you local pc using the `openssl` command:
 
     ```sh
     # Step 1: Generate a private key
@@ -60,15 +59,16 @@ A PEM container holding both the SSL and the intermediate certificate in the sam
 
     # Step 2: Generate Certificate Signing Request (CSR) file using the private key
     openssl req -new -key ./mydomain.equinor.com.key -out ./mydomain.equinor.com.csr
-    ```  
-1. Open the [Services@Equinor](https://equinor.service-now.com) portal and find the service "Public SSL certificate"
-1. Request a SSL certificate and an intermediate certificate for your alias, and attach the CSR file you created in step 2  
-1. When you get the requested certificates then store them and the private key in a safe location (see step 1)
+    ```
 
+1. Open the [Services@Equinor](https://equinor.service-now.com) portal and find the service "Public SSL certificate"
+1. Request a SSL certificate and an intermediate certificate for your alias and attach the CSR file you created in step 2
+1. Once you get the requested certificates, store them together with the private key in a safe location (see step 1)
 
 ## Edit `radixconfig.yaml`
 
-1. You must add a new `dnsExternalAlias` section to the `radixconfig.yaml` file; check the [reference documentation](../../docs/reference-radix-config/#dnsexternalalias) for the details.
+1. You must add a new `dnsExternalAlias` section to your `radixconfig.yaml` file.  
+    - check the [reference documentation](../../references/reference-radix-config/#dnsexternalalias) for the details.
 1. The application must be built and deployed for the configuration to be applied.
 1. If authentication proxy is used - its redirect URL can be changed to use external alias (to avoid showing long proxy URL, when redirected).  
 
@@ -76,9 +76,10 @@ A PEM container holding both the SSL and the intermediate certificate in the sam
 
 Adding the certificate information to your application is done using the Radix Console.
 
-Radix needs two pieces of information to enable the certificate for an external alias: 
-- the certificate itself, 
-- and the private key 
+Radix needs two pieces of information to enable the certificate for an external alias:
+
+- the certificate itself
+- and the private key
 
 These must be entered as [secrets](../../docs/topic-concepts#secret) in the page of the component chosen as the target of the alias (in the appropriate environment). The two secrets will be named `<domain-name>-cert` and `<domain-name>-key`.
 
@@ -88,7 +89,7 @@ These must be entered as [secrets](../../docs/topic-concepts#secret) in the page
 
 Combine the SSL certificate and the intermediate certificate into a single certificate using a PEM container format. Certificates should be put [in particular order](https://www.digicert.com/kb/ssl-support/pem-ssl-creation.htm): first - SSL certificate, second - Intermediate certificate:
 
-```
+```raw
 -----BEGIN CERTIFICATE-----
 {ssl certificate content}
 -----END CERTIFICATE-----
@@ -102,12 +103,10 @@ Combine the SSL certificate and the intermediate certificate into a single certi
 
 ### Add `<domain-name>-key` secret
 
-Paste the content of the private key file that you generated at the start of the process.
+Paste the contents of the private key file that you generated at the start of the process.
 
 ![Setting the private key part](./setting-private-key.png "Setting private key")
 
 ## What's next
 
 Once the secrets are saved, re-deploy the applicable environment(s), either by a new full build-deploy, deploy only or a promotion. The custom aliases will be available.
-
-

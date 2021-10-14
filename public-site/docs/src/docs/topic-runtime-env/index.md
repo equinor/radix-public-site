@@ -1,8 +1,5 @@
 ---
 title: Runtime environment
-layout: document
-parent: ["Docs", "../../docs.html"]
-toc: true
 ---
 
 Running an application in Radix is not much different to running Docker containers locally. However, you should be aware of some special behaviours and constraints.
@@ -13,7 +10,7 @@ Running an application in Radix is not much different to running Docker containe
 
 Only HTTPS traffic is allowed in and out of the application. SSL certificates are automatically managed by Radix, except for custom [external aliases](../../guides/external-alias/).
 
-Internally, [components](../topic-concepts/#component) can communicate with each other using other protocols and [ports](../reference-radix-config/#components), provided they use TCP.
+Internally, [components](../topic-concepts/#component) can communicate with each other using other protocols and [ports](../../references/reference-radix-config/#components), provided they use TCP.
 
 ## Internal DNS
 
@@ -27,7 +24,7 @@ For external requests there is an upload limit of 100MB. If your application nee
 
 ## Request headers
 
-Requests reaching your components from outside Radix are routed, and will have some extra HTTP headers with information about the original request:
+Requests reaching your components from outside Radix are routed, and will have some extra HTTP headers with information about the original request
 
 - `X-Forwarded-For`: List of IP addresses that have proxied the request (leftmost is original requester)
 - `X-Forwarded-Host`: Hostname requested
@@ -50,7 +47,7 @@ This is a common characteristic of high-availability cloud-based environments. Y
 
 # Environment variables
 
-In addition to [variables defined in `radixconfig.yaml`](../reference-radix-config/#variables), Radix will automatically set the following variables:
+In addition to [variables defined in `radixconfig.yaml`](../../references/reference-radix-config/#variables), Radix will automatically set the following variables
 
 - `RADIX_APP`: The name of the Radix application
 - `RADIX_CANONICAL_DOMAIN_NAME`: The [canonical domain name](../topic-domain-names/#canonical-name) of the component
