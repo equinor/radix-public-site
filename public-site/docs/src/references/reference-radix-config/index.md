@@ -1,5 +1,6 @@
 ---
 title: The radixconfig.yaml file
+sidebarDepth: 3
 ---
 
 # Overview
