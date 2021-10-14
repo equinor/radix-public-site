@@ -1,21 +1,18 @@
 ---
 title: Domain names
-layout: document
-parent: ["Docs", "../../docs.html"]
-toc: true
 ---
 
 There can be several domain names mapped to [application components](../topic-concepts/#component) in Radix. In general you will want to use the [public name](#public-name), but you should understand all options.
 
-> Some domain names include a `clusterEnvNamepace` component. This varies depending on the type of cluster. In Radix there are three **cluster types**; these are the values for `clusterEnvNamepace` in each type:
+> Some domain names include a `clusterEnvNamepace` component. This varies depending on the type of cluster. In Radix there are three **cluster types**; these are the values for `clusterEnvNamepace` in each type
 >
 > - prod (_blank_)
 > - playground (`playground`)
 > - dev (`dev`)
 
-# Canonical name
+## Canonical name
 
-```
+```raw
 [componentName]-[appName]-[envName].[clusterName].[clusterEnvNamepace].radix.equinor.com
 ```
 
@@ -32,9 +29,9 @@ Examples:
 - `backend-myapp-production.playground-92.playground.radix.equinor.com`
 - `serializer-oneapp-qa.prod-12.radix.equinor.com`
 
-# Public name
+## Public name
 
-```
+```raw
 [componentName]-[appName]-[envName].[clusterEnvNamepace].radix.equinor.com
 ```
 
@@ -54,9 +51,9 @@ Examples:
 - `backend-myapp-production.playground.radix.equinor.com`
 - `serializer-oneapp-qa.radix.equinor.com`
 
-# App default alias
+## App default alias
 
-```
+```raw
 [appName].app.[clusterEnvNamepace].radix.equinor.com
 ```
 
@@ -64,16 +61,16 @@ The _app default alias_ is a convenience domain name to make it easier to publis
 
 - Only allocated for **active clusters**
 - One per application
-- [Defined in `radixconfig.yaml`](../reference-radix-config/#dnsappalias)
+- [Defined in `radixconfig.yaml`](../../references/reference-radix-config/#dnsappalias)
 
 Examples:
 
 - `myapp.app.playground.radix.equinor.com`
 - `oneapp.app.radix.equinor.com`
 
-# External alias
+## External alias
 
-```
+```raw
 [whatever]
 ```
 
@@ -81,7 +78,7 @@ For ultimate customisation of your domain names, you can "bring your own" domain
 
 - Only allocated for **active clusters**
 - Multiple allowed per component
-- [Defined in `radixconfig.yaml`](../reference-radix-config/#dnsexternalalias)
+- [Defined in `radixconfig.yaml`](../../references/reference-radix-config/#dnsexternalalias)
 - Requires external DNS alias management
 - Requires custom TLS certificate
 

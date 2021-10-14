@@ -1,8 +1,5 @@
 ---
 title: Monitoring concepts
-layout: document
-parent: ['Docs', '../../docs.html']
-toc: true
 ---
 
 # Background
@@ -13,7 +10,7 @@ There are several benefits of doing monitoring:
 
 - Make it easier to locate and fix problems in the event of an outage (reduced MTTR)
 - Identify trends that could lead to an outage and fix them proactively (increased MTBF)
-- Better understanding of the resource usage of an application, which makes it possible to scale resources more appropriately and avoid resource waste.
+- Better understanding of the resource usage of an application, which makes it possible to scale resources more appropriately and avoid resource waste
 
 ## Events vs metrics
 

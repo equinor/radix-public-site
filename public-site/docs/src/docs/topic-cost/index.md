@@ -1,8 +1,5 @@
 ---
 title: Radix Cost
-layout: document
-parent: ['Docs', '../../docs.html']
-toc: true
 ---
 
 # Radix cost allocation
@@ -22,35 +19,51 @@ Assuming a period of 30 days where total cluster cost is 100.000NOK. Two applica
 
 `Application 1` has two components, `frontend` and `backend`. `horizontalScaling` is configured for `backend` to automatically start new replicas during periods of high CPU utilization. `Application 2` has two components, `frontend` and `backend`, and a job named `compute`.
 
-**CPU and memory time by Application 1**  
-frontend-replica1 - CPU: 100m * 720hrs = 72.000 - Memory: 100MB * 720hrs = 72.000  
-backend-replica1 - CPU: 200m * 720hrs = 144.000 - Memory: 400MB * 720hrs = 288.000  
-backend-replica2 - CPU: 200m * 300hrs = 60.000 - Memory: 400MB * 300hrs = 120.000  
-backend-replica2 - CPU: 200m * 90hrs = 18.000 - Memory: 400MB * 90hrs = 36.000  
+### CPU and memory time by Application 1
 
-Total CPU time: 72.000 + 144.000 + 60.000 + 18.000 = 294.000  
-Total memory time: 72.000 + 288.000 + 120.000 + 36.000 = 516.000  
+| | CPU | CPU total | Memory | Memory total
+| --- | --- | --- | --- | ---
+| frontend-replica1 | 100m &times; 720hrs | 72.000 | 100MB &times; 720hrs | 72.000
+| backend-replica1 | 200m &times; 720hrs | 144.000 | 400MB &times; 720hrs | 288.000
+| backend-replica2 | 200m &times; 300hrs | 60.000 | 400MB &times; 300hrs | 120.000
+| backend-replica3 | 200m &times; 90hrs | 18.000 | 400MB &times; 90hrs | 36.000
 
-**CPU and memory time by Application 2**  
-frontend-replica1 - CPU: 100m * 720hrs = 72.000 - Memory: 200MB * 720hrs = 144.000  
-backend-replica1 - CPU: 50m * 720hrs = 36.000 - Memory: 250MB * 720hrs = 180.000  
-job-1 - CPU: 250m * 15hrs = 3.750 - Memory: 750MB * 15hrs = 11.250  
-job-2 - CPU: 250m * 15hrs = 3.750 - Memory: 750MB * 15hrs = 11.250  
-job-3 - CPU: 250m * 30hrs = 7.500 - Memory: 750MB * 30hrs = 22.500  
+| | Calculation | Total
+| --- | --- | ---
+| CPU | 72.000 &plus; 144.000 &plus; 60.000 &plus; 18.000 | 294.000
+| Memory | 72.000 &plus; 288.000 &plus; 120.000 &plus; 36.000 | 516.000
 
-Total CPU time: 72.000 + 36.000 + 3.750 + 3.750 + 7.500 = 123.000
-Total memory time: 144.000 + 180.000 + 11.250 + 11.250 + 22.500 = 369.000
+### CPU and memory time by Application 2
 
-**Calculation**  
-Total cluster CPU time: 294.000 + 123.000 = 417.000  
-Total cluster memory time: 516.000 + 369.000 = 885.000  
-Total cluster CPU cost: 100.000 / 2 = 50.000  
+| | CPU | CPU total | Memory | Memory total
+| --- | --- | --- | --- | ---
+| frontend-replica1 | 100m &times; 720hrs | 72.000 | 200MB &times; 720hrs | 144.000
+| backend-replica1 | 50m &times; 720hrs | 36.000 | 250MB &times; 720hrs | 180.000
+| job-1 | 250m &times; 15hrs | 3.750 | 750MB &times; 15hrs | 11.250
+| job-2 | 250m &times; 15hrs | 3.750 | 750MB &times; 15hrs | 11.250
+| job-3 | 250m &times; 30hrs | 7.500 | 750MB &times; 30hrs | 22.500
 
-Application1 CPU cost: 294.000 / 417.000 * 100.000NOK * 0.5 = 35.252NOK  
-Application1 memory cost: 516.000 / 885.000 * 100.000NOK * 0.5 = 29.152NOK  
-Application1 total cost: **64.405NOK**  
+| | Calculation | Total
+| --- | --- | ---
+| CPU | 72.000 &plus; 36.000 &plus; 3.750 &plus; 3.750 &plus; 7.500 | 123.000
+| Memory | 144.000 &plus; 180.000 &plus; 11.250 &plus; 11.250 &plus; 22.500 | 369.000
 
-Application2 CPU cost: 123.000 / 417.000 * 100.000NOK * 0.5 = 14.748NOK  
-Application2 memory cost: 369.000 / 885.000 * 100.000NOK * 0.5 = 20.847NOK  
-Application2 total cost: **35.595NOK**  
+### Calculation
 
+| | Calculation | Total
+| --- | --- | ---
+| Cluster CPU time | 294.000 &plus; 123.000 | 417.000
+| Cluster memory time |  516.000 &plus; 369.000 | 885.000
+| Cluster CPU cost | 100.000 &divide; 2 | 50.000
+
+| | Calculation | Total
+| --- | --- | ---
+| Application1 CPU cost | 294.000 &divide; 417.000 &times; 100.000NOK &times; 0.5 | 35.252NOK
+| Application1 memory cost | 516.000 &divide; 885.000 &times; 100.000NOK &times; 0.5 | 29.152NOK
+| Application1 total cost | | **64.405NOK**
+
+| | Calculation | Total
+| --- | --- | ---
+| Application2 CPU cost | 123.000 &divide; 417.000 &times; 100.000NOK &times; 0.5 | 14.748NOK
+| Application2 memory cost| 369.000 &divide; 885.000 &times; 100.000NOK &times; 0.5 | 20.847NOK
+| Application2 total cost | | **35.595NOK**

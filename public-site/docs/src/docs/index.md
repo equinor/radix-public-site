@@ -1,7 +1,5 @@
 ---
 title: Docs
-layout: document
-toc: true
 ---
 
 # Topics
@@ -29,4 +27,3 @@ toc: true
 - [The `radixconfig.yaml` file](reference-radix-config/)
 - [Radix API](reference-radix-api/)
 - [Private Link](reference-private-link/)
-

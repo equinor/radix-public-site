@@ -1,8 +1,5 @@
 ---
 title: Service, support, uptime and availability
-layout: document
-parent: ["Docs", "../../docs.html"]
-toc: true
 ---
 
 # Uptime and availability
@@ -33,7 +30,7 @@ Schedule for Radix DevOps/Support team - 08:00 - 16:00 CET/CEST on Norwegian wor
   - Measured platform uptime last 3 months: 99,95%
 - **Radix services monthly uptime: 99%** - expected uptime for Radix services, like CI/CD and monitoring
 - **Planned maintenance:** We will announce planned maintenance at least 2 business days in advance. Downtime during planned maintenance does not affect uptime goals
-- **Disaster Recovery:** Procedure is in place and the procedure is executed on a weekly basis. Estimated time to recover a cluster is 15 minutes, estimated time to rebuild and recover a complete cluster is 1 hour. 
+- **Disaster Recovery:** Procedure is in place and the procedure is executed on a weekly basis. Estimated time to recover a cluster is 15 minutes, estimated time to rebuild and recover a complete cluster is 1 hour
 
 ### Associated operational risks
 
@@ -51,6 +48,7 @@ Application configuration is backed up every hour using Velero and that backup i
 **RTO (Recovery Time Objective)** has been estimated at 20 minutes from the moment the Radix team starts working on it. Keep in mind that the RTO is only an estimate since external factors can also influence the recovery time. For example, this time will increase if there is a high load on Azure REST API or Azure managed Kubernetes API server.
 
 Some of the failure events that can take down the service or introduce delays and timeouts:
+
 - Bad commit can introduce a bad code/bug in Radix components
 - Executing a command in the wrong cluster
 - Resource exhaustion, CPU, Memory, Disk issues
@@ -60,7 +58,7 @@ Some of the failure events that can take down the service or introduce delays an
 - Kubernetes bugs
 - Kubernetes API changes
 - Expired certificates
-- Network issues, DDOS 
+- Network issues, DDOS
 - Expired secrets
 
 We are working hard to mitigate as much of these as possible.
@@ -71,6 +69,6 @@ Use Playground for testing Radix, see if it’s a good fit for your projects, an
 
 - **Support channels:** Same as for Radix Platform (see above). Help will be provided when team has capacity
 
-- **Uptime:** "Best-effort", but no guarantee of uptime. Planned maintenance is announced as early as possible.
+- **Uptime:** "Best-effort", but no guarantee of uptime. Planned maintenance is announced as early as possible
 
 **Please note:** applications hosted in the Playground cluster may need to be re-registered after maintenance, upgrades or migrations. All such required actions from your part will be communicated in the Radix slack channel.
