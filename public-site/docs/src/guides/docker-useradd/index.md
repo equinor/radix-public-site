@@ -1,7 +1,6 @@
 ---
 title: Users in Docker
-parent: ["Guides", "../../guides.html"]
-toc: true
+sidebarDepth: 3
 ---
 ## Add user and group in Docker
 

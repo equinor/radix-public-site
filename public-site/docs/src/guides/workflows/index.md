@@ -1,8 +1,5 @@
 ---
 title: Workflows
-layout: document
-parent: ['Guides', '../../guides.html']
-toc: true
 ---
 
 # Overview
@@ -15,7 +12,7 @@ If we **map** a git branch to an environment, commits to that branch will trigge
 
 It is fine to combine these features to produce the workflow that we want. For instance, we can automatically build and deploy `master` to the `dev` environment, and the `release` branch to `preprod`. We can then manually promote the deployment in `preprod` to the `prod` environment.
 
-# An example with branches mapped to different environments
+## An example with branches mapped to different environments
 
 Let's go over the example above in more detail. We are continuously working on `master`, and we want commits here to be automatically deployed to `dev`:
 
@@ -48,7 +45,7 @@ spec:
         from: qa
 ```
 
-# An example of promotion
+## An example of promotion
 
 Finally, building on the previous example, if `preprod` is working fine, we can then manually **promote** the deployment to the `prod` environment:
 
@@ -68,7 +65,7 @@ spec:
     - name: prod
 ```
 
-# An example of multiple branches to one environment
+## An example of multiple branches to one environment
 
 There is also an ability in Radix to map many branches to one environment. I.e. you could map feature/* branches to one feature environment. This is particularly useful for developers needing to pre-test their features in an environment as close to production as possible. Team needs to take care on who can use this environment at one point in time. Example of this mapping:
 

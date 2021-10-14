@@ -1,8 +1,5 @@
 ---
 title: Mount volumes
-layout: document
-parent: ["Guides", "../../guides.html"]
-toc: true
 ---
 
 The supported volume mount type is to mount CSI Azure Blob Container, using CSI Azure blob driver for Kubernetes. See [this](https://github.com/kubernetes-sigs/blob-csi-driver) for more information.
@@ -22,13 +19,13 @@ Name of container
 - Define the volume mounts for the environment in the RadixConfig. The container should match the one found in step 1
 
 ```yaml
-      environmentConfig:
-        - environment: dev
-          volumeMounts:
-            - type: azure-blob
-              name: storage
-              storage: blobfusevolumetestdata
-              path: /app/image-storage
+environmentConfig:
+  - environment: dev
+    volumeMounts:
+      - type: azure-blob
+        name: storage
+        storage: blobfusevolumetestdata
+        path: /app/image-storage
 ```
 
 - After environment has been built, set the generated secret to key found in step 1. This should ensure that key value is Consistent status. It is recommended to restart a component after a key has been set in the console
@@ -38,21 +35,23 @@ Name of container
 This results in the Kubernetes deployment holding the volume mount in PersistentVolumeClaim and its StorageClass:
 
 ```yaml
-      spec:
-        containers:
-          - env:
-        ...
-      volumeMounts:
-        - mountPath: /app/image-storage
-          name: csi-az-blob-frontend-storage1-blobfusevolumetestdata
-        ...
-      volumes:
-        - name: csi-az-blob-frontend-storage-blobfusevolumetestdata
-          persistentVolumeClaim:
-            claimName: pvc-csi-az-blob-frontend-storage-blobfusevolumetestdata
+spec:
+  containers:
+    - env:
+  ...
+volumeMounts:
+  - mountPath: /app/image-storage
+    name: csi-az-blob-frontend-storage1-blobfusevolumetestdata
+  ...
+volumes:
+  - name: csi-az-blob-frontend-storage-blobfusevolumetestdata
+    persistentVolumeClaim:
+      claimName: pvc-csi-az-blob-frontend-storage-blobfusevolumetestdata
 ```
+
 and files appear inside the container. If there are folders within blob container - it will exist in the pod's container as well
-```shell
+
+```sh
 kubectl exec -it -n radix-csi-azure-example-dev deploy/frontend -- ls -l /app/image-storage
 total 0
 -rwxrwxrwx    1 root     root         21133 Nov 13 13:56 image-01.png
@@ -61,34 +60,39 @@ total 0
 -rwxrwxrwx    1 root     root         48391 Nov 26 14:50 image-06.png
 -rwxrwxrwx    1 root     root         47732 Nov 26 14:50 image-07.png
 ```
+
 Multiple volume mounts are also supported
-* for multiple blob-containers within one storage account
-* for containers within multiple storage accounts
-* for containers within storage accounts within multiple subscriptions and tenants
+
+- for multiple blob-containers within one storage account
+- for containers within multiple storage accounts
+- for containers within storage accounts within multiple subscriptions and tenants
 
 Not supported mount from same blob container to different folders within one component.
 
 Multiple containers within one storage account
-  ![MultipleContainers](./MultipleContainers.png)
+![MultipleContainers](./MultipleContainers.png)
 
 To add multiple volumes
+
 - Define the volume mounts for the environment in the RadixConfig.
-    * add more `volumeMounts`, with `name`-s, unique within `volumeMounts` of an environment (do not use storage account name as this `name` as it is not secure and can be not unique)
-    * specify `container` names for each `volumeMount`. The `container` should match the one found in step 1 
-    * specify `path` for each `volumeMount`, unique within `volumeMounts` of an environment
-    ```yaml
-          environmentConfig:
-            - environment: dev
-              volumeMounts:
-                - type: azure-blob
-                  name: storage1
-                  storage: blobfusevolumetestdata
-                  path: /app/image-storage
-                - type: azure-blob
-                  name: storage3
-                  storage: blobfusevolumetestdata3
-                  path: /app/image-storage3
-    ```
+  - add more `volumeMounts`, with `name`-s, unique within `volumeMounts` of an environment (do not use storage account name as this `name` as it is not secure and can be not unique)
+  - specify `container` names for each `volumeMount`. The `container` should match the one found in step 1
+  - specify `path` for each `volumeMount`, unique within `volumeMounts` of an environment
+
+  ```yaml
+  environmentConfig:
+    - environment: dev
+      volumeMounts:
+        - type: azure-blob
+          name: storage1
+          storage: blobfusevolumetestdata
+          path: /app/image-storage
+        - type: azure-blob
+          name: storage3
+          storage: blobfusevolumetestdata3
+          path: /app/image-storage3
+  ```
+
 - After environment has been built, set the generated secret to account name and key, found in step 1 - for each volume. This should ensure that key value is Consistent status. It is recommended to restart a component after a all secrets have been set in the console
 
 ![SetSecretsForMultiplemounts](./SetSecretsMultipleVolumes.png)
@@ -96,27 +100,28 @@ To add multiple volumes
 This results in the Kubernetes deployment holding the volume mounts in its spec:
 
 ```yaml
-      spec:
-        containers:
-          - env:
-        ...
-      volumeMounts:
-        - mountPath: /app/image-storage
-          name: csi-az-blob-frontend-storage1-blobfusevolumetestdata
-        - mountPath: /app/image-storage3
-          name: csi-az-blob-frontend-storage3-blobfusevolumetestdata3
-        ...
-      volumes:
-        - name: csi-az-blob-frontend-storage1-blobfusevolumetestdata
-          persistentVolumeClaim:
-            claimName: pvc-csi-az-blob-frontend-storage1-blobfusevolumetestdata
-        - name: csi-az-blob-frontend-storage3-blobfusevolumetestdata3
-          persistentVolumeClaim:
-            claimName: pvc-csi-az-blob-frontend-storage3-blobfusevolumetestdata3
+spec:
+  containers:
+    - env:
+  ...
+volumeMounts:
+  - mountPath: /app/image-storage
+    name: csi-az-blob-frontend-storage1-blobfusevolumetestdata
+  - mountPath: /app/image-storage3
+    name: csi-az-blob-frontend-storage3-blobfusevolumetestdata3
+  ...
+volumes:
+  - name: csi-az-blob-frontend-storage1-blobfusevolumetestdata
+    persistentVolumeClaim:
+      claimName: pvc-csi-az-blob-frontend-storage1-blobfusevolumetestdata
+  - name: csi-az-blob-frontend-storage3-blobfusevolumetestdata3
+    persistentVolumeClaim:
+      claimName: pvc-csi-az-blob-frontend-storage3-blobfusevolumetestdata3
 ```
+
 and files appear inside the container
 
-```shell
+```sh
 kubectl exec -it -n radix-csi-azure-example-dev deploy/frontend -- ls -lR /app
 /app:
 total 4

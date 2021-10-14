@@ -1,7 +1,5 @@
 ---
 title: Guides
-layout: document
-toc: true
 ---
 
 # Get to know Radix
@@ -26,7 +24,7 @@ How should you set up Git branches and Radix environments?
 
 ## Workflows
 
-Read about [workflows](workflows/) for an overview. 
+Read about [workflows](workflows/) for an overview.
 
 ## Promotion
 
@@ -38,7 +36,7 @@ Another functionality available is the ability to [restart, stop and start a com
 
 ## Deploy only - other CI tool
 
-Teams that have a need for more advanced CI feature can use other CI tools and [deploy into Radix](deploy-only). This feature is in progress, utilised by only a few teams. If you have any input or would like to be involved in testing this feature, please contact us for a walkthrough. 
+Teams that have a need for more advanced CI feature can use other CI tools and [deploy into Radix](deploy-only). This feature is in progress, utilised by only a few teams. If you have any input or would like to be involved in testing this feature, please contact us for a walkthrough.
 
 ## Pipeline job badges
 
@@ -63,7 +61,7 @@ To ensure that an application is allocated enough resources to run as it should,
 
 # Authentication
 
-There is no checkbox that automatically provide authentication for your application in Radix. However there is still several way to introduce it to new and existing applications, without to much work. The [Authentication](authentication/) guide goes through the basic to get authentication going for a Client and API. 
+There is no checkbox that automatically provide authentication for your application in Radix. However there is still several way to introduce it to new and existing applications, without to much work. The [Authentication](authentication/) guide goes through the basic to get authentication going for a Client and API.
 
 # Monitoring
 

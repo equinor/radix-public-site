@@ -1,8 +1,5 @@
 ---
 title: Getting started
-layout: document
-parent: ['Guides', '../../guides.html']
-toc: true
 ---
 
 # What is Radix?
@@ -15,7 +12,7 @@ Radix also provides monitoring for applications. There are default metrics (e.g.
 
 > To help improve Radix, request access to the GitHub [Omnia Radix Readers](https://github.com/orgs/equinor/teams/omnia-radix-readers/members) team — this gives you access to poke around in our repositories. We track **issues and feature requests** in the [radix-platform](https://github.com/equinor/radix-platform/issues) repo. Please log those! 🙂
 
-# Requirements
+## Requirements
 
 There aren't many requirements: Radix runs applications written in Python, Java, .NET, JavaScript, or [LOLCODE](https://en.wikipedia.org/wiki/LOLCODE) equally well. If it can be built and deployed as Docker containers, we are nearly ready. If not, it's not hard to "dockerise" most applications.
 
@@ -23,23 +20,23 @@ An in-depth understanding of Docker is not a requirement, but it helps to be fam
 
 It is also expected that you have a [basic understanding of Git](http://rogerdudler.github.io/git-guide/) (branching, merging) and some networking (ports, domain names).
 
-## Repository 
+### Repository
 
 A GitHub repository for our code is required (only GitHub is supported at the moment)  
 
-## Radix config file (radixconfig.yaml)
+### Radix config file (radixconfig.yaml)
 
 A `radixconfig.yaml` file that defines the running environments. This must be in the root directory of our repository and in the branch we set as our `Config Branch` when we register our application in Radix. Usually we set it to *main* or *master*, but you can use any branch in your repository.
 
-See the [radixconfig.yaml documentation](../../docs/reference-radix-config/)  
+See the [radixconfig.yaml documentation](../../references/reference-radix-config/)  
 
-# Configure your application
+## Configure your application
 
 The next step is to **[configure your application](../configure-an-app/)** on Radix; follow that guide to set things up in the cluster you chose.
 
 (Or, if you prefer reading rather than coding right now, you can get familiar with the [concepts in Radix](../../docs/topic-concepts/) first.)
 
-# The Radix clusters
+## The Radix clusters
 
 Your applications will run in a *Radix cluster*. We currently have two: **Radix Platform** and **Radix Playground**. Use Playground for testing Radix and see if it's a good fit for your needs. When your project and team are happy with Radix, you can register your application in the Platform cluster, which provides [specific guarantees](../../docs/topic-uptime/).
 
@@ -55,7 +52,6 @@ Access to Radix is managed in Access IT. To get started, decide if you want to t
 
 You can register your app in Playground first, and then again in Platform; there is no special "migrate to platform" process. If you have questions, [speak with us on Slack](https://equinor.slack.com/messages/CBKM6N2JY) and we'll help.
 
-# Onboarding
+## Onboarding
 
 Radix team offer onboard support for teams or projects, where we walk through your application and togheter try to find out if Radix is a good fit for you. Contact us on [slack](https://equinor.slack.com/archives/C8U7XGGAJ) for more information.
-
