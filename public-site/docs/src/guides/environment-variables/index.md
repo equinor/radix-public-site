@@ -1,8 +1,8 @@
 ---
-title: Environment variables
+title: Configure environment variables
 ---
 
-# Environment variables
+# Configure environment variables
 
 [Environment variables](../../references/reference-radix-config/#variables) can be configured in the [radixconfig.yaml](../../references/reference-radix-config/). Additionally Radix will add some environment variables prefixed with `RADIX_` and `RADIXOPERATOR_` - these prefixes should not be used for environment variables.
 
