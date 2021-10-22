@@ -1,6 +1,7 @@
 ---
 title: External Alias
 ---
+# External Alias
 
 It is possible to make an application available on a custom alias via a setting in `radixconfig.yaml`, provided you register the alias and bring the corresponding TLS certificate into Radix.
 
