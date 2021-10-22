@@ -2,7 +2,7 @@
 title: Monitoring concepts
 ---
 
-# Background
+# Monitoring concepts
 
 ## Purpose
 
@@ -32,9 +32,9 @@ MTTR is Mean time to recovery. This is how much time it takes to get a non-opera
 
 - TSDB - Time-series database - A special type of database that is designed to ingest large amounts of metrics and make different kinds of queries, aggregated, histograms, etc.
 
-# Methodologies
+## Methodologies
 
-## USE Method
+### USE Method
 
 Brendan Gregg proposed in 2012 a [methodology for analyzing the performance of any system](http://www.brendangregg.com/usemethod.html).
 
@@ -46,7 +46,7 @@ USE means:
 
 Utilization is usually the easiest to measure, we can easily measure CPU, memory, network and storage/IO utilization in %. Saturation in disk/IO can for example be to measure CPU IOWAIT or linux load averages. Swapping can be a sign of saturation in memory. Dropped packets can be a sign of saturation on the network interface. Errors are usually not available as a metric, but shows up in logs as unstructured text.
 
-## RED Method
+### RED Method
 
 Based on principles outlined in the [Golden Signals from Google](https://landing.google.com/sre/book/chapters/monitoring-distributed-systems.html) comes the RED method.
 
