@@ -1,6 +1,8 @@
 ---
 title: Configuring an app
 ---
+# Configuring an app
+
 
 Make sure you are familiar with [the requirements](../getting-started/).
 
