@@ -2,7 +2,7 @@
 title: Pipeline Badges
 ---
 
-# Overview
+# Configure Pipeline Badges
 
 A pipeline status badge shows the status of the latest pipeline job of a specific type in a specific environment. Status is one of **success**, **failing**, **stopped**, **pending** or **running**.
 
