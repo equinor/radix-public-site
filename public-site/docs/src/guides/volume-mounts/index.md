@@ -2,6 +2,8 @@
 title: Mount volumes
 ---
 
+# Configuring and mount volumes
+
 The supported volume mount type is to mount CSI Azure Blob Container, using CSI Azure blob driver for Kubernetes. See [this](https://github.com/kubernetes-sigs/blob-csi-driver) for more information.
 
 >Blobfuse FlexVolume is considered obsolete and recommended being replaced with CSI Azure blob driver.

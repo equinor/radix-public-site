@@ -3,11 +3,13 @@ title: Monitoring your app
 sidebarDepth: 3
 ---
 
-# Metrics visualisation
+# Monitoring your app
 
 Prometheus and Grafana are the main tools provided in Radix for analytics and monitoring visualisation.
 
 Click the *`Monitoring`* link in the top right corner of the Radix Web Console, log into Grafana using Azure AD credentials and explore dashboards.
+
+## Metrics visualisation
 
 All dashboards in Radix are shared, i.e. another project/team will also be able to open your dashboard. Therefore, it is a good idea to create a folder for your dashboard with a sensible name. Create your own dashboards from scratch or just make a copy of the sample dashboard and modify the content to meet your needs.
 

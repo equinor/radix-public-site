@@ -2,7 +2,7 @@
 title: Deployment Promotion
 ---
 
-# Overview
+# Deployment Promotion
 
 [Deployments](../../docs/topic-concepts/#deployment) in Radix are portable, which makes it possible to use them in several scenarios.
 
