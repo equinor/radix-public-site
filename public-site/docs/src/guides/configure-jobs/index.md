@@ -2,6 +2,8 @@
 title: Configuring Jobs
 ---
 
+# Scheduled jobs
+
 A job is an on-demand and short lived container/process that performs a set of tasks, e.g. a ML training job or an ETL job, and exits when it is done.
 The duration of a job can span from seconds to hours, depending on what tasks it performs, but it is expected to exit when it has completed the work. Multiple jobs can be created and running simultaneously.
 
@@ -10,7 +12,7 @@ CPU, GPU and memory resources requested by a job are reserved when it starts, an
 Docker images built from the definition in the components section in radixconfig.yaml are started automatically when a new build-deploy, promote or deploy pipeline completes. Jobs on the other hand, must be managed through the [job-scheduler](#job-scheduler) web API service. Radix creates a job-scheduler for each job and environment defined in [`radixconfig.yaml`](../../references/reference-radix-config/). The job-scheduler can start new containers from the Docker image build by the pipeline, delete and list existing jobs.
 The job-scheduler does not require any authentication since it is not exposed to the Internet and is only accessible by components in the same application and environment.
 
-# Configure a job
+## Configure a job
 
 Jobs are configured in [`radixconfig.yaml`](../../references/reference-radix-config/#jobs), similar to how components are configured.
 
@@ -61,7 +63,7 @@ Jobs have two extra configuration options; `schedulerPort` and `payload`
 - `resources` (optional) defines cpu and memory requested for a job.
 - `node` (optional) defines gpu node requested for a job.
 
-## schedulerPort
+### schedulerPort
 
 In the [`radixconfig.yaml`](../../references/reference-radix-config/#schedulerport) example above, two jobs are defined: `compute` and `etl`.
 
@@ -69,7 +71,7 @@ In the [`radixconfig.yaml`](../../references/reference-radix-config/#schedulerpo
 
 The job-scheduler for the `etl` job listens for HTTP requests on port 9000, and the URL is `http://etl:9000`
 
-## payload
+### payload
 
 Arguments required by a job is sent in the request body to the job-scheduler as a JSON document with an element named `payload`.
 The content of the payload is then mounted in the job container as a file named `payload` in the directory specified in `payload.path` in [`radixconfig.yaml`](../../references/reference-radix-config/#payload).
@@ -77,7 +79,7 @@ The data type of the `payload` value is string, and it can therefore contain any
 
 The compute job in the example above has `payload.path` set to `/compute/args`. Any payload, send to the compute job-scheduler, will available inside the job container in the file `/compute/args/payload`
 
-## resources
+### resources
 
 The resource requirement for a job can be sent in the request body to the job scheduler as a JSON document with an element named `resources`.
 The content of the resources will be used to set the resource definition for the job [`radixconfig.yaml`](../../references/reference-radix-config/#resources-common).
@@ -85,7 +87,7 @@ The data type of the `resources` is of type `ResourceRequirements` an requires t
 
 The etl job in the example above has `resource` configured.
 
-## node
+### node
 
 The node requirerement for a job can be sent in the request body to the job scheduler as a JSON document with an element named `node`.
 The content of the node will be used to set the node definition for the job [`radixconfig.yaml`](../../references/reference-radix-config/#node).
@@ -93,7 +95,7 @@ The data type of the `node` is of type `RadixNode` an requires this specific for
 
 The etl job in the example above has `node` configured.
 
-# Job Scheduler
+## Job Scheduler
 
 The job-scheduler is a web API service, that you use to create, delete and monitor the state of jobs.
 Radix creates one job-scheduler per job defined in [`radixconfig.yaml`](../../references/reference-radix-config/#jobs). A job-scheduler will listen to the port defined by `schedulerPort` and host name equal to the `name` of the job. The job-scheduler API can only be accessed by components running in the same environment, and it is not exposed to the Internet. No authentication is required.
@@ -205,7 +207,7 @@ The job list in the example above has a job named `compute-20210407105556-rkwaib
 }
 ```
 
-# OpenAPI/Swagger spec
+## OpenAPI/Swagger spec
 
 [Download][1] Swagger/OpenAPI specification for job-scheduler
 
@@ -262,7 +264,7 @@ openapi-generator-cli generate
   -o Server
 ```
 
-# Managing Jobs in Web Console
+## Managing Jobs in Web Console
 
 TBA
 
