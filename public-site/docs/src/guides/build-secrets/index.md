@@ -1,5 +1,5 @@
 ---
-title: Docker, Build secrets
+title: Docker Build secrets
 ---
 
 # Build secrets
