@@ -2,9 +2,9 @@
 title: Rolling updates
 ---
 
-Radix aims to support zero downtime application re-deployment by utilising Kubernetes' [rolling update](https://kubernetes.io/docs/tutorials/kubernetes-basics/update/update-intro/) and [readiness probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/) features.
+# Rolling updates
 
-## Rolling updates
+Radix aims to support zero downtime application re-deployment by utilising Kubernetes' [rolling update](https://kubernetes.io/docs/tutorials/kubernetes-basics/update/update-intro/) and [readiness probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/) features.
 
 Rolling updates allow applications to be incrementally updated by specifying the following two parameters.
 
