@@ -2,7 +2,7 @@
 title: Component start/stop/restart
 ---
 
-# Overview
+# Component start/stop/restart
 
 Stop, Start and Restart of a running component can be done in the Web console, when special circumstances requires it (i.e. after having updated a secret), even though the recommended approach is to change the configuration in [`radixconfig.yaml`](../../references/reference-radix-config/)
 
