@@ -1,8 +1,8 @@
 ---
-title: Releases
+title: What's new
 ---
 
-# Radix Releases
+# What's new
 
 ## 2021
 
