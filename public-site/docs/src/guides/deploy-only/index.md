@@ -1,7 +1,8 @@
 ---
-title: Deploy to Radix using other continuous integration (CI) tool
+title: Deploy to Radix using other Continuous Integration (CI) tool
 sidebarDepth: 3
 ---
+# Deploy to Radix using other Continuous Integration (CI) tool
 
 There might be several reasons why you would opt against using Radix as a CICD platform, and just using the CD part of Radix
 
