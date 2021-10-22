@@ -22,8 +22,7 @@ title: Docs
 - [Rolling updates](topic-rollingupdate/) in Radix
 - [Cost](topic-cost/) calculation principles
 
-# Reference
+## Reference
 
 - [The `radixconfig.yaml` file](reference-radix-config/)
-- [Radix API](reference-radix-api/)
 - [Private Link](reference-private-link/)
