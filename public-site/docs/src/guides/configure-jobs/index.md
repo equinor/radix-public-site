@@ -2,7 +2,7 @@
 title: Configuring Jobs
 ---
 
-# Scheduled jobs
+# Configuring Jobs
 
 A job is an on-demand and short lived container/process that performs a set of tasks, e.g. a ML training job or an ETL job, and exits when it is done.
 The duration of a job can span from seconds to hours, depending on what tasks it performs, but it is expected to exit when it has completed the work. Multiple jobs can be created and running simultaneously.
