@@ -1,6 +1,7 @@
 ---
 title: Resource request and limit
 ---
+# Configure resource requests and limits
 
 `resources` is used to ensure that each container is allocated enough resources to run as it should. `limits` describes the maximum amount of compute resources allowed. `requests` describes the minimum amount of compute resources requires.
 
@@ -8,7 +9,7 @@ Radix is built on top of managed Kubernetes in Azure (AKS). Kubernetes is a cont
 
 ![cluster](./cluster.png)
 
-# Why should resources request and limit be set
+## Why should resources request and limit be set
 
 Settings resources request and limit is important because of several reasons:
 
@@ -21,7 +22,7 @@ Settings resources request and limit is important because of several reasons:
 
 If `resources.requests` and `resources.limits` are not provided, Radix will give a container default [values](https://github.com/equinor/radix-operator/blob/master/charts/radix-operator/values.yaml#L24). This will be used for scheduling and cost. In many cases the default provided `resources` would be insufficient for container, which could lead to the container being CPU throttled or in worst case killed by the [OOMKiller](https://docs.memset.com/other/linux-s-oom-process-killer).
 
-# How to find resource requests and limits
+## How to find resource requests and limits
 
 Monitoring can be used to find how much resources an application use. Radix uses [prometheus](https://prometheus.io/) to gather metrics and [grafana](https://grafana.com/) for visualization. When viewing an application in Radix web console, there is a link to a default dashboard in Radix grafana instance that gives a good starting point for monitoring an app.
 
@@ -35,7 +36,7 @@ Monitoring memory and CPU over time is important, as it can change based on a nu
 
 Select a single environment and time interval, that represent normal usage for that application. Further examples are based on `radix-api`, where production environment and a period of 7 working days has been selected.
 
-## CPU
+### CPU
 
 CPU is a compressible resource, meaning that if a container hits CPU limit, Kubernetes starts throttling the container. For most application throttling means it will be slower, but it will still be able to serve requests.
 
@@ -69,7 +70,7 @@ Because of a limit ([1](https://www.youtube.com/watch?v=eBChCFD9hfs), [2](https:
       cpu: "2000m"
 ```
 
-## Memory
+### Memory
 
 Go back to the `Default dashboard` and select graph `Container memory usage`.
 
@@ -91,7 +92,7 @@ This ensures that `400MB` is always allocated to each container in the `radix-ap
 
 More information can be found on Google - e.g. ["Kubernetes best practices: Resource requests and limits"](https://cloud.google.com/blog/products/gcp/kubernetes-best-practices-resource-requests-and-limits)
 
-# Autoscaling
+## Autoscaling
 
 For modern application development in Kubernetes and in Radix it is preferred to create applications that [scales horizontally rather than vertically](https://www.missioncloud.com/blog/horizontal-vs-vertical-scaling-which-is-right-for-your-app). In horizontal scaling, when there is need for more compute an extra container (pod) is added, but memory and CPU stays fixed.
 
