@@ -2,7 +2,7 @@
 title: Radix concepts
 ---
 
-# Running code in Radix
+# Radix concepts
 
 ## Application
 
@@ -74,15 +74,15 @@ Secrets are made available to components as environment variables. Unlike [envir
 
 For each environment, a secret can be **consistent** or **missing**. A missing secret will prevent the component from starting up. To populate a secret, navigate to each environment within the Web Console, where required secrets and their state are displayed.
 
-# Continuous integration and deployment
+## Continuous integration and deployment
 
-## Pipeline Jobs
+### Pipeline Jobs
 
 Pipeline jobs are the core of the continuous integration/deployment (CI/CD) capabilities of Radix. Pipeline jobs perform tasks, which can causes changes in an application, its environments, and components. Depending on the type of job (its [pipeline](#pipeline)), different behaviours can be expected.
 
 Jobs consist of a series of _steps_, run either in parallel or sequentially (this is also defined by the pipeline). Each step is a stand-alone process, and its output can be inspected.
 
-## Pipeline
+### Pipeline
 
 A pipeline defines a type of job. There are currently three types of pipeline in Radix:
 
@@ -90,7 +90,7 @@ A pipeline defines a type of job. There are currently three types of pipeline in
 
 This is triggered by a commit in GitHub to a branch mapped to an environment. In turn, this causes all components to be rebuilt and a new deployment to be created in the appropriate environment. If many components are built from the same source, then one multi-component image is built for all components. If there are several multi-components in the config, the multi-component images will be indexed.
 
-#### Scanning images for security issues
+### Scanning images for security issues
 
 Before the deployment is done, after a build, the image is scanned for security-related issues using the tool [trivy](https://github.com/aquasecurity/trivy). This scan will be a seperate step in the pipeline and the result will be logged in the step. Please note that the job will not fail if the result contains HIGH and/or SEVERE issues. However every developer should investigate and fix any security issues.
 
@@ -104,7 +104,7 @@ Exactly the same as the `build-deploy` pipeline, but a deployment is not created
 
 Used to duplicate an existing [deployment](#deployment) from one environment into another (or to redeploy an old deployment). You can read more about it in the [promotion guide](../../guides/deployment-promotion).
 
-## Deployment
+### Deployment
 
 Deployments are created by some types of [job](#job). A deployment defines the specific image used for each [component](#component) when it runs in an [environment](#environment). Deployments thus serve to aggregate specific versions of components, and make them easy to deploy together.
 
@@ -112,15 +112,15 @@ Deployments are created by some types of [job](#job). A deployment defines the s
 
 > See [this](../../guides/deploy-only/) guide on how to set up your application to only use the continuous deployment (CD) on Radix
 
-# Publishing applications
+## Publishing applications
 
-## Default alias
+### Default alias
 
 Each application can have one specific component in one specific environment set as the _default alias_. This component is assigned a domain name in the format `[application].app.radix.equinor.com` and assigned a certificate. This domain can be used as the public URL for accessing the application.
 
 The default alias is configured by the [`dnsAppAlias` setting](../../references/reference-radix-config/#dnsappalias) in the `radixconfig.yaml`.
 
-## External (custom) alias
+### External (custom) alias
 
 It is possible to have multiple custom DNS aliases (i.e. to choose your own custom domain) for the application. The _external alias_ needs to point to a component [marked as public](../../references/reference-radix-config/#publicport). This external alias can be any domain name, which can be used as the public URL for accessing the application, as long as a valid certificate for the domain is applied.
 

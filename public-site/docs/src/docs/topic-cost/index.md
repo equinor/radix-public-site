@@ -1,5 +1,5 @@
 ---
-title: Radix Cost
+title: Radix cost
 ---
 
 # Radix cost allocation

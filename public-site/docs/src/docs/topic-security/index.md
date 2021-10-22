@@ -2,7 +2,9 @@
 title: Security
 ---
 
-# Role Based Access Control
+# Security
+
+## Role Based Access Control
 
 Membership in the 'Radix Platform User' AD group grants access to
 
@@ -13,7 +15,7 @@ Only members of the AD group provided during application registration, will be a
 
 If no AD group is provided during the registration the application will be available to all Radix users (members of the 'Radix Platform Users' AD group).
 
-# Authentication
+## Authentication
 
 It is important to understand that **application authentication is not handled by Radix**. The application endpoints will be public. Each team managing an application hosted on Radix is responsible for authenticating their users.
 
