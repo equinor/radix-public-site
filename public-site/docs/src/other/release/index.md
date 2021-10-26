@@ -37,7 +37,7 @@ Environment variables can be overridden in the web console. Previously, users ha
 
 ![env-var](./env-var.png)  
 
-[Environment variables documentation](../../guides/environment-variables/)  
+[Environment variables documentation](../../guides/environment-variables/)
 
 #### Performance improvement  
 
@@ -60,7 +60,7 @@ Sample - [NODE non-root](https://github.com/equinor/radix-example-scenario-5-nod
 
 Blobfuse FlexVolume driver has been deprecated by Microsoft, Radix replaced it with Azure Blob Storage CSI driver (particularly azure-storage-fuse), which is recommended to use.  FlexVolume will be supported in Radix during transition periods for projects, which use it now.  
 
-[Volume mounts documentation](../../docs/reference-radix-config/#volumemounts)  
+[Volume mounts documentation](../../references/reference-radix-config/#volumemounts)
 
 ```yaml
 environmentConfig:
@@ -80,13 +80,13 @@ For those, who used FlexVolume driver: container property is outdated, now it is
 We have added support for generating badges that shows the status of the latest Radix pipeline job for a specific job type, environment and application.
 A common place to add a status badge is in the README.md file of your repository, but it can be added to any web page you'd like.  
 
-Read more here <https://www.radix.equinor.com/guides/pipeline-badge/>
+Read more about Pipeline Badges here: [Pipeline Badge](../../guides/pipeline-badge/)
 
 ### 07.06.2021 Support for ClientCertificate authentication
 
 We have added support for ClientCertificates, which can be configured on a component or a specific environment.  
 
-Read more here <https://www.radix.equinor.com/docs/reference-radix-config/#clientcertificate>
+Read more about ClientCertificates here: [ClientCertificate](../../references/reference-radix-config/#clientcertificate)
 
 ### 19.04.2021 Running on-demand jobs in Radix
 
@@ -101,7 +101,7 @@ You define jobs in the radixconfig.yaml file in your repo, similar to how you de
 Jobs are started and monitored through a job-scheduler web API, created by Radix for each job defined in radixconfig.yaml
 The OpenAPI/Swagger definition for the job-scheduler can be downloaded here, and you can use <https://github.com/OpenAPITools/openapi-generator> to generate clients for your preferred language.  
 
-Read more about jobs here <https://www.radix.equinor.com/guides/configure-jobs/>
+Read more about jobs here: [Configure Jobs](../../guides/configure-jobs)
 
 ### 22.03.2021 Regenerate webhook secret and deploy key
 
