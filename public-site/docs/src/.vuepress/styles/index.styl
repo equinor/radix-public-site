@@ -67,6 +67,26 @@ body
 
 
 /*
+ * Sidebar
+ */
+
+#app
+  .sidebar
+    .sidebar-sub-header
+      // sub-header
+      > .sidebar-link::before
+        content: '\2022'
+        font-size: 1.185em
+        padding-right: 0.250em
+      .sidebar-sub-header
+        // sub-header of a sub-header
+        > .sidebar-link::before
+          content: '\2023'
+          font-size: 1.285em
+          padding-right: 0.250em
+
+
+/*
  * Home page
  */
 
