@@ -118,7 +118,6 @@ module.exports = {
           children: [
             '',
             'reference-radix-config/',
-            'reference-radix-api/',
             'reference-private-link/',
           ],
         },
