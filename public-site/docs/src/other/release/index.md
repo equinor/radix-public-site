@@ -7,6 +7,10 @@ sidebarDepth: 2
 
 ## 2021
 
+### 2021-10-14 - Radix CLI - New version
+
+New version of the [Radix CLI](https://github.com/equinor/radix-cli) is now available. [Version v1.0.7](https://github.com/equinor/radix-cli/releases/tag/v1.0.7)
+
 ### 2021-09-09 - New Radix Web Console
 
 #### New design
