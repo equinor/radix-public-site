@@ -8,9 +8,6 @@ spec:
     - name: qa
       build:
         from: main
-    - name: v2
-      build:
-        from: convert-to-vuepress
   components:
     - name: public-site
       src: "./public-site"
