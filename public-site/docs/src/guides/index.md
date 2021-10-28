@@ -10,7 +10,6 @@ The most beginner-friendly way to get started is the [Configuring an app](config
 
 Builds in Radix are Docker builds! The [Docker builds](docker/) guide has recommendations for creating good `Dockerfile`s that work well in the cloud ☁️
 
-
 # Building, deploying and managing the app
 
 How should you set up Git branches and Radix environments?

@@ -3,7 +3,6 @@ title: Configuring an app
 ---
 # Configuring an app
 
-
 Make sure you are familiar with [the requirements](../getting-started/).
 
 > Visual learner? Check out the [Introduction to Radix video](https://web.microsoftstream.com/video/fa523b5c-3509-4e11-97b0-868ae499f603) 🎥
