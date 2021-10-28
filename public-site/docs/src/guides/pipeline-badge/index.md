@@ -22,11 +22,11 @@ An application named `echo` with three environments; `qa`, `demo` and `productio
 
 ![Pipeline jobs](./pipeline-jobs.png "Pipeline jobs")
 
-The pipeline status badge URL for the latest `build-deploy` job in `qa` environment, *https://api.radix.equinor.com/api/v1/applications/**echo**/environments/**qa**/buildstatus*, returns
+The pipeline status badge URL for the latest `build-deploy` job in `qa` environment, *https://api.radix.equinor.com/api/v1/applications/**echo**/environments/**qa**/buildstatus*, returns  
 ![build-deploy failing](./build-deploy-failing.png "build-deploy failing")
 
-And for `production` environment, *https://api.radix.equinor.com/api/v1/applications/**echo**/environments/**production**/buildstatus*, the following badge is returned
+And for `production` environment, *https://api.radix.equinor.com/api/v1/applications/**echo**/environments/**production**/buildstatus*, the following badge is returned  
 ![build-deploy success](./build-deploy-success.png "build-deploy success")
 
-The URL for the latest promote job in the demo environment, *https://api.radix.equinor.com/api/v1/applications/**echo**/environments/**demo**/buildstatus?pipeline=**promote***, returns
+The URL for the latest promote job in the demo environment, *https://api.radix.equinor.com/api/v1/applications/**echo**/environments/**demo**/buildstatus?pipeline=**promote***, returns  
 ![promote success](./promote-success.png "promote success")

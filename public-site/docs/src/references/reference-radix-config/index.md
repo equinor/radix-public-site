@@ -409,7 +409,7 @@ Access to the Azure storage need to be set in `secrets` for the component.
 
 #### `runAsNonRoot`
 
-To accomodate a temporary way of managing which component and which environment will be run as non-root, this configuration option can be used. 
+To accomodate a temporary way of managing which component and which environment will be run as non-root, this configuration option can be used.
 
 ```yaml
 spec:
