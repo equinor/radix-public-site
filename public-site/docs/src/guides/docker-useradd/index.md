@@ -1,6 +1,6 @@
 ---
 title: Users in Docker
-sidebarDepth: 3
+sidebarDepth: 2
 ---
 ## Add user and group in Docker
 
