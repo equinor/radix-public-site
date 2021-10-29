@@ -24,5 +24,5 @@ title: Docs
 
 ## Reference
 
-- [The `radixconfig.yaml` file](reference-radix-config/)
-- [Private Link](reference-private-link/)
+- [The `radixconfig.yaml` file]((../references/reference-radix-config))
+- [Private Link](../references/reference-private-link/)
