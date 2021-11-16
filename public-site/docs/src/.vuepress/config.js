@@ -72,6 +72,7 @@ module.exports = {
             'configure-jobs/',
             'authentication/',
             'monitoring/',
+            'alerting/',
             'component-start-stop-restart/',
             'volume-mounts/',
           ],
