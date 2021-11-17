@@ -18,7 +18,7 @@ Alerting must be enabled and configured per application for pipeline jobs, and f
 If alerting is enabled for an application environment, Radix will send alerts to Slack if any of the following errors occur:
 
 - A **component** or **job** is unable to start due to missing secrets, or if the [Readiness Probe](../../docs/topic-rollingupdate/#readiness-probe) is unable to verify that the container is running correctly. A 10 minute grace period is given from the alert is triggered until the message is sent. A **RESOLVED** message is sent once the underlying cause of this alert is resolved.
-- A **component** crashes/exists, e.g. due to insufficient memory og unhandled exceptions causing the application to exit. A **RESOLVED** message is sent once the component has been able to run for more than five minutes after this alert has been sent.
+- A **component** crashes/exists, e.g. due to insufficient memory or unhandled exceptions causing the application to exit. A **RESOLVED** message is sent once the component has been able to run for more than five minutes after this alert has been sent.
 - A **job** exits with an non-zero exit code, or is killed due to insufficient memory.
 
 **Example of an alert message and corresponding RESOLVED message**  
@@ -37,7 +37,8 @@ Enter the Slack Webhook URL where alerts should be sent in the text box and clic
 If save is successful, the Slack webhook URL changes from **not configured** to **configured**.  
 ![alerting configured](./alerting-configured.png "alerting configured")
 
-To disable alerting, click **Disable Alerting**. If alerting is re-enabled, the Slack webhook URL must be re-entered.  
+To disable alerting, click **Disable Alerting**. If alerting is re-enabled, the Slack webhook URL must be re-entered.
+
 To update the Slack webhook URL, click **Configure** in the environment page, then **Edit** in the dialog, enter the the new URL and click **Save**.
 
 ## Configure alerting for pipeline jobs
@@ -47,6 +48,6 @@ When alerting is enabled for pipeline jobs, Radix will send an alert to Slack if
 **Example of alert message for a failed pipeline job**  
 ![pipeline-jobs slack alert](./pipeline-job-slackmessage.png "pipeline-jobs slack alert")
 
-To enable alerting for pipeline jobs, open [Radix Web Console](https://console.radix.equinor.com/), navigate to an application and open **Pipeline Jobs**. Alerting status and configuration is located in the top-right area of the page. Follow the same procedure as described in [Configure alerting for components and jobs in an environment](./#configure-alerting-for-components-and-jobs-in-an-environment) to confiigure alerting.
+To enable alerting for pipeline jobs, open [Radix Web Console](https://console.radix.equinor.com/), navigate to an application and open **Pipeline Jobs**. Alerting status and configuration is located in the top-right area of the page. Follow the same procedure as described in [Configure alerting for components and jobs in an environment](./#configure-alerting-for-components-and-jobs-in-an-environment) to configure alerting.
 
 ![pipeline-job overview](./pipeline-job-overview.png "pipeline-job overview")
