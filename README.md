@@ -1,7 +1,7 @@
 # Radix Public Site
 ![Logo](logo/Banner%20energy%20red@2x.png)
 www.radix.equinor.com (public site)  
-![](https://api.radix.equinor.com/api/v1/applications/radix-platform/environments/prod/buildstatus)  
+![](https://api.radix.equinor.com/api/v1/applications/radix-platform/environments/prod/buildstatus?pipeline=promote)  
 
 This is the public site for promoting, documenting & showcasing the Radix
 platform. It is a static site built with [Jekyll](https://jekyllrb.com).
