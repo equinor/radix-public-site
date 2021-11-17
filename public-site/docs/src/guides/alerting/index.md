@@ -5,7 +5,7 @@ sidebarDepth: 3
 
 # Alerting
 
-Radix can send alerts about failing pipeline jobs, components or jobs to Slack using [Incoming Webhooks](https://api.slack.com/messaging/webhooks)
+Radix can send alerts about failing pipeline jobs, components or jobs to Slack using [Incoming Webhooks](https://api.slack.com/messaging/webhooks).
 
 The alert message contains information about the pipeline job, component or job that is failing, the name of the application and optionally the environment name where the alert was triggered.
 
@@ -18,7 +18,7 @@ Alerting must be enabled and configured per application for pipeline jobs, and f
 If alerting is enabled for an application environment, Radix will send alerts to Slack if any of the following errors occur:
 
 - A **component** or **job** is unable to start due to missing secrets, or if the [Readiness Probe](../../docs/topic-rollingupdate/#readiness-probe) is unable to verify that the container is running correctly. A 10 minute grace period is given from the alert is triggered until the message is sent. A **RESOLVED** message is sent once the underlying cause of this alert is resolved.
-- A **component** crashes/exists, e.g. due to insufficient memory or unhandled exceptions causing the application to exit. A **RESOLVED** message is sent once the component has been able to run for more than five minutes after this alert has been sent.
+- A **component** crashes/exits, e.g. due to insufficient memory or unhandled exceptions causing the application to exit. A **RESOLVED** message is sent once the component has been able to run for more than five minutes after this alert has been sent.
 - A **job** exits with an non-zero exit code, or is killed due to insufficient memory.
 
 **Example of an alert message and corresponding RESOLVED message**  
