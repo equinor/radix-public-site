@@ -28,18 +28,18 @@ If alerting is enabled for an application environment, Radix will send alerts to
 To enable alerting for an application environment, open [Radix Web Console](https://console.radix.equinor.com/), navigate to an application and open one of the environment pages.  
 ![environment overview](./environment-overview.png "environment overview")
 
-In this example, alerting is disabled for components and jobs for the environment. To enable alerting, click **Configure** on the environment page and **Enable Alerting** in the dialog.  
+In this example, alerting is disabled for components and jobs for the environment. To enable alerting, click **Setup alert** on the environment page and **Enable Alerts** in the dialog.  
 ![alerting enable](./alerting-enable.png "alerting enable")
 
 Enter the Slack Webhook URL where alerts should be sent in the text box and click **Save**.  
 ![alerting webhook](./alerting-setwebhook.png "alerting webhook")
 
-If save is successful, the Slack webhook URL changes from **not configured** to **configured**.  
+If save is successful, the text **Slack webhook URL is configured** is displayed in the dialog.
 ![alerting configured](./alerting-configured.png "alerting configured")
 
-To disable alerting, click **Disable Alerting**. If alerting is re-enabled, the Slack webhook URL must be re-entered.
+To disable alerting, click **Disable Alerts**. If alerting is re-enabled, the Slack webhook URL must be re-entered.
 
-To update the Slack webhook URL, click **Configure** in the environment page, then **Edit** in the dialog, enter the the new URL and click **Save**.
+To update the Slack webhook URL, click **Setup alert** in the environment page, then **Edit** in the dialog, enter the the new URL and click **Save**.
 
 ## Configure alerting for pipeline jobs
 
