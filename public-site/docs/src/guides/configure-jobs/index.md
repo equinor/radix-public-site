@@ -207,6 +207,23 @@ The job list in the example above has a job named `compute-20210407105556-rkwaib
 }
 ```
 
+## Environment variables
+
+In addition to [variables defined in `radixconfig.yaml`](../../references/reference-radix-config/#variables), Radix will automatically set the following variables
+
+- `RADIX_JOB_NAME`: The instance name of the job (e.g. "compute-20210407105556-rkwaibwe")
+- `RADIX_APP`: The name of the Radix application
+- `RADIX_CLUSTERNAME`: The canonical name of the Radix cluster (e.g. "prod-8")
+- `RADIX_CLUSTER_TYPE`: The type of cluster ("production", "playground", "development")
+- `RADIX_COMPONENT`: Name of the current component
+- `RADIX_CONTAINER_REGISTRY`: Container image registry where component images are downloaded from
+- `RADIX_DNS_ZONE`: Cluster DNS zone (e.g. _`radix.equinor.com`_)
+- `RADIX_ENVIRONMENT`: The application's current environment
+- `RADIX_GIT_COMMIT_HASH`: Git commit hash that generated the current component's running instance (if applicable)
+- `RADIX_PORTS`: List of open ports (numeric; only if set)
+- `RADIX_PORT_NAMES`: List of open ports (names; only if set)
+public)
+
 ## OpenAPI/Swagger spec
 
 [Download][1] Swagger/OpenAPI specification for job-scheduler
