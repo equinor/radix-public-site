@@ -1,7 +1,7 @@
 # Radix Public Site
 
 This is the public site for promoting, documenting & showcasing the Radix
-platform. It is a static site built with [Jekyll](https://jekyllrb.com).
+platform. It is a static site built with [Vuepress](https://vuepress.vuejs.org/).
 
 ## Running, building
 
@@ -11,10 +11,9 @@ platform. It is a static site built with [Jekyll](https://jekyllrb.com).
 
 This builds a Docker image `radix-public-site`, runs it in the container
 `radix-public-site_container`, mounts the local directory into `/site` in the
-container, and runs the `bundle exec jekyll serve` script, which builds and
-serves the site. It also watches for file changes and auto-rebuilds.
+container.
 
-You can see the site on http://localhost:4000
+You can see the site on <http://localhost:4000>
 
 Stop the server with Ctrl+C, but also run `docker-compose down` to clean up the
 Docker state.
@@ -23,7 +22,7 @@ If you need a shell in the container:
 
     docker exec -ti radix-public-site_container sh
 
-If you change the `Gemfile` (e.g. add a dependency), or want to force a clean
+If you change the `package.json` (e.g. add a dependency), or want to force a clean
 dev environment, you will need to rebuild the dev image:
 
     docker-compose up --build
@@ -36,65 +35,37 @@ process](https://github.com/FrodeHus/docker-windows-volume-watcher/releases).
 
 ### The other way
 
-You can just run Jekyll locally. You need Ruby and `bundle`. In the root folder
-of the project run `bundle install` to set up dependencies, and then 
-`bundle exec jekyll serve` to start the server. Instructions on how to set up the
-environment are on the [Jekyll
-website](https://jekyllrb.com/docs/installation/).
-
-### Update gem version
-
-Run re-built site
-
-    docker-compose up --build
-
-Connect to a shell in the container:
-
-    docker exec -ti radix-public-site_container sh
-
-Change the version of a gem in `Gemfile` (files in the container `site` folder are mapped to current folder `.` in the project)
-Update `Gemfile.lock`
-
-    bundle lock --update
-
-Verify if `Gemfile.lock` has gem version updated
-Verify that site is operating - open/refresh in the browser a link [http//:localhost:4000](http//:localhost:4000)     
+You can also run Vuepress locally. All that is needed is NodeJS and NPM. In the root folder of the project run `npm i` to fetch dependencies followed by `npm run dev` to start serving the development environment of the Public Site.
 
 ## Folder structure
 
-The site content is organised within `/site/`. In here you find:
+The site content is organised within `/docs/src/`. In here you'll find:
 
-- `/_data/`: Various bits of data for using throughout the site
-- `/_includes/`: Blocks of HTML, to be included in layouts or in content
-- `/_layouts/`: HTML layouts for different types of page
-- `/_style/`: CSS files. See the [CSS Section](#CSS) below
-- `/_vendor/`: Third party libraries. Currently maintained manually
+- `/.vuepress/`: The Vuepress source folder containing the main site configuration.
+- `/.vuepress/components/`: Custom user-created Vuepress components.
+- `/.vuepress/public/`: All public content for the Public Site, such as images and general stylesheets.
+- `/.vuepress/styles/`: Style override files for Vuepress. See the [CSS Section](#CSS) below.
 
 But the interesting bits are the actual content:
 
-- `/docs/`: General concepts (topics) and reference documentation for end-users
-- `/guides/`: User-friendly, conversational guides on how to achieve specific objectives
+- `/docs/`: General concepts (topics).
+- `/guides/`: User-friendly, conversational guides on how to achieve specific objectives.
+- `/references/`: Reference documentation for end-users.
+- `/other/`: Documentation not directly related to any specific category.
 
 ## CSS
 
-We are using a variation of
-[ITCSS](https://www.creativebloq.com/web-design/manage-large-css-projects-itcss-101517528).
+Vuepress is using [Stylus](https://stylus-lang.com/).  
 
-All files have the `.scss` extension, but we are not using SASS features — this
-is simply to make use of Jekyll's minifier and bundler, provided by SASS.
+The `/.vuepress/styles/index.styl` file includes all stylesheet files (organised under
+`/.vuepress/public/assets/styles/`) as well as style overrides for the Vuepress generator.
 
-The `/index.scss` file includes all stylesheet files (organised under
-`/_style/`).
+The `/.vuepress/styles/pallete.styl` file is used to override certain style variables used for by the different Vuepress components. This file should not contain CSS styles.
 
-Under `/_style/`, files are categorised in the following order:
+You can read more about Vuepress Styling here:
 
-- **settings.\*** global settings; variables only
-- **generic.\*** resets; applies to most of the DOM
-- **elements.\*** bare HTML elements
-- **objects.\*** OOCSS-style reusable concepts: layouts, mini-layouts,
-  animations
-- **components.\*** specific components; the bulk of the styling
-- **overrides.\*** utility-based styles and browser overrides
+- [index.styl](https://vuepress.vuejs.org/config/#index-styl)
+- [palette.styl](https://vuepress.vuejs.org/config/#palette-styl)
 
 ## Production build
 
@@ -104,10 +75,10 @@ build image locally:
     docker build -t radix-public-site-prod .
     docker run --name radix-public-site-prod_container --rm -p 8080:8080 radix-public-site-prod
 
-The web server will be available on http://localhost:8080
+The web server will be available on <http://localhost:8080>
 
 # Credits
 
-trees by Made x Made from the Noun Project: https://thenounproject.com/term/trees/1723897/
-pot plant by Made x Made from the Noun Project: https://thenounproject.com/term/pot-plant/1724797/
-Tumbleweed by Megan Sorenson from the Noun Project: https://thenounproject.com/term/tumbleweed/1390797/
+trees by Made x Made from the Noun Project: <https://thenounproject.com/term/trees/1723897/>  
+pot plant by Made x Made from the Noun Project: <https://thenounproject.com/term/pot-plant/1724797/>  
+Tumbleweed by Megan Sorenson from the Noun Project: <https://thenounproject.com/term/tumbleweed/1390797/>  
