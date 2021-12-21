@@ -40,6 +40,11 @@ We are based in Vassbotnen - S4 in Stavanger. If you see us on the corridor, say
     :image="require('../../assets/images/radix-ole.jpg')"
   />
   <employee-card
+    name="Magnus Longva"
+    title="Infrastructure"
+    :image="require('../../assets/images/radix-magnus.png')"
+  />
+  <employee-card
     name="Sergey Smolnikov"
     title="Developer"
     :image="require('../../assets/images/radix-sergey.jpg')"
