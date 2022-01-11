@@ -6,7 +6,9 @@ title: Configure environment variables
 
 [Environment variables](../../references/reference-radix-config/#variables) can be configured in the [radixconfig.yaml](../../references/reference-radix-config/). Additionally Radix will add some environment variables prefixed with `RADIX_` and `RADIXOPERATOR_` - these prefixes should not be used for environment variables.
 
-Environment variables can be overridden in the Radix Console, excluding those marked with the `RADIX_` and `RADIXOPERATOR_` prefix.
+Environment variables can be overridden in the Radix Console, excluding those marked with the `RADIX_` and `RADIXOPERATOR_` prefix.  
+
+The value of an environment variable, changed to a new value in the Radix Console, will use this new value for all new deployments. To revert to the original value - edit it again, changing to its original value, specified in the `radixconfig.yaml`.
 
 ## Overriding environment variables in the Radix Console
 

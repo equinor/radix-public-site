@@ -51,6 +51,7 @@ This is a common characteristic of high-availability cloud-based environments. Y
 
 In addition to [variables defined in `radixconfig.yaml`](../../references/reference-radix-config/#variables), Radix will automatically set the following variables
 
+- `RADIX_ACTIVE_CLUSTER_EGRESS_IPS`: IP address range of the current cluster
 - `RADIX_APP`: The name of the Radix application
 - `RADIX_CANONICAL_DOMAIN_NAME`: The [canonical domain name](../topic-domain-names/#canonical-name) of the component
 - `RADIX_CLUSTERNAME`: The canonical name of the Radix cluster (e.g. "prod-8")
