@@ -46,8 +46,6 @@ Schedule for Radix DevOps/Support team - 08:00 - 16:00 CET/CEST on Norwegian wor
 - **On-call duty:** No, please contact us to discuss options
 - **Resolution time:** Cannot be guaranteed, but for critical issues work on fixing the problem will start immediately and continue within business hours until resolved
 
-### Uptime
-
 
 ### Associated operational risks
 
