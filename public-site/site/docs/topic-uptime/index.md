@@ -7,16 +7,35 @@ toc: true
 
 # Uptime and availability
 
-We are experimenting with an approach with "release channels" which differ in update frequency, service level agreement (SLA) and expected stability.
+Uptime is a way of measuring the reliability of a service, in our case the Radix kubernetes cluster. The number represent how reliable the system has been over a certain period of time, often reported in precentage.  
+
+Radix will report uptime and availability for the Radix platform, and not the other services provided, i.e. build- deploy pipeline, montitoring, vulnerability scanning. We will use an external service that monitors an application running on the Radix Platform, from outside the Azure tenant, it will calculate availability of the applicable monitored service.  
+| | |
+|-|---------------------------------------|
+| Service monitored: | https://canary.radix.equinor.com |
+|Timeperiod: | Rolling last 90 days |
+|Monitoring tool: | Dynatrace |
+|Availability calculation %: | Uptime / (Uptime + Downtime) x 100 |
+
+
+The [Uptime/Availability report](https://console.radix.equinor.com/about), will be an indication of future reliability of Radix Platform.  
+
+>Note  
+>The monitoring has not been active for 90 days yet, so the current report will show the availability % for the number of days it has been running.
+
+- **Planned maintenance:** We will announce planned maintenance at least 2 business days in advance. Downtime during planned maintenance does not affect uptime goals
+- **Disaster Recovery:** A Disaster Recovery Procedure is in place and the procedure is executed on a weekly basis. Estimated time to recover a cluster is 15 minutes, estimated time to rebuild and recover a complete cluster is 1 hour. (A backup of all resources in the Kubernetes cluster is done every 1 hour, and is the main ingredient of the recovery recipe)  
+
+
+
+## Platform cluster availability and services
+
+The Radix Platform should be used when your team has chosen Radix as PaaS (Platform-as-a-Service) for a product under development or in production.
 
 | Cluster        | Purpose                                     | Upgrade             |   Support   |
 | -------------- | ------------------------------------------- | :-----------------: | :---------: |
 | **Platform**   | Products under development or in production |   Every ~6 months   |     Yes     |
 | **Playground** | Testing and experimenting with Radix        |                     | Best-effort |
-
-## Platform cluster availability and services
-
-The Radix Platform should be used when your team has chosen Radix as PaaS (Platform-as-a-Service) for a product under development or in production.
 
 ### Support
 
@@ -29,11 +48,6 @@ Schedule for Radix DevOps/Support team - 08:00 - 16:00 CET/CEST on Norwegian wor
 
 ### Uptime
 
-- **Platform monthly uptime: 99.9%** - expected uptime for Radix as a hosting platform
-  - Measured platform uptime last 3 months: 99,95%
-- **Radix services monthly uptime: 99%** - expected uptime for Radix services, like CI/CD and monitoring
-- **Planned maintenance:** We will announce planned maintenance at least 2 business days in advance. Downtime during planned maintenance does not affect uptime goals
-- **Disaster Recovery:** Procedure is in place and the procedure is executed on a weekly basis. Estimated time to recover a cluster is 15 minutes, estimated time to rebuild and recover a complete cluster is 1 hour. 
 
 ### Associated operational risks
 
