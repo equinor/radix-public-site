@@ -4,7 +4,7 @@ title: Azure Key vault
 
 # Configuring Azure Key vaults
 
-Azure Key vault secrets, keys and certificates can be used in Radix, configured in the property `secretRefs.azureKeyVaults` of the [radixconfig.yaml](../../references/reference-radix-config/#secretRefs) file. It is implemented with Azure Key Vault Provider for Secrets Store CSI Driver for Kubernetes. Read [more](https://github.com/Azure/secrets-store-csi-driver-provider-azure) about the driver.
+Azure Key vault secrets, keys and certificates can be used in Radix, configured in the property `secretRefs.azureKeyVaults` of the [radixconfig.yaml](../../references/reference-radix-config/#secretrefs) file. It is implemented with Azure Key Vault Provider for Secrets Store CSI Driver for Kubernetes. Read [more](https://github.com/Azure/secrets-store-csi-driver-provider-azure) about the driver.
 
 ## Configuration
 - Create or use existing Azure Key vault in own Azure subscription
