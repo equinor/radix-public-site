@@ -6,10 +6,6 @@ title: Azure Key vault
 
 Azure Key vault secrets, keys and certificates can be used in Radix, configured in the property `secretRefs.azureKeyVaults` of the [radixconfig.yaml](../../references/reference-radix-config/#secretRefs) file. It is implemented with Azure Key Vault Provider for Secrets Store CSI Driver for Kubernetes. Read [more](https://github.com/Azure/secrets-store-csi-driver-provider-azure) about the driver.
 
-`secretRefs` can be configured for entire component, for component environments or only for specific component environments. Configuration in component environments override similar common properties of the components.
-
-Updated values of secrets, keys or certificates in Azure Key vault are not automatically synced to corresponding secrets of alredy running replicas - they can be synced with a new deployment.
-
 ## Configuration
 - Create or use existing Azure Key vault in own Azure subscription
 - Add or use existing `Access policy` (e.g. with [Azure App registration](https://portal.azure.com/#blade/Microsoft_AAD_RegisteredApps/ApplicationsListBlade) as a selected principal) with `Get` and `List` permissions to secrets, keys and/or certificates
@@ -105,7 +101,7 @@ Updated values of secrets, keys or certificates in Azure Key vault are not autom
     $ ls /mnt/secrets
     connection-string-prod db-password db-user
     ```
-  - Examples of invalid configuration in common section
+  - Examples of invalid configuration in component section
     ```yaml
     variables:
       VAR1: "val1"
@@ -132,7 +128,7 @@ Updated values of secrets, keys or certificates in Azure Key vault are not autom
               envVar: SECRET2       #invalid: duplicate environment variable SECRET2 in Azure Key vault configuration 
             ...
     ```
-  - Examples of invalid configuration in common and `environmentConfig` sections
+  - Examples of invalid configuration in component and `environmentConfig` sections
     ```yaml
     secretRefs:
       azureKeyVaults:
@@ -177,12 +173,10 @@ Updated values of secrets, keys or certificates in Azure Key vault are not autom
     ```
 
 - Get access policy principal client-id and client secret to enter as credential secrets in the Radix Console
-  ![](./key-vault-sp-client-id.png)
-  ![](./key-vault-sp-client-secret.png)
+  ![Get Azure App registration client-id](./key-vault-sp-client-id.png)
+  ![Get Azure App registration client-secret](./key-vault-sp-client-secret.png)
 - After environment has been built and deployed, set the generated credential secrets with client-id and client-secret of Azure principal, selected in access policy for Azure Key vault. This should ensure that secrets are in Consistent status. It is recommended to restart a component after credential secrets has been set in the console
   - Credential secrets in "prod" environment
-    ![SetSecrets](./set-key-vault-secrets-in-radix-console.png)
+    ![Set secrets](./set-key-vault-secrets-in-radix-console.png)
   - Credential secrets in "qa" environment
-    ![SetSecrets](./set-key-vault-secrets-in-radix-console-qa.png)
-
-- Configuration with Azure Key vaults in job-components are also supported.
+    ![Set secrets](./set-key-vault-secrets-in-radix-console-qa.png)
