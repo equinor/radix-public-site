@@ -1,0 +1,182 @@
+---
+title: Azure Key vault
+---
+
+# Configuring Azure Key vaults
+
+Azure Key vault secrets, keys and certificates can be used in Radix, configured in the property `secretRefs.azureKeyVaults` of the [radixconfig.yaml](../../references/reference-radix-config/#secretRefs) file. It is implemented with Azure Key Vault Provider for Secrets Store CSI Driver for Kubernetes. Read [more](https://github.com/Azure/secrets-store-csi-driver-provider-azure) about the driver.
+
+## Configuration
+- Create or use existing Azure Key vault in own Azure subscription
+- Add or use existing `Access policy` (e.g. with [Azure App registration](https://portal.azure.com/#blade/Microsoft_AAD_RegisteredApps/ApplicationsListBlade) as a selected principal) with `Get` and `List` permissions to secrets, keys and/or certificates
+  ![Add Access Policy](./create-key-vault-access-policy.png)
+  ![Set permissions fo Access policy](./configure-key-vault-access-policy-permissions.png)
+  ![Select principal for Access Policy](./configure-key-vault-access-policy-service-principal.png)
+- Create of use existing secrets, keys and/or certificates to be used in Radix application component as secrets
+  ![Add Azure Key vault secrets](./add-key-vault-access-policy-secrets.png)
+  ![Add Azure Key vault secrets](./add-second-key-vault-access-policy-secrets.png)
+
+- Define properties of the Azure Key vaults in the [`radixconfig.yaml`](../../references/reference-radix-config/#secretRefs) property `secretRefs.azureKeyVaults`
+- `secretRefs.azureKeyVaults` properties `name` and `path` should be unique within one Radix application component and its environment (different environments can have the same `name` and `path`).
+  - Examples of correct configurations in component and `environmentConfig` (if exists) sections
+    ```yaml
+    variables:
+      VAR1: "val1"
+    secrets:
+      - SECRET1
+    secretRefs:
+      azureKeyVaults:                    #Azure Key vault configuration, common for the component
+        - name: radix-app-secrets
+          path: /mnt/secrets                   #overrides default "path", where secrets, keys and certificates are available as files
+          items:
+            - name: connection-string-prod     #example value "server:prod" in Azure Key vault "radix-app-secrets"
+              envVar: CONNECTION-STRING        #default environment variable CONNECTION-STRING
+            - name: db-user                    #example value "readeruser" in Azure Key vault "radix-app-secrets"
+              envVar: DB_USER                  #default environment variable DB_USER
+            - name: db-password                #example value "Pa$$w0rd!" in Azure Key vault "radix-app-secrets"
+              envVar: DB_PASS                  #default environment variable DB_PASS
+    environmentConfig:
+      - environment: dev
+        secretRefs:
+          azureKeyVaults:                #Azure Key vault configuration, customized in environment "dev"
+            - name: radix-app-secrets
+              path: /mnt/dev                   #overrides common configuration "path" in "dev" environment
+              items:
+                - name: connection-string-test #example value "server:dev" in Azure Key vault "radix-app-secrets"
+                  envVar: CONNECTION-STRING    #overrides Azure Key vault "radix-app-secrets" secret name for environment variable CONNECTION-STRING
+      - environment: qa
+        secretRefs:
+          azureKeyVaults:                #Azure Key vault configuration, customized in environment "qa"
+            - name: radix-app-secrets-2        #overrides common configuration Azure Key vault name in "qa" environment
+              items:                           #"qa" environment uses the same "path" as in common configuration
+                - name: connection-string-test #example value "server:qa" in Azure Key vault "radix-app-secrets-2"
+                  envVar: CONNECTION-STRING    #overrides Azure Key vault secret name for environment variable CONNECTION-STRING
+                - name: db-password            #example value "$ecretPa$$!" in Azure Key vault "radix-app-secrets-2"
+                  envVar: DB_PASS              #overrides Azure Key vault secret name for environment variable DB_PASS
+                - name: db-qa-user             #example value "writeruser" in Azure Key vault "radix-app-secrets-2"
+                  envVar: DB_QA_USER           #new environment variable, existing only in environment "qa"
+      - environment: prod                #Azure Key vault configuration is not customized in environment "prod"
+        variables:
+          VAR1: "val2"
+    ```
+    - Environment variables in "dev" environment replica
+    ```yaml
+    VAR1="val1"
+    SECRET1="some secret dev"
+    CONNECTION_STRING="server:dev"
+    DB_USER=readeruser
+    DB_PASS="Pa$$w0rd!"
+    ```
+    - Environment variables in "qa" environment replica
+    ```yaml
+    VAR1="val1"
+    SECRET1="some secret qa"
+    CONNECTION_STRING="server:qa"
+    DB_USER=readeruser
+    DB_PASS="$ecretPa$$!"
+    DB_QA_USER=writeruser
+    ```
+    - Environment variables in "prod" environment replica
+    ```yaml
+    VAR1="val2"
+    SECRET1="some secret prod"
+    CONNECTION_STRING="server:prod"
+    DB_USER=readeruser
+    DB_PASS="Pa$$w0rd!"
+    ```
+    - Files in "dev" environment replica
+    ```yaml
+    $ ls /mnt/dev/
+    connection-string-test db-password db-user
+    ```
+    - Files in "qa" environment replica
+    ```yaml
+    $ ls /mnt/secrets/
+    db-user
+    $ ls /mnt/azure-key-vault/radix-app-secrets-2/
+    connection-string-test db-password db-qa-user
+    ```
+    - Files in "prod" environment replica
+    ```yaml
+    $ ls /mnt/secrets
+    connection-string-prod db-password db-user
+    ```
+  - Examples of invalid configuration in component section
+    ```yaml
+    variables:
+      VAR1: "val1"
+    secrets:
+      - SECRET1
+    secretRefs:
+      azureKeyVaults:
+        - name: radix-app-secrets-1
+          path: /mnt/1
+          items:
+            - name: secret1
+              envVar: VAR1          #invalid: collision with environment variable VAR1
+            - name: secret4
+              envVar: SECRET1       #invalid: collision with secret SECRET1
+            - name: secret2
+              envVar: SECRET2
+            - name: secret3
+              envVar: SECRET2       #invalid: duplicate environment variable SECRET2 in Azure Key vault configuration
+            ...
+        - name: radix-app-secrets-1 #invalid: duplicate Azure Key vault configuration
+          path: /mnt/1              #invalid: duplicate "path" within the component
+          items:
+            - name: secret4
+              envVar: SECRET2       #invalid: duplicate environment variable SECRET2 in Azure Key vault configuration 
+            ...
+    ```
+  - Examples of invalid configuration in component and `environmentConfig` sections
+    ```yaml
+    secretRefs:
+      azureKeyVaults:
+        - name: radix-app-secrets-1
+          items:
+            - name: secret1
+              envVar: VAR1          #invalid: collision with environment variable VAR1
+            - name: secret2
+              envVar: SECRET1
+            ...
+    environmentConfig:
+      - environment: dev
+        secretRefs:
+          azureKeyVaults:               #Azure Key vault configuration, customized in environment "dev"
+            - name: radix-app-secrets-1
+              path: /mnt/1
+              items:
+                - name: secret1
+                  envVar: VAR1          #invalid: collision with environment variable VAR1
+                - name: secret2
+                  envVar: SECRET1       #correct: overrides environment variable SECRET1 in common Azure Key vault configuration
+                - name: secret3
+                  envVar: SECRET3
+                ...
+            - name: radix-app-secrets-1 #invalid: duplicate Azure Key vault configuration
+              path: /mnt/1              #invalid: duplicate "path" within the component
+              items:
+                - name: secret3
+                  envVar: SECRET3       #invalid: duplicate environment variable SECRET2 in Azure Key vault configuration
+                ...
+      - environment: qa
+        secretRefs:
+          azureKeyVaults:              #Azure Key vault configuration, customized in environment "qa"
+            - name: radix-app-secrets-1
+              path: /mnt/1
+              items:
+                - name: secret2
+                  envVar: SECRET1       #correct: overrides environment variable SECRET1 in common Azure Key vault configuration
+                - name: secret3
+                  envVar: SECRET3       #correct: unique environment variable in environment "qa"
+                ...
+    ```
+
+- Get access policy principal client-id and client secret to enter as credential secrets in the Radix Console
+  ![Get Azure App registration client-id](./key-vault-sp-client-id.png)
+  ![Get Azure App registration client-secret](./key-vault-sp-client-secret.png)
+- After environment has been built and deployed, set the generated credential secrets with client-id and client-secret of Azure principal, selected in access policy for Azure Key vault. This should ensure that secrets are in Consistent status. It is recommended to restart a component after credential secrets has been set in the console
+  - Credential secrets in "prod" environment
+    ![Set secrets](./set-key-vault-secrets-in-radix-console.png)
+  - Credential secrets in "qa" environment
+    ![Set secrets](./set-key-vault-secrets-in-radix-console-qa.png)
