@@ -12,7 +12,7 @@ Azure Key vault secrets, keys and certificates can be used in Radix, configured 
   ![Add Access Policy](./create-key-vault-access-policy.png)
   ![Set permissions fo Access policy](./configure-key-vault-access-policy-permissions.png)
   ![Select principal for Access Policy](./configure-key-vault-access-policy-service-principal.png)
-- Create of use existing secrets, keys and/or certificates to be used in Radix application component as secrets
+- Create or use existing secrets, keys and/or certificates to be used in Radix application component as secrets
   ![Add Azure Key vault secrets](./add-key-vault-access-policy-secrets.png)
   ![Add Azure Key vault secrets](./add-second-key-vault-access-policy-secrets.png)
 
