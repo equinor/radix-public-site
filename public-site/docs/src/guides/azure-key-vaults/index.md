@@ -30,7 +30,7 @@ Azure Key vault secrets, keys and certificates can be used in Radix, configured 
           path: /mnt/secrets                   #overrides default "path", where secrets, keys and certificates are available as files
           items:
             - name: connection-string-prod     #example value "server:prod" in Azure Key vault "radix-app-secrets"
-              envVar: CONNECTION-STRING        #default environment variable CONNECTION-STRING
+              envVar: CONNECTION_STRING        #default environment variable CONNECTION_STRING
             - name: db-user                    #example value "readeruser" in Azure Key vault "radix-app-secrets"
               envVar: DB_USER                  #default environment variable DB_USER
             - name: db-password                #example value "Pa$$w0rd!" in Azure Key vault "radix-app-secrets"
@@ -43,14 +43,14 @@ Azure Key vault secrets, keys and certificates can be used in Radix, configured 
               path: /mnt/dev                   #overrides common configuration "path" in "dev" environment
               items:
                 - name: connection-string-test #example value "server:dev" in Azure Key vault "radix-app-secrets"
-                  envVar: CONNECTION-STRING    #overrides Azure Key vault "radix-app-secrets" secret name for environment variable CONNECTION-STRING
+                  envVar: CONNECTION_STRING    #overrides Azure Key vault "radix-app-secrets" secret name for environment variable CONNECTION_STRING
       - environment: qa
         secretRefs:
           azureKeyVaults:                #Azure Key vault configuration, customized in environment "qa"
             - name: radix-app-secrets-2        #overrides common configuration Azure Key vault name in "qa" environment
               items:                           #"qa" environment uses the same "path" as in common configuration
                 - name: connection-string-test #example value "server:qa" in Azure Key vault "radix-app-secrets-2"
-                  envVar: CONNECTION-STRING    #overrides Azure Key vault secret name for environment variable CONNECTION-STRING
+                  envVar: CONNECTION_STRING    #overrides Azure Key vault secret name for environment variable CONNECTION_STRING
                 - name: db-password            #example value "$ecretPa$$!" in Azure Key vault "radix-app-secrets-2"
                   envVar: DB_PASS              #overrides Azure Key vault secret name for environment variable DB_PASS
                 - name: db-qa-user             #example value "writeruser" in Azure Key vault "radix-app-secrets-2"
