@@ -248,54 +248,6 @@ spec:
 
 The `monitoring` field of a component environment config, if set to `true`, is used to expose custom application metrics in the Radix monitoring dashboards. It is expected that the component provides a `/metrics` endpoint: this will be queried periodically (every five seconds) by an instance of [Prometheus](https://prometheus.io/) running within Radix. General metrics, such as resource usage, will always be available in monitors, regardless of this being set.
 
-#### `authentication`
-
-```yaml
-spec:
-  components:
-    - name: frontend
-      authentication:
-        clientCertificate:
-          verification: "optional_no_ca"
-      environmentConfig:
-        - environment: dev
-          authentication:
-            clientCertificate:
-              verification: "off"
-```
-
-The `authentication` section can be used to configure an authentication option for either an entire component or a specific environment.
-
-> Note that the environment config will override the component config for that specific environment.
-
-#### `clientCertificate`
-
-```yaml
-spec:
-  components:
-    - name: frontend
-      environmentConfig:
-        - environment: prod
-          authentication:
-            clientCertificate:
-              verification: "optional_no_ca"
-              passCertificateToUpstream: true
-```
-
-`clientCertificate` is a subsection of [authentication](#authentication) and may be used to configure the Nginx Client Certificate Authentication.
-
-> Note that the Client Certificate configuration will be omitted if the component does not have a public port.
-
-- `verification` Specifies type of verification of client certificates. Possible values are:
-  - `off`: Don't request client certificates and don't do client certificate verification. (default)
-  - `on`: Request a client certificate that must be signed by a certificate that is included in the secret key ca.crt of the secret specified by `nginx.ingress.kubernetes.io/auth-tls-secret: secretName`. Failed certificate verification will result in a status code 400 (Bad Request).
-  - `optional`: Do optional client certificate validation against the CAs from auth-tls-secret. The request fails with status code 400 (Bad Request) when a certificate is provided that is not signed by the CA. When no or an otherwise invalid certificate is provided, the request does not fail, but instead the verification result is sent to the upstream service.
-  - `optional_no_ca`: Do optional client certificate validation, but do not fail the request when the client certificate is not signed by the CAs from `auth-tls-secret`. Certificate verification result is sent to the upstream service.
-
-- `passCertificateToUpstream` Indicates if the received certificates should be passed or not to the upstream server in the header ssl-client-cert. `verification` will have to be set to something other than `off` for the certificate to be passed upstream. Possible values are `true` or `false` (default).
-
-> If `verification` has been set to something other than `off` or `passCertificateToUpstream` is set to `true`, a valid certificate will need to be applied in the `Radix Console` for the affected environment(s). This can be found under `Environments\[environmentName]\[componentName]\[componentName]-clientcertca` in the `Radix Console` for your application.
-
 #### `resources`
 
 ```yaml
@@ -407,24 +359,77 @@ Access to the Azure storage need to be set in `secrets` for the component.
 
 > See [this](../../guides/volume-mounts/) guide on how make use of `volumeMounts`.
 
-#### `runAsNonRoot`
-
-To accomodate a temporary way of managing which component and which environment will be run as non-root, this configuration option can be used.
+### `authentication`
 
 ```yaml
 spec:
   components:
-    - name: backend
+    - name: frontend
+      authentication:
+        clientCertificate: ...
+        oauth2: ...
       environmentConfig:
-        - environment: prod
-          runAsNonRoot: false
-        - environment: qa
-          runAsNonRoot: true
+        - environment: dev
+          authentication:
+            clientCertificate: ...
+            oauth2: ...
 ```
 
-The `runAsNonRoot` field of a component environment config is used to determine if the component should run as root in the environment.  
+The `authentication` section can be used to configure an authentication option for either an entire component or a specific environment.
 
-> See [this](../../docs/topic-docker/#running-as-non-root) on how to correctly configure your Dockerfile for running as non-root in Radix.
+> Note that the environment config will override the component config for that specific environment.
+
+#### `clientCertificate`
+
+```yaml
+clientCertificate:
+  verification: "optional_no_ca"
+  passCertificateToUpstream: true
+```
+
+`clientCertificate` is a subsection of [authentication](#authentication) and may be used to configure the Nginx Client Certificate Authentication.
+
+> Note that the Client Certificate configuration will be omitted if the component does not have a public port.
+
+- `verification` Specifies type of verification of client certificates. Possible values are:
+  - `off`: Don't request client certificates and don't do client certificate verification. (default)
+  - `on`: Request a client certificate that must be signed by a certificate that is included in the secret key ca.crt of the secret specified by `nginx.ingress.kubernetes.io/auth-tls-secret: secretName`. Failed certificate verification will result in a status code 400 (Bad Request).
+  - `optional`: Do optional client certificate validation against the CAs from auth-tls-secret. The request fails with status code 400 (Bad Request) when a certificate is provided that is not signed by the CA. When no or an otherwise invalid certificate is provided, the request does not fail, but instead the verification result is sent to the upstream service.
+  - `optional_no_ca`: Do optional client certificate validation, but do not fail the request when the client certificate is not signed by the CAs from `auth-tls-secret`. Certificate verification result is sent to the upstream service.
+
+- `passCertificateToUpstream` Indicates if the received certificates should be passed or not to the upstream server in the header ssl-client-cert. `verification` will have to be set to something other than `off` for the certificate to be passed upstream. Possible values are `true` or `false` (default).
+
+> If `verification` has been set to something other than `off` or `passCertificateToUpstream` is set to `true`, a valid certificate will need to be applied in the `Radix Console` for the affected environment(s). This can be found under `Environments\[environmentName]\[componentName]\[componentName]-clientcertca` in the `Radix Console` for your application.
+
+#### `oauth2`
+Configuration for adding OAuth2 authorization with OIDC to the component.  
+Incoming requests are checked for the existance of a valid session cookie. If the session cookie is missing or invalid, the OAuth2 authorization workflow is initiated to authenticate the user.
+
+```yaml
+oauth2:
+  clientId: ceeabc6f-93f0-41d2-9fe1-ca671b365f6f
+  scope: openid profile email offline_access 2b06f36c-5a78-45a6-9809-44816f59c1ff/user.read
+  setXAuthRequestHeaders: true
+  setAuthorizationHeader: true
+  proxyPrefix: /oauth2
+  loginUrl: https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/oauth2/v2.0/authorize
+  redeemUrl: https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/oauth2/v2.0/token
+  cookie:
+    name: _oauth2_proxy
+    expire: 168h0m0s
+    refresh: 60m
+    sameSite: lax
+  sessionStoreType: redis # redis or cookie
+  redisStore:
+    connectionUrl: rediss://app-session-store.redis.cache.windows.net:6380
+  cookieStore:
+    minimal: false
+  oidc:
+    issuerUrl: https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/v2.0
+    jwksUrl: https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/discovery/v2.0/keys
+    skipDiscovery: false
+    insecureSkipVerifyNonce: false
+```
 
 ## `jobs`
 
