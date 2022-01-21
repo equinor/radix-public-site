@@ -556,7 +556,7 @@ spec:
 
 See [variables](#variables-common) for a component for more information.
 
-### `timeLimitSeconds` (common)
+### `timeLimitSeconds`
 
 ```yaml
 spec:
