@@ -556,6 +556,18 @@ spec:
 
 See [variables](#variables-common) for a component for more information.
 
+### `timeLimitSeconds` (common)
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      schedulerPort: 8000
+      timeLimitSeconds: 120
+```
+
+The maximum number of seconds a job can run. If the job's running time exceeds the limit, it will be automatically shut down with status "Failed".
+
 ### `environmentConfig`
 
 The `environmentConfig` section is to set environment-specific settings for each job.
@@ -657,6 +669,19 @@ spec:
 ```
 
 See [runAsNonRoot](#runasnonroot) for a component for more information.
+
+#### `timeLimitSeconds`
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      environmentConfig:
+        - environment: prod
+          timeLimitSeconds: 130
+```
+
+See [timeLimitSeconds](#timelimitseconds-common) for more information.
 
 ## `dnsAppAlias`
 

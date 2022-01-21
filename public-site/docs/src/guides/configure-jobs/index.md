@@ -36,6 +36,7 @@ spec:
     - name: etl
       src: etl
       schedulerPort: 9000
+      timeLimitSeconds: 100
       resources:
         requests:
           memory: "256Mi"
@@ -56,12 +57,13 @@ A job does not have `publicPort`, `ingressConfiguration`, `replicas`, `horizonta
 - `replicas` and `hortizontalScaling` controls how many containers of a Docker image a component should run. A job has always one replica.
 - `alwaysPullImageOnDeploy` is used by Radix to restart components that use static Docker image tags, and pulling the newest image if the SHA has changed. Jobs will always pull and check the SHA of the cached image with the SHA of the source image.
 
-Jobs have two extra configuration options; `schedulerPort` and `payload`
+Jobs have three extra configuration options; `schedulerPort`, `payload` and `timeLimitSeconds`
 
 - `schedulerPort` (required) defines the port of job-scheduler's endpoint.
 - `payload` (optional) defines the directory in the job container where the payload received by the job-scheduler is mounted.
 - `resources` (optional) defines cpu and memory requested for a job.
 - `node` (optional) defines gpu node requested for a job.
+- `timeLimitSeconds` (optional) defines maximum running time for a job.
 
 ### schedulerPort
 
@@ -95,6 +97,12 @@ The data type of the `node` is of type `RadixNode` an requires this specific for
 
 The etl job in the example above has `node` configured.
 
+### timeLimitSeconds
+
+The maximum running time for a job can be sent in the request body to the job scheduler as a JSON document with an element named `timeLimitSeconds`.
+
+The etl job in the example above has `timeLimitSeconds` configured in its [`radixconfig.yaml`](../../references/reference-radix-config/#timeLimitSeconds). If a new job is sent to the job scheduler without an element `timeLimitSeconds`, it will default to the value specified in radixconfig.yaml.
+
 ## Job Scheduler
 
 The job-scheduler is a web API service, that you use to create, delete and monitor the state of jobs.
@@ -107,6 +115,7 @@ The job-scheduler exposes the following methods for managing jobs
 ```json
 {
   "payload": "Sk9CX1BBUkFNMTogeHl6Cg==",
+  "timeLimitSeconds": 120,
   "resources": {
     "limits": {
       "memory": "32Mi",
@@ -124,7 +133,7 @@ The job-scheduler exposes the following methods for managing jobs
 }
 ```
 
-> `payload`, `resources` and `node` are all optional fields and any of them can be omitted in the request.
+> `payload`, `timeLimitSeconds`, `resources` and `node` are all optional fields and any of them can be omitted in the request.
 
 - `GET /api/v1/jobs` Get states (with names and statuses) for all jobs
 - `GET /api/v1/jobs/{jobName}` Get state for a named job
