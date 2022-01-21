@@ -681,7 +681,7 @@ spec:
           timeLimitSeconds: 130
 ```
 
-See [timeLimitSeconds](#timelimitseconds-common) for more information.
+See [timeLimitSeconds](#timelimitseconds) for more information.
 
 ## `dnsAppAlias`
 

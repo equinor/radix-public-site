@@ -101,7 +101,7 @@ The etl job in the example above has `node` configured.
 
 The maximum running time for a job can be sent in the request body to the job scheduler as a JSON document with an element named `timeLimitSeconds`.
 
-The etl job in the example above has `timeLimitSeconds` configured in its [`radixconfig.yaml`](../../references/reference-radix-config/#timeLimitSeconds). If a new job is sent to the job scheduler without an element `timeLimitSeconds`, it will default to the value specified in radixconfig.yaml.
+The etl job in the example above has `timeLimitSeconds` configured in its [`radixconfig.yaml`](../../references/reference-radix-config/#timelimitseconds). If a new job is sent to the job scheduler without an element `timeLimitSeconds`, it will default to the value specified in radixconfig.yaml. If no value is specified in radixconfig.yaml, it will default to 43200 (12 hours).
 
 ## Job Scheduler
 
