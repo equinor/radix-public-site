@@ -402,8 +402,13 @@ clientCertificate:
 > If `verification` has been set to something other than `off` or `passCertificateToUpstream` is set to `true`, a valid certificate will need to be applied in the `Radix Console` for the affected environment(s). This can be found under `Environments\[environmentName]\[componentName]\[componentName]-clientcertca` in the `Radix Console` for your application.
 
 #### `oauth2`
-Configuration for adding OAuth2 authorization with OIDC to the component.  
-Incoming requests are checked for the existance of a valid session cookie. If the session cookie is missing or invalid, the OAuth2 authorization workflow is initiated to authenticate the user.
+Configuration for adding OAuth2 authorization with OIDC to the component.
+
+Common `oauth2` settings can be configured at component level and/or in the component's `environmentConfig` section. Properties configured in the `environmentConfig` section` overrides properties at the component level. The component must also be configured with a [publicPort](#publicport).
+
+When OAuth2 is configured for a component, Radix creates an OAuth2 service (using [OAuth2 Proxy](https://oauth2-proxy.github.io/oauth2-proxy/)) to handle the OAuth2 authorization code flow, and to verify the authorization state of incoming requests to the component.
+The OAuth2 service handles incoming requests to the path */oauth2* (or the path defined in *proxyPrefix*) for all public DNS names configured for a component. Valid *redirect URIs* must be registered for the application registration in Azure AD, e.g. `https://myapp.app.radix.equinor.com/oauth2/callback`
+
 
 ```yaml
 oauth2:
@@ -412,24 +417,48 @@ oauth2:
   setXAuthRequestHeaders: true
   setAuthorizationHeader: true
   proxyPrefix: /oauth2
-  loginUrl: https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/oauth2/v2.0/authorize
-  redeemUrl: https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/oauth2/v2.0/token
-  cookie:
-    name: _oauth2_proxy
-    expire: 168h0m0s
-    refresh: 60m
-    sameSite: lax
-  sessionStoreType: redis # redis or cookie
-  redisStore:
-    connectionUrl: rediss://app-session-store.redis.cache.windows.net:6380
-  cookieStore:
-    minimal: false
   oidc:
     issuerUrl: https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/v2.0
     jwksUrl: https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/discovery/v2.0/keys
     skipDiscovery: false
     insecureSkipVerifyNonce: false
+  loginUrl: https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/oauth2/v2.0/authorize
+  redeemUrl: https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/oauth2/v2.0/token
+  sessionStoreType: redis # redis or cookie
+  redisStore:
+    connectionUrl: rediss://app-session-store.redis.cache.windows.net:6380
+  cookieStore:
+    minimal: false
+  cookie:
+    name: _oauth2_proxy
+    expire: 168h0m0s
+    refresh: 60m0s
+    sameSite: lax
 ```
+- `clientId` Required - The client ID of the application, e.g. the application ID of an application registration in Azure AD.
+- `scope` Optional. Default **openid profile email** - List of OIDC scopes and identity platform specific scopes. More information about scopes when using the Microsoft Identity Platform is found [here](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent).
+- `setXAuthRequestHeaders` Optional. Default **false** - Adds claims from the Access Token to the *X-Auth-Request-User*, *X-Auth-Request-Groups*, *X-Auth-Request-Email* and *X-Auth-Request-Preferred-Username* request headers. The Access Token is added to the *X-Auth-Request-Access-Token* header.
+- `setAuthorizationHeader` Optional. Default **false** - Adds the OIDC ID Token in the *Authorization: Bearer* request header.
+- `proxyPrefix` Optional. Default **/oauth2** - The root path that the OAuth2 proxy should be nested under. The OAuth2 proxy exposes various [endpoints](https://oauth2-proxy.github.io/oauth2-proxy/docs/features/endpoints) from this root path.
+- `oidc` OIDC configuration
+  - `issuerUrl` Optional. Default **https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/v2.0** - OIDC issuer URL. The default value is set to the Equinor Azure tenant ID. Read more about Microsoft OIDC issuer URLs [here](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-protocols-oidc#fetch-the-openid-connect-metadata-document).
+  - `jwksUrl` Optional - OIDC JWKS URL for token verification. Required if *skipDiscovery* is set to true.
+  - `skipDiscovery` Optional. Default **false** - Skip automatic discovery OIDC endpoints. *jwksURl*, *loginUrl* and *redeemUrl* must be specified if discovery is disabled.
+  - `insecureSkipVerifyNonce` Optional. Default **false**. Skip verifying the OIDC ID Token's nonce claim. Should only be enabled with OIDC providers that does not support the nonce claim.
+- `loginUrl` Optional - The authorization URL. Required if *skipDiscovery* is set to true.
+- `redeemUrl` Optional - The URL used to redeem authorization codes and refresh tokens.
+- `sessionStoreType` Optional. Default **cookie**. Allowed value: **cookie**, **redis** - Defines the session data storage.
+- `redisStore` Redis session store configuration when *sessionStoreType* is *redis*.
+  - `connectionUrl` URL of redis server. Required when *sessionStoreType* is *redis*.
+- `cookieStore` Cookie store configuration when *sessionStoreType* is *cookie*.
+  - `minimal` Optional. Default **false**. Strips ID Token and Access Token from cookies if they aren't needed. *setXAuthRequestHeaders* and *setAuthorizationHeader* must be set to false, and *cookie.refresh* must be set to 0.
+- `cookie` Session cookie configuration
+  - `name` Optional. Default **_oauth2_proxy**. Name of the session cookie. If *sessionStoreType* is cookie, the ID Token and Access Token is stored in this cookie.
+  - `expire` Optional. Default **168h0m0s**. Expire timeframe for session cookies used for setting the *Expires* cookie attribute.
+  - `refresh` Optional. Default **60m0s**. Refresh interval defines how often the OAuth2 service should redeem the Refresh Token and get a new Access Token. The session cookie's *Expires* is updated after refresh.
+  - `sameSite` Optional. Default **lax**. The *SameSite* attribute for the session cookie.
+
+> See [guide](../../guides/authentication/#using-the-radix-oauth2-feature) on how to configure OAuth2 authentication for a component.
 
 ## `jobs`
 

@@ -9,8 +9,6 @@ Equinor uses Azure AD for authentication of applications hosted outside the inte
 
 When doing authentication for applications and APIs hosted outside Equinor internal network, we use [OAuth 2.0](https://tools.ietf.org/html/rfc6749) protocol and OpenId Connect. OAuth 2.0 is an industry-standard protocol developed by IETF OAuth Working Group. Information on these protocols can be found at [oauth.net](https://oauth.net/2/), [openid.net](https://openid.net/connect/), [Microsoft documentation](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-overview) or a more compact explanation by Equinor [Nils Hofseth Andersen](https://equinor.github.io/mss-architecture/oauth2/openid/2019/08/22/oauth2-basics-playground.html).
 
-Radix does not support any authentication for your application out of the box, but we'll go through the basic to get authentication going between a client and API.
-
 **The rest of this document assumes you have basic knowledge of OAuth 2.0, OpenId Connect and JWT tokens.**
 
 >It is highly recommended to use common library/components maintained by others for OAuth 2.0 authentication. [MSAL](https://docs.microsoft.com/en-us/azure/active-directory/develop/msal-overview) is the recommended library to use in Equinor. It is developed and maintained by Microsoft, and can be used for many scenarios/languages.
@@ -21,7 +19,76 @@ If your web app should access one or more resources, e.g. API, you have to take 
 
 The user has access to a front-end client, but needs to acquire an authentication token to call protected APIs. How do you get this token?
 
-### Oauth-proxy
+### Using the Radix OAuth2 feature
+
+Radix has built-in support for OAuth2 code flow authentication with OIDC.
+
+When OAuth2 is enabled for a component in [`radixconfig.yaml`](../../references/reference-radix-config/#oauth2), Radix creates an OAuth2 service and configures this service to verify if incoming requests are authorized or not, handle the authorization code flow, and manage session state for an authorized user.
+
+![Diagram](./oauth2.png "OAuth2 Sequence Diagram")
+
+#### Configuration
+- Create an application registration in Azure AD.  
+  ![Application Registration](./aad-app-registration.png "Application Registration")
+
+- Configure `oauth2` in radixconfig.yaml.  
+  ``` yaml
+  components:
+    - name: web
+      authentication:
+        oauth2:
+          clientId: 5e48ca1f-a2bf-4dec-b96d-bbf8ce69f9f6
+          setXAuthRequestHeaders: true
+          setAuthorizationHeader: true
+          scope: openid profile email offline_access
+          sessionStoreType: redis
+          redisStore:
+            connectionUrl: redis://redis:6379
+      ports:
+        - name: http
+          port: 5005
+      publicPort: http
+    - name: redis
+      image: bitnami/redis:latest
+      secrets:
+        - REDIS_PASSWORD
+      ports:
+        - name: redis
+          port: 6379
+  ```  
+  `clientId` is the application ID for the application registration in Azure AD.  
+  `setXAuthRequestHeaders` and `setAuthorizationHeader` is set to **true** to include *X-Auth-* headers with claims from the Access Token and the Access Token itself, and the *Authorization: Bearer* header with the ID Token, to the upstream request.  
+  `sessionStoreType` is set to **redis** instead of using the default which is **cookie**, and `connectionUrl` is set to the address of the local Redis component.
+  It is recommended to use Redis as session store instead of cookie because of knows issues with refreshing the Access Token and updating the session cookie's Expires attribute.  
+  The Redis server can be hosted as a Radix component, or an external Redis service like [Azure Cache for Redis](https://azure.microsoft.com/nb-no/services/cache/). In this example, Redis is hosted as a Radix component. 
+
+- Build the application in Radix and open the Radix Web Console to set REDIS_PASSWORD for the `redis` component, and required secrets for the OAuth service used by the `web` component.
+    - Open the `redis` component and set a password for connecting to the Redis server in the REDIS_PASSWORD secret.  
+      ![Redis Password](./redis-password.png "Redis Password")
+    - Open the `web` component configure secrets required by the OAuth service.  
+      ![OAuth2 Secrets](./oauth2-secrets.png "OAuth2 Secrets")  
+      `Client Secret` - A secret registered for the application registration in Azure AD.  
+      `Redis Password` - The password for connecting to the Redis server used for storage of session data.  
+      `Cookie Secret` - A secret used for encryption and decryption of session cookies.  
+
+
+
+#### Configure OAuth2 in radixconfig.yaml
+#### Setting secrets in Radix Web Console
+Cookie secret is automatically generated on first use. Can be manually updated.
+
+#### Session store types
+Cookie Session Store
+Redis Session Store
+Use external Redis or configure redis as a component. Passwordless is not allowed
+
+#### Session cookie settings
+Explain expire and refresh
+
+#### Known issues
+
+
+### OAuth2 Proxy as a component
 
 It's possible to use a proxy in front of the client application that takes care of the authentication flow. This can be introduced to any existing components, and is a good alternative if you have an existing web application where you do not want to implement authentication in the client itself. This is also a suitable solution if you need to make sure that only Equinor people can access your app - but there is no need for finer grained authorization.
 
