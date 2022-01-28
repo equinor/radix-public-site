@@ -409,7 +409,7 @@ Common `oauth2` settings can be configured at component level and/or in the comp
 When OAuth2 is configured for a component, Radix creates an OAuth2 service (using [OAuth2 Proxy](https://oauth2-proxy.github.io/oauth2-proxy/)) to handle the OAuth2 authorization code flow, and to verify the authorization state of incoming requests to the component.
 
 The OAuth2 service handles incoming requests to the path */oauth2* (or the path defined in *proxyPrefix*) for all public DNS names configured for a component. Valid *redirect URIs* must be registered for the application registration in Azure AD, e.g. `https://myapp.app.radix.equinor.com/oauth2/callback`.  
-See [guide](../..//guides/authentication/#configuration) for more information.
+See [guide](../../guides/authentication/#configuration) for more information.
 
 
 ```yaml
