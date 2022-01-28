@@ -57,10 +57,10 @@ When OAuth2 is enabled for a component in [`radixconfig.yaml`](../../references/
           port: 6379
   ```  
   `clientId` is the application ID for the application registration in Azure AD.  
-  `scope` is configured to include **offline_access**. With **offline_access** included, the OAuth2 service receives a long lived refresh token that used to get a new access token as the old one expires. Read more about Microsoft Identity Platform scopes [here](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#openid-connect-scopes).  
-  `setXAuthRequestHeaders` and `setAuthorizationHeader` is set to **true** to include *X-Auth-* headers with claims from the Access Token and the Access Token itself, and the *Authorization: Bearer* header with the ID Token, to the upstream request.   
-  `sessionStoreType` is set to **redis** instead of using the default which is **cookie**, and `connectionUrl` is set to the address of the local Redis component.
-  It is recommended to use Redis as session store instead of cookie because of [knows issues]() with refreshing the Access Token and updating the session cookie's Expires attribute.  
+  `scope` is configured to include **offline_access**. With **offline_access** included, the OAuth2 service receives a long lived refresh token that is used to get a new access token as the old one expires. Read more about Microsoft Identity Platform scopes [here](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#openid-connect-scopes).  
+  `setXAuthRequestHeaders` and `setAuthorizationHeader` is set to **true** to include *X-Auth-** headers with claims from the access token and the access token itself, and the *Authorization: Bearer* header with the ID Token, to the upstream request.   
+  `sessionStoreType` is set to **redis** instead of using the default of **cookie**, and `connectionUrl` is set to the address of the local Redis component.
+  It is recommended to use Redis as session store instead of cookie because of [knows issues]() with refreshing the access token and updating the session cookie's Expires attribute.  
   The Redis server can be hosted as a Radix component, or an external Redis service like [Azure Cache for Redis](https://azure.microsoft.com/nb-no/services/cache/). In this example, Redis is hosted as a Radix component. 
 
 - Build the application in Radix and open the Radix Web Console to set REDIS_PASSWORD for the `redis` component, and required secrets for the OAuth service used by the `web` component.
@@ -80,7 +80,7 @@ Example application: [radix-example-oauth2-feature](https://github.com/equinor/r
 
 The OAuth2 service uses a session cookie to track a user's authentication state between multiple requests.
 
-Session data (ID token, access token and refresh token) is encrypted with the `Cookie Secret` key, and can be stored in cookies or in a Redis cache.
+Session data (ID token, access token and refresh token) is encrypted with the `Cookie Secret` key, and in either session data cookies or in a Redis cache.
 - `cookie` - Session data is stored in multiple client side cookies and is tranferred on every request the the server.
   If OAuth tokens are not needed by the backend component, they can be stripped from the cookies by setting `cookieStore.minimal` to **true**. In such case, the OAuth service cannot refresh the access token, and a full OAuth2 authorization flow is performed when the session cookie expires. `cookie.refresh` must also be set to **0**, and `setXAuthRequestHeaders` and `setAuthorizationHeader` must be **false**.
 - `redis` - Session data is stored in a Redis cache. The Redis server can be hosted as a component in Radix, as shown in the example, or as an external hosted service like [Azure Cache for Redis](https://azure.microsoft.com/en-us/services/cache/).
@@ -88,12 +88,13 @@ Session data (ID token, access token and refresh token) is encrypted with the `C
 #### Session cookie settings
 
 The `expire` and `refresh` settings in the `oauth2.cookie` section controls the lifetime of the session cookie and the interval when the OAuth2 service should redeem a refresh token for a new access token.  
-After successful refresh of the access token, the session cookies is updated with a new value for the `Expires` attribute.  
+After successful refresh of the access token, the session cookies is updated with a new value for the `Expires` attribute.
+
 `refresh` must be less than `expire`, or the OAuth2 service will fail to start.
 
 #### Known issues
 
-When **cookie** is used for `sessionStore`, the OAuth2 service fails to update the session data cookies when a refresh is performed. The session state is lost, and a full OAuth2 authorization flow is initiated.
+When **cookie** is used as `sessionStore`, the OAuth2 service fails to update the session data cookies when a refresh is performed. The session state is lost, and a full OAuth2 authorization flow is initiated. `redis` is the recommended session store type.
 
 ### OAuth2 Proxy as a component
 
