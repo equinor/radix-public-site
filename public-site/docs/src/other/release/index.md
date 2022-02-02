@@ -5,7 +5,47 @@ sidebarDepth: 2
 
 # What's new
 
+## 2022
+
+### 2022-02-01 Aupport for Azure Key vault
+
+[Azure Key vault](https://docs.microsoft.com/en-us/azure/key-vault/general/basic-concepts) secrets, keys and certificates can be used in Radix as secrets. Once configured, they are available in replicas of Radix application as environment variables and files.  
+
+Read more in secretref section in [radixconfig.yaml](https://www.radix.equinor.com/references/reference-radix-config/#secretrefs) and [Azure Key vaults](https://www.radix.equinor.com/guides/azure-key-vaults/) guide.
+
+### 2022-02-01 Build-in configuration for OAuth2 authorization
+
+Radix provides built-in configuration for adding OAuth2 authorization with OIDC to the component. Common `oauth2` settings can be configured at component level and/or in the component's `environmentConfig` section. When OAuth2 is configured for a component, Radix creates an OAuth2 service (using [OAuth2 Proxy](https://oauth2-proxy.github.io/oauth2-proxy/)) to handle the OAuth2 authorization code flow, and to verify the authorization state of incoming requests to the component.  
+
+Read more in the OAuth section in [radixconfig.yaml](https://www.radix.equinor.com/references/reference-radix-config/#oauth2) documentation and the [OAuth guide](https://www.radix.equinor.com/guides/authentication/#using-the-radix-oauth2-feature).  
+
+### 2022-01-11 Changes to validation of radixconfig 
+
+Two new validation rules now apply to radixconfig.  
+(1) Component ports lower than **1024** are prohibited.  
+(2) Environment variables prefixed with **RADIX_** or **RADIXOPERATOR_** are prohibited.  
+
 ## 2021
+
+### 2021-12-09 Active cluster IPs as environment variable
+
+The IPs actively assigned the the cluster of which an application is deployed to are now added to the Radix environment variable RADIX_ACTIVE_CLUSTER_EGRESS_IPS. This environment variable contains a list of IPs which are used for outgoing traffic from the cluster and is added to every component.  
+
+### 2021-11-23 Cluster IPs
+
+Cluster IPs are now visible in the [About page (Radix Platform)](https://console.radix.equinor.com/about) or [About page (Radix Playground)](https://console.playground.radix.equinor.com/about) of Radix Web Console.  
+
+### 2021-11-18 - Radix Slack Alerts
+
+We have released a new feature in Radix for sending alerts to Slack if a pipeline job fails, or a component or job fails to start or crashes/restarts (e.g. due to insufficient memory, unhandled exceptions etc.).  
+Read the documentation, https://www.radix.equinor.com/guides/alerting/,  on how to configure alerting for your application.  
+
+PS! The alert GUI in Radix web console is still "work in progress". We're working with EDS to make it more aligned with the EDS design standard.  
+
+### 2021-10-29 - New design - Radix documentation - Public site
+
+The [Radix documentation site](https://www.radix.equinor.com/) has now been updated to a brand new version with a new design. And last but not least, now also with a SEARCH function.  
+The most used page - [radixconfig.yaml reference](https://www.radix.equinor.com/references/reference-radix-config/) can be easily located under the Reference heading.
 
 ### 2021-10-14 - Radix CLI - New version
 
