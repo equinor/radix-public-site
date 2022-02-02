@@ -7,7 +7,7 @@ sidebarDepth: 2
 
 ## 2022
 
-### 2022-02-01 Aupport for Azure Key vault
+### 2022-02-01 Support for Azure Key vault
 
 [Azure Key vault](https://docs.microsoft.com/en-us/azure/key-vault/general/basic-concepts) secrets, keys and certificates can be used in Radix as secrets. Once configured, they are available in replicas of Radix application as environment variables and files.  
 
