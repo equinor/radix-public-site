@@ -30,11 +30,6 @@ We are based in Vassbotnen - S4 in Stavanger. If you see us on the corridor, say
 
 <employee-list>
   <employee-card
-    name="Marko Horvat"
-    title="Infrastructure"
-    :image="require('../../assets/images/radix-marko.jpg')"
-  />
-  <employee-card
     name="Ole Markus Kristiansen Ternø"
     title="Infrastructure"
     :image="require('../../assets/images/radix-ole.jpg')"
@@ -42,7 +37,12 @@ We are based in Vassbotnen - S4 in Stavanger. If you see us on the corridor, say
   <employee-card
     name="Magnus Longva"
     title="Infrastructure"
-    :image="require('../../assets/images/radix-magnus.png')"
+    :image="require('../../assets/images/radix-magnus.jpg')"
+  />
+  <employee-card
+    name="Svein-Petter Johnsen"
+    title="Infrastructure"
+    :image="require('../../assets/images/radix-svein.jpg')"
   />
   <employee-card
     name="Sergey Smolnikov"
