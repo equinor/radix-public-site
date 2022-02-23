@@ -14,7 +14,7 @@ module.exports = {
     ['meta', { name: 'theme-color', content: '#3eaf7c' }],
     ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
     ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }],
-    ['link', { rel: "icon", type: "image/svg", href: "/images/logo.svg"}],
+    ['link', { rel: 'icon', type: 'image/svg', href: '/images/logo.svg'}],
   ],
 
   /**
@@ -53,8 +53,8 @@ module.exports = {
     sidebar: {
       '/guides/': [
         {
+          title: 'Guides',
           collapsable: false,
-          prefix: "/guides/",
           children: [
             '',
             'getting-started/',
@@ -80,8 +80,8 @@ module.exports = {
       ],
       '/docs/': [
         {
+          title: 'Docs',
           collapsable: false,
-          prefix: "/docs/",
           sidebarDepth: 2,
           children: [
             '',
@@ -99,8 +99,8 @@ module.exports = {
       ],
       '/other/': [
         {
+          title: 'Other',
           collapsable: false,
-          prefix: '/other/',
           sidebarDepth: 1,
           children: [
             '',
@@ -113,8 +113,8 @@ module.exports = {
       ],
       '/references/': [
         {
+          title: 'References',
           collapsable: false,
-          prefix: '/references/',
           sidebarDepth: 1,
           children: [
             '',
