@@ -61,7 +61,15 @@ spec:
         from: release
 ```
 
-The `environments` section of the spec lists the environments for the application and the branch each environment will build from. If you omit the `build.from` key for the environment, no automatic builds or deployments will be created. This configuration is useful for a promotion-based [workflow](../../guides/workflows/).
+The `environments` section of the spec lists the environments for the application.
+
+> The `Config Branch` set in the application registration form **must** be mapped to the name of one of the `environments`.
+
+### `name`
+The name of the environment. Can be `dev`, `qa`, `production` etc.
+
+### `build`
+The `build.from` specifies which branch each environment will build from. If you omit the `build.from` key for the environment, no automatic builds or deployments will be created. This configuration is useful for a promotion-based [workflow](../../guides/workflows/).
 
 We also support wildcard branch mapping using `*` and `?`. Examples of this are:
 
@@ -69,7 +77,31 @@ We also support wildcard branch mapping using `*` and `?`. Examples of this are:
 - `feature-?`
 - `hotfix/**/*`
 
-> The `Config Branch` set in the application registration form **must** be mapped to one of the `environments`
+### `egressRules`
+```yaml
+spec:
+  environments:
+    - name: dev
+      build:
+        from: master
+      egressRules:
+      - destinations: 
+        - "143.97.5.5/32"
+        - "143.97.6.1/32"
+        ports:
+        - port: 443
+          protocol: TCP
+    - name: prod
+      build:
+        from: release
+```
+A list of network egress rules which apply for all components and jobs in the environment. Each network egress rule has a list of `destinations` and `ports`. Each entry in `destinations` must be a string representing a valid IPv4 mask. Each entry in `ports` must be an object with a valid TCP/UDP `port` number and `protocol` equal to either "TCP" or "UDP". If one or more egress rules are defined, any traffic not allowed by the egress rules will be blocked. If no egress rules are defined, all traffic is allowed.
+
+See [the egress rule guide](../../guides/egress-rules/) for usage patterns and tips and tricks.
+
+> Note! If an `environment` has one or more `egressRules`, all traffic is blocked by default. If no `egressRules` are defined, all traffic is allowed.
+
+> Note! If your application uses the [Radix OAuth2 feature](../../guides/authentication/#using-the-radix-oauth2-feature), outbound access to Microsoft authentication endpoints must be allowed. See [allow traffic for OAuth2](../../guides/egress-rules/#allow-traffic-for-oauth2).
 
 ## `components`
 
