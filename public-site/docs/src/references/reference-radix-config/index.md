@@ -56,13 +56,6 @@ spec:
     - name: dev
       build:
         from: master
-      egressRules:
-      - destinations: 
-        - "143.97.5.5/32"
-        - "143.97.6.1/32"
-        ports:
-        - port: 443
-          protocol: TCP
     - name: prod
       build:
         from: release
@@ -85,6 +78,23 @@ We also support wildcard branch mapping using `*` and `?`. Examples of this are:
 - `hotfix/**/*`
 
 ### `egressRules`
+```yaml
+spec:
+  environments:
+    - name: dev
+      build:
+        from: master
+      egressRules:
+      - destinations: 
+        - "143.97.5.5/32"
+        - "143.97.6.1/32"
+        ports:
+        - port: 443
+          protocol: TCP
+    - name: prod
+      build:
+        from: release
+```
 A list of network egress rules which apply for all components and jobs in the environment. Each network egress rule has a list of `destinations` and `ports`. Each entry in `destinations` must be a string representing a valid IPv4 mask. Each entry in `ports` must be an object with a valid TCP/UDP `port` number and `protocol` equal to either "TCP" or "UDP". If one or more egress rules are defined, any traffic not allowed by the egress rules will be blocked. If no egress rules are defined, all traffic is allowed.
 
 See [the egress rule guide](../../guides/egress-rules/) for usage patterns and tips and tricks.
