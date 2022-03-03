@@ -886,16 +886,17 @@ secretRefs:
           envVar: CERT1
 ```
 - `azureKeyVaults` - list of Azure Key vault configurations.
-- `name` - Azure Key vault name.
+- `name` - Azure Key vault name. The name can contain capital letters but not spaces.
 - `path` - Folder path in running replica container, where secrets, keys and/or certificate contents are available as files (with file names, corresponding to their names in the Azure Key vault). This field is optional. If set, it overrides default path: `/mnt/azure-key-vault/<azure-key-vault-name>`.
 - `items` - list of secrets, keys and/or certificates with corresponding environment variable names.
   - `name` - name of secret, key or certificate in an Azure Key vault.
   - `type` - Type of the item in the Azure Key vault. Possible values: `secret`, `key`, `cert`. This field is optional, by default it is `secret`.
-  - `envVar` - Name of an environment variable, which will contain specified secret, key or certificate.
+  - `envVar` - Name of an environment variable, which will contain specified secret, key or certificate. This field is optional - environment variable is not created if it is not specified, only file exist (see the property `path`).
+  - `alias` - Alias of the file (see the property `path`). This field is optional.
 
 `secretRefs` can be configured for entire component, for component environments or only for specific component environments. Configuration in component environments overrides similar component properties.
 
-Updated values of secrets, keys or certificates in Azure Key vault are not automatically synced to corresponding secrets of alredy running replicas - they can be synced with a new deployment.
+Updated values of secrets, keys or certificates in Azure Key vault are not automatically synced to corresponding secrets of already running replicas - they can be synced with a new deployment.
 
 Azure Key vaults configurable the same way in job-components.
 
