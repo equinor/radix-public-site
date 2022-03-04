@@ -237,7 +237,7 @@ To get state for a specific job (single or one within a batch), e.g. `compute-20
 
 ## Deleting an existing job
 
-The job list in the example above has a job named `compute-20210407105556-rkwaibwe`. To delete it, send a `DELETE` request to `http://compute:8000/api/v1/jobs/compute-20210407105556-rkwaibwe`. A successful deletion will respond with result object. Both single and once within a batch can be deleted with this method
+The job list in the example above has a job named `compute-20210407105556-rkwaibwe`. To delete it, send a `DELETE` request to `http://compute:8000/api/v1/jobs/compute-20210407105556-rkwaibwe`. A successful deletion will respond with result object. Both single and specific ones within a batch can be deleted with this method
 
 ```json
 {
