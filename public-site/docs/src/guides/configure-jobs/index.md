@@ -13,7 +13,7 @@ Docker images built from the definition in the components section in radixconfig
 
 The job-scheduler does not require any authentication since it is not exposed to the Internet and is only accessible by components in the same application and environment.
 
-Job can be run as a single job or as a batch of jobs.
+A job can be run as a single job or as a batch of jobs.
 
 Maximum 10 single completed jobs remains in the history of a job component. When a new single job started - the oldest of 10 existing single jobs is deleted. The same rule is for batches - its history is independent of single jobs history. Maximum 10 completed batches remain in the batch history, with all their jobs. 
 
