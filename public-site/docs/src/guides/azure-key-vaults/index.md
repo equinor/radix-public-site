@@ -192,7 +192,7 @@ When a certificate is created in a Azure Key vault, secret and key [are created 
 |`secret`|The private key and certificate, in PEM format|Yes|
 
 Use `alias` property to get all these three items in Radix application component. Example to use certificate and its keys `cert1` as three files in the component replicas:
-* Create in an Azure Key vault a certificate, `cert1` in this example.
+* Create a certificate in an Azure Key vault, `cert1` in this example.
 * Key and secret with the same names are implicitly created in this Key vault, but not shown in the Azure Key vault.
 * Refer to them in the `radixconfig.yaml` `azureKeyVaults.items` with the same `name`, but with different `alias`.
 * If environment variables for these values are not needed - do not specify `envVar` property.
