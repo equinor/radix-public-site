@@ -180,3 +180,43 @@ Azure Key vault secrets, keys and certificates can be used in Radix, configured 
     ![Set secrets](./set-key-vault-secrets-in-radix-console.png)
   - Credential secrets in "qa" environment
     ![Set secrets](./set-key-vault-secrets-in-radix-console-qa.png)
+
+## Certificates
+
+When a certificate is created in a Azure Key vault, secret and key [are created implicitly](https://docs.microsoft.com/en-us/azure/aks/csi-secrets-store-driver#obtain-certificates-and-keys) with the same names:
+
+|Object|Return value|Returns entire certificate chain|
+|-|-|---------------------|
+|`key`|The public key, in Privacy Enhanced Mail (PEM) format|N/A|
+|`cert`|The certificate, in PEM format|No|
+|`secret`|The private key and certificate, in PEM format|Yes|
+
+Use `alias` property to get all these three items in Radix application component. Example to use certificate and its keys `cert1` as three files in the component replicas:
+* Create a certificate in an Azure Key vault, `cert1` in this example.
+* Key and secret with the same names are implicitly created in this Key vault, but not shown in the Azure Key vault.
+* Refer to them in the `radixconfig.yaml` `azureKeyVaults.items` with the same `name`, but with different `alias`.
+* The `envVar` property should be omitted if environment variables for these values are not needed.
+
+ ```yaml
+  secretRefs:
+    azureKeyVaults:
+      - name: radix-app-secrets
+        path: /mnt/secrets
+        items:
+          - name: secret1     #regular Azure Key vault secret - available in the container as an environment variable SECRET1 and as a file /mnt/secrets/secret1
+            envVar: SECRET1
+          - name: cert1       #The certificate, manually generated in Azure Key vault - no environment variable (as envVar is not set), only as a file /mnt/secrets/cert1.crt
+            type: cert
+            alias: "cert1.crt"
+          - name: cert1       #The public key, automatically generated in Azure Key vault - no environment variable (as envVar is not set), only as a file /mnt/secrets/cert1.pem
+            type: key
+            alias: "cert1.pem"
+          - name: cert1       #The private key and certificate, automatically generated in Azure Key vault - no environment variable (as envVar is not set), only as a file /mnt/secrets/cert1.key
+            type: secret
+            alias: "cert1.key"
+  ```
+Files in the component replica
+```shell
+/mnt/secrets $ ls
+cert1.crt     cert1.key     cert1.pem  secret1
+```

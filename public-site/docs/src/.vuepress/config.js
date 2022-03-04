@@ -60,6 +60,7 @@ module.exports = {
             'getting-started/',
             'alerting/',
             'authentication/',
+            'azure-key-vaults/',
             'build-secrets/',
             'component-start-stop-restart/',
             'configure-an-app/',

@@ -10,7 +10,12 @@ The duration of a job can span from seconds to hours, depending on what tasks it
 CPU, GPU and memory resources requested by a job are reserved when it starts, and released when it exits. This will help reduce the total cost for an application since cost is only calculated for running containers. A job that requests 10GB of memory and 2 CPUs, started once per day and runs for one hour, will only accumulate cost for the hour it is running. A component that requests the same resources will accumulate cost for all 24 hours of a day.
 
 Docker images built from the definition in the components section in radixconfig.yaml are started automatically when a new build-deploy, promote or deploy pipeline completes. Jobs on the other hand, must be managed through the [job-scheduler](#job-scheduler) web API service. Radix creates a job-scheduler for each job and environment defined in [`radixconfig.yaml`](../../references/reference-radix-config/). The job-scheduler can start new containers from the Docker image build by the pipeline, delete and list existing jobs.
+
 The job-scheduler does not require any authentication since it is not exposed to the Internet and is only accessible by components in the same application and environment.
+
+A job can be run as a single job or as a batch of jobs.
+
+A max of 10 single completed jobs remains in the history of a job component. When a single job started - the oldest of 10 existing single jobs is deleted. The same applies for batched jobs - its history is independent of single jobs history. A max of 10 completed batched jobs remain in the batch history, with all their jobs. 
 
 ## Configure a job
 
@@ -110,6 +115,7 @@ Radix creates one job-scheduler per job defined in [`radixconfig.yaml`](../../re
 
 The job-scheduler exposes the following methods for managing jobs
 
+### Single job
 - `POST /api/v1/jobs` Create a new job using the Docker image that Radix built for the job. Job-specific arguments can be sent in the request body
 
 ```json
@@ -139,15 +145,40 @@ The job-scheduler exposes the following methods for managing jobs
 - `GET /api/v1/jobs/{jobName}` Get state for a named job
 - `DELETE /api/v1/jobs/{jobName}` Delete a named job
 
-![Diagram of jobs and job-scheduler](./job-scheduler-diagram.png "Job Scheduler overview")
+### Batch of jobs
+- `POST /api/v1/batches` Create a new batch of single jobs, using the Docker image, that Radix built for the job component. Job-specific arguments can be sent in the request body, specified individually for each item in `JobScheduleDescriptions`
 
-> The job-scheduler keeps the 10 latest `Succeeded` and the 10 latest `Failed` jobs.
+```json
+{
+  "JobScheduleDescriptions": [
+    {
+      "payload": "{'data':'value1'}"
+    },
+    {
+      "payload": "{'data':'value2'}"
+    },
+    {
+      "payload": "{'data':'value3'}"
+    }
+  ]
+}
+```
+
+> `payload`, `timeLimitSeconds`, `resources` and `node` are all optional fields and any of them can be omitted in the request.
+
+- `GET /api/v1/batches` Get states (with names and statuses) for all batches
+- `GET /api/v1/batches/{batchName}` Get state for a named batch and statuses of its jobs
+- `DELETE /api/v1/batches/{batchName}` Delete a named batch
+
+### Example component diagram
+
+![Diagram of jobs and job-scheduler](./job-scheduler-diagram.png "Job Scheduler overview")
 
 ## Starting a new job
 
 The example configuration at the top has component named `backend` and two jobs, `compute` and `etl`. Radix creates two job-schedulers, one for each of the two jobs. The job-scheduler for `compute` listens to `http://compute:8000`, and job-scheduler for `etl` listens to `http://etl:9000`.
 
-To start a new job, send a `POST` request to `http://compute:8000/api/v1/jobs` with request body set to
+To start a new single job, send a `POST` request to `http://compute:8000/api/v1/jobs` with request body set to
 
 ```json
 {
@@ -172,9 +203,9 @@ Once the job has been created successfully, the `job-scheduler` responds to `bac
 - `ended` is the date and time the job successfully ended. Also represented in RFC3339 form and is in UTC. This value is only set for `Successful` jobs.
 - `status` is the current status of the job container. Possible values are `Running`, `Successful` and `Failed`. Status is `Failed` if the container exits with a non-zero exit code, and `Successful` if the exit code is zero.
 
-## Getting the status of existing jobs
+## Getting the status of all existing jobs
 
-Get a list of all jobs with their states by sending a `GET` request to `http://compute:8000/api/v1/jobs`. The response is an array of job state objects, similar to the response received when creating a new job
+Get a list of all single jobs with their states by sending a `GET` request to `http://compute:8000/api/v1/jobs`. The response is an array of job state objects, similar to the response received when creating a new job. Jobs that have been started within a batch are not included in this list 
 
 ```json
 [
@@ -193,7 +224,7 @@ Get a list of all jobs with their states by sending a `GET` request to `http://c
 ]
 ```
 
-To get state for a specific job, e.g. `compute-20210407090837-mll3kxxh`, send a `GET` request to `http://compute:8000/api/v1/jobs/compute-20210407090837-mll3kxxh`. The response is a single job state object
+To get state for a specific job (single or one within a batch), e.g. `compute-20210407090837-mll3kxxh`, send a `GET` request to `http://compute:8000/api/v1/jobs/compute-20210407090837-mll3kxxh`. The response is a single job state object
 
 ```json
 {
@@ -206,12 +237,178 @@ To get state for a specific job, e.g. `compute-20210407090837-mll3kxxh`, send a 
 
 ## Deleting an existing job
 
-The job list in the example above has a job named `compute-20210407105556-rkwaibwe`. To delete it, send a `DELETE` request to `http://compute:8000/api/v1/jobs/compute-20210407105556-rkwaibwe`. A successful deletion will respond with result object
+The job list in the example above has a job named `compute-20210407105556-rkwaibwe`. To delete it, send a `DELETE` request to `http://compute:8000/api/v1/jobs/compute-20210407105556-rkwaibwe`. A successful deletion will respond with result object. Both single and specific ones within a batch can be deleted with this method
 
 ```json
 {
   "status": "Success",
   "message": "job compute-20210407105556-rkwaibwe successfully deleted",
+  "code": 200
+}
+```
+
+## Starting a new batch of jobs
+
+To start a new batch of jobs, send a `POST` request to `http://compute:8000/api/v1/batches` with request body set to
+
+```json
+{
+  "JobScheduleDescriptions": [
+    {
+      "payload": "{\"x\": 10, \"y\": 20}"
+    },
+    {
+      "payload": "{\"x\": 20, \"y\": 30}"
+    }
+  ]
+}
+```
+
+Jobs can have `jobId`
+```json
+{
+  "JobScheduleDescriptions": [
+    {
+      "jobId": "job-1",
+      "payload": "{\"x\": 10, \"y\": 20}"
+    },
+    {
+      "jobId": "job-2",
+      "payload": "{\"x\": 20, \"y\": 30}"
+    }
+  ]
+}
+```
+
+Default parameters for jobs can be defined within `DefaultRadixJobComponentConfig`. These parameters can be overridden for each job individually in `JobScheduleDescriptions`
+```json
+{
+  "DefaultRadixJobComponentConfig": {
+    "timeLimitSeconds": 200,
+    "resources": {
+      "limits": {
+        "memory": "200Mi",
+        "cpu": "200m"
+      },
+      "requests": {
+        "memory": "100Mi",
+        "cpu": "100m"
+      }
+    }
+  },
+  "JobScheduleDescriptions": [
+    {
+      "payload": "{'data':'value1'}",
+      "timeLimitSeconds": 120,
+      "resources": {
+        "limits": {
+          "memory": "32Mi",
+          "cpu": "300m"
+        },
+        "requests": {
+          "memory": "16Mi",
+          "cpu": "150m"
+        }
+      },
+      "node": {
+        "gpu": "gpu1, gpu2, gpu3",
+        "gpuCount": "6"
+      }
+    },
+    {
+      "payload": "{'data':'value2'}"
+    },
+    {
+      "payload": "{'data':'value3'}",
+      "timeLimitSeconds": 300,
+      "node": {
+        "gpu": "gpu3",
+        "gpuCount": "1"
+      }
+    }
+  ]
+}
+```
+
+The job-scheduler creates a new batch, which will create single jobs for each item in the `JobScheduleDescriptions`.
+Once the batch has been created, the `job-scheduler` responds to `backend` with a batch state object
+
+```json
+{
+  "batchName": "batch-compute-20220302170647-6ytkltvk",
+  "name": "batch-compute-20220302170647-6ytkltvk",
+  "created": "2022-03-02T17:06:47+01:00",
+  "status": "Running"
+}
+```
+
+- `batchName` is the unique name for the batch. This is the value to be used in the `GET /api/v1/batches/{batchName}` and `DELETE /api/v1/batches/{batchName}` methods.
+- `started` is the date and time the batch was started. The value is represented in RFC3339 form and is in UTC.
+- `ended` is the date and time the batch successfully ended (empty when not completed). The value is represented in RFC3339 form and is in UTC. This value is only set for `Successful` batches. Batch is ended when all batched jobs are completed or failed.
+- `status` is the current status of the batch. Possible values are `Running`, `Successful` and `Failed`. Status is `Failed` if the batch fails for any reason.
+
+## Getting the status of existing batches
+
+Get a list of all batches with their states by sending a `GET` request to `http://compute:8000/api/v1/batches`. The response is an array of batch state objects, similar to the response received when creating a new batch
+
+```json
+[
+  {
+    "name": "batch-compute-20220302155333-hrwl53mw",
+    "created": "2022-03-02T15:53:33+01:00",
+    "started": "2022-03-02T15:53:33+01:00",
+    "ended": "2022-03-02T15:54:00+01:00",
+    "status": "Succeeded"
+  },
+  {
+    "name": "batch-compute-20220302170647-6ytkltvk",
+    "created": "2022-03-02T17:06:47+01:00",
+    "started": "2022-03-02T17:06:47+01:00",
+    "status": "Running"
+  }
+]
+```
+
+To get state for a specific batch, e.g. `batch-compute-20220302155333-hrwl53mw`, send a `GET` request to `http://compute:8000/api/v1/batches/batch-compute-20220302155333-hrwl53mw`. The response is a batch state object, with states of its jobs 
+
+```json
+{
+  "name": "batch-compute-20220302155333-hrwl53mw",
+  "created": "2022-03-02T15:53:33+01:00",
+  "started": "2022-03-02T15:53:33+01:00",
+  "ended": "2022-03-02T15:54:00+01:00",
+  "status": "Succeeded",
+  "jobStatuses": [
+    {
+      "jobId": "job1",
+      "batchName": "batch-compute-20220302155333-hrwl53mw",
+      "name": "compute-20220302145336-fjhcqwj7",
+      "created": "2022-03-02T15:53:36+01:00",
+      "started": "2022-03-02T15:53:36+01:00",
+      "ended": "2022-03-02T15:53:56+01:00",
+      "status": "Succeeded"
+    },
+    {
+      "jobId": "job2",
+      "batchName": "batch-compute-20220302155333-hrwl53mw",
+      "name": "compute-20220302145337-qjzykhrd",
+      "created": "2022-03-02T15:53:39+01:00",
+      "started": "2022-03-02T15:53:39+01:00",
+      "ended": "2022-03-02T15:53:56+01:00",
+      "status": "Succeeded"
+    }
+  ]
+}
+```
+
+## Deleting an existing batch
+
+The batch list in the example above has a batch named `batch-compute-20220302155333-hrwl53mw`. To delete it, send a `DELETE` request to `http://compute:8000/api/v1/batches/batch-compute-20220302155333-hrwl53mw`. A successful deletion will respond with result object
+
+```json
+{
+  "status": "Success",
+  "message": "batch batch-compute-20220302155333-hrwl53mw successfully deleted",
   "code": 200
 }
 ```
