@@ -343,7 +343,7 @@ Once the batch has been created, the `job-scheduler` responds to `backend` with 
 ```
 
 - `batchName` is the unique name for the batch. This is the value to be used in the `GET /api/v1/batches/{batchName}` and `DELETE /api/v1/batches/{batchName}` methods.
-- `started` is the date and time the batch was started. It is represented in RFC3339 form and is in UTC.
+- `started` is the date and time the batch was started. The value is represented in RFC3339 form and is in UTC.
 - `ended` is the date and time the batch successfully ended (empty when not completed). The value is represented in RFC3339 form and is in UTC. This value is only set for `Successful` batches. Batch is ended when all batched jobs are completed or failed.
 - `status` is the current status of the batch. Possible values are `Running`, `Successful` and `Failed`. Status is `Failed` if the batch fails in some reason.
 
