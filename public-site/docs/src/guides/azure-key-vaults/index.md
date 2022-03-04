@@ -195,7 +195,7 @@ Use `alias` property to get all these three items in Radix application component
 * Create a certificate in an Azure Key vault, `cert1` in this example.
 * Key and secret with the same names are implicitly created in this Key vault, but not shown in the Azure Key vault.
 * Refer to them in the `radixconfig.yaml` `azureKeyVaults.items` with the same `name`, but with different `alias`.
-* If environment variables for these values are not needed - do not specify `envVar` property.
+* The `envVar` property should be omitted if environment variables for these values are not needed.
 
  ```yaml
   secretRefs:
