@@ -66,9 +66,11 @@ The `environments` section of the spec lists the environments for the applicatio
 > The `Config Branch` set in the application registration form **must** be mapped to the name of one of the `environments`.
 
 ### `name`
+
 The name of the environment. Can be `dev`, `qa`, `production` etc.
 
 ### `build`
+
 The `build.from` specifies which branch each environment will build from. If you omit the `build.from` key for the environment, no automatic builds or deployments will be created. This configuration is useful for a promotion-based [workflow](../../guides/workflows/).
 
 We also support wildcard branch mapping using `*` and `?`. Examples of this are:
@@ -78,6 +80,7 @@ We also support wildcard branch mapping using `*` and `?`. Examples of this are:
 - `hotfix/**/*`
 
 ### `egressRules`
+
 ```yaml
 spec:
   environments:
@@ -95,6 +98,7 @@ spec:
       build:
         from: release
 ```
+
 A list of network egress rules which apply for all components and jobs in the environment. Each network egress rule has a list of `destinations` and `ports`. Each entry in `destinations` must be a string representing a valid IPv4 mask. Each entry in `ports` must be an object with a valid TCP/UDP `port` number and `protocol` equal to either "TCP" or "UDP". If one or more egress rules are defined, any traffic not allowed by the egress rules will be blocked. If no egress rules are defined, all traffic is allowed.
 
 See [the egress rule guide](../../guides/egress-rules/) for usage patterns and tips and tricks.
@@ -434,15 +438,15 @@ clientCertificate:
 > If `verification` has been set to something other than `off` or `passCertificateToUpstream` is set to `true`, a valid certificate will need to be applied in the `Radix Console` for the affected environment(s). This can be found under `Environments\[environmentName]\[componentName]\[componentName]-clientcertca` in the `Radix Console` for your application.
 
 #### `oauth2`
+
 Configuration for adding OAuth2 authorization with OIDC to the component.
 
 Common `oauth2` settings can be configured at component level and/or in the component's `environmentConfig` section. Properties configured in the `environmentConfig` section override properties at component level. The component must also be configured with a [publicPort](#publicport).
 
 When OAuth2 is configured for a component, Radix creates an OAuth2 service (using [OAuth2 Proxy](https://oauth2-proxy.github.io/oauth2-proxy/)) to handle the OAuth2 authorization code flow, and to verify the authorization state of incoming requests to the component.
 
-The OAuth2 service handles incoming requests to the path */oauth2* (or the path defined in *proxyPrefix*) for all public DNS names configured for a component. Valid *redirect URIs* must be registered for the application registration in Azure AD, e.g. `https://myapp.app.radix.equinor.com/oauth2/callback`.  
+The OAuth2 service handles incoming requests to the path _/oauth2_ (or the path defined in _proxyPrefix_) for all public DNS names configured for a component. Valid _redirect URIs_ must be registered for the application registration in Azure AD, e.g. `https://myapp.app.radix.equinor.com/oauth2/callback`.  
 See [guide](../../guides/authentication/#configuration) for more information.
-
 
 ```yaml
 oauth2:
@@ -469,13 +473,14 @@ oauth2:
     refresh: 60m0s
     sameSite: lax
 ```
+
 - `clientId` Required - The client ID of the application, e.g. the application ID of an application registration in Azure AD.
 - `scope` Optional. Default **openid profile email** - List of OIDC scopes and identity platform specific scopes. More information about scopes when using the Microsoft Identity Platform can be found [here](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent).
-- `setXAuthRequestHeaders` Optional. Default **false** - Adds claims from the access token to the *X-Auth-Request-User*, *X-Auth-Request-Groups*, *X-Auth-Request-Email* and *X-Auth-Request-Preferred-Username* request headers. The Access Token is added to the *X-Auth-Request-Access-Token* header.
-- `setAuthorizationHeader` Optional. Default **false** - Adds the OIDC ID Token in the *Authorization: Bearer* request header.
+- `setXAuthRequestHeaders` Optional. Default **false** - Adds claims from the access token to the _X-Auth-Request-User_, _X-Auth-Request-Groups_, _X-Auth-Request-Email_ and _X-Auth-Request-Preferred-Username_ request headers. The Access Token is added to the _X-Auth-Request-Access-Token_ header.
+- `setAuthorizationHeader` Optional. Default **false** - Adds the OIDC ID Token in the _Authorization: Bearer_ request header.
 - `proxyPrefix` Optional. Default **/oauth2** - The root path that the OAuth2 proxy should be nested under. The OAuth2 proxy exposes various [endpoints](https://oauth2-proxy.github.io/oauth2-proxy/docs/features/endpoints) from this root path.
 - `oidc` OIDC configuration
-  - `issuerUrl` Optional. Default **https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/v2.0** - OIDC issuer URL. The default value is set to the Equinor Azure tenant ID. Read more about Microsoft OIDC issuer URLs [here](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-protocols-oidc#fetch-the-openid-connect-metadata-document).
+  - `issuerUrl` Optional. Default **<https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/v2.0>** - OIDC issuer URL. The default value is set to the Equinor Azure tenant ID. Read more about Microsoft OIDC issuer URLs [here](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-protocols-oidc#fetch-the-openid-connect-metadata-document).
   - `jwksUrl` Optional - OIDC JWKS URL for token verification. Required if `skipDiscovery` is set to **true**.
   - `skipDiscovery` Optional. Default **false** - Skip automatic discovery OIDC endpoints. `jwksURl`, `loginUrl` and `redeemUrl` must be specified if `skipDiscovery` is **true**.
   - `insecureSkipVerifyNonce` Optional. Default **false**. Skip verifying the OIDC ID Token's nonce claim. Should only be enabled with OIDC providers that does not support the nonce claim.
@@ -488,9 +493,9 @@ oauth2:
   - `minimal` Optional. Default **false**. Strips ID token, access token and refresh token from session store cookies. `setXAuthRequestHeaders` and `setAuthorizationHeader` must be set to **false**, and `cookie.refresh` must be set to **0**.
 - `cookie` Session cookie configuration
   - `name` Optional. Default **_oauth2_proxy**. Name of the session cookie. If `sessionStoreType` is **cookie**, the ID token and access token is stored in cookies prefixed with this name.
-  - `expire` Optional. Default **168h0m0s**. Expire timeframe for session cookies. Controls the *Expires* cookie attribute.
-  - `refresh` Optional. Default **60m0s**. Refresh interval defines how often the OAuth2 service should redeem the refresh token to get a new access token. The session cookie's *Expires* is updated after refresh.
-  - `sameSite` Optional. Default **lax**. The *SameSite* attribute for the session cookie.
+  - `expire` Optional. Default **168h0m0s**. Expire timeframe for session cookies. Controls the _Expires_ cookie attribute.
+  - `refresh` Optional. Default **60m0s**. Refresh interval defines how often the OAuth2 service should redeem the refresh token to get a new access token. The session cookie's _Expires_ is updated after refresh.
+  - `sameSite` Optional. Default **lax**. The _SameSite_ attribute for the session cookie.
 
 > See [guide](../../guides/authentication/#using-the-radix-oauth2-feature) on how to configure OAuth2 authentication for a component.
 
@@ -867,8 +872,11 @@ When `gpuCount` is specified, but `gpu` key is not set - component will be runni
 ```
 
 ## `secretRefs`
+
 ### `azureKeyVault`
+
 Azure Key vault secrets, keys and certificates can be used in Radix as secrets. Once configured, they are available in Radix application component replicas as environment variables and files content.
+
 ```yaml
 secretRefs:
   azureKeyVaults:
@@ -885,6 +893,7 @@ secretRefs:
           type: cert
           envVar: CERT1
 ```
+
 - `azureKeyVaults` - list of Azure Key vault configurations.
 - `name` - Azure Key vault name. The name can contain capital letters but not spaces.
 - `path` - Folder path in running replica container, where secrets, keys and/or certificate contents are available as files (with file names, corresponding to their names in the Azure Key vault). This field is optional. If set, it overrides default path: `/mnt/azure-key-vault/<azure-key-vault-name>`.
@@ -901,7 +910,6 @@ Updated values of secrets, keys or certificates in Azure Key vault are not autom
 Azure Key vaults configurable the same way in job-components.
 
 > See [guide](../../guides/azure-key-vaults/) on how to configure Azure Key vault in Radix.
-
 
 # Example `radixconfig.yaml` file
 
