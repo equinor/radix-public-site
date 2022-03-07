@@ -179,6 +179,26 @@ spec:
 
 The `publicPort` field of a component, if set to `<PORT_NAME>`, is used to make the component accessible on the internet by generating a public endpoint. Any component without `publicPort: <PORT_NAME>` can only be accessed from another component in the app. If specified, the `<PORT_NAME>` should exist in the `ports` field.
 
+### `monitoringConfig`
+
+```yaml
+spec:
+  components:
+    - name: frontend
+      ports:
+        - name: http
+          port: 8000
+        - name: metrics
+          port: 1234
+      monitoringConfig:
+        portName: metrics
+        path: /my-metrics
+```
+
+The `monitoringConfig` field of a component can be used to override the default port and/or path used for `monitoring`. Both fields are optional and are by default set to use the first available port and the path as `/metrics`.
+
+> Note: If overriding `portName` it will have to match one of the defined ports in the component.
+
 ### `ingressConfiguration`
 
 ```yaml
@@ -552,6 +572,22 @@ spec:
 ```
 
 The port number that the [job-scheduler](../../guides/configure-jobs/#job-scheduler) will listen to for HTTP requests to manage jobs. schedulerPort is a **required** field.
+
+### `monitoringConfig`
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      ports:
+        - name: metrics
+          port: 1234
+      monitoringConfig:
+        portName: metrics
+        path: /my-metrics
+```
+
+See [monitoringConfig](#monitoringConfig) for a component for more information.
 
 ### `payload`
 
@@ -936,7 +972,12 @@ spec:
       ports:
         - name: http
           port: 8000
+        - name: metrics
+          port: 8060
       publicPort: http
+      monitoringConfig:
+        portName: metrics
+        path: /api/my-magic-metrics
       authentication:
         clientCertificate:
           verification: "optional_no_ca"
