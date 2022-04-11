@@ -13,10 +13,10 @@ In order to make use of this functionality you have to:
 - Retrieve necessary values from Azure Blob Storage
 
 Account name and key
-![SecretValues](./SecretValues.png)
+![SecretValues](./secret-values.png)
 
 Name of container
-![ContainerName](./ContainerName.png)
+![ContainerName](./container-name.png)
 
 - Define the volume mounts for the environment in the RadixConfig. The container should match the one found in step 1
 
@@ -32,7 +32,7 @@ environmentConfig:
 
 - After environment has been built, set the generated secret to key found in step 1. This should ensure that key value is Consistent status. It is recommended to restart a component after a key has been set in the console
 
-![SetSecrets](./SetSecrets.png)
+![SetSecrets](./set-secrets.png)
 
 This results in the Kubernetes deployment holding the volume mount in PersistentVolumeClaim and its StorageClass:
 
@@ -72,7 +72,7 @@ Multiple volume mounts are also supported
 Not supported mount from same blob container to different folders within one component.
 
 Multiple containers within one storage account
-![MultipleContainers](./MultipleContainers.png)
+![MultipleContainers](./multiple-containers.png)
 
 To add multiple volumes
 
@@ -97,7 +97,7 @@ To add multiple volumes
 
 - After environment has been built, set the generated secret to account name and key, found in step 1 - for each volume. This should ensure that key value is Consistent status. It is recommended to restart a component after a all secrets have been set in the console
 
-![SetSecretsForMultiplemounts](./SetSecretsMultipleVolumes.png)
+![SetSecretsForMultiplemounts](./set-secrets-multiple-volumes.png)
 
 This results in the Kubernetes deployment holding the volume mounts in its spec:
 
