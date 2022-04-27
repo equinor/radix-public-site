@@ -99,7 +99,11 @@ spec:
       build:
         from: release
 ```
-Specify `egress` with settings for which egress traffic is allowed from all components and jobs in the environment. `allowRadix` can be set to true or false to allow or deny traffic to other applications in Radix. `rules` can be defined with a list of legal `destinations` and `ports` for egress traffic. Each entry in `destinations` must be a string representing a valid IPv4 mask. Each entry in `ports` must be an object with a valid TCP/UDP `port` number and `protocol` equal to either "TCP" or "UDP". If one or more egress rules are defined, any traffic not allowed by the egress rules will be blocked. If no egress rules are defined, all traffic is allowed.
+Specify `egress` with settings for which egress traffic is allowed from all components and jobs in the environment. 
+
+`allowRadix` can be set to `true` or `false` to allow or deny traffic to other applications in Radix. The default value is `false`. 
+
+`rules` can be defined with a list of legal `destinations` and `ports` for egress traffic. Each entry in `destinations` must be a string representing a valid IPv4 mask. Each entry in `ports` must be an object with a valid TCP/UDP `port` number and `protocol` equal to either "TCP" or "UDP". If one or more egress rules are defined, any traffic not allowed by the egress rules will be blocked. If no egress rules are defined, all traffic is allowed.
 
 See [the egress configuration guide](../../guides/egress-config/) for usage patterns and tips and tricks.
 
