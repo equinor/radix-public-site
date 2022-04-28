@@ -69,7 +69,7 @@ module.exports = {
             'deployment-promotion/',
             'docker-useradd/',
             'docker/',
-            'egress-rules/',
+            'egress-config/',
             'environment-variables/',
             'external-alias/',
             'monitoring/',
