@@ -935,7 +935,7 @@ secretRefs:
 ```
 
 - `azureKeyVaults` - list of Azure Key vault configurations.
-- `name` - Azure Key vault name. The name can contain capital letters but not spaces.
+- `name` - The name of the Azure Key vault. Radix supports capital letters in the name, but not spaces.
 - `path` - Folder path in running replica container, where secrets, keys and/or certificate contents are available as files (with file names, corresponding to their names in the Azure Key vault). This field is optional. If set, it overrides default path: `/mnt/azure-key-vault/<azure-key-vault-name>`.
 - `items` - list of secrets, keys and/or certificates with corresponding environment variable names.
   - `name` - name of secret, key or certificate in an Azure Key vault.
