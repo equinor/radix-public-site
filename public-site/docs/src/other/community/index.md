@@ -26,7 +26,7 @@ Check out the [Release register](../release/)
 
 ## The Radix team
 
-We are based in Vassbotnen - S4 in Stavanger. If you see us on the corridor, say hello!
+We are based in Vassbotnen - N4 in Stavanger. If you see us on the corridor, say hello!
 
 <employee-list>
   <employee-card
@@ -58,6 +58,11 @@ We are based in Vassbotnen - S4 in Stavanger. If you see us on the corridor, say
     name="Fredrik Hatletvedt"
     title="Developer"
     :image="require('../../assets/images/radix-fredrik.jpg')"
+  />
+  <employee-card
+    name="Sondre Sjølyst"
+    title="Infrastructure/Developer"
+    :image="require('../../assets/images/radix-sondre.jpg')"
   />
   <employee-card
     name="Elsa Mâyrä Irgens"
