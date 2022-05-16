@@ -7,6 +7,34 @@ sidebarDepth: 2
 
 ## 2022
 
+### 2022-03-11 Custom configuration of the Metrics endpoint
+
+It is now possible to specify custom port and path for monitoring.
+
+Specifying monitoring path and port is now supported for application components in Radix. Read the [radixconfig.yaml reference entry](https://radix.equinor.com/references/reference-radix-config/#monitoringconfig) for details.
+
+### 2022-02-28 Support for egress rules
+
+Network egress rules are now supported for application environments in Radix. Read the [radixconfig.yaml reference entry](https://www.radix.equinor.com/references/reference-radix-config/#egressrules) for details, and read the [guide](https://www.radix.equinor.com/guides/egress-rules/#default-rules) for important limitations, tips and usage patterns.
+
+Implement egress rules with caution. Applications may break if egress rules inadvertently block required resources.
+
+#### 2022-04-28 Egress rules simplified
+
+Egress rules have been simplified. A new field allowRadix can be set to allow or deny traffic to other Radix applications. If you use the built-in Oauth2 feature, it is no longer necessary to allow traffic to login.microsoftonline.com. Docs now recommend using Private Link to get static IP address to Azure databases or other SaaS for use in egress rules.
+
+### 2022-02-18 Build Pipeline steps
+
+The sequence of the steps in the build/deploy pipeline has been changed, this will reduce the time to deploy and new build.
+To do this we have moved the scan of the deployment to the end of the workflow, and done after the image has been deployed
+
+![steps](./steps.png)
+
+### 2022-02-07 Job scheduler - configure job time limit
+
+To control the running jobs, it is now possible to configrue the maximum time a job should be running, by setting the job time limit.
+Specify "timeLimitSeconds" either in [job payload](https://www.radix.equinor.com/guides/configure-jobs/#timelimitseconds) or in [radixconfig.yaml](https://www.radix.equinor.com/references/reference-radix-config/#timelimitseconds). When a job's running time has exceeded the specified limit, it will exit automatically.
+
 ### 2022-02-01 Support for Azure Key vault
 
 [Azure Key vault](https://docs.microsoft.com/en-us/azure/key-vault/general/basic-concepts) secrets, keys and certificates can be used in Radix as secrets. Once configured, they are available in replicas of Radix application as environment variables and files.  
