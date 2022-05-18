@@ -32,7 +32,7 @@ Check out the [Release register](../release/)
   <employee-card
     name="Øyvind Rønne"
     title="Product Owner"
-    :image="require('https://ca.slack-edge.com/T02JL00JU-U02KG7QEP-07175f208ba8-512')"
+    :image="require('../../assets/images/oyvindronne.jpeg')"
   />
 </employee-list>
 
