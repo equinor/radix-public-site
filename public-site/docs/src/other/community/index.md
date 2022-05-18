@@ -26,6 +26,16 @@ Check out the [Release register](../release/)
 
 ## The Radix team
 
+#### Product Owner
+
+<employee-list>
+  <employee-card
+    name="Øyvind Rønne"
+    title="Product Owner"
+    :image="require('https://ca.slack-edge.com/T02JL00JU-U02KG7QEP-07175f208ba8-512')"
+  />
+</employee-list>
+
 We are based in Vassbotnen - N4 in Stavanger. If you see us on the corridor, say hello!
 
 <employee-list>
@@ -36,7 +46,7 @@ We are based in Vassbotnen - N4 in Stavanger. If you see us on the corridor, say
   />
   <employee-card
     name="Magnus Longva"
-    title="Infrastructure"
+    title="Infrastructure - Based in Trondheim"
     :image="require('../../assets/images/radix-magnus.jpg')"
   />
   <employee-card
