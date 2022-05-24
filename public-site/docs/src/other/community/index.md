@@ -71,7 +71,7 @@ We are based in Vassbotnen - N4 in Stavanger. If you see us on the corridor, say
   />
   <employee-card
     name="Sondre Sjølyst"
-    title="Infrastructure/Developer"
+    title="Infrastructure / Developer"
     :image="require('../../assets/images/radix-sondre.jpg')"
   />
   <employee-card
