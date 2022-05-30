@@ -91,6 +91,7 @@ module.exports = {
             'topic-docker/',
             'topic-runtime-env/',
             'topic-security/',
+            'topic-vulnerabilities/',
             'topic-monitoring/',
             'topic-domain-names/',
             'topic-cost/',
