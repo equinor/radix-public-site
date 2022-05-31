@@ -150,7 +150,7 @@ The job-scheduler exposes the following methods for managing jobs
 
 ```json
 {
-  "JobScheduleDescriptions": [
+  "jobScheduleDescriptions": [
     {
       "payload": "{'data':'value1'}"
     },
@@ -253,7 +253,7 @@ To start a new batch of jobs, send a `POST` request to `http://compute:8000/api/
 
 ```json
 {
-  "JobScheduleDescriptions": [
+  "jobScheduleDescriptions": [
     {
       "payload": "{\"x\": 10, \"y\": 20}"
     },
@@ -267,7 +267,7 @@ To start a new batch of jobs, send a `POST` request to `http://compute:8000/api/
 Jobs can have `jobId`
 ```json
 {
-  "JobScheduleDescriptions": [
+  "jobScheduleDescriptions": [
     {
       "jobId": "job-1",
       "payload": "{\"x\": 10, \"y\": 20}"
@@ -283,7 +283,7 @@ Jobs can have `jobId`
 Default parameters for jobs can be defined within `DefaultRadixJobComponentConfig`. These parameters can be overridden for each job individually in `JobScheduleDescriptions`
 ```json
 {
-  "DefaultRadixJobComponentConfig": {
+  "defaultRadixJobComponentConfig": {
     "timeLimitSeconds": 200,
     "resources": {
       "limits": {
@@ -296,7 +296,7 @@ Default parameters for jobs can be defined within `DefaultRadixJobComponentConfi
       }
     }
   },
-  "JobScheduleDescriptions": [
+  "jobScheduleDescriptions": [
     {
       "payload": "{'data':'value1'}",
       "timeLimitSeconds": 120,

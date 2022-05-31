@@ -11,8 +11,8 @@
   ],
   "swagger": "2.0",
   "info": {
-    "description": "This is the API Server for the Radix job scheduler.",
-    "title": "classification Radix API.",
+    "description": "This is the API Server for the Radix job scheduler server.",
+    "title": "classification adix job scheduler server.",
     "contact": {
       "url": "https://equinor.slack.com/messages/CBKM6N2JY"
     },
@@ -20,6 +20,158 @@
   },
   "basePath": "/api/v1",
   "paths": {
+    "/batches": {
+      "post": {
+        "tags": [
+          "Batch"
+        ],
+        "summary": "Create batch",
+        "operationId": "createBatch",
+        "parameters": [
+          {
+            "description": "Batch to create",
+            "name": "batchCreation",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BatchScheduleDescription"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful create batch",
+            "schema": {
+              "$ref": "#/definitions/BatchStatus"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          },
+          "422": {
+            "description": "Invalid data in request",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        }
+      }
+    },
+    "/batches/": {
+      "get": {
+        "tags": [
+          "Batch"
+        ],
+        "summary": "Gets batches",
+        "operationId": "getBatches",
+        "responses": {
+          "200": {
+            "description": "Successful get batches",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/BatchStatus"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        }
+      }
+    },
+    "/batches/{batchName}": {
+      "get": {
+        "tags": [
+          "Batch"
+        ],
+        "summary": "Gets batch",
+        "operationId": "getBatch",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Name of batch",
+            "name": "batchName",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful get batch",
+            "schema": {
+              "$ref": "#/definitions/BatchStatus"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Batch"
+        ],
+        "summary": "Delete batch",
+        "operationId": "deleteBatch",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Name of batch",
+            "name": "batchName",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful delete batch",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        }
+      }
+    },
     "/jobs": {
       "post": {
         "tags": [
@@ -174,10 +326,112 @@
     }
   },
   "definitions": {
+    "BatchScheduleDescription": {
+      "description": "BatchScheduleDescription holds description about batch scheduling job",
+      "type": "object",
+      "required": [
+        "jobScheduleDescriptions"
+      ],
+      "properties": {
+        "defaultRadixJobComponentConfig": {
+          "$ref": "#/definitions/RadixJobComponentConfig"
+        },
+        "jobScheduleDescriptions": {
+          "description": "JobScheduleDescriptions descriptions of jobs to schedule within the batch",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/JobScheduleDescription"
+          },
+          "x-go-name": "JobScheduleDescriptions"
+        }
+      },
+      "x-go-package": "github.com/equinor/radix-job-scheduler/models"
+    },
+    "BatchStatus": {
+      "description": "BatchStatus holds general information about batch status",
+      "type": "object",
+      "required": [
+        "name",
+        "created"
+      ],
+      "properties": {
+        "batchName": {
+          "description": "BatchName Optional Batch ID of a job",
+          "type": "string",
+          "x-go-name": "BatchName",
+          "example": "'batch1'"
+        },
+        "created": {
+          "description": "Created timestamp",
+          "type": "string",
+          "x-go-name": "Created",
+          "example": "2006-01-02T15:04:05Z"
+        },
+        "ended": {
+          "description": "Ended timestamp",
+          "type": "string",
+          "x-go-name": "Ended",
+          "example": "2006-01-02T15:04:05Z"
+        },
+        "jobId": {
+          "description": "JobId Optional ID of a job",
+          "type": "string",
+          "x-go-name": "JobId",
+          "example": "'job1'"
+        },
+        "jobStatuses": {
+          "description": "JobStatuses of the jobs in the batch",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/JobStatus"
+          },
+          "x-go-name": "JobStatuses"
+        },
+        "message": {
+          "description": "Status message, if any, of the job",
+          "type": "string",
+          "x-go-name": "Message",
+          "example": "\"Error occurred\""
+        },
+        "name": {
+          "description": "Name of the job",
+          "type": "string",
+          "x-go-name": "Name",
+          "example": "calculator"
+        },
+        "started": {
+          "description": "Started timestamp",
+          "type": "string",
+          "x-go-name": "Started",
+          "example": "2006-01-02T15:04:05Z"
+        },
+        "status": {
+          "description": "Status of the job",
+          "type": "string",
+          "enum": [
+            "Waiting",
+            "Running",
+            "Succeeded",
+            "Stopping",
+            "Stopped",
+            "Failed"
+          ],
+          "x-go-name": "Status",
+          "example": "Waiting"
+        }
+      },
+      "x-go-package": "github.com/equinor/radix-job-scheduler/models"
+    },
     "JobScheduleDescription": {
       "description": "JobScheduleDescription holds description about scheduling job",
       "type": "object",
       "properties": {
+        "jobId": {
+          "description": "JobId Optional ID of a job",
+          "type": "string",
+          "x-go-name": "JobId",
+          "example": "'job1'"
+        },
         "node": {
           "$ref": "#/definitions/RadixNode"
         },
@@ -189,6 +443,12 @@
         },
         "resources": {
           "$ref": "#/definitions/ResourceRequirements"
+        },
+        "timeLimitSeconds": {
+          "description": "TimeLimitSeconds defines maximum job run time. Corresponds to ActiveDeadlineSeconds in K8s.",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "TimeLimitSeconds"
         }
       },
       "x-go-package": "github.com/equinor/radix-job-scheduler/models"
@@ -197,14 +457,39 @@
       "description": "JobStatus holds general information about job status",
       "type": "object",
       "required": [
-        "name"
+        "name",
+        "created"
       ],
       "properties": {
+        "batchName": {
+          "description": "BatchName Optional Batch ID of a job",
+          "type": "string",
+          "x-go-name": "BatchName",
+          "example": "'batch1'"
+        },
+        "created": {
+          "description": "Created timestamp",
+          "type": "string",
+          "x-go-name": "Created",
+          "example": "2006-01-02T15:04:05Z"
+        },
         "ended": {
           "description": "Ended timestamp",
           "type": "string",
           "x-go-name": "Ended",
           "example": "2006-01-02T15:04:05Z"
+        },
+        "jobId": {
+          "description": "JobId Optional ID of a job",
+          "type": "string",
+          "x-go-name": "JobId",
+          "example": "'job1'"
+        },
+        "message": {
+          "description": "Status message, if any, of the job",
+          "type": "string",
+          "x-go-name": "Message",
+          "example": "\"Error occurred\""
         },
         "name": {
           "description": "Name of the job",
@@ -236,6 +521,7 @@
       "x-go-package": "github.com/equinor/radix-job-scheduler/models"
     },
     "RadixJobComponentConfig": {
+      "description": "RadixJobComponentConfig holds description of RadixJobComponent",
       "type": "object",
       "properties": {
         "node": {
@@ -243,6 +529,12 @@
         },
         "resources": {
           "$ref": "#/definitions/ResourceRequirements"
+        },
+        "timeLimitSeconds": {
+          "description": "TimeLimitSeconds defines maximum job run time. Corresponds to ActiveDeadlineSeconds in K8s.",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "TimeLimitSeconds"
         }
       },
       "x-go-package": "github.com/equinor/radix-job-scheduler/models"
