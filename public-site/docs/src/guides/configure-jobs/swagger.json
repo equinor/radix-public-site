@@ -12,7 +12,7 @@
   "swagger": "2.0",
   "info": {
     "description": "This is the API Server for the Radix job scheduler server.",
-    "title": "classification adix job scheduler server.",
+    "title": "Radix job scheduler server.",
     "contact": {
       "url": "https://equinor.slack.com/messages/CBKM6N2JY"
     },
