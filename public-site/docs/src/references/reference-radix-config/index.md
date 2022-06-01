@@ -40,11 +40,16 @@ spec:
     secrets:
       - SECRET_1
       - SECRET_2
+    variables:
+      VAR1: val1    
+      CONNECTION_STRING: "Provider=MySQLProv;Data Source=mydb;"    
 ```
 
 The `build` section of the spec contains configuration needed during build (CI part) of the components. In this section you can specify build secrets, which is needed when pulling from locked registries, or cloning from locked repositories.
 
-Add the secrets to Radix config `radixconfig.yaml` in the branch defined as `Config Branch` for your application. This will trigger a new build. This build will fail as no specified build secret has been set. You will now be able to set the secret **values** in the configuration section of your app in the Radix Web Console.
+`secret` - add secrets to Radix config `radixconfig.yaml` in the branch defined as `Config Branch` for your application. This will trigger a new build. This build will fail as no specified build secret has been set. You will now be able to set the secret **values** in the configuration section of your app in the Radix Web Console.
+
+`variables` - environment variable names and values (currently available only in a custom sub-pipeline), provided for all build Radix environments in external pipeline. These common environment variables are overridden by environment-specific environment variables with the same names.
 
 To ensure that multiline build secrets are handled correct by the build, **all** build secrets are passed base-64 encoded, they need to be decoded before use. The [build secrets](../../guides/build-secrets/) guide describes how to use these arguments in a Dockerfile.
 
@@ -71,13 +76,35 @@ The name of the environment. Can be `dev`, `qa`, `production` etc.
 
 ### `build`
 
-The `build.from` specifies which branch each environment will build from. If you omit the `build.from` key for the environment, no automatic builds or deployments will be created. This configuration is useful for a promotion-based [workflow](../../guides/workflows/).
+`from` specifies which branch each environment will build from. If `from` is not specified for the environment, no automatic builds or deployments will be created. This configuration is useful for a promotion-based [workflow](../../guides/workflows/).
 
-We also support wildcard branch mapping using `*` and `?`. Examples of this are:
-
+Wildcard branch mapping is also support, using `*` and `?`. Examples:
 - `feature/*`
 - `feature-?`
 - `hotfix/**/*`
+
+`variables` - environment variable names and values (currently available only in a custom sub-pipeline), provided for this specific environment. It overrides common environment variables with the same names, if specified in the `spec.build.variables`.  
+
+Example:
+```yaml
+spec:
+  build:
+    variables:
+      VAR1: val1
+      CONNECTION_STRING: "Provider=MySQLProv;Data Source=prodDb;"
+  environments:
+    - name: dev
+      build:
+        from: main
+        variables:
+          VAR1: "val1-for-dev"  #overrides common env-var VAR1 in the "dev" external pipeline
+          CONNECTION_STRING: "Provider=MySQLProv;Data Source=devDb;" #overrides common env-var CONNECTION_STRING in the "dev" custom sub-pipeline
+    - name: prod
+      build:
+        from: release
+        variables:
+          VAR3: val3 #env-var VAR3 only exists in the "prod" custom sub-pipeline, in addition to common VAR1 and CONNECTION_STRING 
+```
 
 ### `egress`
 ```yaml
@@ -262,7 +289,7 @@ spec:
           cpu: "1000m"
 ```
 
-The `resources` section specifies how much CPU and memory each component needs, that are shared among all Radix environments in a component. These common resources are overriden by environment-specific resources.
+The `resources` section specifies how much CPU and memory each component needs, that are shared among all Radix environments in a component. These common resources are overridden by environment-specific resources.
 
 ### `variables` (common)
 
@@ -274,7 +301,7 @@ spec:
         DB_NAME: my-db
 ```
 
-The `variables` key contains environment variable names and their values, that are shared among all Radix environments in a component. These common environment variables are overriden by environment-specific environment variables that have exactly same names.
+The `variables` key contains environment variable names and their values, that are shared among all Radix environments in a component. These common environment variables are overridden by environment-specific environment variables that have exactly same names.
 
 Environment variables [can be changed](../../guides/environment-variables/) in Radix Console.
 
@@ -985,6 +1012,28 @@ spec:
       authentication:
         clientCertificate:
           verification: "optional_no_ca"
+      node:
+        gpu: nvidia-v100
+        gpuCount: 4
+      volumeMounts:
+                - type: azure-blob
+                  name: volume-name
+                  container: container-name
+                  path: /path/in/container/to/mount/to
+      secretRefs:
+        azureKeyVaults:
+          - name: radix-app-secrets
+            path: /mnt/key-vault
+            items:
+              - name: connection-string-dev
+                type: secret
+                envVar: CONNECTION_STRING
+              - name: key1
+                type: key
+                envVar: KEY1
+              - name: cert1
+                type: cert
+                envVar: CERT1
       environmentConfig:
         - environment: prod
           monitoring: true
