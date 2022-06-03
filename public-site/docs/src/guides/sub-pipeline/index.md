@@ -42,6 +42,7 @@ Within the Radix pipeline step "Run sub-pipeline", if the pipeline was loaded wi
 Follow the [Tekton documentation](https://tekton.dev/docs/) to configure a pipeline and its tasks, particularly [Pipeline](https://tekton.dev/docs/pipelines/pipelines/) and [task](https://tekton.dev/docs/pipelines/tasks/) documentation. 
 
 Some hints:
+* Tekton pipeline and tasks can be developed and tested [on local PC](https://tekton.dev/docs/getting-started/tasks/).
 * Name of the task, file name of the task and name of the task in the pipeline task list can be different. Important only to use the same name in the task field `metadata.name` and in the pipeline field `taskRef.name`. In the example below it is name `build-image`:
 
   _File_ `pipeline.yaml`:
@@ -68,7 +69,12 @@ Some hints:
     ```
 * It is not important in which order to put the tasks in the pipeline - tasks can run in parallel or in a sequences, defined by fields [runAfter](https://tekton.dev/docs/pipelines/pipelines/#using-the-runafter-field), [conditions](https://tekton.dev/docs/pipelines/pipelines/#guard-task-execution-using-conditions), [from](https://tekton.dev/docs/pipelines/pipelines/#using-the-from-field).
 * All tasks, referenced in the field `runAfter` should complete to start this task
+* Task:
+  * Pipeline task runs in own Kubernetes pod (replica)
+  * Task step runs in own container of its task pod.
+  * Task step [can be configured individually](https://tekton.dev/docs/pipelines/tasks/#defining-steps): which container image and how many resources to use, how proceed [with an error](https://tekton.dev/docs/pipelines/tasks/#specifying-onerror-for-a-step), specify a [timeout](https://tekton.dev/docs/pipelines/tasks/#specifying-a-timeout), if the task runs script - is it [bash](https://tekton.dev/docs/pipelines/tasks/#running-scripts-within-steps) or [PowerShell script](https://tekton.dev/docs/pipelines/tasks/#windows-scripts), etc.
 
 Examples:
 * [Simple pipeline](./example-simple-pipeline.md)
-* [Pipeline with multiple tasks](./example-pipeline-with-multiple-steps.md)
+* [Pipeline with multiple tasks](./example-pipeline-with-multiple-tasks.md)
+* [Pipeline with multiple task steps](./example-pipeline-with-multiple-task-steps.md)
