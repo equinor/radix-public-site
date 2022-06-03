@@ -27,5 +27,48 @@ Example: a pipeline `pipeline.yaml` references to tasks in files `clone.yaml`, `
 └── radixconfig.yaml
 ```
 
+Within the Radix pipeline step "Prepare pipeline", if there is a file with a pipeline:
+* the pipeline is loaded
+* all task, referenced in this pipeline are loaded from yaml files, located next to the pipeline file
+* if during load of pipeline or tasks and error occurred - the step "Prepare pipeline" and entire Radix pipeline job is considered failed. An error can be caused:
+  * invalid format in the pipeline or task files
+  * missing list of tasks in a pipeline
+  * missing task, referenced in a pipeline
+  * missing steps in a task
+Within the Radix pipeline step "Run sub-pipeline", if the pipeline was loaded withing the step "Prepare pipeline":
+* the pipeline is run
+* if any step of any task is failed - the pipeline gets status "failed", the step "Run sub-pipeline" and entire Radix pipeline job is considered failed
+
+Follow the [Tekton documentation](https://tekton.dev/docs/) to configure a pipeline and its tasks, particularly [Pipeline](https://tekton.dev/docs/pipelines/pipelines/) and [task](https://tekton.dev/docs/pipelines/tasks/) documentation. 
+
+Some hints:
+* Name of the task, file name of the task and name of the task in the pipeline task list can be different. Important only to use the same name in the task field `metadata.name` and in the pipeline field `taskRef.name`. In the example below it is name `build-image`:
+
+  _File_ `pipeline.yaml`:
+    ```yaml
+    apiVersion: tekton.dev/v1beta1
+    kind: Pipeline
+    metadata:
+      name: pipeline
+    spec:
+      tasks:
+        - name: some-build-task
+          taskRef:
+            name: build-image
+    ```
+  _File_ `build-image-task.yaml`:
+    ```yaml
+    apiVersion: tekton.dev/v1beta1
+    kind: Task
+    metadata:
+      name: build-image
+    spec:
+      steps:
+        ...
+    ```
+* It is not important in which order to put the tasks in the pipeline - tasks can run in parallel or in a sequences, defined by fields [runAfter](https://tekton.dev/docs/pipelines/pipelines/#using-the-runafter-field), [conditions](https://tekton.dev/docs/pipelines/pipelines/#guard-task-execution-using-conditions), [from](https://tekton.dev/docs/pipelines/pipelines/#using-the-from-field).
+* All tasks, referenced in the field `runAfter` should complete to start this task
+
 Examples:
-* [Simple pipeline](./pipeline-simple-example.md)
+* [Simple pipeline](./example-simple-pipeline.md)
+* [Pipeline with multiple tasks](./example-pipeline-with-multiple-steps.md)

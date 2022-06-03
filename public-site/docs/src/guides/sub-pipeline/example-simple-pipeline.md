@@ -1,5 +1,5 @@
 ---
-title: Sub-pipeline
+title: Sub-pipeline example: Simple pipeline
 ---
 
 # Sub-pipeline example: Simple pipeline
