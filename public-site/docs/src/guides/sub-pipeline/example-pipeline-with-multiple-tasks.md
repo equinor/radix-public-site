@@ -133,8 +133,8 @@ It is not important in which order to put the tasks - tasks can run in parallel 
 * Navigate to the Radix pipeline step "Run pipeline", when it is running or completed: the pipelines overview page shows a table with a list of pipelines - in this example it is one pipeline "pipeline-example", running for an environment "dev", and the pipeline status.
  ![pipelines](example-pipeline-with-multiple-pipelines.jpg)
 * Navigate to the pipeline (click on its name in the table row)
-* The pipeline overview page shows a table with a list of this pipeline's tasks - in this example it is one task "task-example-hello", and the task status.
+* The pipeline overview page shows a table with a list of this pipeline's tasks - in this example it is a list of tasks "show-hello", "show-letters", "show-numbers", "show-goodbye", and the task statuses.
   ![pipelines](example-pipeline-with-multiple-tasks.jpg)
 * Navigate to the task (click on its name in the table row)
-* The pipeline task overview page shows a table with a list of this task's steps - in this example it is one step "say-hello", the step status and the step log: text "Hello", printed by the command `echo "Hello"` in the Linux container.
+* The pipeline task overview page shows a table with a task's step, with a name of a step, step status and the step log.
   ![pipelines](example-pipeline-with-multiple-task-letters.jpg)
