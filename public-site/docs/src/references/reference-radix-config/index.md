@@ -1016,10 +1016,10 @@ spec:
         gpu: nvidia-v100
         gpuCount: 4
       volumeMounts:
-                - type: azure-blob
-                  name: volume-name
-                  container: container-name
-                  path: /path/in/container/to/mount/to
+        - type: azure-blob
+          name: volume-name
+          container: container-name
+          path: /path/in/container/to/mount/to
       secretRefs:
         azureKeyVaults:
           - name: radix-app-secrets
