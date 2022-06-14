@@ -997,6 +997,15 @@ spec:
       build:
         from: master
     - name: prod
+      egress:
+        allowRadix: true
+        rules:
+        - destinations: 
+          - "143.97.5.5/32"
+          - "143.97.6.1/32"
+          ports:
+          - port: 443
+            protocol: TCP
   components:
     - name: frontend
       src: frontend

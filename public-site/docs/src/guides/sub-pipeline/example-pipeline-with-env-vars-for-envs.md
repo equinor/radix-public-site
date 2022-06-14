@@ -6,14 +6,14 @@ title: "Sub-pipeline example: Pipeline with environment variables"
 
 [Source code](https://github.com/equinor/radix-sub-pipeline-example/tree/pipeline-example-with-env-vars-for-envs) for this example.
 
-* This example extends the example [Pipeline with environment variables](./example-pipeline-with-env-vars.md). The differences are following: 
+* This example extends the example [Sub-pipeline with environment variables](./example-pipeline-with-env-vars.md). The differences are following: 
 * In the task below:
-  * There is two more parameters with names `CONNECTION_STRING` - mandatory, no default value, and `PROD_USER` - optional, set default value if it is not passed from the pipeline.
+  * There is two more parameters with names `CONNECTION_STRING` - mandatory, no default value, and `PROD_USER` - optional, set default value if it is not passed from the sub-pipeline.
   ```yaml
   params:
     ...
-    - name: CONNECTION_STRING     #it must be set in a pipeline's task params, because it does not have default value
-    - name: PROD_USER             #it can be set in a pipeline's task params, if not - used default "not-set-in-task"
+    - name: CONNECTION_STRING     #it must be set in a sub-pipeline's task params, because it does not have default value
+    - name: PROD_USER             #it can be set in a sub-pipeline's task params, if not - used default "not-set-in-task"
       default:
         type: string
         stringVal: not-set-in-task  
@@ -37,25 +37,25 @@ title: "Sub-pipeline example: Pipeline with environment variables"
     name: env-vars-list
   spec:
     params:
-      - name: VAR1T                 #it must be set in a pipeline's task params, because it does not have default value
-      - name: VAR2T                 #it can be set in a pipeline's task params, if not - used default "not-set-var2-in-task"
+      - name: VAR1T                 #it must be set in a sub-pipeline's task params, because it does not have default value
+      - name: VAR2T                 #it can be set in a sub-pipeline's task params, if not - used default "not-set-var2-in-task"
         default:
           type: string
           stringVal: not-set-var2-in-task
-      - name: VAR3T                 #it can be set in a pipeline's task params, if not - used default "not-set-var3-in-task"
+      - name: VAR3T                 #it can be set in a sub-pipeline's task params, if not - used default "not-set-var3-in-task"
         default:
           type: string
           stringVal: not-set-var3-in-task
-      - name: VAR4T                 #it can be set in a pipeline's task params, if not - used default "not-set-var4-in-task"
+      - name: VAR4T                 #it can be set in a sub-pipeline's task params, if not - used default "not-set-var4-in-task"
         default:
           type: string
           stringVal: not-set-var4-in-task
-      - name: VAR5T                 #it can be set in a pipeline's task params, if not - used default "not-set-var5-in-task"
+      - name: VAR5T                 #it can be set in a sub-pipeline's task params, if not - used default "not-set-var5-in-task"
         default:
           type: string
           stringVal: not-set-var5-in-task
-      - name: CONNECTION_STRING     #it must be set in a pipeline's task params, because it does not have default value
-      - name: PROD_USER             #it can be set in a pipeline's task params, if not - used default "not-set-in-task"
+      - name: CONNECTION_STRING     #it must be set in a sub-pipeline's task params, because it does not have default value
+      - name: PROD_USER             #it can be set in a sub-pipeline's task params, if not - used default "not-set-in-task"
         default:
           type: string
           stringVal: not-set-in-task
@@ -83,7 +83,7 @@ title: "Sub-pipeline example: Pipeline with environment variables"
           #!/usr/bin/env sh
           printenv | grep -E 'VAR|Connection|User'
   ```
-* The pipeline in addition has:
+* The sub-pipeline in addition has:
   * parameters `CONNECTION_STRING` - mandatory, no default value, and `PROD_USER` - optional, set default value if it is not set in the `radixconfig.yaml`
   ```yaml
     params:
@@ -94,7 +94,7 @@ title: "Sub-pipeline example: Pipeline with environment variables"
           type: string
           stringVal: ""
   ```
-  * task parameters `CONNECTION_STRING` - set by `CONNECTION_STRING` pipeline parameter, and `PROD_USER` - set by `PROD_USER` pipeline parameter
+  * task parameters `CONNECTION_STRING` - set by `CONNECTION_STRING` sub-pipeline parameter, and `PROD_USER` - set by `PROD_USER` sub-pipeline parameter
   ```yaml
   params:
     ...
@@ -107,7 +107,7 @@ title: "Sub-pipeline example: Pipeline with environment variables"
         type: string
         stringVal: $(params.PROD_USER)
   ```
-  * Pipeline file `pipeline.yaml`
+  * Sub-pipeline file `pipeline.yaml`
 ```yaml
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
@@ -175,15 +175,15 @@ metadata:
 spec:
   build:
     variables:
-      VAR1: value1     #it must be set, as it is expected by the pipeline
-      VAR2: value2     #it can be set, if it does not exist - the pipeline will set default value
-      VAR100: value100 #it is not used in the pipeline and its tasks
+      VAR1: value1     #it must be set, as it is expected by the sub-pipeline
+      VAR2: value2     #it can be set, if it does not exist - the sub-pipeline will set default value
+      VAR100: value100 #it is not used in the sub-pipeline and its tasks
   environments:
     - name: dev
       build:
         from: pipeline-example-with-env-vars-for-envs
         variables:
-          VAR1: "val1-for-dev"  #overrides common env-var VAR1 in the "dev" external pipeline
+          VAR1: "val1-for-dev"  #overrides common env-var VAR1 in the "dev" Radix pipeline
           CONNECTION_STRING: "Provider=MySQLProv;Data Source=devDb;" #overrides common env-var CONNECTION_STRING in the "dev" custom sub-pipeline
     - name: prod
       build:
@@ -203,19 +203,19 @@ spec:
     component: frontend
 ```
   * common valiables: `VAR1`, `VAR2` and `VAR100`, they can be used in all environments. 
-    * `VAR1` - mandatory variable, it is expected by the pipeline. 
+    * `VAR1` - mandatory variable, it is expected by the sub-pipeline. 
     * `VAR2` - optional
-    * `VAR100` - unnecessary variable, not used in the pipeline, it will be not passed to the pipeline parameters.
+    * `VAR100` - unnecessary variable, not used in the sub-pipeline, it will be not passed to the sub-pipeline parameters.
   ```yaml
   spec:
     build:
       variables:
-        VAR1: value1     #it must be set, as it is expected by the pipeline
-        VAR2: value2     #it can be set, if it does not exist - the pipeline will set default value
-        VAR100: value100 #it is not used in the pipeline and its tasks
+        VAR1: value1     #it must be set, as it is expected by the sub-pipeline
+        VAR2: value2     #it can be set, if it does not exist - the sub-pipeline will set default value
+        VAR100: value100 #it is not used in the sub-pipeline and its tasks
   ```
   * `dev` build environment:
-    * Common variable `VAR1` is overridden to be passed to the pipeline parameter `VAR1` with the value "val1-for-dev".
+    * Common variable `VAR1` is overridden to be passed to the sub-pipeline parameter `VAR1` with the value "val1-for-dev".
     * New variable `CONNECTION_STRING` contains `dev`-environment specific connection string "Provider=MySQLProv;Data Source=**devDb**;"
   ```yaml
   environments:
@@ -239,16 +239,16 @@ spec:
           CONNECTION_STRING: "Provider=MySQLProv;Data Source=prodDb;" #overrides common env-var CONNECTION_STRING in the "prod" custom sub-pipeline
   ```
 > Common variable `CONNECTION_STRING` does not exists, as it is always different in each environment
-This pipeline runs the task `show-env-vars` (which reference to the task `env-vars-list` described in the file `env-vars-list-task.yaml`), which has one step, as described above. This step run a script, printing environment variables, which names contain text `VAR`
+This sub-pipeline runs the task `show-env-vars` (which reference to the task `env-vars-list` described in the file `env-vars-list-task.yaml`), which has one step, as described above. This step run a script, printing environment variables, which names contain text `VAR`
 ```yaml
 #!/usr/bin/env sh
 printenv | grep -E 'VAR|Connection|User'
 ```
 * Commit changes in the repository. Look at the details of a started Radix pipeline job (if the Radix app is connected to the GitHub WebHook, otherwise - start a job manually). 
-* Pipelines and tasks lists are similar tpo the example [Pipeline with environment variables](./example-pipeline-with-env-vars.md). 
+* Sub-pipelines and tasks lists are similar to the example [Sub-pipeline with environment variables](./example-pipeline-with-env-vars.md). 
 * Navigate to the task (click on its name in the table row)
-* The pipeline task overview page shows a table with a list of this task's steps - in this example it is one step "show-env-vars-list", the step status and log.
-  * Step for the pipeline in the `dev` environment. The variable `ConnectionString` contains "Data Source=**dev**Db", `VAR1example` has _overridden_ common value "val1-for-dev", `ProdUser` has no value
+* The sub-pipeline task overview page shows a table with a list of this task's steps - in this example it is one step "show-env-vars-list", the step status and log.
+  * Step for the sub-pipeline in the `dev` environment. The variable `ConnectionString` contains "Data Source=**dev**Db", `VAR1example` has _overridden_ common value "val1-for-dev", `ProdUser` has no value
     ![pipelines](example-pipeline-with-env-vars-for-env-dev-task-step.jpg)
   The log shows environment variables of the step container:
   ```bash
@@ -261,14 +261,14 @@ printenv | grep -E 'VAR|Connection|User'
   VAR6example=value6
   ProdUser=
   ```
-    * `VAR6example` - this variable is not defined in the pipeline's task `params` and task's `params`, it is set implicitly in the task step's field `env`
+    * `VAR6example` - this variable is not defined in the sub-pipeline's task `params` and task's `params`, it is set implicitly in the task step's field `env`
     ```yaml
       steps:
         - env:
             - name: VAR6example
               value: "value6"
     ```
-  * Step for the pipeline in the `prod` environment. The variable `ConnectionString` contains "Data Source=**prod**Db", `VAR1example` has _common_ value "value1", `ProdUser` has value "value6"
+  * Step for the sub-pipeline in the `prod` environment. The variable `ConnectionString` contains "Data Source=**prod**Db", `VAR1example` has _common_ value "value1", `ProdUser` has value "value6"
     ![pipelines](example-pipeline-with-env-vars-for-env-prod-task-step.jpg)
     The log shows environment variables of the step container:
   ```yaml
