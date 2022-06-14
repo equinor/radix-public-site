@@ -76,10 +76,21 @@ Some hints:
   * Each sub-pipeline task runs in its own Kubernetes pod (replica).
   * Task step runs in its own container of this task's pod.
   * Task step [can be configured individually](https://tekton.dev/docs/pipelines/tasks/#defining-steps): which container image and how many resources to use, how to proceed [on an error](https://tekton.dev/docs/pipelines/tasks/#specifying-onerror-for-a-step), specify a [timeout](https://tekton.dev/docs/pipelines/tasks/#specifying-a-timeout), if the task runs script - is it [bash](https://tekton.dev/docs/pipelines/tasks/#running-scripts-within-steps) or [PowerShell](https://tekton.dev/docs/pipelines/tasks/#windows-scripts) script, etc.
+  * When task step uses `script` - it would be recommended to finish this script with the `no-op` command: put `:` (column) on the last new line of the script. It will help to avoid some irrelevant errors (e.g. in the example below: run of this task raises an error, when the command `printenv|grep "DB"` is on the last line of the script and there are no environment variables with a fragment "DB" in names). Or just put a command like `echo ""`
+    ```yaml
+    spec:
+      steps:
+      - image: alpine
+        name: show-db-env-vars
+        script: |
+          #!/usr/bin/env sh
+          printenv|grep "DB"
+          :
+    ```
 
 ## Examples:
-* [Simple pipeline](./example-simple-pipeline.md)
-* [Pipeline with multiple tasks](./example-pipeline-with-multiple-tasks.md)
-* [Pipeline with multiple task steps](./example-pipeline-with-multiple-task-steps.md)
-* [Pipeline with build environment variables](./example-pipeline-with-env-vars.md)
-* [Pipeline with build environment variables for environments](./example-pipeline-with-env-vars-for-envs.md)
+* [Simple sub-pipeline](./example-simple-pipeline.md)
+* [Sub-pipeline with multiple tasks](./example-pipeline-with-multiple-tasks.md)
+* [Sub-pipeline with multiple task steps](./example-pipeline-with-multiple-task-steps.md)
+* [Sub-pipeline with build environment variables](./example-pipeline-with-env-vars.md)
+* [Sub-pipeline with build environment variables for environments](./example-pipeline-with-env-vars-for-envs.md)
