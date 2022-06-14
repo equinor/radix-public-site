@@ -76,7 +76,7 @@ Some hints:
   * Each sub-pipeline task runs in its own Kubernetes pod (replica).
   * Task step runs in its own container of this task's pod.
   * Task step [can be configured individually](https://tekton.dev/docs/pipelines/tasks/#defining-steps): which container image and how many resources to use, how to proceed [on an error](https://tekton.dev/docs/pipelines/tasks/#specifying-onerror-for-a-step), specify a [timeout](https://tekton.dev/docs/pipelines/tasks/#specifying-a-timeout), if the task runs script - is it [bash](https://tekton.dev/docs/pipelines/tasks/#running-scripts-within-steps) or [PowerShell](https://tekton.dev/docs/pipelines/tasks/#windows-scripts) script, etc.
-  * When task step uses `script` - it would be recommended to finish this script with the `no-op` command: put `:` (column) on the last new line of the script. It will help to avoid some irrelevant errors (line in the example below - task run raises an error, when there is no environment variables with "DB" in names). Or just put a command like `echo ""`
+  * When task step uses `script` - it would be recommended to finish this script with the `no-op` command: put `:` (column) on the last new line of the script. It will help to avoid some irrelevant errors (e.g. in the example below: run of this task raises an error, when the command `printenv|grep "DB"` is on the last line of the script and there is no environment variables with a fragment "DB" in names). Or just put a command like `echo ""`
     ```yaml
     spec:
       steps:
