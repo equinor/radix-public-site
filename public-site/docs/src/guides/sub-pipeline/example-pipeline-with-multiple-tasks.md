@@ -7,8 +7,8 @@ title: "Sub-pipeline example: Pipeline with multiple tasks"
 [Source code](https://github.com/equinor/radix-sub-pipeline-example/tree/pipeline-with-multiple-tasks) for this example.
 
 * In the Radix application repository create a folder `tekton`. This folder need to be on the root level of the repository, in the configuration branch (same as `radixconfig.yaml`) 
-* The pipeline in this example runs multiple tasks.
-* Create files with tasks. File names of tasks can be arbitrary (no any connection with a task actual name, used in a pipeline), file extensions should be `yaml`.
+* The sub-pipeline in this example runs multiple tasks.
+* Create files with tasks. File names of tasks can be arbitrary (no any connection with a task actual name, used in a sub-pipeline), file extensions should be `yaml`.
   * Create a file `hello-task.yaml` for the task `hello`. This task runs in the container with Alpine Linux and execute one command `echo "Hello"`.
     ```yaml
     apiVersion: tekton.dev/v1beta1
@@ -76,7 +76,7 @@ title: "Sub-pipeline example: Pipeline with multiple tasks"
             - "-c"
             - "print('Goodbye')"
     ```
-* Create a file `pipeline.yaml`. Add tasks in the `tasks` list: give them names (it can be any name, unique within this pipeline), in the property `taskRef` ("reference to a task") put the value from the property `metadata.name` of the tasks, created above:
+* Create a file `pipeline.yaml`. Add tasks in the `tasks` list: give them names (it can be any name, unique within this sub-pipeline), in the property `taskRef` ("reference to a task") put the value from the property `metadata.name` of the tasks, created above:
 ```yaml
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
@@ -116,7 +116,7 @@ spec:
 │   └── goodbye-task.yaml
 └── radixconfig.yaml
 ```
-This pipeline runs first the task `show-hello` (which reference to the task `hello` described in the file `hello-task.yaml`), then two tasks in parallel `show-numbers` and `show-letters` (referenced to the tasks `numbers` and `letter` correspondingly) - these tasks wait for completion of the task `show-hello` as both have set the _optional_ property `runAfter` 
+This sub-pipeline runs first the task `show-hello` (which reference to the task `hello` described in the file `hello-task.yaml`), then two tasks in parallel `show-numbers` and `show-letters` (referenced to the tasks `numbers` and `letter` correspondingly) - these tasks wait for completion of the task `show-hello` as both have set the _optional_ property `runAfter` 
 ```yaml
 runAfter:
   - show-hello
@@ -130,11 +130,11 @@ runAfter:
 It is not important in which order to put the tasks - tasks can run in parallel or in a sequences, defined by fields [runAfter](https://tekton.dev/docs/pipelines/pipelines/#using-the-runafter-field), [conditions](https://tekton.dev/docs/pipelines/pipelines/#guard-task-execution-using-conditions), [from](https://tekton.dev/docs/pipelines/pipelines/#using-the-from-field). 
 
 * Commit changes in the repository. Look at the details of a started Radix pipeline job (if the Radix app is connected to the GitHub WebHook, otherwise - start a job manually). 
-* Navigate to the Radix pipeline step "Run pipeline", when it is running or completed: the pipelines overview page shows a table with a list of pipelines - in this example it is one pipeline "pipeline-example", running for an environment "dev", and the pipeline status.
+* Navigate to the Radix pipeline step "Run pipeline", when it is running or completed: the pipelines overview page shows a table with a list of sub-pipelines - in this example it is one sub-pipeline "pipeline-example", running for an environment "dev", and the sub-pipeline status.
  ![pipelines](example-pipeline-with-multiple-pipelines.jpg)
-* Navigate to the pipeline (click on its name in the table row)
-* The pipeline overview page shows a table with a list of this pipeline's tasks - in this example it is a list of tasks "show-hello", "show-letters", "show-numbers", "show-goodbye", and the task statuses.
+* Navigate to the sub-pipeline (click on its name in the table row)
+* The pipeline overview page shows a table with a list of this sub-pipeline's tasks - in this example it is a list of tasks "show-hello", "show-letters", "show-numbers", "show-goodbye", and the task statuses.
   ![pipelines](example-pipeline-with-multiple-tasks.jpg)
 * Navigate to the task (click on its name in the table row)
-* The pipeline task overview page shows a table with a task's step, with a name of a step, step status and the step log.
+* The sub-pipeline task overview page shows a table with a task's step, with a name of a step, step status and the step log.
   ![pipelines](example-pipeline-with-multiple-task-letters.jpg)

@@ -7,7 +7,7 @@ title: "Sub-pipeline example: Pipeline with multiple task steps"
 [Source code](https://github.com/equinor/radix-sub-pipeline-example/tree/pipeline-with-multiple-task-steps) for this example.
 
 * In the Radix application repository create a folder `tekton`. This folder need to be on the root level of the repository, in the configuration branch (same as `radixconfig.yaml`) 
-* The pipeline in this example runs a task, which has two steps. 
+* The sub-pipeline in this example runs a task, which has two steps. 
 * Create a file `process-repo-task.yaml` for the task `process`. This task has two steps:
   * The first step is "clone-repo" runs in the container with Alpine Linux and Git CLI, pre-installed  on it. `Args` declares options of the Git CLI command, in this example - clone a branch of GitHub repo. This particular repo is public, no need for credentials to access it.
   * The second step is "show-repo" -it performs "processing" of cloned repository, in this example - it just shows its folder content. This "processing" can be a build of the source code, database migration script, etc. or it can be multiple steps
@@ -45,7 +45,7 @@ title: "Sub-pipeline example: Pipeline with multiple task steps"
       - name: source-volume                                       #a volume, which can be shared between task steps
         emptyDir: {}                                              #just an empty volume, being deleted after completion of the task
   ```
-* Create a file `pipeline.yaml`. Add tasks in the `tasks` list: give them names (it can be any name, unique within this pipeline), in the property `taskRef` ("reference to a task") put the value from the property `metadata.name` of the tasks, created above:
+* Create a file `pipeline.yaml`. Add tasks in the `tasks` list: give them names (it can be any name, unique within this sub-pipeline), in the property `taskRef` ("reference to a task") put the value from the property `metadata.name` of the tasks, created above:
 ```yaml
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
@@ -64,14 +64,14 @@ spec:
 │   └── process-repo-task.yaml
 └── radixconfig.yaml
 ```
-This pipeline runs the task `process-repo` (which reference to the task `process` described in the file `process-repo-task.yaml`), which has two steps, as described above. 
+This sub-pipeline runs the task `process-repo` (which reference to the task `process` described in the file `process-repo-task.yaml`), which has two steps, as described above. 
 
 * Commit changes in the repository. Look at the details of a started Radix pipeline job (if the Radix app is connected to the GitHub WebHook, otherwise - start a job manually). 
-* Navigate to the Radix pipeline step "Run pipeline", when it is running or completed: the pipelines overview page shows a table with a list of pipelines - in this example it is one pipeline "pipeline-with-multiple-task-steps", running for an environment "dev", and the pipeline status.
+* Navigate to the Radix pipeline step "Run pipeline", when it is running or completed: the pipelines overview page shows a table with a list of sub-pipelines - in this example it is one sub-pipeline "pipeline-with-multiple-task-steps", running for an environment "dev", and the sub-pipeline status.
  ![pipelines](example-pipeline-with-multiple-task-steps.jpg)
-* Navigate to the pipeline (click on its name in the table row)
-* The pipeline overview page shows a table with a list of this pipeline's tasks - in this example it is one task "process-repo", and the task status.
+* Navigate to the sub-pipeline (click on its name in the table row)
+* The pipeline overview page shows a table with a list of this sub-pipeline's tasks - in this example it is one task "process-repo", and the task status.
   ![pipelines](example-pipeline-with-multiple-task-steps-task-list.jpg))
 * Navigate to the task (click on its name in the table row)
-* The pipeline task overview page shows a table with a list of this task's steps - in this example these are steps "clone-repo", and "show-repo", the step statuses and logs of these steps.
+* The sub-pipeline task overview page shows a table with a list of this task's steps - in this example these are steps "clone-repo", and "show-repo", the step statuses and logs of these steps.
   ![pipelines](example-pipeline-with-multiple-task-steps-step-list.jpg)
