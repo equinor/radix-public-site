@@ -997,6 +997,15 @@ spec:
       build:
         from: master
     - name: prod
+      egress:
+        allowRadix: true
+        rules:
+        - destinations: 
+          - "143.97.5.5/32"
+          - "143.97.6.1/32"
+          ports:
+          - port: 443
+            protocol: TCP
   components:
     - name: frontend
       src: frontend
@@ -1016,10 +1025,10 @@ spec:
         gpu: nvidia-v100
         gpuCount: 4
       volumeMounts:
-                - type: azure-blob
-                  name: volume-name
-                  container: container-name
-                  path: /path/in/container/to/mount/to
+        - type: azure-blob
+          name: volume-name
+          container: container-name
+          path: /path/in/container/to/mount/to
       secretRefs:
         azureKeyVaults:
           - name: radix-app-secrets

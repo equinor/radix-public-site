@@ -7,15 +7,15 @@ title: "Sub-pipeline example: Pipeline with environment variables"
 [Source code](https://github.com/equinor/radix-sub-pipeline-example/tree/pipeline-example-with-env-vars) for this example.
 
 * In the Radix application repository create a folder `tekton`. This folder need to be on the root level of the repository, in the configuration branch (same as `radixconfig.yaml`) 
-* The pipeline in this example runs one task. 
+* The sub-pipeline in this example runs one task. 
 * Create a file `env-vars-list-task.yaml` for the task `env-vars-list`. This task has one step "show-env-vars-list", which runs in the container with Alpine Linux. 
   * The step runs a script with one command `printenv | grep 'VAR'` - show a list of the step's container environment variables, with names containing "VAR".
   * The task has input [parameters](https://tekton.dev/docs/pipelines/tasks/#specifying-parameters) in the field `params`
   * The task step has description of environment variables in the field `env`, which will be created in the step's container. These environment variables can get values from parameters, referencing to them with `$(params.PARAM_NAME)` or explicitly set with a value. 
   * In the task below - there is parameters with names `VAR1T`, `VAR2T`, `VAR3T` (names not necessary have to be in capital letters).
-    * Actual parameter values are set in the pipeline, which use the task, like arguments of a method in programming languages 
-    * `VAR1T` - this parameter does not have default value, so it _has_ to be set in the pipeline, otherwise there will be an error "missing parameters". When `type` of a parameter is not set, it is a `string`.
-    * `VAR2T`, `VAR3T`, `VAR4T`, `VAR5T` - these parameters have default values. Field `default` allows to specify a value, used when the param is not passed from a pipeline and its type. Available types are `string` and `array`. When type is `string` - default value should be put to the field `stringVal`, when type is `array` - default value should be put to the field `arrayVal`.
+    * Actual parameter values are set in the sub-pipeline, which use the task, like arguments of a method in programming languages 
+    * `VAR1T` - this parameter does not have default value, so it _has_ to be set in the sub-pipeline, otherwise there will be an error "missing parameters". When `type` of a parameter is not set, it is a `string`.
+    * `VAR2T`, `VAR3T`, `VAR4T`, `VAR5T` - these parameters have default values. Field `default` allows to specify a value, used when the param is not passed from a sub-pipeline and its type. Available types are `string` and `array`. When type is `string` - default value should be put to the field `stringVal`, when type is `array` - default value should be put to the field `arrayVal`.
   ```yaml
   apiVersion: tekton.dev/v1beta1
   kind: Task
@@ -23,20 +23,20 @@ title: "Sub-pipeline example: Pipeline with environment variables"
     name: env-vars-list
   spec:
     params:
-      - name: VAR1T                 #it must be set in a pipeline's task params, because it does not have default value
-      - name: VAR2T                 #it can be set in a pipeline's task params, if not - used default "not-set-var2-in-task"
+      - name: VAR1T                 #it must be set in a sub-pipeline's task params, because it does not have default value
+      - name: VAR2T                 #it can be set in a sub-pipeline's task params, if not - used default "not-set-var2-in-task"
         default:
           type: string
           stringVal: not-set-var2-in-task
-      - name: VAR3T                 #it can be set in a pipeline's task params, if not - used default "not-set-var3-in-task"
+      - name: VAR3T                 #it can be set in a sub-pipeline's task params, if not - used default "not-set-var3-in-task"
         default:
           type: string
           stringVal: not-set-var3-in-task
-      - name: VAR4T                 #it can be set in a pipeline's task params, if not - used default "not-set-var4-in-task"
+      - name: VAR4T                 #it can be set in a sub-pipeline's task params, if not - used default "not-set-var4-in-task"
         default:
           type: string
           stringVal: not-set-var4-in-task
-      - name: VAR5T                 #it can be set in a pipeline's task params, if not - used default "not-set-var5-in-task"
+      - name: VAR5T                 #it can be set in a sub-pipeline's task params, if not - used default "not-set-var5-in-task"
         default:
           type: string
           stringVal: not-set-var5-in-task
@@ -60,7 +60,7 @@ title: "Sub-pipeline example: Pipeline with environment variables"
           #!/usr/bin/env sh
           printenv | grep 'VAR'
   ```
-* Create a file `pipeline.yaml`. Add a task in the `tasks` list: give it a name (it can be any name, unique within this pipeline), in the property `taskRef` ("reference to a task") put the value from the property `metadata.name` of the task, created above:
+* Create a file `pipeline.yaml`. Add a task in the `tasks` list: give it a name (it can be any name, unique within this sub-pipeline), in the property `taskRef` ("reference to a task") put the value from the property `metadata.name` of the task, created above:
 ```yaml
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
@@ -78,7 +78,7 @@ spec:
         type: string
         stringVal: not-set-var3
   tasks:
-    - name: show-env-vars      #name of the task "env-vars-list" in this pipeline
+    - name: show-env-vars      #name of the task "env-vars-list" in this sub-pipeline
       params:
         - name: VAR1T          #set by parameter VAR1, from the radixconfig.yaml
           value:
@@ -107,20 +107,20 @@ spec:
 │   └── env-vars-list-task.yaml
 └── radixconfig.yaml
 ```
-* In the file `radixconfig.yaml` add a field `build` with sub-field `variables`. Values of these variables will be passed to the pipeline parameters, which have the same name:
-  * `VAR1` - mandatory variable, passed to the pipeline's parameter `VAR1`
-  * `VAR2` - optional variable, passed to the pipeline's parameter `VAR2`. If it does not exist in the `radixconfig.yaml`, the pipeline parameter `VAR2` will get a value, specified in its `default` field.
-  * `VAR100` - unnecessary variable, not used in the pipeline, it will be not passed to the pipeline parameters. 
+* In the file `radixconfig.yaml` add a field `build` with sub-field `variables`. Values of these variables will be passed to the sub-pipeline parameters, which have the same name:
+  * `VAR1` - mandatory variable, passed to the sub-pipeline's parameter `VAR1`
+  * `VAR2` - optional variable, passed to the sub-pipeline's parameter `VAR2`. If it does not exist in the `radixconfig.yaml`, the sub-pipeline parameter `VAR2` will get a value, specified in its `default` field.
+  * `VAR100` - unnecessary variable, not used in the sub-pipeline, it will be not passed to the sub-pipeline parameters. 
 ```yaml
 spec:
   build:
     variables:
-      VAR1: value1     #it must be set, as it is expected by the pipeline
-      VAR2: value2     #it can be set, if it does not exist - the pipeline will set default value
-      VAR100: value100 #it is not used in the pipeline and its tasks
+      VAR1: value1     #it must be set, as it is expected by the sub-pipeline
+      VAR2: value2     #it can be set, if it does not exist - the sub-pipeline will set default value
+      VAR100: value100 #it is not used in the sub-pipeline and its tasks
 ```
 * 
-This pipeline runs the task `show-env-vars` (which reference to the task `env-vars-list` described in the file `env-vars-list-task.yaml`), which has one step, as described above. This step run a script, printing environment variables, which names contain text `VAR`
+This sub-pipeline runs the task `show-env-vars` (which reference to the task `env-vars-list` described in the file `env-vars-list-task.yaml`), which has one step, as described above. This step run a script, printing environment variables, which names contain text `VAR`
 ```yaml
 #!/usr/bin/env sh
 printenv | grep 'VAR'
@@ -131,13 +131,13 @@ printenv | grep 'VAR'
 > ```
 
 * Commit changes in the repository. Look at the details of a started Radix pipeline job (if the Radix app is connected to the GitHub WebHook, otherwise - start a job manually). 
-* Navigate to the Radix pipeline step "Run pipeline", when it is running or completed: the pipelines overview page shows a table with a list of pipelines - in this example it is one pipeline "pipeline-example-with-env-vars", running for an environment "dev", and the pipeline status.
+* Navigate to the Radix pipeline step "Run pipeline", when it is running or completed: the pipelines overview page shows a table with a list of sub-pipelines - in this example it is one sub-pipeline "pipeline-example-with-env-vars", running for an environment "dev", and the sub-pipeline status.
  ![pipelines](example-pipeline-with-env-vars-pipelines.jpg)
-* Navigate to the pipeline (click on its name in the table row)
-* The pipeline overview page shows a table with a list of this pipeline's tasks - in this example it is one task "env-vars-list", and the task status.
+* Navigate to the sub-pipeline (click on its name in the table row)
+* The sub-pipeline overview page shows a table with a list of this sub-pipeline's tasks - in this example it is one task "env-vars-list", and the task status.
   ![pipelines](example-pipeline-with-env-vars-tasks.jpg))
 * Navigate to the task (click on its name in the table row)
-* The pipeline task overview page shows a table with a list of this task's steps - in this example it is one step "show-env-vars-list", the step status and log.
+* The sub-pipeline task overview page shows a table with a list of this task's steps - in this example it is one step "show-env-vars-list", the step status and log.
   ![pipelines](example-pipeline-with-env-vars-task-step.jpg)
 The log shows environment variables of the step container:
   ```bash
@@ -155,7 +155,7 @@ The log shows environment variables of the step container:
       VAR1: value1
       VAR2: value2
   ```
-  * `VAR3example` - this variable gets its default value fom pipeline's `params` field
+  * `VAR3example` - this variable gets its default value fom sub-pipeline's `params` field
   ```yaml
   spec:
     params:
@@ -164,7 +164,7 @@ The log shows environment variables of the step container:
           type: string
           stringVal: not-set-var3
   ```
-  * `VAR4example` - this variable is set explicitly in the pipeline, in the task `params`
+  * `VAR4example` - this variable is set explicitly in the sub-pipeline, in the task `params`
   ```yaml
     tasks:
       - name: show-env-vars
@@ -174,16 +174,16 @@ The log shows environment variables of the step container:
               type: string
               stringVal: value4
   ```
-  * `VAR5example` - this variable is not defined in the pipeline's task `params`, it is set to its default value, specified in the task
+  * `VAR5example` - this variable is not defined in the sub-pipeline's task `params`, it is set to its default value, specified in the task
   ```yaml
   spec:
     params:
-      - name: VAR5T                 #it can be set in a pipeline's task params, if not - used default "not-set-var5-in-task"
+      - name: VAR5T                 #it can be set in a sub-pipeline's task params, if not - used default "not-set-var5-in-task"
         default:
           type: string
           stringVal: not-set-var5-in-task
   ```
-  * `VAR6example` - this variable is not defined in the pipeline's task `params` and task's `params`, it is set implicitly in the task step's field `env`
+  * `VAR6example` - this variable is not defined in the sub-pipeline's task `params` and task's `params`, it is set implicitly in the task step's field `env`
   ```yaml
     steps:
       - env:
