@@ -94,7 +94,7 @@ This is triggered by a commit in GitHub to a branch mapped to an environment. In
 
 Before the deployment is done, after a build, the image is scanned for security-related issues using the tool [Snyk](https://snyk.io/). This scan will be a seperate step in the pipeline and the result will be logged in the step. Please note that the job will not fail if the result contains CRITICAL, HIGH and/or SEVERE issues. However every developer should investigate and fix any security issues.
 
-![Diagram of the build-deploy pipeline](./pipeline-build-deploy.png "The build-deploy pipeline")
+![Diagram of the build-deploy pipeline](./pipeline-build-deploy.jpg "The build-deploy pipeline")
 
 ### The `build` pipeline
 
@@ -103,6 +103,10 @@ Exactly the same as the `build-deploy` pipeline, but a deployment is not created
 ### The `promote` pipeline
 
 Used to duplicate an existing [deployment](#deployment) from one environment into another (or to redeploy an old deployment). You can read more about it in the [promotion guide](../../guides/deployment-promotion).
+
+### Sub-pipeline
+
+After "Build components" step (if it does not exist - after "Prepare pipeline" step), the step "Run sub-pipeline" runs optional sub-pipeline, if it is configured. Sub-pipelines are based on the [Tekton CI/CD framework](https://tekton.dev/docs/getting-started/). Please read [Configure sub-pipeline](../../guides/sub-pipeline/) guide for details about sub-pipelines. 
 
 ### Deployment
 

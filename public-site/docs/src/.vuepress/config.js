@@ -75,6 +75,7 @@ module.exports = {
             'monitoring/',
             'pipeline-badge/',
             'resource-request/',
+            'sub-pipeline/',
             'volume-mounts/',
             'workflows/',
           ],
