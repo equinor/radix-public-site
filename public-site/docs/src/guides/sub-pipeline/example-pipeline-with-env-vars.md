@@ -132,13 +132,13 @@ printenv | grep 'VAR'
 
 * Commit changes in the repository. Look at the details of a started Radix pipeline job (if the Radix app is connected to the GitHub WebHook, otherwise - start a job manually). 
 * Navigate to the Radix pipeline step "Run pipeline", when it is running or completed: the pipelines overview page shows a table with a list of sub-pipelines - in this example it is one sub-pipeline "pipeline-example-with-env-vars", running for an environment "dev", and the sub-pipeline status.
- ![Sub-pipeline list](example-pipeline-with-env-vars-pipelines.jpg "Sub-pipeline list")
+ ![Sub-pipeline list](./example-pipeline-with-env-vars-pipelines.jpg "Sub-pipeline list")
 * Navigate to the sub-pipeline (click on its name in the table row)
 * The sub-pipeline overview page shows a table with a list of this sub-pipeline's tasks - in this example it is one task "env-vars-list", and the task status.
-  ![Sub-pipeline tasks](example-pipeline-with-env-vars-tasks.jpg "Sub-pipeline tasks")
+  ![Sub-pipeline tasks](./example-pipeline-with-env-vars-tasks.jpg "Sub-pipeline tasks")
 * Navigate to the task (click on its name in the table row)
 * The sub-pipeline task overview page shows a table with a list of this task's steps - in this example it is one step "show-env-vars-list", the step status and log.
-  ![Sub-pipeline task steps](example-pipeline-with-env-vars-task-step.jpg "Sub-pipeline steps")
+  ![Sub-pipeline task steps](./example-pipeline-with-env-vars-task-step.jpg "Sub-pipeline steps")
 The log shows environment variables of the step container:
   ```bash
   VAR1example=value1
