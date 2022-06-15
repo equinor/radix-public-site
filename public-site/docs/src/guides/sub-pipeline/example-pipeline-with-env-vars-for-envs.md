@@ -249,7 +249,7 @@ printenv | grep -E 'VAR|Connection|User'
 * Navigate to the task (click on its name in the table row)
 * The sub-pipeline task overview page shows a table with a list of this task's steps - in this example it is one step "show-env-vars-list", the step status and log.
   * Step for the sub-pipeline in the `dev` environment. The variable `ConnectionString` contains "Data Source=**dev**Db", `VAR1example` has _overridden_ common value "val1-for-dev", `ProdUser` has no value
-    ![pipelines](example-pipeline-with-env-vars-for-env-dev-task-step.jpg)
+    ![Sub-pipeline task step dev](./example-pipeline-with-env-vars-for-env-dev-task-step.jpg "Sub-pipeline task step dev")
   The log shows environment variables of the step container:
   ```bash
   ConnectionString=Provider=MySQLProv;Data Source=devDb;
@@ -269,7 +269,7 @@ printenv | grep -E 'VAR|Connection|User'
               value: "value6"
     ```
   * Step for the sub-pipeline in the `prod` environment. The variable `ConnectionString` contains "Data Source=**prod**Db", `VAR1example` has _common_ value "value1", `ProdUser` has value "value6"
-    ![pipelines](example-pipeline-with-env-vars-for-env-prod-task-step.jpg)
+    ![Sub-pipeline task step prod](./example-pipeline-with-env-vars-for-env-prod-task-step.jpg "Sub-pipeline task steps prod")
     The log shows environment variables of the step container:
   ```yaml
   ConnectionString=Provider=MySQLProv;Data Source=prodDb;

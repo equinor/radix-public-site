@@ -68,10 +68,10 @@ This sub-pipeline runs the task `process-repo` (which reference to the task `pro
 
 * Commit changes in the repository. Look at the details of a started Radix pipeline job (if the Radix app is connected to the GitHub WebHook, otherwise - start a job manually). 
 * Navigate to the Radix pipeline step "Run pipeline", when it is running or completed: the pipelines overview page shows a table with a list of sub-pipelines - in this example it is one sub-pipeline "pipeline-with-multiple-task-steps", running for an environment "dev", and the sub-pipeline status.
- ![pipelines](example-pipeline-with-multiple-task-steps.jpg)
+ ![Sub-pipeline list](./example-pipeline-with-multiple-task-steps.jpg "Sub-pipeline list")
 * Navigate to the sub-pipeline (click on its name in the table row)
 * The pipeline overview page shows a table with a list of this sub-pipeline's tasks - in this example it is one task "process-repo", and the task status.
-  ![pipelines](example-pipeline-with-multiple-task-steps-task-list.jpg))
+  ![Sub-pipeline tasks](./example-pipeline-with-multiple-task-steps-task-list.jpg "Sub-pipeline tasks")
 * Navigate to the task (click on its name in the table row)
 * The sub-pipeline task overview page shows a table with a list of this task's steps - in this example these are steps "clone-repo", and "show-repo", the step statuses and logs of these steps.
-  ![pipelines](example-pipeline-with-multiple-task-steps-step-list.jpg)
+  ![Sub-pipeline task steps](./example-pipeline-with-multiple-task-steps-step-list.jpg "Sub-pipeline task steps")
