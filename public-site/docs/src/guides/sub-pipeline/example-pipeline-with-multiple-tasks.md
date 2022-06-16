@@ -131,10 +131,10 @@ It is not important in which order to put the tasks - tasks can run in parallel 
 
 * Commit changes in the repository. Look at the details of a started Radix pipeline job (if the Radix app is connected to the GitHub WebHook, otherwise - start a job manually). 
 * Navigate to the Radix pipeline step "Run pipeline", when it is running or completed: the pipelines overview page shows a table with a list of sub-pipelines - in this example it is one sub-pipeline "pipeline-example", running for an environment "dev", and the sub-pipeline status.
- ![pipelines](example-pipeline-with-multiple-pipelines.jpg)
+ ![Sub-pipeline list](./example-pipeline-with-multiple-pipelines.jpg "Sub-pipeline list")
 * Navigate to the sub-pipeline (click on its name in the table row)
 * The pipeline overview page shows a table with a list of this sub-pipeline's tasks - in this example it is a list of tasks "show-hello", "show-letters", "show-numbers", "show-goodbye", and the task statuses.
-  ![pipelines](example-pipeline-with-multiple-tasks.jpg)
+  ![Sub-pipeline tasks](./example-pipeline-with-multiple-tasks.jpg "Sub-pipeline tasks")
 * Navigate to the task (click on its name in the table row)
 * The sub-pipeline task overview page shows a table with a task's step, with a name of a step, step status and the step log.
-  ![pipelines](example-pipeline-with-multiple-task-letters.jpg)
+  ![Sub-pipeline task steps](./example-pipeline-with-multiple-task-letters.jpg "Sub-pipeline task steps")
