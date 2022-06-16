@@ -135,7 +135,7 @@ spec:
       - CERT_PUB_KEY
       - DB_USER
 ```
-* This sub-pipeline runs the task `use-secrets-for-db` (which reference to the task `use-secrets` described in the file `use-secrets-task.yaml`), which has one step, as described above. This step run a script, which prints environment variables and files with values of mapped build secrets. Note `:` (column) - this is no-op shell command, added for more stable behaviour of the script (as explained in [Sub-pipeline hints](./index.md#hints)).
+* This sub-pipeline runs the task `use-secrets-for-db` (which refers to the task `use-secrets` described in the file `use-secrets-task.yaml`), which has one step, as described above. This step runs a script, which prints environment variables and files with values of mapped build secrets. Note `:` (column) - this is no-op shell command, added for more stable behaviour of the script (as explained in [Sub-pipeline hints](./index.md#hints)).
 ```shell
 #!/usr/bin/env sh
 echo "--- Print environment variables, with names containing 'DB_'"
@@ -169,7 +169,7 @@ cat /var/cert-volume/priv/cert.pub|head -n 3
 * The sub-pipeline task overview page shows a table with a list of this task's steps - in this example it is one step "show-secrets", the step status and log.
   ![Sub-pipeline task steps](./example-pipeline-with-secrets-task-step.jpg "Sub-pipeline steps")
 
-* The log shows environment variables and file contents of the step container (output depend on the entered build secret contents):
+* The log shows environment variables and file contents of the step container (output depends on the entered build secret contents):
 ```bash
 --- Print environment variables, with names containing 'DB_'
 BUILD_SECRET_DB_USER=TestUser17
