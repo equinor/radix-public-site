@@ -44,7 +44,7 @@ Errors in stage (3) can be caused by:
 
 Follow the [Tekton documentation](https://tekton.dev/docs/) to configure a sub-pipeline and its tasks, particularly [Tekton pipeline](https://tekton.dev/docs/pipelines/pipelines/) and [task](https://tekton.dev/docs/pipelines/tasks/) documentation. 
 
-Some hints:
+## Hints:
 * Tekton pipeline and tasks can be developed and tested on PC within [local Kubernetes cluster](https://tekton.dev/docs/getting-started/tasks/).
 * Name of a task, file name of a task and a name of a task in the Tekton pipeline task list - all can be different. It is important only to use the same name in the task field `metadata.name` and in the Tekton pipeline field `taskRef.name`. In the example below it is name `build-image`:
 
@@ -94,3 +94,4 @@ Some hints:
 * [Sub-pipeline with multiple task steps](./example-pipeline-with-multiple-task-steps.md)
 * [Sub-pipeline with build environment variables](./example-pipeline-with-env-vars.md)
 * [Sub-pipeline with build environment variables for environments](./example-pipeline-with-env-vars-for-envs.md)
+* [Sub-pipeline with build secrets](./example-pipeline-with-build-secrets.md)
