@@ -47,7 +47,7 @@ spec:
 
 The `build` section of the spec contains configuration needed during build (CI part) of the components. In this section you can specify build secrets, which is needed when pulling from locked registries, or cloning from locked repositories.
 
-`secret` - add secrets to Radix config `radixconfig.yaml` in the branch defined as `Config Branch` for your application. This will trigger a new build. This build will fail as no specified build secret has been set. You will now be able to set the secret **values** in the configuration section of your app in the Radix Web Console.
+`secret` - add secrets to Radix config `radixconfig.yaml` in the branch defined as `Config Branch` for your application. This will trigger a new build. This build will fail as no specified build secret has been set. You will now be able to set the secret **values** in the configuration section of your app in the Radix Web Console. These secrets also can be used in the [sub-pipelines](../../guides/sub-pipeline).
 
 `variables` - environment variable names and values (currently available only in [sub-pipelines](../../guides/sub-pipeline)), provided for all build Radix environments in [sub-pipelines](../../guides/sub-pipeline). These common environment variables are overridden by environment-specific environment variables with the same names.
 
