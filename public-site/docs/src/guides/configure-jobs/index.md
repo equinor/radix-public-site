@@ -403,7 +403,7 @@ To get state for a specific batch, e.g. `batch-compute-20220302155333-hrwl53mw`,
 
 ## Deleting an existing batch
 
-The batch list in the example above has a batch named `batch-compute-20220302155333-hrwl53mw`. To delete it, send a `DELETE` request to `http://compute:8000/api/v1/batches/batch-compute-20220302155333-hrwl53mw`. A successful deletion will respond with result object
+The batch list in the example above has a batch named `batch-compute-20220302155333-hrwl53mw`. To delete it, send a `DELETE` request to `http://compute:8000/api/v1/batches/batch-compute-20220302155333-hrwl53mw`. A successful deletion will respond with result object. Deleting of a batch job automatically deletes all jobs, belonging to this batch job.
 
 ```json
 {
