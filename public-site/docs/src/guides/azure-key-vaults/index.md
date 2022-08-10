@@ -180,7 +180,11 @@ Azure Key vault secrets, keys and certificates can be used in Radix, configured 
     ![Set secrets](./set-key-vault-secrets-in-radix-console.png)
   - Credential secrets in "qa" environment
     ![Set secrets](./set-key-vault-secrets-in-radix-console-qa.png)
-
+## Azure Key vault secret, certificate and key versions
+Secret, certificate and key versions from referenced Azure Key vault currently used by component replicas can be shown in the Radix console.
+Click on the link of Azure key vault secret, cert or key to open a popup with this info.
+  ![Versions of valid used secrets](./azure-key-vault-secrets-versions-on-radix-console-valid.png)
+  ![Versions of invalid or not used secrets](./azure-key-vault-secrets-versions-on-radix-console-failed.png)
 ## Certificates
 
 When a certificate is created in a Azure Key vault, secret and key [are created implicitly](https://docs.microsoft.com/en-us/azure/aks/csi-secrets-store-driver#obtain-certificates-and-keys) with the same names:
