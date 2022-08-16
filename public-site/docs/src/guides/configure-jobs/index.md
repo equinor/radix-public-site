@@ -468,7 +468,7 @@ Using the `config.yaml` above, we can generate a C# NET Core 5.0 client by execu
 ```sh
 openapi-generator-cli generate 
   -g csharp-netcore
-  -i https://github.com/equinor/radix-public-site/blob/main/public-site/docs/src/guides/configure-jobs/swagger.json
+  -i https://raw.githubusercontent.com/equinor/radix-public-site/main/public-site/docs/src/guides/configure-jobs/swagger.json
   -c config.yaml
   -o Client
 ```
@@ -482,7 +482,7 @@ Server stub code for AspNetCore can be generated using the `aspnetcore` generato
 ```sh
 openapi-generator-cli generate 
   -g aspnetcore 
-  -i https://github.com/equinor/radix-public-site/blob/main/public-site/docs/src/guides/configure-jobs/swagger.json
+  -i https://raw.githubusercontent.com/equinor/radix-public-site/main/public-site/docs/src/guides/configure-jobs/swagger.json
   -c config_server.yaml
   -o Server
 ```
@@ -491,4 +491,4 @@ openapi-generator-cli generate
 
 TBA
 
-[1]:https://github.com/equinor/radix-public-site/blob/main/public-site/docs/src/guides/configure-jobs/swagger.json
+[1]:https://raw.githubusercontent.com/equinor/radix-public-site/main/public-site/docs/src/guides/configure-jobs/swagger.json
