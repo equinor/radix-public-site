@@ -60,7 +60,8 @@ In addition to [variables defined in `radixconfig.yaml`](../../references/refere
 - `RADIX_CONTAINER_REGISTRY`: Container image registry where component images are downloaded from
 - `RADIX_DNS_ZONE`: Cluster DNS zone (e.g. _`radix.equinor.com`_)
 - `RADIX_ENVIRONMENT`: The application's current environment
-- `RADIX_GIT_COMMIT_HASH`: Git commit hash that generated the current component's running instance (if applicable)
-- `RADIX_PORTS`: List of open ports (numeric; only if set)
+- `RADIX_GIT_COMMIT_HASH`: Git commit hash of source code from which current deployment was built. Only applicable for deployments with one or more container images built by Radix pipeline.
+- `RADIX_GIT_TAGS`: Space-separated list of git tags which point to `$RADIX_GIT_COMMIT_HASH` at the time of container image build.
+- `RADIX_PORTS`: Space-separated list of open ports, enclosed in parentheses. E.g. (8888) and (8888 8889)
 - `RADIX_PORT_NAMES`: List of open ports (names; only if set)
 - `RADIX_PUBLIC_DOMAIN_NAME`: [Public domain name](../topic-domain-names/#public-name) of the component (if the component has been made public)
