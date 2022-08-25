@@ -231,7 +231,7 @@ cert1.crt     cert1.key     cert1.pem  secret1
 
 ## Autorotation of secrets
 
-Radix cluster supports Azure Key vault autorotation. Kubernetes secrets, containing Azure Key vault secrets keys and certificates, used in Radix component containers are updated every 2 minutes with new versions of these values if new versions exist.
+Radix cluster supports Azure Key vault autorotation. Kubernetes secrets, containing Azure Key vault secrets, keys and certificates, used in Radix component containers are updated every 2 minutes with new versions of these values if new versions exist.
 
 >Recommendation of using Azure Key vault secrets in Kubernetes replicas [in Microsoft documentation](https://docs.microsoft.com/en-us/azure/aks/csi-secrets-store-driver#enable-and-disable-autorotation):
 >
