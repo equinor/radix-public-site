@@ -180,11 +180,15 @@ Azure Key vault secrets, keys and certificates can be used in Radix, configured 
     ![Set secrets](./set-key-vault-secrets-in-radix-console.png)
   - Credential secrets in "qa" environment
     ![Set secrets](./set-key-vault-secrets-in-radix-console-qa.png)
+
 ## Azure Key vault secret, certificate and key versions
 Secret, certificate and key versions from referenced Azure Key vault currently used by component replicas can be shown in the Radix console.
 Click on the link of Azure key vault secret, cert or key to open a popup with this info.
   ![Versions of valid used secrets](./azure-key-vault-secrets-versions-on-radix-console-valid.png)
   ![Versions of invalid or not used secrets](./azure-key-vault-secrets-versions-on-radix-console-failed.png)
+For job component the dialog show information which job or batch uses secret versions (prefixed with "job" and "batch") and which secret version will be used in new started jobs (consumer is "New job")
+  ![Versions of secrets, used in a job component](./azure-key-vault-secrets-versions-for-job-component-on-radix-console-valid.png)
+
 ## Certificates
 
 When a certificate is created in a Azure Key vault, secret and key [are created implicitly](https://docs.microsoft.com/en-us/azure/aks/csi-secrets-store-driver#obtain-certificates-and-keys) with the same names:
@@ -224,3 +228,17 @@ Files in the component replica
 /mnt/secrets $ ls
 cert1.crt     cert1.key     cert1.pem  secret1
 ```
+
+## Autorotation of secrets
+
+Radix cluster supports Azure Key vault autorotation. Kubernetes secrets, containing Azure Key vault secrets, keys and certificates, used in Radix component containers are updated every 2 minutes with new versions of these values if new versions exist.
+
+>Recommendation of using Azure Key vault secrets in Kubernetes replicas [in Microsoft documentation](https://docs.microsoft.com/en-us/azure/aks/csi-secrets-store-driver#enable-and-disable-autorotation):
+>
+> _When a secret is updated in an external secrets store after initial pod deployment, the Kubernetes Secret and the pod mount will be periodically updated depending on how the application consumes the secret data._
+>* _**Mount the Kubernetes Secret as a volume**: Use the auto rotation and Sync K8s secrets features of Secrets Store CSI Driver. The application will need to watch for changes from the mounted Kubernetes Secret volume. When the Kubernetes Secret is updated by the CSI Driver, the corresponding volume contents are automatically updated._
+>* _**Application reads the data from the container’s filesystem**: Use the rotation feature of Secrets Store CSI Driver. The application will need to watch for the file change from the volume mounted by the CSI driver._
+>* _**Use the Kubernetes Secret for an environment variable**: Restart the pod to get the latest secret as an environment variable. Use a tool such as Reloader to watch for changes on the synced Kubernetes Secret and perform rolling upgrades on pods._
+
+Follow the secret versions in the [popup dialogue](#azure-key-vault-secret-certificate-and-key-versions) and notifications about rotated secret in the events list:
+  ![Azure Key vault secret rotation event](./azure-key-vault-secret-rotation-event.png)
