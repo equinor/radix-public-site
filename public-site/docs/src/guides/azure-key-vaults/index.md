@@ -185,6 +185,9 @@ Secret, certificate and key versions from referenced Azure Key vault currently u
 Click on the link of Azure key vault secret, cert or key to open a popup with this info.
   ![Versions of valid used secrets](./azure-key-vault-secrets-versions-on-radix-console-valid.png)
   ![Versions of invalid or not used secrets](./azure-key-vault-secrets-versions-on-radix-console-failed.png)
+For job component the dialog show information which job or batch uses secret versions (prefixed with "job" and "batch") and which secret version willbe used in new started jobs (consumer is "New job")
+  ![Versions of secrets, used in a job component](./azure-key-vault-secrets-versions-for-job-component-on-radix-console-valid.png)
+
 ## Certificates
 
 When a certificate is created in a Azure Key vault, secret and key [are created implicitly](https://docs.microsoft.com/en-us/azure/aks/csi-secrets-store-driver#obtain-certificates-and-keys) with the same names:
