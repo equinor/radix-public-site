@@ -32,7 +32,7 @@ Check out the [Release register](../release/)
   <employee-card
     name="Øyvind Rønne"
     title="Product Owner"
-    :image="require('../../assets/images/oyvindronne.jpeg')"
+    :image="require('../../assets/images/oyvindronne.jpg')"
   />
 </employee-list>
 
