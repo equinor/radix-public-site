@@ -40,11 +40,6 @@ We are based in Vassbotnen - N4 in Stavanger. If you see us on the corridor, say
 
 <employee-list>
   <employee-card
-    name="Ole Markus Kristiansen Ternø"
-    title="Infrastructure"
-    :image="require('../../assets/images/radix-ole.jpg')"
-  />
-  <employee-card
     name="Magnus Longva"
     title="Infrastructure - Based in Trondheim"
     :image="require('../../assets/images/radix-magnus.jpg')"
