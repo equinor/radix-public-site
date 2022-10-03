@@ -72,12 +72,12 @@ We are based in Vassbotnen - N4 in Stavanger. If you see us on the corridor, say
   />
   <employee-card
     name="Anneli Walla Aune"
-    title="Developer"
+    title="Infrastructure / Developer"
     description="Based in Trondheim"
     :image="require('../../assets/images/radix-anneli.jpg')"
   />
   <employee-card
-    name="Elsa Mâyrä Irgens"
+    name="Elsa Mäyrä Irgens"
     title="Team Leader"
     :image="require('../../assets/images/radix-elsa.jpg')"
   />
