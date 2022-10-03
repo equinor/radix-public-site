@@ -32,7 +32,7 @@ Check out the [Release register](../release/)
   <employee-card
     name="Øyvind Rønne"
     title="Product Owner"
-    :image="require('../../assets/images/oyvindronne.jpeg')"
+    :image="require('../../assets/images/oyvindronne.jpg')"
   />
 </employee-list>
 
@@ -40,19 +40,20 @@ We are based in Vassbotnen - N4 in Stavanger. If you see us on the corridor, say
 
 <employee-list>
   <employee-card
-    name="Ole Markus Kristiansen Ternø"
-    title="Infrastructure"
-    :image="require('../../assets/images/radix-ole.jpg')"
-  />
-  <employee-card
     name="Magnus Longva"
-    title="Infrastructure - Based in Trondheim"
+    title="Infrastructure"
+    description="Based in Trondheim"
     :image="require('../../assets/images/radix-magnus.jpg')"
   />
   <employee-card
     name="Svein-Petter Johnsen"
     title="Infrastructure"
     :image="require('../../assets/images/radix-svein.jpg')"
+  />
+  <employee-card
+    name="Sondre Sjølyst"
+    title="Infrastructure / Developer"
+    :image="require('../../assets/images/radix-sondre.jpg')"
   />
   <employee-card
     name="Sergey Smolnikov"
@@ -70,12 +71,13 @@ We are based in Vassbotnen - N4 in Stavanger. If you see us on the corridor, say
     :image="require('../../assets/images/radix-fredrik.jpg')"
   />
   <employee-card
-    name="Sondre Sjølyst"
+    name="Anneli Walla Aune"
     title="Infrastructure / Developer"
-    :image="require('../../assets/images/radix-sondre.jpg')"
+    description="Based in Trondheim"
+    :image="require('../../assets/images/radix-anneli.jpg')"
   />
   <employee-card
-    name="Elsa Mâyrä Irgens"
+    name="Elsa Mäyrä Irgens"
     title="Team Leader"
     :image="require('../../assets/images/radix-elsa.jpg')"
   />
