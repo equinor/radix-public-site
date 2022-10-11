@@ -12,7 +12,7 @@ An application declares all its [components](#component); this allows for them t
 
 The components of an application don't need to share aspects like coding language, runtime, or system resources — they are just running processes. But within an application, components should in principle relate closely by communicating with each other.
 
-The basic configuration for an application (the _application registration_) is composed of a **name**, the URL of a **GitHub repository**, and **access control** configuration (i.e. which Active Directory groups can administer the application in Radix). The remainder of the configuration is provided by the [`radixconfig.yaml`](../../references/reference-radix-config/), which is kept in the root of the application GitHub repository.
+The basic configuration for an application (the _application registration_) is composed of a **name**, the URL of a **GitHub repository**, and **access control** configuration (i.e. which Active Directory groups can administer the application in Radix). The remaining of the configuration is provided by the [`radixconfig.yaml`](../../references/reference-radix-config/), which is kept in the root of the application GitHub repository.
 
 ## Environment
 
@@ -38,7 +38,7 @@ A component represents a standalone process running within an [environment](#env
 
 If a component's `publicPort` is defined, endpoints are made available on the public Internet for each environment the component is deployed to. This allows connections via HTTPS into Radix, which are routed internally to an HTTP endpoint on the component. The domain name for the public endpoint is auto-generated from the component, environment, and application names: `https://[component]-[application]-[environment].[cluster-name].radix.equinor.com`.
 
-> The `[cluster-name]` part of the domain refers to the current Radix cluster. This should become a static name in the future.
+> The `[cluster-name]` does not exists for Radix Platform cluster for publicly available link when dnsAppAlias is used.
 
 Components can further be configured independently on each environment. Besides [environment variables](#environment-variable) and [secrets](#secret), a component can have different resource usage and monitoring settings.
 
@@ -46,11 +46,11 @@ Components can further be configured independently on each environment. Besides 
 
 A [job](../../guides/configure-jobs/) represents an on-demand and short lived container/process, running within an [environment](#environment), that performs a set of tasks and exits when it is done. Jobs are defined in the [`radixconfig.yaml`](../../references/reference-radix-config/#jobs). They share the same configuration as a component with a few exceptions; a job does not have publicPort, ingressConfiguration, replicas, horizontalScaling and alwaysPullImageOnDeploy. A job has two extra configuration options; [`schedulerPort`](../../guides/configure-jobs#schedulerport) (required), which is the port the [job-scheduler](../../guides/configure-jobs#job-scheduler) will listen to, and [`payload`](../../guides/configure-jobs#payload) (optional), which is a directory in the container where the payload, sent via the job-scheduler, is mounted.
 
-Radix creates a [job-scheduler](../../guides/configure-jobs#job-scheduler) service for each job defined in [`radixconfig.yaml`](../../references/reference-radix-config/#jobs). The job-scheduler is a web API that you use to create, delete and monitor containers from the Docker image built or defined for the job. HTTP requests to the job-scheduler can only be sent by components running in the same application and environment.
+Radix creates a [job-scheduler](../../guides/configure-jobs#job-scheduler) service for each job-component defined in [`radixconfig.yaml`](../../references/reference-radix-config/#jobs). The job-scheduler is a web API that you use to create, delete and monitor containers from the Docker image built or defined for the job. HTTP requests to the job-scheduler can only be sent by components running in the same application and environment.
 
 When creating a new job, a payload with arbitrary arguments can be specified in the body of the HTTP request to the job-scheduler. The payload is a string and can therefore contain any type of data (text, json, binary) as long as you encode it as a string, e.g. base64, when sending the request to the job-scheduler, and decode it when reading it from the file in the container where the payload is mounted.
 
-Multiple job containers can run simultaneously. Each container is assigned a unique name that can be used to monitor the state of the job through the job-scheduler API. This name is also the internal DNS name that you can use to communicate with a specific job if it exposes any ports, e.g. a custom metrics HTTP endpoint.
+Multiple job containers can run simultaneously. Each job is assigned a unique name that can be used to monitor the state of the job through the job-scheduler API. This name is also the internal DNS name that you can use to communicate with a specific job if it exposes any ports, e.g. a custom metrics HTTP endpoint.
 
 ## Replica
 

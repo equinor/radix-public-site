@@ -10,7 +10,7 @@ It is also expected that you have a [basic understanding of Git](http://rogerdud
 
 ### Repository
 
-A GitHub repository for our code is required (only GitHub is supported at the moment)  
+A GitHub repository for our code is required (only GitHub is supported at the moment). However other repositories can be used to build images, which can be used in a deploy only workflow in Radix.   
 
 ### Radix config file (radixconfig.yaml)
 

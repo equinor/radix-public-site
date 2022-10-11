@@ -62,11 +62,11 @@ The same, but as JSON:
     ],
     "components": [
       {
-        "name": "main",
+        "name": "frontend",
         "src": ".",
         "publicPort": "http",
         "ports": [
-          { "name": "http", "port": 80 }
+          { "name": "http", "port": 8080 }
         ]
       }
     ]
@@ -77,10 +77,10 @@ The same, but as JSON:
 A breakdown of the configuration above:
 
 - Our application is called `myapp`
-- There are two environments, `dev` and `prod`, and only one component, `main`
+- There are two environments, `dev` and `prod`, and only one component, `frontend`
 - Commits to the `master` branch will trigger a build and deployment of the application to the `dev` environment. We can use this behavior to build a [workflow](../workflows/)
-- Radix will look for the `Dockerfile` for the `main` component in the root directory of the repository
-- Once `main` is built, it will be exposed on the internet on port 80 on each environment it is deployed to (in `dev`, for instance, it will have a domain name like `main-myapp-dev.CLUSTER_NAME.radix.equinor.com`)
+- Radix will look for the `Dockerfile` for the `frontend` component in the root directory of the repository
+- Once `frontend` is built, it will be exposed on the internet on port 8080 on each environment it is deployed to (in `dev`, for instance, it will have a domain name like `main-myapp-dev.playground.radix.equinor.com` (on the Playground cluster) or `main-myapp-dev.radix.equinor.com` (on the Platform cluster))
 
 The full syntax of `radixconfig.yaml` is explained in [Radix Config reference](../../references/reference-radix-config/).
 
@@ -115,7 +115,7 @@ components:
 
 Note the `src` property for each component: this is the path to the directory containing the `Dockerfile` for that component. Radix will try to build the image within that directory.
 
-The `Dockerfile` should define a **multi-stage build** in order to speed up the builds and make the resulting image as small as possible. This means that we can decouple the build and deployment concerns. Here is an example for a simple Node.js single-page application:
+The `Dockerfile` should define - it is strongly recommended, when applicable - a **multi-stage build** in order to speed up the builds and make the resulting image as small as possible  also to avoid running debug versions of the code and servers. Python images usually run as is, but there is a "distroless" image like [these](https://github.com/GoogleContainerTools/distroless#docker) - we did not try them though.This means that we can decouple the build and deployment concerns. Here is an example for a simple Node.js single-page application:
 
 ```docker
 FROM node:carbon-alpine as builder
