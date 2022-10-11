@@ -30,6 +30,10 @@ module.exports = {
     sidebarDepth: 1,
     nav: [
       {
+        text: 'Getting started',
+        link: '/start/',
+      },
+      {
         text: 'Guides',
         link: '/guides/',
       },
@@ -78,6 +82,25 @@ module.exports = {
             'sub-pipeline/',
             'volume-mounts/',
             'workflows/',
+          ],
+        },
+      ],
+      '/start/': [
+        {
+          title: 'Getting started',
+          collapsable: false,
+          sidebarDepth: 2,
+          children: [
+            '',
+            'what-is-radix/',
+            'radix-concepts/',
+            'getting-access/',
+            'requirements/',
+            'config-your-app/',
+            'registering-app/',
+            'workflows/',
+            'radix-clusters/',
+            'onboarding/',
           ],
         },
       ],
