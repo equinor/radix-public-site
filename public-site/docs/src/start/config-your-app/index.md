@@ -7,7 +7,7 @@ title: Configuring your app
 In this guide we'll set up an application in Radix. Here's what we need:
 
 - A GitHub repository for our code (only GitHub is supported at the moment)
-- A [`radixconfig.yaml`](../../references/reference-radix-config/) file that defines the running environments. This must be in the root directory of our repository.
+- A [`radixconfig.yaml`](../../references/reference-radix-config/) file that defines the running environments. By default, it is in the root directory of our repository.
 - At least one `Dockerfile` that builds and serves our application. We can have several of these files: one per component, in separate directories (e.g. a "front-end" component and a "back-end" component).
 
 We will go over these points below.
@@ -20,7 +20,7 @@ The way we use branches and tags in our repository depends on what type of workf
 
 ## The `radixconfig.yaml` file
 
-In the root of our repository we need a [`radixconfig.yaml`](../../references/reference-radix-config/) file: this is the Radix configuration, which specifies how our application is built and deployed.
+A [`radixconfig.yaml`](../../references/reference-radix-config/) file that defines the running environments, which specifies how our application is built and deployed. By default, it is in the root directory of our repository.
 
 > Radix only reads `radixconfig.yaml` from the branch we set as the `Config Branch` in the application registration form. If the file is changed in other branches, those changes will be ignored. The `Config Branch` must be mapped to an environment in `radixconfig.yaml`
 

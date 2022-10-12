@@ -6,7 +6,7 @@ title: "Sub-pipeline example: Simple pipeline"
 
 [Source code](https://github.com/equinor/radix-sub-pipeline-example/tree/simple-pipeline) for this example.
 
-* In the Radix application repository create a folder `tekton`. This folder need to be on the root level of the repository, in the configuration branch (same as `radixconfig.yaml`) 
+* In the Radix application repository create a folder `tekton`. This folder need to be in the configuration branch and in the same folder, where `radixconfig.yaml` file is located - it is by default a root of the repository.
 * The sub-pipeline in this example runs one task with a name `hello`. Create a file `hello-task.yaml` (file name can be arbitrary, file extension should be `yaml`). This task runs in the container with Alpine Linux and execute one command `echo "Hello"`.
 ```yaml
 apiVersion: tekton.dev/v1beta1

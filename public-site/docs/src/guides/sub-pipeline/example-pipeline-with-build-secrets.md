@@ -6,7 +6,7 @@ title: "Sub-pipeline example: Pipeline with build secrets"
 
 [Source code](https://github.com/equinor/radix-sub-pipeline-example/tree/pipeline-example-with-secrets) for this example.
 
-* In the Radix application repository create a folder `tekton`. This folder need to be on the root level of the repository, in the configuration branch (same as `radixconfig.yaml`) 
+* In the Radix application repository create a folder `tekton`. This folder need to be in the configuration branch and in the same folder, where `radixconfig.yaml` file is located (by default it is a root of the repository). 
 * The sub-pipeline in this example runs one task. 
 * Create a file `use-secrets-task.yaml` for the task `use-secrets`. This task has one step "show-secrets", which runs in the container with Alpine Linux. 
   * The step runs a script with one commands, showing secrets, mapped to step's container environment variables and files.

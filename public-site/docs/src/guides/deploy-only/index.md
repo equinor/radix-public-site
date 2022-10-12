@@ -16,15 +16,15 @@ There might be several reasons why you would opt against using Radix as a CICD p
 Same as with any other application deployed to Radix, a deploy-only application will need:
 
 - A GitHub repository for the code (only GitHub is supported at the moment)
-- A `radixconfig.yaml` file that defines the running environments, which must be in the root directory of the repository
+- A `radixconfig.yaml` file that defines the running environments, which by default is in the root directory of the repository
 
-These points is described below
+These points are described below
 
 ## The repository
 
 Unlike a regular Radix application, for a deploy-only application you have two options on how to structure your repositories. You can choose to have:
 
-- The Github repository which act as a pure configuration repository. That is, source code for the different components resides in other repositories
+- The GitHub repository which act as a pure configuration repository. That is, source code for the different components resides in other repositories
 - The `radixconfig.yaml` is in the source code repository
 
 The documentation will use the second option and this [example repository](https://github.com/equinor/radix-example-arm-template)

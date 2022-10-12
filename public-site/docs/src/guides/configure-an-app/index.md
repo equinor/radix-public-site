@@ -10,7 +10,7 @@ Make sure you are familiar with [the requirements](../getting-started/).
 In this guide we'll set up an application in Radix. Here's what we need:
 
 - A GitHub repository for our code (only GitHub is supported at the moment)
-- A [`radixconfig.yaml`](../../references/reference-radix-config/) file that defines the running environments. This must be in the root directory of our repository.
+- A [`radixconfig.yaml`](../../references/reference-radix-config/) file that defines the running environments.
 - At least one `Dockerfile` that builds and serves our application. We can have several of these files: one per component, in separate directories (e.g. a "front-end" component and a "back-end" component).
 
 We will go over these points below.
@@ -23,7 +23,7 @@ The way we use branches and tags in our repository depends on what type of workf
 
 ## The `radixconfig.yaml` file
 
-In the root of our repository we need a [`radixconfig.yaml`](../../references/reference-radix-config/) file: this is the Radix configuration, which specifies how our application is built and deployed.
+Radix configuration file [`radixconfig.yaml`](../../references/reference-radix-config/) by default is in the root of the repository, if it is not altered on create or configure application pages. This file specifies how the application is built and deployed.
 
 > Radix only reads `radixconfig.yaml` from the branch we set as the `Config Branch` in the application registration form. If the file is changed in other branches, those changes will be ignored. The `Config Branch` must be mapped to an environment in `radixconfig.yaml`
 
@@ -82,7 +82,7 @@ A breakdown of the configuration above:
 - Our application is called `myapp`
 - There are two environments, `dev` and `prod`, and only one component, `main`
 - Commits to the `master` branch will trigger a build and deployment of the application to the `dev` environment. We can use this behavior to build a [workflow](../workflows/)
-- Radix will look for the `Dockerfile` for the `main` component in the root directory of the repository
+- Radix will look for the `Dockerfile` for the `main` component in the root directory of the repository - the property `src` refers to repository folders, starting with the root, and in this example: `src: "."`
 - Once `main` is built, it will be exposed on the internet on port 80 on each environment it is deployed to (in `dev`, for instance, it will have a domain name like `main-myapp-dev.CLUSTER_NAME.radix.equinor.com`)
 
 The full syntax of `radixconfig.yaml` is explained in [Radix Config reference](../../references/reference-radix-config/).

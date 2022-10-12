@@ -12,7 +12,7 @@ An application declares all its [components](#component); this allows for them t
 
 The components of an application don't need to share aspects like coding language, runtime, or system resources — they are just running processes. But within an application, components should in principle relate closely by communicating with each other.
 
-The basic configuration for an application (the _application registration_) is composed of a **name**, the URL of a **GitHub repository**, and **access control** configuration (i.e. which Active Directory groups can administer the application in Radix). The remaining of the configuration is provided by the [`radixconfig.yaml`](../../references/reference-radix-config/), which is kept in the root of the application GitHub repository.
+The basic configuration for an application (the _application registration_) is composed of a **name**, the URL of a **GitHub repository**, and **access control** configuration (i.e. which Active Directory groups can administer the application in Radix). The remaining of the configuration is provided by the [`radixconfig.yaml`](../../references/reference-radix-config/), which is by default kept in the root of the application GitHub repository.
 
 ## Environment
 

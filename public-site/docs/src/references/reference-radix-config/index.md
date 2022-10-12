@@ -5,9 +5,9 @@ sidebarDepth: 3
 
 # Overview
 
-In order for Radix to configure your application it needs a configuration file. This must be placed in the root of your app repository and be named `radixconfig.yaml`. The file is expected in YAML or JSON format (in either case, it must have the `.yaml` extension).
+In order for Radix to configure your application it needs a configuration file. By default, it is expected to be placed in the root of the application repository and has a name `radixconfig.yaml`. The file is expected in YAML or JSON format (in either case, it must have the `.yaml` or `.yml` extension). The name of the file and the folder, where it is located, can be different, it can also be changed later in the configuration page of the Radix web-console.
 
-> Radix only reads `radixconfig.yaml` from the branch we set as the `Config Branch` in the application registration form. If the file is changed in other branches, those changes will be ignored. The `Config Branch` must be mapped to an environment in `radixconfig.yaml`
+> Radix only reads `radixconfig.yaml` from the branch we set as the `Config Branch` in the application registration form. If the file is changed in other branches, those changes will be ignored. The `Config Branch` must be mapped to an environment in the configuration file.
 
 The basic format of the file is this; the configuration keys are explained in the Reference section below:
 
