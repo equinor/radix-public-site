@@ -77,15 +77,7 @@ When OAuth2 is enabled for a component in [`radixconfig.yaml`](../../references/
 > Example application: [radix-example-oauth2-feature](https://github.com/equinor/radix-example-oauth2-feature)
 
 #### Restrict access to AAD group
-A common requirement in OAuth2 scenarios is to only allow web access for members of a particular AAD group.
-
-- Navigate to the Enterprise Application which is associated with your App Registration.
-
-![Enterprise Application](./aad-link-to-enterprise-app.png "Enterprise Application")
-
-- Click on "Users and groups" and click "Add user/group". Select the desired AAD group you want to grant access. Specifying an app role is optional.
-
-![Add group](./aad-enterprise-app-add-group.png "Add group")
+A common requirement in OAuth2 scenarios is to only allow web access for members of a particular AAD group. [This tutorial from Microsoft](https://learn.microsoft.com/en-us/azure/active-directory/manage-apps/add-application-portal-assign-users#assign-a-user-account-to-an-enterprise-application) describes the required steps. 
 
 #### Session store types
 
