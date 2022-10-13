@@ -2,6 +2,8 @@
 title: Getting access
 ---
 
+## Getting access
+
 Access to Radix is managed in Access IT. To get started, decide if you want to try the Playground cluster or go straight to the Radix Platform cluster. You will have access to register, build, deploy and maintain applications in that cluster.
 
 - Radix Playground cluster: request the role "[Radix Playground Users](https://accessit.equinor.com/Search/Search?term=Radix+Playground+Users+%28OMNIA+RADIX%29)"
@@ -10,8 +12,3 @@ Access to Radix is managed in Access IT. To get started, decide if you want to t
 
 You can register your app in Playground first, and then again in Platform; there is no special "migrate to platform" process. If you have questions, [speak with us on Slack](https://equinor.slack.com/messages/CBKM6N2JY) and we'll help.
 
-## The Radix clusters
-
-Your applications will run in a *Radix cluster*. We currently have two: **Radix Platform** and **Radix Playground**. Use Playground for testing Radix and see if it's a good fit for your needs. When your project and team are happy with Radix, you can register your application in the Platform cluster, which provides [specific guarantees](../../docs/topic-uptime/).
-
-**Radix Platform** and **Radix Playground** clusters are hosted on Azure North Europe region.

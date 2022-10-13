@@ -1,6 +1,8 @@
 ---
-title: Configuring your app
+title: Configuring your application
 ---
+
+# How to configure your application
 
 > Visual learner? Check out the [Introduction to Radix video](https://web.microsoftstream.com/video/fa523b5c-3509-4e11-97b0-868ae499f603) 🎥
 
