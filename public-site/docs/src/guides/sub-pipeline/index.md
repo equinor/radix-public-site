@@ -12,7 +12,7 @@ In the [Radix pipeline](../../docs/topic-concepts/#pipeline), optionally a sub-p
 Sub-pipeline is configured with file `pipeline.yaml`. This file will in turn have references to one or several other YAML-files which define *tasks* for the sub-pipeline.
 
 ### Pipeline and task files 
-* Default folder for sub-pipeline is `tekton`, next to the file `radixconfig.yaml`. 
+* Default folder for sub-pipeline is `tekton`, next to the [Radix configuration file](../../references/reference-radix-config) of the application. 
 * Default name for the sub-pipeline is `pipeline.yaml`.
 * Files with sub-pipeline task configurations should be located next to the file `pipeline.yaml`.
 
