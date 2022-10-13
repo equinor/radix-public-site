@@ -3,7 +3,7 @@ title: Workflows
 ---
 # Workflows
 
-How should you set up Git branches and Radix environments?
+How should you set up Git branches and Radix environments? 
 
 In Radix, our development workflow can be modelled to match our needs. It is possible to use, for instance [Git Flow](https://nvie.com/posts/a-successful-git-branching-model/) or [Trunk-based development](https://paulhammant.com/2013/04/05/what-is-trunk-based-development/). Radix gives us a couple of tools to shape our workflow: **branch-environment mapping** and **deployment promotion**.
 
@@ -14,6 +14,8 @@ A common strategy is to use [promotion](../../guides/deployment-promotion/) to c
 **Promotion** allows us to take an existing deployment in an environment, and deploy it in another. For instance, take what is currently running in the `preprod` environment and place it in `prod`. It is also possible to promote previous non-active deployment of the same environment - a "rollback" feature.
 
 It is fine to combine these features to produce the workflow that we want. For instance, we can automatically build and deploy `master` branch to the `dev` environment, and the `release` branch to `preprod` environment. We can then manually promote the deployment in `preprod` environment to the `prod` environment.
+
+📖 [`radixconfig.yaml`](../../references/reference-radix-config/) reference.
 
 ![Dev and QA workflow](./workflow-dev-qa.png)
 

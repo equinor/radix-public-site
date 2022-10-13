@@ -29,6 +29,6 @@ Track usage to find problems 💣 and get insight💡
 
 You provide your code and a Dockerfile to build it, and Radix will take it from there.
 
-[Get started](/guides/getting-started/)
+[Get started](/start/)
 [Read the docs](/docs/)
 [Our community](/other/community/)

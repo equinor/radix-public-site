@@ -9,7 +9,7 @@ title: Configuring your application
 In this guide we'll set up an application in Radix. Here's what we need:
 
 - A GitHub repository for our code (only GitHub is supported at the moment)
-- A [`radixconfig.yaml`](../../references/reference-radix-config/) file that defines the running environments. By default, it is in the root directory of our repository.
+- A 📖 [`radixconfig.yaml`](../../references/reference-radix-config/) file that defines the running environments. By default, it is in the root directory of our repository.
 - At least one `Dockerfile` that builds and serves our application. We can have several of these files: one per component, in separate directories (e.g. a "front-end" component and a "back-end" component).
 
 We will go over these points below.
@@ -22,14 +22,16 @@ The way we use branches and tags in our repository depends on what type of workf
 
 ## The `radixconfig.yaml` file
 
-A [`radixconfig.yaml`](../../references/reference-radix-config/) file that defines the running environments, which specifies how our application is built and deployed. By default, it is in the root directory of our repository.
+A 📖 [`radixconfig.yaml`](../../references/reference-radix-config/) file that defines the running environments, which specifies how our application is built and deployed. By default, it is in the root directory of our repository.
 
-> Radix only reads `radixconfig.yaml` from the branch we set as the `Config Branch` in the application registration form. If the file is changed in other branches, those changes will be ignored. The `Config Branch` must be mapped to an environment in `radixconfig.yaml`
+::: tip
+Radix only reads `radixconfig.yaml` from the branch we set as the `Config Branch` in the application registration/configuration form. If the file is changed in other branches, those changes will be ignored. The `Config Branch` must be mapped to an environment in `radixconfig.yaml`
+:::
 
 If you are unfamiliar with YAML, it is fine to write the configuration as JSON instead — just keep the same filename.
 
 Here is a simple example of the file:
-
+::: details Click me to view the code
 ```yaml
 apiVersion: radix.equinor.com/v1
 kind: RadixApplication
@@ -49,9 +51,10 @@ spec:
        - name: http
          port: 8080
 ```
+:::
 
 The same, but as JSON:
-
+::: details Click me to view the code
 ```json
 {
   "apiVersion": "radix.equinor.com/v1",
@@ -75,6 +78,7 @@ The same, but as JSON:
   }
 }
 ```
+:::
 
 A breakdown of the configuration above:
 
@@ -84,7 +88,7 @@ A breakdown of the configuration above:
 - Radix will look for the `Dockerfile` for the `frontend` component in the root directory of the repository
 - Once `frontend` is built, it will be exposed on the internet on port 8080 on each environment it is deployed to (in `dev`, for instance, it will have a domain name like `main-myapp-dev.playground.radix.equinor.com` (on the Playground cluster) or `main-myapp-dev.radix.equinor.com` (on the Platform cluster))
 
-The full syntax of `radixconfig.yaml` is explained in [Radix Config reference](../../references/reference-radix-config/).
+The full syntax of `radixconfig.yaml` is explained in 📖 [`radixconfig.yaml`](../../references/reference-radix-config/) reference.
 
 ## A `Dockerfile` per component
 
@@ -117,7 +121,9 @@ components:
 
 Note the `src` property for each component: this is the path to the directory containing the `Dockerfile` for that component. Radix will try to build the image within that directory.
 
-The `Dockerfile` should define - it is strongly recommended, when applicable - a **multi-stage build** in order to speed up the builds and make the resulting image as small as possible  also to avoid running debug versions of the code and servers. Python images usually run as is, but there is a "distroless" image like [these](https://github.com/GoogleContainerTools/distroless#docker) - we did not try them though.This means that we can decouple the build and deployment concerns. Here is an example for a simple Node.js single-page application:
+The `Dockerfile` should define - it is strongly recommended, when applicable - a **multi-stage build** in order to speed up the builds and make the resulting image as small as possible  also to avoid running debug versions of the code and servers. Python images usually run as is, but there is a "distroless" image like [these](https://github.com/GoogleContainerTools/distroless#docker) - we did not try them though.
+
+This means that we can decouple the build and deployment concerns. Here is an example for a simple Node.js single-page application:
 
 ```docker
 FROM node:carbon-alpine as builder
