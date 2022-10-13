@@ -54,7 +54,7 @@ In addition to [variables defined in `radixconfig.yaml`](../../references/refere
 - `RADIX_ACTIVE_CLUSTER_EGRESS_IPS`: IP address range of the current cluster
 - `RADIX_APP`: The name of the Radix application
 - `RADIX_CANONICAL_DOMAIN_NAME`: The [canonical domain name](../topic-domain-names/#canonical-name) of the component
-- `RADIX_CLUSTERNAME`: The canonical name of the Radix cluster (e.g. "prod-8")
+- `RADIX_CLUSTERNAME`: The canonical name of the Radix cluster (e.g. "eu-8")
 - `RADIX_CLUSTER_TYPE`: The type of cluster ("production", "playground", "development")
 - `RADIX_COMPONENT`: Name of the current component
 - `RADIX_CONTAINER_REGISTRY`: Container image registry where component images are downloaded from

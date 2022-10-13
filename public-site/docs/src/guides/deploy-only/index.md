@@ -114,6 +114,7 @@ With the access token you can make calls to our API through either:
 
 To create a GitHub Actions you create a workflow file in the folder .github/workflows. In the sample workflow below we will build new images for master (qa environment) and release (prod environment) branches:
 
+::: details Click me to view the code
 ```yaml
 name: CI
 
@@ -179,6 +180,7 @@ jobs:
             -e ${{ "{{ steps.getEnvironment.outputs.result " }}}}
             -f
 ```
+:::
 
 ### Updating deployments on static tags
 
@@ -246,6 +248,7 @@ In the example repository that we have used for this documentation we are settin
 - `Set instrumentation key as secret` - Takes one of the secrets passed on from the previous steps and set the secret for the application, for the environment this branch is mapped to (in the `development` cluster)
 - `Set connection string as secret` - Sets the second secret value
 
+::: details Click me to view the code
 ```yaml
 - uses: Azure/login@v1
   with:
@@ -283,5 +286,6 @@ In the example repository that we have used for this documentation we are settin
       -s AZURE_STORAGE_CONNECTION_STRING
       -v '${{ "{{ steps.getSecrets.outputs.connectionString " }}}}'
 ```
+:::
 
 > Disclaimer: Please seek advice elsewhere on wether or not GitHub Actions and/or GitHub package repository is the right option for you. Both features are new and we have too little experience as an organization to make any recommendations, both in terms of robustness and in terms of cost. A private Azure container registry (ACR) would for instance allow you to set it up with a service account, rather than using your personal account. This document is meant to be a user guide on how to combine these with Radix, as one of many alternatives for running CI outside of Radix.

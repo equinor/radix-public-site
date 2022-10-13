@@ -1,6 +1,7 @@
 ---
 title: What is Radix
 ---
+:tada:
 
 Omnia Radix is a Platform-as-a-Service ("PaaS", if you like buzzwords). It builds, deploys, and monitors applications, automating the boring stuff and letting developers focus on code. Applications run in <abbr title="someone else's computer"> ☁️ the cloud</abbr> as 🐳 Docker containers, in environments that you define.
 
