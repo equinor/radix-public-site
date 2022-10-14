@@ -11,7 +11,9 @@ When doing authentication for applications and APIs hosted outside Equinor inter
 
 **The rest of this document assumes you have basic knowledge of OAuth 2.0, OpenId Connect and JWT tokens.**
 
->It is highly recommended to use common library/components maintained by others for OAuth 2.0 authentication. [MSAL](https://docs.microsoft.com/en-us/azure/active-directory/develop/msal-overview) is the recommended library to use in Equinor. It is developed and maintained by Microsoft, and can be used for many scenarios/languages.
+::: tip
+It is highly recommended to use common library/components maintained by others for OAuth 2.0 authentication. [MSAL](https://docs.microsoft.com/en-us/azure/active-directory/develop/msal-overview) is the recommended library to use in Equinor. It is developed and maintained by Microsoft, and can be used for many scenarios/languages.
+:::
 
 If your web app should access one or more resources, e.g. API, you have to take time to understand OAuth 2.0 and Openid Connect. It is not trivial to setup authentication for these scenarios, either using oauth-proxy or a library as MSAL.
 
@@ -74,8 +76,9 @@ When OAuth2 is enabled for a component in [`radixconfig.yaml`](../../references/
 - Register the OAuth2 service's callback URLs in the Azure AD application registration. The default path is **/oauth2/callback**, and is composed of the value in `proxyPrefix` (default **/oauth2**) and suffixed with **/callback**.
   ![Register Redirect URL](./aad-register-callback.png "Register Redirect URL")  
 
-> Example application: [radix-example-oauth2-feature](https://github.com/equinor/radix-example-oauth2-feature)
-
+::: tip Sample
+Example application: [radix-example-oauth2-feature](https://github.com/equinor/radix-example-oauth2-feature)
+:::
 #### Restrict access to AAD group
 A common requirement in OAuth2 scenarios is to only allow web access for members of a particular AAD group. [This tutorial from Microsoft](https://learn.microsoft.com/en-us/azure/active-directory/manage-apps/add-application-portal-assign-users#assign-a-user-account-to-an-enterprise-application) describes the required steps. 
 
