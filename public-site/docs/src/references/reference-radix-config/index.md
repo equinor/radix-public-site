@@ -550,6 +550,31 @@ oauth2:
 
 > See [guide](../../guides/authentication/#using-the-radix-oauth2-feature) on how to configure OAuth2 authentication for a component.
 
+### `enabled`
+Component can be disabled or enabled for all specific environment configurations. 
+```yaml
+spec:
+  components:
+    - name: backend
+      enabled: false
+```
+Disabled component is not deployed. When a disabling component is already deployed, this component is removed from the application environment on next deployment - this is an equivalent of removing of the component configuration from the `radixconfig.yaml`.
+
+When the option `enabled` is not set, the component is enabled.
+
+The component can be disabled in specific environment configurations.
+```yaml
+spec:
+  components:
+    - name: backend
+      environmentConfig:
+        - environment: prod
+          enabled: false
+```
+Read more details in the [guide](../../guides/enable-and-disable-components/).
+
+[Job](./#jobs) components can be disabled similar way. 
+
 ## `jobs`
 
 This is where you specify the various [jobs](../../guides/configure-jobs) for your application.
@@ -1024,6 +1049,7 @@ spec:
       node:
         gpu: nvidia-v100
         gpuCount: 4
+      enabled: true
       volumeMounts:
         - type: azure-blob
           name: volume-name
@@ -1056,6 +1082,7 @@ spec:
           authentication:
             clientCertificate:
               passCertificateToUpstream: true
+          enabled: false
         - environment: dev
           monitoring: false
           resources:

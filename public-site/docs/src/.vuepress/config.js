@@ -67,6 +67,7 @@ module.exports = {
             'azure-key-vaults/',
             'build-secrets/',
             'environment-variables/',
+            'enable-and-disable-components/',
             'external-alias/',
             'component-start-stop-restart/',
             'configure-jobs/',
