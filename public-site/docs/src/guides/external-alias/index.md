@@ -108,6 +108,44 @@ Paste the contents of the private key file that you generated at the start of th
 
 ![Setting the private key part](./setting-private-key.png "Setting private key")
 
-## What's next
+### Certificate and key validation
 
-Once the secrets are saved, re-deploy the applicable environment(s), either by a new full build-deploy, deploy only or a promotion. The custom aliases will be available.
+When both the certificate and key is set, the secrets should change to `Consistent` state. The `Consistent` state indicates that the certificate is valid, signed by a trusted authority, and the private and public key pair matches.
+
+![Valid certificate and private key](./consistent-external-alias.png "Valid certificate and private key")
+
+Basic information about the TLS certificate and intermediate authorities is available by clicking on the chevron next to the `TLS Certificate` secret. Certificates in the list are presented in the same order as set in the `<domain-name>-cert` secret.
+
+![Certificate details](./certificate-details.png "Certificate details")
+
+If there are any issues with the certificate or private key, the state of the secret(s) will be `Invalid`. The reason for the invalid state is shown in the details section for the certificate or key.
+
+![Certificate invalid](./certificate-invalid.png "Certificate invalid")
+
+Refer to the [Troubleshooting](./#troubleshooting) section for a list of common validation errors and how to they can be resolved.
+
+## Troubleshooting
+
+The most common validation errors are described below.
+
+- **x509: certificate signed by unknown authority**  
+The certificate is not signed by a trusted authority. You will see this error if you forget to include the intermediate CA certificate in the `<domain-name>-cert` secret.  
+Read the [Add domain-name-cert secret](./#add-domain-name-cert-secret) section for more information.
+
+- **x509: certificate is not valid for any names, but wanted to match one.example.com**  
+The certificate is not valid for any domain names. This error is reported if you switch the order of the TLS certificate and the CA certificate. Check the order of the certificates in the details section.  
+Read the [Add domain-name-cert secret](./#add-domain-name-cert-secret) section for more information.
+
+- **x509: certificate is valid for two.example.com, not one.example.com**  
+The certificate is not valid for the expected domain name. Update the `<domain-name>-cert` secret with the correct certificate.
+
+- **x509: missing PEM block for certificate**  
+The `<domain-name>-cert` secret value does not contain a `CERTIFICATE` PEM block. Update the `<domain-name>-cert` secret with a value containing the certificates.
+
+- **tls: private key does not match public key**  
+The private key set in the `<domain-name>-key` secret does not match the public key for the certificate. Set the private key matching the certificate public key to fix.  
+[openssl](https://www.ibm.com/support/pages/openssl-commands-check-and-verify-your-ssl-certificate-key-and-csr) can be used to verify that the certificate and key matches, before setting the secrets.
+
+- **tls: failed to find PEM block with type ending in "PRIVATE KEY" in key input**  
+The `<domain-name>-key` secret value does not contain a `PRIVATE KEY` or `RSA PRIVATE KEY` PEM block. Update the `<domain-name>-key` secret with a value containing the private key.  
+Read the [Add domain-name-key secret](./#add-domain-name-key-secret) section for more information.
