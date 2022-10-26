@@ -114,7 +114,7 @@ When both the certificate and key is set, the secrets should change to `Consiste
 
 ![Valid certificate and private key](./consistent-external-alias.png "Valid certificate and private key")
 
-Basic information about the TLS certificate and intermediate authorities is available by clicking the chevron next the the `TLS Certificate` secret. Certificates in the list is presented in the same order as set in the `<domain-name>-cert` secret.
+Basic information about the TLS certificate and intermediate authorities is available by clicking on the chevron next to the `TLS Certificate` secret. Certificates in the list are presented in the same order as set in the `<domain-name>-cert` secret.
 
 ![Certificate details](./certificate-details.png "Certificate details")
 
