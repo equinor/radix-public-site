@@ -7,6 +7,10 @@ sidebarDepth: 2
 
 ## 2022
 
+### 2022-04-28 Egress rules simplified
+
+Egress rules have been simplified. A new field allowRadix can be set to allow or deny traffic to other Radix applications. If you use the built-in Oauth2 feature, it is no longer necessary to allow traffic to login.microsoftonline.com. Docs now recommend using Private Link to get static IP address to Azure databases or other SaaS for use in egress rules.
+
 ### 2022-03-11 Custom configuration of the Metrics endpoint
 
 It is now possible to specify custom port and path for monitoring.
@@ -18,10 +22,6 @@ Specifying monitoring path and port is now supported for application components 
 Network egress rules are now supported for application environments in Radix. Read the [radixconfig.yaml reference entry](https://www.radix.equinor.com/references/reference-radix-config/#egressrules) for details, and read the [guide](https://www.radix.equinor.com/guides/egress-rules/#default-rules) for important limitations, tips and usage patterns.
 
 Implement egress rules with caution. Applications may break if egress rules inadvertently block required resources.
-
-#### 2022-04-28 Egress rules simplified
-
-Egress rules have been simplified. A new field allowRadix can be set to allow or deny traffic to other Radix applications. If you use the built-in Oauth2 feature, it is no longer necessary to allow traffic to login.microsoftonline.com. Docs now recommend using Private Link to get static IP address to Azure databases or other SaaS for use in egress rules.
 
 ### 2022-02-18 Build Pipeline steps
 
@@ -47,7 +47,7 @@ Radix provides built-in configuration for adding OAuth2 authorization with OIDC 
 
 Read more in the OAuth section in [radixconfig.yaml](https://www.radix.equinor.com/references/reference-radix-config/#oauth2) documentation and the [OAuth guide](https://www.radix.equinor.com/guides/authentication/#using-the-radix-oauth2-feature).  
 
-### 2022-01-11 Changes to validation of radixconfig 
+### 2022-01-11 Changes to validation of radixconfig
 
 Two new validation rules now apply to radixconfig.  
 (1) Component ports lower than **1024** are prohibited.  
@@ -66,7 +66,7 @@ Cluster IPs are now visible in the [About page (Radix Platform)](https://console
 ### 2021-11-18 - Radix Slack Alerts
 
 We have released a new feature in Radix for sending alerts to Slack if a pipeline job fails, or a component or job fails to start or crashes/restarts (e.g. due to insufficient memory, unhandled exceptions etc.).  
-Read the documentation, https://www.radix.equinor.com/guides/alerting/,  on how to configure alerting for your application.  
+Read the documentation, <https://www.radix.equinor.com/guides/alerting/>,  on how to configure alerting for your application.  
 
 PS! The alert GUI in Radix web console is still "work in progress". We're working with EDS to make it more aligned with the EDS design standard.  
 
