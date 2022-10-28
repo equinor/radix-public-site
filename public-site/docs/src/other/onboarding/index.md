@@ -1,7 +1,0 @@
----
-title: Onboarding
----
-
-# Radix
-
-

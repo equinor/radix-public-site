@@ -130,7 +130,6 @@ module.exports = {
           children: [
             '',
             'community/',
-            'onboarding/',
             'scenarios/',
             'release/',
           ],
