@@ -13,12 +13,13 @@ The process for setting up the alias depends on the service used to register and
 
 1. Open the [Services@Equinor](https://equinor.service-now.com) portal and find the service "Domain name system (DNS)"
 1. Request an alias, and specify which [public name](../../docs/topic-domain-names/#public-name) the alias should point to.  
-    _Example:_
+   ::: details Example
 
     ```raw
     New alias: myapp.equinor.com
     Point to: frontend-myapp-prod.radix.equinor.com
     ```
+    :::
 
 1. Specify in the request if you only need "internal entry" (used within internal Equinor network) or "both - internal and external entries" (used both - within internal Equinor and public networks).
 
@@ -31,13 +32,14 @@ You need to request two certificates
 - SSL certificate
 - Intermediate certificate
 
-Side note: [What is an intermediate certificate?](https://support.ssl.com/Knowledgebase/Article/View/11/0/what-is-an-intermediate-certificate)
+::: tip Side note
+[What is an intermediate certificate?](https://support.ssl.com/Knowledgebase/Article/View/11/0/what-is-an-intermediate-certificate)
+:::
 
 These certs can be bundled into one file using the PEM container format, and quite often this file is what we end up calling "the cert we serve the client".  
 
-_Example:_  
 A PEM container holding both the SSL and the intermediate certificate in the same file, in this particular order:
-
+::: details Example
 ```raw
 -----BEGIN CERTIFICATE-----
 {ssl certificate content}
@@ -47,6 +49,7 @@ A PEM container holding both the SSL and the intermediate certificate in the sam
 {intermediate certificate content}
 -----END CERTIFICATE-----
 ```
+:::
 
 ### How to get it
 
@@ -62,25 +65,25 @@ A PEM container holding both the SSL and the intermediate certificate in the sam
     openssl req -new -key ./mydomain.equinor.com.key -out ./mydomain.equinor.com.csr
     ```
 
-1. Open the [Services@Equinor](https://equinor.service-now.com) portal and find the service "Public SSL certificate"
+1. Open the [Services@Equinor](https://equinor.service-now.com) portal and find the service **Public SSL certificate**
 1. Request a SSL certificate and an intermediate certificate for your alias and attach the CSR file you created in step 2
 1. Once you get the requested certificates, store them together with the private key in a safe location (see step 1)
 
-## Edit `radixconfig.yaml`
+## Update configuration
 
-1. You must add a new `dnsExternalAlias` section to your `radixconfig.yaml` file.  
-    - check the [reference documentation](../../references/reference-radix-config/#dnsexternalalias) for the details.
+You must add a new `dnsExternalAlias` section to your [`radixconfig.yaml`](../../references/reference-radix-config/#dnsexternalalias) file.  
+
 1. The application must be built and deployed for the configuration to be applied.
 1. If authentication proxy is used - its redirect URL can be changed to use external alias (to avoid showing long proxy URL, when redirected).  
 
-## Apply custom certificate
+### Apply custom certificate
 
 Adding the certificate information to your application is done using the Radix Console.
 
 Radix needs two pieces of information to enable the certificate for an external alias:
 
 - the certificate itself
-- and the private key
+- the private key
 
 These must be entered as [secrets](../../docs/topic-concepts#secret) in the page of the component chosen as the target of the alias (in the appropriate environment). The two secrets will be named `<domain-name>-cert` and `<domain-name>-key`.
 
@@ -89,7 +92,7 @@ These must be entered as [secrets](../../docs/topic-concepts#secret) in the page
 ### Add `<domain-name>-cert` secret
 
 Combine the SSL certificate and the intermediate certificate into a single certificate using a PEM container format. Certificates should be put [in particular order](https://www.digicert.com/kb/ssl-support/pem-ssl-creation.htm): first - SSL certificate, second - Intermediate certificate:
-
+::: details Example
 ```raw
 -----BEGIN CERTIFICATE-----
 {ssl certificate content}
@@ -99,6 +102,7 @@ Combine the SSL certificate and the intermediate certificate into a single certi
 {intermediate certificate content}
 -----END CERTIFICATE-----
 ```
+:::
 
 ![Setting the cert part](./setting-cert.png "Setting cert")
 
@@ -108,7 +112,7 @@ Paste the contents of the private key file that you generated at the start of th
 
 ![Setting the private key part](./setting-private-key.png "Setting private key")
 
-### Certificate and key validation
+## Certificate and key validation
 
 When both the certificate and key is set, the secrets should change to `Consistent` state. The `Consistent` state indicates that the certificate is valid, signed by a trusted authority, and the private and public key pair matches.
 

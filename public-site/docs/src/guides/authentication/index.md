@@ -124,7 +124,7 @@ Cons
 
 We have not investigated using oauth-proxy when you need to call multiple API, with different resources ids from the client.
 
-### In client - Single page application
+### In client - Single page application (SPA)
 
 A single-page application (SPA) is a web application or web site that interacts with the user by dynamically rewriting the current page rather than loading entire new pages from a server. Web browser JavaScript frameworks, such as React, AngularJS, Vue.js, Ember.js, and ExtJS have adopted SPA principles. Most of these applications live entirely in the browser, which is an unsafe environment.
 

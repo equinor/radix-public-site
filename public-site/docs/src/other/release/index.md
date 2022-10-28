@@ -7,15 +7,94 @@ sidebarDepth: 2
 
 ## 2022
 
+### 2022-09-20 Azure keyvault secret autorotation
+
+Radix now provides [Azure Key vault autorotation](../../guides/azure-key-vaults/#autorotation-of-secrets) feature.
+
+### 2022-09-01 Vulnerability scan removed from build pipeline
+
+Vulnerability scan step in build-deploy pipeline is removed. It is replaced by a scheduled scan (daily and after new deployment) that scans images for all components, not only those that are built by Radix. Aggregated scan results are show in environment pages, and details in the component page.
+
+### 2022-09-01 Select Radix app admin group by name
+
+A new feature in Radix Web Console simplifies the configuration of application administrators. You can now select AD groups in a drop-down list instead of entering a comma-separated list of ids. The drop-down list is populated as you type after two characters are entered.
+![application administrators](./admingroup.png)
+
+### 2022-08-16 GIT Metadata updates
+
+- `$RADIX_GIT_COMMIT_HASH` has until now only been injected into pods if pipeline job was triggered via GitHub webhook. Variable is now also inferred from HEAD of build branch for build-deploy jobs which are not triggered via GitHub webhook.
+- `$RADIX_GIT_COMMIT_HASH` is inherited from source deployments after promote pipeline.
+- New default pod environment variable ``$RADIX_GIT_TAGS``. Contains a space separated list of git tags which point to `$RADIX_GIT_COMMIT_HASH`, if present.
+- Two new default build-time environment variables, `$RADIX_GIT_COMMIT_HASH` and `$RADIX_GIT_TAGS`.
+- UI for creation of promote pipeline jobs displays the build commit and git tags of source deployments, if present on the source deployment.
+- The overview page for Environment has a GitHub link to the source code commit from which the active deployment was built, if applicable. GitHub links to tags are also present, if applicable.
+- The overview page for Deployment also has GitHub links to commit and tags, if applicable.
+
+### 2022-08-10 Azure keyvault values version
+
+Radix web-console can show version of used [Azure Key vault values](../../guides/azure-key-vaults/#azure-key-vault-secret-certificate-and-key-versions), used in a Radix application component (if applicable) - which pod uses which version. Click on the link of Azure key vault secret, cert or key to open a popup with this info. Also statuses reflect actual state, not just *External*
+
+### 2022-08-10 Pipeline information in favourites apps in Radix console
+
+Radix console now shows the last pipeline job status badge only for applications which are your favourites.
+
+### 2022-06-28 Log lines limit
+
+The Radix component log size is limited to 1000 last lines to reduce resources used by a browser.
+
+Copy the log to a clipboard also is limited to the last 1000 lines.
+
+The  **Download** button will return the entire log.
+
+### 2022-06-20 Change in Azure Blob volume-mounts accessMode
+
+If your Radix application uses [Azure Blob volume mount](../../guides/volume-mounts/), [radixconfig.yaml](../../references/reference-radix-config/index.md) has a configuration of this volume mount, which has an optional property `accessMode`. If the application need not only read, but also write to this Azure Blob container, please specify explicitly this property, we recommend for the read-write purpose to set it to `ReadWriteMany`
+```yaml
+  volumeMounts:
+    - type: azure-blob
+      name: storage1
+      storage: blobfusevolume
+      path: /app/image-storage
+      gid: 1700
+      accessMode: ReadWriteMany
+```
+Radix soon will get an update to set Blob volumes `accessMode` as `ReadOnlyMany` by default, when `accessMode` is not specified explicitly in the [radixconfig.yaml](../../references/reference-radix-config/#volumemounts). If a Radix application needs a read-only access to the Azure blob volume mount, please specify it explicitly
+**accessMode: ReadOnlyMany**
+
+### 2022-06-20 Introducing sub-pipeline concept (Tekton)
+
+This is an optional, configurable build step that is run before deployment. A typical use case for [sub-pipeline](../../guides/sub-pipeline/#configure-sub-pipeline) is to perform a database update/migration immediately before deployment
+
+### 2022-06-20 Improved performance of the Radix Operator
+
+### 2022-05-30 Scheduled vulnerability scan implemented
+
+Up till now, all deployments to Radix have been scanned (by Snyk) and the result has been reported in the deploy pipeline in Radix console. However, as most of you will be aware of, new vulnerabilities are detected all the time and can exist in the image deployed to Radix. So a scan of all images in Radix is now done on a regular basis, and the ![result](./vulnerabilities.png) is reported in the environment page.
+
+### 2022-04-28 Improved/simpler **egress** rules configuration
+[Egress rules](../../references/reference-radix-config/#egress) have been simplified. A new field `allowRadix` can be set to allow or deny traffic to other Radix applications. If you use the [built-in Oauth2 feature](../../guides/authentication/#using-the-radix-oauth2-feature), it is no longer necessary to allow traffic to [login.microsoftonline.com](http://login.microsoftonline.com/). 
+
+Docs now recommend using [Private Link](../../guides/egress-config/index.md/#use-private-link) to get static IP address to Azure databases or other SaaS for use in egress rules
+
+### 2022-04-12 Static **ingress** IPs
+
+The Radix clusters now have static ingress IP ranges.
+::: Note IP ranges
+Production: 20.223.122.0/30
+Playground: 20.223.26.208/30
+:::
+
+This information can be found on the :information_source: information page on the applicable Radix console.
+
 ### 2022-03-11 Custom configuration of the Metrics endpoint
 
 It is now possible to specify custom port and path for monitoring.
 
-Specifying monitoring path and port is now supported for application components in Radix. Read the [radixconfig.yaml reference entry](https://radix.equinor.com/references/reference-radix-config/#monitoringconfig) for details.
+Specifying monitoring path and port is now supported for application components in Radix. Read the [radixconfig.yaml reference entry](../../references/reference-radix-config/#monitoringconfig) for details.
 
 ### 2022-02-28 Support for egress rules
 
-Network egress rules are now supported for application environments in Radix. Read the [radixconfig.yaml reference entry](https://www.radix.equinor.com/references/reference-radix-config/#egressrules) for details, and read the [guide](https://www.radix.equinor.com/guides/egress-rules/#default-rules) for important limitations, tips and usage patterns.
+Network egress rules are now supported for application environments in Radix. Read the [radixconfig.yaml reference entry](https://www.radix.equinor.com/references/reference-radix-config/#egressrules) for details, and read the [guide](../../guides/egress-rules/#default-rules) for important limitations, tips and usage patterns.
 
 Implement egress rules with caution. Applications may break if egress rules inadvertently block required resources.
 
