@@ -1,1 +1,9 @@
+build
 .idea
+.dccache
+.sass-cache
+.jekyll-cache/
+.jekyll-metadata
+**/.DS_Store
+public-site/docs/node_modules/
+public-site/docs/src/.vuepress/dist/
