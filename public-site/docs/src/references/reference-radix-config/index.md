@@ -820,20 +820,6 @@ spec:
 
 See [volumeMounts](#volumemounts) for a component for more information.
 
-#### `runAsNonRoot`
-
-```yaml
-spec:
-  jobs:
-    - name: compute
-      environmentConfig:
-        - environment: prod
-          runAsNonRoot: false
-        - environment: qa
-          runAsNonRoot: true
-```
-
-See [runAsNonRoot](#runasnonroot) for a component for more information.
 
 #### `timeLimitSeconds`
 
