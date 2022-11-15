@@ -19,7 +19,7 @@ Existing applications should be updated with a Configuration Item in the applica
 
 ### 2022-11-01 Enable, Disable components
 
-Components in the Radix application now can be enabled and disabled for all or specific environments, by spcifying in the [radixconfig.yaml](../../references/reference-radix-config/#enabled)
+Components in the Radix application now can be enabled and disabled for all or specific environments, by specifying it in the [radixconfig.yaml](../../references/reference-radix-config/#enabled)
 
 Examples:
 ```yaml
