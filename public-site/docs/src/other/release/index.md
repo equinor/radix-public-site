@@ -7,6 +7,65 @@ sidebarDepth: 2
 
 ## 2022
 
+### 2022-11-10 Configuration Item replaces WBS and owner and is now mandatory
+
+The ``Owner`` and ``WBS`` fields are removed, and replaced with ``Configuration Item`` which refers to an IT application in ServiceNow.
+When registering a new application in Radix, you must select a ``Configuration Item`` from the drop down list. The drop down will query ServiceNow when you start typing.
+
+To view more information about the selected Configuration Item, click the ``info`` icon on the right in the drop down.
+
+Existing applications should be updated with a Configuration Item in the application's Configuration page. WBS and Owner is still shown for existing applications, but are read only.
+![Config item](./confitem.png)
+
+### 2022-11-01 Enable, Disable components
+
+Components in the Radix application now can be enabled and disabled for all or specific environments, by specifying it in the [radixconfig.yaml](../../references/reference-radix-config/#enabled)
+
+Examples:
+```yaml
+spec:
+  components:
+    - name: backend
+      environmentConfig:
+        - environment: prod
+          enabled: false
+spec:
+  components:
+    - name: backend
+      enabled: false
+      environmentConfig:
+        - environment: prod
+          enabled: true
+```
+
+### 2022-11-01 External DNS certificate and key validation
+
+You can now view information about TLS certificates for [external DNS aliases](../../guides/external-alias/#apply-custom-certificate) in Radix Web Console.
+
+### 2022-10-13 Supporting monorepo and custom radixconfig names
+
+Radix now supports multiple Radix applications in the same GitHub repository - **monorepo** strategy.
+It is now possible to use custom Radix configuration file name (aka [radixconfig.yaml](../../references/reference-radix-config/index.md)) and/or its location in the GitHub repository. 
+Please read more in the [monorepo guideline](../../guides/monorepo/)
+
+
+### 2022-10-12 New version of Radix CLI v.1.2.1
+
+Including new command `version` to print current version of the rx     fd 
+
+### 2022-09-23 Improvements in Radix Web Console
+
+Ensure you have assigned permissions to your app's [configuration](../../guides/configure-an-app/#registering-the-application), now you are able to grant the permission using the name of an AD group. At the same time add your applications to the list of favourites, only favourites will have the application status available on the Web Console front page.
+
+Check out your vulnerability scan results: Are you using OAUTH feature? You may want to switch to [Radix OAUTH service](../../guides/authentication/#using-the-radix-oauth2-feature), we are updating the images (dependencies) regularly
+
+### 2022-09-20 Radix CLI version 1.2.0
+Radix CLI 1.2.0 has commands start, stop and restart for a specific component, an environment or entire application.
+::: Note Example
+rx start component -a <application-name> -e <environment-name> -n <component-name>
+rx stop environment -a <application-name> -e <environment-name>
+rx restart application -a <application-name>
+:::
 
 ### 2022-09-20 Azure keyvault secret autorotation
 
