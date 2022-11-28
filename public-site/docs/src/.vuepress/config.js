@@ -77,6 +77,7 @@ module.exports = {
             'monitoring/',
             'resource-request/',
             'egress-config/',
+            'git-submodules/',
             'sub-pipeline/',
             'pipeline-badge/',
             'alerting/',
