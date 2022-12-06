@@ -72,6 +72,7 @@ module.exports = {
             'component-start-stop-restart/',
             'configure-jobs/',
             'deploy-only/',
+            'build-and-deploy/',
             'deployment-promotion/',
             'monorepo/',
             'monitoring/',

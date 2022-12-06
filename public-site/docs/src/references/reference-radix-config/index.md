@@ -142,8 +142,6 @@ See [the egress configuration guide](../../guides/egress-config/) for usage patt
 
 This is where you specify the various components for your application - it needs at least one. Each component needs a `name`; this will be used for building the Docker images (appName-componentName). Source for the component can be; a folder in the repository, a dockerfile or an image.
 
-> Note! `image` config cannot be used in conjunction with the `src` or the `dockerfileName` config.
-
 ### `src`
 
 ```yaml
@@ -161,7 +159,8 @@ spec:
           port: 5000
 ```
 
-Specify `src` for a folder (relative to the repository root) where the `Dockerfile` of the component can be found and used for building on the platform. It needs a list of `ports` exposed by the component, which map with the ports exposed in the `Dockerfile`. An alternative to this is to use the `dockerfileName` setting of the component.
+`src` a folder, relative to the repository root, where the component source code and its `Dockerfile` are located to be built within the [Build and deploy](../../guides/build-and-deploy/) workflow of the Radix CI-CD pipeline. By default `src` is `.` - a root of the GitHub repository. 
+> When the `image` option is set - `src` option is ignored.
 
 ### `dockerfileName`
 
@@ -179,12 +178,12 @@ spec:
         - name: http
           port: 5000
 ```
-
-An alternative to this is to use the `dockerfileName` setting of the component.
+By default, Radix pipeline expects a docker file with a name `Dockefile` in the component source folder, specified in the option `src`. If this file name needs to be different, it can be specified in the option `dockerfileName`.
+> When the `image` option is set - `dockerfileName` option is ignored.
 
 ### `image`
 
-An alternative configuration of a component could be to use a publicly available image, this will not trigger any build of the component. An example of such a configuration would be:
+An alternative configuration of a component could be to use an existing container image, which can be specified in the option `image`. When this option is set for a component - the component will be not build, but only deployed with this image. An example of such a configuration:
 
 ```yaml
 spec:
@@ -198,6 +197,13 @@ spec:
           port: 8080
       publicPort: http
 ```
+> * When a container image is from the DockerHub repository, it is enough to specify only the image name. Examples:
+>   * `image: redis:latest`
+>   * `image: redis:7.0.5`.
+> * When an image is located in another container registry, the image name need to have the container registry URL. Example:
+>   * `image: gcr.io/distroless/nodejs18-debian11`.
+>   * `image: gcr.io/distroless/nodejs18-debian11:latest`.
+> * When an image is not publicly available, it is required to provide an authentication information. Please read more about [privateImageHubs](./#privateimagehubs) option.
 
 ### `publicPort`
 
