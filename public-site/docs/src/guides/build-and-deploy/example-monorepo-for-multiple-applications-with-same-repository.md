@@ -8,6 +8,7 @@ A multiple Radix applications can have source code the same GitHub repository. T
 
 Example:
 #### GitHub repository with applications, which can use common sources
+In this example two application use common `proxy` and `cache` components
 ``` 
 ├── frontend-app1
 │   ├── app.js
@@ -57,6 +58,11 @@ spec:
       ports:
         - name: http
           port: 8000
+    - name: cache
+      src: ./cache
+      ports:
+        - name: http
+          port: 8001
 ```
 #### radixconfig-app2.yaml
 ```yaml
@@ -80,6 +86,11 @@ spec:
       ports:
         - name: http
           port: 8080
+    - name: proxy
+      src: ./proxy
+      ports:
+        - name: http
+          port: 8000
     - name: cache
       src: ./cache
       ports:
