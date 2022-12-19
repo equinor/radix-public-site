@@ -252,9 +252,9 @@ The `ingressConfiguration` field of a component will add extra configuration by 
 
 - `websocketfriendly` will change connection timeout to 1 hour for the component.
 - `stickysessions` will change load balancing of the ingress to route to a single replica.
-- `leastconnectedlb` will ensure that connections will be routed to the replica with least amount of load
+- `leastconnectedlb` will try to route connection to the replica with least amount of load
 
-See [this](https://github.com/equinor/radix-operator/blob/b828195f1b3c718d5a48e31d0bafe0435857f5bf/charts/radix-operator/values.yaml#L58) for more information on what annotations will be put on the ingress, given the configuration.
+See [this](https://github.com/equinor/radix-operator/blob/b828195f1b3c718d5a48e31d0bafe0435857f5bf/charts/radix-operator/values.yaml#L58) for more information on what annotations will be put on the ingress, given the configuration. See [nginx documentation](https://docs.nginx.com/nginx/admin-guide/load-balancer/http-load-balancer/#choosing-a-load-balancing-method) for details about how the native nginx load balancing methods work.
 
 ### `alwaysPullImageOnDeploy`
 
