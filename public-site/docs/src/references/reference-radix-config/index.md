@@ -737,7 +737,7 @@ spec:
       timeLimitSeconds: 120
 ```
 
-The maximum number of seconds a job can run. If the job's running time exceeds the limit, it will be automatically shut down with status "Failed".
+The maximum number of seconds a job can run. If the job's running time exceeds the limit, it will be automatically shut down with status "Failed". The default value is `43200` seconds, 12 hours.
 
 ### `environmentConfig`
 
