@@ -4,6 +4,9 @@ title: Features
 
 # Features in Omnia Radix
 
+## Alerting and notification
+
+
 ## Authentication 
 
 [Guide](../guides/authentication/#authentication) - 
@@ -34,10 +37,60 @@ Autorotation of secrets
 
 [Guide](../guides/azure-key-vaults/#autorotation-of-secrets)
 
+## Azure Federated identity credentials
+
+## Backup
+Application configuration is backed up every hour using Velero and that backup is stored in the Azure Storage account.
+
+## Auto build and/or deploy on GitHub commit
+Continuous integration/deployment (CI/CD), using the Webhook, and secured by deploy key
+
+[Doc](../docs/topic-concepts/#continuous-integration-and-deployment) - [Guide](../guides/build-and-deploy/#build-and-deploy)
+
+
+## Build and deploy pipeline
+
+[Guide](../guides/build-and-deploy/#build-and-deploy)
+
+## Deploy only pipeline
+
+[Guide](../guides/deploy-only/#deploy-to-radix-using-other-continuous-integration-ci-tool) - [Radix config](../guides/deploy-only/#the-radixconfig-yaml-file)
+
+### Machine User token
+
+[Guide](..guides/deploy-only/#machine-user-token)
+
+## Promote pipeline
+
+### Rollback to any version (as part of Promote)
+
+
 ## Build secrets
 
 
-## Environment variables
+## Certificates, SSL certificates
+
+
+## Component stop/start/restart
+
+
+## Command Line (Radix CLI)
+
+
+## Container logs in Radix console and Radix CLI
+
+
+## Cost calculation
+
+
+## DNS aliases
+
+
+## External alias (byo DNS certificate)
+
+
+## Egress rules
+
 
 ## Enable/disable components
 Components can be enabled or disabled for all or only certain environment(s).
@@ -45,10 +98,13 @@ Components can be enabled or disabled for all or only certain environment(s).
 [Guide](../guides/enable-and-disable-components/) - 
 [Radix config reference](../references/reference-radix-config/#enabled)
 
-## Component stop/start/restart
+## Environment variables
 
 
-## External alias (byo DNS certificate)
+## Multiple environments
+
+
+## Horizontal autoscaling
 
 
 ## Job scheduler
@@ -60,16 +116,7 @@ Components can be enabled or disabled for all or only certain environment(s).
 ## Jobs
 
 
-## Deploy only pipeline
-
-
-## Build and deploy pipeline
-
-
-## Promote pipeline
-
-
-## Sub-pipelines (Tekton)
+## Kubernetes Cluster node autoscaling
 
 
 ## Monorepo
@@ -78,19 +125,28 @@ Components can be enabled or disabled for all or only certain environment(s).
 ## Monitoring and metrics
 
 
-## Resource request and limits
-
-
-## Egress rules
-
-
-## Git Submodules
+## Sub-pipelines (Tekton)
 
 
 ## Pipeline status badges
 
 
-## Alerting and notification
+## Private container image repositories
+
+
+## Probes, monitoring container liveness
+
+
+## Resource request and limits
+
+
+## Rolling updates
+
+
+## Runtime secrets
+
+
+## Git Submodules
 
 
 ## Volume mounts
@@ -99,55 +155,7 @@ Components can be enabled or disabled for all or only certain environment(s).
 ## Vulnerability scanning
 
 
-## DNS aliases
+## Web console (dashboard)
 
 
-## Radix cost calculation
-
-
-## Rolling updates
-
-## Radix CLI
-
-
-## Radix web console (dashboard)
-
-
-## Grafana monitoring, custom metrics
-
-
-## Multiple environments
-
-
-## Auto build and/or deploy on GitHub commit
-
-
-## Private container image repositories
-
-
-## Azure Federated identity credentials
-
-
-## Runtime secrets
-
-
-## Horizontal autoscaling
-
-
-## Cluster node autoscaling
-
-
-## Backup
-
-
-## Rollback to any version (as part of Promote)
-
-
-## Radix console and Radix CLI provided container logs
-
-
-## SSL certificates
-
-
-## Probes, monitoring container liveness
 
