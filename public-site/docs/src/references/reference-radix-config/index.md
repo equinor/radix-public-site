@@ -581,6 +581,33 @@ Read more details in the [guide](../../guides/enable-and-disable-components/).
 
 [Job](./#jobs) components can be disabled similar way. 
 
+### `identity`
+
+The `identity` section enables mounting of a JWT (JSON web token) that can be used as a federated credential with the [OAuth2 client credentials flow](https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-client-creds-grant-flow#third-case-access-token-request-with-a-federated-credential) to request an access token for an Azure AD application registration or managed identity.  
+The following environment variables are set when `identity` is enabled:
+- **AZURE_AUTHORITY_HOST** (*https://login.microsoftonline.com/*)
+- **AZURE_CLIENT_ID** (value from `clientId` in configuration, e.g. *b96d264b-7053-4465-a4a7-32be5b0fec49)
+- **AZURE_FEDERATED_TOKEN_FILE** (path to the file containg the JWT, e.g. */var/run/secrets/azure/tokens/azure-identity-token*)
+- **AZURE_TENANT_ID** (*3aa4a235-b6e2-48d5-9195-7fcf05b459b0*)
+
+
+
+`identity` can be configured on the component/job level and/or per environment in the `environmentConfig` section. Configuration in `environmentConfig` overrides configuration on the component/job level.
+
+```yaml
+spec:
+  components:
+    - name: backend
+      identity:
+        azure:
+          clientId: 00000000-aaaa-bbbb-cccc-111111111111
+      environmentConfig:
+        - environment: prod
+          identity: ...
+```
+
+See [guide](../../guides/workload-identity) for more information.
+
 ## `jobs`
 
 This is where you specify the various [jobs](../../guides/configure-jobs) for your application.
@@ -840,6 +867,22 @@ spec:
 
 See [timeLimitSeconds](#timelimitseconds) for more information.
 
+### `identity`
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      identity:
+        azure:
+          clientId: 00000000-aaaa-bbbb-cccc-111111111111
+      environmentConfig:
+        - environment: prod
+          identity: ...
+```
+
+See [identity](#identity) for more information.
+
 ## `dnsAppAlias`
 
 ```yaml
@@ -1061,6 +1104,9 @@ spec:
               - name: cert1
                 type: cert
                 envVar: CERT1
+      identity:
+        azure:
+          clientId: 00000000-aaaa-bbbb-cccc-111111111111
       environmentConfig:
         - environment: prod
           monitoring: true
@@ -1075,6 +1121,9 @@ spec:
             clientCertificate:
               passCertificateToUpstream: true
           enabled: false
+          identity:
+            azure:
+              clientId: 88888888-aaaa-bbbb-cccc-999999999999
         - environment: dev
           monitoring: false
           resources:
@@ -1125,16 +1174,22 @@ spec:
       secrets:
         - DB_USER
         - DB_PASS
+      identity:
+        azure:
+          clientId: 00000000-aaaa-bbbb-cccc-111111111111
       environmentConfig:
         - environment: dev
           variables:
             DB_HOST: "db-dev"
             DB_PORT: "1234"
-        - environment: dev
+        - environment: prod
           monitoring: true
           variables:
             DB_HOST: "db-prod"
             DB_PORT: "1234"
+          identity:
+            azure:
+              clientId: 88888888-aaaa-bbbb-cccc-999999999999
   dnsAppAlias:
     environment: prod
     component: frontend

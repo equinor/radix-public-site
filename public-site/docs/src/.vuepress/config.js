@@ -62,6 +62,7 @@ module.exports = {
           children: [
             '',
             'authentication/',
+            'workload-identity/',
             'docker/',
             'docker-useradd/',
             'azure-key-vaults/',
