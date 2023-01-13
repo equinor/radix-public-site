@@ -26,7 +26,7 @@ spec:
     - name: web
       identity:
         azure:
-          clientId: b96d264b-7053-4465-a4a7-32be5b0fec49 # Example value only
+          clientId: b96d264b-7053-4465-a4a7-32be5b0fec49 # Example value only, must be changed
   ...
 ```
 
