@@ -58,7 +58,7 @@ When workload identity is configured for a component or job, the following envir
 
 The file defined by **AZURE_FEDERATED_TOKEN_FILE** contains the JWT which identifies the current workload, and is used as the **client_assertion** value when requesting access tokens for Azure resources using the [OAuth 2.0 client credentials flow with federated credentials](https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-client-creds-grant-flow#third-case-access-token-request-with-a-federated-credential).
 
-It is recommended to use a SDK/library (see [SKDS and examples](./#sdks-and-examples)), like the [Azure SDK](https://azure.github.io/azure-workload-identity/docs/topics/language-specific-examples/azure-identity-sdk.html), to handle the client credentials flow.
+It is recommended to use a SDK/library (see [SDKs and examples](./#sdks-and-examples)), like the [Azure SDK](https://azure.github.io/azure-workload-identity/docs/topics/language-specific-examples/azure-identity-sdk.html), to handle the client credentials flow.
 
 ## SDKs and examples
 
