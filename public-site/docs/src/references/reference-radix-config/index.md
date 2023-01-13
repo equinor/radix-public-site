@@ -583,17 +583,6 @@ Read more details in the [guide](../../guides/enable-and-disable-components/).
 
 ### `identity`
 
-The `identity` section enables mounting of a JWT (JSON web token) that can be used as a federated credential with the [OAuth2 client credentials flow](https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-client-creds-grant-flow#third-case-access-token-request-with-a-federated-credential) to request an access token for an Azure AD application registration or managed identity.  
-The following environment variables are set when `identity` is enabled:
-- **AZURE_AUTHORITY_HOST** (*https://login.microsoftonline.com/*)
-- **AZURE_CLIENT_ID** (value from `clientId` in configuration, e.g. *b96d264b-7053-4465-a4a7-32be5b0fec49)
-- **AZURE_FEDERATED_TOKEN_FILE** (path to the file containg the JWT, e.g. */var/run/secrets/azure/tokens/azure-identity-token*)
-- **AZURE_TENANT_ID** (*3aa4a235-b6e2-48d5-9195-7fcf05b459b0*)
-
-
-
-`identity` can be configured on the component/job level and/or per environment in the `environmentConfig` section. Configuration in `environmentConfig` overrides configuration on the component/job level.
-
 ```yaml
 spec:
   components:
@@ -605,6 +594,15 @@ spec:
         - environment: prod
           identity: ...
 ```
+
+The `identity` section enables mounting of a JWT (JSON web token) that can be used as a federated credential with the [OAuth2 client credentials flow](https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-client-creds-grant-flow#third-case-access-token-request-with-a-federated-credential) to request an access token for an Azure AD application registration or managed identity.  
+The following environment variables are added to the replicas automatically when `identity` is enabled:
+- **AZURE_AUTHORITY_HOST** (*https://login.microsoftonline.com/*)
+- **AZURE_CLIENT_ID** (value from `clientId` in configuration, e.g. *b96d264b-7053-4465-a4a7-32be5b0fec49)
+- **AZURE_FEDERATED_TOKEN_FILE** (path to the file containg the JWT, e.g. */var/run/secrets/azure/tokens/azure-identity-token*)
+- **AZURE_TENANT_ID** (e.g. *3aa4a235-b6e2-48d5-9195-7fcf05b459b0*)
+
+`identity` can be configured on the component/job level and/or per environment in the `environmentConfig` section. Configuration in `environmentConfig` overrides configuration on the component/job level.
 
 See [guide](../../guides/workload-identity) for more information.
 

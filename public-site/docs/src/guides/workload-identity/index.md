@@ -53,7 +53,7 @@ Click **Add Credential** and select **Kubernetes accessing Azure resources** in 
 When workload identity is configured for a component or job, the following environment variables are set in the running container:
 - **AZURE_FEDERATED_TOKEN_FILE** - path to the file containing the workload identity JWT (e.g. */var/run/secrets/azure/tokens/azure-identity-token*)
 - **AZURE_CLIENT_ID** - the value of `clientId` in the `identity` configuration section (e.g. *b96d264b-7053-4465-a4a7-32be5b0fec49*)
-- **AZURE_AUTHORITY_HOST** - The base URL to Azure identity provider (e.g. *https://login.microsoftonline.com/*)
+- **AZURE_AUTHORITY_HOST** - The base URL to Azure identity provider (*https://login.microsoftonline.com/*)
 - **AZURE_TENANT_ID** - The tenant ID to use when aquiring tokens from the Azure identity provider (e.g. *3aa4a235-b6e2-48d5-9195-7fcf05b459b0*)
 
 The file defined by **AZURE_FEDERATED_TOKEN_FILE** contains the JWT which identifies the current workload, and is used as the **client_assertion** value when requesting access tokens for Azure resources using the [OAuth 2.0 client credentials flow with federated credentials](https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-client-creds-grant-flow#third-case-access-token-request-with-a-federated-credential).
