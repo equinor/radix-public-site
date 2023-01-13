@@ -4,14 +4,14 @@ sidebarDepth: 2
 ---
 # Workload Identity
 
-Many workloads (components or jobs) running in Radix require credentials (JWT access tokens) for an **Azure AD application** or **managed identity** to access Azure AD protected resources, like MS Graph, Key Vaults, Storage Accounts or Azure SQL Databases. Credentials for these types of workloads can be aquired using the [Oauth 2.0 client credentials flow](https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-client-creds-grant-flow). The **client credentials flow** permits a workload to use its own credentials to access protected resources instead of impersonating a user. Credentials can be aquired by using either a shared secret, a certificte or with [federated credentials](https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-client-creds-grant-flow#third-case-access-token-request-with-a-federated-credential).
+Many workloads (components or jobs) running in Radix require credentials (JWT access tokens) for an **Azure AD app registration** or **managed identity** to access Azure AD protected resources, like MS Graph, Key Vaults, Storage Accounts or Azure SQL Databases. Credentials for these types of workloads can be aquired using the [Oauth 2.0 client credentials flow](https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-client-creds-grant-flow). The **client credentials flow** permits a workload to use its own credentials to access protected resources instead of impersonating a user. Credentials can be aquired by using either a shared secret, a certificte or with [federated credentials](https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-client-creds-grant-flow#third-case-access-token-request-with-a-federated-credential).
 
-Using shared secrets or certificates pose a security risk as they have to be stored securely and rotated regularly. With **federated credentials**, a trust between the [workload identity](https://learn.microsoft.com/en-us/azure/active-directory/develop/workload-identity-federation) and an **Azure AD application** or **managed identity** is established. The **workload identity** is a JSON Web Token (JWT) mounted as a file inside the workload's container. The JWT has a short liftime (one hour) and is automatically rotated.
+Using shared secrets or certificates pose a security risk as they have to be stored securely and rotated regularly. With **federated credentials**, a trust between the [workload identity](https://learn.microsoft.com/en-us/azure/active-directory/develop/workload-identity-federation) and an **Azure AD app registration** or **managed identity** is established. The **workload identity** is a JSON Web Token (JWT) mounted as a file inside the workload's container. The JWT has a short liftime (one hour) and is automatically rotated.
 
 ## Configure workload identity in Radix
 
 **Workload identity** for a component or job is configured in the [identity](../../references/reference-radix-config/#identity) section in [radixconfig.yaml](../../references/reference-radix-config/).  
-The value of `clientId` is either the *Application (client) ID* for an Azure AD application or the *Client ID* for a managed identity.
+The value of `clientId` is either the *Application (client) ID* for an Azure AD app registration or the *Client ID* for a managed identity.
 
 ```yaml
 apiVersion: radix.equinor.com/v1
@@ -30,16 +30,16 @@ spec:
   ...
 ```
 
-Information required for setting up the trust relationship between a workload and the **Azure AD application** or **user-assigned managed identity** is available in the component/job page in Radix Web Console.
+Information required for setting up the trust relationship between a workload and the **Azure AD app registration** or **user-assigned managed identity** is available in the component/job page in Radix Web Console.
 ![Federation Trust Information](./identity-web-console.png "Federation Trust Information")  
 
 ## Configure trust relationship in Azure
 
-Create a trust relationship (federated credential) between the workload (component or job) running in Radix and the application or managed identity in Azure. A trust must be created per environment and workload. In the example above there are two environments (**prod** and **dev**) and one workload (**web**). Two trust relationships must therefore be created; one for **web** in **dev** environment and one for **web** in **prod** environment.
+Create a trust relationship (federated credential) between the workload (component or job) running in Radix and the app registration or managed identity in Azure. A trust must be created per environment and workload. In the example above there are two environments (**prod** and **dev**) and one workload (**web**). Two trust relationships must therefore be created; one for **web** in **dev** environment and one for **web** in **prod** environment.
 
-To create a trust relationship, open the [Azure Portal](https://portal.azure.com/), navigate to the *Azure AD application* or *managed identity* configured in `clientId` and open the *Federated credentials* page.
+To create a trust relationship, open the [Azure Portal](https://portal.azure.com/), navigate to the *Azure AD app registration* or *managed identity* configured in `clientId` and open the *Federated credentials* page.
 
-For *Azure AD applications*, the page is located in *Certificates & secrets*
+For *Azure AD app registration*, the page is located in *Certificates & secrets*
 ![Azure AD Application Federated Credentials](./azure-ad-app-federation.png "Azure AD Application Federated Credentials")  
 
 For *managed identities*, the page is located in *Federated credentials*
