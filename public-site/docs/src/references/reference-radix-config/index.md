@@ -600,7 +600,7 @@ spec:
     - name: backend
       identity:
         azure:
-          clientId: 00000000-aaaa-bbbb-cccc-111111111111
+          clientId: 00000000-0000-0000-0000-000000000000
       environmentConfig:
         - environment: prod
           identity: ...
@@ -875,7 +875,7 @@ spec:
     - name: compute
       identity:
         azure:
-          clientId: 00000000-aaaa-bbbb-cccc-111111111111
+          clientId: 00000000-0000-0000-0000-000000000000
       environmentConfig:
         - environment: prod
           identity: ...
@@ -1106,7 +1106,7 @@ spec:
                 envVar: CERT1
       identity:
         azure:
-          clientId: 00000000-aaaa-bbbb-cccc-111111111111
+          clientId: 00000000-0000-0000-0000-000000000000
       environmentConfig:
         - environment: prod
           monitoring: true
@@ -1123,7 +1123,7 @@ spec:
           enabled: false
           identity:
             azure:
-              clientId: 88888888-aaaa-bbbb-cccc-999999999999
+              clientId: 00000000-0000-0000-0000-000000000001
         - environment: dev
           monitoring: false
           resources:
@@ -1176,7 +1176,7 @@ spec:
         - DB_PASS
       identity:
         azure:
-          clientId: 00000000-aaaa-bbbb-cccc-111111111111
+          clientId: 00000000-0000-0000-0000-000000000000
       environmentConfig:
         - environment: dev
           variables:
@@ -1189,7 +1189,7 @@ spec:
             DB_PORT: "1234"
           identity:
             azure:
-              clientId: 88888888-aaaa-bbbb-cccc-999999999999
+              clientId: 00000000-0000-0000-0000-000000000001
   dnsAppAlias:
     environment: prod
     component: frontend
