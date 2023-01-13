@@ -4,7 +4,7 @@ sidebarDepth: 2
 ---
 # Workload Identity
 
-Some workloads (component or job replicas) running in Radix require credentials (JWT access tokens) for an **Azure AD app registration** or **user-assigned managed identity** to access Azure AD protected resources, like MS Graph, Key Vaults, Storage Accounts or Azure SQL Databases. Credentials for such workloads can be aquired using the [Oauth 2.0 client credentials flow](https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-client-creds-grant-flow). The **client credentials flow** permits a workload to use its own credentials to access protected resources instead of impersonating a user. Credentials can be aquired by using either a shared secret, a certificate or with [federated credentials](https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-client-creds-grant-flow#third-case-access-token-request-with-a-federated-credential).
+Some workloads (component or job replicas) running in Radix require credentials (JWT access tokens) for an **Azure AD app registration** or **user-assigned managed identity** to access Azure AD protected resources, like MS Graph, Key Vaults, Storage Accounts or Azure SQL Databases. Credentials for such workloads can be acquired using the [Oauth 2.0 client credentials flow](https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-client-creds-grant-flow). The **client credentials flow** permits a workload to use its own credentials to access protected resources instead of impersonating a user. Credentials can be acquired by using either a shared secret, a certificate or with [federated credentials](https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-client-creds-grant-flow#third-case-access-token-request-with-a-federated-credential).
 
 Using shared secrets or certificates pose a security risk as they have to be stored securely and rotated regularly. With **federated credentials**, a trust between the [workload identity](https://learn.microsoft.com/en-us/azure/active-directory/develop/workload-identity-federation) and an **Azure AD app registration** or **user-assigned managed identity** is established. The **workload identity** is a JSON Web Token (JWT) mounted as a file inside the workload's container. The JWT has a short liftime (one hour) and is automatically rotated.
 
@@ -48,7 +48,7 @@ For *user-assigned managed identities*, the page is located in *Federated creden
 Click **Add Credential** and select **Kubernetes accessing Azure resources** in the drop-down. Fill out the required fields **Cluster Issuer URL**, **Namespace** and **Service Account** with information from the component/job page in Radix Web Console. Enter a value in the **Name** field that uniquely describes the federated credential, e.g. *my-radix-app_dev_web*. Click **Add** to save the changes.
 ![Add Federated Credentials](./add-federated-credentials.png "Add Federated Credentials")  
 
-## Aquire credentials to access protected Azure resources
+## Acquire credentials to access protected Azure resources
 
 When workload identity is configured for a component or job, the following environment variables are set in the running container:
 - **AZURE_FEDERATED_TOKEN_FILE** - path to the file containing the workload identity JWT (e.g. */var/run/secrets/azure/tokens/azure-identity-token*)
@@ -64,7 +64,7 @@ It is recommended to use a SDK/library (see [SDKs and examples](./#sdks-and-exam
 
 - [Azure SDK](https://azure.microsoft.com/en-us/downloads/): Programmatically manage and interact with Azure services with built in support for workload identity federation. See examples [here](https://azure.github.io/azure-workload-identity/docs/topics/language-specific-examples/azure-identity-sdk.html).
 
-- [MSAL](https://learn.microsoft.com/en-us/azure/active-directory/develop/msal-overview): Aquire access tokens from the Microsoft identity platform. See examples [here](https://azure.github.io/azure-workload-identity/docs/topics/language-specific-examples/azure-identity-sdk.html).
+- [MSAL](https://learn.microsoft.com/en-us/azure/active-directory/develop/msal-overview): Acquire access tokens from the Microsoft identity platform. See examples [here](https://azure.github.io/azure-workload-identity/docs/topics/language-specific-examples/azure-identity-sdk.html).
 
 - [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/): Interact with Azure services from the command line. Supports login with workload identity federation:
 ```bash
@@ -76,7 +76,7 @@ MYSECRET=$(az keyvault secret show -n mysecret --vault-name mykeyvault --query v
 ```
 
 
-- [curl](https://curl.se/): Send HTTP requests to the Microsoft identity platform to aquire access tokens:
+- [curl](https://curl.se/): Send HTTP requests to the Microsoft identity platform to acquire access tokens:
 ```bash
 curl ${AZURE_AUTHORITY_HOST}${AZURE_TENANT_ID}/oauth2/v2.0/token \
 	-X POST \
