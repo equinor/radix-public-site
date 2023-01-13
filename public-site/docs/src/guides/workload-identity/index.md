@@ -35,7 +35,7 @@ Information required for setting up the trust relationship between a workload an
 
 ## Configure trust relationship in Azure
 
-Create a trust relationship (federated credential) between the workload (component or job) running in Radix and the app registration or user-assigned managed identity in Azure. A trust must be created per environment and workload. In the example above there are two environments (**prod** and **dev**) and one workload (**web**). Two trust relationships must therefore be created; one for **web** in **dev** environment and one for **web** in **prod** environment.
+Create a trust relationship (federated credential) between the workload (component or job) running in Radix and the app registration or user-assigned managed identity in Azure. A trust must be created per environment and workload. In the example above there are two environments (**prod** and **dev**) and one workload (**web**). Two trust relationships need to be created; one for **web** in **dev** environment and one for **web** in **prod** environment.
 
 To create a trust relationship, open the [Azure Portal](https://portal.azure.com/), navigate to the *Azure AD app registration* or *user-assigned managed identity* configured in `clientId` and open the *Federated credentials* page.
 
