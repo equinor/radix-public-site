@@ -50,7 +50,7 @@ spec:
         from: release
   components:
     - name: api
-      image: docker.pkg.github.com/equinor/radix-example-arm-template/api:{imageTagName}
+      image: ghcr.io/equinor/radix-example-arm-template/api:{imageTagName}
       ports:
         - name: http
           port: 3000
@@ -61,7 +61,7 @@ spec:
         - environment: prod
           imageTagName: release-39f1a082
   privateImageHubs:
-    docker.pkg.github.com:
+    ghcr.io:
       username: <some GitHub user name>
       email: <some email>
 ```
@@ -85,102 +85,31 @@ The full syntax of `radixconfig.yaml` is explained in [Radix Config reference](.
 
 Registering the Radix application follows the pattern of a regular Radix application. The only difference is that we skip adding a web-hook to Radix. We then avoid that the application is built and deployed to Radix, using the Radix CI. The mechanism for deploying to Radix will be described in the next section.
 
-## Machine user token
+## AD Service principal access token
 
-In a deploy-only scenario you will tell us when to deploy, rather than having the web-hook tell us when changes have occurred in the repository, as for other Radix applications. In order to do that, you will make calls to the Radix API. In order to do that you have two approaches:
+In a deploy-only scenario, Radix will only deploy, rather than build and deploy, when the GitHub webhook notified about changes, occurred in the repository. In order to run a deploy-only pipeline job, Azure service principals ([Azure AD app registration](https://learn.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/qs-configure-portal-windows-vm) or [user-assigned managed identity](https://learn.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview)) can be used:
+* Create or use an existing service principal (Azure AD app registrations or user-assigned managed identities)
+* Add this service principal as a member to one of the AAD groups, which is set as an administrator of the Radix application. This group need to be of the type Security with the source Cloud. If the group has wrong type or source, a new AD group can be requested from ServiceNow:
+  * Open the [Services@Equinor](https://equinor.service-now.com/selfservice) portal and find the service "IT access and accounts"
+  * Select "Identity and access management support", click Next, select "AccessIT: Application role modelling and support (config)"
+  * In the Description field, add a comment that the group should be of type Security and that it will be maintained manually in the Azure portal and not via ServiceNow
+  * Once the group is created, add it as an administrator for the Radix application in the Radix Web Console "Configuration" form 
+  ![Configure the Radix application administrators](./radix-application-administrator-configuration.png)
+* Change an external pipeline job (GitHub action, DevOps pipeline, etc.) to login as the service principal with request of an access token, which can be used with Radix CLI or Radix API within such job.
 
-- You can authenticate with any user in the application `Administrators` group, and get a token of that user (i.e. az account get-access-token) to communicate with the Radix API
-- You can use the machine user token we provide you, as long as you have enabled the machine user to be created for your application
+> Note that the access token has one-hour live period, with access to all operations that an application administrator has (i.e. deleting the application, setting secrets). Please make efforts not to have this token fall into the wrong hands.
 
-> The machine user token can be obtained on the application `Configuration` page, after first having enabled the machine user. Also note that if you enable the machine user for an existing application, you may need to re-trigger a deploy to Radix to have the access for the machine user propagated properly
-
-![MachineUserToken](./machine-user.png)
-
-![MachineUserToken](./machine-user-token.png)
-
-By pressing `Regenerate token` button, you invalidate the existing token and get new token which can be copied to your clipboard.
-
-> Note that the machine user token is a longed lived token with access to all operations that an application administrator has (i.e. deleting the application, setting secrets). Please make efforts not to have this token fall into the wrong hands.
+[Example of use of an access token in a GitHub action](./example-github-action-using-ad-service-principal-access-token.md)
 
 ## Making calls to Radix
 
-With the access token you can make calls to our API through either:
+With the access token you can make calls to Radix API through either:
 
 - Calling the API directly ([Radix Platform API](https://api.radix.equinor.com/swaggerui/) or [Radix Playground API](https://api.playground.radix.equinor.com/swaggerui/)), by passing the bearer token (i.e. curl -X GET --header "Authorization: Bearer \$token")
 - Calling the API though functions in the [Radix CLI](https://github.com/equinor/radix-cli), which allows for simpler access to the API
-- Calling the API through [Radix GitHub Actions](https://github.com/equinor/radix-github-actions). If you have opted for GitHub Actions as your CI tool, then calling the Radix API indirectly through the Radix CLI using the Radix GitHub Actions can be done. It allows for simpler access to the CLI in your actions workflow.
+- Calling the API through [Radix GitHub Actions](https://github.com/equinor/radix-github-actions). If you have opted for GitHub Actions as your CI tool, then calling the Radix API indirectly through the Radix CLI using the Radix GitHub Actions can be done. It allows for simpler access to the CLI in your action's workflow.
 
-### Building using other CI (i.e. GitHub Actions)
-
-To create a GitHub Actions you create a workflow file in the folder .github/workflows. In the sample workflow below we will build new images for master (qa environment) and release (prod environment) branches:
-
-::: details Click me to view the code
-```yaml
-name: CI
-
-on:
-  push:
-    branches:
-      - master
-      - release
-
-jobs:
-  build:
-    name: deploy
-    runs-on: ubuntu-latest
-    env:
-      APP_SERVICE_ACCOUNT_TOKEN: ${{ "{{ secrets.K8S_CREDENTIALS " }}}}
-    steps:
-      - uses: actions/checkout@v1
-      - name: Set default image tag
-        run: |
-          echo ::set-env name=IMAGE_TAG::$(echo ${GITHUB_REF##*/}-latest)
-      - name: Override image tag for prod environment
-        if: github.ref == 'refs/heads/release'
-        run: |
-          echo ::set-env name=IMAGE_TAG::$(echo ${GITHUB_REF##*/}-${GITHUB_SHA::8})
-      - name: Build API component
-        run: |
-          docker build -t docker.pkg.github.com/equinor/radix-example-arm-template/api:$IMAGE_TAG ./todoapi/
-      - name: Push the image to GPR
-        run: |
-          echo ${{ "{{ secrets.PRIVATE_TOKEN " }}}} | docker login docker.pkg.github.com -u <any-github-user-name> --password-stdin
-          docker push docker.pkg.github.com/equinor/radix-example-arm-template/api:$IMAGE_TAG
-      - name: Prepare for committing new tag to radix config on master
-        uses: actions/checkout@v2-beta
-        with:
-          ref: master
-      - name: Modify radixconfig tag for production on master branch
-        if: github.ref == 'refs/heads/release'
-        run: |
-          # Install pre-requisite
-          python3 -m pip install --user ruamel.yaml
-          python3 hack/modifyTag.py api ${GITHUB_REF##*/} $IMAGE_TAG
-          git config --global user.name 'ingeknudsen'
-          git config --global user.email 'ingeknudsen@users.noreply.github.com'
-          git remote set-url origin https://x-access-token:${{ "{{ secrets.PRIVATE_TOKEN  " }}}}@github.com/${{ "{{ github.repository " }}}}
-          git commit -am $IMAGE_TAG
-          git push origin HEAD:master
-      - name: Get environment from branch
-        id: getEnvironment
-        uses: equinor/radix-github-actions@master
-        with:
-          args: >
-            get config branch-environment
-            --from-config
-            -b ${GITHUB_REF##*/}
-      - name: Deploy API on Radix
-        uses: equinor/radix-github-actions@master
-        with:
-          args: >
-            create job
-            deploy
-            --context development
-            --from-config
-            -e ${{ "{{ steps.getEnvironment.outputs.result " }}}}
-            -f
-```
-:::
+[Example of using GitHub action to create a Radix deploy pipeline job](./example-github-action-to-create-radix-deploy-pipeline-job.md)
 
 ### Updating deployments on static tags
 
@@ -195,16 +124,9 @@ spec:
   environments: ...
   components:
     - name: api
-      image: docker.pkg.github.com/equinor/my-app/api:latest
+      image: ghcr.io/equinor/my-app/api:latest
       alwaysPullImageOnDeploy: true
 ```
-
-### Workflow secrets
-
-There are a couple of GitHub secrets the workflow make use of:
-
-- `K8S_CREDENTIALS` - This is the token used for accessing Radix. In this example we are using the machine user token provided with the application. The name of the secret can be any name. However, the environment variable needs to be `APP_SERVICE_ACCOUNT_TOKEN`, as this is what the Radix CLI expect the environment variable to be named
-- `PRIVATE_TOKEN` - The private token is used for publishing a package to GitHub package repository. The name is irrelevant. It is a personal access token that you configure for your GitHub user. In this example we use the same token for producing the package, as we do for giving Radix access to pull the image to the cluster
 
 ### Configuring a personal access token
 
@@ -248,44 +170,6 @@ In the example repository that we have used for this documentation we are settin
 - `Set instrumentation key as secret` - Takes one of the secrets passed on from the previous steps and set the secret for the application, for the environment this branch is mapped to (in the `development` cluster)
 - `Set connection string as secret` - Sets the second secret value
 
-::: details Click me to view the code
-```yaml
-- uses: Azure/login@v1
-  with:
-    creds: ${{ "{{ secrets.AZURE_CREDENTIALS " }}}}
-- name: Get instrumentation key and connection string
-  id: getSecrets
-  run: |
-    RESOURCE_GROUP=db-api-radix-${{ "{{ steps.getEnvironment.outputs.result " }}}}
-    INSTRUMENTATIONKEY=$(az group deployment show -g ${RESOURCE_GROUP} -n azuredeploy --query properties.outputs.appInsightInstrumentationKey.value)
-    CONNECTION_STRING=$(az group deployment show -g ${RESOURCE_GROUP} -n azuredeploy --query properties.outputs.storageConnectionString.value)
-    echo ::set-output name=instrumentationKey::$(echo ${INSTRUMENTATIONKEY})
-    echo ::set-output name=connectionString::$(echo ${CONNECTION_STRING})
-    echo ::add-mask::${INSTRUMENTATIONKEY}
-    echo ::add-mask::${CONNECTION_STRING}
-- name: Set instrumentation key as secret
-  uses: equinor/radix-github-actions@master
-  with:
-    args: >
-      set environment-secret
-      --context development
-      --from-config
-      -e ${{ "{{ steps.getEnvironment.outputs.result " }}}}
-      --component api
-      -s APPINSIGHTS_INSTRUMENTATIONKEY
-      -v '${{ "{{ steps.getSecrets.outputs.instrumentationKey " }}}}'
-- name: Set connection string as secret
-  uses: equinor/radix-github-actions@master
-  with:
-    args: >
-      set environment-secret
-      --context development
-      --from-config
-      -e ${{ "{{ steps.getEnvironment.outputs.result " }}}}
-      --component api
-      -s AZURE_STORAGE_CONNECTION_STRING
-      -v '${{ "{{ steps.getSecrets.outputs.connectionString " }}}}'
-```
-:::
+[Example of using GitHub action to create a Radix deploy pipeline job](./example-github-action-to-create-radix-deploy-pipeline-job.md)
 
-> Disclaimer: Please seek advice elsewhere on wether or not GitHub Actions and/or GitHub package repository is the right option for you. Both features are new and we have too little experience as an organization to make any recommendations, both in terms of robustness and in terms of cost. A private Azure container registry (ACR) would for instance allow you to set it up with a service account, rather than using your personal account. This document is meant to be a user guide on how to combine these with Radix, as one of many alternatives for running CI outside of Radix.
+> Disclaimer: Please seek advice elsewhere on whether GitHub Actions and/or GitHub package repository is the right option for you. Both features are new, and we have too little experience as an organization to make any recommendations, both in terms of robustness and in terms of cost. A private Azure container registry (ACR) would for instance allow you to set it up with a service account, rather than using your personal account. This document is meant to be a user guide on how to combine these with Radix, as one of many alternatives for running CI outside of Radix.
