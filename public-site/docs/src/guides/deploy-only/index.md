@@ -128,13 +128,6 @@ spec:
       alwaysPullImageOnDeploy: true
 ```
 
-### Workflow secrets
-
-There are a couple of GitHub secrets the workflow make use of:
-
-- `K8S_CREDENTIALS` - This is the token used for accessing Radix. In this example we are using the machine access token provided with the application. The name of the secret can be any name. However, the environment variable needs to be `APP_SERVICE_ACCOUNT_TOKEN`, as this is what the Radix CLI expect the environment variable to be named
-- `PRIVATE_TOKEN` - The private token is used for publishing a package to GitHub package repository. The name is irrelevant. It is a personal access token that you configure for your GitHub user. In this example we use the same token for producing the package, as we do for giving Radix access to pull the image to the cluster
-
 ### Configuring a personal access token
 
 Go to developer settings in GitHub to generate an access token (Enable SSO in order to be able to access GitHub Equinor organization):
