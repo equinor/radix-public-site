@@ -92,7 +92,7 @@ In a deploy-only scenario, Radix will only deploy, rather than build and deploy,
 * Add this service principal as a member to one of the AAD groups, which is set as an administrator of the Radix application. This group need to be of the type Security with the source Cloud. If the group has wrong type or source, a new AD group can be requested from ServiceNow:
   * Open the [Services@Equinor](https://equinor.service-now.com/selfservice) portal and find the service "IT access and accounts"
   * Select "Identity and access management support", click Next, select "AccessIT: Application role modelling and support (config)"
-  * In the Description field, add a comment that the group should be of type Security and that it will be maintained manually in the Azure portal and not via ServiceNow
+  * In the Description field, add the comment: "This is an Azure AD group, which should be of type Security, it will be maintained manually in the Azure portal and not via ServiceNow"
   * Once the group is created, add it as an administrator for the Radix application in the Radix Web Console "Configuration" form 
   ![Configure the Radix application administrators](./radix-application-administrator-configuration.png)
 * Change an external pipeline job (GitHub action, DevOps pipeline, etc.) to login as the service principal with request of an access token, which can be used with Radix CLI or Radix API within such job.
