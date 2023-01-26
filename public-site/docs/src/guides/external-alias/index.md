@@ -66,7 +66,13 @@ A PEM container holding both the SSL and the intermediate certificate in the sam
     ```
 
 1. Open the [Services@Equinor](https://equinor.service-now.com/selfservice) portal and find the service **Public SSL certificate**
-1. Request a SSL certificate and an intermediate certificate for your alias and attach the CSR file you created in step 2
+1. Request a SSL certificate and an intermediate certificate for your alias and attach the CSR file you created in step 2:
+
+   ```raw
+   Title: Public SSL certificate with intermediate
+   Certificate name: mydomain.equinor.com
+   ```
+
 1. Once you get the requested certificates, store them together with the private key in a safe location (see step 1)
 
 ## Update configuration
