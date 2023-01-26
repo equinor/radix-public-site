@@ -99,6 +99,8 @@ In a deploy-only scenario, Radix will only deploy, rather than build and deploy,
 
 > Note that the access token has one-hour live period, with access to all operations that an application administrator has (i.e. deleting the application, setting secrets). Please make efforts not to have this token fall into the wrong hands.
 
+Read about [how to connect GitHub actions and Azure](https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure) to add federation between them.
+
 [Example of use of an access token in a GitHub action](./example-github-action-using-ad-service-principal-access-token.md)
 
 ## Making calls to Radix
