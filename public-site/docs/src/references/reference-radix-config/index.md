@@ -85,6 +85,8 @@ Wildcard branch mapping is also support, using `*` and `?`. Examples:
 
 `variables` - environment variable names and values (currently available only in [sub-pipelines](../../guides/sub-pipeline)), provided for specific environments. They override common environment variables with the same names, if specified in the `spec.build.variables`.  
 
+A text input field, will be available to put a full branch name for a build environment.  
+
 Example:
 ```yaml
 spec:
