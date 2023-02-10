@@ -124,11 +124,15 @@ Cost calculation is based on the total time the replicas(containers) belonging t
 
 ## DNS aliases
 
-[Radix config](../references/reference-radix-config/#dnsappalias)
+Each application can have one specific component in one specific environment set as the default alias.
+
+[Doc](../docs/topic-concepts/#default-alias) - [Radix config](../references/reference-radix-config/#dnsappalias)
 
 ## External alias (byo DNS certificate)
 
-[Guide](../guides/external-alias/) - [Radix config](../references/reference-radix-config/#dnsexternalalias)
+It is possible to have multiple custom DNS aliases (i.e. to choose your own custom domain) for the application. 
+
+[Doc](../docs/topic-concepts/#external-custom-alias) [Guide](../guides/external-alias/) - [Radix config](../references/reference-radix-config/#dnsexternalalias)
 
 ## Egress rules
 
@@ -154,50 +158,85 @@ Components can be enabled or disabled for all or only certain environment(s).
 
 ## Horizontal autoscaling
 
+Number of replicas can be used to horizontally scale.
+
+[Radix config](../references/reference-radix-config/#horizontalscaling)
 
 ## Job scheduler
 
+[Guide](../guides/configure-jobs/#job-scheduler) - [Radix config](../references/reference-radix-config/#jobs)
 
 ## Job batches
 
-
+[Guide](../guides/configure-jobs/#batch-of-jobs)
 ## Jobs
 
+[Guide](../guides/configure-jobs)
 
 ## Kubernetes Cluster node autoscaling
 
+For modern application development in Kubernetes and in Radix it is preferred to create applications that scales horizontally rather than vertically.
+
+[Guide](../guides/resource-request/#autoscaling)
 
 ## Monorepo
 
+It is possible to have multiple Radix applications, using the same GitHub repository, also known as monorepo software development strategy.
+
+[Guide](../guides/monorepo)
 
 ## Monitoring and metrics
 
+Prometheus and Grafana are the main tools provided in Radix for analytics and monitoring visualisation.
+
+[Guide](../guides/monitoring/#monitoring-your-app) - [Doc](../docs/topic-monitoring/) - [Radix config](../references/reference-radix-config/#monitoring) and [config](../references/reference-radix-config/#monitoringconfig)
 
 ## Sub-pipelines (Tekton)
 
+After "Build components" step (if it does not exist - after "Prepare pipeline" step), the step "Run sub-pipeline" runs optional sub-pipeline
+
+[Guide](../guides/sub-pipeline/) - [Radix config]()
 
 ## Pipeline status badges
 
+A pipeline status badge shows the status of the latest pipeline job of a specific type in a specific environment. Status is one of success, failing, stopped, pending or running.
 
+[Guide](../guides/pipeline-badge/#configure-pipeline-badges)
 ## Private container image repositories
 
 
 ## Probes, monitoring container liveness
 
+Radix uses readiness probe to minimize this downtime as close to zero as possible.
+
+[Doc](../docs/topic-rollingupdate/#readiness-probe)
+
+## Replica
+
+A replica is a running instance of a component. As a normal process, it can write to the standard output (stdout), which is made available for inspection by Radix.
+
+[Doc](../docs/topic-concepts/#replica)
 
 ## Resource request and limits
 
+`resources` is used to ensure that each container is allocated enough resources to run as it should.
+
+[Guide](../guides/resource-request/)
 
 ## Rolling updates
 
 
 ## Runtime secrets
 
+Secrets are made available to components as environment variables
+
+[Doc](../docs/topic-concepts/#secret)
 
 ## Git Submodules
 
 
 ## Volume mounts
+
 
 
 ## Vulnerability scanning
