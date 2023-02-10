@@ -39,6 +39,12 @@ Autorotation of secrets
 
 ## Azure Federated identity credentials
 
+Some workloads (component or job replicas) running in Radix require credentials (JWT access tokens) for an Azure AD app registration or user-assigned managed identity to access Azure AD protected resources, like MS Graph, Key Vaults, Storage Accounts or Azure SQL Databases. Credentials for such workloads can be acquired using the Oauth 2.0 client credentials flow (opens new window). The client credentials flow permits a workload to use its own credentials to access protected resources instead of impersonating a user. Credentials can be acquired by using either a shared secret, a certificate or with federated credentials.
+
+[Guide](../guides/workload-identity/) - 
+[Radix config reference](../references/reference-radix-config/#identity)
+
+
 ## Backup
 Application configuration is backed up every hour using Velero and that backup is stored in the Azure Storage account.
 
@@ -47,6 +53,11 @@ Continuous integration/deployment (CI/CD), using the Webhook, and secured by dep
 
 [Doc](../docs/topic-concepts/#continuous-integration-and-deployment) - [Guide](../guides/build-and-deploy/#build-and-deploy)
 
+### Workflows
+
+ It is possible to use, for instance Git Flow or Trunk-based development. Radix gives us a couple of tools to shape our workflow: branch-environment mapping and deployment promotion.
+
+[Doc](../start/workflows/#workflows)
 
 ## Build and deploy pipeline
 
@@ -56,41 +67,72 @@ Continuous integration/deployment (CI/CD), using the Webhook, and secured by dep
 
 [Guide](../guides/deploy-only/#deploy-to-radix-using-other-continuous-integration-ci-tool) - [Radix config](../guides/deploy-only/#the-radixconfig-yaml-file)
 
-### Machine User token
+### AD Service Access Token
 
-[Guide](..guides/deploy-only/#machine-user-token)
+In order to run a deploy-only pipeline job, Azure service principals Azure AD app registration or user-assigned managed identity can be used.
+
+[Guide](../guides/deploy-only/#ad-service-principal-access-token)
+[Sample](../guides/deploy-only/example-github-action-using-ad-service-principal-access-token.html)
 
 ## Promote pipeline
 
+Promote from one environment(deployment) to another.
+
+[Guide](../guides/deployment-promotion/#promote-to-another-environment)
+
 ### Rollback to any version (as part of Promote)
 
+It is easy to rollback to an earlier version, using the promote pipeline (yes, it should have been called demote - or rollback)
 
+[Guide](../guides/deployment-promotion/#promote-an-old-deployment-rollback)
 ## Build secrets
 
+[Guide](../guides/build-secrets/)
 
 ## Certificates, SSL certificates
 
+Only HTTPS traffic is allowed in and out of the application. SSL certificates are automatically managed by Radix, except for custom external aliases.
 
-## Component stop/start/restart
+[Doc](../docs/topic-runtime-env/#traffic) - [Radix config](../references/reference-radix-config/#clientcertificate)
 
+### Custom certificate
+
+Managing your own certificate is possible. Adding the certificate information to your application is done using the Radix Console
+
+[Guide](../guides/external-alias/#acquire-an-equinor-certificate)
+## Component and/or Environment stop/start/restart
+
+Stop, Start and Restart of a running component or all components in an environment can be done in the Web console.
+
+[Guide](../guides/component-start-stop-restart/)
 
 ## Command Line (Radix CLI)
 
+Radix offers a command line interface - Radix CLI, which uses the command rx.
+
+[Radix CLI](https://github.com/equinor/radix-cli/blob/master/README.md)
 
 ## Container logs in Radix console and Radix CLI
 
+To be updated
 
 ## Cost calculation
 
+Cost calculation is based on the total time the replicas(containers) belonging to an application has been running, and how much CPU and memory the replicas requested.
+
+[Doc](../docs/topic-cost/#how-is-the-cost-calculated)
 
 ## DNS aliases
 
+[Radix config](../references/reference-radix-config/#dnsappalias)
 
 ## External alias (byo DNS certificate)
 
+[Guide](../guides/external-alias/) - [Radix config](../references/reference-radix-config/#dnsexternalalias)
 
 ## Egress rules
 
+[Guide](../guides/egress-config/#egress) - [Radix config](../references/reference-radix-config/#egress)
 
 ## Enable/disable components
 Components can be enabled or disabled for all or only certain environment(s).
@@ -98,11 +140,17 @@ Components can be enabled or disabled for all or only certain environment(s).
 [Guide](../guides/enable-and-disable-components/) - 
 [Radix config reference](../references/reference-radix-config/#enabled)
 
-## Environment variables
+## Environment(s)
 
+[Doc](../docs/topic-concepts/#environment)
 
-## Multiple environments
+### Environment variables
 
+[Doc](../docs/topic-runtime-env/#environment-variables) - [Guide](../guides/environment-variables)
+
+### Multiple environments
+
+[Doc](../start/workflows/#branches-mapped-to-different-environments)
 
 ## Horizontal autoscaling
 
