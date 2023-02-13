@@ -76,8 +76,6 @@ Another pipeline is the deploy only pipeline, which deployes a already built ima
 In order to run a deploy-only pipeline job, Azure service principals Azure AD app registration or user-assigned managed identity can be used.
 
 [Guide](../guides/deploy-only/#ad-service-principal-access-token)
-[Sample](../guides/deploy-only/example-github-action-using-ad-service-principal-access-token.html)
-
 ## Promote pipeline
 Promote a deployment to another or the same environment.
 
