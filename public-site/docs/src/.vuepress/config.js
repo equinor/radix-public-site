@@ -42,6 +42,10 @@ module.exports = {
         link: '/docs/',
       },
       {
+        text: 'Features',
+        link: '/features/',
+      },
+      {
         text: 'References',
         link: '/references/',
       },
@@ -125,6 +129,16 @@ module.exports = {
           ],
         },
       ],
+      '/features/': [ 
+        {
+          title: 'List of Features',
+          collapsable: false,
+          sidebarDepth: 1,
+          children: [
+            '',
+          ],
+        },  
+      ],      
       '/other/': [
         {
           title: 'Other',
