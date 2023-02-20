@@ -144,6 +144,7 @@ The job-scheduler exposes the following methods for managing jobs
 - `GET /api/v1/jobs` Get states (with names and statuses) for all jobs
 - `GET /api/v1/jobs/{jobName}` Get state for a named job
 - `DELETE /api/v1/jobs/{jobName}` Delete a named job
+- `POST /api/v1/jobs/{jobName}/stop` Stop a named job
 
 ### Batch of jobs
 - `POST /api/v1/batches` Create a new batch of single jobs, using the Docker image, that Radix built for the job component. Job-specific arguments can be sent in the request body, specified individually for each item in `JobScheduleDescriptions`
@@ -169,6 +170,8 @@ The job-scheduler exposes the following methods for managing jobs
 - `GET /api/v1/batches` Get states (with names and statuses) for all batches
 - `GET /api/v1/batches/{batchName}` Get state for a named batch and statuses of its jobs
 - `DELETE /api/v1/batches/{batchName}` Delete a named batch
+- `POST /api/v1/batches/{batchName}/stop` Stop a named batch
+- `POST /api/v1/batches/{batchName}/jobs/{jobName}/stop` Stop a named job of a batch
 
 ### Example component diagram
 
@@ -191,14 +194,14 @@ Once the job has been created successfully, the `job-scheduler` responds to `bac
 
 ```json
 {
-  "name": "compute-20210407105556-rkwaibwe",
+  "name": "batch-compute-20230220101417-idwsxncs-rkwaibwe",
   "started": "",
   "ended": "",
   "status": "Running"
 }
 ```
 
-- `name` is the unique name for the job. This is the value to be used in the `GET /api/v1/jobs/{jobName}` and `DELETE /api/v1/jobs/{jobName}` methods. It is also the host name to connect to running job's container, with its exposed port, e.g. `http://compute-20210407090837-mll3kxxh:3000`
+- `name` is the unique name for the job. This is the value to be used in the `GET /api/v1/jobs/{jobName}` and `DELETE /api/v1/jobs/{jobName}` methods. It is also the host name to connect to running job's container, with its exposed port, e.g. `http://batch-compute-20230220100755-xkoxce5g-mll3kxxh:3000`
 - `started` is the date and time the job was started. It is represented in RFC3339 form and is in UTC.
 - `ended` is the date and time the job successfully ended. Also represented in RFC3339 form and is in UTC. This value is only set for `Successful` jobs.
 - `status` is the current status of the job container. Possible values are `Running`, `Successful` and `Failed`. Status is `Failed` if the container exits with a non-zero exit code, and `Successful` if the exit code is zero.
@@ -210,13 +213,13 @@ Get a list of all single jobs with their states by sending a `GET` request to `h
 ```json
 [
   {
-    "name": "compute-20210407090837-mll3kxxh",
+    "name": "batch-compute-20230220100755-xkoxce5g-mll3kxxh",
     "started": "2021-04-07T09:08:37Z",
     "ended": "2021-04-07T09:08:45Z",
     "status": "Succeeded"
   },
   {
-    "name": "compute-20210407105556-rkwaibwe",
+    "name": "batch-compute-20230220101417-idwsxncs-rkwaibwe",
     "started": "2021-04-07T10:55:56Z",
     "ended": "",
     "status": "Failed"
@@ -224,11 +227,11 @@ Get a list of all single jobs with their states by sending a `GET` request to `h
 ]
 ```
 
-To get state for a specific job (single or one within a batch), e.g. `compute-20210407090837-mll3kxxh`, send a `GET` request to `http://compute:8000/api/v1/jobs/compute-20210407090837-mll3kxxh`. The response is a single job state object
+To get state for a specific job (single or one within a batch), e.g. `batch-compute-20230220100755-xkoxce5g-mll3kxxh`, send a `GET` request to `http://compute:8000/api/v1/jobs/batch-compute-20230220100755-xkoxce5g-mll3kxxh`. The response is a single job state object
 
 ```json
 {
-  "name": "compute-20210407090837-mll3kxxh",
+  "name": "batch-compute-20230220100755-xkoxce5g-mll3kxxh",
   "started": "2021-04-07T09:08:37Z",
   "ended": "2021-04-07T09:08:45Z",
   "status": "Succeeded"
@@ -237,12 +240,32 @@ To get state for a specific job (single or one within a batch), e.g. `compute-20
 
 ## Deleting an existing job
 
-The job list in the example above has a job named `compute-20210407105556-rkwaibwe`. To delete it, send a `DELETE` request to `http://compute:8000/api/v1/jobs/compute-20210407105556-rkwaibwe`. A successful deletion will respond with result object. Both single and specific ones within a batch can be deleted with this method
+The job list in the example above has a job named `batch-compute-20230220101417-idwsxncs-rkwaibwe`. To delete it, send a `DELETE` request to `http://compute:8000/api/v1/jobs/batch-compute-20230220101417-idwsxncs-rkwaibwe`. A successful deletion will respond with result object. Only single job can be deleted with this method
 
 ```json
 {
   "status": "Success",
-  "message": "job compute-20210407105556-rkwaibwe successfully deleted",
+  "message": "job batch-compute-20230220101417-idwsxncs-rkwaibwe successfully deleted",
+  "code": 200
+}
+```
+
+## Stop a job
+
+The job list in the example above has a job named `batch-compute-20230220100755-xkoxce5g-mll3kxxh`. To stop it, send a `POST` request to `http://compute:8000/api/v1/jobs/batch-compute-20230220100755-xkoxce5g-mll3kxxh/stop`. A successful stop will respond with result object. Only single job can be stopped with this method. Stop of a job automatically deletes corresponding Kubernetes job and its replica, as well as its log. The job will get the status "Stopped".
+
+```json
+{
+  "status": "Success",
+  "message": "job batch-compute-20230220100755-xkoxce5g-mll3kxxh successfully stopped",
+  "code": 200
+}
+```
+
+```json
+{
+  "status": "Success",
+  "message": "job batch-compute-20230220101417-idwsxncs-rkwaibwe successfully stopped",
   "code": 200
 }
 ```
@@ -336,7 +359,7 @@ Once the batch has been created, the `job-scheduler` responds to `backend` with 
 ```json
 {
   "batchName": "batch-compute-20220302170647-6ytkltvk",
-  "name": "batch-compute-20220302170647-6ytkltvk",
+  "name": "batch-compute-20220302170647-6ytkltvk-tlugvgs",
   "created": "2022-03-02T17:06:47+01:00",
   "status": "Running"
 }
@@ -382,7 +405,7 @@ To get state for a specific batch, e.g. `batch-compute-20220302155333-hrwl53mw`,
     {
       "jobId": "job1",
       "batchName": "batch-compute-20220302155333-hrwl53mw",
-      "name": "compute-20220302145336-fjhcqwj7",
+      "name": "batch-compute-20220302155333-hrwl53mw-fjhcqwj7",
       "created": "2022-03-02T15:53:36+01:00",
       "started": "2022-03-02T15:53:36+01:00",
       "ended": "2022-03-02T15:53:56+01:00",
@@ -391,7 +414,7 @@ To get state for a specific batch, e.g. `batch-compute-20220302155333-hrwl53mw`,
     {
       "jobId": "job2",
       "batchName": "batch-compute-20220302155333-hrwl53mw",
-      "name": "compute-20220302145337-qjzykhrd",
+      "name": "batch-compute-20220302155333-hrwl53mw-qjzykhrd",
       "created": "2022-03-02T15:53:39+01:00",
       "started": "2022-03-02T15:53:39+01:00",
       "ended": "2022-03-02T15:53:56+01:00",
@@ -413,11 +436,35 @@ The batch list in the example above has a batch named `batch-compute-20220302155
 }
 ```
 
+## Stop an existing batch
+
+The batch list in the example above has a batch named `batch-compute-20220302155333-hrwl53mw`. To stop it, send a `POST` request to `http://compute:8000/api/v1/batches/batch-compute-20220302155333-hrwl53mw/stop`. A successful stop will respond with result object. Stop of a batch automatically deletes all batch Kubernetes jobs and their replicas, belonging to this batch job, as well as their logs. All not completed jobs will get the status "Stopped".
+
+```json
+{
+  "status": "Success",
+  "message": "batch batch-compute-20220302155333-hrwl53mw successfully stopped",
+  "code": 200
+}
+```
+
+## Stop a jobs in a batch
+
+The batch list in the example above has a batch named `batch-compute-20220302155333-hrwl53mw` and jobs, one of whicvh has name `batch-compute-20220302155333-hrwl53mw-fjhcqwj7`. To stop this job, send a `POST` request to `http://compute:8000/api/v1/batches/batch-compute-20220302155333-hrwl53mw/jobs/batch-compute-20220302155333-hrwl53mw-fjhcqwj7/stop`. A successful stop will respond with result object. Stop of a batch job automatically deletes corresponding Kubernetes job and its replica, as well as its log. The job will get the status "Stopped".
+
+```json
+{
+  "status": "Success",
+  "message": "job batch-compute-20220302155333-hrwl53mw-fjhcqwj7 in the batch batch-compute-20220302155333-hrwl53mw successfully stopped",
+  "code": 200
+}
+```
+
 ## Environment variables
 
 In addition to [variables defined in `radixconfig.yaml`](../../references/reference-radix-config/#variables), Radix will automatically set the following variables
 
-- `RADIX_JOB_NAME`: The instance name of the job (e.g. "compute-20210407105556-rkwaibwe")
+- `RADIX_JOB_NAME`: The instance name of the job (e.g. "batch-compute-20230220101417-idwsxncs-rkwaibwe")
 - `RADIX_APP`: The name of the Radix application
 - `RADIX_CLUSTERNAME`: The canonical name of the Radix cluster (e.g. "prod-8")
 - `RADIX_CLUSTER_TYPE`: The type of cluster ("production", "playground", "development")
