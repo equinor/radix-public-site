@@ -160,6 +160,7 @@ module.exports = {
           children: [
             '',
             'reference-radix-config/',
+            'reference-code-editor-integration/',
             'reference-private-link/',
           ],
         },

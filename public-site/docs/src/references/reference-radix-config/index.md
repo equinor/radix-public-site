@@ -18,6 +18,10 @@ metadata: ...
 spec: ...
 ```
 
+::: tip
+You can enable auto completion and validation for `radixconfig.yaml` in your code editor. Read more about it [here](../reference-code-editor-integration/).
+:::
+
 # Reference
 
 ## `name`
