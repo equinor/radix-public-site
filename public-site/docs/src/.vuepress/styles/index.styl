@@ -59,6 +59,11 @@ body
         text-decoration: underline
     .page-nav a
       font-size: 1.000rem
+    blockquote
+      border: 0px
+    blockquote > p
+      color: rgba(0, 112, 121, 1)
+      
 
 
 /*
@@ -157,3 +162,50 @@ body
           grid-row: 6
         ~ p + p
           grid-row: 7
+
+/*
+ * Loop article styles
+ */
+
+.caption
+  font-size: 0.9rem
+
+.caption-narrow
+  font-size: 0.9rem
+  width:48%
+  display:inline-block
+  vertical-align: top
+  padding: 0 4px 0
+  
+.main-heading
+  color: rgba(235,0,55,1.000)
+
+.centered
+  text-align: center
+
+.image-cell
+  width: 33%
+  display: inline-block
+  text-align: center
+
+.image-row
+  margin: 50px 0
+
+img.face-right
+  width:30%
+  float:right
+  margin-left: 20px
+
+img.face-left
+  width:30%
+  float:left
+  margin-right: 20px
+
+img.face-round
+  width:70%
+  border-radius: 50%
+  display:block
+  margin-left: auto
+  margin-right: auto
+  margin-bottom: 20px
+  

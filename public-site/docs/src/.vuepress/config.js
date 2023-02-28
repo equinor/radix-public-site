@@ -149,6 +149,7 @@ module.exports = {
             'community/',
             'scenarios/',
             'release/',
+            'loop-story/'
           ],
         },
       ],
