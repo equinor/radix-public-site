@@ -5,6 +5,20 @@ sidebarDepth: 2
 
 # What's new
 
+## 2023
+
+### 2023-02-28 - Radix Web Console: Stop a regular job and batched jobs
+
+A brand new button has been added to allow users to easily stop a job or a batch.  
+The `Payload` button (`Scheduled Jobs` only) has been moved inside an elipsis menu together with the new `Stop` button for convenience.  
+![Stop job](./stop-job.png)
+
+### 2023-02-16 - Radix Web Console: Start, Stop and Restart environments
+
+- Git Tags are now visible on the Environment Summary Cards.
+- Buttons to start, stop and restart an envrionment has been added.
+  ![Start, stop and restart environment](./start-stop-restart-env.png)
+
 ## 2022
 
 ### 2022-11-10 - Configuration Item replaces WBS and owner and is now mandatory
