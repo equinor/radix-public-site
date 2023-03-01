@@ -28,13 +28,13 @@ Radix provides built-in configuration for adding OAuth2 authorization with OIDC 
 This driver allows Kubernetes to access Azure Storage - Blobs.
 
 [Guide](../guides/volume-mounts) - [Radix config reference](../references/reference-radix-config/#volumemounts)
-## Azure Keyvault integration
-Azure Key vault secrets, keys and certificates can be used in Radix as secrets. Once configured, they are available in replicas of Radix application as environment variables and files.
+## Azure Key Vault integration
+Azure Key Vault secrets, keys and certificates can be used in Radix as secrets. Once configured, they are available in replicas of Radix application as environment variables and files.
 
 [Guide](../guides/azure-key-vaults/) - 
 [Radix config reference](../references/reference-radix-config/#azurekeyvault)
 
-Keyvault secret, keys and certificates are listed as variables in web console, including version information.
+Key Vault secret, keys and certificates are listed as variables in web console, including version information.
 
 [Guide](../guides/azure-key-vaults/#azure-key-vault-secret-certificate-and-key-versions)
 

@@ -75,7 +75,7 @@ rx restart application -a <application-name>
 
 ### 2022-09-20 - Azure key vault secret autorotation
 
-Radix now offers the [Azure Key vault autorotation](../../guides/azure-key-vaults/#autorotation-of-secrets) feature.
+Radix now offers the [Azure Key Vault autorotation](../../guides/azure-key-vaults/#autorotation-of-secrets) feature.
 
 ### 2022-09-01 - Vulnerability scan removed from build pipeline
 
