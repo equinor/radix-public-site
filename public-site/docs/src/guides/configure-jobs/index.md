@@ -15,7 +15,7 @@ The job-scheduler does not require any authentication since it is not exposed to
 
 A job can be run as a single job or as a batch of jobs.
 
-A max of 10 single completed jobs remains in the history of a job component. When a single job started - the oldest of 10 existing single jobs is deleted. The same applies for batched jobs - its history is independent of single jobs history. A max of 10 completed batched jobs remain in the batch history, with all their jobs. 
+A max of 10 single completed jobs remains in the history of a job component. When a single job started - the oldest of 10 existing single jobs is deleted. The same applies for batched jobs - its history is independent of single jobs history. A max of 10 completed batched jobs remain in the batch history, with all their jobs.
 
 ## Configure a job
 
@@ -116,6 +116,7 @@ Radix creates one job-scheduler per job defined in [`radixconfig.yaml`](../../re
 The job-scheduler exposes the following methods for managing jobs
 
 ### Single job
+
 - `POST /api/v1/jobs` Create a new job using the Docker image that Radix built for the job. Job-specific arguments can be sent in the request body
 
 ```json
@@ -147,6 +148,7 @@ The job-scheduler exposes the following methods for managing jobs
 - `POST /api/v1/jobs/{jobName}/stop` Stop a named job
 
 ### Batch of jobs
+
 - `POST /api/v1/batches` Create a new batch of single jobs, using the Docker image, that Radix built for the job component. Job-specific arguments can be sent in the request body, specified individually for each item in `JobScheduleDescriptions`
 
 ```json
@@ -208,7 +210,7 @@ Once the job has been created successfully, the `job-scheduler` responds to `bac
 
 ## Getting the status of all existing jobs
 
-Get a list of all single jobs with their states by sending a `GET` request to `http://compute:8000/api/v1/jobs`. The response is an array of job state objects, similar to the response received when creating a new job. Jobs that have been started within a batch are not included in this list 
+Get a list of all single jobs with their states by sending a `GET` request to `http://compute:8000/api/v1/jobs`. The response is an array of job state objects, similar to the response received when creating a new job. Jobs that have been started within a batch are not included in this list
 
 ```json
 [
@@ -288,6 +290,7 @@ To start a new batch of jobs, send a `POST` request to `http://compute:8000/api/
 ```
 
 Jobs can have `jobId`
+
 ```json
 {
   "jobScheduleDescriptions": [
@@ -304,6 +307,7 @@ Jobs can have `jobId`
 ```
 
 Default parameters for jobs can be defined within `DefaultRadixJobComponentConfig`. These parameters can be overridden for each job individually in `JobScheduleDescriptions`
+
 ```json
 {
   "defaultRadixJobComponentConfig": {
@@ -392,7 +396,7 @@ Get a list of all batches with their states by sending a `GET` request to `http:
 ]
 ```
 
-To get state for a specific batch, e.g. `batch-compute-20220302155333-hrwl53mw`, send a `GET` request to `http://compute:8000/api/v1/batches/batch-compute-20220302155333-hrwl53mw`. The response is a batch state object, with states of its jobs 
+To get state for a specific batch, e.g. `batch-compute-20220302155333-hrwl53mw`, send a `GET` request to `http://compute:8000/api/v1/batches/batch-compute-20220302155333-hrwl53mw`. The response is a batch state object, with states of its jobs
 
 ```json
 {

@@ -4,26 +4,30 @@ title: Example of multiple Radix applications with the source in the same GitHub
 
 # Example of multiple Radix applications with the source in the same GitHub repository
 
-A multiple Radix applications can have source code the same GitHub repository. Their components can use different or common sub-folders. `Dockerfile`-s of these components also need to be in their sub-folders. 
+A multiple Radix applications can have source code the same GitHub repository. Their components can use different or common sub-folders. `Dockerfile`-s of these components also need to be in their sub-folders.
 
 Example:
+
 #### GitHub repository with applications, which can use common sources
+
 In this example two application use common `proxy` and `cache` components
-``` 
-├── frontend-app1
+
+``` sh
+/
+├── frontend-app1/
 │   ├── app.js
 │   └── Dockerfile
-├── frontend-app2
+├── frontend-app2/
 │   ├── app.js
 │   └── Dockerfile
-├── backend
+├── backend/
 │   ├── server.js
 │   └── Dockerfile
-├── common
-│   ├── proxy
+├── common/
+│   ├── proxy/
 │   │   ├── proxy.js
 │   │   └── Dockerfile
-│   └── cache
+│   └── cache/
 │       ├── cache.js
 │       └── Dockerfile
 ├── Dockerfile.app1
@@ -31,7 +35,9 @@ In this example two application use common `proxy` and `cache` components
 ├── radixconfig-app1.yaml
 └── radixconfig-app2.yaml
 ```
+
 #### radixconfig-app1.yaml
+
 ```yaml
 kind: RadixApplication
 metadata:
@@ -64,7 +70,9 @@ spec:
         - name: http
           port: 8001
 ```
+
 #### radixconfig-app2.yaml
+
 ```yaml
 kind: RadixApplication
 metadata:
@@ -99,22 +107,25 @@ spec:
 ```
 
 Source code of applications can be located in own sub-folders. If docker files are also located in these folders, then they cannot share common sources, because docker file cannot refer to folders on the higher folder hierarchy level.  
+
 #### GitHub repository with applications, located in their own sub-folders
-``` 
-├── docs
-├── source
-│   ├── app1
-│   │   ├── frontend
+
+```sh
+/
+├── docs/
+├── source/
+│   ├── app1/
+│   │   ├── frontend/
 │   │   │   ├── app.js
 │   │   │   └── Dockerfile
-│   │   └── backend
+│   │   └── backend/
 │   │       ├── server.js
 │   │       └── Dockerfile
-│   └── app2
-│       ├── frontend
+│   └── app2/
+│       ├── frontend/
 │       │   ├── app.js
 │       │   └── Dockerfile
-│       └── backend
+│       └── backend/
 │           ├── server.js
 │           └── Dockerfile
 ├── radixconfig-app1.yaml
