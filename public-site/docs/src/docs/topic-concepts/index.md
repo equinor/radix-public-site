@@ -106,7 +106,7 @@ Used to duplicate an existing [deployment](#deployment) from one environment int
 
 ### Sub-pipeline
 
-After "Build components" step (if it does not exist - after "Prepare pipeline" step), the step "Run sub-pipeline" runs optional sub-pipeline, if it is configured. Sub-pipelines are based on the [Tekton CI/CD framework](https://tekton.dev/docs/getting-started/). Please read [Configure sub-pipeline](../../guides/sub-pipeline/) guide for details about sub-pipelines. 
+After "Build components" step (if it does not exist - after "Prepare pipeline" step), the step "Run sub-pipeline" runs optional sub-pipeline, if it is configured. Sub-pipelines are based on the [Tekton CI/CD framework](https://tekton.dev/docs/getting-started/). Please read [Configure sub-pipeline](../../guides/sub-pipeline/) guide for details about sub-pipelines.
 
 ### Deployment
 
