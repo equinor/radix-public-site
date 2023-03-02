@@ -1,5 +1,5 @@
 ---
-title: Community
+title: Index
 ---
 
 # Index
@@ -7,3 +7,4 @@ title: Community
 * [Community](./community/)
 * [Scenarios and examples](./scenarios/)
 * [What's new](./release/)
+* [Story: No place like Radix](./loop-story/)
