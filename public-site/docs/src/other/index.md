@@ -1,9 +1,15 @@
 ---
-title: Community
+title: Other
 ---
 
-# Index
+## Examples
+
+* [Scenarios and examples](./scenarios/)
+
+## About Us
 
 * [Community](./community/)
-* [Scenarios and examples](./scenarios/)
+
+## Changelog
+
 * [What's new](./release/)

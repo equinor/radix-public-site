@@ -2,8 +2,6 @@
 title: Docs
 ---
 
-# Topics
-
 ## The basics
 
 - Understanding [Radix concepts](topic-concepts/)

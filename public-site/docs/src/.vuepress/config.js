@@ -146,8 +146,8 @@ module.exports = {
           sidebarDepth: 1,
           children: [
             '',
-            'community/',
             'scenarios/',
+            'community/',
             'release/',
           ],
         },
