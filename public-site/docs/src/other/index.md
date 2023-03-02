@@ -10,6 +10,7 @@ title: Other
 
 * [Community](./community/)
 
-## Changelog
+## News
 
 * [What's new](./release/)
+* [Story: No place like Radix](./loop-story/)
