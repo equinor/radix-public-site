@@ -169,7 +169,7 @@ This information can be found on the :information_source: information page on th
 
 #### Note: IP ranges
 
-```raw
+```text
 Production: 20.223.122.0/30
 Playground: 20.223.26.208/30
 ```
