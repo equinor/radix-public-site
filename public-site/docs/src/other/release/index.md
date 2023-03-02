@@ -5,23 +5,39 @@ sidebarDepth: 2
 
 # What's new
 
+## 2023
+
+### 2023-02-28 - Radix Web Console: Stop a regular job and batched jobs
+
+A brand new button has been added to allow users to easily stop a job or a batch.  
+The `Payload` button (`Scheduled Jobs` only) has been moved inside an elipsis menu together with the new `Stop` button for convenience.  
+![Stop job](./stop-job.png)
+
+### 2023-02-16 - Radix Web Console: Start, Stop and Restart environments
+
+- Git Tags are now visible on the Environment Summary Cards.
+- Buttons to start, stop and restart an envrionment has been added.
+  ![Start, stop and restart environment](./start-stop-restart-env.png)
+
 ## 2022
 
-### 2022-11-10 Configuration Item replaces WBS and owner and is now mandatory
+### 2022-11-10 - Configuration Item replaces WBS and owner and is now mandatory
 
-The ``Owner`` and ``WBS`` fields are removed, and replaced with ``Configuration Item`` which refers to an IT application in ServiceNow.
-When registering a new application in Radix, you must select a ``Configuration Item`` from the drop down list. The drop down will query ServiceNow when you start typing.
+The `Owner` and `WBS` fields has been removed and is replaced by `Configuration Item` which refers to an IT application in ServiceNow.
+When registering a new application in Radix, you will have to select a `Configuration Item` from the drop-down list. The drop-down will automatically query ServiceNow when you start typing.
 
-To view more information about the selected Configuration Item, click the ``info`` icon on the right in the drop down.
+To see more information regarding the selected `Configuration Item`, click the `info` icon on the right in the drop-down.
 
-Existing applications should be updated with a Configuration Item in the application's Configuration page. WBS and Owner is still shown for existing applications, but are read only.
+Existing applications should be updated with a `Configuration Item` in the Application Configuration page. WBS and Owner is still shown for existing applications, but are read only.
 ![Config item](./confitem.png)
 
-### 2022-11-01 Enable, Disable components
+### 2022-11-01 - Enable and/or Disable components
 
-Components in the Radix application now can be enabled and disabled for all or specific environments, by specifying it in the [radixconfig.yaml](../../references/reference-radix-config/#enabled)
+Components in the Radix application now can be enabled and disabled for any and all environments.  
+This can be configured in the [radixconfig.yaml](../../references/reference-radix-config/#enabled)
 
-Examples:
+Example:
+
 ```yaml
 spec:
   components:
@@ -38,77 +54,81 @@ spec:
           enabled: true
 ```
 
-### 2022-11-01 External DNS certificate and key validation
+### 2022-11-01 - External DNS certificate and key validation
 
 You can now view information about TLS certificates for [external DNS aliases](../../guides/external-alias/#apply-custom-certificate) in Radix Web Console.
 
-### 2022-10-13 Supporting monorepo and custom radixconfig names
+### 2022-10-13 - Supporting monorepo and custom radixconfig names
 
 Radix now supports multiple Radix applications in the same GitHub repository - **monorepo** strategy.
-It is now possible to use custom Radix configuration file name (aka [radixconfig.yaml](../../references/reference-radix-config/index.md)) and/or its location in the GitHub repository. 
+It is now possible to use custom Radix configuration filenames (aka [radixconfig.yaml](../../references/reference-radix-config/index.md)) and/or its location in the GitHub repository.  
 Please read more in the [monorepo guideline](../../guides/monorepo/)
 
+### 2022-10-12 - Radix CLI version v1.2.1
 
-### 2022-10-12 New version of Radix CLI v.1.2.1
+A new command have been added.
+Use `version` to print current version of the rx     fd
 
-Including new command `version` to print current version of the rx     fd 
-
-### 2022-09-23 Improvements in Radix Web Console
+### 2022-09-23 - Improvements in Radix Web Console
 
 Ensure you have assigned permissions to your app's [configuration](../../guides/configure-an-app/#registering-the-application), now you are able to grant the permission using the name of an AD group. At the same time add your applications to the list of favourites, only favourites will have the application status available on the Web Console front page.
 
 Check out your vulnerability scan results: Are you using OAUTH feature? You may want to switch to [Radix OAUTH service](../../guides/authentication/#using-the-radix-oauth2-feature), we are updating the images (dependencies) regularly
 
-### 2022-09-20 Radix CLI version 1.2.0
-Radix CLI 1.2.0 has commands start, stop and restart for a specific component, an environment or entire application.
-::: Note Example
+### 2022-09-20 - Radix CLI version v1.2.0
+
+Radix CLI 1.2.0 has new commands added such as `start`, `stop` and `restart` for a specific component, environment or an entire application.
+
+#### Example
+
+```sh
 rx start component -a <application-name> -e <environment-name> -n <component-name>
 rx stop environment -a <application-name> -e <environment-name>
 rx restart application -a <application-name>
-:::
+```
 
-### 2022-09-20 Azure keyvault secret autorotation
+### 2022-09-20 - Azure key vault secret autorotation
 
-Radix now provides [Azure Key vault autorotation](../../guides/azure-key-vaults/#autorotation-of-secrets) feature.
+Radix now offers the [Azure Key Vault autorotation](../../guides/azure-key-vaults/#autorotation-of-secrets) feature.
 
-### 2022-09-01 Vulnerability scan removed from build pipeline
+### 2022-09-01 - Vulnerability scan removed from build pipeline
 
-Vulnerability scan step in build-deploy pipeline is removed. It is replaced by a scheduled scan (daily and after new deployment) that scans images for all components, not only those that are built by Radix. Aggregated scan results are show in environment pages, and details in the component page.
+The `Vulnerability Scan` step has been removed from the `build-deploy` pipeline. It has been replaced by a scheduled scan (daily and after new deployment) that scans images for all components, not only those built by Radix. Aggregated scan results are shown in environment pages, and details in the component page.
 
-### 2022-09-01 Select Radix app admin group by name
+### 2022-09-01 - Select Radix Application Administrator Group by name
 
-A new feature in Radix Web Console simplifies the configuration of application administrators. You can now select AD groups in a drop-down list instead of entering a comma-separated list of ids. The drop-down list is populated as you type after two characters are entered.
+A new feature in Radix Web Console simplifies the configuration of application administrators. You can now select AD Groups in a drop-down list instead of entering a comma-separated list of ids. The drop-down list is populated as you type after two characters are entered.
 ![application administrators](./admingroup.png)
 
-### 2022-08-16 GIT Metadata updates
+### 2022-08-16 - GIT Metadata updates
 
-- `$RADIX_GIT_COMMIT_HASH` has until now only been injected into pods if pipeline job was triggered via GitHub webhook. Variable is now also inferred from HEAD of build branch for build-deploy jobs which are not triggered via GitHub webhook.
-- `$RADIX_GIT_COMMIT_HASH` is inherited from source deployments after promote pipeline.
-- New default pod environment variable ``$RADIX_GIT_TAGS``. Contains a space separated list of git tags which point to `$RADIX_GIT_COMMIT_HASH`, if present.
 - Two new default build-time environment variables, `$RADIX_GIT_COMMIT_HASH` and `$RADIX_GIT_TAGS`.
-- UI for creation of promote pipeline jobs displays the build commit and git tags of source deployments, if present on the source deployment.
-- The overview page for Environment has a GitHub link to the source code commit from which the active deployment was built, if applicable. GitHub links to tags are also present, if applicable.
+- `$RADIX_GIT_COMMIT_HASH` has up until now been injected into pods if pipeline job was triggered via GitHub webhook. This variable is now also inferred from HEAD of the build branch for build-deploy jobs which are not triggered via the GitHub webhook.
+- `$RADIX_GIT_COMMIT_HASH` is inherited from source deployments after promote pipeline.
+- New default pod environment variable `$RADIX_GIT_TAGS`, containing a whitespace separated list of git tags which refer to `$RADIX_GIT_COMMIT_HASH`, if present.
+- UI for creating promote pipeline jobs displays the build commit and git tags of source deployments, if present on the source deployment.
+- The overview page for Environment now has a GitHub link to the source code commit from which the active deployment was built, if applicable. GitHub links to tags are also present, if applicable.
 - The overview page for Deployment also has GitHub links to commit and tags, if applicable.
 
-### 2022-08-10 Azure keyvault values version
+### 2022-08-10 - Azure Key Vault values version
 
-Radix web-console can show version of used [Azure Key vault values](../../guides/azure-key-vaults/#azure-key-vault-secret-certificate-and-key-versions), used in a Radix application component (if applicable) - which pod uses which version. Click on the link of Azure key vault secret, cert or key to open a popup with this info. Also statuses reflect actual state, not just *External*
+Radix Web Console can show version of [Azure Key Vault values](../../guides/azure-key-vaults/#azure-key-vault-secret-certificate-and-key-versions) used in a Radix application component (if applicable) - which pod uses which version. Click the link of the Azure Key Vault secret, certificate or key to open a popup with this info. Statuses also reflect actual state, not just *External*
 
-### 2022-08-10 Pipeline information in favourites apps in Radix console
+### 2022-08-10 - Pipeline information for favourite appliactions in Radix Web Console
 
-Radix console now shows the last pipeline job status badge only for applications which are your favourites.
+Radix Web Console now shows the last pipeline job status badge only for applications which are your favourites.
 
-### 2022-06-28 Log lines limit
+### 2022-06-28 - Log lines limit
 
-The Radix component log size is limited to 1000 last lines to reduce resources used by a browser.
+The Radix component log size have been limited to only display the last 1000 lines to reduce browser resources usage.  
+Copy log to clipboard has also been limited to the last 1000 lines.  
+The **Download** button will return the entire log.
 
-Copy the log to a clipboard also is limited to the last 1000 lines.
+### 2022-06-20 - Change in Azure Blob volume-mounts accessMode
 
-The  **Download** button will return the entire log.
+If your Radix application uses [Azure Blob volume mount](../../guides/volume-mounts/), [radixconfig.yaml](../../references/reference-radix-config/index.md) has a configuration of this volume mount, which has an optional property `accessMode`. If the application need not only read, but also write to this Azure Blob container, please specify explicitly this property.  
+For `read-write` acces, we recommend to set it to `ReadWriteMany`.  
 
-### 2022-06-20 Change in Azure Blob volume-mounts accessMode
-
-If your Radix application uses [Azure Blob volume mount](../../guides/volume-mounts/), [radixconfig.yaml](../../references/reference-radix-config/index.md) has a configuration of this volume mount, which has an optional property `accessMode`. If the application need not only read, but also write to this Azure Blob container, please specify explicitly this property, we recommend for the read-write purpose to set it to `ReadWriteMany`
 ```yaml
   volumeMounts:
     - type: azure-blob
@@ -118,85 +138,99 @@ If your Radix application uses [Azure Blob volume mount](../../guides/volume-mou
       gid: 1700
       accessMode: ReadWriteMany
 ```
-Radix soon will get an update to set Blob volumes `accessMode` as `ReadOnlyMany` by default, when `accessMode` is not specified explicitly in the [radixconfig.yaml](../../references/reference-radix-config/#volumemounts). If a Radix application needs a read-only access to the Azure blob volume mount, please specify it explicitly
+
+Radix will soon get an update to set Blob volumes `accessMode` as `ReadOnlyMany` by default, when `accessMode` is not specified explicitly in the [radixconfig.yaml](../../references/reference-radix-config/#volumemounts). If a Radix application needs a read-only access to the Azure blob volume mount, please specify it explicitly  
 **accessMode: ReadOnlyMany**
 
-### 2022-06-20 Introducing sub-pipeline concept (Tekton)
+### 2022-06-20 - Introducing sub-pipeline concept (Tekton)
 
 This is an optional, configurable build step that is run before deployment. A typical use case for [sub-pipeline](../../guides/sub-pipeline/#configure-sub-pipeline) is to perform a database update/migration immediately before deployment
 
-### 2022-06-20 Improved performance of the Radix Operator
+### 2022-06-20 - Improved performance of the Radix Operator
 
-### 2022-05-30 Scheduled vulnerability scan implemented
+Various improvements have been made to optimize the Radix Operator
 
-Up till now, all deployments to Radix have been scanned (by Snyk) and the result has been reported in the deploy pipeline in Radix console. However, as most of you will be aware of, new vulnerabilities are detected all the time and can exist in the image deployed to Radix. So a scan of all images in Radix is now done on a regular basis, and the ![result](./vulnerabilities.png) is reported in the environment page.
+### 2022-05-30 - Scheduled vulnerability scan implemented
 
-### 2022-04-28 Improved/simpler **egress** rules configuration
-[Egress rules](../../references/reference-radix-config/#egress) have been simplified. A new field `allowRadix` can be set to allow or deny traffic to other Radix applications. If you use the [built-in Oauth2 feature](../../guides/authentication/#using-the-radix-oauth2-feature), it is no longer necessary to allow traffic to [login.microsoftonline.com](http://login.microsoftonline.com/). 
+Up until now all deployments to Radix was scanned by Snyk and the result was reported in the deploy pipeline in Radix Web Console. However, as most of you will be aware of, new vulnerabilities are discovered all the time and can exist in the image deployed to Radix.  
+The scan of all images in Radix will now be done on a regular basis, and the ![result](./vulnerabilities.png) is reported in the environment page.
+
+### 2022-04-28 - Improved/simpler **egress** rules configuration
+
+[Egress rules](../../references/reference-radix-config/#egress) have been simplified. A new field `allowRadix` can be set to allow or deny traffic to other Radix applications.  
+If you use the [built-in Oauth2 feature](../../guides/authentication/#using-the-radix-oauth2-feature), it is no longer necessary to allow traffic to [login.microsoftonline.com](http://login.microsoftonline.com/).
 
 Docs now recommend using [Private Link](../../guides/egress-config/index.md/#use-private-link) to get static IP address to Azure databases or other SaaS for use in egress rules
 
-### 2022-04-12 Static **ingress** IPs
+### 2022-04-12 - Static **ingress** IPs
 
-The Radix clusters now have static ingress IP ranges.
-::: Note IP ranges
+The Radix clusters now have static ingress IP ranges.  
+This information can be found on the :information_source: information page on the applicable Radix Web Console.
+
+#### Note: IP ranges
+
+```raw
 Production: 20.223.122.0/30
 Playground: 20.223.26.208/30
-:::
+```
 
-This information can be found on the :information_source: information page on the applicable Radix console.
+### 2022-03-11 - Custom configuration of the Metrics endpoint
 
-### 2022-03-11 Custom configuration of the Metrics endpoint
-
-It is now possible to specify custom port and path for monitoring.
+You can now specify a custom port and path for monitoring.
 
 Specifying monitoring path and port is now supported for application components in Radix. Read the [radixconfig.yaml reference entry](../../references/reference-radix-config/#monitoringconfig) for details.
 
-### 2022-02-28 Support for egress rules
+### 2022-02-28 - Support for egress rules
 
-Network egress rules are now supported for application environments in Radix. Read the [radixconfig.yaml reference entry](https://www.radix.equinor.com/references/reference-radix-config/#egressrules) for details, and read the [guide](../../guides/egress-rules/#default-rules) for important limitations, tips and usage patterns.
+Network egress rules are now supported for application environments in Radix. Read the [radixconfig.yaml reference entry](https://www.radix.equinor.com/references/reference-radix-config/#egressrules) for details, and read the [guide](../../guides/egress-rules/#default-rules) for limitations, tips and usage patterns.
 
-Implement egress rules with caution. Applications may break if egress rules inadvertently block required resources.
+Implement egress rules with caution!  
+Applications may break if egress rules inadvertently block required resources.
 
-### 2022-02-18 Build Pipeline steps
+### 2022-02-18 - Build Pipeline steps
 
-The sequence of the steps in the build/deploy pipeline has been changed, this will reduce the time to deploy and new build.
-To do this we have moved the scan of the deployment to the end of the workflow, and done after the image has been deployed
+The sequence of steps performed in the build/deploy pipeline has been changed. This will reduce time to deploy and new builds.  
+To achieve this the scan of the deployment was moved to the end of the workflow, allowing deployment before the scan is completed.
 
 ![steps](./steps.png)
 
-### 2022-02-07 Job scheduler - configure job time limit
+### 2022-02-07 - Job scheduler: Configure time limit for jobs
 
-To control the running jobs, it is now possible to configrue the maximum time a job should be running, by setting the job time limit.
-Specify "timeLimitSeconds" either in [job payload](https://www.radix.equinor.com/guides/configure-jobs/#timelimitseconds) or in [radixconfig.yaml](https://www.radix.equinor.com/references/reference-radix-config/#timelimitseconds). When a job's running time has exceeded the specified limit, it will exit automatically.
+To control running jobs, it is now possible to configrue a maximum time limit a job should is allowed to run.  
+Specify "timeLimitSeconds" in [job payload](https://www.radix.equinor.com/guides/configure-jobs/#timelimitseconds) or in [radixconfig.yaml](https://www.radix.equinor.com/references/reference-radix-config/#timelimitseconds).  
+A job exceeding the specified limit will stopped automatically.
 
-### 2022-02-01 Support for Azure Key vault
+### 2022-02-01 - Support for Azure Key Vault
 
-[Azure Key vault](https://docs.microsoft.com/en-us/azure/key-vault/general/basic-concepts) secrets, keys and certificates can be used in Radix as secrets. Once configured, they are available in replicas of Radix application as environment variables and files.  
+[Azure Key Vault](https://docs.microsoft.com/en-us/azure/key-vault/general/basic-concepts) secrets, certificates and keys can be used in Radix as secrets. Once configured, they are available in replicas of Radix application as environment variables and files.  
 
-Read more in secretref section in [radixconfig.yaml](https://www.radix.equinor.com/references/reference-radix-config/#secretrefs) and [Azure Key vaults](https://www.radix.equinor.com/guides/azure-key-vaults/) guide.
+Read more about this in [radixconfig.yaml](https://www.radix.equinor.com/references/reference-radix-config/#secretrefs) and [Azure Key Vaults](https://www.radix.equinor.com/guides/azure-key-vaults/) guide.
 
-### 2022-02-01 Build-in configuration for OAuth2 authorization
+### 2022-02-01 - Built-in configuration for OAuth2 authorization
 
 Radix provides built-in configuration for adding OAuth2 authorization with OIDC to the component. Common `oauth2` settings can be configured at component level and/or in the component's `environmentConfig` section. When OAuth2 is configured for a component, Radix creates an OAuth2 service (using [OAuth2 Proxy](https://oauth2-proxy.github.io/oauth2-proxy/)) to handle the OAuth2 authorization code flow, and to verify the authorization state of incoming requests to the component.  
 
 Read more in the OAuth section in [radixconfig.yaml](https://www.radix.equinor.com/references/reference-radix-config/#oauth2) documentation and the [OAuth guide](https://www.radix.equinor.com/guides/authentication/#using-the-radix-oauth2-feature).  
 
-### 2022-01-11 Changes to validation of radixconfig
+### 2022-01-11 - Changes to validation of radixconfig
 
-Two new validation rules now apply to radixconfig.  
-(1) Component ports lower than **1024** are prohibited.  
-(2) Environment variables prefixed with **RADIX_** or **RADIXOPERATOR_** are prohibited.  
+Two new validation rules now apply to radixconfig.
+
+1. Component ports lower than **1024** are prohibited.  
+1. Environment variables prefixed with **RADIX_** or **RADIXOPERATOR_** are prohibited.  
 
 ## 2021
 
-### 2021-12-09 Active cluster IPs as environment variable
+### 2021-12-09 - Active cluster IPs as environment variable
 
 The IPs actively assigned the the cluster of which an application is deployed to are now added to the Radix environment variable RADIX_ACTIVE_CLUSTER_EGRESS_IPS. This environment variable contains a list of IPs which are used for outgoing traffic from the cluster and is added to every component.  
 
-### 2021-11-23 Cluster IPs
+### 2021-11-23 - Cluster IPs
 
-Cluster IPs are now visible in the [About page (Radix Platform)](https://console.radix.equinor.com/about) or [About page (Radix Playground)](https://console.playground.radix.equinor.com/about) of Radix Web Console.  
+Cluster IPs are now visible in the `About Pages` in Radix Web Console.
+
+- [Radix Platform](https://console.radix.equinor.com/about)
+- [Radix Playground](https://console.playground.radix.equinor.com/about)
 
 ### 2021-11-18 - Radix Slack Alerts
 
@@ -205,14 +239,15 @@ Read the documentation, <https://www.radix.equinor.com/guides/alerting/>,  on ho
 
 PS! The alert GUI in Radix web console is still "work in progress". We're working with EDS to make it more aligned with the EDS design standard.  
 
-### 2021-10-29 - New design - Radix documentation - Public site
+### 2021-10-29 - New design: Radix documentation (Public site)
 
 The [Radix documentation site](https://www.radix.equinor.com/) has now been updated to a brand new version with a new design. And last but not least, now also with a SEARCH function.  
 The most used page - [radixconfig.yaml reference](https://www.radix.equinor.com/references/reference-radix-config/) can be easily located under the Reference heading.
 
-### 2021-10-14 - Radix CLI - New version
+### 2021-10-14 - Radix CLI version v1.0.7
 
-New version of the [Radix CLI](https://github.com/equinor/radix-cli) is now available. [Version v1.0.7](https://github.com/equinor/radix-cli/releases/tag/v1.0.7)
+A new version of the [Radix CLI](https://github.com/equinor/radix-cli) is now available.  
+[Version v1.0.7](https://github.com/equinor/radix-cli/releases/tag/v1.0.7)
 
 ### 2021-09-09 - New Radix Web Console
 
@@ -253,7 +288,7 @@ Environment variables can now be overridden from the Radix Web Console. Previous
 
 The Applications page can now load up to 5x faster than before. Due to the increase in the number of applications, the load time of the Applications page had become way too long (due to the chain of Kubernetes queries needed to determine which applications a user have access to). With this improvement the page loads in a few seconds. Future improvements will be considered if/when needed.  
 
-### 2021-09-01 - Radix Security Policy - enforce 'Run as non-root'
+### 2021-09-01 - Radix Security Policy: Enforce 'Run as non-root'
 
 As you may know, Docker containers have root privileges enabled by default. This is unnecessary and can introduce security risks and vulnerabilities into your applications. The policy will technically configure the PodSecurityContext for your application.  
 
@@ -319,7 +354,7 @@ To support the lifecycle managment of applications, it is now possible to update
 
 To get a brand new secret and key use the "Regenerate deploy key and webhook secret" button in the Application Configuration area in the Radix Web Console.
 
-### 2021-01-13 - Radix Web Console - Indication of outdated image
+### 2021-01-13 - Radix Web Console: Indication of outdated image
 
 You will now be alerted on the Applications page if there is anything wrong with the running components on your application. A warning icon will now be present on the environment card on the Applications page if any of the active components are failing.  
 
@@ -328,7 +363,7 @@ This label will appear when your running component is using an old image and typ
 
 > Note: In the transition right after a deployment, the Outdated image label will appear. Once the new replicas have started this will be replaced with the Ok label.
 
-### 2021-01-12 - Radix Web Console - Events available
+### 2021-01-12 - Radix Web Console: Events available
 
 Kubernetes events related to application environments are now displayed in the Environments page, below Previous deployments.  
 

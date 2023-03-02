@@ -28,7 +28,6 @@ docker build . --build-arg SECRET1=$(echo "some-build-arg"|base64) --progress=pl
 
 > Note! An `ARG` instruction _goes out of scope_ at the end of the build stage where it was defined. To use an `ARG` in multiple stages, each stage must include the `ARG` instruction ([docs](https://docs.docker.com/engine/reference/builder/#arg)):
 
-
 ```dockerfile
 # Use SDK image (first stage)
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build-env

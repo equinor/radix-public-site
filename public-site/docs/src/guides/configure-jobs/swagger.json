@@ -172,6 +172,134 @@
         }
       }
     },
+    "/batches/{batchName}/jobs/{jobName}": {
+      "get": {
+        "tags": [
+          "Batch"
+        ],
+        "summary": "Gets batch job",
+        "operationId": "getBatchJob",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Name of batch",
+            "name": "batchName",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "Name of job",
+            "name": "jobName",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful get job",
+            "schema": {
+              "$ref": "#/definitions/JobStatus"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        }
+      }
+    },
+    "/batches/{batchName}/jobs/{jobName}/stop": {
+      "post": {
+        "tags": [
+          "Batch"
+        ],
+        "summary": "Stop batch job",
+        "operationId": "stopBatchJob",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Name of batch",
+            "name": "batchName",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "Name of job",
+            "name": "jobName",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful stop batch job",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        }
+      }
+    },
+    "/batches/{batchName}/stop": {
+      "post": {
+        "tags": [
+          "Batch"
+        ],
+        "summary": "Stop batch",
+        "operationId": "stopBatch",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Name of batch",
+            "name": "batchName",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful stop batch",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        }
+      }
+    },
     "/jobs": {
       "post": {
         "tags": [
@@ -323,6 +451,44 @@
           }
         }
       }
+    },
+    "/jobs/{jobName}/stop": {
+      "post": {
+        "tags": [
+          "Job"
+        ],
+        "summary": "Stop job",
+        "operationId": "stopJob",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Name of job",
+            "name": "jobName",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful delete job",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -345,7 +511,7 @@
           "x-go-name": "JobScheduleDescriptions"
         }
       },
-      "x-go-package": "github.com/equinor/radix-job-scheduler/models"
+      "x-go-package": "github.com/equinor/radix-job-scheduler/models/common"
     },
     "BatchStatus": {
       "description": "BatchStatus holds general information about batch status",
@@ -414,18 +580,25 @@
             "Succeeded",
             "Stopping",
             "Stopped",
-            "Failed"
+            "Failed",
+            "DeadlineExceeded"
           ],
           "x-go-name": "Status",
           "example": "Waiting"
         }
       },
-      "x-go-package": "github.com/equinor/radix-job-scheduler/models"
+      "x-go-package": "github.com/equinor/radix-job-scheduler/models/v1"
     },
     "JobScheduleDescription": {
       "description": "JobScheduleDescription holds description about scheduling job",
       "type": "object",
       "properties": {
+        "backoffLimit": {
+          "description": "BackoffLimit defines attempts to restart job if it fails. Corresponds to BackoffLimit in K8s.",
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "BackoffLimit"
+        },
         "jobId": {
           "description": "JobId Optional ID of a job",
           "type": "string",
@@ -451,7 +624,7 @@
           "x-go-name": "TimeLimitSeconds"
         }
       },
-      "x-go-package": "github.com/equinor/radix-job-scheduler/models"
+      "x-go-package": "github.com/equinor/radix-job-scheduler/models/common"
     },
     "JobStatus": {
       "description": "JobStatus holds general information about job status",
@@ -512,18 +685,25 @@
             "Succeeded",
             "Stopping",
             "Stopped",
-            "Failed"
+            "Failed",
+            "DeadlineExceeded"
           ],
           "x-go-name": "Status",
           "example": "Waiting"
         }
       },
-      "x-go-package": "github.com/equinor/radix-job-scheduler/models"
+      "x-go-package": "github.com/equinor/radix-job-scheduler/models/v1"
     },
     "RadixJobComponentConfig": {
       "description": "RadixJobComponentConfig holds description of RadixJobComponent",
       "type": "object",
       "properties": {
+        "backoffLimit": {
+          "description": "BackoffLimit defines attempts to restart job if it fails. Corresponds to BackoffLimit in K8s.",
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "BackoffLimit"
+        },
         "node": {
           "$ref": "#/definitions/RadixNode"
         },
@@ -537,7 +717,7 @@
           "x-go-name": "TimeLimitSeconds"
         }
       },
-      "x-go-package": "github.com/equinor/radix-job-scheduler/models"
+      "x-go-package": "github.com/equinor/radix-job-scheduler/models/common"
     },
     "RadixNode": {
       "description": "RadixNode defines node attributes, where container should be scheduled",
@@ -604,11 +784,11 @@
           "example": "Failure"
         }
       },
-      "x-go-package": "github.com/equinor/radix-job-scheduler/models"
+      "x-go-package": "github.com/equinor/radix-job-scheduler/models/common"
     },
     "StatusReason": {
       "type": "string",
-      "x-go-package": "github.com/equinor/radix-job-scheduler/models"
+      "x-go-package": "github.com/equinor/radix-job-scheduler/models/common"
     }
   }
 }

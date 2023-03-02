@@ -3,7 +3,7 @@ title: Workflows
 ---
 # Workflows
 
-How should you set up Git branches and Radix environments? 
+How should you set up Git branches and Radix environments?
 
 In Radix, our development workflow can be modelled to match our needs. It is possible to use, for instance [Git Flow](https://nvie.com/posts/a-successful-git-branching-model/) or [Trunk-based development](https://paulhammant.com/2013/04/05/what-is-trunk-based-development/). Radix gives us a couple of tools to shape our workflow: **branch-environment mapping** and **deployment promotion**.
 

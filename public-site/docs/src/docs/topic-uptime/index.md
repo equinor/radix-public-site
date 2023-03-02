@@ -10,11 +10,10 @@ Radix will only report the measured uptime for the Radix platform, and not the o
 
 | | |
 |-|---------------------------------------|
-| Service monitored: | https://canary.radix.equinor.com |
+| Service monitored: | `https://canary.radix.equinor.com` |
 |Timeperiod: | Rolling last 90 days |
 |Monitoring tool: | Dynatrace |
 |Availability calculation %: | Uptime / (Uptime + Downtime) x 100 |
-
 
 The [Uptime/Availability report](https://console.radix.equinor.com/about), will be an indication of future reliability of Radix Platform.  
 
