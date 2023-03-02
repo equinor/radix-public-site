@@ -30,10 +30,12 @@ When OAuth2 is enabled for a component in [`radixconfig.yaml`](../../references/
 ![Diagram](./oauth2.png "OAuth2 Sequence Diagram")
 
 #### Configuration
+
 - Create an application registration in Azure AD.  
   ![Application Registration](./aad-app-registration.png "Application Registration")
 
 - Configure `oauth2` in radixconfig.yaml.  
+
   ``` yaml
   components:
     - name: web
@@ -58,17 +60,18 @@ When OAuth2 is enabled for a component in [`radixconfig.yaml`](../../references/
         - name: redis
           port: 6379
   ```  
+
   `clientId` is the application ID for the application registration in Azure AD.  
   `scope` is configured to include **offline_access**. With **offline_access** included, the OAuth2 service receives a long lived refresh token that is used to get a new access token as the old one expires. Read more about Microsoft Identity Platform scopes [here](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#openid-connect-scopes).  
   `setXAuthRequestHeaders` and `setAuthorizationHeader` are set to **true** to include to the upstream request *X-Auth-** headers with claims from the access token, the access token itself, and the *Authorization: Bearer* header with the ID Token.  
   `sessionStoreType` can be set to **redis** instead of using the default of **cookie**. `connectionUrl` defines the address to the Redis server.
   It is recommended to use Redis as session store instead of cookie because of [knows issues](#known-issues) with refreshing the access token and updating the session cookie's Expires attribute.  
-  The Redis server can be hosted as a Radix component, or an external Redis service like [Azure Cache for Redis](https://azure.microsoft.com/nb-no/services/cache/). In this example, Redis is hosted as a Radix component. 
+  The Redis server can be hosted as a Radix component, or an external Redis service like [Azure Cache for Redis](https://azure.microsoft.com/nb-no/services/cache/). In this example, Redis is hosted as a Radix component.
 
 - Build the application in Radix and open the Radix Web Console to set REDIS_PASSWORD for the `redis` component, and required secrets for the OAuth service used by the `web` component.
-    - Open the `redis` component and set a password for connecting to the Redis server in the REDIS_PASSWORD secret.  
+  - Open the `redis` component and set a password for connecting to the Redis server in the REDIS_PASSWORD secret.  
       ![Redis Password](./redis-password.png "Redis Password")
-    - Open the `web` component configure secrets required by the OAuth service.  
+  - Open the `web` component configure secrets required by the OAuth service.  
       ![OAuth2 Secrets](./oauth2-secrets.png "OAuth2 Secrets")  
       `Client Secret` - A secret registered for the application registration in Azure AD.  
       `Redis Password` - The password for connecting to the Redis server used for storage of session data.  
@@ -79,14 +82,17 @@ When OAuth2 is enabled for a component in [`radixconfig.yaml`](../../references/
 ::: tip Sample
 Example application: [radix-example-oauth2-feature](https://github.com/equinor/radix-example-oauth2-feature)
 :::
+
 #### Restrict access to AAD group
-A common requirement in OAuth2 scenarios is to only allow web access for members of a particular AAD group. [This tutorial from Microsoft](https://learn.microsoft.com/en-us/azure/active-directory/manage-apps/add-application-portal-assign-users#assign-a-user-account-to-an-enterprise-application) describes the required steps. 
+
+A common requirement in OAuth2 scenarios is to only allow web access for members of a particular AAD group. [This tutorial from Microsoft](https://learn.microsoft.com/en-us/azure/active-directory/manage-apps/add-application-portal-assign-users#assign-a-user-account-to-an-enterprise-application) describes the required steps.
 
 #### Session store types
 
 The OAuth2 service uses a session cookie to track a user's authentication state between multiple requests.
 
 Session data (ID token, access token and refresh token) is encrypted with the `Cookie Secret` key, and in either session data cookies or in a Redis cache.
+
 - `cookie` - Session data is stored in multiple client side cookies and is tranferred on every request the the server.
   If OAuth tokens are not needed by the backend component, they can be stripped from the cookies by setting `cookieStore.minimal` to **true**. In such case, the OAuth service cannot refresh the access token, and a full OAuth2 authorization flow is performed when the session cookie expires. `cookie.refresh` must also be set to **0**, and `setXAuthRequestHeaders` and `setAuthorizationHeader` must be **false**.
 - `redis` - Session data is stored in a Redis cache. The Redis server can be hosted as a component in Radix, as shown in the example, or as an external hosted service like [Azure Cache for Redis](https://azure.microsoft.com/en-us/services/cache/).

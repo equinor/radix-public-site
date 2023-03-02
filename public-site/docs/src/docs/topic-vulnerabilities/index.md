@@ -12,7 +12,7 @@ Images built with the `build-deploy` pipeline are scanned for vulnerabilities as
 
 ![Scan Steps](./scan-build-deploy.png "Scan Steps")
 
-Detailed information about vulnerabilities can be accessed by clicking on the individual `Scan-` steps. Vulnerabilities are grouped by severity and sorted by CVSS score. 
+Detailed information about vulnerabilities can be accessed by clicking on the individual `Scan-` steps. Vulnerabilities are grouped by severity and sorted by CVSS score.
 
 ![Scan Step Details](./scan-build-deploy-details.png "Scan Step Details")
 

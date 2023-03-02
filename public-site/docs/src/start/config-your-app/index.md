@@ -32,6 +32,7 @@ If you are unfamiliar with YAML, it is fine to write the configuration as JSON i
 
 Here is a simple example of the file:
 ::: details Click me to view the code
+
 ```yaml
 apiVersion: radix.equinor.com/v1
 kind: RadixApplication
@@ -51,10 +52,12 @@ spec:
        - name: http
          port: 8080
 ```
+
 :::
 
 The same, but as JSON:
 ::: details Click me to view the code
+
 ```json
 {
   "apiVersion": "radix.equinor.com/v1",
@@ -78,6 +81,7 @@ The same, but as JSON:
   }
 }
 ```
+
 :::
 
 A breakdown of the configuration above:
@@ -141,5 +145,3 @@ USER 101
 ```
 
 Note how the first section uses a large image (`node`) which has the dependencies needed to build the component. In the second stage, the built files are copied into a small image (`nginx`) to serve them without all the build dependencies.
-
-

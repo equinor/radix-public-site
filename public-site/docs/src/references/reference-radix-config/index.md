@@ -79,6 +79,7 @@ The name of the environment. Can be `dev`, `qa`, `production` etc.
 `from` specifies which branch each environment will build from. If `from` is not specified for the environment, no automatic builds or deployments will be created. This configuration is useful for a promotion-based [workflow](../../guides/workflows/).
 
 Wildcard branch mapping is also support, using `*` and `?`. Examples:
+
 - `feature/*`
 - `feature-?`
 - `hotfix/**/*`
@@ -88,6 +89,7 @@ Wildcard branch mapping is also support, using `*` and `?`. Examples:
 A text input field, will be available to put a full branch name for a build environment.  
 
 Example:
+
 ```yaml
 spec:
   build:
@@ -109,6 +111,7 @@ spec:
 ```
 
 ### `egress`
+
 ```yaml
 spec:
   environments:
@@ -128,16 +131,16 @@ spec:
       build:
         from: release
 ```
-Specify `egress` with settings for which egress traffic is allowed from all components and jobs in the environment. 
 
-`allowRadix` can be set to `true` or `false` to allow or deny traffic to other applications in Radix. The default value is `false`. 
+Specify `egress` with settings for which egress traffic is allowed from all components and jobs in the environment.
+
+`allowRadix` can be set to `true` or `false` to allow or deny traffic to other applications in Radix. The default value is `false`.
 
 `rules` can be defined with a list of legal `destinations` and `ports` for egress traffic. Each entry in `destinations` must be a string representing a valid IPv4 mask. Each entry in `ports` must be an object with a valid TCP/UDP `port` number and `protocol` equal to either "TCP" or "UDP". If one or more egress rules are defined, any traffic not allowed by the egress rules will be blocked. If no egress rules are defined, all traffic is allowed.
 
 See [the egress configuration guide](../../guides/egress-config/) for usage patterns and tips and tricks.
 
 > Note! If an `environment` has defined the `egress` field, all traffic is blocked by default. If `egress` is not defined, all traffic is allowed.
-
 > Note! If your application uses a custom OAuth2 implementation, outbound access to Microsoft authentication endpoints must be allowed. See [allow traffic for OAuth2](../../guides/egress-config/#allow-traffic-for-oauth2).
 
 ## `components`
@@ -161,7 +164,8 @@ spec:
           port: 5000
 ```
 
-`src` a folder, relative to the repository root, where the component source code and its `Dockerfile` are located to be built within the [Build and deploy](../../guides/build-and-deploy/) workflow of the Radix CI-CD pipeline. By default `src` is `.` - a root of the GitHub repository. 
+`src` a folder, relative to the repository root, where the component source code and its `Dockerfile` are located to be built within the [Build and deploy](../../guides/build-and-deploy/) workflow of the Radix CI-CD pipeline. By default `src` is `.` - a root of the GitHub repository.
+
 > When the `image` option is set - `src` option is ignored.
 
 ### `dockerfileName`
@@ -180,7 +184,9 @@ spec:
         - name: http
           port: 5000
 ```
+
 By default, Radix pipeline expects a docker file with a name `Dockefile` in the component source folder, specified in the option `src`. If this file name needs to be different, it can be specified in the option `dockerfileName`.
+
 > When the `image` option is set - `dockerfileName` option is ignored.
 
 ### `image`
@@ -199,13 +205,14 @@ spec:
           port: 8080
       publicPort: http
 ```
-> * When a container image is from the DockerHub repository, it is enough to specify only the image name. Examples:
->   * `image: redis:latest`
->   * `image: redis:7.0.5`.
-> * When an image is located in another container registry, the image name need to have the container registry URL. Example:
->   * `image: gcr.io/distroless/nodejs18-debian11`.
->   * `image: gcr.io/distroless/nodejs18-debian11:latest`.
-> * When an image is not publicly available, it is required to provide an authentication information. Please read more about [privateImageHubs](./#privateimagehubs) option.
+
+> - When a container image is from the DockerHub repository, it is enough to specify only the image name. Examples:
+>   - `image: redis:latest`
+>   - `image: redis:7.0.5`.
+> - When an image is located in another container registry, the image name need to have the container registry URL. Example:
+>   - `image: gcr.io/distroless/nodejs18-debian11`.
+>   - `image: gcr.io/distroless/nodejs18-debian11:latest`.
+> - When an image is not publicly available, it is required to provide an authentication information. Please read more about [privateImageHubs](./#privateimagehubs) option.
 
 ### `publicPort`
 
@@ -559,18 +566,22 @@ oauth2:
 > See [guide](../../guides/authentication/#using-the-radix-oauth2-feature) on how to configure OAuth2 authentication for a component.
 
 ### `enabled`
-Component can be disabled or enabled for all specific environment configurations. 
+
+Component can be disabled or enabled for all specific environment configurations.
+
 ```yaml
 spec:
   components:
     - name: backend
       enabled: false
 ```
+
 Disabled component is not deployed. When a disabling component is already deployed, this component is removed from the application environment on next deployment - this is an equivalent of removing of the component configuration from the `radixconfig.yaml`.
 
 When the option `enabled` is not set, the component is enabled.
 
 The component can be disabled in specific environment configurations.
+
 ```yaml
 spec:
   components:
@@ -579,9 +590,10 @@ spec:
         - environment: prod
           enabled: false
 ```
+
 Read more details in the [guide](../../guides/enable-and-disable-components/).
 
-[Job](./#jobs) components can be disabled similar way. 
+[Job](./#jobs) components can be disabled similar way.
 
 ### `identity`
 
@@ -599,10 +611,11 @@ spec:
 
 The `identity` section enables mounting of a JWT (JSON web token) that can be used as a federated credential with the [OAuth2 client credentials flow](https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-client-creds-grant-flow#third-case-access-token-request-with-a-federated-credential) to request an access token for an Azure AD application registration or managed identity.  
 The following environment variables are added to the replicas automatically when `identity` is enabled:
-- **AZURE_AUTHORITY_HOST** (*https://login.microsoftonline.com/*)
-- **AZURE_CLIENT_ID** (value from `clientId` in configuration, e.g. *b96d264b-7053-4465-a4a7-32be5b0fec49)
-- **AZURE_FEDERATED_TOKEN_FILE** (path to the file containg the JWT, e.g. */var/run/secrets/azure/tokens/azure-identity-token*)
-- **AZURE_TENANT_ID** (e.g. *3aa4a235-b6e2-48d5-9195-7fcf05b459b0*)
+
+- **AZURE_AUTHORITY_HOST** (`https://login.microsoftonline.com/`)
+- **AZURE_CLIENT_ID** (value from `clientId` in configuration, e.g. `b96d264b-7053-4465-a4a7-32be5b0fec49`)
+- **AZURE_FEDERATED_TOKEN_FILE** (path to the file containg the JWT, e.g. `/var/run/secrets/azure/tokens/azure-identity-token`)
+- **AZURE_TENANT_ID** (e.g. `3aa4a235-b6e2-48d5-9195-7fcf05b459b0`)
 
 `identity` can be configured on the component/job level and/or per environment in the `environmentConfig` section. Configuration in `environmentConfig` overrides configuration on the component/job level.
 
@@ -853,7 +866,6 @@ spec:
 
 See [volumeMounts](#volumemounts) for a component for more information.
 
-
 #### `timeLimitSeconds`
 
 ```yaml
@@ -1002,7 +1014,7 @@ When `gpuCount` is specified, but `gpu` key is not set - component will be runni
 
 ### `azureKeyVault`
 
-Azure Key vault secrets, keys and certificates can be used in Radix as secrets. Once configured, they are available in Radix application component replicas as environment variables and files content.
+Azure Key Vault secrets, keys and certificates can be used in Radix as secrets. Once configured, they are available in Radix application component replicas as environment variables and files content.
 
 ```yaml
 secretRefs:
@@ -1021,22 +1033,22 @@ secretRefs:
           envVar: CERT1
 ```
 
-- `azureKeyVaults` - list of Azure Key vault configurations.
+- `azureKeyVaults` - list of Azure Key Vault configurations.
 - `name` - Name of the Key Vault resource in an Azure subscription. Radix supports capital letters in the name, but not spaces.
-- `path` - Folder path in running replica container, where secrets, keys and/or certificate contents are available as files (with file names, corresponding to their names in the Azure Key vault). This field is optional. If set, it overrides default path: `/mnt/azure-key-vault/<azure-key-vault-name>`.
+- `path` - Folder path in running replica container, where secrets, keys and/or certificate contents are available as files (with file names, corresponding to their names in the Azure Key Vault). This field is optional. If set, it overrides default path: `/mnt/azure-key-vault/<azure-key-vault-name>`.
 - `items` - list of secrets, keys and/or certificates with corresponding environment variable names.
-  - `name` - name of secret, key or certificate in an Azure Key vault.
-  - `type` - Type of the item in the Azure Key vault. Possible values: `secret`, `key`, `cert`. This field is optional, by default it is `secret`.
+  - `name` - name of secret, key or certificate in an Azure Key Vault.
+  - `type` - Type of the item in the Azure Key Vault. Possible values: `secret`, `key`, `cert`. This field is optional, by default it is `secret`.
   - `envVar` - Name of an environment variable, which will contain specified secret, key or certificate. This field is optional - environment variable is not created if it is not specified, only file exist (see the property `path`).
   - `alias` - Alias of the file (see the property `path`). This field is optional.
 
 `secretRefs` can be configured for entire component, for component environments or only for specific component environments. Configuration in component environments overrides similar component properties.
 
-Updated values of secrets, keys or certificates in Azure Key vault are not automatically synced to corresponding secrets of already running replicas - they can be synced with a new deployment.
+Updated values of secrets, keys or certificates in Azure Key Vault are not automatically synced to corresponding secrets of already running replicas - they can be synced with a new deployment.
 
-Azure Key vaults configurable the same way in job-components.
+Azure Key Vaults configurable the same way in job-components.
 
-> See [guide](../../guides/azure-key-vaults/) on how to configure Azure Key vault in Radix.
+> See [guide](../../guides/azure-key-vaults/) on how to configure Azure Key Vault in Radix.
 
 # Example `radixconfig.yaml` file
 
