@@ -13,4 +13,3 @@ title: Other
 ## News
 
 * [What's new](./release/)
-* [Story: No place like Radix](./loop-story/)
