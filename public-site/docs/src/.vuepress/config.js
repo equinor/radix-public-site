@@ -148,8 +148,7 @@ module.exports = {
             '',
             'scenarios/',
             'community/',
-            'release/',
-            'loop-story/'
+            'release/'
           ],
         },
       ],
