@@ -14,7 +14,7 @@ There can be several domain names mapped to [application components](../topic-co
 
 ## Canonical name
 
-```raw
+```text
 [componentName]-[appName]-[envName].[clusterName].[clusterEnvNamepace].radix.equinor.com
 ```
 
@@ -33,7 +33,7 @@ Examples:
 
 ## Public name
 
-```raw
+```text
 [componentName]-[appName]-[envName].[clusterEnvNamepace].radix.equinor.com
 ```
 
@@ -55,7 +55,7 @@ Examples:
 
 ## App default alias
 
-```raw
+```text
 [appName].app.[clusterEnvNamepace].radix.equinor.com
 ```
 
@@ -72,7 +72,7 @@ Examples:
 
 ## External alias
 
-```raw
+```text
 [whatever]
 ```
 
