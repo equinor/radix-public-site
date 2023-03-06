@@ -14,13 +14,12 @@ An in-depth understanding of Docker is not a requirement, but it helps to be fam
 
 It is also expected that you have a [basic understanding of Git](http://rogerdudler.github.io/git-guide/) (branching, merging) and some networking (ports, domain names).
 
-### Repository
+## Repository
 
-A GitHub repository for our code is required (only GitHub is supported at the moment). However other repositories can be used to build images, which can be used in a deploy only workflow in Radix.   
+A GitHub repository for our code is required (only GitHub is supported at the moment). However other repositories can be used to build images, which can be used in a deploy only workflow in Radix.
 
-### Radix config file (radixconfig.yaml)
+## Radix config file (radixconfig.yaml)
 
 A `radixconfig.yaml` file that defines the running environments. By default, it is in the root directory of our repository and in the branch we set as our `Config Branch` when we register our application in Radix. Usually we set it to *main* or *master*, but you can use any branch in your repository.
 
 See the 📖 [`radixconfig.yaml`](../../references/reference-radix-config/)  documentation.
-

@@ -1,9 +1,16 @@
 ---
-title: Community
+title: Other
 ---
 
-# Index
+## Examples
+
+* [Scenarios and examples](./scenarios/)
+
+## About Us
 
 * [Community](./community/)
-* [Scenarios and examples](./scenarios/)
+
+## News
+
 * [What's new](./release/)
+* [Story: No place like Radix](./loop-story/)

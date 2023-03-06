@@ -16,15 +16,17 @@ Create an association between `radixconfig.yaml` and the JSON Schema by using on
 
 - **Inline schema association**  
 Add the following line to the top of the `radixconfig.yaml` file:
+
 ```yaml
 # yaml-language-server: $schema=https://raw.githubusercontent.com/equinor/radix-operator/release/json-schema/radixapplication.json
 ```
+
 - **Using yaml.schemas settings**  
   1. Open **Extension Settings** for the YAML extension.
 ![YAML extension settings](./vscode-yaml-settings.png "YAML extension settings")
-  2. Scroll down to **Yaml: Schemas** and click **Edit in settings.json**
+  1. Scroll down to **Yaml: Schemas** and click **Edit in settings.json**
 ![Open YAML schema settings](./vscode-yaml-schema-open.png "Open YAML schema settings")
-  3. Add `"https://raw.githubusercontent.com/equinor/radix-operator/release/json-schema/radixapplication.json": "radixconfig.yaml"` to the **yaml.schemas** section.
+  1. Add `"https://raw.githubusercontent.com/equinor/radix-operator/release/json-schema/radixapplication.json": "radixconfig.yaml"` to the **yaml.schemas** section.
 ![Edit YAML schema settings](./vscode-yaml-schema.png "Edit YAML schema settings")
 
 Read more about schema associations [here](https://github.com/redhat-developer/yaml-language-server#more-examples-of-schema-association).

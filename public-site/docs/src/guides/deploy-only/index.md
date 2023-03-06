@@ -88,14 +88,15 @@ Registering the Radix application follows the pattern of a regular Radix applica
 ## AD Service principal access token
 
 In a deploy-only scenario, Radix will only deploy, rather than build and deploy, when the GitHub webhook notified about changes, occurred in the repository. In order to run a deploy-only pipeline job, Azure service principals ([Azure AD app registration](https://learn.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/qs-configure-portal-windows-vm) or [user-assigned managed identity](https://learn.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview)) can be used:
-* Create or use an existing service principal (Azure AD app registrations or user-assigned managed identities)
-* Add this service principal as a member to one of the AAD groups, which is set as an administrator of the Radix application. This group need to be of the type Security with the source Cloud. If the group has wrong type or source, a new AD group can be requested from ServiceNow:
-  * Open the [Services@Equinor](https://equinor.service-now.com/selfservice) portal and find the service "IT access and accounts"
-  * Select "Identity and access management support", click Next, select "AccessIT: Application role modelling and support (config)"
-  * In the Description field, add the comment: "This is an Azure AD group, which should be of type Security, it will be maintained manually in the Azure portal and not via ServiceNow"
-  * Once the group is created, add it as an administrator for the Radix application in the Radix Web Console "Configuration" form 
+
+- Create or use an existing service principal (Azure AD app registrations or user-assigned managed identities)
+- Add this service principal as a member to one of the AAD groups, which is set as an administrator of the Radix application. This group need to be of the type Security with the source Cloud. If the group has wrong type or source, a new AD group can be requested from ServiceNow:
+  - Open the [Services@Equinor](https://equinor.service-now.com/selfservice) portal and find the service "IT access and accounts"
+  - Select "Identity and access management support", click Next, select "AccessIT: Application role modelling and support (config)"
+  - In the Description field, add the comment: "This is an Azure AD group, which should be of type Security, it will be maintained manually in the Azure portal and not via ServiceNow"
+  - Once the group is created, add it as an administrator for the Radix application in the Radix Web Console "Configuration" form
   ![Configure the Radix application administrators](./radix-application-administrator-configuration.png)
-* Change an external pipeline job (GitHub action, DevOps pipeline, etc.) to login as the service principal with request of an access token, which can be used with Radix CLI or Radix API within such job.
+- Change an external pipeline job (GitHub action, DevOps pipeline, etc.) to login as the service principal with request of an access token, which can be used with Radix CLI or Radix API within such job.
 
 > Note that the access token has one-hour live period, with access to all operations that an application administrator has (i.e. deleting the application, setting secrets). Please make efforts not to have this token fall into the wrong hands.
 
@@ -153,8 +154,7 @@ In the above workflow we have a series of steps. They are:
 - `Get environment from branch` - This steps calls a utility function in the CLI for obtaining the environment based on the current brach from the branch-environment mapping in the `radixconfig.yaml` of the repository
 - `Deploy API on Radix` - This step calls the CLI function, which calls the deploy pipeline function of the Radix API for running the deploy pipeline. It uses the output of the previous step to tell Radix which environment it should deploy to. Note that is using `development` context to contact the API in the development cluster. Similarly if context is `playground` it will contact API in playground cluster. If you remove this entirely, it will default to `production` context
 
-> Note that the push of the dynamic image tag of the prod environment to master branch creates a side-effect of building the QA environment again, as this is mapped to master. This shows, master branch should not be mapped to any environment (neither in the `radixconfig.yaml`, nor in the GitHub Actions workflow)
-
+> Note that the push of the dynamic image tag of the prod environment to master branch creates a side-effect of building the QA environment again, as this is mapped to master. This shows, master branch should not be mapped to any environment (neither in the `radixconfig.yaml`, nor in the GitHub Actions workflow)  
 > `--from-config` is an argument to `radix-cli` to tell it that there is an radixconfig in your repository that it can get information from, such as application name or branch mapping
 
 ## Configure Radix to use GitHub package

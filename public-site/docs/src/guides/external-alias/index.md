@@ -15,10 +15,11 @@ The process for setting up the alias depends on the service used to register and
 1. Request an alias, and specify which [public name](../../docs/topic-domain-names/#public-name) the alias should point to.  
    ::: details Example
 
-    ```raw
+    ```text
     New alias: myapp.equinor.com
     Point to: frontend-myapp-prod.radix.equinor.com
     ```
+
     :::
 
 1. Specify in the request if you only need "internal entry" (used within internal Equinor network) or "both - internal and external entries" (used both - within internal Equinor and public networks).
@@ -40,7 +41,8 @@ These certs can be bundled into one file using the PEM container format, and qui
 
 A PEM container holding both the SSL and the intermediate certificate in the same file, in this particular order:
 ::: details Example
-```raw
+
+```text
 -----BEGIN CERTIFICATE-----
 {ssl certificate content}
 -----END CERTIFICATE-----
@@ -49,6 +51,7 @@ A PEM container holding both the SSL and the intermediate certificate in the sam
 {intermediate certificate content}
 -----END CERTIFICATE-----
 ```
+
 :::
 
 ### How to get it
@@ -68,7 +71,7 @@ A PEM container holding both the SSL and the intermediate certificate in the sam
 1. Open the [Services@Equinor](https://equinor.service-now.com/selfservice) portal and find the service **Public SSL certificate**
 1. Request a SSL certificate and an intermediate certificate for your alias and attach the CSR file you created in step 2:
 
-   ```raw
+   ```text
    Title: Public SSL certificate with intermediate
    Certificate name: mydomain.equinor.com
    ```
@@ -99,7 +102,8 @@ These must be entered as [secrets](../../docs/topic-concepts#secret) in the page
 
 Combine the SSL certificate and the intermediate certificate into a single certificate using a PEM container format. Certificates should be put [in particular order](https://www.digicert.com/kb/ssl-support/pem-ssl-creation.htm): first - SSL certificate, second - Intermediate certificate:
 ::: details Example
-```raw
+
+```text
 -----BEGIN CERTIFICATE-----
 {ssl certificate content}
 -----END CERTIFICATE-----
@@ -108,6 +112,7 @@ Combine the SSL certificate and the intermediate certificate into a single certi
 {intermediate certificate content}
 -----END CERTIFICATE-----
 ```
+
 :::
 
 ![Setting the cert part](./setting-cert.png "Setting cert")
