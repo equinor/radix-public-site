@@ -6,7 +6,7 @@ title: Code Editor Integrations
 
 The [OpenAPI 3.0 Schema](https://swagger.io/docs/specification/data-models/) for [radixconfig.yaml](../reference-radix-config/) is available at [https://raw.githubusercontent.com/equinor/radix-operator/release/json-schema/radixapplication.json](https://raw.githubusercontent.com/equinor/radix-operator/release/json-schema/radixapplication.json). This schema is an [extended subset](https://swagger.io/docs/specification/data-models/keywords/) of the [JSON Schema Specification](https://json-schema.org/). 
 
-The schema can be used in code editors to provide auto completion and validation when editing a `radixconfig.yaml` file.
+The schema can be used in code editors to provide auto completion and schema validation when editing a `radixconfig.yaml` file.
 
 ## Visual Studio Code
 
@@ -15,19 +15,18 @@ Ensure that the [YAML](https://marketplace.visualstudio.com/items?itemName=redha
 Create an association between `radixconfig.yaml` and the JSON Schema by using one of the methods described below.
 
 - **Inline schema association**  
-Add the following line to the top of the `radixconfig.yaml` file:
-
-```yaml
-# yaml-language-server: $schema=https://raw.githubusercontent.com/equinor/radix-operator/release/json-schema/radixapplication.json
-```
+  Add the following line to the top of the `radixconfig.yaml` file:
+  ```
+  # yaml-language-server: $schema=https://raw.githubusercontent.com/equinor/radix-operator/release/json-schema/radixapplication.json
+  ```
 
 - **Using yaml.schemas settings**  
   1. Open **Extension Settings** for the YAML extension.
-![YAML extension settings](./vscode-yaml-settings.png "YAML extension settings")
+  ![YAML extension settings](./vscode-yaml-settings.png "YAML extension settings")
   1. Scroll down to **Yaml: Schemas** and click **Edit in settings.json**
-![Open YAML schema settings](./vscode-yaml-schema-open.png "Open YAML schema settings")
+  ![Open YAML schema settings](./vscode-yaml-schema-open.png "Open YAML schema settings")
   1. Add `"https://raw.githubusercontent.com/equinor/radix-operator/release/json-schema/radixapplication.json": "radixconfig.yaml"` to the **yaml.schemas** section.
-![Edit YAML schema settings](./vscode-yaml-schema.png "Edit YAML schema settings")
+  ![Edit YAML schema settings](./vscode-yaml-schema.png "Edit YAML schema settings")
 
 Read more about schema associations [here](https://github.com/redhat-developer/yaml-language-server#more-examples-of-schema-association).
 
