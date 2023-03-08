@@ -136,7 +136,7 @@ Radix offers a command line interface - Radix CLI, which uses the command rx.
 
 To be updated
 
-## Code editor integrations
+## Code editor integrations - radixconfig.yaml schema validation
 
 Enable auto-completion and schema validation for `radixconfig.yaml` in VS Code and Jetbrains IDEs.
 
