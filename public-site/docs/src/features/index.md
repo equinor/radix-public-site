@@ -136,6 +136,12 @@ Radix offers a command line interface - Radix CLI, which uses the command rx.
 
 To be updated
 
+## Code editor integrations
+
+Enable auto-completion and schema validation for `radixconfig.yaml` in VS Code and Jetbrains IDEs.
+
+[Guide](../references/reference-code-editor-integration)
+
 ## Cost calculation
 
 Cost calculation is based on the total time the replicas(containers) belonging to an application has been running, and how much CPU and memory the replicas requested.
