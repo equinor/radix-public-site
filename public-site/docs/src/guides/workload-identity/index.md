@@ -65,7 +65,7 @@ It is recommended to use a SDK/library (see [SDKs and examples](./#sdks-and-exam
 
 - [Azure SDK](https://azure.microsoft.com/en-us/downloads/): Programmatically manage and interact with Azure services with built in support for workload identity federation. See examples [here](https://azure.github.io/azure-workload-identity/docs/topics/language-specific-examples/azure-identity-sdk.html).
 
-- [MSAL](https://learn.microsoft.com/en-us/azure/active-directory/develop/msal-overview): Acquire access tokens from the Microsoft identity platform. See examples [here](https://azure.github.io/azure-workload-identity/docs/topics/language-specific-examples/azure-identity-sdk.html).
+- [MSAL](https://learn.microsoft.com/en-us/azure/active-directory/develop/msal-overview): Acquire access tokens from the Microsoft identity platform. See examples [here](https://azure.github.io/azure-workload-identity/docs/topics/language-specific-examples/msal.html).
 
 - [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/): Interact with Azure services from the command line. Supports login with workload identity federation:
 
