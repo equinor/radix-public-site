@@ -124,12 +124,26 @@ This default behavior can be overwritten in radixconfig.yaml by setting flag `al
 
 ```yaml
 spec:
-  environments: ...
+  environments: 
   components:
     - name: api
       image: ghcr.io/equinor/my-app/api:latest
       alwaysPullImageOnDeploy: true
 ```
+
+::: tip Tip 
+You can also include the reference to the image itself in the `imageTagName` property, sample:
+```yaml
+  components:
+    - name: app
+      image: {imageTagName}
+      environmentConfig:
+        - environment: qa
+          imageTagName: docker.pkg.github.com/equinor/myapp/backend:qa
+        - environment: dev
+          imageTagName: docker.pkg.github.com/equinor/myapp/backend:dev  
+```
+:::
 
 ### Configuring a personal access token
 
