@@ -374,8 +374,7 @@ Once the batch has been created, the `job-scheduler` responds to `backend` with 
 - `ended` is the date and time the batch successfully ended (empty when not completed). The value is represented in RFC3339 form and is in UTC. This value is only set for `Successful` batches. Batch is ended when all batched jobs are completed or failed.
 - `status` is the current status of the batch. Possible values are `Running`, `Successful` and `Failed`. Status is `Failed` if the batch fails for any reason.
 
-## Getting the status of existing batches
-
+## Get a list of all batches
 Get a list of all batches with their states by sending a `GET` request to `http://compute:8000/api/v1/batches`. The response is an array of batch state objects, similar to the response received when creating a new batch
 
 ```json
@@ -396,6 +395,7 @@ Get a list of all batches with their states by sending a `GET` request to `http:
 ]
 ```
 
+## Get a state of a batch
 To get state for a specific batch, e.g. `batch-compute-20220302155333-hrwl53mw`, send a `GET` request to `http://compute:8000/api/v1/batches/batch-compute-20220302155333-hrwl53mw`. The response is a batch state object, with states of its jobs
 
 ```json
@@ -428,7 +428,7 @@ To get state for a specific batch, e.g. `batch-compute-20220302155333-hrwl53mw`,
 }
 ```
 
-## Deleting an existing batch
+## Delete a batch
 
 The batch list in the example above has a batch named `batch-compute-20220302155333-hrwl53mw`. To delete it, send a `DELETE` request to `http://compute:8000/api/v1/batches/batch-compute-20220302155333-hrwl53mw`. A successful deletion will respond with result object. Deleting of a batch job automatically deletes all jobs, belonging to this batch job.
 
