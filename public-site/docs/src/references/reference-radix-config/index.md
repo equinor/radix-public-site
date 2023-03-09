@@ -679,6 +679,24 @@ spec:
 
 The port number that the [job-scheduler](../../guides/configure-jobs/#job-scheduler) will listen to for HTTP requests to manage jobs. schedulerPort is a **required** field.
 
+### `notifications`
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      notifications:
+        webhook: http://api:8080/monitor-batch-status
+```
+
+`webhook` is an optional URL to the Radix application component or job component, which will be called when any of this job-component running job or batch states are changed. Only changes are sent as a json in a [state of a batch format](../../guides/configure-jobs/#get-a-state-of-a-batch).
+
+`notifications` and `webhook` can be specified on a job component configuration level and/or on `environmentConfig` level. Property in the `environmentConfig` will override those on the component level, if present.
+
+> * Only `http` schema is supported
+> * Only a Radix application component or job component name can be used as a domain in the URL
+> * Only private port of the specified component can be used. If this component has only public port - a second port need to be added and used
+
 ### `monitoringConfig`
 
 ```yaml
