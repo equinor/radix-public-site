@@ -375,6 +375,7 @@ Once the batch has been created, the `job-scheduler` responds to `backend` with 
 - `status` is the current status of the batch. Possible values are `Running`, `Successful` and `Failed`. Status is `Failed` if the batch fails for any reason.
 
 ## Get a list of all batches
+
 Get a list of all batches with their states by sending a `GET` request to `http://compute:8000/api/v1/batches`. The response is an array of batch state objects, similar to the response received when creating a new batch
 
 ```json
