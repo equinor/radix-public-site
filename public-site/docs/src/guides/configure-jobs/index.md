@@ -397,6 +397,7 @@ Get a list of all batches with their states by sending a `GET` request to `http:
 ```
 
 ## Get a state of a batch
+
 To get state for a specific batch, e.g. `batch-compute-20220302155333-hrwl53mw`, send a `GET` request to `http://compute:8000/api/v1/batches/batch-compute-20220302155333-hrwl53mw`. The response is a batch state object, with states of its jobs
 
 ```json
