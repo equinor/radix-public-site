@@ -126,6 +126,7 @@ module.exports = {
             'topic-cost/',
             'topic-rollingupdate/',
             'topic-uptime/',
+            'topic-radix-cli/',
           ],
         },
       ],
