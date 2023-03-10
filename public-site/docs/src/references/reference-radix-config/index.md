@@ -799,7 +799,20 @@ spec:
       timeLimitSeconds: 120
 ```
 
-The maximum number of seconds a job can run. If the job's running time exceeds the limit, it will be automatically shut down with status "Failed". The default value is `43200` seconds, 12 hours.
+The maximum number of seconds a job can run. If the job's running time exceeds the limit, it will be automatically shut down with status `Failed`. The default value is `43200` seconds, 12 hours.
+
+`timeLimitSeconds` applies to the total duration of the job, and takes precedence over `backoffLimit`. Once `timeLimitSeconds` has been reached the job will be marked as `Failed` even if `backoffLimit` has not been reached.
+
+### `backoffLimit`
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      backoffLimit: 5
+```
+
+Defines the number of times a job will be restarted if the container exits in error. Once the `backoffLimit` has been reached the job will be maked as `Failed`. The default value is `0`.
 
 ### `environmentConfig`
 
@@ -900,6 +913,19 @@ spec:
 ```
 
 See [timeLimitSeconds](#timelimitseconds) for more information.
+
+#### `backoffLimit`
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      environmentConfig:
+        - environment: prod
+          backoffLimit: 10
+```
+
+See [backoffLimit](#backofflimit) for more information.
 
 ### `identity`
 
@@ -1196,6 +1222,8 @@ spec:
           port: 9000
       payload:
         path: /compute/args
+      timeLimitSeconds: 300
+      backoffLimit: 2
       resources:
         requests:
           memory: "256Mi"
@@ -1217,6 +1245,8 @@ spec:
             DB_HOST: "db-dev"
             DB_PORT: "1234"
         - environment: prod
+          timeLimitSeconds: 600
+          backoffLimit: 10
           monitoring: true
           variables:
             DB_HOST: "db-prod"

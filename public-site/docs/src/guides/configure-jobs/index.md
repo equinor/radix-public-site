@@ -42,6 +42,7 @@ spec:
       src: etl
       schedulerPort: 9000
       timeLimitSeconds: 100
+      backoffLimit: 5
       resources:
         requests:
           memory: "256Mi"
@@ -69,6 +70,7 @@ Jobs have three extra configuration options; `schedulerPort`, `payload` and `tim
 - `resources` (optional) defines cpu and memory requested for a job.
 - `node` (optional) defines gpu node requested for a job.
 - `timeLimitSeconds` (optional) defines maximum running time for a job.
+- `backoffLimit` (optional) defines the number of times a job will be restarted if the container exits in error.
 
 ### schedulerPort
 
@@ -108,6 +110,12 @@ The maximum running time for a job can be sent in the request body to the job sc
 
 The etl job in the example above has `timeLimitSeconds` configured in its [`radixconfig.yaml`](../../references/reference-radix-config/#timelimitseconds). If a new job is sent to the job scheduler without an element `timeLimitSeconds`, it will default to the value specified in radixconfig.yaml. If no value is specified in radixconfig.yaml, it will default to 43200 (12 hours).
 
+### backoffLimit
+
+The maximum number of restarts if the job containes fails can be sent in the request body to the job scheduler as a JSON document with an element named `backoffLimit`.
+
+The etl job in the example above has `backoffLimit` configured in its [`radixconfig.yaml`](../../references/reference-radix-config/#backofflimit). If a new job is sent to the job scheduler without an element `backoffLimit`, it will default to the value specified in radixconfig.yaml.
+
 ## Job Scheduler
 
 The job-scheduler is a web API service, that you use to create, delete and monitor the state of jobs.
@@ -123,6 +131,7 @@ The job-scheduler exposes the following methods for managing jobs
 {
   "payload": "Sk9CX1BBUkFNMTogeHl6Cg==",
   "timeLimitSeconds": 120,
+  "backoffLimit": 10,
   "resources": {
     "limits": {
       "memory": "32Mi",
@@ -140,7 +149,7 @@ The job-scheduler exposes the following methods for managing jobs
 }
 ```
 
-> `payload`, `timeLimitSeconds`, `resources` and `node` are all optional fields and any of them can be omitted in the request.
+> `payload`, `timeLimitSeconds`, `backoffLimit`, `resources` and `node` are all optional fields and any of them can be omitted in the request.
 
 - `GET /api/v1/jobs` Get states (with names and statuses) for all jobs
 - `GET /api/v1/jobs/{jobName}` Get state for a named job
@@ -312,6 +321,7 @@ Default parameters for jobs can be defined within `DefaultRadixJobComponentConfi
 {
   "defaultRadixJobComponentConfig": {
     "timeLimitSeconds": 200,
+    "backoffLimit": 5,
     "resources": {
       "limits": {
         "memory": "200Mi",
@@ -327,6 +337,7 @@ Default parameters for jobs can be defined within `DefaultRadixJobComponentConfi
     {
       "payload": "{'data':'value1'}",
       "timeLimitSeconds": 120,
+      "backoffLimit": 2,
       "resources": {
         "limits": {
           "memory": "32Mi",
@@ -348,6 +359,7 @@ Default parameters for jobs can be defined within `DefaultRadixJobComponentConfi
     {
       "payload": "{'data':'value3'}",
       "timeLimitSeconds": 300,
+      "backoffLimit": 10,
       "node": {
         "gpu": "gpu3",
         "gpuCount": "1"
