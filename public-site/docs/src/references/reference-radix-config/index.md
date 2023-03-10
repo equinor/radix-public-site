@@ -799,9 +799,9 @@ spec:
       timeLimitSeconds: 120
 ```
 
-The maximum number of seconds a job can run. If the job's running time exceeds the limit, it will be automatically shut down with status `Failed`. The default value is `43200` seconds, 12 hours.
+The maximum number of seconds a job can run. If the job's running time exceeds the limit, it will be automatically stopped with status `Failed`. The default value is `43200` seconds, 12 hours.
 
-`timeLimitSeconds` applies to the total duration of the job, and takes precedence over `backoffLimit`. Once `timeLimitSeconds` has been reached the job will be marked as `Failed` even if `backoffLimit` has not been reached.
+`timeLimitSeconds` applies to the total duration of the job, and takes precedence over `backoffLimit`. Once `timeLimitSeconds` has been reached, the job will be stopped with status `Failed` even if `backoffLimit` has not been reached.
 
 ### `backoffLimit`
 
@@ -812,7 +812,7 @@ spec:
       backoffLimit: 5
 ```
 
-Defines the number of times a job will be restarted if the container exits in error. Once the `backoffLimit` has been reached the job will be maked as `Failed`. The default value is `0`.
+Defines the number of times a job will be restarted if its container exits in error. Once the `backoffLimit` has been reached the job will be marked as `Failed`. The default value is `0`.
 
 ### `environmentConfig`
 

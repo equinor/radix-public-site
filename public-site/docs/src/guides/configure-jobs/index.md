@@ -70,7 +70,7 @@ Jobs have three extra configuration options; `schedulerPort`, `payload` and `tim
 - `resources` (optional) defines cpu and memory requested for a job.
 - `node` (optional) defines gpu node requested for a job.
 - `timeLimitSeconds` (optional) defines maximum running time for a job.
-- `backoffLimit` (optional) defines the number of times a job will be restarted if the container exits in error.
+- `backoffLimit` (optional) defines the number of times a job will be restarted if its container exits in error.
 
 ### schedulerPort
 
@@ -112,7 +112,7 @@ The etl job in the example above has `timeLimitSeconds` configured in its [`radi
 
 ### backoffLimit
 
-The maximum number of restarts if the job containes fails can be sent in the request body to the job scheduler as a JSON document with an element named `backoffLimit`.
+The maximum number of restarts if the job fails can be sent in the request body to the job scheduler as a JSON document with an element named `backoffLimit`.
 
 The etl job in the example above has `backoffLimit` configured in its [`radixconfig.yaml`](../../references/reference-radix-config/#backofflimit). If a new job is sent to the job scheduler without an element `backoffLimit`, it will default to the value specified in radixconfig.yaml.
 
