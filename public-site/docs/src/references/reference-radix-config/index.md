@@ -830,6 +830,7 @@ spec:
 ```
 
 See [notifications](#notifications) for a component for more information.
+
 #### `monitoring`
 
 ```yaml
