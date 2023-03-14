@@ -99,7 +99,7 @@ Examples of commands:
     ```shell
     rx create job build-deploy -a radix-test --branch main
     ```
-* Get list of pipeline jobs for a Radix application. `jq` helps to filte returned `json` output
+* Get list of pipeline jobs for a Radix application. `jq` helps to filter returned `json` output
     ```shell
     rx get application -a radix-test | jq -r '.jobs'
     ```
