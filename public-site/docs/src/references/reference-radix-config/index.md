@@ -693,7 +693,6 @@ spec:
 
 `notifications` and `webhook` can be specified on a job component configuration level and/or on `environmentConfig` level. Property in the `environmentConfig` will override those on the component level, if present.
 
-> * Only `http` schema is supported
 > * Only a Radix application component or job component name can be used as a domain in the URL
 > * Only private port of the specified component can be used. If this component has only public port - a second port need to be added and used
 
