@@ -689,7 +689,7 @@ spec:
         webhook: http://api:8080/monitor-batch-status
 ```
 
-`webhook` is an optional URL to the Radix application component or job component, which will be called when any of this job-component running job or batch states are changed. Only changes are sent as a json in a [state of a batch format](../../guides/configure-jobs/#get-a-state-of-a-batch).
+`webhook` is an optional URL to the Radix application component or job component, which will be called when any of this job-component running job or batch states are changed. Only changes are sent by POST method with a `application/json` `ContentType` in a [state of a batch format](../../guides/configure-jobs/#get-a-state-of-a-batch).
 
 `notifications` and `webhook` can be specified on a job component configuration level and/or on `environmentConfig` level. Property in the `environmentConfig` will override those on the component level, if present.
 
@@ -817,6 +817,19 @@ Defines the number of times a job will be restarted if its container exits in er
 
 The `environmentConfig` section is to set environment-specific settings for each job.
 
+#### `notifications`
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      environmentConfig:
+        - environment: prod
+          notifications:
+            webhook: http://api:8080/monitor-batch-status
+```
+
+See [notifications](#notifications) for a component for more information.
 #### `monitoring`
 
 ```yaml
@@ -1238,11 +1251,15 @@ spec:
       identity:
         azure:
           clientId: 00000000-0000-0000-0000-000000000000
+      notifications:
+        webhook: http://backend:5000/monitor-batch-status
       environmentConfig:
         - environment: dev
           variables:
             DB_HOST: "db-dev"
             DB_PORT: "1234"
+          notifications:
+            webhook: ""
         - environment: prod
           timeLimitSeconds: 600
           backoffLimit: 10
@@ -1253,6 +1270,8 @@ spec:
           identity:
             azure:
               clientId: 00000000-0000-0000-0000-000000000001
+          notifications:
+            webhook: http://backend:5000/monitor-batch-status-prod
   dnsAppAlias:
     environment: prod
     component: frontend
