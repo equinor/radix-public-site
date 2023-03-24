@@ -127,7 +127,7 @@ module.exports = {
             'topic-rollingupdate/',
             'topic-uptime/',
             'topic-radix-cli/',
-          ],
+            'topic-dynatrace-int/',          ],
         },
       ],
       '/features/': [ 
