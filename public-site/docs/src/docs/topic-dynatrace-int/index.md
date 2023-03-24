@@ -6,7 +6,7 @@ title: Integrate Dynatrace in a Radix app
 
 Adding Dynatrace as your monitoring tool can be done by adding the Dynatrace agent to your build. See the sample below.
 
-This method are adding the oneagent to the containers, and manipulating environment etc with runtime environments.
+This method are adding the oneagent to the containers, and manipulating environment etc with runtime environments. To be used with a [deploy only strategy](../../guides/deploy-only/)
 
 ::: tip Community
 Join the Slack channel ***#application-performance-management***
