@@ -6,6 +6,8 @@ title: Integrate Dynatrace in a Radix app
 
 Adding Dynatrace as your monitoring tool can be done by adding the Dynatrace agent to your build. See the sample below.
 
+> Note: because Radix sends [build secrets](../../references/reference-radix-config/#build) to the Dockerfile `ARG` instruction [base64-encoded](../../guides/build-secrets/), these values cannot be use in the `FROM` instruction. This Dockerfile can be used to be built and pushed to own image repository and be referenced in the `radixconfig.yaml` in the [image](https://radix.equinor.com/references/reference-radix-config/#image) property of a component. 
+
 This method are adding the oneagent to the containers, and manipulating environment etc with runtime environments. To be used with a [deploy only strategy](../../guides/deploy-only/)
 
 ::: tip Community
