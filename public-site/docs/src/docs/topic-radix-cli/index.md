@@ -122,7 +122,7 @@ Examples of commands:
     ```shell
     rx get logs environment -a your-app-name --environment qa
     ```
-* Get previous (terminated) container log of a Radix application component. This helps to figure out why the container was restarted. Such log is not always available as Kubernetes node, whe the pod with this container was running, can be removed or restarted.  
+* Get previous (terminated) container log of a Radix application component. This may help to indicate why the container was restarted. These logs are not always available as the Kubernetes node, where the pod with this container was running on, may have been removed or restarted.  
     ```shell
     rx get logs component --application your-app-name --environment qa --component auth --previous
     rx get logs component -a your-app-name -e qa --component auth -p
