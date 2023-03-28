@@ -145,7 +145,7 @@ Examples of commands:
     rx start application -a your-app-name
     rx restart application -a your-app-name
     ```
-* Scale up or down Radix application component replicas. Allowed values between "0" and "20" (value "0" is an equivalent of the command `rx stop`). Scaling can be useful for tuning of resource configuration to figure out how amount of replicas affect performance of an application and particular need of CPU and memory. After re-deployment, start or restart, scaled component gets replicas, specified in the `radixconfig.yaml`, "1" if not specified, or set by [horizontal scaling](https://radix.equinor.com/references/reference-radix-config/#environmentconfig)  
+* Scale up or down Radix application component replicas. Allowed values between "0" and "20" (value "0" is an equivalent of the command `rx stop`). Scaling can be useful for tuning the resource configuration to figure out what amount of replicas affect performance of an application and particular need of CPU and memory. After re-deployment, start or restart, scaled component gets replicas, specified in the `radixconfig.yaml`, "1" if not specified, or set by [horizontal scaling](https://radix.equinor.com/references/reference-radix-config/#environmentconfig)  
     ```shell
     rx scale --application your-app-name --environment qa --component web-app --replicas 2
     rx scale -a your-app-name -e qa --component web-app -r 2
