@@ -101,7 +101,7 @@ Examples of commands:
     rx create job deploy --application your-app-name --environment dev
     rx create job deploy -a your-app-name -e dev
     ```
-* Create a new "deploy only" pipeline job with specified image tags. When `radixconfig.yaml` contains `image` option with dynamic [imageTagName](https://radix.equinor.com/references/reference-radix-config/#imagetagname), this `imageTagName` can be altered in the Radix CLI `create job deploy` command option `image-tag-name`. This option will override value, defined in the `radixconfig.yaml`, it can be defined for multiple components in the command. `image-tag-name`, provided as an option in the command `rx create job deploy` is shown in the Radix pipeline orchestration job log. If a component name, specified in this option, does not exist in the Radix application environment - such option is ignored
+* Create a new "deploy only" pipeline job with specified image tags. When `radixconfig.yaml` contains `image` option with dynamic [imageTagName](https://radix.equinor.com/references/reference-radix-config/#imagetagname), this `imageTagName` can be altered in the Radix CLI `create job deploy` command option `image-tag-name`. This option will override values defined in the `radixconfig.yaml` and can be defined for multiple components in the command. `image-tag-name`, provided as an option in the command `rx create job deploy` is shown in the Radix pipeline orchestration job log. Component names that does not exist within the Radix application environment will be ignored.
     ```shell
     rx create job deploy --application your-app-name --environment dev --image-tag-name web-app=stable-123 --image-tag-name api=1.22.0
     rx create job deploy -a your-app-name -e dev -t web-app=stable-123 -t api=1.22.0
