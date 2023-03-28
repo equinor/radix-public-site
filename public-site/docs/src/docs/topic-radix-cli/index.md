@@ -61,6 +61,11 @@ To clean up the login data - logout from the Radix:
 rx logout
 ```
 
+Radix CLI uses Radix API to execute operations. An option `verbose` can be used to get more details about requests and responses to and from the Radix CLI:
+```shell
+rx create job deploy -a your-app-name -e dev --verbose
+```
+
 ### Run in CI workflow
 Custom continuous integration tool like Jenkins or GitHub Action can use Radix CLI with an access token with following options:
 * `--token-environment` - Take the token from environment variable `APP_SERVICE_ACCOUNT_TOKEN`
@@ -93,15 +98,21 @@ Examples of commands:
     ```
 * Create a new "deploy only" pipeline job
     ```shell
-    rx create job deploy -a radix-test --environment dev
+    rx create job deploy --application your-app-name --environment dev
+    rx create job deploy -a your-app-name -e dev
+    ```
+* Create a new "deploy only" pipeline job with specified image tags. When `radixconfig.yaml` contains `image` option with dynamic [imageTagName](https://radix.equinor.com/references/reference-radix-config/#imagetagname), this `imageTagName` can be altered in the Radix CLI `create job deploy` command argument. This argument will override value, defined in the `radixconfig.yaml`. This argument can be defined for multiple components in the command. `imageTagName`, provided as argument if the command `rx create job deploy` is shown in the Radix pipeline orchestration job log. If a component name, specified in this argument, does not exist in the Radix application environment - such argument is ignored
+    ```shell
+    rx create job deploy --application your-app-name --environment dev --image-tag-name web-app=stable-123 --image-tag-name api=1.22.0
+    rx create job deploy -a your-app-name -e dev -t web-app=stable-123 -t api=1.22.0
     ```
 * Create a new "build and deploy" pipeline job
     ```shell
-    rx create job build-deploy -a radix-test --branch main
+    rx create job build-deploy -a your-app-name --branch main
     ```
 * Get list of pipeline jobs for a Radix application. `jq` helps to filter returned `json` output
     ```shell
-    rx get application -a radix-test | jq -r '.jobs'
+    rx get application -a your-app-name | jq -r '.jobs'
     ```
 * Get log of a Radix application component. Each log line will be prefixed with a name of the replica, which sent it
     ```shell
@@ -110,6 +121,11 @@ Examples of commands:
 * Get log of all Radix application in an environment
     ```shell
     rx get logs environment -a your-app-name --environment qa
+    ```
+* Get previous (terminated) container log of a Radix application component. This helps to figure out why the container was restarted. Such log is not always available as Kubernetes node, whe the pod with this container was running, can be removed or restarted.  
+    ```shell
+    rx get logs component --application your-app-name --environment qa --component auth --previous
+    rx get logs component -a your-app-name -e qa --component auth -p
     ```
 * Stop, start or restart a Radix application component
     ```shell
@@ -129,8 +145,12 @@ Examples of commands:
     rx start application -a your-app-name
     rx restart application -a your-app-name
     ```
+* Scale up or down Radix application component replicas. Allowed values between "0" and "20" (value "0" is an equivalent of the command `rx stop`). Scaling can be useful for tuning of resource configuration to figure out how amount of replicas affect performance of an application and particular need of CPU and memory. After re-deployment, start or restart, scaled component gets replicas, specified in the `radixconfig.yaml`, "1" if not specified, or set by [horizontal scaling](https://radix.equinor.com/references/reference-radix-config/#environmentconfig)  
+    ```shell
+    rx scale --application your-app-name --environment qa --component web-app --replicas 2
+    rx scale -a your-app-name -e qa --component web-app -r 2
+    ```
 * Set a value of a component secret
     ```shell
     rx set environment-secret -a your-app-name -e qa --component auth -s CLIENT_ID -v qtrty-1234-5678-9aaa-abcdefgf
     ```
-
