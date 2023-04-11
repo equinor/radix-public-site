@@ -189,7 +189,12 @@ Azure Key Vault secrets, keys and certificates can be used in Radix, configured 
                   envVar: SECRET3       #correct: unique environment variable in environment "qa"
                 ...
     ```
+## Authorization
+There is two options for authorization to Azure Key Vault from a Radix application component
+- [Azure Service Principal Client ID and Client Secret](./#authorization-with-azure-service-principal-client-id-and-client-secret) 
+- [Azure Managed Identity Federated Credentials](./#authorization-with-azure-managed-identity-federated-credentials)
 
+### Authorization with Azure Service Principal Client ID and Client Secret
 - Get access policy principal client-id and client secret to enter as credential secrets in the Radix Console
   ![Get Azure App registration client-id](./key-vault-sp-client-id.png)
   ![Get Azure App registration client-secret](./key-vault-sp-client-secret.png)
@@ -198,6 +203,12 @@ Azure Key Vault secrets, keys and certificates can be used in Radix, configured 
     ![Set secrets](./set-key-vault-secrets-in-radix-console.png)
   - Credential secrets in "qa" environment
     ![Set secrets](./set-key-vault-secrets-in-radix-console-qa.png)
+
+### Authorization with Azure Managed Identity Federated Credentials
+- set up the [Managed Identity Federated Credentials](../workload-identity/#configure-workload-identity-in-radix)
+- add in the [radixconfig.yaml](../../references/reference-radix-config/) an option `useAzureIdentity: true` to the [azureKeyVault](../../references/reference-radix-config/#azurekeyvault)
+
+An option `useAzureIdentity` on a component level, defined or left default `false`, can be overridden on an `environmentConfig` level.
 
 ## Azure Key Vault secret, certificate and key versions
 
@@ -210,7 +221,7 @@ For job component the dialog show information which job or batch uses secret ver
 
 ## Certificates
 
-When a certificate is created in a Azure Key Vault, secret and key [are created implicitly](https://docs.microsoft.com/en-us/azure/aks/csi-secrets-store-driver#obtain-certificates-and-keys) with the same names:
+When a certificate is created in an Azure Key Vault, secret and key [are created implicitly](https://docs.microsoft.com/en-us/azure/aks/csi-secrets-store-driver#obtain-certificates-and-keys) with the same names:
 
 |Object|Return value|Returns entire certificate chain|
 |-|-|---------------------|
