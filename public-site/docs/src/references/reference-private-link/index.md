@@ -4,6 +4,7 @@ title: Private Link
 
 # Overview
 
+*Need changes*
 When running an application in Radix and there is a need to get access to a resource on a different subscription in Omnia Standalone, a Private Link can be used to connect the Radix application to the external resource. A Private Link works by connecting an external target resource to a destination Virtual Network. Data passing through a Private Link travels the Microsoft backbone network, not exposed to the internet.
 
 In order to establish a Private Link from Radix to your external resource, the following information is needed:
