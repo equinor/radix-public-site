@@ -1082,6 +1082,7 @@ secretRefs:
   azureKeyVaults:
     - name: radix-app-secrets
       path: /mnt/key-vault
+      useAzureIdentity: true
       items:
         - name: connection-string-dev
           type: secret
@@ -1097,11 +1098,12 @@ secretRefs:
 - `azureKeyVaults` - list of Azure Key Vault configurations.
 - `name` - Name of the Key Vault resource in an Azure subscription. Radix supports capital letters in the name, but not spaces.
 - `path` - Folder path in running replica container, where secrets, keys and/or certificate contents are available as files (with file names, corresponding to their names in the Azure Key Vault). This field is optional. If set, it overrides default path: `/mnt/azure-key-vault/<azure-key-vault-name>`.
+- `useAzureIdentity` - If set to `true`, Radix will use [Azure Workload Identity](../../guides/azure-key-vaults/#authentication-with-azure-workload-identity) to acquire credentials for accessing Azure Key Vault using the service principal configured in [identity.azure](#identity). This field is optional, with default value `false`. If omitted or set to `false`, credentials are acquired using [Azure Service Principal Client ID and Client Secret](../../guides/azure-key-vaults/#authentication-with-azure-service-principal-client-id-and-client-secret).
 - `items` - list of secrets, keys and/or certificates with corresponding environment variable names.
   - `name` - name of secret, key or certificate in an Azure Key Vault.
   - `type` - Type of the item in the Azure Key Vault. Possible values: `secret`, `key`, `cert`. This field is optional, by default it is `secret`.
   - `envVar` - Name of an environment variable, which will contain specified secret, key or certificate. This field is optional - environment variable is not created if it is not specified, only file exist (see the property `path`).
-  - `alias` - Alias of the file (see the property `path`). This field is optional.
+  - `alias` - Alias of the file (see the property `path`). This field is optional. Default value is the same as `name`.
 
 `secretRefs` can be configured for entire component, for component environments or only for specific component environments. Configuration in component environments overrides similar component properties.
 
@@ -1167,6 +1169,7 @@ spec:
         azureKeyVaults:
           - name: radix-app-secrets
             path: /mnt/key-vault
+            useAzureIdentity: true
             items:
               - name: connection-string-dev
                 type: secret
