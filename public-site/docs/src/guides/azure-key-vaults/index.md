@@ -194,7 +194,7 @@ There are two options for authentication to Azure Key Vault from a Radix applica
 - [Azure Service Principal Client ID and Client Secret](./#authorization-with-azure-service-principal-client-id-and-client-secret) 
 - [Azure Managed Identity Federated Credentials](./#authorization-with-azure-managed-identity-federated-credentials)
 
-### Authorization with Azure Service Principal Client ID and Client Secret
+### Authentication with Azure Service Principal Client ID and Client Secret
 - Get access policy principal client-id and client secret to enter as credential secrets in the Radix Console
   ![Get Azure App registration client-id](./key-vault-sp-client-id.png)
   ![Get Azure App registration client-secret](./key-vault-sp-client-secret.png)
