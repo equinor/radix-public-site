@@ -192,7 +192,7 @@ Azure Key Vault secrets, keys and certificates can be used in Radix, configured 
 ## Authorization
 There are two options for authentication to Azure Key Vault from a Radix application component
 - [Azure Service Principal Client ID and Client Secret](./#authentication-with-azure-service-principal-client-id-and-client-secret) 
-- [Azure Managed Identity Federated Credentials](./#authorization-with-azure-managed-identity-federated-credentials)
+- [Azure Workload Identity](./#authentication-with-azure-workload-identity)
 
 ### Authentication with Azure Service Principal Client ID and Client Secret
 - Get access policy principal client-id and client secret to enter as credential secrets in the Radix Console
