@@ -49,7 +49,7 @@ Autorotation of secrets
 
 [Guide](../guides/azure-key-vaults/#autorotation-of-secrets)
 
-## Azure Managed identity
+## Azure Workload Identity
 
 Some workloads (component or job replicas) running in Radix require credentials (JWT access tokens) for an Azure AD app registration or user-assigned managed identity to access Azure AD protected resources, like MS Graph, Key Vaults, Storage Accounts or Azure SQL Databases. Credentials for such workloads can be acquired using the OAuth 2.0 client credentials flow. The client credentials flow permits a workload to use its own credentials to access protected resources instead of impersonating a user. Credentials can be acquired by using either a shared secret, a certificate or with federated credentials.
 
