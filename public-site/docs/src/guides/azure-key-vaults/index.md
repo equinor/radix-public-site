@@ -205,7 +205,7 @@ There are two options for authentication to Azure Key Vault from a Radix applica
     ![Set secrets](./set-key-vault-secrets-in-radix-console-qa.png)
 
 ### Authorization with Azure Managed Identity Federated Credentials
-- set up the [Managed Identity Federated Credentials](../workload-identity/#configure-workload-identity-in-radix)
+- Enable [Workload Identity](../workload-identity/#configure-workload-identity-in-radix) for the component or job.
 - add in the [radixconfig.yaml](../../references/reference-radix-config/) an option `useAzureIdentity: true` to the [azureKeyVault](../../references/reference-radix-config/#azurekeyvault)
 
 An option `useAzureIdentity` on a component level, defined or left default `false`, can be overridden on an `environmentConfig` level.
