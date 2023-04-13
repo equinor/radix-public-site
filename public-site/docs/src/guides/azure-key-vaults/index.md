@@ -189,7 +189,7 @@ Azure Key Vault secrets, keys and certificates can be used in Radix, configured 
                   envVar: SECRET3       #correct: unique environment variable in environment "qa"
                 ...
     ```
-## Authorization
+## Authentication
 There are two options for authentication to Azure Key Vault from a Radix application component
 - [Azure Service Principal Client ID and Client Secret](./#authentication-with-azure-service-principal-client-id-and-client-secret) 
 - [Azure Workload Identity](./#authentication-with-azure-workload-identity)
