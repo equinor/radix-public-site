@@ -210,6 +210,21 @@ There are two options for authentication to Azure Key Vault from a Radix applica
 
 An option `useAzureIdentity` on a component level, defined or left default `false`, can be overridden on an `environmentConfig` level.
 
+Example:
+```yaml
+identity:
+  azure:
+    clientId: abcdefgh-1234-5678-9012-34567abcdefg
+secretRefs:
+  azureKeyVaults:
+    - name: radix-app-secrets
+      path: /mnt/key-vault
+      useAzureIdentity: true
+      items:
+        - name: connection-string-dev
+          envVar: CONNECTION_STRING
+```
+
 ## Azure Key Vault secret, certificate and key versions
 
 Secret, certificate and key versions from referenced Azure Key Vault currently used by component replicas can be shown in the Radix console.
