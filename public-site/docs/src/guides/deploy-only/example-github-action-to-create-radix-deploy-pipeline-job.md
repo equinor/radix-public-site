@@ -15,6 +15,8 @@ Steps in the example:
 
 `PRIVATE_TOKEN` - in this example it is a private token, used for publishing a package to the GitHub package repository. The name is irrelevant. It is a personal access token that you configure for your GitHub user. In this example the same token is used for producing the package, giving the Radix an access to pull the image to the cluster
 
+Read more about permissions in GitHub Actions [here](https://docs.github.com/en/actions/using-jobs/assigning-permissions-to-jobs)
+
 ```yaml
 name: CI
 
@@ -47,18 +49,18 @@ jobs:
       - uses: actions/checkout@v1
       - name: 'Set default image tag'
         run: |
-          echo ::set-env name=IMAGE_TAG::$(echo ${GITHUB_REF##*/}-latest)
+          echo "IMAGE_TAG=$(echo ${GITHUB_REF##*/}-latest)" >> $GITHUB_ENV
       - name: Override image tag for prod environment
         if: github.ref == 'refs/heads/release'
         run: |
-          echo ::set-env name=IMAGE_TAG::$(echo ${GITHUB_REF##*/}-${GITHUB_SHA::8})
+          echo "IMAGE_TAG=$(echo ${GITHUB_REF##*/}-${GITHUB_SHA::8})" >> $GITHUB_ENV
       - name: 'Build API component'
         run: |
-          docker build -t ghcr.io/your-radix-app-repo-name/component1:$IMAGE_TAG ./todoapi/
+          docker build -t ghcr.io/your-radix-app-repo-name/component1:${IMAGE_TAG} ./todoapi/
       - name: 'Push the image to GPR'
         run: |
           echo ${{ "{{ secrets.PRIVATE_TOKEN " }}}} | docker login ghcr.io -u <your-github-user-name> --password-stdin
-          docker push ghcr.io/your-radix-app-repo-name/component1:$IMAGE_TAG
+          docker push ghcr.io/your-radix-app-repo-name/component1:${IMAGE_TAG}
       - name: Prepare for committing new tag to radix config on main
         uses: actions/checkout@v2-beta
         with:
@@ -68,13 +70,13 @@ jobs:
         run: |
           # Install pre-requisite
           python3 -m pip install --user ruamel.yaml
-          python3 hack/modifyTag.py api ${GITHUB_REF##*/} $IMAGE_TAG
+          python3 hack/modifyTag.py api ${GITHUB_REF##*/} ${IMAGE_TAG}
           git config --global user.name 'your-git-user'
           git config --global user.email 'your-git-user@users.noreply.github.com'
           git remote set-url origin https://x-access-token:${{ "{{ secrets.PRIVATE_TOKEN  " }}}}@github.com/${{ "{{ github.repository " }}}}
-          git commit -am $IMAGE_TAG
+          git commit -am ${IMAGE_TAG}
           git push origin HEAD:main
-      - name: 'Get environment from branch'
+      - name: 'Get environment from branch' # for "deploy only" pipeline workflow
         id: getEnvironment
         uses: equinor/radix-github-actions@main
         with:
@@ -88,8 +90,31 @@ jobs:
           args: >
             create job
             deploy
-            --context playground
+            --context playground 
             --from-config
-            -e ${{ "{{ steps.getEnvironment.outputs.result " }}}}
+            --environment ${{ "{{ steps.getEnvironment.outputs.result " }}}}
             -f
 ```
+
+Following are last steps for "Build and deploy" pipeline workflow (e.g. when some application components need to be built):
+```yaml
+      - name: 'Build and deploy API on Radix'
+        uses: equinor/radix-github-actions@main
+        with:
+          args: >
+            create job
+            build-deploy
+            --context playground  
+            --from-config
+            --branch ${GITHUB_REF##*/}
+            -f
+```
+An option `--context playground` is used if a Radix application is registered in the Playground cluster, otherwise remove this line - Platform cluster is used by default
+### Troubleshooting
+* Error `response status code does not match any response statuses defined for this endpoint in the swagger spec (status 403): {}` - make sure that in the Radix CLI command it is correctly specified an application name (an option `-a` or `--application`, if used), or context - cluster where the application is registered (an option `-c` or `--context`, if used)
+* Error `Unable to get ACTIONS_ID_TOKEN_REQUEST_URL env variable. Please make sure to give write permissions to id-token in the workflow.` - make sure that the permission is set:
+    ```yaml
+    permissions:
+      id-token: write
+    ```
+* Error `No matching federated identity record found for presented assertion` - make sure that the [AD Service principal access token is set](./#ad-service-principal-access-token)
