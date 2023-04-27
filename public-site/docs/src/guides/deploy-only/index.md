@@ -98,6 +98,10 @@ In a deploy-only scenario, Radix will only deploy, rather than build and deploy,
   ![Configure the Radix application administrators](./radix-application-administrator-configuration.png)
 - Change an external pipeline job (GitHub action, DevOps pipeline, etc.) to login as the service principal with request of an access token, which can be used with Radix CLI or Radix API within such job.
 
+- When pipeline job is created by a service principal, it will be visible in the Radix Web Console pipeline job list with this service principal application id with a postfix `(appid)`, or its object id with a postfix `(sub)`. Full id is shown in a tooltip and in the job details
+
+![Pipeline job list with IDs](./pipeline-job-list.png)
+
 > Note that the access token has one-hour live period, with access to all operations that an application administrator has (i.e. deleting the application, setting secrets). Please make efforts not to have this token fall into the wrong hands.
 
 Read about [how to connect GitHub actions and Azure](https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure) to add federation between them.
