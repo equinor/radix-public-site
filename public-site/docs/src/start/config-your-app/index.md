@@ -45,7 +45,7 @@ spec:
         from: master
     - name: prod
   components:
-    - name: main
+    - name: frontend
       src: "."
       publicPort: http
       ports:
@@ -90,7 +90,7 @@ A breakdown of the configuration above:
 - There are two environments, `dev` and `prod`, and only one component, `frontend`
 - Commits to the `master` branch will trigger a build and deployment of the application to the `dev` environment. We can use this behavior to build a [workflow](../workflows/)
 - Radix will look for the `Dockerfile` for the `frontend` component in the root directory of the repository
-- Once `frontend` is built, it will be exposed on the internet on port 8080 on each environment it is deployed to (in `dev`, for instance, it will have a domain name like `main-myapp-dev.playground.radix.equinor.com` (on the Playground cluster) or `main-myapp-dev.radix.equinor.com` (on the Platform cluster))
+- Once `frontend` is built, it will be exposed on the internet on port 8080 on each environment it is deployed to (in `dev`, for instance, it will have a domain name like `frontend-myapp-dev.playground.radix.equinor.com` (on the Playground cluster) or `frontend-myapp-dev.radix.equinor.com` (on the Platform cluster))
 
 The full syntax of `radixconfig.yaml` is explained in 📖 [`radixconfig.yaml`](../../references/reference-radix-config/) reference.
 
