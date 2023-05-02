@@ -7,6 +7,8 @@ sidebarDepth: 2
 
 ## 2023
 
+### 2023-05-02 - Support for autoscaling on memory use 
+
 ### 2023-02-28 - Radix Web Console: Stop a regular job and batched jobs
 
 A brand new button has been added to allow users to easily stop a job or a batch.  
