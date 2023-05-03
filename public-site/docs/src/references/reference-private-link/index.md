@@ -5,7 +5,11 @@ title: Private Link
 # Overview
 
 *Need changes*
-When running an application in Radix and there is a need to get access to a resource on a different subscription in Omnia Standalone, a Private Link can be used to connect the Radix application to the external resource. A Private Link works by connecting an external target resource to a destination Virtual Network. Data passing through a Private Link travels the Microsoft backbone network, not exposed to the internet.
+When running an application in Radix and there is a need to get access to a resource or a service in a different subscription in Omnia Standalone, a Private Link Services can be used to connect the Radix application to the resource, using a Private End Point. A Private Link works by connecting a target resource to a Virtual Network. Data passing through a Private Link travels the Microsoft backbone network, not exposed to the internet.
+
+More information can be found in the [Azure documentation](https://learn.microsoft.com/en-us/azure/private-link/private-link-service-overview)
+
+![Illustration](https://learn.microsoft.com/en-us/azure/private-link/media/private-link-service-overview/private-link-service-workflow-expanded.png#lightbox)
 
 In order to establish a Private Link from Radix to your external resource, the following information is needed:
 
@@ -14,6 +18,8 @@ In order to establish a Private Link from Radix to your external resource, the f
 - Resource ID (found in the properties of a resource in the Azure portal)
 
 > Resource ID example: `/subscriptions/A01234567-bc89-123d-ef45-678g9hi12jkl/resourceGroups/Some_RG_Prod/providers/Microsoft.Sql/servers/sql-some-prod`
+
+Instructions
 
 The creation of Private Links in Radix is currently a manual process, and the destination subscription must be part of Omnia Standalone. When in need of a Private Link, contact the Radix team.
 
