@@ -49,6 +49,35 @@ Errors in stage (3) can be caused by:
 
 Follow the [Tekton documentation](https://tekton.dev/docs/) to configure a sub-pipeline and its tasks, particularly [Tekton pipeline](https://tekton.dev/docs/pipelines/pipelines/) and [task](https://tekton.dev/docs/pipelines/tasks/) documentation.
 
+## Limitations
+
+In Radix platform, the following limitations are applied to sub-pipelines:
+* sub-pipeline does not support [workspaces](https://tekton.dev/docs/pipelines/workspaces/). However, it is possible to use [volumes](./example-pipeline-with-multiple-task-steps) in sub-pipeline tasks.
+* sub-pipeline Task step cannot mount secrets as volumes, but some exceptions:
+  * the secret to access [private image repository](../../references/reference-radix-config/#privateimagehubs), which is mounted automatically
+  * [build secrets](./example-pipeline-with-build-secrets.md)
+* sub-pipeline Task step cannot run as a privileged container (e.g. cannot run as root) or with a host network
+  * when a step container image is configured by default to run as a root, this user can be changed to a non-root user with a field `securityContext.runAsUser` in the step definition. `securityContext.runAsGroup` is also supported. `runAsUser` and `runAsGroup` cannot have value `0` (`root` user).
+  ```yaml
+  apiVersion: tekton.dev/v1beta1
+  kind: Task
+  metadata:
+  name: my-task
+  spec:
+    steps:
+      - image: alpine
+        name: show-user-id
+        script: |
+          #!/usr/bin/env sh
+          id
+          :
+        securityContext:
+          runAsUser: 1000
+   ```
+   following command can be used to find out with which user the image runs its container:
+   ```bash
+   docker run -it alpine id
+   ```
 ## Hints
 
 * Tekton pipeline and tasks can be developed and tested on PC within [local Kubernetes cluster](https://tekton.dev/docs/getting-started/tasks/).
