@@ -4,8 +4,7 @@ title: Private Link
 
 # Overview
 
-*Need changes*
-When running an application in Radix and there is a need to get access to a resource or a service in a different subscription in Omnia Standalone, a Private Link Services can be used to connect the Radix application to the resource, using a Private End Point. A Private Link works by connecting a target resource to a Virtual Network. Data passing through a Private Link travels the Microsoft backbone network, not exposed to the internet.
+When running an application in Radix and there is a need to get access to a resource or a service in a different subscription in Omnia Standalone, a Private Link Services can be used to connect the Radix application to the resource, using a Private End Point. A Private Link works by connecting a target resource to a Virtual Network. Data passing through a Private Link travels the Microsoft backbone network, not exposed to the internet. 
 
 More information can be found in the [Azure documentation](https://learn.microsoft.com/en-us/azure/private-link/private-link-service-overview)
 
