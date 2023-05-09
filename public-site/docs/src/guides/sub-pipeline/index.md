@@ -57,7 +57,7 @@ In Radix platform, the following limitations are applied to sub-pipelines:
   * the secret to access [private image repository](../../references/reference-radix-config/#privateimagehubs), which is mounted automatically
   * [build secrets](./example-pipeline-with-build-secrets.md)
 * sub-pipeline Task step cannot run as a privileged container (e.g. cannot run as root) or with a host network
-  * when a step container image is configured by default to run as a root, this user can be changed to a non-root user with a field `securityContext.runAsUser` in the step definition. `securityContext.runAsGroup` is also supported. `runAsUser` and `runAsGroup` cannot have value `0` (`root` user).
+  * if a container image used in a step is configured to run as a root, this user can (and should) be changed to a non-root user with a field `securityContext.runAsUser` in the step definition, `securityContext.runAsGroup` is also supported. `runAsUser` and `runAsGroup` cannot have value `0` (= `root` user).
   ```yaml
   apiVersion: tekton.dev/v1beta1
   kind: Task
