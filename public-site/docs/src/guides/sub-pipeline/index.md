@@ -74,7 +74,8 @@ In Radix platform, the following limitations are applied to sub-pipelines:
         securityContext:
           runAsUser: 1000
    ```
-   following command can be used to find out with which user the image runs its container:
+  ::: tip Suggestion
+  The following command can be used to find out with which user the image runs its container:
    ```bash
    docker run -it alpine id
    ```
