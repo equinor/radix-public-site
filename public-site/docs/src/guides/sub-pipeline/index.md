@@ -53,7 +53,7 @@ Follow the [Tekton documentation](https://tekton.dev/docs/) to configure a sub-p
 
 In Radix platform, the following limitations are applied to sub-pipelines:
 * sub-pipeline does not support [workspaces](https://tekton.dev/docs/pipelines/workspaces/). However, it is possible to use [volumes](./example-pipeline-with-multiple-task-steps) in sub-pipeline tasks.
-* sub-pipeline Task step cannot mount secrets as volumes, but some exceptions:
+* sub-pipeline Task step cannot mount secrets as volumes, with some exceptions:
   * the secret to access [private image repository](../../references/reference-radix-config/#privateimagehubs), which is mounted automatically
   * [build secrets](./example-pipeline-with-build-secrets.md)
 * sub-pipeline Task step cannot run as a privileged container (e.g. cannot run as root) or with a host network
