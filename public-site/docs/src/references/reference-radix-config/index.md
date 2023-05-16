@@ -416,12 +416,7 @@ spec:
 
 The `horizontalScaling` field of a component environment config is used for enabling automatic scaling of the component in the environment. This field is optional, and if set, it will override `replicas` value of the component. One exception is when the `replicas` value is set to `0` (i.e. the component is stopped), the `horizontalScaling` config will not be used.
 
-The `horizontalScaling` field contains three sub-fields: `resources`, `minReplicas` and `maxReplicas`. 
-Memory and CPU scaling thresholds are determined by the `memory` and `cpu` fields, defined in the `resources` section. 
-The `averageUtilization` field specifies the target value that triggers the scaling. The value of `averageUtilization` must be greater than 1. 
-Scaling on CPU is enabled by default with an `averageUtilization` of 80. This value can be overridden by adding the `cpu` field and defining the desired `averageUtilization` value.
-Scaling on memory can be enabled by adding the `memory` field and defining the `averageUtilization` value.
-The `minReplicas` and `maxReplicas` fields specify the minimum and maximum number of replicas for a component, respectively. The value of `minReplicas` must strictly be smaller or equal to the value of `maxReplicas`.
+The `horizontalScaling` field contains two sub-fields `minReplicas` and `maxReplicas`, and one subsection, `resources`. The `minReplicas` and `maxReplicas` fields specify the minimum and maximum number of replicas for a component, respectively. The value of `minReplicas` must strictly be smaller or equal to the value of `maxReplicas`. Memory and CPU scaling thresholds are determined by the `resources.memory.averageUtilization` and `resources.cpu.averageUtilization` fields. The value of `averageUtilization` must be greater than 1. If `cpu.averageUtilization` is not defined in the radixconfig, it will default to a value of 80.
 
 #### `imageTagName`
 
