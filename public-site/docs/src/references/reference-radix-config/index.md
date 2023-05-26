@@ -405,13 +405,18 @@ spec:
       environmentConfig:
         - environment: prod
           horizontalScaling:
+            resources:
+                memory:
+                  averageUtilization: 75
+                cpu:
+                  averageUtilization: 85
             minReplicas: 2
             maxReplicas: 6
 ```
 
-The `horizontalScaling` field of a component environment config is used for enabling automatic scaling of the component in the environment. This field is optional, and if set, it will override `replicas` value of the component. One exception is when the `replicas` value is set to `0` (i.e. the component is stopped), the `horizontalScaling` config will not be used.
+The `horizontalScaling` field of a component environment config is used for enabling automatic scaling of the component in the environment. This field is optional, and if set, it will override the `replicas` value of the component. One exception is when the `replicas` value is set to `0` (i.e. the component is stopped), the `horizontalScaling` config will not be used.
 
-The `horizontalScaling` field contains two sub-fields: `minReplicas` and `maxReplicas`, that specify the minimum and maximum number of replicas for a component, respectively. The value of `minReplicas` must strictly be smaller or equal to the value of `maxReplicas`.
+The `horizontalScaling` field contains two sub-fields, `minReplicas` and `maxReplicas`, and one subsection, `resources`. The `minReplicas` and `maxReplicas` fields specify the minimum and maximum number of replicas for a component, respectively. The value of `minReplicas` must strictly be smaller or equal to the value of `maxReplicas`. Memory and CPU scaling thresholds are determined by the `resources.memory.averageUtilization` and `resources.cpu.averageUtilization` fields. The value of `averageUtilization` must be greater than 1. If the `horizontalScaling.resources` section is omitted from the environment config, the `cpu.averageUtilization` will default to a value of 80. However, if `memory.averageUtilization` is defined while `cpu.averageUtilization` is undefined, CPU based autoscaling will be disabled for this component.
 
 #### `imageTagName`
 

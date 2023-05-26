@@ -7,6 +7,28 @@ sidebarDepth: 2
 
 ## 2023
 
+### 2023-05-16 - Support for custom CPU scaling threshold and autoscaling on memory
+Autoscaling has only been supported on CPU, with a hardcoded threshold of 80% utilization. Now the CPU threshold is configurable, and you can also configure autoscaling on memory.
+This can be enabled in [radixconfig.yaml](../../references/reference-radix-config/#horizontalscaling).
+
+Example:
+
+```yaml
+spec:
+  components:
+    - name: backend
+      environmentConfig:
+        - environment: prod
+          horizontalScaling:
+            resources:
+                memory:
+                  averageUtilization: 75
+                cpu:
+                  averageUtilization: 85
+            minReplicas: 2
+            maxReplicas: 6
+```
+
 ### 2023-02-28 - Radix Web Console: Stop a regular job and batched jobs
 
 A brand new button has been added to allow users to easily stop a job or a batch.  
@@ -34,7 +56,7 @@ Existing applications should be updated with a `Configuration Item` in the Appli
 ### 2022-11-01 - Enable and/or Disable components
 
 Components in the Radix application now can be enabled and disabled for any and all environments.  
-This can be configured in the [radixconfig.yaml](../../references/reference-radix-config/#enabled)
+This can be configured in [radixconfig.yaml](../../references/reference-radix-config/#enabled).
 
 Example:
 
