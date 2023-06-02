@@ -126,15 +126,18 @@ Stop, Start and Restart of a running component or all components in an environme
 
 [Guide](../guides/component-start-stop-restart/)
 
-## Command Line (Radix CLI)
+## Command line interface (Radix CLI)
 
 Radix offers a command line interface - Radix CLI, which uses the command rx.
 
 [Radix CLI](https://github.com/equinor/radix-cli/blob/master/README.md)
 
-## Container logs in Radix console and Radix CLI
+## Container logs
 
-To be updated
+Container logs for components and jobs can be accessed using the Web Console or CLI.
+
+[Web Console](tba)  
+[CLI](tba)
 
 ## Code editor integrations - radixconfig.yaml schema validation
 
@@ -277,4 +280,10 @@ Submodules is a native git feature which enables git repositories within other g
 
 ## Vulnerability scanning
 
+Radix scans applications for vulnerabilities on a daily schedule.
+
+[Doc](../docs/topic-vulnerabilities/)
+
 ## Web console (dashboard)
+
+[Doc](../docs/topic-radix-web-console/)
