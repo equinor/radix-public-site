@@ -29,17 +29,116 @@ spec:
             maxReplicas: 6
 ```
 
+### 2023-05-24 - Old Replica logs! Get your old Replica logs here!
+
+Is one of your replicas crashing? Have you ever wondered what the last signs of life were before it dramatically had its last breath of digital air?  
+Well wonder no more!  
+You can now download the logs of a components previous replicas, or even individual replica containers.  
+This feature can be found on any of your Component Pages in the Radix Web Console, just below the Replica table.  
+
+### 2023-05-02 - Radix does not allow to run Sub-Pipeline task steps with root users
+
+Radix cluster policy does not allow to run containers with root user. Sub-pipelines are also not allowed to run its task steps with root users. Please use rootless docker images or use step spec option runAsUser. E.g. `runAsUser: 1000`
+
+```yaml
+spec:
+  steps:
+    - image: alpine
+      name: step1
+      script: |
+        #!/usr/bin/env sh
+        id
+        :
+      securityContext:
+        runAsUser: 1000
+```
+
+### 2023-04-14 - Radix supports Azure Workload Identity for Azure Key Vaults
+
+Radix now supports two options for authentication to Azure Key Vault from a Radix application component  
+- [Azure Service Principal Client ID and Client Secret](../../guides/azure-key-vaults/#authentication-with-azure-service-principal-client-id-and-client-secret) , already existing  
+- [Azure Workload Identity(../../guides/azure-key-vaults/#authentication-with-azure-workload-identity)] , available from now - authentication without need of Azure Service Principal's Client ID and Client Secret  
+
+### 2023-04-12 - Radix application configuration - Admin AD group is now mandatory
+
+Admin AD group can be set in Web console => Configuration => “Change administrator”.
+
+### 2023-03-28 - New version of Radix CLI version 1.7
+
+More details in the [Radix documentation](../../docs/topic-radix-cli/#commands) or with built-in `help`   
+rx scale --help  
+rx get logs component --help  
+rx create job deploy --help  
+
+### 2023-03-14 - Radix updates
+
+* Job component configuration has an option `notifications.webhook` - it is a Radix application's component URL, which will be called on status changes of running batches and jobs.  
+* Scheduled Batches and Scheduled Jobs were renamed in the Radix console to Batches and Jobs. Job Scheduler was also renamed to Job Manager. It is to simplify terminology.  
+* We added basic overview information for Radix CLI.   
+* A new property `backoffLimit` for jobs defines the number of times a job will be restarted if it exists in error. This value can be configured in radixconfig.yaml or when creating a new job or batch . The `backoffLimit` for a specific job, and the number of times a job has failed is available in the job detail page in Radix Web Console.  
+
+
+### 2023-03-07 - Schema for radixconfig.yaml
+
+We have released the OpenAPI 3.0 Schema (an extended subset of JSON Schema) for the radixconfig.yaml file.  
+This schema can be used in code editors (e.g. VS Code and Jetbrains IDEs) to provide auto-completion and validation when working with `radixconfig.yaml`, see [radixconfig schema](../../references/reference-code-editor-integration/)
+
 ### 2023-02-28 - Radix Web Console: Stop a regular job and batched jobs
 
 A brand new button has been added to allow users to easily stop a job or a batch.  
 The `Payload` button (`Scheduled Jobs` only) has been moved inside an elipsis menu together with the new `Stop` button for convenience.  
 ![Stop job](./stop-job.png)
 
+### 2023-02-24 Option to pass $GITHUB_TOKEN to the Radix GH Action
+
+The Radix Github Action is used by many Radixians to execute rx CLI commands in workflows. We have seen cases where workflows fail because the Radix Action fails to download the rx CLI because of GitHub API rate limits. To remedy this, we have patched the Action with an optional argument github-token, where you can supply your workflow's GITHUB_TOKEN secret. This effectively increases the hourly API request limit from 60 to 15,000.
+
+```yaml
+      - name: list-apps
+        uses: equinor/radix-github-actions@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          args: >
+            get
+            application
+```
+
 ### 2023-02-16 - Radix Web Console: Start, Stop and Restart environments
 
 - Git Tags are now visible on the Environment Summary Cards.
 - Buttons to start, stop and restart an envrionment has been added.
   ![Start, stop and restart environment](./start-stop-restart-env.png)
+
+### 2023-01-31 Radix Playground lifecycle policy
+
+We will now implement a stricter lifecycle policy for using Radix Playground.  
+Any application which has not been  
+a - deployed - or  
+b - restarted  
+in the last 7 days will be stopped.  
+After further 21 days of inactivity, all stopped applications will be deleted.  
+
+
+### 2023-01-23 - Radix Web Console: Shown replica resources and scheduled job resources and settings
+
+Radix now provides Request and Limit resources for component replicas and scheduled jobs. For scheduled jobs it is also shown Time Limit and Backoff Limit (later will be soon configurable)
+
+
+### 2023-01-18 - Custom branch name for wildcard branch mapping
+
+Radix now provides a text input field to put a full branch name for a build environment with [wildcard branch mappings](../../references/reference-radix-config/#build-2)
+
+### 2023-01-17 - Machine user tokens deprecated
+
+Machine user tokens pose a security risk due to lack of expiration time.  
+Kubernetes underlying functionality used by machine user tokens has been removed in newer versions.  
+Applications that currently use machine user tokens in their external CICD pipelines must switch to using Azure service principals (Azure AD app registrations or user-assigned managed identities).  
+
+
+### 2023-01-10 - Federated Credentials with Azure AD Application and Managed Identity
+
+We have enabled support for federated credentials between applications running in Radix and Azure AD applications and Azure Managed Identities.
+[Workload identities](../../guides/workload-identity/) in Radix
 
 ## 2022
 
