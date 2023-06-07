@@ -36,7 +36,7 @@ The Radix Platform should be used when your team has chosen Radix as PaaS (Platf
 
 Schedule for Radix DevOps/Support team - 08:00 - 16:00 CET/CEST on Norwegian working days
 
-- **Support channels:** File issue on [radix-platform repo](https://github.com/equinor/radix-platform/issues) or ask on [#omnia_radix_support](https://equinor.slack.com/messages/CBKM6N2JY) on Slack
+- **Support channels:** File issue on [**radix** repo](https://github.com/equinor/radix/issues) or ask on [#omnia_radix_support](https://equinor.slack.com/messages/CBKM6N2JY) on Slack
 - **Response time:** As soon as possible within business hours, at least next business day
 - **On-call duty:** No, please contact us to discuss options
 - **Resolution time:** Cannot be guaranteed, but for critical issues work on fixing the problem will start immediately and continue within business hours until resolved
