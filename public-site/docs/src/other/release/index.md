@@ -57,7 +57,7 @@ spec:
 
 Radix now supports two options for authentication to Azure Key Vault from a Radix application component  
 - [Azure Service Principal Client ID and Client Secret](../../guides/azure-key-vaults/#authentication-with-azure-service-principal-client-id-and-client-secret) , already existing  
-- [Azure Workload Identity(../../guides/azure-key-vaults/#authentication-with-azure-workload-identity)] , available from now - authentication without need of Azure Service Principal's Client ID and Client Secret  
+- [Azure Workload Identity](../../guides/azure-key-vaults/#authentication-with-azure-workload-identity) , available from now, authentication without need of Azure Service Principal's Client ID and Client Secret  
 
 ### 2023-04-12 - Radix application configuration - Admin AD group is now mandatory
 
