@@ -9,5 +9,8 @@ We are now ready to register our application using the Radix Web Console. Load t
 Remember that we can always change the 📖 [`radixconfig.yaml`](../../references/reference-radix-config/) file and the `Dockerfile`(s) after registration to change how the application builds and deploys.  
 
 Here is an example of how a new application registration could look like  
+::: tip
+For the Playground cluster a Configuration Item is not mandatory.
+:::
 
 ![CreateApplication](./create-application.png)

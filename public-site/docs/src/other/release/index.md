@@ -149,7 +149,12 @@ When registering a new application in Radix, you will have to select a `Configur
 
 To see more information regarding the selected `Configuration Item`, click the `info` icon on the right in the drop-down.
 
-Existing applications should be updated with a `Configuration Item` in the Application Configuration page. WBS and Owner is still shown for existing applications, but are read only.
+Existing applications should be updated with a `Configuration Item` in the Application Configuration page.
+
+::: tip
+For the Playground cluster a Configuration Item is not mandatory.
+:::
+
 ![Config item](./confitem.png)
 
 ### 2022-11-01 - Enable and/or Disable components

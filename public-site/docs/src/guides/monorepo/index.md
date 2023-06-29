@@ -34,7 +34,7 @@ Example:
 
 ## Custom Radix configuration file name
 
-Radix configuration file name and path can be changed on the Radix web-console configuration page for the application. This file can have extension `yaml` or `yml`, it can optionally be located in a sub-folder of the GitHub repository. In the example below - the configuration file `radixconfig-app2.yml` is located in the sub-folder `web-app2` of the repository (no leading slash is required)
+Radix configuration file name and path can be changed on the Radix web-console configuration page for the application. This file can have extension `yaml` or `yml` (the name and extension should be exactly same as for the file in the GitHub repository), it can optionally be located in a sub-folder of the GitHub repository. In the example below - the configuration file `radixconfig-app2.yml` is located in the sub-folder `web-app2` of the repository (no leading slash is required)
 ![Change Radix configuration file](./change-config-file.png)
 
 * If applications are configured to have [sub-pipelines](../sub-pipeline), these sub-pipelines can be different applications. To solve this requirement, Radix currently expects sub-pipeline folder `tekton` be in the same location, where the Radix configuration file is defined to be for the application.
