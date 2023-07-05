@@ -6,7 +6,7 @@ title: VolumeMounts
 
 ## Optional settings
 
-_Applicable for type: `azure-blob`_
+_Applicable for: `blobfuse2`_
 
 - `accessMode` - [access mode](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#access-modes) from container to external storage:
   - `ReadOnlyMany` - (default) read-only access.
@@ -21,10 +21,23 @@ _Applicable for type: `azure-blob`_
   - `Standard_GRS`
   - `Standard_RAGRS`
 - `requestsStorage` - [requested size](https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/#create-a-persistentvolumeclaim) of allocated mounted volume. Default value is set to `"1Mi"` (1 megabyte). Current version of the driver does not affect mounted volume size of type `azure-blob`
-- `uid` - User ID (number) of a [mounted volume owner](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.21/#podsecuritycontext-v1-core). It is a Group ID of a user in the running container within component replicas. Usually a user, which is a member of one or multiple [groups](https://en.wikipedia.org/wiki/Group_identifier), is specified in the `Dockerfile` for the component with command `USER`. Read [more details](https://radix.equinor.com/docs/topic-docker/#running-as-non-root) about specifying user within `Dockerfile`. It is recommended to use because Blobfuse driver do [not honor fsGroup securityContext settings](https://github.com/kubernetes-sigs/blob-csi-driver/blob/master/docs/driver-parameters.md). This option can be used instead of the option `gid`.
+
+  _Options off `streaming`_
+   - `blockSize` - size of each block to be cached in memory (in MB)
+   - `maxBuffers` - total number of buffers to be cached in memory (in MB)
+   - `bufferSize` - size of each buffer to be cached in memory (in MB)
+   - `streamCache` - limit total amount of data being cached in memory to conserve memory footprint of blobfuse (in MB)
+   - `maxBlocksPerFile` - maximum number of blocks to be cached in memory
+   - `fileCaching` - file name based caching. Default is `false`, which specifies file handle based caching
+
+   For streaming during read and write operations, blocks of data are cached in memory as
+     they're read or updated. Updates are flushed to Azure Storage when a file is closed or
+     when the buffer is filled with dirty blocks.
+     
+   More details about streaming can be found [here](https://learn.microsoft.com/en-us/azure/storage/blobs/blobfuse2-what-is#streaming)
 
 Volume setting [ReclaimPolice](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#reclaiming) is always set to `Retain` for type `azure-blob`.
 
-Blob CSI driver [has certain limitations](https://github.com/kubernetes-sigs/blob-csi-driver/blob/master/docs/limitations.md).
+Blob CSI driver [has certain limitations](https://github.com/kubernetes-sigs/blob-csi-driver/blob/master/docs/limitations.md). BlobFuse2 particularly has [these limitations](https://github.com/Azure/azure-storage-fuse#un-supported-file-system-operations).
 
 > See [this](../index.md) guide on how make use of `volumeMounts`.

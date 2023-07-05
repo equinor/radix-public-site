@@ -10,7 +10,7 @@ title: "Sub-pipeline example: Simple pipeline"
 * The sub-pipeline in this example runs one task with a name `hello`. Create a file `hello-task.yaml` (file name can be arbitrary, file extension should be `yaml`). This task runs in the container with Alpine Linux and execute one command `echo "Hello"`.
 
 ```yaml
-apiVersion: tekton.dev/v1beta1
+apiVersion: tekton.dev/v1
 kind: Task
 metadata:
   name: hello
@@ -25,7 +25,7 @@ spec:
 * Create a file `pipeline.yaml`. Add a task in the `tasks` list: give it a name (it can be any name, unique within this sub-pipeline), in the property `taskRef` ("reference to a task") put the value from the property `metadata.name` of the task, created above:
 
 ```yaml
-apiVersion: tekton.dev/v1beta1
+apiVersion: tekton.dev/v1
 kind: Pipeline
 metadata:
   name: pipeline-example
