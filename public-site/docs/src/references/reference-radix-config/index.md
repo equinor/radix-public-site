@@ -444,10 +444,12 @@ spec:
       environmentConfig:
         - environment: prod
           volumeMounts:
-            - type: azure-blob
-              name: volume-name
-              storage: container-name
+            - name: volume-name
               path: /path/in/container/to/mount/to
+              blobfuse2:
+                protocol: fuse2
+                container: container-name
+                uid: 1000
 ```
 
 The `volumeMounts` field configures volume mounts within the running component.
@@ -455,14 +457,18 @@ The `volumeMounts` field configures volume mounts within the running component.
 #### `volumeMounts` settings
 
 - `name` - the name of the volume. Unique within `volumeMounts` list of a component
-- `type` - type of storage. Supported types:
-  - `azure-blob` - mount a container from blob in [Azure storage account](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview). Uses [CSI Azure blob storage driver](https://github.com/kubernetes-sigs/blob-csi-driver). Replaces obsolete type `blob` for Flex Volume obsolete driver.
-
-_Applicable for type: `azure-blob`_
-
-- `storage` - name of the blob container.
 - `path` - the folder inside the running container, where the external storage is mounted.
-- `gid` - Group ID (number) of a [mounted volume owner](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.21/#podsecuritycontext-v1-core). It is a Group ID of a user in the running container within component replicas. Usually a user, which is a member of one or multiple [groups](https://en.wikipedia.org/wiki/Group_identifier), is specified in the `Dockerfile` for the component with command `USER`. Read [more details](https://www.radix.equinor.com/docs/topic-docker/#running-as-non-root) about specifying user within `Dockerfile`. It is recommended to use because Blobfuse driver do [not honor fsGroup securityContext settings](https://github.com/kubernetes-sigs/blob-csi-driver/blob/master/docs/driver-parameters.md).  
+- `blobfuse2` - mount a container from blob in [Azure storage account](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview). Uses [CSI Azure blob storage driver](https://github.com/kubernetes-sigs/blob-csi-driver). Replaces types `blob` and `azure-blob` for obsolete drivers.
+
+_Options off `blobfuse2`_
+  - `protocol` - a protocol, supported by the BlobFuse2. Currently, supports `fuse2`.
+  - `container` - name of the blob container.
+  - `uid` and/or `gid` - User ID and/or group ID (numbers) of a [mounted volume owner](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.21/#podsecuritycontext-v1-core). It is a User ID and Group ID of a user in the running container within component replicas. Usually a user, which is a member of one or multiple [groups](https://en.wikipedia.org/wiki/Group_identifier), is specified in the `Dockerfile` for the component with command `USER`. Read [more details](https://www.radix.equinor.com/docs/topic-docker/#running-as-non-root) about specifying user within `Dockerfile`. It is recommended to use because Blobfuse driver do [not honor fsGroup securityContext settings](https://github.com/kubernetes-sigs/blob-csi-driver/blob/master/docs/driver-parameters.md).
+  - `useAdls` - (optional) enables blobfuse to access Azure DataLake storage account. When set to false, blobfuse will access Azure Block Blob storage account, hierarchical file system is not supported. Default `false`. This must be set `true` when [HNS enabled account](https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-namespace) is mounted.
+  - `streaming` - (optional) defines a file streaming. When it is turned on (it is by default), files, opened by a container in its volume mount are not cached on a node, but read directly from a blob storage. It is recommended to use. When it is turned off, files are cached on a node, but it may cause a problem with a limited node disk available space.
+
+    _Options off `streaming`_
+    - `enabled` - (optional) turn on/off a file streaming. Default is `true`
 
 There are [optional settings](../../guides/volume-mounts/optional-settings/) to fine tune volumes.
 
@@ -911,10 +917,12 @@ spec:
       environmentConfig:
         - environment: prod
           volumeMounts:
-            - type: azure-blob
-              name: volume-name
-              container: container-name
+            - name: volume-name
               path: /path/in/container/to/mount/to
+              blobfuse2:
+                protocol: fuse2
+                container: container-name
+                uid: 1000
 ```
 
 See [volumeMounts](#volumemounts) for a component for more information.
@@ -1166,10 +1174,12 @@ spec:
         gpuCount: 4
       enabled: true
       volumeMounts:
-        - type: azure-blob
-          name: volume-name
-          container: container-name
+        - name: volume-name
           path: /path/in/container/to/mount/to
+          blobfuse2:
+            protocol: fuse2
+            container: container-name
+            uid: 1000
       secretRefs:
         azureKeyVaults:
           - name: radix-app-secrets

@@ -18,7 +18,7 @@ title: "Sub-pipeline example: Pipeline with environment variables"
     * `VAR2T`, `VAR3T`, `VAR4T`, `VAR5T` - these parameters have default values. Field `default` allows to specify a value, used when the param is not passed from a sub-pipeline and its type. Available types are `string` and `array`. When type is `string` - default value should be put to the field `stringVal`, when type is `array` - default value should be put to the field `arrayVal`.
 
   ```yaml
-  apiVersion: tekton.dev/v1beta1
+  apiVersion: tekton.dev/v1
   kind: Task
   metadata:
     name: env-vars-list
@@ -65,7 +65,7 @@ title: "Sub-pipeline example: Pipeline with environment variables"
 * Create a file `pipeline.yaml`. Add a task in the `tasks` list: give it a name (it can be any name, unique within this sub-pipeline), in the property `taskRef` ("reference to a task") put the value from the property `metadata.name` of the task, created above:
 
 ```yaml
-apiVersion: tekton.dev/v1beta1
+apiVersion: tekton.dev/v1
 kind: Pipeline
 metadata:
   name: pipeline-example-with-env-vars

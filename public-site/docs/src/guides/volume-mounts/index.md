@@ -5,14 +5,21 @@ title: Mount volumes
 # Configuring and mount volumes
 
 The supported volume mount type is to mount CSI Azure Blob Container, using CSI Azure blob driver for Kubernetes. See [this](https://github.com/kubernetes-sigs/blob-csi-driver) for more information.
-
->Blobfuse FlexVolume is considered obsolete and recommended being replaced with CSI Azure blob driver.
+::: tip
+* BlobFuse FlexVolume is considered obsolete and recommended being replaced with CSI Azure blob driver.
+* BlobFuse v1 CSI Azure blob driver is considered obsolete and recommended being replaced with BlobFuse2.
+:::
 
 In order to make use of this functionality you have to:
 
-- Retrieve necessary values from Azure Blob Storage
+- Retrieve necessary values from [Azure Storage Account](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview) with [BlobFuse2 - a Microsoft supported Azure Storage FUSE driver](https://learn.microsoft.com/en-us/azure/storage/blobs/blobfuse2-what-is). 
 
-Account name and key
+### Supported features
+* [Hierarchical file system](https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-namespace) in the Storage Account, particularly [Azure Data Lake Storage Gen2](https://docs.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-introduction). In this case an option `useAdls` should be set to `true` in the [radixconfig](../../references/reference-radix-config/#volumemounts).
+ ![Azure Storage Account Hierarchical Namespaces](./azure-storage-account-hierarchical-namespaces.png)
+* File streaming, when there is no file caching on nodes. In this case an option `streaming.enabled` should be set to `true` in the [radixconfig](../../references/reference-radix-config/#volumemounts) (it is `true` by default). Streaming file operations are slower than with use of cache, but it is more reliable, and it is recommended to use it, particularly for large files. More details about streaming can be found [here](https://learn.microsoft.com/en-us/azure/storage/blobs/blobfuse2-what-is#streaming)
+
+## Account name and key
 ![SecretValues](./secret-values.png)
 
 Name of container
@@ -24,10 +31,11 @@ Name of container
 environmentConfig:
   - environment: dev
     volumeMounts:
-      - type: azure-blob
-        name: storage
-        storage: blobfusevolumetestdata
+      - name: storage
         path: /app/image-storage
+        blobfuse2:
+          protocol: fuse2
+          container: blobfusevolumetestdata
 ```
 
 - After environment has been built, set the generated secret to key found in step 1. This should ensure that key value is Consistent status. It is recommended to restart a component after a key has been set in the console
@@ -85,14 +93,18 @@ To add multiple volumes
   environmentConfig:
     - environment: dev
       volumeMounts:
-        - type: azure-blob
-          name: storage1
-          storage: blobfusevolumetestdata
+        - name: storage1
           path: /app/image-storage
-        - type: azure-blob
-          name: storage3
-          storage: blobfusevolumetestdata3
+          blobfuse2:
+            protocol: fuse2
+            container: blobfusevolumetestdata
+            uid: 1000
+        - name: storage3
           path: /app/image-storage3
+          blobfuse2:
+            protocol: fuse2
+            container: blobfusevolumetestdata3
+            uid: 1000
   ```
 
 - After environment has been built, set the generated secret to account name and key, found in step 1 - for each volume. This should ensure that key value is Consistent status. It is recommended to restart a component after a all secrets have been set in the console

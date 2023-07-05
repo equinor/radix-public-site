@@ -12,7 +12,7 @@ title: "Sub-pipeline example: Pipeline with multiple tasks"
   * Create a file `hello-task.yaml` for the task `hello`. This task runs in the container with Alpine Linux and execute one command `echo "Hello"`.
 
     ```yaml
-    apiVersion: tekton.dev/v1beta1
+    apiVersion: tekton.dev/v1
     kind: Task
     metadata:
       name: hello
@@ -29,7 +29,7 @@ title: "Sub-pipeline example: Pipeline with multiple tasks"
   * Create a file `say-letters-task.yaml` for the task `letters`. This task runs in the container with a Python, within Alpine Linux and execute a script, put directly in the task description. The script prints few letters with 1 second interval.
 
     ```yaml
-    apiVersion: tekton.dev/v1beta1
+    apiVersion: tekton.dev/v1
     kind: Task
     metadata:
       name: letters
@@ -49,7 +49,7 @@ title: "Sub-pipeline example: Pipeline with multiple tasks"
   * Create a file `say-numbers-task.yaml` for the task `numbers`. This task is similar to the task `letters`, but  its script prints few numbers with 2 second interval. This task runs longer then `letters` task to see running them in parallel.
 
     ```yaml
-    apiVersion: tekton.dev/v1beta1
+    apiVersion: tekton.dev/v1
     kind: Task
     metadata:
       name: numbers
@@ -69,7 +69,7 @@ title: "Sub-pipeline example: Pipeline with multiple tasks"
   * Create a file `goodbye-task.yaml` for the task `goodbye`. This task runs in the container with a Python on Alpine Linux. The task executes a inline Python command `print('Goodbye')`.
 
     ```yaml
-    apiVersion: tekton.dev/v1beta1
+    apiVersion: tekton.dev/v1
     kind: Task
     metadata:
       name: goodbye
@@ -87,7 +87,7 @@ title: "Sub-pipeline example: Pipeline with multiple tasks"
 * Create a file `pipeline.yaml`. Add tasks in the `tasks` list: give them names (it can be any name, unique within this sub-pipeline), in the property `taskRef` ("reference to a task") put the value from the property `metadata.name` of the tasks, created above:
 
 ```yaml
-apiVersion: tekton.dev/v1beta1
+apiVersion: tekton.dev/v1
 kind: Pipeline
 metadata:
   name: pipeline-with-multiple-steps

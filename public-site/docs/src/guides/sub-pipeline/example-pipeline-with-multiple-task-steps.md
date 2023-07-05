@@ -15,7 +15,7 @@ title: "Sub-pipeline example: Pipeline with multiple task steps"
   * By default, if any a task steps fail - the execution of a step is stopped. Behavior of the step and step flow can be altered with fields [onError](https://tekton.dev/docs/pipelines/tasks/#specifying-onerror-for-a-step), [timeout](https://tekton.dev/docs/pipelines/tasks/#specifying-a-timeout), [exitCode](https://tekton.dev/docs/pipelines/tasks/#accessing-steps-exitcode-in-subsequent-steps), [params](https://tekton.dev/docs/pipelines/tasks/#specifying-parameters), etc.
 
   ```yaml
-  apiVersion: tekton.dev/v1beta1
+  apiVersion: tekton.dev/v1
   kind: Task
   metadata:
     name: process
@@ -50,7 +50,7 @@ title: "Sub-pipeline example: Pipeline with multiple task steps"
 * Create a file `pipeline.yaml`. Add tasks in the `tasks` list: give them names (it can be any name, unique within this sub-pipeline), in the property `taskRef` ("reference to a task") put the value from the property `metadata.name` of the tasks, created above:
 
 ```yaml
-apiVersion: tekton.dev/v1beta1
+apiVersion: tekton.dev/v1
 kind: Pipeline
 metadata:
   name: pipeline-with-multiple-task-steps

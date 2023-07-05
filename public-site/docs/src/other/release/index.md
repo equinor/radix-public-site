@@ -7,6 +7,20 @@ sidebarDepth: 2
 
 ## 2023
 
+### 2023-07-05 - Change in Azure Blob volume-mounts option
+
+If your Radix application uses [Azure Blob volume mount](../../guides/volume-mounts/), [radixconfig.yaml](../../references/reference-radix-config/index.md) it is recommended to replace its configuration with BlobFuse2:  
+
+```yaml
+  volumeMounts:
+    - name: storage1
+      path: /app/image-storage
+      blobfuse2:
+        protocol: fuse2
+        container: blobfusevolume
+        uid: 1700
+```
+
 ### 2023-05-16 - Support for custom CPU scaling threshold and autoscaling on memory
 Autoscaling has only been supported on CPU, with a hardcoded threshold of 80% utilization. Now the CPU threshold is configurable, and you can also configure autoscaling on memory.
 This can be enabled in [radixconfig.yaml](../../references/reference-radix-config/#horizontalscaling).
