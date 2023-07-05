@@ -467,7 +467,7 @@ _Options for `blobfuse2`_
   - `useAdls` - (optional) enables blobfuse to access Azure DataLake storage account. When set to false, blobfuse will access Azure Block Blob storage account, hierarchical file system is not supported. Default `false`. This must be set `true` when [HNS enabled account](https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-namespace) is mounted.
   - `streaming` - (optional) defines a file streaming. When it is turned on (it is by default), files, opened by a container in its volume mount are not cached on a node, but read directly from a blob storage. It is recommended to use. When it is turned off, files are cached on a node, but it may cause a problem with a limited node disk available space.
 
-    _Options off `streaming`_
+    _Options for `streaming`_
     - `enabled` - (optional) turn on/off a file streaming. Default is `true`
 
 There are [optional settings](../../guides/volume-mounts/optional-settings/) to fine tune volumes.

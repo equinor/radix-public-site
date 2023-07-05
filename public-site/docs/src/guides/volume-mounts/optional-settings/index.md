@@ -22,7 +22,7 @@ _Applicable for: `blobfuse2`_
   - `Standard_RAGRS`
 - `requestsStorage` - [requested size](https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/#create-a-persistentvolumeclaim) of allocated mounted volume. Default value is set to `"1Mi"` (1 megabyte). Current version of the driver does not affect mounted volume size of type `azure-blob`
 
-  _Options off `streaming`_
+  _Options for `streaming`_
    - `blockSize` - size of each block to be cached in memory (in MB)
    - `maxBuffers` - total number of buffers to be cached in memory (in MB)
    - `bufferSize` - size of each buffer to be cached in memory (in MB)
