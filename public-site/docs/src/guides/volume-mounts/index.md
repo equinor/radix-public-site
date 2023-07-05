@@ -25,7 +25,7 @@ In order to make use of this functionality you have to:
 Name of container
 ![ContainerName](./container-name.png)
 
-- Define the volume mounts for the environment in the RadixConfig. The container should match the one found in step 1
+- Define the volume mounts for the environment in the [radixconfig.yaml](../../references/reference-radix-config). The container should match the one found in step 1
 
 ```yaml
 environmentConfig:
@@ -84,7 +84,7 @@ Multiple containers within one storage account
 
 To add multiple volumes
 
-- Define the volume mounts for the environment in the RadixConfig.
+- Define the volume mounts for the environment in the [radixconfig.yaml](../../references/reference-radix-config).
   - add more `volumeMounts`, with `name`-s, unique within `volumeMounts` of an environment (do not use storage account name as this `name` as it is not secure and can be not unique)
   - specify `container` names for each `volumeMount`. The `container` should match the one found in step 1
   - specify `path` for each `volumeMount`, unique within `volumeMounts` of an environment
