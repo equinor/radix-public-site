@@ -334,11 +334,11 @@ To achieve this the scan of the deployment was moved to the end of the workflow,
 
 ![steps](./steps.png)
 
-### 2022-02-07 - Job scheduler: Configure time limit for jobs
+### 2022-02-07 - Job manager: Configure time limit for jobs
 
 To control running jobs, it is now possible to configrue a maximum time limit a job should is allowed to run.  
-Specify "timeLimitSeconds" in [job payload](https://www.radix.equinor.com/guides/configure-jobs/#timelimitseconds) or in [radixconfig.yaml](https://www.radix.equinor.com/references/reference-radix-config/#timelimitseconds).  
-A job exceeding the specified limit will stopped automatically.
+Specify "timeLimitSeconds" in [job payload](https://www.radix.equinor.com/guides/jobs/configure-jobs/#timelimitseconds) or in [radixconfig.yaml](https://www.radix.equinor.com/references/reference-radix-config/#timelimitseconds).  
+A job exceeding the specified limit will be stopped automatically.
 
 ### 2022-02-01 - Support for Azure Key Vault
 
@@ -486,7 +486,7 @@ You define jobs in the radixconfig.yaml file in your repo, similar to how you de
 Jobs are started and monitored through a job-scheduler web API, created by Radix for each job defined in radixconfig.yaml
 The OpenAPI/Swagger definition for the job-scheduler can be downloaded here, and you can use <https://github.com/OpenAPITools/openapi-generator> to generate clients for your preferred language.  
 
-Read more about jobs here: [Configure Jobs](../../guides/configure-jobs)
+Read more about jobs here: [Configure Jobs](../../guides/jobs)
 
 ### 2021-03-22 - Regenerate webhook secret and deploy key
 
