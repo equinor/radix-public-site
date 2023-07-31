@@ -125,7 +125,8 @@ The job-scheduler exposes the following methods for managing jobs
     "requests": {
       "memory": "16Mi",
       "cpu": "150m"
-    }
+    },
+    "imageTagName": "1.0.0"
   },
   "node": {
     "gpu": "gpu1, gpu2, gpu3",
@@ -134,12 +135,18 @@ The job-scheduler exposes the following methods for managing jobs
 }
 ```
 
-> `payload`, `timeLimitSeconds`, `backoffLimit`, `resources` and `node` are all optional fields and any of them can be omitted in the request.
+::: tip
+ `payload`, `timeLimitSeconds`, `backoffLimit`, `resources`, `node` and `imageTagName` are all optional fields and any of them can be omitted in the request.
+:::
 
 - `GET /api/v1/jobs` Get states (with names and statuses) for all jobs
 - `GET /api/v1/jobs/{jobName}` Get state for a named job
 - `DELETE /api/v1/jobs/{jobName}` Delete a named job
 - `POST /api/v1/jobs/{jobName}/stop` Stop a named job
+
+::: tip
+`imageTagName` field allows to alter specific job image tag. In order to use it, the `{imageTagName}` need to be set as described in the [`radixconfig.yaml`](../../references/reference-radix-config/#imagetagname-2)
+:::
 
 ### Batch of jobs
 
@@ -312,7 +319,8 @@ Default parameters for jobs can be defined within `DefaultRadixJobComponentConfi
         "memory": "100Mi",
         "cpu": "100m"
       }
-    }
+    },
+    "imageTagName": "1.0.0"
   },
   "jobScheduleDescriptions": [
     {
@@ -335,7 +343,8 @@ Default parameters for jobs can be defined within `DefaultRadixJobComponentConfi
       }
     },
     {
-      "payload": "{'data':'value2'}"
+      "payload": "{'data':'value2'}",
+      "imageTagName": "2.0.0"
     },
     {
       "payload": "{'data':'value3'}",
