@@ -191,17 +191,17 @@ Number of replicas can be used to horizontally scale.
 
 [Radix config](../references/reference-radix-config/#horizontalscaling)
 
-## Job scheduler
+## Job manager
 
-[Guide](../guides/configure-jobs/#job-scheduler) - [Radix config reference](../references/reference-radix-config/#jobs)
+[Guide](../guides/jobs/configure-jobs/#job-scheduler) - [Radix config reference](../references/reference-radix-config/#jobs)
 
 ## Job batches
 
-[Guide](../guides/configure-jobs/#batch-of-jobs)
+[Guide](../guides/jobs/configure-jobs/#batch-of-jobs)
 
 ## Jobs
 
-[Guide](../guides/configure-jobs)
+[Guide](../guides/jobs)
 
 ## Kubernetes Cluster node autoscaling
 

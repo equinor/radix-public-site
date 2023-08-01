@@ -75,7 +75,7 @@ module.exports = {
             'enable-and-disable-components/',
             'external-alias/',
             'component-start-stop-restart/',
-            'configure-jobs/',
+            'jobs/',
             'deploy-only/',
             'build-and-deploy/',
             'deployment-promotion/',

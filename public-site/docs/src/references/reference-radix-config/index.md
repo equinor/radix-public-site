@@ -638,7 +638,7 @@ See [guide](../../guides/workload-identity) for more information.
 
 ## `jobs`
 
-This is where you specify the various [jobs](../../guides/configure-jobs) for your application.
+This is where you specify the various [jobs](../../guides/jobs) for your application.
 
 ### `src`
 
@@ -688,7 +688,7 @@ spec:
       schedulerPort: 8000
 ```
 
-The port number that the [job-scheduler](../../guides/configure-jobs/#job-scheduler) will listen to for HTTP requests to manage jobs. schedulerPort is a **required** field.
+The port number that the [job-scheduler](../../guides/jobs/#job-scheduler) will listen to for HTTP requests to manage jobs. schedulerPort is a **required** field.
 
 ### `notifications`
 
@@ -700,7 +700,7 @@ spec:
         webhook: http://api:8080/monitor-batch-status
 ```
 
-`webhook` is an optional URL to the Radix application component or job component, which will be called when any of this job-component running job or batch states are changed. Only changes are sent by POST method with a `application/json` `ContentType` in a [state of a batch format](../../guides/configure-jobs/#get-a-state-of-a-batch).
+`webhook` is an optional URL to the Radix application component or job component, which will be called when any of this job-component running job or batch states are changed. Only changes are sent by POST method with a `application/json` `ContentType` in a [state of a batch format](../../guides/jobs/#get-a-state-of-a-batch).
 
 `notifications` and `webhook` can be specified on a job component configuration level and/or on `environmentConfig` level. Property in the `environmentConfig` will override those on the component level, if present.
 
@@ -734,7 +734,7 @@ spec:
         path: /compute/args
 ```
 
-Job specific arguments must be sent in the request body to the [job-scheduler](../../guides/configure-jobs/#job-scheduler) as a JSON document with an element named `payload` and a value of type string.
+Job specific arguments must be sent in the request body to the [job-scheduler](../../guides/jobs/#job-scheduler) as a JSON document with an element named `payload` and a value of type string.
 The content of the payload is then mounted into the job container as a file named `payload` in the directory specified in the `payload.path`.
 In the example above, a payload sent to the job-scheduler will be mounted as file `/compute/args/payload`
 
@@ -1050,7 +1050,7 @@ spec:
         gpuCount: 2
 ```
 
-When a component should run on a Kubernetes node with a GPU card on it, this can be specified in the `gpu` key of the `node` section.
+When a component should run on a Kubernetes node with a GPU card on it, this need to be specified in the `gpu` key of the `node` section.
 
 ```yaml
   node:
@@ -1060,7 +1060,7 @@ When a component should run on a Kubernetes node with a GPU card on it, this can
 Put one or multiple (comma separated) GPU types, which is currently supported by Radix Kubernetes cluster and which fits to component logic, which requires GPU.
 Currently available nodes with GPUs:
 
-- `nvidia-v100`, 1 GPU
+- `nvidia-v100` with 1, 2 or 4 GPU-s per node
 
 ```yaml
   node:
