@@ -17,11 +17,11 @@ A job can be run as a single job or as a batch of jobs.
 
 A max of 10 single completed jobs remains in the history of a job component. When a single job started - the oldest of 10 existing single jobs is deleted. The same applies for batched jobs - its history is independent of single jobs history. A max of 10 completed batched jobs remain in the batch history, with all their jobs.
 
-* [Configure jobs](./configure-jobs)
-* [Job manager and job API](./job-manager-and-job-api)
-* [Environment variables](./environment-variables)
-* [Manage jobs in Radix web-console](./jobs-in-web-console)
-* [OpenAPI/Swagger](./openapi-swagger)
+* [Configure jobs](./configure-jobs.md)
+* [Job manager and job API](./job-manager-and-job-api.md)
+* [Environment variables](./environment-variables.md)
+* [Manage jobs in Radix web-console](./jobs-in-web-console.md)
+* [OpenAPI/Swagger](./openapi-swagger.md)
 
  
 ### Component diagram example
