@@ -125,9 +125,9 @@ The job-scheduler exposes the following methods for managing jobs
     "requests": {
       "memory": "16Mi",
       "cpu": "150m"
-    },
-    "imageTagName": "1.0.0"
+    }
   },
+  "imageTagName": "1.0.0",
   "node": {
     "gpu": "gpu1, gpu2, gpu3",
     "gpuCount": "6"
