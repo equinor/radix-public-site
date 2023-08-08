@@ -73,7 +73,7 @@ When OAuth2 is enabled for a component in [`radixconfig.yaml`](../../references/
       ![Redis Password](./redis-password.png "Redis Password")
   - Open the `web` component configure secrets required by the OAuth service.  
       ![OAuth2 Secrets](./oauth2-secrets.png "OAuth2 Secrets")  
-      `Client Secret` - A secret registered for the application registration in Azure AD (it is a "Value" of the secret, not a "Secret ID").
+      `Client Secret` - A secret registered for the application registration in Azure AD (it is the "Value" of the secret, not the "Secret ID").
        ![Secret value](./azure-ad-app-registration-secret.png)
       `Redis Password` - The password for connecting to the Redis server used for storage of session data.  
   
