@@ -32,7 +32,6 @@
 
 <style>
   .employee-card {
-    width: calc(25% - 1em);
     margin-bottom: 16px;
     margin-top: 16px;
     padding: 0 8px;
