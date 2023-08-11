@@ -17,6 +17,7 @@ export default defineUserConfig({
   ],
   theme: defaultTheme({
     logo: '/images/logo.svg',
+    contributors: false,
     repo: '',
     editLink: false,
     docsDir: '',
