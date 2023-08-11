@@ -1,5 +1,5 @@
 
-name: radix-log-api-pr
+name: radix-public-site-pr
 on:
   pull_request:
     branches:
