@@ -1,6 +1,21 @@
 <template>
   <div class="employee-card">
-    <div class="employee-card-content" v-html="content" />
+    <div class="employee-card-content">
+      <div class="employee-card-image">
+        <slot>
+          <img
+            id=image-placeholder
+            src="/images/banner-logo.svg"
+            alt="{{ name }}"
+          />
+        </slot>
+      </div>
+      <div class="employee-card-container">
+        <h3>{{ name }}</h3>
+        <p class="employee-card-title">{{ title || 'untitled'}}</p>
+        <p>{{ description }}</p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -12,49 +27,33 @@
       image: String,
       description: String,
     },
-    data() {
-      return {
-        content: `
-          ${this.$props.image ? (`
-            <img
-              class="employee-card-image"
-              src="${this.$props.image}"
-              alt="${this.$props.name}"
-            />
-          `) : (`
-            <img
-              class="employee-card-image-placeholder"
-              src="/images/banner-logo.svg"
-              alt="${this.$props.name}"
-            />
-          `)}
-          <div class="employee-card-container">
-            <h3>${this.$props.name}</h3>
-            <p class="employee-card-title">${this.$props.title || 'untitled'}</p>
-            <p>${this.$props.description || ''}</p>
-          </div>
-        `,
-      };
-    }
   }
 </script>
 
 <style>
   .employee-card {
-    width: calc(33.3% - 1em);
+    width: calc(25% - 1em);
     margin-bottom: 16px;
+    margin-top: 16px;
     padding: 0 8px;
-    min-width: 175px;
   }
 
-  .employee-card-image {
+  .employee-card-image > img {
     border-radius: 50%;
     display: block;
     margin-left: auto;
     margin-right: auto;
   }
 
+  .employee-card-image > #image-placeholder {
+    border-radius: 0;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1em;
+  }
   .employee-card-image-placeholder {
+    border-radius: 0;
     display: block;
     margin-left: auto;
     margin-right: auto;

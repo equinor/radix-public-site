@@ -1,19 +1,19 @@
 # Radix Public Site
 
 This is the public site for promoting, documenting & showcasing the Radix
-platform. It is a static site built with [Vuepress](https://vuepress.vuejs.org/).
+platform. It is a static site built with [VuePress 2](https://v2.vuepress.vuejs.org/).
 
 ## Running, building
 
 ### The easy way
 
-    docker-compose up
+    docker compose up --build
 
 This builds a Docker image `radix-public-site`, runs it in the container
 `radix-public-site_container`, mounts the local directory into `/site` in the
 container.
 
-You can see the site on <http://localhost:4000>
+You can see the site on <http://localhost:8081>
 
 Stop the server with Ctrl+C, but also run `docker-compose down` to clean up the
 Docker state.

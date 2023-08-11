@@ -1,0 +1,10 @@
+// VuePress styling variables, ref https://v2.vuepress.vuejs.org/reference/default-theme/styles.html#palette-file
+:root {
+    --font-family: Equinor, Arial, sans-serif;
+    --font-family-code: EquinorMono, Menlo, Consolas, Monaco, monospace;;
+    --c-brand: var(--eds_interactive_primary__resting);
+    --c-warning-title: var(--eds_interactive_warning__text);
+    --c-warning: var(--eds_interactive_warning__text);
+    --c-tip-title: var(--eds_interactive_success__text);
+    --c-tip: var(--eds_interactive_success__text);
+}
