@@ -7,6 +7,11 @@ sidebarDepth: 2
 
 ## 2023
 
+### 2023-08-15 - Radix application reader role
+A `Radix application reader` role has been added to Radix. This role is a read-only role intended for users who need to view information about a Radix application, but should not be allowed to perform any actions such as starting or stopping components, or deleting the application.
+Readers have the privilege to view logs associated with their replicas and jobs.
+The role is an Azure AD group that can be assigned under `Access control` in the Configuration page of the application. 
+
 ### 2023-05-16 - Support for custom CPU scaling threshold and autoscaling on memory
 Autoscaling has only been supported on CPU, with a hardcoded threshold of 80% utilization. Now the CPU threshold is configurable, and you can also configure autoscaling on memory.
 This can be enabled in [radixconfig.yaml](../../references/reference-radix-config/#horizontalscaling).
