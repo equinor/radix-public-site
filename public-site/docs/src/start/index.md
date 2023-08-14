@@ -8,7 +8,7 @@ Omnia Radix is a Platform-as-a-Service ("PaaS", if you like buzzwords). It build
 
 You can use Radix just to run code, but the main functionality is to integrate with a code repository so that it can continuously build, test, and deploy applications. For instance, Radix can react to a `git push` event, automatically start a new build, and push it to the `test` environment, ready to be tested by users.
 
-> To help improve Radix poke around in our **open sourced** repositories. We track **issues and feature requests** in the [radix-platform](https://github.com/equinor/radix-platform/issues) repo. Please log those! 🙂
+> To help improve Radix poke around in our **open sourced** repositories. We track **issues and feature requests** in the [radix](https://github.com/equinor/radix/issues) repo. Please log those! 🙂
 
 ## Hosting/Infrastructure
 

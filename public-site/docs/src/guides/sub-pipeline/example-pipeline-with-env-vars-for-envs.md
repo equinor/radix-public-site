@@ -36,7 +36,7 @@ title: "Sub-pipeline example: Pipeline with environment variables"
   * Task file `env-vars-list-task.yaml`
 
   ```yaml
-  apiVersion: tekton.dev/v1beta1
+  apiVersion: tekton.dev/v1
   kind: Task
   metadata:
     name: env-vars-list
@@ -120,7 +120,7 @@ title: "Sub-pipeline example: Pipeline with environment variables"
   * Sub-pipeline file `pipeline.yaml`
 
 ```yaml
-apiVersion: tekton.dev/v1beta1
+apiVersion: tekton.dev/v1
 kind: Pipeline
 metadata:
   name: pipeline-example-with-env-vars

@@ -5,7 +5,7 @@ sidebarDepth: 3
 
 # Overview
 
-In order for Radix to configure your application it needs a configuration file. By default, it is expected to be located in the root of the application repository, has a name `radixconfig.yaml` and be in YAML or JSON format (in either case, it must have the `.yaml` or `.yml` extension). The name of the file and its location in the repository can be different. It can also be changed later on the Radix web-console configuration page for the application. Read more in the [monorepo](../../guides/monorepo) guide.
+In order for Radix to configure your application it needs a configuration file. By default, it is expected to be located in the root of the application repository, has a name `radixconfig.yaml` and be in YAML or JSON format - in either case, it must have the `.yaml` or `.yml` extension (the name and extension should be exactly same as for the file in the GitHub repository). The name of the file and its location in the repository can be different. It can also be changed later on the Radix web-console configuration page for the application. Read more in the [monorepo](../../guides/monorepo) guide.
 
 > Radix only reads `radixconfig.yaml` from the branch, set as the `Config Branch` in the application registration form. If the file is changed in other branches, those changes will be ignored. The `Config Branch` must be mapped to an environment in the configuration file.
 
@@ -444,10 +444,12 @@ spec:
       environmentConfig:
         - environment: prod
           volumeMounts:
-            - type: azure-blob
-              name: volume-name
-              storage: container-name
+            - name: volume-name
               path: /path/in/container/to/mount/to
+              blobfuse2:
+                protocol: fuse2
+                container: container-name
+                uid: 1000
 ```
 
 The `volumeMounts` field configures volume mounts within the running component.
@@ -455,14 +457,18 @@ The `volumeMounts` field configures volume mounts within the running component.
 #### `volumeMounts` settings
 
 - `name` - the name of the volume. Unique within `volumeMounts` list of a component
-- `type` - type of storage. Supported types:
-  - `azure-blob` - mount a container from blob in [Azure storage account](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview). Uses [CSI Azure blob storage driver](https://github.com/kubernetes-sigs/blob-csi-driver). Replaces obsolete type `blob` for Flex Volume obsolete driver.
-
-_Applicable for type: `azure-blob`_
-
-- `storage` - name of the blob container.
 - `path` - the folder inside the running container, where the external storage is mounted.
-- `gid` - Group ID (number) of a [mounted volume owner](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.21/#podsecuritycontext-v1-core). It is a Group ID of a user in the running container within component replicas. Usually a user, which is a member of one or multiple [groups](https://en.wikipedia.org/wiki/Group_identifier), is specified in the `Dockerfile` for the component with command `USER`. Read [more details](https://www.radix.equinor.com/docs/topic-docker/#running-as-non-root) about specifying user within `Dockerfile`. It is recommended to use because Blobfuse driver do [not honor fsGroup securityContext settings](https://github.com/kubernetes-sigs/blob-csi-driver/blob/master/docs/driver-parameters.md).  
+- `blobfuse2` - mount a container from blob in [Azure storage account](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview). Uses [CSI Azure blob storage driver](https://github.com/kubernetes-sigs/blob-csi-driver). Replaces types `blob` and `azure-blob` for obsolete drivers.
+
+_Options for `blobfuse2`_
+  - `protocol` - a protocol, supported by the BlobFuse2. Currently, supports `fuse2`.
+  - `container` - name of the blob container.
+  - `uid` and/or `gid` - User ID and/or group ID (numbers) of a [mounted volume owner](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.21/#podsecuritycontext-v1-core). It is a User ID and Group ID of a user in the running container within component replicas. Usually a user, which is a member of one or multiple [groups](https://en.wikipedia.org/wiki/Group_identifier), is specified in the `Dockerfile` for the component with command `USER`. Read [more details](https://www.radix.equinor.com/docs/topic-docker/#running-as-non-root) about specifying user within `Dockerfile`. It is recommended to use because Blobfuse driver do [not honor fsGroup securityContext settings](https://github.com/kubernetes-sigs/blob-csi-driver/blob/master/docs/driver-parameters.md).
+  - `useAdls` - (optional) enables blobfuse to access Azure DataLake storage account. When set to false, blobfuse will access Azure Block Blob storage account, hierarchical file system is not supported. Default `false`. This must be set `true` when [HNS enabled account](https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-namespace) is mounted.
+  - `streaming` - (optional) defines a file streaming. When it is turned on (it is by default), files, opened by a container in its volume mount are not cached on a node, but read directly from a blob storage. It is recommended to use. When it is turned off, files are cached on a node, but it may cause a problem with a limited node disk available space.
+
+    _Options for `streaming`_
+    - `enabled` - (optional) turn on/off a file streaming. Default is `true`
 
 There are [optional settings](../../guides/volume-mounts/optional-settings/) to fine tune volumes.
 
@@ -632,7 +638,7 @@ See [guide](../../guides/workload-identity) for more information.
 
 ## `jobs`
 
-This is where you specify the various [jobs](../../guides/configure-jobs) for your application.
+This is where you specify the various [jobs](../../guides/jobs) for your application.
 
 ### `src`
 
@@ -682,7 +688,7 @@ spec:
       schedulerPort: 8000
 ```
 
-The port number that the [job-scheduler](../../guides/configure-jobs/#job-scheduler) will listen to for HTTP requests to manage jobs. schedulerPort is a **required** field.
+The port number that the [job-scheduler](../../guides/jobs/#job-scheduler) will listen to for HTTP requests to manage jobs. schedulerPort is a **required** field.
 
 ### `notifications`
 
@@ -694,7 +700,7 @@ spec:
         webhook: http://api:8080/monitor-batch-status
 ```
 
-`webhook` is an optional URL to the Radix application component or job component, which will be called when any of this job-component running job or batch states are changed. Only changes are sent by POST method with a `application/json` `ContentType` in a [state of a batch format](../../guides/configure-jobs/#get-a-state-of-a-batch).
+`webhook` is an optional URL to the Radix application component or job component, which will be called when any of this job-component running job or batch states are changed. Only changes are sent by POST method with a `application/json` `ContentType` in a [state of a batch format](../../guides/jobs/#get-a-state-of-a-batch).
 
 `notifications` and `webhook` can be specified on a job component configuration level and/or on `environmentConfig` level. Property in the `environmentConfig` will override those on the component level, if present.
 
@@ -728,7 +734,7 @@ spec:
         path: /compute/args
 ```
 
-Job specific arguments must be sent in the request body to the [job-scheduler](../../guides/configure-jobs/#job-scheduler) as a JSON document with an element named `payload` and a value of type string.
+Job specific arguments must be sent in the request body to the [job-scheduler](../../guides/jobs/#job-scheduler) as a JSON document with an element named `payload` and a value of type string.
 The content of the payload is then mounted into the job container as a file named `payload` in the directory specified in the `payload.path`.
 In the example above, a payload sent to the job-scheduler will be mounted as file `/compute/args/payload`
 
@@ -911,10 +917,12 @@ spec:
       environmentConfig:
         - environment: prod
           volumeMounts:
-            - type: azure-blob
-              name: volume-name
-              container: container-name
+            - name: volume-name
               path: /path/in/container/to/mount/to
+              blobfuse2:
+                protocol: fuse2
+                container: container-name
+                uid: 1000
 ```
 
 See [volumeMounts](#volumemounts) for a component for more information.
@@ -1042,7 +1050,7 @@ spec:
         gpuCount: 2
 ```
 
-When a component should run on a Kubernetes node with a GPU card on it, this can be specified in the `gpu` key of the `node` section.
+When a component should run on a Kubernetes node with a GPU card on it, this need to be specified in the `gpu` key of the `node` section.
 
 ```yaml
   node:
@@ -1052,7 +1060,7 @@ When a component should run on a Kubernetes node with a GPU card on it, this can
 Put one or multiple (comma separated) GPU types, which is currently supported by Radix Kubernetes cluster and which fits to component logic, which requires GPU.
 Currently available nodes with GPUs:
 
-- `nvidia-v100`, 1 GPU
+- `nvidia-v100` with 1, 2 or 4 GPU-s per node
 
 ```yaml
   node:
@@ -1166,10 +1174,12 @@ spec:
         gpuCount: 4
       enabled: true
       volumeMounts:
-        - type: azure-blob
-          name: volume-name
-          container: container-name
+        - name: volume-name
           path: /path/in/container/to/mount/to
+          blobfuse2:
+            protocol: fuse2
+            container: container-name
+            uid: 1000
       secretRefs:
         azureKeyVaults:
           - name: radix-app-secrets

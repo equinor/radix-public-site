@@ -16,7 +16,7 @@ Let us together build the Radix community!..
 
 ## On GitHub
 
-If you think you found a bug, or you have a concrete proposal, [log an issue](https://github.com/equinor/radix-platform/issues) on GitHub. We have multiple repositories, but all issues are tracked in **radix-platform**.
+If you think you found a bug, or you have a concrete proposal, [log an issue](https://github.com/equinor/radix/issues) on GitHub. We have multiple repositories, but all issues are tracked in **radix repo** 
 
 ## Release register
 

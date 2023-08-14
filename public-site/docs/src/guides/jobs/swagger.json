@@ -527,6 +527,12 @@
           "x-go-name": "BatchName",
           "example": "'batch1'"
         },
+        "batchType": {
+          "description": "BatchType Single job or multiple jobs batch",
+          "type": "string",
+          "x-go-name": "BatchType",
+          "example": "\"job\""
+        },
         "created": {
           "description": "Created timestamp",
           "type": "string",
@@ -598,6 +604,11 @@
           "type": "integer",
           "format": "int32",
           "x-go-name": "BackoffLimit"
+        },
+        "imageTagName": {
+          "description": "ImageTagName defines the image tag name to use for the job image",
+          "type": "string",
+          "x-go-name": "ImageTagName"
         },
         "jobId": {
           "description": "JobId Optional ID of a job",
@@ -704,6 +715,11 @@
           "format": "int32",
           "x-go-name": "BackoffLimit"
         },
+        "imageTagName": {
+          "description": "ImageTagName defines the image tag name to use for the job image",
+          "type": "string",
+          "x-go-name": "ImageTagName"
+        },
         "node": {
           "$ref": "#/definitions/RadixNode"
         },
@@ -724,12 +740,12 @@
       "type": "object",
       "properties": {
         "gpu": {
-          "description": "Gpu Optional. Holds lists of node GPU types, with dashed types to exclude",
+          "description": "Defines rules for allowed GPU types.\nMore info: https://www.radix.equinor.com/references/reference-radix-config/#gpu\n+optional",
           "type": "string",
           "x-go-name": "Gpu"
         },
         "gpuCount": {
-          "description": "GpuCount Optional. Holds minimum count of GPU on node",
+          "description": "Defines minimum number of required GPUs.\n+optional",
           "type": "string",
           "x-go-name": "GpuCount"
         }
@@ -737,14 +753,15 @@
       "x-go-package": "github.com/equinor/radix-operator/pkg/apis/radix/v1"
     },
     "ResourceList": {
-      "description": "ResourceList Placeholder for resouce specifications in the config",
       "type": "object",
+      "title": "ResourceList defines a resource and a value.",
       "additionalProperties": {
         "type": "string"
       },
       "x-go-package": "github.com/equinor/radix-operator/pkg/apis/radix/v1"
     },
     "ResourceRequirements": {
+      "description": "More info: https://www.radix.equinor.com/references/reference-radix-config/#resources-common",
       "type": "object",
       "title": "ResourceRequirements describes the compute resource requirements.",
       "properties": {
