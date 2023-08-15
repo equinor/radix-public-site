@@ -3,9 +3,13 @@ home: true
 heroText: Welcome to Radix
 tagline: null
 metaTitle: Radix, the Equinor software platform
+footer: " "
+
 ---
 
 # Radix makes your app develop
+
+<div id=main-features>
 
 ![build_step](./assets/images/icons/fig_tools_icon.svg)
 
@@ -24,11 +28,15 @@ Place your app in the cloud ☁️ in multiple environments 🌏 and let it grow
 ## Monitor
 
 Track usage to find problems 💣 and get insight💡
+</div>
 
 ---
 
 You provide your code and a Dockerfile to build it, and Radix will take it from there.
 
+<div id=actions-buttons>
+
 [Get started](/start/)
 [Read the docs](/docs/)
 [Our community](/other/community/)
+</div>

@@ -26,59 +26,40 @@ Check out the [Release register](../release/)
 
 ## The Radix team
 
+
 #### Product Owner
 
 <employee-list>
-  <employee-card
-    name="Øyvind Rønne"
-    title="Product Owner"
-    :image="require('../../assets/images/oyvindronne.jpg')"
-  />
+  <employee-card name="Øyvind Rønne" title="Product Owner" description="Based in Trondheim">
+    <img src="@source/assets/images/oyvindronne.jpg" />
+  </employee-card>
 </employee-list>
 
-We are based in Vassbotnen - N4 in Stavanger. If you see us on the corridor, say hello!
+We are based in Vassbotnen - S4 in Stavanger. If you see us on the corridor, say hello!
 
 <employee-list>
-  <employee-card
-    name="Magnus Longva"
-    title="Infrastructure"
-    description="Based in Trondheim"
-    :image="require('../../assets/images/radix-magnus.jpg')"
-  />
-  <employee-card
-    name="Svein-Petter Johnsen"
-    title="Infrastructure"
-    :image="require('../../assets/images/radix-svein.jpg')"
-  />
-  <employee-card
-    name="Sondre Sjølyst"
-    title="Infrastructure / Developer"
-    :image="require('../../assets/images/radix-sondre.jpg')"
-  />
-  <employee-card
-    name="Sergey Smolnikov"
-    title="Developer"
-    :image="require('../../assets/images/radix-sergey.jpg')"
-  />
-  <employee-card
-    name="Nils Gustav Stråbø"
-    title="Developer"
-    :image="require('../../assets/images/radix-nils.jpg')"
-  />
-  <employee-card
-    name="Fredrik Hatletvedt"
-    title="Developer"
-    :image="require('../../assets/images/radix-fredrik.jpg')"
-  />
-  <employee-card
-    name="Anneli Walla Aune"
-    title="Infrastructure / Developer"
-    description="Based in Trondheim"
-    :image="require('../../assets/images/radix-anneli.jpg')"
-  />
-  <employee-card
-    name="Elsa Mäyrä Irgens"
-    title="Team Leader"
-    :image="require('../../assets/images/radix-elsa.jpg')"
-  />
+  <employee-card name="Magnus Longva" title="Infrastructure"  description="Based in Trondheim">
+    <img src="@source/assets/images/radix-magnus.jpg" />
+  </employee-card>
+  <employee-card name="Svein-Petter Johnsen" title="Infrastructure">
+    <img src="@source/assets/images/radix-svein.jpg" />
+  </employee-card>
+  <employee-card name="Sondre Sjølyst" title="Infrastructure / Developer">
+    <img src="@source/assets/images/radix-sondre.jpg" />
+  </employee-card>
+  <employee-card name="Sergey Smolnikov" title="Developer">
+    <img src="@source/assets/images/radix-sergey.jpg" />
+  </employee-card>
+  <employee-card name="Nils Gustav Stråbø" title="Developer">
+    <img src="@source/assets/images/radix-nils.jpg" />
+  </employee-card>
+  <employee-card name="Fredrik Hatletvedt" title="Developer">
+    <img src="@source/assets/images/radix-fredrik.jpg" />
+  </employee-card>
+  <employee-card name="Anneli Walla Aune" title="Infrastructure / Developer" description="Based in Trondheim">
+    <img src="@source/assets/images/radix-anneli.jpg" />
+  </employee-card>
+  <employee-card name="Elsa Mäyrä Irgens" title="Team Leader">
+    <img src="@source/assets/images/radix-elsa.jpg" />
+  </employee-card>
 </employee-list>
