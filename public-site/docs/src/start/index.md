@@ -16,7 +16,7 @@ In Radix we advocate [Infrastructure as code](https://en.wikipedia.org/wiki/Infr
 
 Radix is built on top of Kubernetes ☸️ hosted on Azure as a service (AKS). Knowledge around Kubernetes is NOT required for using Radix. However thoughts from Kubernetes has influenced Radix, so it can be a good with some basic understanding of what it is. VMware has a 5min video on [youtube](https://www.youtube.com/watch?v=PH-2FfFD2PU), or for those more interested we can recommend [Introduction to Kubernetes](https://training.linuxfoundation.org/resources/free-courses/introduction-to-kubernetes/) course by linuxfoundation.
 
-::: warning Fun fact ☝️
+::: tip Fun fact ☝️
 Kubernetes originates from the Greek language, meaning helmsman or pilot. You'll sometimes see Kubernetes referred to as K8s, 8 for the number of letters between the K and S.
 :::
 
