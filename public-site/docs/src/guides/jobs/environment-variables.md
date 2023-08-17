@@ -1,5 +1,7 @@
 ---
 title: Environment variables
+prev: job-manager-and-job-api
+next: jobs-in-web-console
 ---
 
 # Environment variables in jobs

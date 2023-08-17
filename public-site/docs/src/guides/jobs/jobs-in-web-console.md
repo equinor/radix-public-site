@@ -1,5 +1,7 @@
 ---
 title: Managing Jobs in Web Console
+prev: environment-variables
+next: openapi-swagger
 ---
 
 ## Managing Jobs in Web Console

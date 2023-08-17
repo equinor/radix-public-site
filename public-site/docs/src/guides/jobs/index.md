@@ -1,5 +1,6 @@
 ---
 title: Jobs
+next: 'configure-jobs'
 ---
 
 # Jobs
