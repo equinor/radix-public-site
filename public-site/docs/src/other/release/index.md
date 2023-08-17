@@ -7,6 +7,23 @@ sidebarDepth: 2
 
 ## 2023
 
+### 2023-08-01 - Restart batches and *jobs with recent active deployment*
+
+In addition to restart job with original deployment, Radix now allows to restart scheduled single jobs, entire batch or individual jobs within the batch with latest active deployment (if it is different than for the restarting job). [Read more](../guides/jobs/jobs-in-web-console.md)
+Scheduled jobs now can be run with `imageTagName` , specified in [radixconfig](../../references/reference-radix-config/index.md) and altered in [JobDescription](../guides/jobs/configure-jobs.md#single-job)  
+````
+{
+  "payload": "abc",
+  "imageTagName": "1.0.0"
+} 
+````
+
+### 2023-07-13 - Restart scheduled batches and jobs
+
+Radix now allows to restart scheduled single jobs, entire batch or individual jobs within the batch - completed, failed, stopped or running.
+Technically it deletes the corresponding Kubernetes job and starts new instead, with the same deployment, job-description and payload.
+Use-case - restart jobs, failed due to temporary issues, lack of memory, unavailable external data or api.
+
 ### 2023-07-05 - Change in Azure Blob volume-mounts option
 
 If your Radix application uses [Azure Blob volume mount](../../guides/volume-mounts/), [radixconfig.yaml](../../references/reference-radix-config/index.md) it is recommended to replace its configuration with BlobFuse2:  
