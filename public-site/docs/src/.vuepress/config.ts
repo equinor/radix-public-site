@@ -71,7 +71,18 @@ export default defineUserConfig({
             '/guides/enable-and-disable-components/',
             '/guides/external-alias/',
             '/guides/component-start-stop-restart/',
-            '/guides/jobs/',
+            {
+              link: '/guides/jobs/', 
+              text: "Jobs",
+              collapsible: true,
+              children: [
+                '/guides/jobs/configure-jobs',
+                '/guides/jobs/job-manager-and-job-api',
+                '/guides/jobs/environment-variables',
+                '/guides/jobs/jobs-in-web-console',
+                '/guides/jobs/openapi-swagger'
+              ]
+            },
             '/guides/deploy-only/',
             '/guides/build-and-deploy/',
             '/guides/deployment-promotion/',

@@ -1,5 +1,7 @@
 ---
 title: Job Manager and job API
+prev: configure-jobs
+next: environment-variables
 ---
 
 ## Job Manager and job API
@@ -7,7 +9,19 @@ title: Job Manager and job API
 The Job Manager, aka "job-scheduler", is a web API service, that you use to create, delete and monitor the state of jobs.
 Radix creates one job-scheduler per job defined in [`radixconfig.yaml`](../../references/reference-radix-config/#jobs). A job-scheduler will listen to the port defined by `schedulerPort` and host name equal to the `name` of the job. The job-scheduler API can only be accessed by components running in the same environment, and it is not exposed to the Internet. No authentication is required.
 
-The job-scheduler exposes the following methods for managing jobs
+The Job Manager exposes the following methods for managing jobs:
+- `GET /api/v1/jobs` Get states (with names and statuses) for all jobs
+- `GET /api/v1/jobs/{jobName}` Get state for a named job
+- `DELETE /api/v1/jobs/{jobName}` Delete a named job
+- `POST /api/v1/jobs/{jobName}/stop` Stop a named job
+
+
+... and the following methods for managing batches:
+- `GET /api/v1/batches` Get states (with names and statuses) for all batches
+- `GET /api/v1/batches/{batchName}` Get state for a named batch and statuses of its jobs
+- `DELETE /api/v1/batches/{batchName}` Delete a named batch
+- `POST /api/v1/batches/{batchName}/stop` Stop a named batch
+- `POST /api/v1/batches/{batchName}/jobs/{jobName}/stop` Stop a named job of a batch
 
 ### Create a single job
 
@@ -16,6 +30,7 @@ The job-scheduler exposes the following methods for managing jobs
 ```json
 {
   "payload": "Sk9CX1BBUkFNMTogeHl6Cg==",
+  "imageTagName": "1.0.0",
   "timeLimitSeconds": 120,
   "backoffLimit": 10,
   "resources": {
@@ -35,40 +50,67 @@ The job-scheduler exposes the following methods for managing jobs
 }
 ```
 
-> `payload`, `timeLimitSeconds`, `backoffLimit`, `resources` and `node` are all optional fields and any of them can be omitted in the request.
+ `payload`, `imageTagName`, `timeLimitSeconds`, `backoffLimit`, `resources` and `node` are all optional fields and any of them can be omitted in the request.
 
-- `GET /api/v1/jobs` Get states (with names and statuses) for all jobs
-- `GET /api/v1/jobs/{jobName}` Get state for a named job
-- `DELETE /api/v1/jobs/{jobName}` Delete a named job
-- `POST /api/v1/jobs/{jobName}/stop` Stop a named job
+`imageTagName` field allows to alter specific job image tag. In order to use it, the `{imageTagName}` need to be set as described in the [`radixconfig.yaml`](../../references/reference-radix-config/#imagetagname-2)
 
 ### Create a batch of jobs
 
-- `POST /api/v1/batches` Create a new batch of single jobs, using the Docker image, that Radix built for the job component. Job-specific arguments can be sent in the request body, specified individually for each item in `JobScheduleDescriptions`
+- `POST /api/v1/batches` Create a new batch of single jobs, using the Docker image, that Radix built for the job component. Job-specific arguments can be sent in the request body, specified individually for each item in `jobScheduleDescriptions` with default values defined in `defaultRadixJobComponentConfig`.
 
 ```json
 {
+  "defaultRadixJobComponentConfig": {
+    "imageTagName": "1.0.0",
+    "timeLimitSeconds": 200,
+    "backoffLimit": 5,
+    "resources": {
+      "limits": {
+        "memory": "200Mi",
+        "cpu": "200m"
+      },
+      "requests": {
+        "memory": "100Mi",
+        "cpu": "100m"
+      },
+      "node": {
+        "gpu": "gpu1",
+        "gpuCount": "2"
+      }
+    }
+  },
   "jobScheduleDescriptions": [
     {
-      "payload": "{'data':'value1'}"
+      "payload": "{'data':'value1'}",
+      "imageTagName": "1.0.0",
+      "timeLimitSeconds": 120,
+      "backoffLimit": 10,
+      "resources": {
+        "limits": {
+          "memory": "32Mi",
+          "cpu": "300m"
+        },
+        "requests": {
+          "memory": "16Mi",
+          "cpu": "150m"
+        }
+      },
+      "node": {
+        "gpu": "gpu1, gpu2, gpu3",
+        "gpuCount": "6"
+      }
     },
     {
-      "payload": "{'data':'value2'}"
+      "payload": "{'data':'value2'}",
+      ...
     },
     {
-      "payload": "{'data':'value3'}"
+      "payload": "{'data':'value3'}",
+      ...
     }
   ]
 }
 ```
-
-> `payload`, `timeLimitSeconds`, `resources` and `node` are all optional fields and any of them can be omitted in the request.
-
-- `GET /api/v1/batches` Get states (with names and statuses) for all batches
-- `GET /api/v1/batches/{batchName}` Get state for a named batch and statuses of its jobs
-- `DELETE /api/v1/batches/{batchName}` Delete a named batch
-- `POST /api/v1/batches/{batchName}/stop` Stop a named batch
-- `POST /api/v1/batches/{batchName}/jobs/{jobName}/stop` Stop a named job of a batch
 
 ### Starting a new job
 
@@ -202,6 +244,7 @@ Default parameters for jobs can be defined within `DefaultRadixJobComponentConfi
 ```json
 {
   "defaultRadixJobComponentConfig": {
+    "imageTagName": "1.0.0",
     "timeLimitSeconds": 200,
     "backoffLimit": 5,
     "resources": {
@@ -236,7 +279,8 @@ Default parameters for jobs can be defined within `DefaultRadixJobComponentConfi
       }
     },
     {
-      "payload": "{'data':'value2'}"
+      "payload": "{'data':'value2'}",
+      "imageTagName": "2.0.0"
     },
     {
       "payload": "{'data':'value3'}",

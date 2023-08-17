@@ -1,5 +1,6 @@
 ---
 title: OpenAPI/Swagger spec
+prev: jobs-in-web-console
 ---
 
 ## OpenAPI/Swagger spec
