@@ -80,4 +80,10 @@ Use Playground for testing Radix, see if it’s a good fit for your projects, an
 
 - **Uptime:** "Best-effort", but no guarantee of uptime. Planned maintenance is announced as early as possible
 
-**Please note:** applications hosted in the Playground cluster may need to be re-registered after maintenance, upgrades or migrations. All such required actions from your part will be communicated in the Radix slack channel.
+### Automatic cleanup in Playground cluster
+
+A stricter lifecycle policy for using Radix Playground is in place, to make sure everybody share the resources and avoid unattended applications using unnecessary resources.
+
+Any application which has not been **deployed** or **restarted** in the last `7 days` will be stopped.  
+
+After further `21 days` of inactivity, all stopped applications will be **deleted**.
