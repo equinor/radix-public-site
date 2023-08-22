@@ -126,7 +126,7 @@ The Radix Github Action is used by many Radixians to execute rx CLI commands in 
 
 ```yaml
       - name: list-apps
-        uses: equinor/radix-github-actions@master
+        uses: equinor/radix-github-actions@v1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           args: >

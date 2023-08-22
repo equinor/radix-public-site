@@ -47,7 +47,7 @@ jobs:
             -d '{"secretValue":"new value"}' \
             -H 'Authorization: Bearer ${{ env.APP_SERVICE_ACCOUNT_TOKEN }}'
       - name: Restart qa env
-        uses: equinor/radix-github-actions@master
+        uses: equinor/radix-github-actions@v1
         with:
           args: >
             restart

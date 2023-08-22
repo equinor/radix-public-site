@@ -34,7 +34,6 @@ environmentConfig:
       - name: storage
         path: /app/image-storage
         blobfuse2:
-          protocol: fuse2
           container: blobfusevolumetestdata
 ```
 
@@ -96,13 +95,11 @@ To add multiple volumes
         - name: storage1
           path: /app/image-storage
           blobfuse2:
-            protocol: fuse2
             container: blobfusevolumetestdata
             uid: 1000
         - name: storage3
           path: /app/image-storage3
           blobfuse2:
-            protocol: fuse2
             container: blobfusevolumetestdata3
             uid: 1000
   ```
