@@ -447,7 +447,6 @@ spec:
             - name: volume-name
               path: /path/in/container/to/mount/to
               blobfuse2:
-                protocol: fuse2
                 container: container-name
                 uid: 1000
 ```
@@ -461,7 +460,7 @@ The `volumeMounts` field configures volume mounts within the running component.
 - `blobfuse2` - mount a container from blob in [Azure storage account](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview). Uses [CSI Azure blob storage driver](https://github.com/kubernetes-sigs/blob-csi-driver). Replaces types `blob` and `azure-blob` for obsolete drivers.
 
 _Options for `blobfuse2`_
-  - `protocol` - a protocol, supported by the BlobFuse2. Currently, supports `fuse2`.
+  - `protocol` - (optional) a protocol, supported by the BlobFuse2. Currently, supports `fuse2` (default) and `nfs`.
   - `container` - name of the blob container.
   - `uid` and/or `gid` - User ID and/or group ID (numbers) of a [mounted volume owner](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.21/#podsecuritycontext-v1-core). It is a User ID and Group ID of a user in the running container within component replicas. Usually a user, which is a member of one or multiple [groups](https://en.wikipedia.org/wiki/Group_identifier), is specified in the `Dockerfile` for the component with command `USER`. Read [more details](https://www.radix.equinor.com/docs/topic-docker/#running-as-non-root) about specifying user within `Dockerfile`. It is recommended to use because Blobfuse driver do [not honor fsGroup securityContext settings](https://github.com/kubernetes-sigs/blob-csi-driver/blob/master/docs/driver-parameters.md).
   - `useAdls` - (optional) enables blobfuse to access Azure DataLake storage account. When set to false, blobfuse will access Azure Block Blob storage account, hierarchical file system is not supported. Default `false`. This must be set `true` when [HNS enabled account](https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-namespace) is mounted.
@@ -920,7 +919,6 @@ spec:
             - name: volume-name
               path: /path/in/container/to/mount/to
               blobfuse2:
-                protocol: fuse2
                 container: container-name
                 uid: 1000
 ```
@@ -1177,7 +1175,6 @@ spec:
         - name: volume-name
           path: /path/in/container/to/mount/to
           blobfuse2:
-            protocol: fuse2
             container: container-name
             uid: 1000
       secretRefs:
