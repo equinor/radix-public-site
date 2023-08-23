@@ -21,5 +21,3 @@ Radix uses readiness probe to minimize this downtime as close to zero as possibl
 
 - Initial delay seconds where Kubernetes will wait before performing the first probe after the container has started (currently set by Radix to 5 seconds)
 - Period seconds interval where Kubernetes will perform the probes after the initial probe (currently set by Radix to 10 seconds)
-
-HTTP probe to the application is planned to be implemented in the future to ensure absolute zero downtime. However, this will require Radix users to provide an endpoint in their applications where Kubernetes will perform the probe.

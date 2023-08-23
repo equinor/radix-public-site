@@ -78,14 +78,14 @@ jobs:
           git push origin HEAD:main
       - name: 'Get environment from branch' # for "deploy only" pipeline workflow
         id: getEnvironment
-        uses: equinor/radix-github-actions@main
+        uses: equinor/radix-github-actions@v1
         with:
           args: >
             get config branch-environment
             --from-config
             -b ${GITHUB_REF##*/}
       - name: 'Deploy API on Radix'
-        uses: equinor/radix-github-actions@main
+        uses: equinor/radix-github-actions@v1
         with:
           args: >
             create job
@@ -99,7 +99,7 @@ jobs:
 Following are last steps for "Build and deploy" pipeline workflow (e.g. when some application components need to be built):
 ```yaml
       - name: 'Build and deploy API on Radix'
-        uses: equinor/radix-github-actions@main
+        uses: equinor/radix-github-actions@v1
         with:
           args: >
             create job
