@@ -27,7 +27,7 @@ Unlike a regular Radix application, for a deploy-only application you have two o
 - The GitHub repository which act as a pure configuration repository. That is, source code for the different components resides in other repositories
 - The `radixconfig.yaml` is in the source code repository
 
-The documentation will use the second option and this [example repository](https://github.com/equinor/radix-example-arm-template)
+The documentation will use the second option.
 
 ## The `radixconfig.yaml` file
 

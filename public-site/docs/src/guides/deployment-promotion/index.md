@@ -24,7 +24,7 @@ To promote a deployment you must create a new Job of type `promote`. There are s
 
 ## Promote to another environment
 
-Taking the current active deployment from one environment into another is an effective workflow; it can be used as a manual "deploy-to-production" step if you prefer to not map the production environment to a git branch for deployment. The [workflows](../workflows/) guide has an example of how to use this.
+Taking the current active deployment from one environment into another is an effective workflow; it can be used as a manual "deploy-to-production" step if you prefer to not map the production environment to a git branch for deployment. The [workflows](../../start/workflows/) guide has an example of how to use this.
 
 ## Promote an old deployment/rollback
 
