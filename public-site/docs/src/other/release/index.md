@@ -7,6 +7,12 @@ sidebarDepth: 2
 
 ## 2023
 
+
+### 2023-08-15 - Radix application reader role
+A `Radix application reader` role has been added to Radix. This role is a read-only role intended for users who need to view information about a Radix application, but should not be allowed to perform any actions such as starting or stopping components, or deleting the application.
+Readers have the privilege to view logs associated with their replicas and jobs.
+The role is an Azure AD group that can be assigned under `Access control` in the Configuration page of the application. 
+
 ### 2023-08-01 - Restart batches and *jobs with recent active deployment*
 
 In addition to restart job with original deployment, Radix now allows to restart scheduled single jobs, entire batch or individual jobs within the batch with latest active deployment (if it is different than for the restarting job). [Read more](../guides/jobs/jobs-in-web-console.md)
