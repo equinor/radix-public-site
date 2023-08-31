@@ -41,21 +41,29 @@ spec:
 ```yaml
 spec:
   build:
+    useBuildKit: true
     secrets:
       - SECRET_1
       - SECRET_2
     variables:
       VAR1: val1    
-      CONNECTION_STRING: "Provider=MySQLProv;Data Source=mydb;"    
+      CONNECTION_STRING: "Provider=MySQLProv;Data Source=mydb;"
 ```
 
 The `build` section of the spec contains configuration needed during build (CI part) of the components. In this section you can specify build secrets, which is needed when pulling from locked registries, or cloning from locked repositories.
 
-`secret` - add secrets to Radix config `radixconfig.yaml` in the branch defined as `Config Branch` for your application. This will trigger a new build. This build will fail as no specified build secret has been set. You will now be able to set the secret **values** in the configuration section of your app in the Radix Web Console. These secrets also can be used in the [sub-pipelines](../../guides/sub-pipeline).
+`useBuildKit` - (optional, default `false`) build a component with Docker BuildKit. Read  [more](../../guides/build-secrets/#build-secrets-with-buildkit) in the guide.
 
-`variables` - environment variable names and values (currently available only in [sub-pipelines](../../guides/sub-pipeline)), provided for all build Radix environments in [sub-pipelines](../../guides/sub-pipeline). These common environment variables are overridden by environment-specific environment variables with the same names.
+`secret` - (optional) add secrets to Radix config `radixconfig.yaml` in the branch defined as `Config Branch` for your application. This will trigger a new build. This build will fail as no specified build secret has been set. You will now be able to set the secret **values** in the configuration section of your app in the Radix Web Console. These secrets also can be used in the [sub-pipelines](../../guides/sub-pipeline).
 
-To ensure that multiline build secrets are handled correct by the build, **all** build secrets are passed base-64 encoded, they need to be decoded before use. The [build secrets](../../guides/build-secrets/) guide describes how to use these arguments in a Dockerfile.
+`variables` - (optional) environment variable names and values (currently available only in [sub-pipelines](../../guides/sub-pipeline)), provided for all build Radix environments in [sub-pipelines](../../guides/sub-pipeline). These common environment variables are overridden by environment-specific environment variables with the same names.
+
+:::tip
+* When an option `useBuildKit: false`, to ensure that multiline build secrets are handled correct by the build, **all** build secrets are passed as `ARG`-s during container build, base-64 encoded (they need to be decoded before use). 
+* When an option `useBuildKit: true`, build secrets are not available as `ARG`-s during container build, but they can be mounted as files. Secret values are not base-64 encoded in these files.
+
+Read the [build secrets](../../guides/build-secrets/) guide to see how to use build secrets in a Dockerfile.
+:::
 
 ## `environments`
 
