@@ -88,7 +88,7 @@ The name of the environment. Can be `dev`, `qa`, `production` etc.
 
 ### `build`
 
-`from` specifies which branch each environment will build from. If `from` is not specified for the environment, no automatic builds or deployments will be created. This configuration is useful for a promotion-based [workflow](../../guides/workflows/).
+`from` specifies which branch each environment will build from. If `from` is not specified for the environment, no automatic builds or deployments will be created. This configuration is useful for a promotion-based [workflow](../../start/workflows/#promotion).
 
 Wildcard branch mapping is also support, using `*` and `?`. Examples:
 
