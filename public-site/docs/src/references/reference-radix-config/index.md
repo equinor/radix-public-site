@@ -54,6 +54,11 @@ The `build` section of the spec contains configuration needed during build (CI p
 
 `useBuildKit` - (optional, default `false`) build a component with Docker BuildKit. Read  [more](../../guides/build-secrets/#build-secrets-with-buildkit) in the guide.
 
+:::tip
+When an option `useBuildKit` is `true`, Radix uses [buildah](https://www.redhat.com/en/topics/containers/what-is-buildah) to build components. Buildah requires the `Dockerfile` instruction `FROM` to have a repository prefixing the docker image name.
+
+E.g. instead of `FROM alpine` use `FROM docker.io/alpine`, as this `alpine` image is located in the [Docker Hub](https://hub.docker.com/) repository.
+:::
 `secret` - (optional) add secrets to Radix config `radixconfig.yaml` in the branch defined as `Config Branch` for your application. This will trigger a new build. This build will fail as no specified build secret has been set. You will now be able to set the secret **values** in the configuration section of your app in the Radix Web Console. These secrets also can be used in the [sub-pipelines](../../guides/sub-pipeline).
 
 `variables` - (optional) environment variable names and values (currently available only in [sub-pipelines](../../guides/sub-pipeline)), provided for all build Radix environments in [sub-pipelines](../../guides/sub-pipeline). These common environment variables are overridden by environment-specific environment variables with the same names.
