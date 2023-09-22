@@ -38,8 +38,8 @@ Check out the [Release register](../release/)
 We are based in Vassbotnen - S4 in Stavanger. If you see us on the corridor, say hello!
 
 <employee-list>
-  <employee-card name="Magnus Longva" title="Infrastructure"  description="Based in Trondheim">
-    <img src="@source/assets/images/radix-magnus.jpg" />
+  <employee-card name="Richard Hagen" title="Developer">
+    <img src="@source/assets/images/radix-richard.jpg" />
   </employee-card>
   <employee-card name="Svein-Petter Johnsen" title="Infrastructure">
     <img src="@source/assets/images/radix-svein.jpg" />
