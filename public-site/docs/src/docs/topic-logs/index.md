@@ -27,11 +27,25 @@ You can download the log for all containers belonging to a replica _[1]_, or for
 
 ![Replica log](replica-log.png)
 
-
 ### Jobs
+
+A job is an on-demand and short-lived workload, in the sense that it performs a set of tasks, and exits when the tasks are completed. If a job exits with a non-zero exit code or the duration exceeds number of seconds defined in `timeLimitSeconds`, it will be restarted if the job's `backoffLimit` is set to a value greater that zero. If `backoffLimit` is 0, or number of restarts exceeds this value, the job is reported as `Failed`.
+
+To view the log for a job, click the `name` of the job in the `Jobs` list.
+
+![Job running](job-list-running.png)
+
+For jobs with status `Running`, the latest 1000 entries is shown on the job page. To download the entire log, click the `Download` button. The log may also be available for completed jobs (succeeded or failed), as long as Kubernetes has not "garbage collected" the log resources.
+
+![Job log](job-with-log.png)
+
+If the log is no longer available in Kubernetes, or the job has restarted one or more times, a `Job Logs History` list is shown on the botton of the page. Each row represents a run attempt (the initial, or a retry if backoffLimit is set) and is sorted descending by creation date. You can download the log for a specific run by clicking on it's download icon. 
+
+![Job run log](job-run-log.png)
 
 ### Pipeline jobs
 
+Similar to on-demand jobs described in the previous section, a pipeline job is also a set of short-lived tasks (called steps in the Radix Web Console).
 You can view the log for each step in a pipeline job by clicking on the step name. For completed steps (succeeded or failed), the log will be unavailable when the underlying container is deleted by Kubernetes.
 
 ![Job steps](job-steps.png)
