@@ -124,6 +124,7 @@ export default defineUserConfig({
             '/docs/topic-concepts/',
             '/docs/topic-docker/',
             '/docs/topic-runtime-env/',
+            '/docs/topic-logs/',
             '/docs/topic-security/',
             '/docs/topic-vulnerabilities/',
             '/docs/topic-monitoring/',

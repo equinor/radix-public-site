@@ -130,11 +130,13 @@ Stop, Start and Restart of a running component or all components in an environme
 
 Radix offers a command line interface - Radix CLI, which uses the command rx.
 
-[Radix CLI](https://github.com/equinor/radix-cli/blob/master/README.md)
+[Docs](../docs/topic-radix-cli/)
 
 ## Container logs in Radix console and Radix CLI
 
-To be updated
+Container logs can be accessed using Radix Web Console or Radix CLI.
+
+[Docs](../docs/topic-logs/)
 
 ## Code editor integrations - radixconfig.yaml schema validation
 
