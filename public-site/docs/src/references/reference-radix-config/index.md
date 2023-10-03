@@ -56,6 +56,10 @@ The `build` section of the spec contains configuration needed during build (CI p
 
 :::tip
 When an option `useBuildKit` is `true`, Radix uses [buildah](https://www.redhat.com/en/topics/containers/what-is-buildah) to build components. Buildah requires the `Dockerfile` instruction `FROM` to have a repository prefixing the docker image name.
+Otherwise, there will be an error during the docker image build:
+```bash
+Error: creating build container: short-name resolution enforced but cannot prompt without a TTY
+```
 
 E.g. instead of `FROM alpine` use `FROM docker.io/alpine`, as this `alpine` image is located in the [Docker Hub](https://hub.docker.com/) repository.
 :::
@@ -712,12 +716,7 @@ spec:
         webhook: http://api:8080/monitor-batch-status
 ```
 
-`webhook` is an optional URL to the Radix application component or job component, which will be called when any of this job-component running job or batch states are changed. Only changes are sent by POST method with a `application/json` `ContentType` in a [state of a batch format](../../guides/jobs/#get-a-state-of-a-batch).
-
-`notifications` and `webhook` can be specified on a job component configuration level and/or on `environmentConfig` level. Property in the `environmentConfig` will override those on the component level, if present.
-
-> * Only a Radix application component or job component name can be used as a domain in the URL
-> * Only private port of the specified component can be used. If this component has only public port - a second port need to be added and used
+`webhook` is an optional URL to the Radix application component or job component, which will be called when any of this job-component running job or batch states are changed. Only changes are sent by POST method with a `application/json` `ContentType` in a [batch event format](../../guides/jobs/#get-a-state-of-a-batch).
 
 ### `monitoringConfig`
 

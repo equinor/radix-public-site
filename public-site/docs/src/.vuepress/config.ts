@@ -78,6 +78,7 @@ export default defineUserConfig({
               children: [
                 '/guides/jobs/configure-jobs',
                 '/guides/jobs/job-manager-and-job-api',
+                '/guides/jobs/notifications',
                 '/guides/jobs/environment-variables',
                 '/guides/jobs/jobs-in-web-console',
                 '/guides/jobs/openapi-swagger'

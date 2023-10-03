@@ -1,7 +1,7 @@
 ---
 title: Job Manager and job API
 prev: configure-jobs
-next: environment-variables
+next: notifications
 ---
 
 ## Job Manager and job API
