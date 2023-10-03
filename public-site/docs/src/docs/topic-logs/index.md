@@ -57,5 +57,5 @@ You can view the log for each step in a pipeline job by clicking on the step nam
 
 [Radix CLI](../topic-radix-cli/) provides access to component and job logs by using the `rx get log` command.
 
-For components, only the logs for active replicas can be read, and for jobs, the log from the last run, as long as Kubernetes has not garbage collected the log resources.
+For components, only logs for active replicas can be read, and for jobs the log from the last run, as long as Kubernetes has not garbage collected the log resources.
 
