@@ -716,7 +716,7 @@ spec:
         webhook: http://api:8080/monitor-batch-status
 ```
 
-`webhook` is an optional URL to the Radix application component or job component, which will be called when any of this job-component running job or batch states are changed. Only changes are sent by POST method with a `application/json` `ContentType` in a [batch event format](../../guides/jobs/#get-a-state-of-a-batch).
+`webhook` is an optional URL to the Radix application component or job component which will be called when any of the job-component's running jobs or batches changes states. Only changes are sent by POST method with a `application/json` `ContentType` in a [batch event format](../../guides/jobs/#get-a-state-of-a-batch).
 
 ### `monitoringConfig`
 
