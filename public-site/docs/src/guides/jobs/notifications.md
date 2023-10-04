@@ -17,7 +17,7 @@ The URL to the Radix application component or job component endpoint can be spec
 
 ::: tip
 * Only a Radix application component or job component name and their ports can be used in the webhook URL
-* Only private port of the specified component can be used. If this component has only public port - a second port need to be added for this purpose
+* Only private ports of the specified component can be used, public ports cannot be used for this purpose.
 ```yaml
   components:
     - name: frontend
