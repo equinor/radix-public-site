@@ -6,7 +6,7 @@ next: openapi-swagger
 
 ## Managing Jobs in Web Console
 
-Batches and jobs can be found in the Web console under the "Batches" and "Jobs" tabs. Job scheduler manager pod status and its log can be found in the "Job manager" section
+Batches and jobs can be found in the Web console under the "Batches" and "Jobs" tabs. Job manager pod status and its log can be found in the "Job manager" section
 ![Batch job status](./batch-job-manager-status.png)
 * It shows batch and job states. When all jobs in a batch are completed, the batch is completed. If any job fails, the batch is failed. 
   ![Batch and job statuses](./batch-and-job-statuses.png)
