@@ -20,6 +20,7 @@ A max of 10 single completed jobs remains in the history of a job component. Whe
 
 * [Configure jobs](./configure-jobs.md)
 * [Job manager and job API](./job-manager-and-job-api.md)
+* [Notifications](./notifications.md)
 * [Environment variables](./environment-variables.md)
 * [Manage jobs in Radix web-console](./jobs-in-web-console.md)
 * [OpenAPI/Swagger](./openapi-swagger.md)

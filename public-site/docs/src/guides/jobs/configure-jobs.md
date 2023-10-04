@@ -30,6 +30,8 @@ spec:
       schedulerPort: 9000
       timeLimitSeconds: 100
       backoffLimit: 5
+      notifications:
+        webhook: http://api:8080/monitor-batch-status
       resources:
         requests:
           memory: "256Mi"
@@ -58,6 +60,7 @@ Jobs have three extra configuration options; `schedulerPort`, `payload` and `tim
 - `node` (optional) defines gpu node requested for a job.
 - `timeLimitSeconds` (optional) defines maximum running time for a job.
 - `backoffLimit` (optional) defines the number of times a job will be restarted if its container exits in error.
+- `notifications.webhook` (optional) the Radix application component or job component endpoint, where Radix batch events will be posted when any of its job-component's running jobs or batches changes states.
 
 ### schedulerPort
 

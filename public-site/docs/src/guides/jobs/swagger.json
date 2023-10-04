@@ -492,6 +492,92 @@
     }
   },
   "definitions": {
+    "BatchEvent": {
+      "description": "BatchEvent holds general information about batch event on change of status",
+      "type": "object",
+      "required": [
+        "name",
+        "created",
+        "event"
+      ],
+      "properties": {
+        "batchName": {
+          "description": "BatchName Optional Batch ID of a job",
+          "type": "string",
+          "x-go-name": "BatchName",
+          "example": "'batch1'"
+        },
+        "batchType": {
+          "description": "BatchType Single job or multiple jobs batch",
+          "type": "string",
+          "x-go-name": "BatchType",
+          "example": "\"job\""
+        },
+        "created": {
+          "description": "Created timestamp",
+          "type": "string",
+          "x-go-name": "Created",
+          "example": "2006-01-02T15:04:05Z"
+        },
+        "ended": {
+          "description": "Ended timestamp",
+          "type": "string",
+          "x-go-name": "Ended",
+          "example": "2006-01-02T15:04:05Z"
+        },
+        "event": {
+          "$ref": "#/definitions/Event"
+        },
+        "jobId": {
+          "description": "JobId Optional ID of a job",
+          "type": "string",
+          "x-go-name": "JobId",
+          "example": "'job1'"
+        },
+        "jobStatuses": {
+          "description": "JobStatuses of the jobs in the batch",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/JobStatus"
+          },
+          "x-go-name": "JobStatuses"
+        },
+        "message": {
+          "description": "Message, if any, of the job",
+          "type": "string",
+          "x-go-name": "Message",
+          "example": "\"Error occurred\""
+        },
+        "name": {
+          "description": "Name of the job",
+          "type": "string",
+          "x-go-name": "Name",
+          "example": "calculator"
+        },
+        "started": {
+          "description": "Started timestamp",
+          "type": "string",
+          "x-go-name": "Started",
+          "example": "2006-01-02T15:04:05Z"
+        },
+        "status": {
+          "description": "Status of the job",
+          "type": "string",
+          "enum": [
+            "Waiting",
+            "Running",
+            "Succeeded",
+            "Stopping",
+            "Stopped",
+            "Failed",
+            "DeadlineExceeded"
+          ],
+          "x-go-name": "Status",
+          "example": "Waiting"
+        }
+      },
+      "x-go-package": "github.com/equinor/radix-job-scheduler/models/v1/events"
+    },
     "BatchScheduleDescription": {
       "description": "BatchScheduleDescription holds description about batch scheduling job",
       "type": "object",
@@ -560,7 +646,7 @@
           "x-go-name": "JobStatuses"
         },
         "message": {
-          "description": "Status message, if any, of the job",
+          "description": "Message, if any, of the job",
           "type": "string",
           "x-go-name": "Message",
           "example": "\"Error occurred\""
@@ -594,6 +680,10 @@
         }
       },
       "x-go-package": "github.com/equinor/radix-job-scheduler/models/v1"
+    },
+    "Event": {
+      "type": "string",
+      "x-go-package": "github.com/equinor/radix-job-scheduler/models/v1/events"
     },
     "JobScheduleDescription": {
       "description": "JobScheduleDescription holds description about scheduling job",
@@ -670,7 +760,7 @@
           "example": "'job1'"
         },
         "message": {
-          "description": "Status message, if any, of the job",
+          "description": "Message, if any, of the job",
           "type": "string",
           "x-go-name": "Message",
           "example": "\"Error occurred\""

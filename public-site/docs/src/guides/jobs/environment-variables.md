@@ -1,6 +1,6 @@
 ---
 title: Environment variables
-prev: job-manager-and-job-api
+prev: notifications
 next: jobs-in-web-console
 ---
 
