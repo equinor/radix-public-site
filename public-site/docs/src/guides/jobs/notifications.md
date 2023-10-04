@@ -6,7 +6,7 @@ next: environment-variables
 
 ## Job notifications
 
-When job and bach status need to be monitored, their statuses can be [pulled](./#get-a-state-of-a-batch). Another option is to use job component [notifications](../../references/reference-radix-config/#notifications), posted to one of Radix application components.
+When job and batch status needs to be monitored, their statuses can be [pulled](./#get-a-state-of-a-batch). Another option is to use job component [notifications](../../references/reference-radix-config/#notifications), posted to one of Radix application components.
 
 URL to the Radix application component or job component endpoint can be specified in the option `webhook`, in the section `notifications` of the [radixconfig.yaml](../../references/reference-radix-config/). It is an endpoint, where a Radix batch event will be posted, when any of running job or batch states of this job component are changed. Notification about changes are sent by a `POST` method with an `application/json` `ContentType` with a [Radix batch event format](#radix-batch-event), which extends the [Radix batch status](./job-manager-and-job-api/#get-a-state-of-a-batch) format with a field `event`:
 * `Create` - this event is sent when a new Radix batch or job is created.
