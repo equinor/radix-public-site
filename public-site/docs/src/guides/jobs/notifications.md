@@ -4,7 +4,7 @@ prev: job-manager-and-job-api
 next: environment-variables
 ---
 
-## Job notifications
+## Notifications
 
 When job and batch status needs to be monitored, their statuses can be [pulled](./#get-a-state-of-a-batch). Another option is to use job component [notifications](../../references/reference-radix-config/#notifications), posted to one of Radix application components.
 
@@ -37,7 +37,7 @@ The URL to the Radix application component or job component endpoint can be spec
 ```
 :::
 
-### Radix batch event
+## Radix batch event
 ```json
 {
   "name": "batch-compute-20220302155333-hrwl53mw",

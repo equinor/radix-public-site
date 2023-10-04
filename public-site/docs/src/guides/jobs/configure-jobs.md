@@ -4,7 +4,7 @@ prev: .
 next: job-manager-and-job-api
 ---
 
-# Configuring Jobs
+## Job configuration
 
 Jobs are configured in [`radixconfig.yaml`](../../references/reference-radix-config/#jobs), similar to how components are configured.
 
@@ -44,6 +44,7 @@ spec:
         gpuCount: 2
 ```
 
+## Options
 They share many of the same configuration options with a few exceptions.
 
 A job does not have `publicPort`, `ingressConfiguration`, `replicas`, `horizontalScaling` and `alwaysPullImageOnDeploy`
