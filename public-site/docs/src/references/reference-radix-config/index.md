@@ -55,7 +55,7 @@ The `build` section of the spec contains configuration needed during build (CI p
 `useBuildKit` - (optional, default `false`) build a component with Docker BuildKit. Read  [more](../../guides/build-secrets/#build-secrets-with-buildkit) in the guide.
 
 :::tip
-When an option `useBuildKit` is `true`, Radix uses [buildah](https://www.redhat.com/en/topics/containers/what-is-buildah) to build components. Buildah requires the `Dockerfile` instruction `FROM` to have a repository prefixing the docker image name.
+When the option `useBuildKit` is set to `true`, Radix will use [buildah](https://www.redhat.com/en/topics/containers/what-is-buildah) to build the components. Buildah requires the `Dockerfile` instruction `FROM` to have a repository prefixing the docker image name.
 Otherwise, there will be an error during the docker image build:
 ```bash
 Error: creating build container: short-name resolution enforced but cannot prompt without a TTY
