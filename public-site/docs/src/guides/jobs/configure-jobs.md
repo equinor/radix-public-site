@@ -4,7 +4,7 @@ prev: .
 next: job-manager-and-job-api
 ---
 
-# Configuring Jobs
+## Job configuration
 
 Jobs are configured in [`radixconfig.yaml`](../../references/reference-radix-config/#jobs), similar to how components are configured.
 
@@ -44,6 +44,7 @@ spec:
         gpuCount: 2
 ```
 
+## Options
 They share many of the same configuration options with a few exceptions.
 
 A job does not have `publicPort`, `ingressConfiguration`, `replicas`, `horizontalScaling` and `alwaysPullImageOnDeploy`
@@ -80,7 +81,7 @@ The compute job in the example above has `payload.path` set to `/compute/args`. 
 
 ### resources
 
-The resource requirement for a job can be sent in the request body to the job scheduler as a JSON document with an element named `resources`.
+The resource requirement for a job can be sent in the request body to the job manager as a JSON document with an element named `resources`.
 The content of the resources will be used to set the resource definition for the job [`radixconfig.yaml`](../../references/reference-radix-config/#resources-common).
 The data type of the `resources` is of type `ResourceRequirements` an requires this specific format.
 
@@ -88,7 +89,7 @@ The etl job in the example above has `resource` configured.
 
 ### node
 
-The node requirerement for a job can be sent in the request body to the job scheduler as a JSON document with an element named `node`.
+The node requirerement for a job can be sent in the request body to the job manager as a JSON document with an element named `node`.
 The content of the node will be used to set the node definition for the job [`radixconfig.yaml`](../../references/reference-radix-config/#node).
 The data type of the `node` is of type `RadixNode` an requires this specific format.
 
@@ -96,12 +97,12 @@ The etl job in the example above has `node` configured.
 
 ### timeLimitSeconds
 
-The maximum running time for a job can be sent in the request body to the job scheduler as a JSON document with an element named `timeLimitSeconds`.
+The maximum running time for a job can be sent in the request body to the job manager as a JSON document with an element named `timeLimitSeconds`.
 
-The etl job in the example above has `timeLimitSeconds` configured in its [`radixconfig.yaml`](../../references/reference-radix-config/#timelimitseconds). If a new job is sent to the job scheduler without an element `timeLimitSeconds`, it will default to the value specified in radixconfig.yaml. If no value is specified in radixconfig.yaml, it will default to 43200 (12 hours).
+The etl job in the example above has `timeLimitSeconds` configured in its [`radixconfig.yaml`](../../references/reference-radix-config/#timelimitseconds). If a new job is sent to the job manager without an element `timeLimitSeconds`, it will default to the value specified in radixconfig.yaml. If no value is specified in radixconfig.yaml, it will default to 43200 (12 hours).
 
 ### backoffLimit
 
-The maximum number of restarts if the job fails can be sent in the request body to the job scheduler as a JSON document with an element named `backoffLimit`.
+The maximum number of restarts if the job fails can be sent in the request body to the job manager as a JSON document with an element named `backoffLimit`.
 
-The etl job in the example above has `backoffLimit` configured in its [`radixconfig.yaml`](../../references/reference-radix-config/#backofflimit). If a new job is sent to the job scheduler without an element `backoffLimit`, it will default to the value specified in radixconfig.yaml.
+The etl job in the example above has `backoffLimit` configured in its [`radixconfig.yaml`](../../references/reference-radix-config/#backofflimit). If a new job is sent to the job manager without an element `backoffLimit`, it will default to the value specified in radixconfig.yaml.

@@ -52,20 +52,22 @@ spec:
 
 The `build` section of the spec contains configuration needed during build (CI part) of the components. In this section you can specify build secrets, which is needed when pulling from locked registries, or cloning from locked repositories.
 
+### `useBuildKit`
 `useBuildKit` - (optional, default `false`) build a component with Docker BuildKit. Read  [more](../../guides/build-secrets/#build-secrets-with-buildkit) in the guide.
 
 :::tip
 When the option `useBuildKit` is set to `true`, Radix will use [buildah](https://www.redhat.com/en/topics/containers/what-is-buildah) to build the components. Buildah requires the `Dockerfile` instruction `FROM` to have a repository prefixing the docker image name.
-Otherwise there will be an error during the docker image build:
-```bash
-Error: creating build container: short-name resolution enforced but cannot prompt without a TTY
-```
+Otherwise, there will be an error during the docker image build:
+> Error: creating build container: short-name resolution enforced but cannot prompt without a TTY
 
-E.g. instead of `FROM alpine` use `FROM docker.io/alpine`, as this `alpine` image is located in the [Docker Hub](https://hub.docker.com/) repository.
+Example: instead of `FROM alpine` use `FROM docker.io/alpine`, as this `alpine` image is located in the [Docker Hub](https://hub.docker.com/) repository.
 :::
-`secret` - (optional) add secrets to Radix config `radixconfig.yaml` in the branch defined as `Config Branch` for your application. This will trigger a new build. This build will fail as no specified build secret has been set. You will now be able to set the secret **values** in the configuration section of your app in the Radix Web Console. These secrets also can be used in the [sub-pipelines](../../guides/sub-pipeline).
 
-`variables` - (optional) environment variable names and values (currently available only in [sub-pipelines](../../guides/sub-pipeline)), provided for all build Radix environments in [sub-pipelines](../../guides/sub-pipeline). These common environment variables are overridden by environment-specific environment variables with the same names.
+### `secrets`
+`secrets` - (optional) add secrets to Radix config `radixconfig.yaml` in the branch defined as `Config Branch` for your application. This will trigger a new build. This build will fail as no specified build secret has been set. You will now be able to set the secret **values** in the configuration section of your app in the Radix Web Console. These secrets also can be used in the [sub-pipelines](../../guides/sub-pipeline).
+
+### `variables`
+`variables` - (optional, available only in [sub-pipelines](../../guides/sub-pipeline)) environment variables names and values, provided for all build Radix environments in [sub-pipelines](../../guides/sub-pipeline). These common environment variables are overridden by environment-specific environment variables with the same names.
 
 :::tip
 * When an option `useBuildKit: false`, to ensure that multiline build secrets are handled correct by the build, **all** build secrets are passed as `ARG`-s during container build, base-64 encoded (they need to be decoded before use). 
@@ -716,7 +718,7 @@ spec:
         webhook: http://api:8080/monitor-batch-status
 ```
 
-`webhook` is an optional URL to the Radix application component or job component which will be called when any of the job-component's running jobs or batches changes states. Only changes are sent by POST method with a `application/json` `ContentType` in a [batch event format](../../guides/jobs/#get-a-state-of-a-batch).
+`webhook` is an optional URL to the Radix application component or job component which will be called when any of the job-component's running jobs or batches changes states. Only changes are sent by POST method with a `application/json` `ContentType` in a [batch event format](../../guides/jobs/notifications/#radix-batch-event). Read [more](../../guides/jobs/notifications)
 
 ### `monitoringConfig`
 

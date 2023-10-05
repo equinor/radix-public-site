@@ -23,7 +23,7 @@ The Job Manager exposes the following methods for managing jobs:
 - `POST /api/v1/batches/{batchName}/stop` Stop a named batch
 - `POST /api/v1/batches/{batchName}/jobs/{jobName}/stop` Stop a named job of a batch
 
-### Create a single job
+## Create a single job
 
 - `POST /api/v1/jobs` Create a new job using the Docker image that Radix built for the job. Job-specific arguments can be sent in the request body
 
@@ -54,7 +54,7 @@ The Job Manager exposes the following methods for managing jobs:
 
 `imageTagName` field allows to alter specific job image tag. In order to use it, the `{imageTagName}` need to be set as described in the [`radixconfig.yaml`](../../references/reference-radix-config/#imagetagname-2)
 
-### Create a batch of jobs
+## Create a batch of jobs
 
 - `POST /api/v1/batches` Create a new batch of single jobs, using the Docker image, that Radix built for the job component. Job-specific arguments can be sent in the request body, specified individually for each item in `jobScheduleDescriptions` with default values defined in `defaultRadixJobComponentConfig`.
 
@@ -112,7 +112,7 @@ The Job Manager exposes the following methods for managing jobs:
 }
 ```
 
-### Starting a new job
+## Starting a new job
 
 The example configuration at the top has component named `backend` and two jobs, `compute` and `etl`. Radix creates two job-schedulers, one for each of the two jobs. The job-scheduler for `compute` listens to `http://compute:8000`, and job-scheduler for `etl` listens to `http://etl:9000`.
 
@@ -141,7 +141,7 @@ Once the job has been created successfully, the `job-scheduler` responds to `bac
 - `ended` is the date and time the job successfully ended. Also represented in RFC3339 form and is in UTC. This value is only set for `Successful` jobs.
 - `status` is the current status of the job container. Possible values are `Running`, `Successful` and `Failed`. Status is `Failed` if the container exits with a non-zero exit code, and `Successful` if the exit code is zero.
 
-### Getting the status of all existing jobs
+## Getting the status of all existing jobs
 
 Get a list of all single jobs with their states by sending a `GET` request to `http://compute:8000/api/v1/jobs`. The response is an array of job state objects, similar to the response received when creating a new job. Jobs that have been started within a batch are not included in this list
 
@@ -173,7 +173,7 @@ To get state for a specific job (single or one within a batch), e.g. `batch-comp
 }
 ```
 
-### Deleting an existing job
+## Deleting an existing job
 
 The job list in the example above has a job named `batch-compute-20230220101417-idwsxncs-rkwaibwe`. To delete it, send a `DELETE` request to `http://compute:8000/api/v1/jobs/batch-compute-20230220101417-idwsxncs-rkwaibwe`. A successful deletion will respond with result object. Only single job can be deleted with this method
 
@@ -185,7 +185,7 @@ The job list in the example above has a job named `batch-compute-20230220101417-
 }
 ```
 
-### Stop a job
+## Stop a job
 
 The job list in the example above has a job named `batch-compute-20230220100755-xkoxce5g-mll3kxxh`. To stop it, send a `POST` request to `http://compute:8000/api/v1/jobs/batch-compute-20230220100755-xkoxce5g-mll3kxxh/stop`. A successful stop will respond with result object. Only single job can be stopped with this method. Stop of a job automatically deletes corresponding Kubernetes job and its replica, as well as its log. The job will get the status "Stopped".
 
@@ -205,7 +205,7 @@ The job list in the example above has a job named `batch-compute-20230220100755-
 }
 ```
 
-### Starting a new batch of jobs
+## Starting a new batch of jobs
 
 To start a new batch of jobs, send a `POST` request to `http://compute:8000/api/v1/batches` with request body set to
 
@@ -312,7 +312,7 @@ Once the batch has been created, the `job-scheduler` responds to `backend` with 
 - `ended` is the date and time the batch successfully ended (empty when not completed). The value is represented in RFC3339 form and is in UTC. This value is only set for `Successful` batches. Batch is ended when all batched jobs are completed or failed.
 - `status` is the current status of the batch. Possible values are `Running`, `Successful` and `Failed`. Status is `Failed` if the batch fails for any reason.
 
-### Get a list of all batches
+## Get a list of all batches
 
 Get a list of all batches with their states by sending a `GET` request to `http://compute:8000/api/v1/batches`. The response is an array of batch state objects, similar to the response received when creating a new batch
 
@@ -334,7 +334,7 @@ Get a list of all batches with their states by sending a `GET` request to `http:
 ]
 ```
 
-### Get a state of a batch
+## Get a state of a batch
 
 To get state for a specific batch, e.g. `batch-compute-20220302155333-hrwl53mw`, send a `GET` request to `http://compute:8000/api/v1/batches/batch-compute-20220302155333-hrwl53mw`. The response is a batch state object, with states of its jobs
 
@@ -368,7 +368,7 @@ To get state for a specific batch, e.g. `batch-compute-20220302155333-hrwl53mw`,
 }
 ```
 
-### Delete a batch
+## Delete a batch
 
 The batch list in the example above has a batch named `batch-compute-20220302155333-hrwl53mw`. To delete it, send a `DELETE` request to `http://compute:8000/api/v1/batches/batch-compute-20220302155333-hrwl53mw`. A successful deletion will respond with result object. Deleting of a batch job automatically deletes all jobs, belonging to this batch job.
 
@@ -380,7 +380,7 @@ The batch list in the example above has a batch named `batch-compute-20220302155
 }
 ```
 
-### Stop an existing batch
+## Stop an existing batch
 
 The batch list in the example above has a batch named `batch-compute-20220302155333-hrwl53mw`. To stop it, send a `POST` request to `http://compute:8000/api/v1/batches/batch-compute-20220302155333-hrwl53mw/stop`. A successful stop will respond with result object. Stop of a batch automatically deletes all batch Kubernetes jobs and their replicas, belonging to this batch job, as well as their logs. All not completed jobs will get the status "Stopped".
 
@@ -392,7 +392,7 @@ The batch list in the example above has a batch named `batch-compute-20220302155
 }
 ```
 
-### Stop a jobs in a batch
+## Stop a jobs in a batch
 
 The batch list in the example above has a batch named `batch-compute-20220302155333-hrwl53mw` and jobs, one of whicvh has name `batch-compute-20220302155333-hrwl53mw-fjhcqwj7`. To stop this job, send a `POST` request to `http://compute:8000/api/v1/batches/batch-compute-20220302155333-hrwl53mw/jobs/batch-compute-20220302155333-hrwl53mw-fjhcqwj7/stop`. A successful stop will respond with result object. Stop of a batch job automatically deletes corresponding Kubernetes job and its replica, as well as its log. The job will get the status "Stopped".
 
