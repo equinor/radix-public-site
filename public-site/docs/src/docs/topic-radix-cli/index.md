@@ -116,28 +116,28 @@ Examples of commands:
     ```
 * Get log of a Radix application component. Each log line will be prefixed with a name of the replica, which sent it
     ```shell
-    rx get logs component -a your-app-name --environment qa --component auth
+    rx get logs component -a your-app-name --environment your-env-name --component your-component-name
     ```
 * Get log of all Radix application in an environment
     ```shell
-    rx get logs environment -a your-app-name --environment qa
+    rx get logs environment -a your-app-name --environment your-env-name
     ```
 * Get previous (terminated) container log of a Radix application component. This may help to indicate why the container was restarted. These logs are not always available as the Kubernetes node, where the pod with this container was running on, may have been removed or restarted.  
     ```shell
-    rx get logs component --application your-app-name --environment qa --component auth --previous
-    rx get logs component -a your-app-name -e qa --component auth -p
+    rx get logs component --application your-app-name --environment your-env-name --component your-component-name --previous
+    rx get logs component -a your-app-name -e your-env-name --component your-component-name -p
     ```
 * Stop, start or restart a Radix application component
     ```shell
-    rx stop component --application your-app-name --environment qa --component auth
-    rx start component -a your-app-name -e qa --component auth
-    rx restart component -a your-app-name -e qa --component auth
+    rx stop component --application your-app-name --environment your-env-name --component your-component-name
+    rx start component -a your-app-name -e your-env-name --component your-component-name
+    rx restart component -a your-app-name -e your-env-name --component your-component-name
     ```
 * Stop, start or restart all components in a Radix application environment
     ```shell
-    rx stop environment --application your-app-name --environment qa
-    rx start environment -a your-app-name --environment qa
-    rx restart environment -a your-app-name -e qa
+    rx stop environment --application your-app-name --environment your-env-name
+    rx start environment -a your-app-name --environment your-env-name
+    rx restart environment -a your-app-name -e your-env-name
     ```
 * Stop, start or restart all components in all Radix application environments
     ```shell
@@ -147,10 +147,10 @@ Examples of commands:
     ```
 * Scale up or down Radix application component replicas. Allowed values between "0" and "20" (value "0" is an equivalent of the command `rx stop`). Scaling can be useful for tuning the resource configuration to figure out what amount of replicas affect performance of an application and particular need of CPU and memory. After re-deployment, start or restart, scaled component gets replicas, specified in the `radixconfig.yaml`, "1" if not specified, or set by [horizontal scaling](https://radix.equinor.com/references/reference-radix-config/#environmentconfig)  
     ```shell
-    rx scale --application your-app-name --environment qa --component web-app --replicas 2
-    rx scale -a your-app-name -e qa --component web-app -r 2
+    rx scale --application your-app-name --environment your-env-name --component web-app --replicas 2
+    rx scale -a your-app-name -e your-env-name --component web-app -r 2
     ```
 * Set a value of a component secret
     ```shell
-    rx set environment-secret -a your-app-name -e qa --component auth -s CLIENT_ID -v qtrty-1234-5678-9aaa-abcdefgf
+    rx set environment-secret -a your-app-name -e your-env-name --component your-component-name -s CLIENT_ID -v qtrty-1234-5678-9aaa-abcdefgf
     ```
