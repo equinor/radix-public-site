@@ -77,6 +77,7 @@ More details can be found in guidelines and examples:
 * [Guideline to run "Deploy Only" pipeline job](../../guides/deploy-only/)
 * [Example of using GitHub action to create a Radix deploy pipeline job](../../guides/deploy-only/example-github-action-to-create-radix-deploy-pipeline-job.md)
 * [Example of using AD service principal to get access to a Radix application in a GitHub action](../../guides/deploy-only/example-github-action-to-create-radix-deploy-pipeline-job.md)
+* [Example of using GitHub Action to build and push container to custom Container Registry](../../guides/deploy-only/example-github-action-building-and-deploying-application.md)
 
 ### Commands
 
