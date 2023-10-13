@@ -49,7 +49,7 @@ jobs:
           allow-no-subscriptions: true
 
       - name: ACR Login
-        run: 'az acr login --name YOUR_ACR_NAME --subscription SUBSCRIPTION_ID
+        run: 'az acr login --name YOUR_ACR_NAME --subscription SUBSCRIPTION_ID'
 
       - name: RADIX Login
         run: |
