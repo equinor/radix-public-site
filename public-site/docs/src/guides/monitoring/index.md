@@ -7,7 +7,7 @@ sidebarDepth: 3
 
 Prometheus and Grafana are the main tools provided in Radix for analytics and monitoring visualisation.
 
-Click the *`Monitoring`* link in the top right corner of the Radix Web Console, log into Grafana using Azure AD credentials and explore dashboards.
+Click the *`Monitoring`* link in the bottom left corner of the Radix Web Console, log into Grafana using Azure AD credentials and explore dashboards.
 
 ## Metrics visualisation
 

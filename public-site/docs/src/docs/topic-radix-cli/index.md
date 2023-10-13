@@ -77,6 +77,7 @@ More details can be found in guidelines and examples:
 * [Guideline to run "Deploy Only" pipeline job](../../guides/deploy-only/)
 * [Example of using GitHub action to create a Radix deploy pipeline job](../../guides/deploy-only/example-github-action-to-create-radix-deploy-pipeline-job.md)
 * [Example of using AD service principal to get access to a Radix application in a GitHub action](../../guides/deploy-only/example-github-action-to-create-radix-deploy-pipeline-job.md)
+* [Example of using GitHub Action to build and push container to custom Container Registry](../../guides/deploy-only/example-github-action-building-and-deploying-application.md)
 
 ### Commands
 
@@ -109,6 +110,10 @@ Examples of commands:
 * Create a new "build and deploy" pipeline job
     ```shell
     rx create job build-deploy -a your-app-name --branch main
+    ```
+* Promote active deployment in one environment to another:
+    ```shell
+    rx create job promote --application your-app-name --from-environment dev --to-environment prod --use-active-deployment
     ```
 * Get list of pipeline jobs for a Radix application. `jq` helps to filter returned `json` output
     ```shell

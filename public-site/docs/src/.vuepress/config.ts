@@ -72,7 +72,7 @@ export default defineUserConfig({
             '/guides/external-alias/',
             '/guides/component-start-stop-restart/',
             {
-              link: '/guides/jobs/', 
+              link: '/guides/jobs/',
               text: "Jobs",
               collapsible: true,
               children: [
@@ -84,7 +84,17 @@ export default defineUserConfig({
                 '/guides/jobs/openapi-swagger'
               ]
             },
-            '/guides/deploy-only/',
+            {
+              link: '/guides/deploy-only/',
+              text: "Deploy only",
+              collapsible: true,
+              children: [
+                '/guides/deploy-only/',
+                '/guides/deploy-only/example-github-action-to-create-radix-deploy-pipeline-job',
+                '/guides/deploy-only/example-github-action-using-ad-service-principal-access-token',
+                '/guides/deploy-only/example-github-action-building-and-deploying-application',
+              ]
+            },
             '/guides/build-and-deploy/',
             '/guides/deployment-promotion/',
             '/guides/monorepo/',
