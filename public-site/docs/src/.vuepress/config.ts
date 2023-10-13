@@ -88,6 +88,7 @@ export default defineUserConfig({
               text: "Deploy only",
               collapsible: true,
               children: [
+                '/guides/deploy-only/',
                 '/guides/deploy-only/example-github-action-to-create-radix-deploy-pipeline-job',
                 '/guides/deploy-only/example-github-action-using-ad-service-principal-access-token',
                 '/guides/deploy-only/example-github-action-building-and-deploying-application',

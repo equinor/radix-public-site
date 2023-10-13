@@ -5,7 +5,9 @@ sidebarDepth: 3
 
 # Example of using GitHub Action to build and push container to custom Container Registry
 
-This does not use Webhook, and you lose any tracability from git about active deployment.
+::: tip
+This does not use Webhook, and you lose any tracability from git about active deployments.
+:::
 
 To create a GitHub Actions you need to create a workflow file in the folder `.github/workflows`.
 
