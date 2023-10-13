@@ -6,7 +6,7 @@ sidebarDepth: 3
 # Example of using GitHub Action to build and push container to custom Container Registry
 
 ::: tip
-This does not use Webhook, and you lose any tracability from git about active deployments.
+This example triggers a deployment directly using Radix CLI with the current commit ID. See [Example of using GitHub action to create a Radix deploy pipeline job](./example-github-action-to-create-radix-deploy-pipeline-job) for how you can modify your `radixconfig.yaml` file with he new image tag instead, and then keep a history of changes in your config file.
 :::
 
 To create a GitHub Actions you need to create a workflow file in the folder `.github/workflows`.
