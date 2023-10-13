@@ -110,6 +110,10 @@ Examples of commands:
     ```shell
     rx create job build-deploy -a your-app-name --branch main
     ```
+* Promote active deployment in one environment to another:
+    ```shell
+    rx create job promote --application your-app-name --from-environment dev --to-environment prod --use-active-deployment
+    ```
 * Get list of pipeline jobs for a Radix application. `jq` helps to filter returned `json` output
     ```shell
     rx get application -a your-app-name | jq -r '.jobs'
