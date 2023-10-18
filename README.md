@@ -1,3 +1,6 @@
+PROD ![prod](https://api.radix.equinor.com/api/v1/applications/radix-platform//environments/prod/buildstatus)  
+QA   ![qa](https://api.radix.equinor.com/api/v1/applications/radix-platform//environments/qa/buildstatus)
+
 # Radix Public Site
 
 [![Logo](logo/Banner%20energy%20red@2x.png)](https://radix.equinor.com)  
@@ -16,3 +19,12 @@ platform. It is a static site built with [Vuepress](https://vuepress.vuejs.org/)
     git tag v1.0.0
     git push origin v1.0.0
     ```
+
+
+## Contributing
+
+Read our [contribution guidelines](./CONTRIBUTING.md)
+
+-----------------
+
+[Security notification](./SECURITY.md)
