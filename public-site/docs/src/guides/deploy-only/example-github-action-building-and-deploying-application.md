@@ -76,7 +76,7 @@ jobs:
         uses: equinor/radix-github-actions@v1
         with:
           args: >
-            create job
+            create pipeline-job
             deploy
             --context playground 
             --from-config 
@@ -84,4 +84,19 @@ jobs:
             --image-tag-name web=${{ github.sha }}
             --follow
 
+```
+When necessary, the `create pipeline-job deploy` command can be accompanied by an option `commitID` to provide a reference to the GitHub commit. 
+
+Example how to provide [current commit](https://docs.github.com/en/actions/learn-github-actions/variables#default-environment-variables):
+```yaml
+      - name: 'Deploy API on Radix'
+        uses: equinor/radix-github-actions@v1
+        with:
+          args: >
+            create pipeline-job
+            deploy
+            --context playground 
+            --from-config 
+            --commitID $GITHUB_SHA
+            --follow
 ```

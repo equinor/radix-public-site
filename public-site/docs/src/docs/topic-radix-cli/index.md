@@ -63,7 +63,7 @@ rx logout
 
 Radix CLI uses Radix API to execute operations. An option `verbose` can be used to get more details about requests and responses to and from the Radix CLI:
 ```shell
-rx create job deploy -a your-app-name -e dev --verbose
+rx create pipeline-job deploy -a your-app-name -e dev --verbose
 ```
 
 ### Run in CI workflow
@@ -99,21 +99,32 @@ Examples of commands:
     ```
 * Create a new "deploy only" pipeline job
     ```shell
-    rx create job deploy --application your-app-name --environment dev
-    rx create job deploy -a your-app-name -e dev
+    rx create pipeline-job deploy --application your-app-name --environment dev
+    rx create pipeline-job deploy -a your-app-name -e dev
     ```
-* Create a new "deploy only" pipeline job with specified image tags. When `radixconfig.yaml` contains `image` option with dynamic [imageTagName](https://radix.equinor.com/references/reference-radix-config/#imagetagname), this `imageTagName` can be altered in the Radix CLI `create job deploy` command option `image-tag-name`. This option will override values defined in the `radixconfig.yaml` and can be defined for multiple components in the command. `image-tag-name`, provided as an option in the command `rx create job deploy` is shown in the Radix pipeline orchestration job log. Component names that does not exist within the Radix application environment will be ignored.
+:::tip
+An option `job` of commands `create`, `get logs` is replaced with `pipeline-job`. It will be supported for backward compatibility. 
+:::
+* Create a new "deploy only" pipeline job with specified image tags. When `radixconfig.yaml` contains `image` option with dynamic [imageTagName](https://radix.equinor.com/references/reference-radix-config/#imagetagname), this `imageTagName` can be altered in the Radix CLI `create pipeline-job deploy` command option `image-tag-name`. This option will override values defined in the `radixconfig.yaml` and can be defined for multiple components in the command. `image-tag-name`, provided as an option in the command `rx create pipeline-job deploy` is shown in the Radix pipeline orchestration job log. Component names that does not exist within the Radix application environment will be ignored.
     ```shell
-    rx create job deploy --application your-app-name --environment dev --image-tag-name web-app=stable-123 --image-tag-name api=1.22.0
-    rx create job deploy -a your-app-name -e dev -t web-app=stable-123 -t api=1.22.0
+    rx create pipeline-job deploy --application your-app-name --environment dev --image-tag-name web-app=stable-123 --image-tag-name api=1.22.0
+    rx create pipeline-job deploy -a your-app-name -e dev -t web-app=stable-123 -t api=1.22.0
+    ```
+* Specify `commitID` for the "deploy only" pipeline job to provide reference to a corresponding commit in the Radix console. 
+    ```shell
+    rx create pipeline-job deploy --application your-app-name --environment dev --commitID 019e0d411de667dff6952852e03b4a38b0a689c3
     ```
 * Create a new "build and deploy" pipeline job
     ```shell
-    rx create job build-deploy -a your-app-name --branch main
+    rx create pipeline-job build-deploy -a your-app-name --branch main
     ```
 * Promote active deployment in one environment to another:
     ```shell
-    rx create job promote --application your-app-name --from-environment dev --to-environment prod --use-active-deployment
+    rx create pipeline-job promote --application your-app-name --from-environment dev --to-environment prod --use-active-deployment
+    ```
+* Restart failed of stopped pipeline job:
+    ```shell
+    rx restart pipeline-job --application your-app-name --job radix-pipeline-20231019122020-mhwif
     ```
 * Get list of pipeline jobs for a Radix application. `jq` helps to filter returned `json` output
     ```shell

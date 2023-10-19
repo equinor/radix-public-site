@@ -105,7 +105,7 @@ Admin AD group can be set in Web console => Configuration => “Change administr
 More details in the [Radix documentation](../../docs/topic-radix-cli/#commands) or with built-in `help`   
 rx scale --help  
 rx get logs component --help  
-rx create job deploy --help  
+rx create pipeline-job deploy --help  
 
 ### 2023-03-14 - Radix updates
 
