@@ -28,7 +28,6 @@ _Applicable for: `blobfuse2`_
    - `bufferSize` - size of each buffer to be cached in memory (in MB)
    - `streamCache` - limit total amount of data being cached in memory to conserve memory footprint of blobfuse (in MB)
    - `maxBlocksPerFile` - maximum number of blocks to be cached in memory
-   - `fileCaching` - file name based caching. Default is `false`, which specifies file handle based caching
 
    For streaming during read and write operations, blocks of data are cached in memory as
      they're read or updated. Updates are flushed to Azure Storage when a file is closed or
