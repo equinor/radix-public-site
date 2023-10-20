@@ -69,4 +69,4 @@ Docker build speed can be reduced by understanding caching of layers. In short, 
 
 ### Testing
 
-Automatic testing of an application can be done as a build stage inside the container. This will then be run as one of the steps when radix build the image. The [`Dockerfile`](https://github.com/equinor/radix-example-scenario-docker-multistage-with-test/blob/master/Dockerfile) used in the Radix workhops provides a good example.
+Automatic testing of an application can be done as a build stage inside the container. This will then be run as one of the steps when radix build the image. 
