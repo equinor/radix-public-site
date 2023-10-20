@@ -122,7 +122,7 @@ An option `job` of commands `create`, `get logs` is replaced with `pipeline-job`
     ```shell
     rx create pipeline-job promote --application your-app-name --from-environment dev --to-environment prod --use-active-deployment
     ```
-* Restart failed of stopped pipeline job:
+* Restart failed or stopped pipeline job:
     ```shell
     rx restart pipeline-job --application your-app-name --job radix-pipeline-20231019122020-mhwif
     ```
