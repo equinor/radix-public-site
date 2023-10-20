@@ -13,8 +13,6 @@ For each scenario you can find example code for at least one programming languag
 
 App which authenticates the user in AD, if logged in read basic user information from AD.
 
-- [Omnia Radix Auth Example](https://github.com/equinor/radix-example-auth)
-
 Example for Omnia Radix showing how to use a OAuth proxy for authentication
 
 - [Omnia Radix OAuth proxy for authentication](https://github.com/equinor/radix-example-oauth-proxy)
