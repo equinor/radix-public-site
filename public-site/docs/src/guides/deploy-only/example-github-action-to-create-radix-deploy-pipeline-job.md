@@ -88,7 +88,7 @@ jobs:
         uses: equinor/radix-github-actions@v1
         with:
           args: >
-            create job
+            create pipeline-job
             deploy
             --context playground 
             --from-config
@@ -102,7 +102,7 @@ Following are last steps for "Build and deploy" pipeline workflow (e.g. when som
         uses: equinor/radix-github-actions@v1
         with:
           args: >
-            create job
+            create pipeline-job
             build-deploy
             --context playground  
             --from-config
