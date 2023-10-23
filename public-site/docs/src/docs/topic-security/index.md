@@ -27,4 +27,4 @@ Readers have the privilege to access logs associated with the application's repl
 
 It is important to understand that **application authentication is not handled by Radix**. The application endpoints will be public. Each team managing an application hosted on Radix is responsible for authenticating their users.
 
-For an example of in-app authentication using AD have a look at [Radix Authentication Example](https://github.com/equinor/radix-example-oauth-proxy) code.
+

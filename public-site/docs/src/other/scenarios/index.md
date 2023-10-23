@@ -13,8 +13,6 @@ For each scenario you can find example code for at least one programming languag
 
 App which authenticates the user in AD, if logged in read basic user information from AD.
 
-- [Omnia Radix Auth Example](https://github.com/equinor/radix-example-auth)
-
 Example for Omnia Radix showing how to use a OAuth proxy for authentication
 
 - [Omnia Radix OAuth proxy for authentication](https://github.com/equinor/radix-example-oauth-proxy)
@@ -23,16 +21,4 @@ Example for Omnia Radix showing how to use the OAuth2 feature in Radix
 
 - [Omnia Radix Oauth2 Feature](https://github.com/equinor/radix-example-oauth2-feature)
 
-## Other samples
 
-App with "multiple" containers. No external dependencies. No back end dependencies. No storage. No secrets. Static/Dynamic web page
-
-- [App with "multiple" containers - React.js](https://github.com/equinor/radix-example-scenario-2-chat)
-
-App with monitoring, Prometheus and Grafana
-
-- [Prometheus metrics app - Node.js](https://github.com/equinor/radix-example-scenario-5-nodejs)
-
-App "running linter and unit tests as part of multistage docker build". Broken tests fail build.
-
-- [Multistage docker build app - Python](https://github.com/equinor/radix-example-scenario-7-python)

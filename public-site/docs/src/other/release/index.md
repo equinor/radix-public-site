@@ -460,9 +460,6 @@ If by any circumstance the pod running your app restarts, for instance due to la
 
 [Security – running as non-root](../../docs/topic-docker/#running-as-non-root)  
 
-Sample - [non-root oauth application](https://github.com/equinor/radix-example-oauth-proxy)  
-Sample - [.NET non-root](https://github.com/equinor/radix-example-4-dotnet)  
-Sample - [NODE non-root](https://github.com/equinor/radix-example-scenario-5-nodejs)  
 
 ### 2021-06-22 - Support for files in Azure blob container
 
