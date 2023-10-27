@@ -1,0 +1,37 @@
+apiVersion: radix.equinor.com/v1
+kind: RadixApplication
+metadata:
+  name: radix-app
+spec:
+  environments:
+    - name: dev
+      build:
+        from: main
+    - name: prod
+      build:
+        from: release
+  components:
+    - name: server
+      src: ./backend
+      ports:
+        - name: http
+          port: 3000
+      variables:
+        PORT: 3000
+        GREETING_MESSAGE: "Hello there"
+      environmentConfig:
+        - environment: prod
+          variables:
+            GREETING_MESSAGE: "Hello and welcome to the PROD environment"
+    - name: www
+      src: ./frontend
+      ports:
+        - name: http
+          port: 3001
+      publicPort: http
+      variables:
+        PORT: 3001
+        ECHO_URL: "http://server:3000"
+  dnsAppAlias:
+    environment: prod
+    component: www
