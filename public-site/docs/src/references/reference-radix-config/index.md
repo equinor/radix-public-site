@@ -67,8 +67,8 @@ Example: instead of `FROM alpine` use `FROM docker.io/alpine`, as this `alpine` 
 ### `useBuildCache`
 `useBuildCache` - (optional, defaults to `true`) pushes all layers to cache, and uses it in future builds when possible. Requires `useBuildKit` to be enabled. Internally we set `--cache-to`, `--cache-from` and `--layers` in Buildah. Read more at [Buildahs Documentation](https://github.com/containers/buildah/blob/main/docs/buildah-build.1.md)
 
-:::tip SECURITY
-Currently all build jobs have access to all cached layers. Make sure you never store secrets or confidential information in any intermitent layer, multistage image, or in your final container image.
+:::tip
+Make sure you never store secrets or confidential information in any intermitent layer, multistage image, or in your final container image.
 :::
 
 ### `secrets`
