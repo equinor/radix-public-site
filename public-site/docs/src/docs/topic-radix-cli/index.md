@@ -126,6 +126,10 @@ An option `job` of commands `create`, `get logs` is replaced with `pipeline-job`
     ```shell
     rx restart pipeline-job --application your-app-name --job radix-pipeline-20231019122020-mhwif
     ```
+* Promote active deployment in one environment to another:
+    ```shell
+    rx create job promote --application your-app-name --from-environment dev --to-environment prod --use-active-deployment
+    ```
 * Get list of pipeline jobs for a Radix application. `jq` helps to filter returned `json` output
     ```shell
     rx get application -a your-app-name | jq -r '.jobs'
