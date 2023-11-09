@@ -1,11 +1,11 @@
-FROM node:18-alpine as builder
+FROM node:20.9-alpine as builder
 
 WORKDIR /site
 COPY ./docs .
 RUN npm install
 RUN npm run build
 
-FROM nginxinc/nginx-unprivileged:1.25-alpine
+FROM nginxinc/nginx-unprivileged:1.25.2-alpine
 WORKDIR /site
 COPY --from=builder /site/src/.vuepress/dist /site
 COPY nginx.conf /etc/nginx/conf.d/default.conf
