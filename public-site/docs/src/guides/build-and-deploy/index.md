@@ -4,6 +4,14 @@ title: Build and deploy
 
 # Build and deploy
 
+
+::: tip TL;DR
+- Pipeline jobs created manually from `Radix Web Console` or `Radix CLI` will always build all components and jobs.
+- For pipeline jobs created from a `Github webhook`, Radix will only build components and jobs that affected by the changes, and reuse images from the active deployment for unchanged components/jobs.
+- When Radix detects that `radixconfig.yaml` is modified, all components and jobs are built.
+- When values for `build secrets` defined in radixconfig.yaml, are updated, the next pipeline job will build all components and jobs.
+:::
+
 The [`build-deploy`](../../start/workflows/) pipeline builds and deploys Docker files for components and jobs that do not have the [`image`](../../references/reference-radix-config/#image) property set in [`radixconfig.yaml`](../../references/reference-radix-config). The location of the Docker file for each component/job is defined in the [`dockerfileName`](../../references/reference-radix-config/#dockerfilename) and [`src`](../../references/reference-radix-config/#src) properties.
 
 A `build-deploy` pipeline job can be created manually from [`Radix Web Console`](https://console.radix.equinor.com/) or [`Radix CLI`](../../docs/topic-radix-cli/), or automatically when code is pushed to the application's Github repository, if a [GitHub webhook](https://docs.github.com/en/developers/webhooks-and-events/webhooks/about-webhooks) is configured. Instructions on how to configure a Github webhook can be found in the `Webhook` section on the application's configuration page in Radix Web Console.
@@ -98,3 +106,4 @@ spec:
 - When pipelines are created from a `Github webhook`, Radix will only build components and jobs that affected by the changes, and reuse images from the active deployment for unchanged components/jobs.
 - When Radix detects that `radixconfig.yaml` is modified, all components and jobs are built.
 - When `build secret` values are updated, the next pipeline job will build all components and jobs.
+
