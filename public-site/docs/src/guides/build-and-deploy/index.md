@@ -20,7 +20,7 @@ For manually created pipeline jobs, Radix will always build all components and j
 
 When Radix detects that `radixconfig.yaml` or `build secret` values have changed, all components and jobs are built.
 
-If no changes are detected, the pipeline job is stopped with status `Stopped no changes`.
+If no changes are detected, and [`sub-pipline`](../sub-pipeline/) is not configured, the pipeline job is stopped with status `Stopped no changes`.
 
 #### Example
 
