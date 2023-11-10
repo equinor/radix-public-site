@@ -34,7 +34,7 @@ To illustrate, consider an application with the following directory layout:
 
 and corresponding radixconfig.yaml:
 
-``` radixconfig.yaml
+``` yaml
 apiVersion: radix.equinor.com/v1
 kind: RadixApplication
 metadata:
@@ -77,7 +77,7 @@ The build change detection described in the previous example example would not h
 └── radixconfig.yaml
 ```
 
-``` radixconfig.yaml
+```yaml
 apiVersion: radix.equinor.com/v1
 kind: RadixApplication
 metadata:
