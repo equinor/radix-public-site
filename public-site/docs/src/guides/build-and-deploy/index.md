@@ -99,11 +99,3 @@ spec:
       dockerfileName: bar.Dockerfile
       src: .
 ```
-
-#### Summary
-
-- Pipelines created manually from `Radix Web Console` or `Radix CLI` will always build all components and jobs.
-- When pipelines are created from a `Github webhook`, Radix will only build components and jobs that affected by the changes, and reuse images from the active deployment for unchanged components/jobs.
-- When Radix detects that `radixconfig.yaml` is modified, all components and jobs are built.
-- When `build secret` values are updated, the next pipeline job will build all components and jobs.
-
