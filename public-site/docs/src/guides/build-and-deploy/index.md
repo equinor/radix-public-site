@@ -32,7 +32,7 @@ The log from the `Orchestrating pipeline` step prints decisions made by Radix wh
 
 ::: details Log examples
 
-Component `server` was changed, and a new container image is built. `compute` and `compute2` is unchanged, and images from active deployment is used. Image for `redis` are configured in `image` property in `radixconfig`:
+Component `server` was changed, and a new container image is built. `compute` and `compute2` are unchanged, and images from active deployment are used. Image for `redis` is configured in `image` property in `radixconfig`:
 ```
 time="2023-11-13T14:44:31Z" level=info msg="Component image source in environments:"
 time="2023-11-13T14:44:31Z" level=info msg="  qa:"
