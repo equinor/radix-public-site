@@ -12,15 +12,15 @@ title: Build and deploy
 - When values for `build secrets` defined in radixconfig.yaml, are updated, the next pipeline job will build all components and jobs.
 :::
 
-The [`build-deploy`](../../start/workflows/) pipeline builds and deploys Docker files for components and jobs that do not have the [`image`](../../references/reference-radix-config/#image) property set in [`radixconfig.yaml`](../../references/reference-radix-config). The location of the Docker file for each component and job is defined in the [`dockerfileName`](../../references/reference-radix-config/#dockerfilename) and [`src`](../../references/reference-radix-config/#src) properties.
+The [`build-deploy`](../../start/workflows/) pipeline builds and deploys container images from Docker files for components and jobs that do not have the [`image`](../../references/reference-radix-config/#image) property set in [`radixconfig.yaml`](../../references/reference-radix-config). The location of the Docker file for each component and job is defined in the [`dockerfileName`](../../references/reference-radix-config/#dockerfilename) and [`src`](../../references/reference-radix-config/#src) properties.
 
 A `build-deploy` pipeline job can be created manually from [`Radix Web Console`](https://console.radix.equinor.com/) or [`Radix CLI`](../../docs/topic-radix-cli/), or automatically when code is pushed to the application's Github repository, if a [GitHub webhook](https://docs.github.com/en/developers/webhooks-and-events/webhooks/about-webhooks) is configured. Instructions on how to configure a Github webhook can be found in the `Webhook` section on the application's configuration page in Radix Web Console.
 
-For manually created pipeline jobs, Radix will always build all components and jobs. When a pipeline job is created from a Github webhook, Radix compares the commit ID from the webhook request body with the commit ID of the active deployment to detect which directories have changed. The list of changed directories are then compared to the directory where the Docker file for each component and job is located, and if any of the changed directories are equal to, or a child of the Docker file directory, a new image is built for the component or job. Radix will *reuse* the image from the current active deployment for components and jobs that have not changed.
+For manually created pipeline jobs, Radix will always build container images for all components and jobs. When a pipeline job is created by a Github webhook, Radix compares the commit ID from the webhook request body with the commit ID of the active deployment, to detect which directories have changed. The list of changed directories are then compared to the path of the Docker file for each component and job. If any of the changed directories are equal to, or a child of the Docker file path, a new image is built for the matching component or job. Radix will reuse the image from the current active deployment for components and jobs that have not changed.
 
 When Radix detects that `radixconfig.yaml` or `build secret` values have changed, all components and jobs are built.
 
-If no changes are detected, and [`sub-pipline`](../sub-pipeline/) is not configured, the pipeline job is stopped with status `Stopped no changes`.
+If no changes are detected, and [`sub-pipeline`](../sub-pipeline/) is not configured, the pipeline job is stopped with status `Stopped no changes`.
 
 #### Example
 
@@ -62,21 +62,39 @@ spec:
 Components `foo` and `bar` are configured with different directories for their Docker files. We assume that an active deployment already exist, created from a `build-deploy` pipeline that built and deployed images named `foo:tag1` and `bar:tag1` for the `foo` and `bar` components respectively.
 
 The application developer performs the following actions:
-- A new file, `/foo/images/header.jpg`, is pushed to the repository:
+1. Pushes a new file, `/foo/images/header.jpg`, to the repository:
     - A new `build-deploy` pipeline is created by the Github webook.
-    - Radix compares the commit ID received from the webhook with the commit ID of the current deployment, and detects that directory `/foo/images` has changed. This directory is a child of `/foo`, the directory where the Docker file for component `foo` is located.
+    - Radix compares the commit ID received from the webhook with the commit ID of the current deployment, and detects that directory `/foo/images` has changed. This directory is a child of `/foo`, the path to the Docker file for component `foo`.
     - A new image, `foo:tag2`, is built for the `foo` component.
-    - The `bar` component is unchanged, and Radix will *reuse* image `bar:tag1` from the current active deployment.
-    - Once the build step is completed, the pipeline creates a new deployment where `foo` is configured to run the new `foo:tag2` image, and `bar` is configured to run the reused `bar:tag1` image.
-- The `/bar/README.md` file is updated
+    - The `bar` component is unchanged, and Radix will reuse image `bar:tag1` from the current active deployment.
+    - Once the build step is completed, the pipeline creates a new deployment where `foo` is configured to run the newly built `foo:tag2` image, and `bar` is configured to run the `bar:tag1` image from the previous deployment.
+1. The `/bar/README.md` file is updated.
     - A new `build-deploy` job is created by the Github webhook.
-    - Radix detects that the `/bar` directory has changed, the  is the `src` of the `bar` component. Radix will therefore build a new image, `bar:tag3`, for this component, and *reuse* the image `foo:tag2` for the unchanged `foo` component.
-1. The `/CHANGE_LOG.md` is updated, and a new `build-deploy` pipeline is triggered. Radix detects that the `/` (root) directory has changed. This directory is not within the `src` directory structure of any components, and Radix will abort the pipeline with status `Stopped no changes`.
-1. Files `/foo/main.js` and `/bar/main.js` are updated, and a new `build-deploy` pipeline is triggered. Radix detects that directories `/foo` and `/bar` have changed, and builds new images, `foo:tag4` and `bar:tag4`, for both components. The new deployment is configured to use image `foo:tag4` for `foo` and `bar:tag4` for `bar`.
-1. The `radixconfig.yaml` is updated, and a new `build-deploy` pipeline is triggered. Radix detects that the `/` (root) directory has changed. Even though this directory does not match the `src` of any components, Radix detects that `radixconfig.yaml` was modified and will therefore build new images, `foo:tag5` and `bar:tag5`, for both components. The new deployment is configured to use image `foo:tag5` for `foo` and `bar:tag5` for `bar`.
-1. The developer updates the value for build secret `SECRET1`. Later, the `/CHANGE_LOG.md` is updated, and a new `build-deploy` pipeline is triggered. Radix detects that the `/` (root) directory has changed, which does match the `src` of any components, but since build secrets have changed since last deployment, Radix builds new images, `foo:tag6` and `bar:tag6`, for both components. The new deployment is configured to use image `foo:tag6` for `foo` and `bar:tag6` for `bar`.
+    - Radix detects that the `/bar` directory has changed, the path to the Docker file for component `bar`.
+    - A new image, `bar:tag3`, is built for the `bar` component.
+    - The `foo` component is unchanged, and Radix will reuse image `foo:tag2`.
+    - The new deployment is configured to run image `foo:tag2` for the `foo` component, and `bar:tag3` for the `bar` component.
+1. The `/CHANGE_LOG.md` is updated.
+    - A new `build-deploy` pipeline is triggered.
+    - Radix detects that the `/` (root) directory has changed. This directory is not equal to, or a child of the path to the Docker files for any components.
+    - Radix aborts the pipeline with status `Stopped no changes`.
+1. Files `/foo/main.js` and `/bar/main.js` are updated.
+    - A new `build-deploy` pipeline is triggered.
+    - Radix detects that directories `/foo` and `/bar` have changed, matching the path to the Docker files for both components.
+    - New images, `foo:tag4` and `bar:tag4`, are built for the components.
+    - The new deployment is configured to run image `foo:tag4` for the `foo` component, and `bar:tag4` for the `bar` component.
+1. The `radixconfig.yaml` is updated
+    - A new `build-deploy` pipeline is triggered.
+    - Radix detects that the `/` (root) directory has changed. This directory does not match the path to the Docker files for any components, but Radix detects that `radixconfig.yaml` is modified.
+    - New images, `foo:tag5` and `bar:tag5`, are built for the components.
+    - The new deployment is configured to run image `foo:tag5` for the `foo` component, and `bar:tag5` for the `bar` component.
+1. The developer updates the value for build secret `SECRET1`.
+    - At a later time, the `/CHANGE_LOG.md` is updated, and a new `build-deploy` pipeline is triggered.
+    - Radix detects that the `/` (root) directory has changed, This directory does not match the path to the Docker files for any components, but Radix detects that `build secrets` have changed since last deployment.
+    - New images, `foo:tag6` and `bar:tag6`, are built for the components.
+    - The new deployment is configured to run image `foo:tag6` for the `foo` component, and `bar:tag6` for the `bar` component.
 
-The build change detection described in the previous example would not have worked had the Docker files been placed in the same directory, e.g. `/` (root). In the next example, both components have `src` set to `.` (root). Any change will always match, or be a child of `src`, and Radix will therefore always build both components.
+The build change detection described in the previous example would not have worked had the Docker files been placed in the same directory, e.g. `/` (root). In the next example, the Docker file path for both components is `/` (root). Any change will always match, or be a child of `/`, and Radix will therefore always build both components.
 
 ``` directory-structure
 ├── foo/
