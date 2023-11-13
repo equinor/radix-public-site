@@ -89,7 +89,7 @@ The application developer performs the following actions:
     - Radix detects that directories `/foo` and `/bar` have changed, matching the path to the Dockerfiles for both components.
     - New images, `foo:tag4` and `bar:tag4`, are built for the components.
     - The new deployment is configured to run image `foo:tag4` for the `foo` component, and `bar:tag4` for the `bar` component.
-1. The `radixconfig.yaml` is updated
+1. The `radixconfig.yaml` is updated.
     - A new `build-deploy` pipeline is triggered.
     - Radix detects that the `/` (root) directory has changed. This directory does not match the path to the Dockerfiles for any components, but Radix detects that `radixconfig.yaml` is modified.
     - New images, `foo:tag5` and `bar:tag5`, are built for the components.
@@ -100,18 +100,19 @@ The application developer performs the following actions:
     - New images, `foo:tag6` and `bar:tag6`, are built for the components.
     - The new deployment is configured to run image `foo:tag6` for the `foo` component, and `bar:tag6` for the `bar` component.
 
-The build change detection described in the previous example would not have worked had the Dockerfiles been placed in the same directory, e.g. `/` (root). In the next example, the Dockerfile path for both components is `/` (root). Any change will always match, or be a child of `/`, and Radix will therefore always build both components.
+If the Dockerfiles for the two components in the previous example are placed in the same directory, e.g. `/src`, then Radix will not be able to distinguish between them. Any change in `/src`, or any of its sub-folders, will always match both components. See example below:
 
 ``` directory-structure
-├── foo/
-│   ├── images/
-│   │   └── logo.jpg
-│   └── main.js
-├── bar/
-│   ├── main.js
-│   └── README.md
-├── foo.Dockerfile
-├── bar.Dockerfile
+├── src/
+│   ├── foo/
+│   │   ├── images/
+│   │   │   └── logo.jpg
+│   │   └── main.js
+│   ├── bar/
+│   │   ├── main.js
+│   │   └── README.md
+│   ├── foo.Dockerfile
+│   └── bar.Dockerfile
 ├── CHANGE_LOG.md
 └── radixconfig.yaml
 ```
@@ -124,11 +125,11 @@ metadata:
 spec:
   components:
     - name: foo
+      src: src
       dockerfileName: foo.Dockerfile
-      src: .
     - name: bar
+      src: src
       dockerfileName: bar.Dockerfile
-      src: .
 ```
 
 #### More examples
