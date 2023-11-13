@@ -28,6 +28,43 @@ When Radix detects that `radixconfig.yaml` or `build secret` values have changed
 
 If no changes are detected, and [`sub-pipeline`](../sub-pipeline/) is not configured, the pipeline job is stopped with status `Stopped no changes`.
 
+The log from the `Orchestrating pipeline` step prints decisions made by Radix whether to build new images, reuse images from current deployment or use images from `image` property in `radixconfig`.
+
+::: details Log examples
+
+Component `server` was changed, and a new container image is built. `compute` and `compute2` is unchanged, and images from active deployment is used. Image for `redis` are configured in `image` property in `radixconfig`:
+```
+time="2023-11-13T14:44:31Z" level=info msg="Component image source in environments:"
+time="2023-11-13T14:44:31Z" level=info msg="  qa:"
+time="2023-11-13T14:44:31Z" level=info msg="    - server from build"
+time="2023-11-13T14:44:31Z" level=info msg="    - redis from image in radixconfig"
+time="2023-11-13T14:44:31Z" level=info msg="    - compute from active deployment"
+time="2023-11-13T14:44:31Z" level=info msg="    - compute2 from active deployment"
+```
+
+Changed `radixconfig`, requiring all components to be built:
+```
+time="2023-11-13T14:42:56Z" level=info msg="RadixApplication updated since last deployment to environment qa"
+time="2023-11-13T14:42:56Z" level=info msg="Component image source in environments:"
+time="2023-11-13T14:42:56Z" level=info msg="  qa:"
+time="2023-11-13T14:42:56Z" level=info msg="    - server from build"
+time="2023-11-13T14:42:56Z" level=info msg="    - redis from image in radixconfig"
+time="2023-11-13T14:42:56Z" level=info msg="    - compute from build"
+time="2023-11-13T14:42:56Z" level=info msg="    - compute2 from build"
+```
+
+Changed `build secret` values, requiring all components to be built:
+```
+time="2023-11-13T14:37:44Z" level=info msg="Build secrets updated since last deployment to environment dev"
+time="2023-11-13T14:37:44Z" level=info msg="Component image source in environments:"
+time="2023-11-13T14:37:44Z" level=info msg="  qa:"
+time="2023-11-13T14:37:44Z" level=info msg="    - server from build"
+time="2023-11-13T14:37:44Z" level=info msg="    - redis from image in radixconfig"
+time="2023-11-13T14:37:44Z" level=info msg="    - compute from build"
+time="2023-11-13T14:37:44Z" level=info msg="    - compute2 from build"
+```
+:::
+
 #### Example
 
 To illustrate, consider an application with the following directory layout:
