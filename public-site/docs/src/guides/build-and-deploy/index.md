@@ -18,6 +18,12 @@ A `build-deploy` pipeline job can be created manually from [`Radix Web Console`]
 
 For manually created pipeline jobs, Radix will always build container images for all components and jobs. When a pipeline job is created by a Github webhook, Radix compares the commit ID from the webhook request body with the commit ID of the active deployment, to detect which directories have changed. The list of changed directories are then compared to the path of the Dockerfile for each component and job. If any of the changed directories are equal to, or a child of the Dockerfile path, a new image is built for the matching component or job. Radix will reuse the image from the current active deployment for components and jobs that have not changed.
 
+::: tip
+The path to the Dockerfile is defined by the `src` and `dockerfileName` properties. `dockerfileName` can contain path elements relative to `src`, for example `../Dockerfile` or `myfolder/Dockerfile`.
+
+See [`dockerfileName`](../../references/reference-radix-config/#dockerfilename) and [`src`](../../references/reference-radix-config/#src) for more information.
+:::
+
 When Radix detects that `radixconfig.yaml` or `build secret` values have changed, all components and jobs are built.
 
 If no changes are detected, and [`sub-pipeline`](../sub-pipeline/) is not configured, the pipeline job is stopped with status `Stopped no changes`.
@@ -124,3 +130,11 @@ spec:
       dockerfileName: bar.Dockerfile
       src: .
 ```
+
+#### More examples
+
+* [One component with the source in a sub-folder](./example-single-component-application-with-source-in-subfolder.md)
+* [One component with the source in the root](./example-single-component-application-with-source-in-root.md)
+* [Multiple components with the code in sub-folders](./example-multiple-components-application-with-source-in-subfolders.md)
+* [Multiple components in the root](./example-multiple-components-application-with-source-in-root.md)
+* [Multiple Radix applications with the source in the same GitHub repository](./example-monorepo-for-multiple-applications-with-same-repository.md)
