@@ -195,7 +195,7 @@ spec:
           port: 5000
 ```
 
-`src` a folder, relative to the repository root, where the component source code and its `Dockerfile` are located to be built within the [Build and deploy](../../guides/build-and-deploy/) workflow of the Radix CI-CD pipeline. By default `src` is `.` - a root of the GitHub repository.
+`src` a folder, relative to the repository root, where the `Dockerfile` for the component is located. The Dockerfile is used by the [Build and deploy](../../guides/build-and-deploy/) workflow of the Radix CI-CD pipeline to build a container image for the component. By default `src` is `.` - a root of the GitHub repository.
 
 > When the `image` option is set - `src` option is ignored.
 
@@ -205,18 +205,31 @@ spec:
 spec:
   components:
     - name: frontend
-      dockerfileName: frontend.Dockerfile
+      dockerfileName: Dockerfile # Absolute path from repository root: /Dockerfile
       ports:
         - name: http
           port: 8080
     - name: backend
-      dockerfileName: backend.Dockerfile
+      src: .
+      dockerfileName: backend/Dockerfile # Absolute path from repository root: /backend/Dockerfile
       ports:
         - name: http
           port: 5000
+    - name: api
+      src: api
+      dockerfileName: "../Dockerfile" # Absolute path from repository root: /Dockerfile
+      ports:
+        - name: http
+          port: 5000
+    - name: web
+      src: web
+      dockerfileName: "subfolder/Dockerfile" # Absolute path from repository root: /web/subfolder/Dockerfile
+      ports:
+        - name: http
+          port: 5000          
 ```
 
-By default, Radix pipeline expects a docker file with a name `Dockefile` in the component source folder, specified in the option `src`. If this file name needs to be different, it can be specified in the option `dockerfileName`.
+By default, Radix pipeline expects a docker file with a name `Dockefile` in the component `src` folder. If this file name needs to be different, it can be specified in the option `dockerfileName`. The name can also contain a path relative to `src`. See configuration examples above.
 
 > When the `image` option is set - `dockerfileName` option is ignored.
 
