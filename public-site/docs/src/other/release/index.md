@@ -11,6 +11,78 @@ sidebarDepth: 2
 
 [`build-deploy`](../../guides/build-and-deploy/) pipeline jobs created from a Github webhook will only build changed components and jobs. The commit ID from the webhook is compared with the commit ID from the active deployment to generate a list of changed directories. This list is compared with the path of the Dockerfile for each component and job. The component/job is built if the Dockerfile path is equal to, or a parent of any changed directory.
 
+### 2023-11-13 New version of Radix CLI
+We have just released a new version of Radix CLI v1.12.1 with a ``validate radix-config`` command. It checks radixconfig.yaml for structural and logical errors
+Also available as a Github action step
+````
+- name: 'Validate RadixConfig file '
+  uses: equinor/radix-github-actions@v1
+  with:
+    args: validate radix-config --print
+````
+
+### 2023-10-20 Commit ID option in deploy-only pipeline jobs
+Radix CLI v1.10.0 and Radix GitHub action support an additional option ``commitID`` in the command ``rx create pipeline-job deploy`` . It is a 40 chars text field, which can have a reference to a GitHub commit-id, which will be shown in the Radix console, in the list of pipeline jobs and job details.  
+In Radix CLI and Radix GitHub action, an option ``job`` is renamed to ``pipeline-job`` for commands create job , get logs jobs -> rx create pipeline-job , rx get logs pipeline-jobs. The previous option ``job`` well remain in these commands for backward compatibility. It is done to avoid confusion with "batch jobs", which are for job-components.
+
+### 2023-10-18 Rerun failed or stopped pipeline jobs
+If a pipeline job is failed or stopped, it can be rerun with a **button** in the Radix console - a new job is created with the same parameters and commit-id.  
+This can be particularly useful in case of job, failed due to timeout in accessing external services.  
+
+To reduce the error "TLS Handshake timeout" it has been mitigated in Radix pipeline logic now.  
+
+### 2023-10-09 Changes in Azure Blob volume-mounts
+If your Radix application uses Azure Blob volume mount, [radixconfig.yaml](../../references/reference-radix-config/) has a configuration of this volume mount, which has an optional property ``accessMode``. If the application need not only read, but also write to this Azure Blob container, please specify explicitly this property, we recommend for the read-write purpose to set it to ``ReadWriteMany``:
+````yaml
+volumeMounts:
+  - name: volume-name
+    path: /path/in/container/to/mount/to
+    blobfuse2:
+      container: container-name
+      uid: 1000
+      accessMode: ReadWriteMany
+````
+
+### 2023-10-02 Radix now supports docker BuildKit in the pipeline
+Radix application can be configured to be built with [Docker BuildKit](https://docs.docker.com/build/buildkit/)  
+Use an option ``useBuildKit: true`` in the [build radixconfig](../../references/reference-radix-config/#build) section.
+Please note:
+there maybe be changes required in a dockerfile, particularly secrets will be passed with more secure way, repository name is needed in the FROM instruction. Read more in the [guide](../../guides/build-secrets/#build-secrets-with-buildkit)  
+
+### Grouped secrets in Radix Web Console
+Secrets in Components have been redesigned, sorted and grouped, hopefully making them bearable to read through  
+
+### 2023-09-26 Improved log feature for jobs (job compnent) in Radix Web Console
+Previously, logs for completed jobs (status: succeeded, failed or stopped) disappeared from the Radix Web Console after some time (hours, days). The reason for this behavior is usually caused by internal Kubernetes cleanup processes or when nodes in the cluster are scaled down.  
+We have added a new panel, **Job Logs History**, in the job detail page (similar to the **Replica Logs** panel for a component). This panel lists all runs/retries from the last **30 days** for a specific job, sorted descending by start time, and the log for a specific run/retry can be downloaded by clicking on the download button.  
+The attached screenshot shows a job that has Backoff Limit set to 10 (will restart the job 10 times if exists with a non-zero error code). The job has failed 11 times (initial run + 10 retries). The Job Logs History lists all 11 runs. The log for a specific run can be downloaded by clicking on the download icon.
+
+
+### 2023-09-19 Radix now runs all jobs in a separate node-pool
+Because jobs often run a shorter period, then regular components, and may require larger amount of resources, Radix now runs any jobs (pipeline, scheduled) in their own Kubernetes node pool (a set of virtual machines), dedicated only for jobs. We expect it will reduce an impact on regular components (which runs normally permanently) and give more resources quickly available due to shorter run nature in most cases.  
+This node pool also has autoscaling.
+
+### 2023-08-22 Updated Radix CLI and Radix GitHub actions
+[Radix CLI](https://github.com/equinor/radix-cli) updated (v1.8.0)
+* Authentication now uses [MSAL library](https://github.com/AzureAD/microsoft-authentication-library-for-go)
+* All commands return exit code 1 on error
+* Usage description is not shown on command error
+* Option ``await-reconcile`` is set by default to true and is applicable only for the command ``set environment-secret`` , as it is applicable only too this command.
+* Added commands `get deployment` of an application in case you need to clean obsolete or not used images in own docker images repository
+
+#### Radix github action updated
+Now [it has releases](https://github.com/equinor/radix-github-actions/releases), with latest tested release v1 , which is recommended to use in GitHub actions, instead of master
+Previous use example: ``equinor/radix-github-actions@master``
+Recommended use example:
+``````      - name: 'Deploy app'
+        uses: equinor/radix-github-actions@v1
+        with:
+          args: >
+            create job
+``````
+* With this v1 release it will get particular Radix CLI stable release instead of the latest one.
+
+
 ### 2023-08-15 - Radix application reader role
 A `Radix application reader` role has been added to Radix. This role is a read-only role intended for users who need to view information about a Radix application, but should not be allowed to perform any actions such as starting or stopping components, or deleting the application.
 Readers have the privilege to view logs associated with their replicas and jobs.
