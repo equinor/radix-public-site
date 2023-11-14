@@ -7,6 +7,9 @@ sidebarDepth: 2
 
 ## 2023
 
+### 2023-11-14 - Only build changed components and jobs
+
+[`build-deploy`](../../guides/build-and-deploy/) pipeline jobs created from a Github webhook will only build changed components and jobs. The commit ID from the webhook is compared with the commit ID from the active deployment to generate a list of changed directories. This list is compared with the path of the Dockerfile for each component and job. The component/job is built if the Dockerfile path is equal to, or a parent of any changed directory.
 
 ### 2023-08-15 - Radix application reader role
 A `Radix application reader` role has been added to Radix. This role is a read-only role intended for users who need to view information about a Radix application, but should not be allowed to perform any actions such as starting or stopping components, or deleting the application.
