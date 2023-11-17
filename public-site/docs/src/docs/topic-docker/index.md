@@ -6,7 +6,7 @@ title: Docker & containers
 
 For a general understanding of what Docker and Container is, have a look at [What is a Container](https://www.docker.com/resources/what-container) or a more in-depth presentation from the Stavanger [playground](https://github.com/equinor/playground-stavanger/tree/master/docker-basic).
 
-[Katacoda](https://www.katacoda.com/) offers free courses where you can work with Docker directly in the browser, without having to install it locally. Other resources could be the official [Docker documentation](https://docs.docker.com/).
+Other resources could be the official [Docker documentation](https://docs.docker.com/).
 
 ## Security
 
