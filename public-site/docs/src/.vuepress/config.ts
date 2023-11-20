@@ -46,7 +46,7 @@ export default defineUserConfig({
         link: '/references/',
       },
       {
-        text: 'Other',
+        text: 'Community',
         link: '/other/',
       },
       {
@@ -158,14 +158,12 @@ export default defineUserConfig({
       ],
       '/other/': [
         {
-          text: 'Other',
+          text: 'Community',
           collapsible: false,
           children: [
-            '/other/',
-            '/other/scenarios/',
             '/other/community/',
-            '/other/release/'
-          ],
+            '/other/release/',
+            '/other/scenarios/'          ],
         },
       ],
       '/references/': [
