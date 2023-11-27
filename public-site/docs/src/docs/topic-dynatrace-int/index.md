@@ -45,3 +45,6 @@ ENV LD_PRELOAD /opt/dynatrace/oneagent/agent/lib64/liboneagentproc.so
 USER 1001
 ENTRYPOINT ["dotnet", "api.dll", "--urls=http://0.0.0.0:5000"]
 ```
+::: warning UNSUPPORTED
+This Dockerfile is not supported by Radix and will not build. Build secrets are base64 encoded and cannot be used in FROM arguments in your Dockerfile.
+:::
