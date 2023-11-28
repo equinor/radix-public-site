@@ -258,6 +258,25 @@ spec:
 >   - `image: gcr.io/distroless/nodejs18-debian11:latest`.
 > - When an image is not publicly available, it is required to provide an authentication information. Please read more about [privateImageHubs](./#privateimagehubs) option.
 
+### `ports`
+```yaml
+spec:
+  components:
+    - name: frontend
+      ports:
+        - name: http
+          port: 8000
+        - name: api
+          port: 8001
+```
+A component can have one or several ports:
+* `name` - an internal name of a port, used to reference to it within the radixconfig. It needs to be unique within the component `ports` list.
+* `port` - numeric value of a port, in the range between 1024 and 65535. It needs to be unique within the component `ports` list.
+
+A component _should_ have at least one port, on which it can respond to TCP or HTTP requests. Kubernetes [readiness probe](../../docs/topic-rollingupdate/#readiness-probe) regularly requests the component on the first port in the `ports` list to ensure that the component can handle requests. 
+
+When a new component version is deployed, the probe waits while replicas of the new component version start responding on such requests, keeping them in the state "Starting". When these new replicas begin to respond on requests, the [rolling update](../../docs/topic-rollingupdate/) removes old component version replicas. 
+
 ### `publicPort`
 
 ```yaml
