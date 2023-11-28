@@ -81,9 +81,6 @@ When OAuth2 is enabled for a component in [`radixconfig.yaml`](../../references/
 - Register the OAuth2 service's callback URLs in the Azure AD application registration. The default path is **/oauth2/callback**, and is composed of the value in `proxyPrefix` (default **/oauth2**) and suffixed with **/callback**.
   ![Register Redirect URL](./aad-register-callback.png "Register Redirect URL")  
 
-::: tip Sample
-Example application: [radix-example-oauth2-feature](https://github.com/equinor/radix-example-oauth2-feature)
-:::
 
 #### Restrict access to AAD group
 
@@ -116,7 +113,7 @@ It's possible to use a proxy in front of the client application that takes care 
 
 ![Diagram](./radix-front-proxy.png "Application diagram")
 
-For an example using [oauth2_proxy](https://github.com/oauth2-proxy/oauth2-proxy/blob/master/docs/docs/configuration/overview.md) see [Radix oauth example](https://github.com/equinor/radix-example-oauth-proxy). [Radix Web Console](https://console.radix.equinor.com/) uses this service, and does API calls to radix-api through a [nginx reverse proxy](https://github.com/equinor/radix-web-console/blob/master/proxy/nginx.conf)
+For an example using [oauth2_proxy](https://github.com/oauth2-proxy/oauth2-proxy/blob/master/docs/docs/configuration/overview.md) see [Radix oauth example](../../../../../examples/radix-oauth-proxy/). [Radix Web Console](https://console.radix.equinor.com/) uses this service, and does API calls to radix-api through a [nginx reverse proxy](https://github.com/equinor/radix-web-console/blob/master/proxy/nginx.conf)
 
 Pro
 
