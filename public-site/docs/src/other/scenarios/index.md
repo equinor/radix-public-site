@@ -15,5 +15,5 @@ App which authenticates the user in AD, if logged in read basic user information
 
 Example for Omnia Radix showing how to use a OAuth proxy for authentication
 
-- [Omnia Radix OAuth proxy for authentication](https://github.com/equinor/radix-example-oauth-proxy)
+- [Omnia Radix OAuth proxy for authentication](../../../../../examples/radix-oauth-proxy/)
 
