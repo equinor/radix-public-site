@@ -81,9 +81,6 @@ When OAuth2 is enabled for a component in [`radixconfig.yaml`](../../references/
 - Register the OAuth2 service's callback URLs in the Azure AD application registration. The default path is **/oauth2/callback**, and is composed of the value in `proxyPrefix` (default **/oauth2**) and suffixed with **/callback**.
   ![Register Redirect URL](./aad-register-callback.png "Register Redirect URL")  
 
-::: tip Sample
-Example application: [radix-example-oauth2-feature](https://github.com/equinor/radix-example-oauth2-feature)
-:::
 
 #### Restrict access to AAD group
 
