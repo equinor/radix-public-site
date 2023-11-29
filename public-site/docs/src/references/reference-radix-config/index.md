@@ -269,7 +269,7 @@ spec:
         - name: api
           port: 8001
 ```
-A component can have one or several ports:
+A component can have one or more ports:
 * `name` - an internal name of a port, used to reference to it within the radixconfig. It needs to be unique within the component `ports` list.
 * `port` - numeric value of a port, in the range between 1024 and 65535. It needs to be unique within the component `ports` list.
 
