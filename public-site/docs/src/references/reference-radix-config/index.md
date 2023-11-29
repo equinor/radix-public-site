@@ -273,7 +273,7 @@ A component can have one or more ports:
 * `name` - internal name of a port, used as a reference within the radixconfig. It needs to be unique within the component `ports` list.
 * `port` - numeric value of a port, in the range between 1024 and 65535. It needs to be unique within the component `ports` list.
 
-A component _should_ have at least one port, on which it can respond to TCP or HTTP requests. Kubernetes [readiness probe](../../docs/topic-rollingupdate/#readiness-probe) regularly requests the component on the first port in the `ports` list to ensure that the component can handle requests. 
+A component _should_ have at least one port, on which it can respond to TCP or HTTP requests. Kubernetes [readiness probe](../../docs/topic-rollingupdate/#readiness-probe) will regularly request the first component in the `ports` list to ensure that the component can handle requests. 
 
 When a new component version is deployed, the probe waits until replicas of the new component version start responding to such requests, keeping them in the "Starting" state. When the new replicas respond to these requests, the [rolling update](../../docs/topic-rollingupdate/) will remove the replicas of the old component version 
 
