@@ -275,7 +275,7 @@ A component can have one or more ports:
 
 A component _should_ have at least one port, on which it can respond to TCP or HTTP requests. Kubernetes [readiness probe](../../docs/topic-rollingupdate/#readiness-probe) regularly requests the component on the first port in the `ports` list to ensure that the component can handle requests. 
 
-When a new component version is deployed, the probe waits while replicas of the new component version start responding on such requests, keeping them in the state "Starting". When these new replicas begin to respond on requests, the [rolling update](../../docs/topic-rollingupdate/) removes old component version replicas. 
+When a new component version is deployed, the probe waits until replicas of the new component version start responding to such requests, keeping them in the "Starting" state. When the new replicas respond to these requests, the [rolling update](../../docs/topic-rollingupdate/) will remove the replicas of the old component version 
 
 ### `publicPort`
 
