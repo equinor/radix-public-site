@@ -15,29 +15,31 @@ Join the Slack channel ***#application-performance-management***
 ### Dockerfile sample
 
 ```dockerfile
-# Use Dynatrace PRE_PRODs tenant to build image and is only relevant for which secret is used to authenticate the image
-FROM spa-equinor.kanari.com/e/eddaec99-38b1-4a9c-9f4c-9148921efa10/linux/oneagent-codemodules:all as dynatrace_repo
+# Always use Dynatrace pre-production image (override in RadixConfig)
+FROM spa-equinor.kanari.com/e/eddaec99-38b1-4a9c-9f4c-9148921efa10/linux/oneagent-codemodules:all AS DYNATRACE
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS BUILD
 WORKDIR /source
 COPY . .
 WORKDIR /source/api
 RUN dotnet publish -c release -o /app
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 
-WORKDIR /app
-COPY --from=build /app ./
-EXPOSE 5000
 
-ENV DT_TAGS DT_MZ=<TeamMzName> # Set yor app name here
-COPY --from=dynatrace_repo / /
-RUN mkdir /logs && chown -R 1001:1001 /logs
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS PRODUCTION 
 
 #Dynatrace config
+COPY --from=DYNATRACE / /
 ENV LD_PRELOAD /opt/dynatrace/oneagent/agent/lib64/liboneagentproc.so
+ENV DT_TAGS DT_MZ=<TeamMzName> # Set yor app name here
+
+#Application config
+WORKDIR /app
+RUN mkdir /logs && chown -R 1001:1001 /logs
+COPY --from=BUILD /app ./
 
 # Runtime user change to non-root for added security
+EXPOSE 5000
 USER 1001
 ENTRYPOINT ["dotnet", "api.dll", "--urls=http://0.0.0.0:5000"]
 ```
@@ -71,4 +73,4 @@ spec:
             DT_TENANT: da982f2e-adc0-4062-a06c-67889dfe4e1a
 ```
 
-After changing your `radixconfig.yaml` file and pushing the changes, you must log in to your Application Configuration page in https://console.radix.equinor.com and paste in the API-Token under **App Secrets** and **Private image hubs**
+After changing your `radixconfig.yaml` file and pushing the changes, you must log in to your Application Configuration page in [Radix Console](https://console.radix.equinor.com) and paste in the API-Token under **App Secrets** and **Private image hubs**
