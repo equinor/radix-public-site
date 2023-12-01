@@ -33,7 +33,9 @@ The documentation will use the second option.
 
 > Radix only reads `radixconfig.yaml` from the branch we set as the `Config Branch` in the application registration form. If the file is changed in other branches, those changes will be ignored. The `Config Branch` must be mapped to an environment in `radixconfig.yaml`
 
-The major difference between a deploy-only `radixconfig.yaml` and a regular Radix application `radixconfig.yaml`, is the lack of components' `src` property, as there is nothing to build on Radix. Rather it uses an `image` property, alongside a separate `imageTagName` property per environment, as shown below:
+The major difference between a `deploy-only` and a regular Radix application, is that the [`image`](../../references/reference-radix-config/#image) property in `radixconfig.yaml` is set for all components and jobs. 
+
+When `image` is suffixed with [`{imageTagName}`](../../references/reference-radix-config/#imagetagname), the Radix `deploy` pipeline will replace `{imageTagName}` with the environment specific `imageTagName` from `radixconfig.yaml`, or from the value specified with the `--image-tag-name` flag in [`Radix CLI`](../../docs/topic-radix-cli/#commands). If `imageTagName` is not specified for an environment, it must be set with the `--image-tag-name` flag. If both are specified, `--image-tag-name` takes precedence over `imageTagName`. 
 
 ```yaml
 apiVersion: radix.equinor.com/v1
@@ -60,6 +62,11 @@ spec:
           imageTagName: master-latest
         - environment: prod
           imageTagName: release-39f1a082
+    - name: redis
+      image: bitnami/redis:7.2
+      ports:
+        - name: redis
+          port: 6379
   privateImageHubs:
     ghcr.io:
       username: <some GitHub user name>
