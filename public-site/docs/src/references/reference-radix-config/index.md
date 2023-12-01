@@ -1044,13 +1044,10 @@ There is a [detailed guide](../../guides/external-alias/) on how to set up exter
 spec:
   components:
     - name: webserver
-      image: privaterepodeleteme.azurecr.io/nginx:latest
+      image: myappacr.azurecr.io/myapp-base:latest
   privateImageHubs:
-    privaterepodeleteme.azurecr.io:
+    myappacr.azurecr.io:
       username: 23452345-3d71-44a7-8476-50e8b281abbc
-      email: radix@statoilsrm.onmicrosoft.com
-    privaterepodeleteme2.azurecr.io:
-      username: 23423424-3d71-44a7-8476-50e8b281abb2
       email: radix@statoilsrm.onmicrosoft.com
 ```
 
@@ -1058,7 +1055,7 @@ It is possible to pull images from private image hubs during deployment for an a
 
 With the `useBuildKit: true` setting in your `radixconfig.yaml`, you can also use privateImageHub credentials within the Dockerfile `FROM` instruction. 
 ```dockerfile
-FROM privaterepodeleteme.azurecr.io/nginx:latest
+FROM myappacr.azurecr.io/myapp-base:latest
 ```
 A `password` for these must be set via the Radix Web Console (under Configuration -> Private image hubs).
 
