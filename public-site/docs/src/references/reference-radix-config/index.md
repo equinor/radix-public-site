@@ -1054,7 +1054,7 @@ spec:
       email: radix@statoilsrm.onmicrosoft.com
 ```
 
-t is possible to pull images from private image hubs during deployment for an application. This means that you can add a reference to a private image hub in radixconfig.yaml file using the `image:` tag. See example above. 
+It is possible to pull images from private image hubs during deployment for an application. This means that you can add a reference to a private image hub in radixconfig.yaml file using the `image:` tag. See example above. 
 
 With the `useBuildKit: true` setting in your `radixconfig.yaml`, you can also use privateImageHub credentials within the Dockerfile `FROM` instruction. 
 ```dockerfile
