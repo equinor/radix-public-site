@@ -1,7 +1,6 @@
 # Radix example: front proxy
 
-* Updated to use base image from quay
-* All components run as nonroot
+**This is application files that should be reviewed as sample input to the use of oauth proxy in your application. Have a look and include what you need in your app.**
  
 This is a sample application that showcases how to use an authentication proxy to provide authentication for a SPA front-end that calls an protected API. The API is only accessible for all authenticated Equinor users. It is possible to further restrict this to only allow for a specific [role to have access to the API](https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-add-app-roles-in-azure-ad-apps)
 
