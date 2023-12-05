@@ -1063,17 +1063,20 @@ There is a [detailed guide](../../guides/external-alias/) on how to set up exter
 spec:
   components:
     - name: webserver
-      image: privaterepodeleteme.azurecr.io/nginx:latest
+      image: myappacr.azurecr.io/myapp-base:latest
   privateImageHubs:
-    privaterepodeleteme.azurecr.io:
+    myappacr.azurecr.io:
       username: 23452345-3d71-44a7-8476-50e8b281abbc
-      email: radix@statoilsrm.onmicrosoft.com
-    privaterepodeleteme2.azurecr.io:
-      username: 23423424-3d71-44a7-8476-50e8b281abb2
       email: radix@statoilsrm.onmicrosoft.com
 ```
 
-It is possible to pull images from private image hubs during deployment for an application. This means that you can add a reference to a private image hub in radixconfig.yaml file using the `image:` tag. See example above. A `password` for these must be set via the Radix Web Console (under Configuration -> Private image hubs).
+It is possible to pull images from private image hubs during deployment for an application. This means that you can add a reference to a private image hub in radixconfig.yaml file using the `image:` tag. See example above. 
+
+With the `useBuildKit: true` setting in your `radixconfig.yaml`, you can also use privateImageHub credentials within the Dockerfile `FROM` instruction. 
+```dockerfile
+FROM myappacr.azurecr.io/myapp-base:latest
+```
+A `password` for these must be set via the Radix Web Console (under Configuration -> Private image hubs).
 
 To get more information on how to connect to a private Azure container registry (ACR), see the following [guide](https://thorsten-hans.com/how-to-use-private-azure-container-registry-with-kubernetes). The chapter `Provisioning an Azure Container Registry` provide information on how to get service principle `username` and `password`. It is also possible to create a Service Principle in Azure AD, and then manually grant it access to your ACR.
 
