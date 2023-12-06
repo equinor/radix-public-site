@@ -6,7 +6,7 @@ title: Integrate Dynatrace in a Radix app
 
 Adding Dynatrace as your monitoring tool can be done by adding the Dynatrace agent to your build. See the sample below.
 
-This method are adding the oneagent to the containers, and manipulating environment etc with runtime environments. Read more about Equinors Dynatrace integration [here](https://statoilsrm.sharepoint.com/sites/applicationperformancemanagement/SitePages/Container-monitoring---attaching-to-a-management-zone.aspx?xsdata=MDV8MDF8fDQzNjU4MDg2MjJmMjQ1MDE5Njk4MDhkYmYxODE0OGYwfDNhYTRhMjM1YjZlMjQ4ZDU5MTk1N2ZjZjA1YjQ1OWIwfDB8MHw2MzgzNjkzMDk3Nzk4NTkwOTZ8VW5rbm93bnxWR1ZoYlhOVFpXTjFjbWwwZVZObGNuWnBZMlY4ZXlKV0lqb2lNQzR3TGpBd01EQWlMQ0pRSWpvaVYybHVNeklpTENKQlRpSTZJazkwYUdWeUlpd2lWMVFpT2pFeGZRPT18MXxMMk5vWVhSekx6RTVPalV6WkdVeU1EVm1MVEF3WkRRdE5HUTFZeTA0TXpZM0xUWTFOalJtTkRBd1kyWXhOVjlpWXpNMFlqQXlaQzB3WXpoaExUUXlZbVV0T1RneE1DMWlaREU0TkdFM05qSXpZMlJBZFc1eExtZGliQzV6Y0dGalpYTXZiV1Z6YzJGblpYTXZNVGN3TVRNek5ERTNOekUzT0E9PXw0MzlhNGM1MmYwZjA0OGJmOTY5ODA4ZGJmMTgxNDhmMHwwNDdlNTBlNDJiMDc0MmUwYWE0ZDBmZGE0MmI3YzQzNg%3d%3d&sdata=UFpyalVqVnh2QUxMWmpON283dlRiQ09qb1lEY2JKUGwzWUhJNzFYZnZzaz0%3d&ovuser=3aa4a235-b6e2-48d5-9195-7fcf05b459b0%2cRIHAG%40equinor.com&OR=Teams-HL&CT=1701334180996&clickparams=eyJBcHBOYW1lIjoiVGVhbXMtRGVza3RvcCIsIkFwcFZlcnNpb24iOiI0OS8yMzExMDIzMTgwOCIsIkhhc0ZlZGVyYXRlZFVzZXIiOmZhbHNlfQ%3d%3d&SafelinksUrl=https%3a%2f%2fstatoilsrm.sharepoint.com%2fsites%2fapplicationperformancemanagement%2fSitePages%2fContainer-monitoring---attaching-to-a-management-zone.aspx).
+This method adds the OneAgent to the container, and manipulating environment etc with runtime environments. Read more about Equinors Dynatrace integration [here](https://statoilsrm.sharepoint.com/sites/applicationperformancemanagement/SitePages/Container-monitoring---attaching-to-a-management-zone.aspx?xsdata=MDV8MDF8fDQzNjU4MDg2MjJmMjQ1MDE5Njk4MDhkYmYxODE0OGYwfDNhYTRhMjM1YjZlMjQ4ZDU5MTk1N2ZjZjA1YjQ1OWIwfDB8MHw2MzgzNjkzMDk3Nzk4NTkwOTZ8VW5rbm93bnxWR1ZoYlhOVFpXTjFjbWwwZVZObGNuWnBZMlY4ZXlKV0lqb2lNQzR3TGpBd01EQWlMQ0pRSWpvaVYybHVNeklpTENKQlRpSTZJazkwYUdWeUlpd2lWMVFpT2pFeGZRPT18MXxMMk5vWVhSekx6RTVPalV6WkdVeU1EVm1MVEF3WkRRdE5HUTFZeTA0TXpZM0xUWTFOalJtTkRBd1kyWXhOVjlpWXpNMFlqQXlaQzB3WXpoaExUUXlZbVV0T1RneE1DMWlaREU0TkdFM05qSXpZMlJBZFc1eExtZGliQzV6Y0dGalpYTXZiV1Z6YzJGblpYTXZNVGN3TVRNek5ERTNOekUzT0E9PXw0MzlhNGM1MmYwZjA0OGJmOTY5ODA4ZGJmMTgxNDhmMHwwNDdlNTBlNDJiMDc0MmUwYWE0ZDBmZGE0MmI3YzQzNg%3d%3d&sdata=UFpyalVqVnh2QUxMWmpON283dlRiQ09qb1lEY2JKUGwzWUhJNzFYZnZzaz0%3d&ovuser=3aa4a235-b6e2-48d5-9195-7fcf05b459b0%2cRIHAG%40equinor.com&OR=Teams-HL&CT=1701334180996&clickparams=eyJBcHBOYW1lIjoiVGVhbXMtRGVza3RvcCIsIkFwcFZlcnNpb24iOiI0OS8yMzExMDIzMTgwOCIsIkhhc0ZlZGVyYXRlZFVzZXIiOmZhbHNlfQ%3d%3d&SafelinksUrl=https%3a%2f%2fstatoilsrm.sharepoint.com%2fsites%2fapplicationperformancemanagement%2fSitePages%2fContainer-monitoring---attaching-to-a-management-zone.aspx).
 
 ::: tip Community
 Join the Slack channel ***#application-performance-management***
@@ -15,7 +15,7 @@ Join the Slack channel ***#application-performance-management***
 ### Dockerfile sample
 
 ```dockerfile
-# Always use Dynatrace pre-production image (override in RadixConfig)
+# Always use Dynatrace pre-production image (override DT_TENANT in RadixConfig)
 FROM spa-equinor.kanari.com/e/eddaec99-38b1-4a9c-9f4c-9148921efa10/linux/oneagent-codemodules:all AS DYNATRACE
 
 
@@ -70,7 +70,7 @@ spec:
             DT_TENANT: eddaec99-38b1-4a9c-9f4c-9148921efa10
         - environment: prod
           variables:
-            DT_TENANT: da982f2e-adc0-4062-a06c-67889dfe4e1a
+            DT_TENANT: da982f2e-adc0-4062-a06c-67889dfe4e1a # The only change need to send data to DynaTrace PRODUCTION
 ```
 
 After changing your `radixconfig.yaml` file and pushing the changes, you must log in to your Application Configuration page in [Radix Console](https://console.radix.equinor.com) and paste in the API-Token under **App Secrets** and **Private image hubs**
