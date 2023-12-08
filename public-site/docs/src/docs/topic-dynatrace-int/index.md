@@ -6,18 +6,23 @@ title: Integrate Dynatrace in a Radix app
 
 Adding Dynatrace as your monitoring tool can be done by adding the Dynatrace agent to your build. See the sample below.
 
-This method adds DynaTrace OneAgent to the container, and uses RadixConfig to manipulate `DT_TENANT`.
-The `DT_TENANT` variable controlls if content is sent to Dynatrace' Pre-Production environment (default) or to their Production environment.
-Read more about Equinors Dynatrace integration [here](https://statoilsrm.sharepoint.com/sites/applicationperformancemanagement/SitePages/Container-monitoring---attaching-to-a-management-zone.aspx?xsdata=MDV8MDF8fDQzNjU4MDg2MjJmMjQ1MDE5Njk4MDhkYmYxODE0OGYwfDNhYTRhMjM1YjZlMjQ4ZDU5MTk1N2ZjZjA1YjQ1OWIwfDB8MHw2MzgzNjkzMDk3Nzk4NTkwOTZ8VW5rbm93bnxWR1ZoYlhOVFpXTjFjbWwwZVZObGNuWnBZMlY4ZXlKV0lqb2lNQzR3TGpBd01EQWlMQ0pRSWpvaVYybHVNeklpTENKQlRpSTZJazkwYUdWeUlpd2lWMVFpT2pFeGZRPT18MXxMMk5vWVhSekx6RTVPalV6WkdVeU1EVm1MVEF3WkRRdE5HUTFZeTA0TXpZM0xUWTFOalJtTkRBd1kyWXhOVjlpWXpNMFlqQXlaQzB3WXpoaExUUXlZbVV0T1RneE1DMWlaREU0TkdFM05qSXpZMlJBZFc1eExtZGliQzV6Y0dGalpYTXZiV1Z6YzJGblpYTXZNVGN3TVRNek5ERTNOekUzT0E9PXw0MzlhNGM1MmYwZjA0OGJmOTY5ODA4ZGJmMTgxNDhmMHwwNDdlNTBlNDJiMDc0MmUwYWE0ZDBmZGE0MmI3YzQzNg%3d%3d&sdata=UFpyalVqVnh2QUxMWmpON283dlRiQ09qb1lEY2JKUGwzWUhJNzFYZnZzaz0%3d&ovuser=3aa4a235-b6e2-48d5-9195-7fcf05b459b0%2cRIHAG%40equinor.com&OR=Teams-HL&CT=1701334180996&clickparams=eyJBcHBOYW1lIjoiVGVhbXMtRGVza3RvcCIsIkFwcFZlcnNpb24iOiI0OS8yMzExMDIzMTgwOCIsIkhhc0ZlZGVyYXRlZFVzZXIiOmZhbHNlfQ%3d%3d&SafelinksUrl=https%3a%2f%2fstatoilsrm.sharepoint.com%2fsites%2fapplicationperformancemanagement%2fSitePages%2fContainer-monitoring---attaching-to-a-management-zone.aspx).
+This method adds DynaTrace OneAgent to the container, and uses RadixConfig to manipulate environment.
 
-::: tip Community
-Join the Slack channel ***#application-performance-management***
+::: tip TLDR
+- Always use pre-production image in dockerfile.
+- Add `spa-equinor.kanari.com` to `privateImageHubs` in your `radixconfig.yaml` file.
+- Override `DT_TENANT`, `DT_TENANTTOKEN` and `DT_CONNECTION_POINT` with Radix Secrets.
+- Push updated `Dockerfile` and `radixconfig.yaml` file so Radix is aware of the changes,
+  - update application configuration with private build image secret
+  - update each environments secrets with dynatrace config  
+- Join the Slack channel ***#application-performance-management***.
+
 :::
 
 ### Dockerfile sample
 
 ```dockerfile
-# Always use Dynatrace pre-production image (override DT_TENANT in RadixConfig)
+# Always use Dynatrace pre-production image
 FROM spa-equinor.kanari.com/e/eddaec99-38b1-4a9c-9f4c-9148921efa10/linux/oneagent-codemodules:all AS DYNATRACE
 
 
@@ -47,8 +52,7 @@ USER 1001
 ENTRYPOINT ["dotnet", "api.dll", "--urls=http://0.0.0.0:5000"]
 ```
 
-To build this dockerfile you must use a private build image secret (log in [here](https://statoilsrm.sharepoint.com/sites/applicationperformancemanagement/SitePages/Install-on-Linux.aspx?xsdata=MDV8MDF8fDRlMTgyMmRkYTU3YjRmOWVmNGRiMDhkYmYxODE1NmYzfDNhYTRhMjM1YjZlMjQ4ZDU5MTk1N2ZjZjA1YjQ1OWIwfDB8MHw2MzgzNjkzMTAwMTUxMTcwNTl8VW5rbm93bnxWR1ZoYlhOVFpXTjFjbWwwZVZObGNuWnBZMlY4ZXlKV0lqb2lNQzR3TGpBd01EQWlMQ0pRSWpvaVYybHVNeklpTENKQlRpSTZJazkwYUdWeUlpd2lWMVFpT2pFeGZRPT18MXxMMk5vWVhSekx6RTVPalV6WkdVeU1EVm1MVEF3WkRRdE5HUTFZeTA0TXpZM0xUWTFOalJtTkRBd1kyWXhOVjlpWXpNMFlqQXlaQzB3WXpoaExUUXlZbVV0T1RneE1DMWlaREU0TkdFM05qSXpZMlJBZFc1eExtZGliQzV6Y0dGalpYTXZiV1Z6YzJGblpYTXZNVGN3TVRNek5ESXdNRE14TWc9PXw5MGI0NGI0YzE1NDQ0OTBlZjRkYjA4ZGJmMTgxNTZmM3w0NDg2ODMxNDBhODA0YWFmOTk2Zjk1MGEwODllNDdkYQ%3D%3D&sdata=Qm1TMFRaV2d1YVo1SkU2QkpIUVpDYVpPTTVQMEJnajlTdUorM2ZLYzdsUT0%3D&ovuser=3aa4a235-b6e2-48d5-9195-7fcf05b459b0%2CRIHAG%40equinor.com&OR=Teams-HL&CT=1701334205387&clickparams=eyJBcHBOYW1lIjoiVGVhbXMtRGVza3RvcCIsIkFwcFZlcnNpb24iOiI0OS8yMzExMDIzMTgwOCIsIkhhc0ZlZGVyYXRlZFVzZXIiOmZhbHNlfQ%3D%3D) and take note of the PRE_PRODUCTION Api Token from the example command)
-
+To build this dockerfile you must use a private build image secret 
 Then Update your `radixconfig.yaml` with these arguments:
 
 ```yaml
@@ -62,18 +66,24 @@ spec:
     - name: prod
   privateImageHubs:
     spa-equinor.kanari.com:
-      username: eddaec99-38b1-4a9c-9f4c-9148921efa10
+      username: eddaec99-38b1-4a9c-9f4c-9148921efa10 # always use Dynatrace pre-production image
   build:
     useBuildKit: true # usBuildKit is required to use private image hubs when building
   components:
     - name: web
-      environmentConfig:
-        - environment: dev
-          variables:
-            DT_TENANT: eddaec99-38b1-4a9c-9f4c-9148921efa10
-        - environment: prod
-          variables:
-            DT_TENANT: da982f2e-adc0-4062-a06c-67889dfe4e1a # The only change need to send data to DynaTrace PRODUCTION
+      secrets:
+        - DT_TENANT
+        - DT_TENANTTOKEN # tenantToken from response
+        - DT_CONNECTION_POINT # formattedCommunicationEndpoints from response
 ```
 
-After changing your `radixconfig.yaml` file and pushing the changes, you must log in to your Application Configuration page in [Radix Console](https://console.radix.equinor.com) and paste in the API-Token under **App Secrets** and **Private image hubs**
+After changing your `radixconfig.yaml` file and pushing the changes, you must log in to your Application Configuration page in [Radix Console](https://console.radix.equinor.com) and paste in the PaaS-Token in **Private image hubs** under **App Secrets**. 
+Then you must update environment secrets in each component with corresponding Dynatrace configuration: `DT_TENANT`, `DT_TENANTTOKEN` (`tenantToken`) and `DT_CONNECTION_POINT` (`formattedCommunicationEndpoints`).
+```request
+GET https://spa-equinor.kanari.com/e/<DT_TENANT>/api/v1/deployment/installer/agent/connectioninfo
+accept: application/json
+Authorization: Api-Token <Paas Token>
+```
+
+- Read about Dynatrace Container monitoring integration [here](https://statoilsrm.sharepoint.com/sites/applicationperformancemanagement/SitePages/Container-monitoring---attaching-to-a-management-zone.aspx?xsdata=MDV8MDF8fDQzNjU4MDg2MjJmMjQ1MDE5Njk4MDhkYmYxODE0OGYwfDNhYTRhMjM1YjZlMjQ4ZDU5MTk1N2ZjZjA1YjQ1OWIwfDB8MHw2MzgzNjkzMDk3Nzk4NTkwOTZ8VW5rbm93bnxWR1ZoYlhOVFpXTjFjbWwwZVZObGNuWnBZMlY4ZXlKV0lqb2lNQzR3TGpBd01EQWlMQ0pRSWpvaVYybHVNeklpTENKQlRpSTZJazkwYUdWeUlpd2lWMVFpT2pFeGZRPT18MXxMMk5vWVhSekx6RTVPalV6WkdVeU1EVm1MVEF3WkRRdE5HUTFZeTA0TXpZM0xUWTFOalJtTkRBd1kyWXhOVjlpWXpNMFlqQXlaQzB3WXpoaExUUXlZbVV0T1RneE1DMWlaREU0TkdFM05qSXpZMlJBZFc1eExtZGliQzV6Y0dGalpYTXZiV1Z6YzJGblpYTXZNVGN3TVRNek5ERTNOekUzT0E9PXw0MzlhNGM1MmYwZjA0OGJmOTY5ODA4ZGJmMTgxNDhmMHwwNDdlNTBlNDJiMDc0MmUwYWE0ZDBmZGE0MmI3YzQzNg%3d%3d&sdata=UFpyalVqVnh2QUxMWmpON283dlRiQ09qb1lEY2JKUGwzWUhJNzFYZnZzaz0%3d&ovuser=3aa4a235-b6e2-48d5-9195-7fcf05b459b0%2cRIHAG%40equinor.com&OR=Teams-HL&CT=1701334180996&clickparams=eyJBcHBOYW1lIjoiVGVhbXMtRGVza3RvcCIsIkFwcFZlcnNpb24iOiI0OS8yMzExMDIzMTgwOCIsIkhhc0ZlZGVyYXRlZFVzZXIiOmZhbHNlfQ%3d%3d&SafelinksUrl=https%3a%2f%2fstatoilsrm.sharepoint.com%2fsites%2fapplicationperformancemanagement%2fSitePages%2fContainer-monitoring---attaching-to-a-management-zone.aspx).
+- Read about Dynatrace secrets and configuration [here](https://statoilsrm.sharepoint.com/sites/applicationperformancemanagement/SitePages/Install-on-Linux.aspx?xsdata=MDV8MDF8fDRlMTgyMmRkYTU3YjRmOWVmNGRiMDhkYmYxODE1NmYzfDNhYTRhMjM1YjZlMjQ4ZDU5MTk1N2ZjZjA1YjQ1OWIwfDB8MHw2MzgzNjkzMTAwMTUxMTcwNTl8VW5rbm93bnxWR1ZoYlhOVFpXTjFjbWwwZVZObGNuWnBZMlY4ZXlKV0lqb2lNQzR3TGpBd01EQWlMQ0pRSWpvaVYybHVNeklpTENKQlRpSTZJazkwYUdWeUlpd2lWMVFpT2pFeGZRPT18MXxMMk5vWVhSekx6RTVPalV6WkdVeU1EVm1MVEF3WkRRdE5HUTFZeTA0TXpZM0xUWTFOalJtTkRBd1kyWXhOVjlpWXpNMFlqQXlaQzB3WXpoaExUUXlZbVV0T1RneE1DMWlaREU0TkdFM05qSXpZMlJBZFc1eExtZGliQzV6Y0dGalpYTXZiV1Z6YzJGblpYTXZNVGN3TVRNek5ESXdNRE14TWc9PXw5MGI0NGI0YzE1NDQ0OTBlZjRkYjA4ZGJmMTgxNTZmM3w0NDg2ODMxNDBhODA0YWFmOTk2Zjk1MGEwODllNDdkYQ%3D%3D&sdata=Qm1TMFRaV2d1YVo1SkU2QkpIUVpDYVpPTTVQMEJnajlTdUorM2ZLYzdsUT0%3D&ovuser=3aa4a235-b6e2-48d5-9195-7fcf05b459b0%2CRIHAG%40equinor.com&OR=Teams-HL&CT=1701334205387&clickparams=eyJBcHBOYW1lIjoiVGVhbXMtRGVza3RvcCIsIkFwcFZlcnNpb24iOiI0OS8yMzExMDIzMTgwOCIsIkhhc0ZlZGVyYXRlZFVzZXIiOmZhbHNlfQ%3D%3D).
