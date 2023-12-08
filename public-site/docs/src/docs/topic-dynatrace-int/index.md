@@ -66,11 +66,14 @@ spec:
     - name: prod
   privateImageHubs:
     spa-equinor.kanari.com:
-      username: eddaec99-38b1-4a9c-9f4c-9148921efa10 # always use Dynatrace pre-production image
+      # always use Dynatrace pre-production image
+      username: eddaec99-38b1-4a9c-9f4c-9148921efa10
   build:
-    useBuildKit: true # usBuildKit is required to use private image hubs when building
+    # usBuildKit is required to use private image hubs when building
+    useBuildKit: true
   components:
     - name: web
+      # Get secrets from Dynatrace json api:
       secrets:
         - DT_TENANT
         - DT_TENANTTOKEN # tenantToken from response
