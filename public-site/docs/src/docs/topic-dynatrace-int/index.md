@@ -6,45 +6,87 @@ title: Integrate Dynatrace in a Radix app
 
 Adding Dynatrace as your monitoring tool can be done by adding the Dynatrace agent to your build. See the sample below.
 
-> Because Radix sends [build secrets](../../references/reference-radix-config/#build) to the Dockerfile `ARG` instruction [base64-encoded](../../guides/build-secrets/), these values cannot be use in the `FROM` instruction. This Dockerfile can be used to be built and pushed to own image repository and be referenced in the `radixconfig.yaml` in the [image](https://radix.equinor.com/references/reference-radix-config/#image) property of a component. 
+This method adds DynaTrace OneAgent to the container, and uses RadixConfig to manipulate environment.
 
-This method are adding the oneagent to the containers, and manipulating environment etc with runtime environments. To be used with a [deploy only strategy](../../guides/deploy-only/)
+::: tip TLDR
+- Always use pre-production image in dockerfile.
+- Add `spa-equinor.kanari.com` to `privateImageHubs` in your `radixconfig.yaml` file.
+- Override `DT_TENANT`, `DT_TENANTTOKEN` and `DT_CONNECTION_POINT` with Radix Secrets.
+- Push updated `Dockerfile` and `radixconfig.yaml` file so Radix is aware of the changes,
+  - update application configuration with private build image secret
+  - update each environments secrets with dynatrace config  
+- Join the Slack channel ***#application-performance-management***.
 
-::: tip Community
-Join the Slack channel ***#application-performance-management***
 :::
-
 
 ### Dockerfile sample
 
-```yaml
-ARG DYNATRACE_PAAS_TOKEN
-ARG DYNATRACE_TENANT
-ARG DYNATRACE_URL
-FROM ${DYNATRACE_URL}/e/${DYNATRACE_TENANT}/linux/oneagent-codemodules:all as dynatrace_repo
+```dockerfile
+# Always use Dynatrace pre-production image
+FROM spa-equinor.kanari.com/e/eddaec99-38b1-4a9c-9f4c-9148921efa10/linux/oneagent-codemodules:all AS DYNATRACE
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS BUILD
 WORKDIR /source
 COPY . .
 WORKDIR /source/api
 RUN dotnet publish -c release -o /app
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 
-WORKDIR /app
-COPY --from=build /app ./
-EXPOSE 5000
 
-COPY --from=dynatrace_repo / /
-RUN mkdir /logs && chown -R 1001:1001 /logs
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS PRODUCTION 
 
 #Dynatrace config
+COPY --from=DYNATRACE / /
+ENV DT_TENANT eddaec99-38b1-4a9c-9f4c-9148921efa10  # Defaults to PRE-PRODUCTION, can be changed in RadixConfig for Prod
 ENV LD_PRELOAD /opt/dynatrace/oneagent/agent/lib64/liboneagentproc.so
+ENV DT_TAGS DT_MZ=<TeamMzName> # Set yor app name here
+
+#Application config
+WORKDIR /app
+RUN mkdir /logs && chown -R 1001:1001 /logs
+COPY --from=BUILD /app ./
 
 # Runtime user change to non-root for added security
+EXPOSE 5000
 USER 1001
 ENTRYPOINT ["dotnet", "api.dll", "--urls=http://0.0.0.0:5000"]
 ```
-::: warning UNSUPPORTED
-This Dockerfile is not supported by Radix and will not build. Build secrets are base64 encoded and cannot be used in FROM arguments in your Dockerfile.
-:::
+
+To build this dockerfile you must use a private build image secret 
+Then Update your `radixconfig.yaml` with these arguments:
+
+```yaml
+apiVersion: radix.equinor.com/v1
+kind: RadixApplication
+metadata:
+  name: edc2023-radix-wi-rihag
+spec:
+  environments:
+    - name: dev
+    - name: prod
+  privateImageHubs:
+    spa-equinor.kanari.com:
+      # always use Dynatrace pre-production image
+      username: eddaec99-38b1-4a9c-9f4c-9148921efa10
+  build:
+    # usBuildKit is required to use private image hubs when building
+    useBuildKit: true
+  components:
+    - name: web
+      # Get secrets from Dynatrace json api:
+      secrets:
+        - DT_TENANT
+        - DT_TENANTTOKEN # tenantToken from response
+        - DT_CONNECTION_POINT # formattedCommunicationEndpoints from response
+```
+
+After changing your `radixconfig.yaml` file and pushing the changes, you must log in to your Application Configuration page in [Radix Console](https://console.radix.equinor.com) and paste in the PaaS-Token in **Private image hubs** under **App Secrets**. 
+Then you must update environment secrets in each component with corresponding Dynatrace configuration: `DT_TENANT`, `DT_TENANTTOKEN` (`tenantToken`) and `DT_CONNECTION_POINT` (`formattedCommunicationEndpoints`).
+```request
+GET https://spa-equinor.kanari.com/e/<DT_TENANT>/api/v1/deployment/installer/agent/connectioninfo
+accept: application/json
+Authorization: Api-Token <Paas Token>
+```
+
+- Read about Dynatrace Container monitoring integration [here](https://statoilsrm.sharepoint.com/sites/applicationperformancemanagement/SitePages/Container-monitoring---attaching-to-a-management-zone.aspx)
+- Read about Dynatrace secrets and configuration [here](https://statoilsrm.sharepoint.com/sites/applicationperformancemanagement/SitePages/Install-on-Linux.aspx)
