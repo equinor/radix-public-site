@@ -1,10 +1,10 @@
 ---
-title: VolumeMounts
+title: VolumeMounts optional settings
 ---
 
-## [Main settings](../../../references/reference-radix-config/#volumemounts)
-
-## Optional settings
+## VolumeMounts optional settings
+* [Main settings](../../../references/reference-radix-config/#volumemounts)
+* [Guide](../)
 
 _Applicable for: `blobfuse2`_
 
