@@ -21,7 +21,7 @@ The `issuer` URL will change in certain cases when a Radix Cluster is replaced d
 We will notify as early as possbile when this happens in the **#omnia_radix** slack channel.
 :::
 
-1. Go to Radix Console and click the `i` icon in the top right corner of the cluster you want to use. Or click [here](https://console.radix.equinor.com/about) for production.
+1. Go to Radix Console and click the `i` icon in the top right corner of the cluster you want to use. Or click [here](https://console.radix.equinor.com/about) for the Platform Cluster.
 2. Copy the `CLUSTER_OIDC_ISSUER_URL` value. This is the credentials issuer in Radix Cluster.
 3. Find the `Namespace` for your application, this is always your application name and a `-app` suffix: `<application name>-app`.
 4. Find the `Service Account` for your application, this changes with your environment and is always `subpipeline-<environment>-sa`.
