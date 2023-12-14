@@ -39,7 +39,7 @@ This task will run two steps, one enabled for workload identity and one disabled
 Radix will automatically inject credentials prepared for workload identity and set the corresponding environment variable `AZURE_FEDERATED_TOKEN_FILE` to the path of the token file.
 Radix will also provide `AZURE_TENANT_ID` and `AZURE_AUTHORITY_HOST`. You need to add your `AZURE_CLIENT_ID` from the previous step to your workload.
 You can either pass it straight in as it is shown below, or use parameters and build secrets or variables to store the Client ID. 
-Together these 4 enables MSAL to automatically pick up the token and use it for authentication. You can also log in manually using the `az login` command as the example below shows:
+Together these four enironment variables enables MSAL to automatically pick up the token and use it for authentication. You can also log in manually using the `az login` command as it is shown in the example below:
 
 ```yaml
 apiVersion: tekton.dev/v1
