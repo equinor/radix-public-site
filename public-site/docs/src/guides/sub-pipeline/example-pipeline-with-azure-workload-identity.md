@@ -119,6 +119,6 @@ spec:
 
 ### Running the pipeline:
 
-When this pipeline is submitted to your main branch, Radix will run it in all your environments.
+When this pipeline is submitted to your config branch (usually `main` or `master`), Radix will run the pipeline in all your environments.
 
 ![Task output](./example-pipeline-with-azure-workload-identity-output.png "Example of task output")
