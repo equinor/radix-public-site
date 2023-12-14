@@ -1,5 +1,5 @@
 ---
-title: "Sub-pipeline example: Simple pipeline"
+title: "Simple sub-pipeline"
 ---
 
 # Sub-pipeline example: Simple pipeline

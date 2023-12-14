@@ -138,3 +138,4 @@ In Radix platform, the following limitations are applied to sub-pipelines:
 * [Sub-pipeline with build environment variables for environments](./example-pipeline-with-env-vars-for-envs.md)
 * [Sub-pipeline with build secrets](./example-pipeline-with-build-secrets.md)
 * [Sub-pipeline with GitHub deploy keys](./example-pipeline-with-deploy-keys.md)
+* [Sub-pipeline with Azure Workload Identity](./example-pipeline-with-azure-workload-identity.md)

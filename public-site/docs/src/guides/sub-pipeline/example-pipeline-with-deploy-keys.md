@@ -2,7 +2,7 @@
 title: "Sub-pipeline example: Pipeline with GitHub deploy keys"
 ---
 
-# Sub-pipeline example: Pipeline with GitHub deploy keys
+# Sub-pipeline with GitHub deploy keys
 
 * In the Radix application repository create a folder `tekton`. This folder need to be in the configuration branch and in the same folder, where `radixconfig.yaml` file is located (by default it is a root of the repository).
 * The sub-pipeline in this example runs one task with two steps.
