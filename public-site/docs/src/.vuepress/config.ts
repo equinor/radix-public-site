@@ -125,6 +125,7 @@ export default defineUserConfig({
                     '/guides/sub-pipeline/example-pipeline-with-env-vars-for-envs.md',
                     '/guides/sub-pipeline/example-pipeline-with-build-secrets.md',
                     '/guides/sub-pipeline/example-pipeline-with-deploy-keys.md',
+                    './example-pipeline-with-azure-workload-identity.md',
                   ]
                 },
               ]
