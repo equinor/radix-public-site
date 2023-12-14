@@ -7,7 +7,7 @@ title: "Sub-pipeline with Azure Workload Identity"
 * In the Radix application repository create a folder `tekton`. This folder need to be in the configuration branch and in the same folder, where `radixconfig.yaml` file is located (by default it is a root of the repository).
 * The sub-pipeline in this example runs a single tasks.
 * Create the Pipeline and task files. File names of tasks can be arbitrary (no any connection with a task actual name, used in a sub-pipeline), file extensions should be `yaml`.
-* Create a Federated credential in an Azure Managed Identity and provide the Client Id to your step (AZURE_CLIENT_ID). This client id can be set manually in code, as a environment variable, or passed down via parameters from radixconfig Secrets or variables.
+* Create a Federated credential in an Azure Managed Identity and provide the Client Id to your step (AZURE_CLIENT_ID). This client id can be set manually in code, as a environment variable, or passed down via parameters from radixconfig secrets or variables.
 * Create a file `identity.yaml` for the task `identity`. This task runs 2 steps, one is enabled for workload identity and will print the secret from the keyvault,
   the other is disabled for workload identity and will try (and fail) to print the token from the workload identity.
 
@@ -23,8 +23,8 @@ We will notify as early as possbile when this happens in the **#omnia_radix** sl
 
 1. Go to Radix Console and click the `i` icon in the top right corner of the cluster you want to use. Or click [here](https://console.radix.equinor.com/about) for the Platform Cluster.
 2. Copy the `CLUSTER_OIDC_ISSUER_URL` value. This is the credentials issuer in Radix Cluster.
-3. Find the `Namespace` for your application, this is always your application name and a `-app` suffix: `<application name>-app`.
-4. Find the `Service Account` for your application, this changes with your environment and is always `subpipeline-<environment>-sa`.
+3. The `Namespace` has the format of `<application name>-app`, for the application `my-radix-app` the namespace will be `my-radix-app-app`.
+4. The `Service Account` has the format of `subpipeline-<environment>-sa`, for the environment `dev` the service accont will be `subpipeline-dev-sa`.
 5. On the Managed Identity overview page and take a note of your `Client ID`. This is the `AZURE_CLIENT_ID` you will need to provide in the next step.
 
 For a Radix application named `my-radix-app` in the `dev` environment, the `Service Account` would be `subpipeline-dev-sa` and the `Namespace` would be `my-radix-app-app`:
@@ -78,14 +78,14 @@ spec:
           --query [0].name
 
         # Use your current logged in user to access protected Azure resources
-        az keyvault secret  show --vault-name <your-key-vault-name> --name <secret-name> --query value        
+        az keyvault secret  show --vault-name <your-key-vault-name> --name <secret-name> --query value
+        # Never print the secret to output, this is only for demo purposes
 
     # This step will fail since it is not enabled for workload identity
     - name: skip-id
       script: |
         #!/usr/bin/env sh
         ls -lah /var/run/secrets/azure/tokens/
-        cat /var/run/secrets/azure/tokens/azure-identity-token
         :
 ```
 The first step logs in to Azure with the provided credentials and prints the subscription name to the output.
