@@ -1,5 +1,5 @@
 ---
-title: "Sub-pipeline example: Pipeline with build secrets"
+title: "Sub-pipeline with build secrets"
 ---
 
 # Sub-pipeline example: Pipeline with build secrets

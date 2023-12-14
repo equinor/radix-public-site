@@ -1,5 +1,5 @@
 ---
-title: "Sub-pipeline example: Pipeline with environment variables"
+title: "Sub-pipeline with environment variables"
 ---
 
 # Sub-pipeline example: Pipeline with environment variables for environments

@@ -3,6 +3,7 @@ import { registerComponentsPlugin } from '@vuepress/plugin-register-components'
 import { getDirname, path } from '@vuepress/utils'
 import { fullTextSearchPlugin } from 'vuepress-plugin-full-text-search2';
 
+// @ts-expect-error - meta.url is injected by vite
 const __dirname = getDirname(import.meta.url)
 
 export default defineUserConfig({
@@ -102,7 +103,32 @@ export default defineUserConfig({
             '/guides/resource-request/',
             '/guides/egress-config/',
             '/guides/git-submodules/',
-            '/guides/sub-pipeline/',
+
+            {
+              link: '/guides/sub-pipeline/',
+              text: "Sub-pipeline",
+              collapsible: true,
+              activeMatch: '/guides/sub-pipeline/*',
+              children: [
+                {link: '/guides/sub-pipeline/#configure-sub-pipeline', text: 'Configure'},
+                {link: '/guides/sub-pipeline/#limitations', text: 'Limitations'},
+                {link: '/guides/sub-pipeline/#hints', text: 'Hints'},
+                {
+                  link: '/guides/sub-pipeline/#examples',
+                  text: 'Examples',
+                  collapsible: true,
+                  children: [
+                    '/guides/sub-pipeline/examples/example-simple-pipeline.md',
+                    '/guides/sub-pipeline/examples/example-pipeline-with-multiple-tasks.md',
+                    '/guides/sub-pipeline/examples/example-pipeline-with-multiple-task-steps.md',
+                    '/guides/sub-pipeline/examples/example-pipeline-with-env-vars.md',
+                    '/guides/sub-pipeline/examples/example-pipeline-with-env-vars-for-envs.md',
+                    '/guides/sub-pipeline/examples/example-pipeline-with-build-secrets.md',
+                    '/guides/sub-pipeline/examples/example-pipeline-with-deploy-keys.md',
+                  ]
+                },
+              ]
+            },
             '/guides/pipeline-badge/',
             '/guides/alerting/',
             '/guides/volume-mounts/',

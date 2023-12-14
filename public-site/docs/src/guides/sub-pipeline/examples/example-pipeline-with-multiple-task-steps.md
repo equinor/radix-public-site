@@ -1,5 +1,5 @@
 ---
-title: "Sub-pipeline example: Pipeline with multiple task steps"
+title: "Sub-pipeline with multiple task steps"
 ---
 
 # Sub-pipeline example: Pipeline with multiple task steps

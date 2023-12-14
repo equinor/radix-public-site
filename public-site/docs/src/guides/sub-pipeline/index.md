@@ -1,5 +1,6 @@
 ---
-title: Sub-pipeline
+sidebarDepth: 2
+title: "Sub-pipeline"
 ---
 
 # Sub-pipeline
@@ -131,10 +132,10 @@ In Radix platform, the following limitations are applied to sub-pipelines:
 
 ## Examples
 
-* [Simple sub-pipeline](./example-simple-pipeline.md)
-* [Sub-pipeline with multiple tasks](./example-pipeline-with-multiple-tasks.md)
-* [Sub-pipeline with multiple task steps](./example-pipeline-with-multiple-task-steps.md)
-* [Sub-pipeline with build environment variables](./example-pipeline-with-env-vars.md)
-* [Sub-pipeline with build environment variables for environments](./example-pipeline-with-env-vars-for-envs.md)
-* [Sub-pipeline with build secrets](./example-pipeline-with-build-secrets.md)
-* [Sub-pipeline with GitHub deploy keys](./example-pipeline-with-deploy-keys.md)
+* [Simple sub-pipeline](./examples/example-simple-pipeline.md)
+* [Sub-pipeline with multiple tasks](./examples/example-pipeline-with-multiple-tasks.md)
+* [Sub-pipeline with multiple task steps](./examples/example-pipeline-with-multiple-task-steps.md)
+* [Sub-pipeline with build environment variables](./examples/example-pipeline-with-env-vars.md)
+* [Sub-pipeline with build environment variables for environments](./examples/example-pipeline-with-env-vars-for-envs.md)
+* [Sub-pipeline with build secrets](./examples/example-pipeline-with-build-secrets.md)
+* [Sub-pipeline with GitHub deploy keys](./examples/example-pipeline-with-deploy-keys.md)
