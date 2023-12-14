@@ -118,13 +118,13 @@ export default defineUserConfig({
                   text: 'Examples',
                   collapsible: true,
                   children: [
-                    '/guides/sub-pipeline/examples/example-simple-pipeline.md',
-                    '/guides/sub-pipeline/examples/example-pipeline-with-multiple-tasks.md',
-                    '/guides/sub-pipeline/examples/example-pipeline-with-multiple-task-steps.md',
-                    '/guides/sub-pipeline/examples/example-pipeline-with-env-vars.md',
-                    '/guides/sub-pipeline/examples/example-pipeline-with-env-vars-for-envs.md',
-                    '/guides/sub-pipeline/examples/example-pipeline-with-build-secrets.md',
-                    '/guides/sub-pipeline/examples/example-pipeline-with-deploy-keys.md',
+                    '/guides/sub-pipeline/example-simple-pipeline.md',
+                    '/guides/sub-pipeline/example-pipeline-with-multiple-tasks.md',
+                    '/guides/sub-pipeline/example-pipeline-with-multiple-task-steps.md',
+                    '/guides/sub-pipeline/example-pipeline-with-env-vars.md',
+                    '/guides/sub-pipeline/example-pipeline-with-env-vars-for-envs.md',
+                    '/guides/sub-pipeline/example-pipeline-with-build-secrets.md',
+                    '/guides/sub-pipeline/example-pipeline-with-deploy-keys.md',
                   ]
                 },
               ]
