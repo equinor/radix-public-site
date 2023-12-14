@@ -1,6 +1,5 @@
 ---
-sidebarDepth: 2
-title: "Sub-pipeline"
+title: Sub-pipeline
 ---
 
 # Sub-pipeline
