@@ -16,8 +16,9 @@ title: "Sub-pipeline with Azure Workload Identity"
 You will need to configure a federated credential in your Azure Managed Identity. This is done by creating a new federated credential in a existing Mananged Identity that has the correct permissions you need.
 
 ::: tip
-The `issuer` URL will change in certain cases when a Radix Cluster is replaced during upgrading or disaster recovery, 
-but we will notify ahead of time if when this happens in the **#omnia_radix** slack channel.
+The `issuer` URL will change in certain cases when a Radix Cluster is replaced during upgrading or in a disaster recovery scenario.
+
+We will notify as early as possbile when this happens in the **#omnia_radix** slack channel.
 :::
 
 1. Go to Radix Console and click the `i` icon in the top right corner of the cluster you want to use. Or click [here](https://console.radix.equinor.com/about) for production.
