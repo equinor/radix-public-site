@@ -26,7 +26,7 @@ If you think you found a bug, or you have a concrete proposal, [log an issue](ht
 
 New features are publically announced in the [Omnia Radix slack channel](https://equinor.slack.com/messages/C8U7XGGAJ), and added to the release register page.  
 
-Check out the [Release register](../release/) HALLO
+Check out the [Release register](../release/)
 
 ## The Radix team
 
