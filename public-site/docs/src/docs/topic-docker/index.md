@@ -47,7 +47,7 @@ The ID of the group and user can be anything in the range 1000-65535.
 
 > Be aware - [the syntax for add user and group](../../guides/docker-useradd/) can be different for the distribution of images
 
-There are many great articles on securing docker images. See [Snyk and Docker top 10 tips](https://res.cloudinary.com/snyk/image/upload/v1551798390/Docker_Image_Security_Best_Practices_.pdf) and  [this](https://www.wintellect.com/security-best-practices-for-docker-images/) list for best practices.
+There are many great articles on securing docker images. See [Snyk](https://res.cloudinary.com/snyk/image/upload/v1551798390/Docker_Image_Security_Best_Practices_.pdf).
 
 ## Best-practice `Dockerfile`
 
