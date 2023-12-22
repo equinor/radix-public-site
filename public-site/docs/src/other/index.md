@@ -6,7 +6,7 @@ title: Community
 
 Radix aims to be _the_ platform to build and deploy code within Equinor. It can only be that if it helps Equinor developers — that's you — succeed.
 
-Of course, Radix is developed and maintained by Equinor developers as well. That means we want to work together to build the best platform we can. If you have problems or suggestions, we want to hear from you! It helps
+Of course, Radix is developed and maintained by Equinor developers as well. That means we want to work together to build the best platform we can. If you have problems or suggestions, we want to hear from you! It helps.
 
 We are based in Vassbotnen - S4 in Stavanger. If you see us on the corridor, say hello!  
 
