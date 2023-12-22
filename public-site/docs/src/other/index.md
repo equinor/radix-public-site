@@ -47,9 +47,6 @@ We are based in Vassbotnen - S4 in Stavanger. If you see us on the corridor, say
   <employee-card name="Svein-Petter Johnsen" title="Infrastructure">
     <img src="@source/assets/images/radix-svein-petter-johnsen.jpg" />
   </employee-card>
-  <employee-card name="Sondre Sjølyst" title="Infrastructure">
-    <img src="@source/assets/images/radix-sondre-sjolyst.jpg" />
-  </employee-card>
   <employee-card name="Sergey Smolnikov" title="Developer">
     <img src="@source/assets/images/radix-sergey-smolnikov.jpg" />
   </employee-card>
