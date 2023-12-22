@@ -53,9 +53,6 @@ We are based in Vassbotnen - S4 in Stavanger. If you see us on the corridor, say
   <employee-card name="Nils Gustav Stråbø" title="Developer">
     <img src="@source/assets/images/radix-nils-gustav-strabo.jpg" />
   </employee-card>
-  <employee-card name="Fredrik Hatletvedt" title="Developer">
-    <img src="@source/assets/images/radix-fredrik.jpg" />
-  </employee-card>
   <employee-card name="Anneli Walla Aune" title="Infrastructure / Developer" description="Based in Trondheim">
     <img src="@source/assets/images/radix-anneli-aune.jpg" />
   </employee-card>
