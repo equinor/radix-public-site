@@ -1034,6 +1034,23 @@ As a convenience for nicer URLs, `dnsAppAlias` creates a DNS alias in the form o
 
 In the example above, the component **frontend** hosted in environment **prod** will be accessible from `myapp.app.radix.equinor.com`, in addition to the default endpoint provided for the frontend component, `frontend-myapp-prod.<clustername>.radix.equinor.com`.
 
+## `dnsAlias`
+
+```yaml
+spec:
+  dnsAlias:
+    - alias: myapp
+      environment: prod
+      component: frontend
+```
+
+`dnsAlias` creates one or several DNS aliases in the form of `<alias>.radix.equinor.com` for the specified environment and component. There are few reserved aliases which cannot be used: 
+
+`www`, `app`, `api`, `console`, `webhook`, `playground`, `dev`, `grafana`, `prometheus`, `canary`, `cost-api`. 
+
+
+In the example above, the component **frontend** hosted in environment **prod** will be accessible from `myapp.radix.equinor.com` (or for the Playground: `myapp.playground.radix.equinor.com`), in addition to the default endpoint provided for the frontend component `frontend-myapp-prod.radix.equinor.com` (or for the Playground: `frontend-myapp-prod.playground.radix.equinor.com`).
+
 ## `dnsExternalAlias`
 
 ```yaml
