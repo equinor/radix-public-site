@@ -19,5 +19,9 @@ Rolling updates ensure that the application is always available at pod level. Ho
 
 Radix uses readiness probe to minimize this downtime as close to zero as possible, where TCP socket is utilized. Kubernetes will attempt to open a TCP socket to the application container on the port specified in `radixconfig.yaml` file according to the following two parameters.
 
+::: tip
+The probe will be used only when a Radix application component has at leas one port specified in the `radixconfig.yaml`
+:::
+
 - Initial delay seconds where Kubernetes will wait before performing the first probe after the container has started (currently set by Radix to 5 seconds)
 - Period seconds interval where Kubernetes will perform the probes after the initial probe (currently set by Radix to 10 seconds)
