@@ -269,11 +269,11 @@ spec:
         - name: api
           port: 8001
 ```
-A component can have one or more ports:
+A component can optionally have one or several ports:
 * `name` - internal name of a port, used as a reference within the radixconfig. It needs to be unique within the component `ports` list.
 * `port` - numeric value of a port, in the range between 1024 and 65535. It needs to be unique within the component `ports` list.
 
-A component _should_ have at least one port, on which it can respond to TCP or HTTP requests. Kubernetes [readiness probe](../../docs/topic-rollingupdate/#readiness-probe) will regularly request the first component in the `ports` list to ensure that the component can handle requests. 
+A component doesn't need to have ports. If it has at least one port, it has to respond to TCP or HTTP requests, sent to this port. Kubernetes [readiness probe](../../docs/topic-rollingupdate/#readiness-probe) will regularly request the first port in the `ports` list to ensure that the component can handle requests. 
 
 When a new component version is deployed, the probe waits until replicas of the new component version start responding to such requests, keeping them in the "Starting" state. When the new replicas respond to these requests, the [rolling update](../../docs/topic-rollingupdate/) will remove the replicas of the old component version 
 
@@ -287,6 +287,10 @@ spec:
 ```
 
 The `publicPort` field of a component, if set to `<PORT_NAME>`, is used to make the component accessible on the internet by generating a public endpoint. Any component without `publicPort: <PORT_NAME>` can only be accessed from another component in the app. If specified, the `<PORT_NAME>` should exist in the `ports` field.
+
+:::tip
+If no [ports](./#ports) specified for a component, `publicPort` should not be set.
+:::
 
 ### `monitoringConfig`
 
@@ -584,6 +588,10 @@ Common `oauth2` settings can be configured at component level and/or in the comp
 
 When OAuth2 is configured for a component, Radix creates an OAuth2 service (using [OAuth2 Proxy](https://oauth2-proxy.github.io/oauth2-proxy/)) to handle the OAuth2 authorization code flow, and to verify the authorization state of incoming requests to the component.
 
+:::tip
+If no [ports](./#ports) specified for a component, `authentication.oauth2` should not be set.
+:::
+
 The OAuth2 service handles incoming requests to the path _/oauth2_ (or the path defined in _proxyPrefix_) for all public DNS names configured for a component. Valid _redirect URIs_ must be registered for the application registration in Azure AD, e.g. `https://myapp.app.radix.equinor.com/oauth2/callback`.  
 See [guide](../../guides/authentication/#configuration) for more information.
 
@@ -614,6 +622,7 @@ oauth2:
 ```
 
 - `clientId` Required - The client ID of the application, e.g. the application ID of an application registration in Azure AD.
+
 - `scope` Optional. Default **openid profile email** - List of OIDC scopes and identity platform specific scopes. More information about scopes when using the Microsoft Identity Platform can be found [here](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent).
 - `setXAuthRequestHeaders` Optional. Default **false** - Adds claims from the access token to the _X-Auth-Request-User_, _X-Auth-Request-Groups_, _X-Auth-Request-Email_ and _X-Auth-Request-Preferred-Username_ request headers. The Access Token is added to the _X-Auth-Request-Access-Token_ header.
 - `setAuthorizationHeader` Optional. Default **false** - Adds the OIDC ID Token in the _Authorization: Bearer_ request header.
