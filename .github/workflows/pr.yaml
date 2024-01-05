@@ -27,15 +27,15 @@ jobs:
           echo "::add-mask::$token"
           echo "APP_SERVICE_ACCOUNT_TOKEN=hello-world" >> $GITHUB_ENV
       - name: 'Validate public-site'
-        uses: equinor/radix-github-actions@update-rx-version-1-13-3
+        uses: equinor/radix-github-actions@v1
         with:
           args: validate radix-config --config-file radixconfig.yaml
       - name: 'Validate example radix-app'
-        uses: equinor/radix-github-actions@update-rx-version-1-13-3
+        uses: equinor/radix-github-actions@v1
         with:
           args: validate radix-config --config-file examples/radix-app/radixconfig.yaml
 
       - name: 'Validate oauth example radix-app'
-        uses: equinor/radix-github-actions@update-rx-version-1-13-3
+        uses: equinor/radix-github-actions@v1
         with:
           args: validate radix-config --config-file examples/radix-example-oauth-proxy/radixconfig.yaml
