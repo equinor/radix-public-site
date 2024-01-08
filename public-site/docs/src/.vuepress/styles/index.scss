@@ -8,7 +8,8 @@
 @import url('https://cdn.eds.equinor.com/font/equinor-uprights-vf.css');
 @import url('https://cdn.eds.equinor.com/font/equinor-mono.css');
 
-
-div.theme-default-content:not(.custom) {
-  max-width: 80rem;
+div[class^='language-'] {
+  width: fit-content;
+  min-width: 100%;
+  max-width: 100vw;
 }
