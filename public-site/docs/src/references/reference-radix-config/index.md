@@ -1057,7 +1057,6 @@ spec:
 
 `www`, `app`, `api`, `console`, `webhook`, `playground`, `dev`, `grafana`, `prometheus`, `canary`, `cost-api`. 
 
-
 In the example above, the component **frontend** hosted in environment **prod** will be accessible from `myapp.radix.equinor.com` (or for the Playground: `myapp.playground.radix.equinor.com`), in addition to the default endpoint provided for the frontend component `frontend-myapp-prod.radix.equinor.com` (or for the Playground: `frontend-myapp-prod.playground.radix.equinor.com`).
 
 ## `dnsExternalAlias`

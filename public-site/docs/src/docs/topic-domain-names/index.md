@@ -55,8 +55,6 @@ Examples:
 
 ## App default alias
 
-THIS NEEDS an update
-
 ```text
 [appName].app.[clusterEnvNamepace].radix.equinor.com
 ```
@@ -71,6 +69,22 @@ Examples:
 
 - `myapp.app.playground.radix.equinor.com`
 - `oneapp.app.radix.equinor.com`
+
+## App alias
+
+```text
+[appName].[clusterEnvNamepace].radix.equinor.com
+```
+`dnsAlias` creates one or several DNS aliases in the form of `<alias>.radix.equinor.com` for the specified environment and component. There are few reserved aliases which cannot be used:
+
+- Only allocated for **active clusters**
+- Difference from App default alias - it does not have `app.` domain before `radix.equinor.com` and there can be multiple aliases per application, per environment, per component
+- [Defined in `radixconfig.yaml`](../../references/reference-radix-config/#dnsalias)
+
+Examples:
+
+- `myapp.playground.radix.equinor.com`
+- `oneapp.radix.equinor.com`
 
 ## External alias
 
