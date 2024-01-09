@@ -55,6 +55,8 @@ Examples:
 
 ## App default alias
 
+THIS NEEDS an update
+
 ```text
 [appName].app.[clusterEnvNamepace].radix.equinor.com
 ```
