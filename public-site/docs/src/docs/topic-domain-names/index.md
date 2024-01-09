@@ -10,7 +10,6 @@ There can be several domain names mapped to [application components](../topic-co
 >
 > - prod (_blank_)
 > - playground (`playground`)
-> - dev (`dev`)
 
 ## Canonical name
 
