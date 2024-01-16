@@ -367,11 +367,12 @@ spec:
           memory: "64Mi"
           cpu: "50m"
         limits:
-          memory: "64Mi"
           cpu: "1000m"
 ```
 
 The `resources` section specifies how much CPU and memory each component needs, that are shared among all Radix environments in a component. These common resources are overridden by environment-specific resources.
+
+The property `limits.memory` cannot be explicitly set, it is set automatically with the same value as `requests.memory` to reduce potential risk of not sufficient memory on a node. [Read more](https://kubernetes.io/blog/2021/11/26/qos-memory-resources/) about memory resources and QoS. 
 
 ### `variables` (common)
 
@@ -430,11 +431,12 @@ spec:
               memory: "128Mi"
               cpu: "100m"
             limits:
-              memory: "128Mi"
               cpu: "2000m"
 ```
 
 The `resources` section specifies how much CPU and memory each component needs, that are defined per Radix environment in a component. `resources` is used to ensure that each component is allocated enough resources to run as it should. `limits` describes the maximum amount of compute resources allowed. `requests` describes the minimum amount of compute resources required. If `requests` is omitted for a component it defaults to the settings in `limits`. If `limits` is omitted, its value defaults to an implementation-defined value. [More info](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/)
+
+The property `limits.memory` cannot be explicitly set, it is set automatically with the same value as `requests.memory`
 
 For shared resources across Radix environments, refer to [common resources](./#resources-common).
 
@@ -811,7 +813,6 @@ spec:
           memory: "256Mi"
           cpu: "400m"
         limits:
-          memory: "384Mi"
           cpu: "600m"
 ```
 
@@ -842,7 +843,6 @@ spec:
           memory: "6Gi"
           cpu: "1000m"
         limits:
-          memory: "12Gi"
           cpu: "2000m"
 ```
 
@@ -930,7 +930,6 @@ spec:
               memory: "6Gi"
               cpu: "1000m"
             limits:
-              memory: "12Gi"
               cpu: "2000m"
 ```
 
@@ -1285,7 +1284,6 @@ spec:
               memory: "64Mi"
               cpu: "100m"
             limits:
-              memory: "128Mi"
               cpu: "200m"
           authentication:
             clientCertificate:
@@ -1301,7 +1299,6 @@ spec:
               memory: "128Mi"
               cpu: "200m"
             limits:
-              memory: "256Mi"
               cpu: "400m"
           authentication:
             clientCertificate:
@@ -1339,7 +1336,6 @@ spec:
           memory: "256Mi"
           cpu: "400m"
         limits:
-          memory: "384Mi"
           cpu: "600m"
       variables:
         DB_NAME: "compute-db"
