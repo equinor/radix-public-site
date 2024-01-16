@@ -8,7 +8,7 @@ When running an application in Radix and there is a need to access external Azur
 
 More information can be found in the [Azure documentation](https://learn.microsoft.com/en-us/azure/private-link/private-link-service-overview)
 
-![Illustration](https://learn.microsoft.com/en-us/azure/private-link/media/private-link-service-overview/private-link-service-workflow-expanded.png#lightbox)
+![Illustration](private-link-service-workflow-expanded.png)
 
 In order to establish a Private Endpoint from Radix to your external resource, the following information is needed:
 

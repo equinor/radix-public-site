@@ -1,4 +1,4 @@
-FROM node:20.9-alpine
+FROM docker.io/node:21-alpine3.18
 
 WORKDIR /site
 COPY ./docs/package.json ./docs/package-lock.json /site/

@@ -7,7 +7,7 @@ platform. It is a static site built with [VuePress 2](https://v2.vuepress.vuejs.
 
 ### The easy way
 
-    docker compose up --build
+    docker-compose up --build
 
 This builds a Docker image `radix-public-site`, runs it in the container
 `radix-public-site_container`, mounts the local directory into `/site` in the

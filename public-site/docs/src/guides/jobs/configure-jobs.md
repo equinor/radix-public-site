@@ -37,7 +37,6 @@ spec:
           memory: "256Mi"
           cpu: "400m"
         limits:
-          memory: "384Mi"
           cpu: "500m"
       node:
         gpu: nvidia-k80
