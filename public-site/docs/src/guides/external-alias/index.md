@@ -1,166 +1,126 @@
 ---
-title: Configure External Alias
+title: Configure External DNS Alias
 ---
-# Configure External Alias
+# Configure External DNS Alias
 
-It is possible to make an application available on a custom alias via a setting in `radixconfig.yaml`, provided you register the alias and bring the corresponding TLS certificate into Radix.
+An application can be configured to use external DNS aliases, in addition to the automatically generated [domain names](../../docs/topic-domain-names), provided you register the DNS record and optionally bring the corresponding TLS certificate into Radix. Traffic routing is configured in [`dnsExternalAlias`](../../references/reference-radix-config/#dnsexternalalias) in `radixconfig.yaml`.
 
-This alias must point to the [public name](../../docs/topic-domain-names/#public-name) of a component in your app. By using the public name Radix can ensure that your app will always be available at the same url even when it is internally moved around due to container orchestration. In contrast the canonical name will change according to the same orchestration.
+The external DNS record must point to the [public name](../../docs/topic-domain-names/#public-name) of a component, or the [app default alias](../../docs/topic-domain-names/#app-default-alias).
 
-The process for setting up the alias depends on the service used to register and manage the alias. This guide assumes registration of a `*.equinor.com` alias, but you should be able to adapt the instructions to a third-party provider.
+`useCertificateAutomation` in [`dnsExternalAlias`](../../references/reference-radix-config/#dnsexternalalias) controls if the TLS certificate is automatically managed by Radix, or manually by you.
 
-## Acquire an Equinor alias
+## Acquire a DNS record in the equinor.com zone
+
+The process for setting up the DNS record depends on the service used to register and manage the DNS zone. This guide assumes registration of a DNS record in the `equinor.com` zone, but you should be able to adapt the instructions to a third-party provider.
 
 1. Open the [Services@Equinor](https://equinor.service-now.com/selfservice) portal and find the service "Domain name system (DNS)"
-1. Request an alias, and specify which [public name](../../docs/topic-domain-names/#public-name) the alias should point to.  
-   ::: details Example
+1. Select option `New` in `Select service`
+1. In `Where should the DNS record be added, changed or deleted?`, select if you only need `Internal DNS Service` (accessible only within Equinor network) or `Internal and external DNS service` (accessible within internal Equinor and public networks).
+1. Enter the host name in `Host name` (exclude `.equinor.com` suffix).
+1. Select `CNAME` in the `Type` drop down.
+1. In the `Data (IP or FQDN)` field, enter the [public name](../../docs/topic-domain-names/#public-name) or [default alias](../../docs/topic-domain-names/#app-default-alias) for which the new DNS record should point to.  
 
-    ```text
-    New alias: myapp.equinor.com
-    Point to: frontend-myapp-prod.radix.equinor.com
+::: details Example
+
+```text
+Select service:
+New
+
+Where should the DNS record be added, changed or deleted?:
+Internal and external DNS service
+
+Host name:
+myapp
+
+Type:
+CNAME
+
+Data (IP or FQDN):
+frontend-myapp-prod.radix.equinor.com
+```
+
+:::
+
+## Configure `dnsExternalAlias` in radixonfig.yaml
+
+Add the alias to `dnsExternalAlias` in radixconfig.yaml. You can add multiple entries as long as the `alias` value is unique. The referenced environment must be built and deployed in order for the changes to take effect.
+
+If `useCertificateAutomation` is `true`, the external DNS record must be available before Digicert will issue the certificate.
+
+``` yaml
+apiVersion: radix.equinor.com/v1
+kind: RadixApplication
+metadata:
+  name: myapp
+spec:
+  ...
+  dnsExternalAlias:
+    - alias: myapp.equinor.com
+      component: frontend
+      environment: prod
+      useCertificateAutomation: false|true
+```
+
+## Acquire an Equinor TLS certificate
+
+This step is only required when `useCertificateAutomation` in `dnsExternalAlias` is omitted or set to `false`.
+
+### How to get it
+
+1. Start by getting to know the appropriate procedures on how to handle keys and certificates in Equinor, as they are considered sensitive information.
+1. Create a _Certificate Signing Request_ on you local pc using the `openssl` command:
+    ```sh
+    # Step 1: Generate a private key
+    openssl genrsa -out ./myapp.equinor.com.key 2048
+    # Keep this file safe and out of version control. You will need it later. 
+
+    # Step 2: Generate Certificate Signing Request (CSR) file using the private key
+    openssl req -new -key ./myapp.equinor.com.key -out ./myapp.equinor.com.csr
     ```
-
-    :::
-
-1. Specify in the request if you only need "internal entry" (used within internal Equinor network) or "both - internal and external entries" (used both - within internal Equinor and public networks).
-
-## Acquire an Equinor certificate
-
-### What you need
-
-You need to request two certificates
-
-- SSL certificate
-- Intermediate certificate
+1. Store the private key in a safe location (see step 1).
+1. Open the [Services@Equinor](https://equinor.service-now.com/selfservice) portal and find the service **Public SSL certificate**.
+1. Request a SSL certificate and an intermediate certificate for your alias and attach the CSR file you created in step 2:
+   ```text
+   Title: Public SSL certificate with intermediate
+   Certificate name: myapp.equinor.com
+   ```
+1. You will receive an email (within a day or two) containing the requested certificate and corresponding intermediate certificate. Store them together with the private key in a safe location (see step 1).
 
 ::: tip Side note
 [What is an intermediate certificate?](https://support.ssl.com/Knowledgebase/Article/View/11/0/what-is-an-intermediate-certificate)
 :::
 
-These certs can be bundled into one file using the PEM container format, and quite often this file is what we end up calling "the cert we serve the client".  
 
-A PEM container holding both the SSL and the intermediate certificate in the same file, in this particular order:
-::: details Example
+### Apply the certificate and private key to the external DNS alias
 
-```text
------BEGIN CERTIFICATE-----
-{ssl certificate content}
------END CERTIFICATE-----
-
------BEGIN CERTIFICATE-----
-{intermediate certificate content}
------END CERTIFICATE-----
-```
-
-:::
-
-### How to get it
-
-1. Start by getting to know the appropriate procedures on how to handle keys and certificates in Equinor, as they are considered sensitive information
-1. Create a _Certificate Signing Request_ on you local pc using the `openssl` command:
-
-    ```sh
-    # Step 1: Generate a private key
-    openssl genrsa -out ./mydomain.equinor.com.key 2048
-    # Keep this file safe and out of version control. You will need it later. 
-
-    # Step 2: Generate Certificate Signing Request (CSR) file using the private key
-    openssl req -new -key ./mydomain.equinor.com.key -out ./mydomain.equinor.com.csr
-    ```
-
-1. Open the [Services@Equinor](https://equinor.service-now.com/selfservice) portal and find the service **Public SSL certificate**
-1. Request a SSL certificate and an intermediate certificate for your alias and attach the CSR file you created in step 2:
-
-   ```text
-   Title: Public SSL certificate with intermediate
-   Certificate name: mydomain.equinor.com
-   ```
-
-1. Once you get the requested certificates, store them together with the private key in a safe location (see step 1)
-
-## Update configuration
-
-You must add a new `dnsExternalAlias` section to your [`radixconfig.yaml`](../../references/reference-radix-config/#dnsexternalalias) file.  
-
-1. The application must be built and deployed for the configuration to be applied.
-1. If authentication proxy is used - its redirect URL can be changed to use external alias (to avoid showing long proxy URL, when redirected).  
-
-### Apply custom certificate
-
-Adding the certificate information to your application is done using the Radix Console.
-
-Radix needs two pieces of information to enable the certificate for an external alias:
-
-- the certificate itself
-- the private key
-
-These must be entered as [secrets](../../docs/topic-concepts#secret) in the page of the component chosen as the target of the alias (in the appropriate environment). The two secrets will be named `<domain-name>-cert` and `<domain-name>-key`.
-
-![List of secrets for corresponding TLS certificate](./list-of-external-alias-secrets.png "List of Secrets")
-
-### Add `<domain-name>-cert` secret
-
-Combine the SSL certificate and the intermediate certificate into a single certificate using a PEM container format. Certificates should be put [in particular order](https://www.digicert.com/kb/ssl-support/pem-ssl-creation.htm): first - SSL certificate, second - Intermediate certificate:
-::: details Example
-
-```text
------BEGIN CERTIFICATE-----
-{ssl certificate content}
------END CERTIFICATE-----
-
------BEGIN CERTIFICATE-----
-{intermediate certificate content}
------END CERTIFICATE-----
-```
-
-:::
-
-![Setting the cert part](./setting-cert.png "Setting cert")
-
-### Add `<domain-name>-key` secret
-
-Paste the contents of the private key file that you generated at the start of the process.
-
-![Setting the private key part](./setting-private-key.png "Setting private key")
-
-## Certificate and key validation
-
-When both the certificate and key is set, the secrets should change to `Consistent` state. The `Consistent` state indicates that the certificate is valid, signed by a trusted authority, and the private and public key pair matches.
-
-![Valid certificate and private key](./consistent-external-alias.png "Valid certificate and private key")
-
-Basic information about the TLS certificate and intermediate authorities is available by clicking on the chevron next to the `TLS Certificate` secret. Certificates in the list are presented in the same order as set in the `<domain-name>-cert` secret.
-
-![Certificate details](./certificate-details.png "Certificate details")
-
-If there are any issues with the certificate or private key, the state of the secret(s) will be `Invalid`. The reason for the invalid state is shown in the details section for the certificate or key.
-
-![Certificate invalid](./certificate-invalid.png "Certificate invalid")
-
-Refer to the [Troubleshooting](./#troubleshooting) section for a list of common validation errors and how to they can be resolved.
+1. In [Radix Web Console](https://console.radix.equinor.com/), navigate to the environment and component referenced in `dnsExternalAlias`.
+1. Scroll down to `External DNS` and click on the alias `myapp.equinor.com`.
+   ![External DNS list pending](./external-dns-list-pending.jpg)
+1. Add the TLS and intermediate certificate to the `Certificate` field, and the private key to the `Private Key` field. Make sure that the certificates are in correct order, as shown in the picture.
+   ![Set certificate and private key](./certificate-private-key-form.jpg)
+1. Click the `Save` button to save. Radix will validate the certificate and private key before applying them. Refer to the [Troubleshooting](./#troubleshooting) section for a list of common validation errors and how to they can be resolved.
+1. After successful save, the `myapp.equinor.com` alias will change status to `Consistent`. Basic information about the certificate is available by clicking on the chevron next to the alias.
+   ![External DNS list consistent](./external-dns-list-consistent.jpg)
 
 ## Troubleshooting
 
 The most common validation errors are described below.
 
 - **x509: certificate signed by unknown authority**  
-The certificate is not signed by a trusted authority. You will see this error if you forget to include the intermediate CA certificate in the `<domain-name>-cert` secret.  
-Read the [Add domain-name-cert secret](./#add-domain-name-cert-secret) section for more information.
+The certificate is not signed by a trusted authority. You will see this error if the intermediate certificate is missing.
 
 - **x509: certificate is not valid for any names, but wanted to match one.example.com**  
 The certificate is not valid for any domain names. This error is reported if you switch the order of the TLS certificate and the CA certificate. Check the order of the certificates in the details section.  
-Read the [Add domain-name-cert secret](./#add-domain-name-cert-secret) section for more information.
 
 - **x509: certificate is valid for two.example.com, not one.example.com**  
-The certificate is not valid for the expected domain name. Update the `<domain-name>-cert` secret with the correct certificate.
+The certificate is valid for another domain name. 
 
 - **x509: missing PEM block for certificate**  
-The `<domain-name>-cert` secret value does not contain a `CERTIFICATE` PEM block. Update the `<domain-name>-cert` secret with a value containing the certificates.
+The `Certificate` value does not contain a `CERTIFICATE` PEM block.
 
 - **tls: private key does not match public key**  
-The private key set in the `<domain-name>-key` secret does not match the public key for the certificate. Set the private key matching the certificate public key to fix.  
-[openssl](https://www.ibm.com/support/pages/openssl-commands-check-and-verify-your-ssl-certificate-key-and-csr) can be used to verify that the certificate and key matches, before setting the secrets.
+The private key does not match certificate's public key. Use the correct private key.  
+[openssl](https://www.ibm.com/support/pages/openssl-commands-check-and-verify-your-ssl-certificate-key-and-csr) can be used to test if a certificate and private key matches.
 
 - **tls: failed to find PEM block with type ending in "PRIVATE KEY" in key input**  
-The `<domain-name>-key` secret value does not contain a `PRIVATE KEY` or `RSA PRIVATE KEY` PEM block. Update the `<domain-name>-key` secret with a value containing the private key.  
-Read the [Add domain-name-key secret](./#add-domain-name-key-secret) section for more information.
+The `Private Key` value does not contain a `PRIVATE KEY` or `RSA PRIVATE KEY` PEM block.
