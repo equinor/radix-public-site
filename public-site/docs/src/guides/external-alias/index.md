@@ -98,7 +98,7 @@ This step is only required when `useCertificateAutomation` in `dnsExternalAlias`
    ![External DNS list pending](./external-dns-list-pending.jpg)
 1. Add the TLS certificate and intermediate certificate to the `Certificate` field, and the private key to the `Private Key` field. Make sure that the certificates are in correct order, as shown in the picture.
    ![Set certificate and private key](./certificate-private-key-form.jpg)
-1. Click the `Save` button to save. Radix will validate the certificate and private key before applying them. Refer to the [Troubleshooting](./#troubleshooting) section for a list of common validation errors and how to they can be resolved.
+1. Click the `Save` button to save. Radix will validate the certificate and the private key before applying them. Refer to the [Troubleshooting](./#troubleshooting) section for a list of common validation errors and hints how they can be resolved.
 1. After successful save, the `myapp.equinor.com` alias will change status to `Consistent`. Basic information about the certificate is available by clicking on the chevron next to the alias.
    ![External DNS list consistent](./external-dns-list-consistent.jpg)
 
