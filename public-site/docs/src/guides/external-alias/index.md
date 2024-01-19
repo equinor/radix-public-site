@@ -15,7 +15,7 @@ The process for setting up the DNS record depends on the service used to registe
 
 1. Open the [Services@Equinor](https://equinor.service-now.com/selfservice) portal and find the service "Domain name system (DNS)"
 1. Select option `New` in `Select service`
-1. In `Where should the DNS record be added, changed or deleted?`, select if you only need `Internal DNS Service` (accessible only from Equinor internal network) or `Internal and external DNS service` (accessible from both Equinor internal network and internet).
+1. In `Where should the DNS record be added, changed or deleted?`, select if you only need `Internal DNS Service` (accessible only from Equinor internal network) or `Internal and external DNS service` (accessible from both Equinor internal network and Internet).
 1. Enter the host name in `Host name` (exclude `.equinor.com` suffix).
 1. Select `CNAME` in the `Type` drop down.
 1. In the `Data (IP or FQDN)` field, enter the [public name](../../docs/topic-domain-names/#public-name) or [default alias](../../docs/topic-domain-names/#app-default-alias) for which the new DNS record should point to.  
