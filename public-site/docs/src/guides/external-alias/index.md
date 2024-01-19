@@ -5,7 +5,7 @@ title: Configure External DNS Alias
 
 An application can be configured to use external DNS aliases, in addition to the automatically generated [domain names](../../docs/topic-domain-names), provided you register the DNS record and optionally bring the corresponding TLS certificate into Radix. Traffic routing is configured in [`dnsExternalAlias`](../../references/reference-radix-config/#dnsexternalalias) in `radixconfig.yaml`.
 
-The external DNS record must point to the [public name](../../docs/topic-domain-names/#public-name) of a component, or the [app default alias](../../docs/topic-domain-names/#app-default-alias).
+The external DNS record must point to the [public name](../../docs/topic-domain-names/#public-name) of a component, to the [app default alias](../../docs/topic-domain-names/#app-default-alias) or to the [app alias](../../docs/topic-domain-names/#app-alias).
 
 `useCertificateAutomation` in [`dnsExternalAlias`](../../references/reference-radix-config/#dnsexternalalias) controls if the TLS certificate is automatically managed by Radix, or manually by you.
 
