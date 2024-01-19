@@ -3,6 +3,8 @@ kind: RadixApplication
 metadata:
   name: radix-platform
 spec:
+  build:
+    useBuildKit: true
   environments:
     - name: prod
     - name: qa

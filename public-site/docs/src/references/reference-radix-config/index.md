@@ -269,11 +269,11 @@ spec:
         - name: api
           port: 8001
 ```
-A component can have one or more ports:
+A component can optionally have one or several ports:
 * `name` - internal name of a port, used as a reference within the radixconfig. It needs to be unique within the component `ports` list.
 * `port` - numeric value of a port, in the range between 1024 and 65535. It needs to be unique within the component `ports` list.
 
-A component _should_ have at least one port, on which it can respond to TCP or HTTP requests. Kubernetes [readiness probe](../../docs/topic-rollingupdate/#readiness-probe) will regularly request the first component in the `ports` list to ensure that the component can handle requests. 
+A component doesn't need to have ports. If it has at least one port, it has to respond to TCP or HTTP requests, sent to this port. Kubernetes [readiness probe](../../docs/topic-rollingupdate/#readiness-probe) will regularly request the first port in the `ports` list to ensure that the component can handle requests. 
 
 When a new component version is deployed, the probe waits until replicas of the new component version start responding to such requests, keeping them in the "Starting" state. When the new replicas respond to these requests, the [rolling update](../../docs/topic-rollingupdate/) will remove the replicas of the old component version 
 
@@ -287,6 +287,10 @@ spec:
 ```
 
 The `publicPort` field of a component, if set to `<PORT_NAME>`, is used to make the component accessible on the internet by generating a public endpoint. Any component without `publicPort: <PORT_NAME>` can only be accessed from another component in the app. If specified, the `<PORT_NAME>` should exist in the `ports` field.
+
+:::tip
+If no [ports](./#ports) specified for a component, `publicPort` should not be set.
+:::
 
 ### `monitoringConfig`
 
@@ -363,11 +367,12 @@ spec:
           memory: "64Mi"
           cpu: "50m"
         limits:
-          memory: "64Mi"
           cpu: "1000m"
 ```
 
 The `resources` section specifies how much CPU and memory each component needs, that are shared among all Radix environments in a component. These common resources are overridden by environment-specific resources.
+
+The property `limits.memory` cannot be explicitly set, it is set automatically with the same value as `requests.memory` to reduce potential risk of not sufficient memory on a node. [Read more](https://kubernetes.io/blog/2021/11/26/qos-memory-resources/) about memory resources and QoS. 
 
 ### `variables` (common)
 
@@ -426,11 +431,12 @@ spec:
               memory: "128Mi"
               cpu: "100m"
             limits:
-              memory: "128Mi"
               cpu: "2000m"
 ```
 
 The `resources` section specifies how much CPU and memory each component needs, that are defined per Radix environment in a component. `resources` is used to ensure that each component is allocated enough resources to run as it should. `limits` describes the maximum amount of compute resources allowed. `requests` describes the minimum amount of compute resources required. If `requests` is omitted for a component it defaults to the settings in `limits`. If `limits` is omitted, its value defaults to an implementation-defined value. [More info](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/)
+
+The property `limits.memory` cannot be explicitly set, it is set automatically with the same value as `requests.memory`
 
 For shared resources across Radix environments, refer to [common resources](./#resources-common).
 
@@ -584,6 +590,10 @@ Common `oauth2` settings can be configured at component level and/or in the comp
 
 When OAuth2 is configured for a component, Radix creates an OAuth2 service (using [OAuth2 Proxy](https://oauth2-proxy.github.io/oauth2-proxy/)) to handle the OAuth2 authorization code flow, and to verify the authorization state of incoming requests to the component.
 
+:::tip
+If no [ports](./#ports) specified for a component, `authentication.oauth2` should not be set.
+:::
+
 The OAuth2 service handles incoming requests to the path _/oauth2_ (or the path defined in _proxyPrefix_) for all public DNS names configured for a component. Valid _redirect URIs_ must be registered for the application registration in Azure AD, e.g. `https://myapp.app.radix.equinor.com/oauth2/callback`.  
 See [guide](../../guides/authentication/#configuration) for more information.
 
@@ -614,6 +624,7 @@ oauth2:
 ```
 
 - `clientId` Required - The client ID of the application, e.g. the application ID of an application registration in Azure AD.
+
 - `scope` Optional. Default **openid profile email** - List of OIDC scopes and identity platform specific scopes. More information about scopes when using the Microsoft Identity Platform can be found [here](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent).
 - `setXAuthRequestHeaders` Optional. Default **false** - Adds claims from the access token to the _X-Auth-Request-User_, _X-Auth-Request-Groups_, _X-Auth-Request-Email_ and _X-Auth-Request-Preferred-Username_ request headers. The Access Token is added to the _X-Auth-Request-Access-Token_ header.
 - `setAuthorizationHeader` Optional. Default **false** - Adds the OIDC ID Token in the _Authorization: Bearer_ request header.
@@ -802,7 +813,6 @@ spec:
           memory: "256Mi"
           cpu: "400m"
         limits:
-          memory: "384Mi"
           cpu: "600m"
 ```
 
@@ -833,7 +843,6 @@ spec:
           memory: "6Gi"
           cpu: "1000m"
         limits:
-          memory: "12Gi"
           cpu: "2000m"
 ```
 
@@ -921,7 +930,6 @@ spec:
               memory: "6Gi"
               cpu: "1000m"
             limits:
-              memory: "12Gi"
               cpu: "2000m"
 ```
 
@@ -1033,6 +1041,22 @@ spec:
 As a convenience for nicer URLs, `dnsAppAlias` creates a DNS alias in the form of `<app-name>.app.radix.equinor.com` for the specified environment and component.
 
 In the example above, the component **frontend** hosted in environment **prod** will be accessible from `myapp.app.radix.equinor.com`, in addition to the default endpoint provided for the frontend component, `frontend-myapp-prod.<clustername>.radix.equinor.com`.
+
+## `dnsAlias`
+
+```yaml
+spec:
+  dnsAlias:
+    - alias: myapp
+      environment: prod
+      component: frontend
+```
+
+`dnsAlias` creates one or several DNS aliases in the form of `<alias>.radix.equinor.com` for the specified environment and component. There are few reserved aliases which cannot be used: 
+
+`www`, `app`, `api`, `console`, `webhook`, `playground`, `dev`, `grafana`, `prometheus`, `canary`, `cost-api`. 
+
+In the example above, the component **frontend** hosted in environment **prod** will be accessible from `myapp.radix.equinor.com` (or for the Playground: `myapp.playground.radix.equinor.com`), in addition to the default endpoint provided for the frontend component `frontend-myapp-prod.radix.equinor.com` (or for the Playground: `frontend-myapp-prod.playground.radix.equinor.com`).
 
 ## `dnsExternalAlias`
 
@@ -1260,7 +1284,6 @@ spec:
               memory: "64Mi"
               cpu: "100m"
             limits:
-              memory: "128Mi"
               cpu: "200m"
           authentication:
             clientCertificate:
@@ -1276,7 +1299,6 @@ spec:
               memory: "128Mi"
               cpu: "200m"
             limits:
-              memory: "256Mi"
               cpu: "400m"
           authentication:
             clientCertificate:
@@ -1314,7 +1336,6 @@ spec:
           memory: "256Mi"
           cpu: "400m"
         limits:
-          memory: "384Mi"
           cpu: "600m"
       variables:
         DB_NAME: "compute-db"
