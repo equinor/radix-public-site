@@ -1060,6 +1060,7 @@ In the example above, the component **frontend** hosted in environment **prod** 
 
 ## `dnsExternalAlias`
 
+<!--
 ```yaml
 spec:
   dnsExternalAlias:
@@ -1072,12 +1073,26 @@ spec:
       component: frontend
       useCertificateAutomation: [false|true]
 ```
+-->
+```yaml
+spec:
+  dnsExternalAlias:
+    - alias: some.alias.com
+      environment: prod
+      component: frontend
+    - alias: another.alias.com
+      environment: prod
+      component: frontend
+```
+
 
 It is possible to have multiple custom DNS aliases (i.e. to choose your own custom domains) for the application. The `dnsExternalAlias` needs to point to a component marked as public. It can be any domain name, which can in turn be used for public URLs to access the application. 
 
 In the example above, the component **frontend** hosted in environment **prod** will be accessible from both `some.alias.com` and `another.alias.com`, as long as the correct certificate has been set.
 
+<!--
 The `useCertificateAutomation` property defines how the TLS certificate for the alias is issued. When set to `true`, certificate issuing and renewal is automatically handled by Radix, and when set to `false`, the application administrator is responsible for providing a valid certificate and private key. If the value is toggled, Radix deletes the existing certificate and private key. This will cause a TLS error when accessing the external DNS alias until a new certificate and private key is set.
+-->
 
 There is a [detailed guide](../../guides/external-alias/) on how to set up external aliases.
 
