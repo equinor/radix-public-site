@@ -68,7 +68,7 @@ This step is only required when `useCertificateAutomation` in `dnsExternalAlias`
 ### How to get it
 
 1. Start by getting familiar with the appropriate procedures about handling keys and certificates in Equinor, as they are considered to be sensitive information.
-1. Create a _Certificate Signing Request_ on you local pc using the `openssl` command:
+1. Create a _Certificate Signing Request_ on you local pc using the [openssl](https://www.openssl.org/) command:
     ```sh
     # Step 1: Generate a private key
     openssl genrsa -out ./myapp.equinor.com.key 2048
