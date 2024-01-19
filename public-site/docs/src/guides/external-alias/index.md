@@ -43,7 +43,7 @@ frontend-myapp-prod.radix.equinor.com
 
 ## Configure `dnsExternalAlias` in radixonfig.yaml
 
-Add the alias to `dnsExternalAlias` in radixconfig.yaml. You can add multiple entries as long as the `alias` value is unique. The referenced environment must be built and deployed in order for the changes to take effect.
+Add the alias to `dnsExternalAlias` in radixconfig.yaml. You can add multiple entries as long as the `alias` value is unique. The referenced environment must be re-deployed in order for the changes to take effect.
 
 If `useCertificateAutomation` is `true`, the external DNS record must be already created in order for Radix to start the automatic certificate issuing process.
 
