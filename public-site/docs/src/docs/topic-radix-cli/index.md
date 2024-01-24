@@ -92,15 +92,17 @@ Scope can be specified for most commands:
 * environment of a Radix application
 * component of a Radix application environment
 
-Examples of commands:
+## Examples
+#### Register application
 * Register (create) a new Radix application. `Deploy key` will be returned as a response - it can be put to the repository's "Deploy keys" to give the Radix access to an internal or a private repository.
     ```shell
     rx create application --application your-application-name --repository https://github.com/your-repository --config-branch main --ad-groups abcdef-1234-5678-9aaa-abcdefgf --shared-secret someSecretPhrase12345 --configuration-item "YOUR PROJECT CONFIG ITEM" --context playground
     ```
-* Create a new "deploy only" pipeline job
+#### Deploy pipeline job
+* Create a new "deploy only" pipeline job. An optional argument `--follow`(`-f`) allows to watch the log of the job
     ```shell
-    rx create pipeline-job deploy --application your-app-name --environment dev
-    rx create pipeline-job deploy -a your-app-name -e dev
+    rx create pipeline-job deploy --application your-app-name --environment dev --follow
+    rx create pipeline-job deploy -a your-app-name -e dev -f
     ```
 :::tip
 An option `job` of commands `create`, `get logs` is replaced with `pipeline-job`. It will be supported for backward compatibility. 
@@ -110,30 +112,39 @@ An option `job` of commands `create`, `get logs` is replaced with `pipeline-job`
     rx create pipeline-job deploy --application your-app-name --environment dev --image-tag-name web-app=stable-123 --image-tag-name api=1.22.0
     rx create pipeline-job deploy -a your-app-name -e dev -t web-app=stable-123 -t api=1.22.0
     ```
-* Specify `commitID` for the "deploy only" pipeline job to provide reference to a corresponding commit in the Radix console. 
+* Specify `commitID` to provide reference to a corresponding commit in the Radix console. 
     ```shell
     rx create pipeline-job deploy --application your-app-name --environment dev --commitID 019e0d411de667dff6952852e03b4a38b0a689c3
     ```
+* Specify `component` to deploy when only specific component need to be deployed. Multiple components can be specified. Other components, if exist in the environment, will not be re-deployed, keeping their `commitID` and `gitTag`, environment variables, secrets, etc., their replicas will not be restarted.
+    ```shell
+    rx create pipeline-job deploy --application your-app-name --environment dev --component web-app
+    rx create pipeline-job deploy -a your-app-name -e dev --component web-app --component api-server --commitID 019e0d411de667dff6952852e03b4a38b0a689c3
+    ```
+#### Build and deploy pipeline job
 * Create a new "build and deploy" pipeline job
     ```shell
     rx create pipeline-job build-deploy -a your-app-name --branch main
+    ```
+#### Promote pipeline job
+* Promote active deployment in one environment to another:
+    ```shell
+    rx create pipeline-job promote --application your-app-name --from-environment dev --to-environment prod --use-active-deployment
     ```
 * Promote active deployment in one environment to another:
     ```shell
     rx create pipeline-job promote --application your-app-name --from-environment dev --to-environment prod --use-active-deployment
     ```
+#### Manage pipeline jobs
 * Restart failed or stopped pipeline job:
     ```shell
     rx restart pipeline-job --application your-app-name --job radix-pipeline-20231019122020-mhwif
-    ```
-* Promote active deployment in one environment to another:
-    ```shell
-    rx create job promote --application your-app-name --from-environment dev --to-environment prod --use-active-deployment
     ```
 * Get list of pipeline jobs for a Radix application. `jq` helps to filter returned `json` output
     ```shell
     rx get application -a your-app-name | jq -r '.jobs'
     ```
+#### Log
 * Get log of a Radix application component. Each log line will be prefixed with a name of the replica, which sent it
     ```shell
     rx get logs component -a your-app-name --environment your-env-name --component your-component-name
@@ -147,6 +158,7 @@ An option `job` of commands `create`, `get logs` is replaced with `pipeline-job`
     rx get logs component --application your-app-name --environment your-env-name --component your-component-name --previous
     rx get logs component -a your-app-name -e your-env-name --component your-component-name -p
     ```
+#### Start, stop, restart
 * Stop, start or restart a Radix application component
     ```shell
     rx stop component --application your-app-name --environment your-env-name --component your-component-name
@@ -165,12 +177,24 @@ An option `job` of commands `create`, `get logs` is replaced with `pipeline-job`
     rx start application -a your-app-name
     rx restart application -a your-app-name
     ```
+#### Scale replicas
 * Scale up or down Radix application component replicas. Allowed values between "0" and "20" (value "0" is an equivalent of the command `rx stop`). Scaling can be useful for tuning the resource configuration to figure out what amount of replicas affect performance of an application and particular need of CPU and memory. After re-deployment, start or restart, scaled component gets replicas, specified in the `radixconfig.yaml`, "1" if not specified, or set by [horizontal scaling](https://radix.equinor.com/references/reference-radix-config/#environmentconfig)  
     ```shell
     rx scale --application your-app-name --environment your-env-name --component web-app --replicas 2
     rx scale -a your-app-name -e your-env-name --component web-app -r 2
     ```
-* Set a value of a component secret
+#### Manage components
+* Set a value of a component secret (runtime secret)
     ```shell
     rx set environment-secret -a your-app-name -e your-env-name --component your-component-name -s CLIENT_ID -v qtrty-1234-5678-9aaa-abcdefgf
     ```
+* Set a value of a component environment variable (runtime environment variable)
+    ```shell
+    rx set environment-variable -a your-app-name -e your-env-name --component your-component-name --variable LOG_LEVEL --value DEBUG
+    ```
+* Set certificate and private key from files or string literals
+    ```shell
+    rx set external-dns-tls --application myapp --environment prod --component web --alias myapp.example.com --certificate-from-file "cert.crt" --private-key-from-file "cert.key"
+    ```
+
+
