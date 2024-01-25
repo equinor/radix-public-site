@@ -200,3 +200,21 @@ In the example repository that we have used for this documentation we are settin
 [Example of using GitHub action to create a Radix deploy pipeline job](./example-github-action-to-create-radix-deploy-pipeline-job.md)
 
 > Disclaimer: Please seek advice elsewhere on whether GitHub Actions and/or GitHub package repository is the right option for you. Both features are new, and we have too little experience as an organization to make any recommendations, both in terms of robustness and in terms of cost. A private Azure container registry (ACR) would for instance allow you to set it up with a service account, rather than using your personal account. This document is meant to be a user guide on how to combine these with Radix, as one of many alternatives for running CI outside of Radix.
+
+## Deploy only specific component
+
+When a Radix application has multiple components and only one or some of them need to be deployed, an option `component` can be used to specify these components. Multiple components can be specified. Other components, if exist in the environment, will not be re-deployed, keeping their `commitID` and `gitTags`, environment variables, secrets, etc. Replicas of not deployed components will not be restarted on deployment.
+
+Please look at [Radix CLI deploy command](../../docs/topic-radix-cli#deploy-pipeline-job) for examples. The `component` option can also be used with [Radix GitHub action](https://github.com/equinor/radix-github-actions) and [Radix API](https://api.radix.equinor.com/swaggerui/).
+
+When deploy pipeline job has been run with `component` option, Radix console will indicate on pipeline job, deployment and environment pages which components were not deployed: 
+
+_Component **component1** keeps deployment commit @b57c551_ 
+
+Where _commit @b57c551_ will be shown only when the previous deployment of the component has this `CommitID` specified
+##### Pipeline job
+![Deploy job with specific component](./deploy-job-with-specific-component.png)
+##### Deployment
+![Deployment with specific component](./deployment-with-specific-component.png)
+##### Environment
+![Environment with specific deployed component](./environment-with-specific-deployed-component.png)
