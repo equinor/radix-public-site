@@ -14,6 +14,11 @@ Private links have other [policies](https://docs.omnia.equinor.com/governance/se
 
 :::
 
+::: tip Tips
+An alternative can be to host an API in Omnia Classic, publish this in [APIM](https://api.equinor.com/). Then this API can be used by an Radix application.
+
+:::
+
 ![Illustration](private-link-service-workflow-expanded.png)
 
 In order to establish a Private Endpoint from Radix to your external resource, the following information is needed:
