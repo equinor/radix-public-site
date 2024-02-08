@@ -1,7 +1,7 @@
 apiVersion: radix.equinor.com/v1
 kind: RadixApplication
 metadata:
-  name: radix-platform-docusauris
+  name: radix-platform-docusaurus
 spec:
   build:
     useBuildKit: true
