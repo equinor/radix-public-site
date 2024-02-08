@@ -5,6 +5,7 @@ metadata:
 spec:
   build:
     useBuildKit: true
+    useBuildCache: true
   environments:
     - name: prod
     - name: qa
@@ -15,7 +16,7 @@ spec:
       src: "./public-site"
       ports:
         - name: http
-          port: 3000
+          port: 8080
       publicPort: http
       environmentConfig:
         - environment: prod
