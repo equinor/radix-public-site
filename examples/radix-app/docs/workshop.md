@@ -1,4 +1,4 @@
- <!-- markdownlint-disable MD014 MD007 MD034-->
+ &lt;!-- markdownlint-disable MD014 MD007 MD034--&gt;
 
 # 1. Omnia Radix example application
 
