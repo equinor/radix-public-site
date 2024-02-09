@@ -67,36 +67,7 @@ const config: Config = {
     },
     footer: {
       style: 'dark',
-      links: [
-        {
-          title: 'Docs',
-          items: [
-            {
-              label: 'Tutorial',
-              to: '/docs/intro',
-            },
-          ],
-        },
-        {
-          title: 'Community',
-          items: [
-            {
-              label: 'Community',
-              href: 'https://radix.equinor.com/community',
-            },
-          ],
-        },
-        {
-          title: 'More',
-          items: [
-            {
-              label: 'Blog',
-              to: '/blog',
-            },
-          ],
-        },
-      ],
-      copyright: `Copyright © ${new Date().getFullYear()} Equinor ASA. Built with Docusaurus.`,
+      copyright: `Copyright © 2018-${new Date().getFullYear()} Equinor ASA`,
     },
     prism: {
       theme: prismThemes.dracula,
