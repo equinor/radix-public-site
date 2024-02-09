@@ -48,26 +48,21 @@ const config: Config = {
 
   themeConfig: {
     // Replace with your project's social card
-    image: 'img/docusaurus-social-card.jpg',
+    // image: 'img/docusaurus-social-card.jpg',
     navbar: {
       title: 'OMNIA Radix',
       logo: {
         alt: 'OMNIA Radix Logo',
-        src: 'img/logo.svg',
+        src: 'images/logos/logo.svg',
       },
       items: [
-        {
-          type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
-          position: 'left',
-          label: 'Tutorial',
-        },
-        {to: '/blog', label: 'Blog', position: 'left'},
-        {
-          href: 'https://github.com/equinor/radix-public-site',
-          label: 'GitHub',
-          position: 'right',
-        },
+        {to: '/docs/start', label: 'Getting started', position: 'right'},
+        {to: '/docs/guides', label: 'Guides', position: 'right'},
+        {to: '/docs/docs', label: 'Docs', position: 'right'},
+        {to: '/docs/features', label: 'Features', position: 'right'},
+        {to: '/docs/references', label: 'References', position: 'right'},
+        {to: '/docs/other', label: 'Community', position: 'right'},
+        {href: 'https://console.radix.equinor.com/', label: 'Web Console', position: 'right'},
       ],
     },
     footer: {
@@ -104,7 +99,7 @@ const config: Config = {
       copyright: `Copyright © ${new Date().getFullYear()} Equinor ASA. Built with Docusaurus.`,
     },
     prism: {
-      theme: prismThemes.github,
+      theme: prismThemes.dracula,
       darkTheme: prismThemes.dracula,
     },
   } satisfies Preset.ThemeConfig,
