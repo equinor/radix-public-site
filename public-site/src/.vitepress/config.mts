@@ -180,6 +180,6 @@ export default defineConfig({
         ]
     },
     ignoreDeadLinks: true,
-    cleanUrls: false,
+    cleanUrls: true,
 })
 
