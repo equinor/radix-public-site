@@ -1,8 +1,8 @@
 FROM docker.io/node:21-alpine3.18
 
 WORKDIR /site
-COPY ./docs/package.json ./docs/package-lock.json /site/
+COPY ./src/package.json ./src/package-lock.json /site/
 RUN npm install
-COPY ./docs .
+COPY ./src .
 
 CMD npm run dev

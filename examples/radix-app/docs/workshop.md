@@ -30,7 +30,7 @@ An OpenAPI specification has been agreed on with the API team, so we'll begin wi
 
 ### 2.1.2. Exploring the `frontend` app
 
-1. Move into the [frontend](../frontend/) folder and explore how to develop the `frontend` app using ```ReactJs``` and ```Node.js``` as well as Dockerizing the application.
+1. Move into the [frontend](../frontend/index.md) folder and explore how to develop the `frontend` app using ```ReactJs``` and ```Node.js``` as well as Dockerizing the application.
 
 ### 2.1.3. Preparing for Radix
 
@@ -63,7 +63,7 @@ The UI is comming along nicely, and your team has started on the API. Next step 
 
 ### 2.2.1. Exploring the `server` app
 
-1. Move into the [backend](../backend/) folder and explore how to develop the `backend` app using ```Node.js``` as well as Dockerizing the application.
+1. Move into the [backend](../backend/index.md) folder and explore how to develop the `backend` app using ```Node.js``` as well as Dockerizing the application.
 
 ### 2.2.2. Connect UI with `backend` Api
 
