@@ -9,7 +9,7 @@ spec:
     - name: prod
     - name: qa
       build:
-        from: main
+        from: transition-to-vitepress
   components:
     - name: public-site
       src: "./public-site"
