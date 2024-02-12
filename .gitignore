@@ -8,3 +8,4 @@ build
 /public-site-old
 /public-site/src/node_modules
 /public-site/src/.vitepress/cache
+/public-site/src/.vitepress/dist/

@@ -1,0 +1,30 @@
+apiVersion: radix.equinor.com/v1
+kind: RadixApplication
+metadata:
+  name: radix-platform-vitepress
+spec:
+  build:
+    useBuildKit: true
+  environments:
+    - name: prod
+    - name: qa
+      build:
+        from: main
+  components:
+    - name: public-site
+      src: "./public-site"
+      ports:
+        - name: http
+          port: 8080
+      publicPort: http
+      environmentConfig:
+        - environment: prod
+          replicas: 2
+          resources:
+            requests:
+              memory: "100Mi"
+              cpu: "100m"
+            limits:
+              memory: "150Mi"
+              cpu: "120m"
+

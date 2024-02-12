@@ -1,5 +1,5 @@
 ---
-home: true
+layout: home
 heroText: Welcome to Radix
 tagline: null
 metaTitle: Radix, the Equinor software platform
@@ -36,7 +36,7 @@ You provide your code and a Dockerfile to build it, and Radix will take it from 
 
 <div id=actions-buttons>
 
-[Get started](/start/)
-[Read the docs](/docs/)
+[Get started](/start/)&nbsp;
+[Read the docs](/docs/)&nbsp;
 [Our community](/other/community/)
 </div>
