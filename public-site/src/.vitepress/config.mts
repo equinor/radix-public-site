@@ -6,7 +6,7 @@ export default defineConfig({
     description: "Omnia Radix cloud platform",
     themeConfig: {
         // https://vitepress.dev/reference/default-theme-config
-        logo: "/assets/images/logos/logo.svg",
+        logo: "./images/logos/logo.svg",
         search: {
             provider: 'local'
         },
@@ -180,6 +180,5 @@ export default defineConfig({
         ]
     },
     ignoreDeadLinks: true,
-    cleanUrls: true,
 })
 
