@@ -3,8 +3,8 @@ import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'Omnia Radix',
-  tagline: 'Omnia Radix',
+  title: 'Welcome to Radix',
+  tagline: 'Radix makes your app develop',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
@@ -40,7 +40,7 @@ const config: Config = {
           showReadingTime: false,
         },
         theme: {
-          customCss: require.resolve('./src/css/index.module.scss'),
+          customCss: './src/css/custom.css',
         },
       } satisfies Preset.Options,
     ],
