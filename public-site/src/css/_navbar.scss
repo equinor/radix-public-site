@@ -1,0 +1,21 @@
+header.navbar {
+  .site-name {
+    font-size: 16px;
+    font-weight: 400;
+  }
+  .navbar-item {
+    font-size: 1rem;
+  }
+  .search-box {
+    order: -1;
+    margin-right: 1.5rem;
+    > .suggestions {
+      min-width: 500px;
+      max-width: 700px;
+      .page-title {
+        white-space: break-spaces;
+        font-weight: bold;
+      }
+    }
+  }
+}

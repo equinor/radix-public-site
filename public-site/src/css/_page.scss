@@ -1,0 +1,30 @@
+#app {
+  .page {
+    a {
+      font-size: 1.000rem;
+      font-weight: 400;
+      line-height: 1.500em;
+      text-decoration: underline;
+    }
+    .header-anchor, .page-nav a {
+      font-weight: 500;
+      line-height: 1.500em;
+      text-decoration: none;
+    }
+    .header-anchor {
+      font-size: 0.850em;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    .page-nav a {
+      font-size: 1.000rem;
+    }
+    blockquote {
+      border: 0px;
+    }
+    blockquote > p {
+      color: var(--c-brand);
+    }
+  }
+}

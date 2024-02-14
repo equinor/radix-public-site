@@ -40,7 +40,7 @@ const config: Config = {
           showReadingTime: false,
         },
         theme: {
-          customCss: './src/css/custom.css',
+          customCss: require.resolve('./src/css/index.module.scss'),
         },
       } satisfies Preset.Options,
     ],
