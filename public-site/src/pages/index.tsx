@@ -11,36 +11,40 @@ function HomepageHeader() {
     const {siteConfig} = useDocusaurusContext();
     return (
         <div className="app">
-                <main className="home">
-                    <header className="hero">
+            <main className="home">
+                <header className="hero">
                     <h1 className="main-title">Welcome to Radix</h1>
-                    </header>
-                    <div className="theme-default-content">
+                </header>
+                <div className="theme-default-content">
+                    <div>
+                        <div><h1 id="radix-makes-your-app-develop">
+                            Radix makes your app develop</h1>
+                        </div>
+                        <HomepageFeatures/>
+                        <p>You provide your code and a Dockerfile to build
+                            it, and Radix will take it from there.
+                        </p>
                         <div>
-                            <div><h1 id="radix-makes-your-app-develop">
-                                Radix makes your app develop</h1>
-                            </div>
-                            <div className="actions-buttons">
-                                <Link
-                                    id="actions-button"
-                                    to="/docs/start/">
-                                    Get started
-                                </Link>
-                                <Link
-                                    id="actions-button"
-                                    to="/docs/docs/">
-                                    Read the docs
-                                </Link>
-                                <Link
-                                    id="actions-button"
-                                    to="/other/community/">
-                                    Our community
-                                </Link>
-                            </div>
+                            <Link
+                                className="actions-buttons"
+                                to="/docs/start/">
+                                Get started
+                            </Link>
+                            <Link
+                                className="actions-buttons"
+                                to="/docs/docs/">
+                                Read the docs
+                            </Link>
+                            <Link
+                                className="actions-buttons"
+                                to="/docs/other/">
+                                Our community
+                            </Link>
                         </div>
                     </div>
-                    <div id="footer"></div>
-                </main>
+                </div>
+                <div id="footer"></div>
+            </main>
         </div>
     );
 }
@@ -52,9 +56,6 @@ export default function Home(): JSX.Element {
             title={`Hello from ${siteConfig.title}`}
             description="Description will go into a meta tag in <head />">
             <HomepageHeader/>
-            <main>
-                <HomepageFeatures/>
-            </main>
         </Layout>
     );
 }
