@@ -1,6 +1,7 @@
 ---
 title: Community
 ---
+import RadixTeam from '../../../src/components/RadixTeam/index.tsx'
 
 # Community
 
@@ -12,7 +13,7 @@ Of course, Radix is developed and maintained by Equinor developers as well. That
 We are based in Vassbotnen - S4 (for now) in Stavanger. If you see us on the corridor, say hello!  
 :::
 
- ![radix team](../../../static/images/Toppbilde2.png)
+ ![radix team](../../../static/images/Toppbilde2.jpg)
 
 ## On Slack
 
@@ -32,33 +33,4 @@ Check out the [Release register](../release/)
 
 ## The Radix team
 
-#### Product Owner
-
-&lt;employee-list&gt;
-  &lt;employee-card name="Atle Wilson" title="Product Owner" description=""&gt;
-    &lt;img src="@source/assets/images/radix-atle.jpg" /&gt;
-  &lt;/employee-card&gt;
-&lt;/employee-list&gt;
-
-We are based in Vassbotnen - S4 in Stavanger. If you see us on the corridor, say hello!
-
-&lt;employee-list&gt;
-  &lt;employee-card name="Richard Hagen" title="Developer"&gt;
-    &lt;img src="@source/assets/images/radix-richard.jpg" /&gt;
-  &lt;/employee-card&gt;
-  &lt;employee-card name="Svein-Petter Johnsen" title="Infrastructure"&gt;
-    &lt;img src="@source/assets/images/radix-svein-petter-johnsen.jpg" /&gt;
-  &lt;/employee-card&gt;
-  &lt;employee-card name="Sergey Smolnikov" title="Developer"&gt;
-    &lt;img src="@source/assets/images/radix-sergey-smolnikov.jpg" /&gt;
-  &lt;/employee-card&gt;
-  &lt;employee-card name="Nils Gustav Stråbø" title="Developer"&gt;
-    &lt;img src="@source/assets/images/radix-nils-gustav-strabo.jpg" /&gt;
-  &lt;/employee-card&gt;
-  &lt;employee-card name="Anneli Walla Aune" title="Infrastructure / Developer" description="Based in Trondheim"&gt;
-    &lt;img src="@source/assets/images/radix-anneli-aune.jpg" /&gt;
-  &lt;/employee-card&gt;
-  &lt;employee-card name="Elsa Mäyrä Irgens" title="Team Leader"&gt;
-    &lt;img src="@source/assets/images/radix-elsa-mayra-irgens.jpg" /&gt;
-  &lt;/employee-card&gt;
-&lt;/employee-list&gt;
+<RadixTeam />

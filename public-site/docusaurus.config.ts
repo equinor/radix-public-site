@@ -67,7 +67,7 @@ const config: Config = {
     },
     footer: {
       style: 'dark',
-      copyright: `Copyright © 2018-${new Date().getFullYear()} Equinor ASA`,
+      copyright: `Copyright © ${new Date().getFullYear()} Equinor ASA`,
     },
     prism: {
       theme: prismThemes.dracula,

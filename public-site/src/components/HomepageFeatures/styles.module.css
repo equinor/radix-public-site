@@ -1,11 +1,16 @@
-.features {
+.teamCards {
   display: flex;
   align-items: center;
   padding: 2rem 0;
   width: 100%;
 }
 
-.featureSvg {
-  height: 200px;
-  width: 200px;
+.cardContent {
+  align-content: center;
+  text-align: center;
+}
+
+.cardSvg {
+  height: 80px;
+  width: 80px;
 }
