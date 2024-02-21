@@ -48,12 +48,12 @@
 
 
         div.buttons {
+            max-width: var(--ifm-container-width);
             margin: auto;
-            display: grid;
+            display: flex;
             grid-auto-flow: column;
-            grid-column-gap: 8.000rem;
+            grid-column-gap: 0.500rem;
             grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(3, auto);
 
             img {
                 max-width: none;
@@ -74,33 +74,34 @@
                 }
             }
 
-            a {
-                flex: auto;
-                margin-top: 2em;
-                padding: 12px 16px;
-                background: var(--eds_interactive_primary__resting);
-                border: 1px solid var(--eds_interactive_primary__resting);
-                border-radius: var(--eds_shape_button_border_radius);
-                color: var(--eds_text_static_icons__primary_white);
-                font-size: 0.875rem;
-                font-weight: 500;
-                line-height: 1.000em;
-                text-align: center;
-                text-decoration: none;
-                position: relative;
-                cursor: pointer;
-                display: inline-block;
-                width: 8.800rem;
+            a.aaa2 {
+                    flex: auto;
+                    margin-top: 2em;
+                    padding: 12px 16px;
+                    background: var(--eds_interactive_primary__resting);
+                    border: 1px solid var(--eds_interactive_primary__resting);
+                    border-radius: var(--eds_shape_button_border_radius);
+                    color: var(--eds_text_static_icons__primary_white);
+                    font-size: 0.875rem;
+                    font-weight: 500;
+                    line-height: 1.000em;
+                    text-align: center;
+                    text-decoration: none;
+                    position: relative;
+                    cursor: pointer;
+                    display: inline-block;
+                    width: 8.800rem;
 
-                &:hover {
-                    background: var(--eds_interactive_primary__hover);
-                    border: 1px solid;
+                    &:hover {
+                        background: var(--eds_interactive_primary__hover);
+                        border: 1px solid;
+                    }
+
+                    &:not(:last-child) {
+                        margin-right: var(--eds_spacing_small);
+                    }
                 }
 
-                &:not(:last-child) {
-                    margin-right: var(--eds_spacing_small);
-                }
-            }
         }
     }
 }
