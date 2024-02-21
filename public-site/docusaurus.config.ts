@@ -40,7 +40,7 @@ const config: Config = {
           showReadingTime: false,
         },
         theme: {
-          customCss: './src/css/custom.css',
+          customCss: ['./src/css/custom.css', './src/pages/index.module.css'],
         },
       } satisfies Preset.Options,
     ],
@@ -61,7 +61,7 @@ const config: Config = {
         {to: '/docs/docs', label: 'Docs', position: 'right'},
         {to: '/docs/features', label: 'Features', position: 'right'},
         {to: '/docs/references', label: 'References', position: 'right'},
-        {to: '/docs/other', label: 'Community', position: 'right'},
+        {to: '/docs/community', label: 'Community', position: 'right'},
         {href: 'https://console.radix.equinor.com/', label: 'Web Console', position: 'right'},
       ],
     },
@@ -83,10 +83,6 @@ const config: Config = {
         // ... Your options.
         // `hashed` is recommended as long-term-cache of index file is possible.
         hashed: true,
-        // For Docs using Chinese, The `language` is recommended to set to:
-        // ```
-        // language: ["en", "zh"],
-        // ```
       }),
     ],
   ],

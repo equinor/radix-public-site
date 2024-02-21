@@ -3,3 +3,102 @@
  * and scoped locally.
  */
 
+.app main.home {
+    text-align: center;
+    header.title {
+        display: block;
+        padding: 0;
+        h1.main-title {
+            font-size: 2.000rem;
+            font-weight: 400;
+            line-height: 1.250em;
+            margin: 2.500rem 0 0 0;
+            text-align: center;
+        }
+    }
+
+    .theme-default-content div {
+        p, h1, h2 {
+            text-align: center;
+            border: none
+        }
+
+        p {
+            font-size: 1.125rem;
+            line-height: 1.333em;
+            letter-spacing: 0.013em;
+        }
+
+        hr {
+            border: 0;
+        }
+
+        h1 {
+            font-size: 1.500rem;
+            font-weight: 400;
+            line-height: 1.250em;
+            text-align: center;
+            padding-top: var(--navbar-height);
+            margin-bottom: 4rem;
+
+            .header-anchor {
+                display: none;
+            }
+        }
+
+        .main-features {
+            display: grid;
+            grid-auto-flow: column;
+            grid-column-gap: 8.000rem;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, auto);
+
+            img {
+                max-width: none;
+                width: 5.300rem;
+            }
+
+            p {
+                margin: 0 0 1.000rem 0;
+            }
+
+            h2 {
+                font-size: 1.250rem;
+                line-height: 1.600em;
+                padding-top: calc(var(--navbar-height));
+
+                .header-anchor {
+                    display: none;
+                }
+            }
+        }
+
+        .actions-buttons {
+            flex: auto;
+            margin-top: 2em;
+            padding: 12px 16px;
+            background: var(--eds_interactive_primary__resting);
+            border: 1px solid var(--eds_interactive_primary__resting);
+            border-radius: var(--eds_shape_button_border_radius);
+            color: var(--eds_text_static_icons__primary_white);
+            font-size: 0.875rem;
+            font-weight: 500;
+            line-height: 1.000em;
+            text-align: center;
+            text-decoration: none;
+            position: relative;
+            cursor: pointer;
+            display: inline-block;
+            width: 8.800rem;
+
+            &:hover {
+                background: var(--eds_interactive_primary__hover);
+                border: 1px solid;
+            }
+
+            &:not(:last-child) {
+                margin-right: var(--eds_spacing_small);
+            }
+        }
+    }
+}

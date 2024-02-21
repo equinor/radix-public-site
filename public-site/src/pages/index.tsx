@@ -1,18 +1,15 @@
-import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import HomepageFeatures from '@site/src/components/HomepageFeatures';
-import Heading from '@theme/Heading';
-
-import styles from '../css/custom.css';
+import './index.module.css';
 
 function HomepageHeader() {
     const {siteConfig} = useDocusaurusContext();
     return (
         <div className="app">
             <main className="home">
-                <header className="hero">
+                <header className="title">
                     <h1 className="main-title">Welcome to Radix</h1>
                 </header>
                 <div className="theme-default-content">
