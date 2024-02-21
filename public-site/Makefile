@@ -12,17 +12,15 @@ lint-strict:
 run:
 	npm run start
 
-.PHONY: build-dist
+.PHONY: build-dist run-dist run-dist-rebuilt
+
 build-dist:
 	npm run build
 
-.PHONY: run-dist
 run-dist:
 	npm run serve
 
-.PHONY: run-rebuilt-dist
-run-rebuild:
-	npm run build && npm run serve
+run-dist-rebuilt: build-dist run-dist
 
 .PHONY: run-docker-dev
 run-docker-dev:
@@ -35,6 +33,11 @@ build-docker:
 .PHONY: run-docker
 run-docker:
 	docker run -it -p 3000:3000 public-site
+
+.PHONY: run-docker-rebuilt
+run-docker-rebuilt:
+	build-docker
+	run-docker
 
 .PHONY: down
 down:
