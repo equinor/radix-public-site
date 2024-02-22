@@ -19,7 +19,7 @@ It requires ``useBuildKit: true`` in the radixconfig.
 
 ### 2023-11-13 New version of Radix CLI
 We have just released a new version of Radix CLI v1.12.1 with a ``validate radix-config`` command. It checks radixconfig.yaml for structural and logical errors
-Also available as a Github action step
+Also available as a GitHub action step
 ````
 - name: 'Validate RadixConfig file '
   uses: equinor/radix-github-actions@v1
@@ -311,11 +311,11 @@ Please read more in the [monorepo guideline](../../guides/monorepo/)
 ### 2022-10-12 Radix CLI version v1.2.1
 
 A new command have been added.
-Use `version` to print current version of the rx     fd
+Use `version` to print current version of the rx
 
 ### 2022-09-23 Improvements in Radix Web Console
 
-Ensure you have assigned permissions to your app's [configuration](../../guides/configure-an-app/#registering-the-application), now you are able to grant the permission using the name of an AD group. At the same time add your applications to the list of favourites, only favourites will have the application status available on the Web Console front page.
+Ensure you have assigned permissions to your app's [configuration](../../start/registering-app/), now you are able to grant the permission using the name of an AD group. At the same time add your applications to the list of favourites, only favourites will have the application status available on the Web Console front page.
 
 Check out your vulnerability scan results: Are you using OAUTH feature? You may want to switch to [Radix OAUTH service](../../guides/authentication/#using-the-radix-oauth2-feature), we are updating the images (dependencies) regularly
 
@@ -404,7 +404,7 @@ The scan of all images in Radix will now be done on a regular basis, and the ![r
 [Egress rules](../../references/reference-radix-config/#egress) have been simplified. A new field `allowRadix` can be set to allow or deny traffic to other Radix applications.  
 If you use the [built-in Oauth2 feature](../../guides/authentication/#using-the-radix-oauth2-feature), it is no longer necessary to allow traffic to [login.microsoftonline.com](http://login.microsoftonline.com/).
 
-Docs now recommend using [Private Link](../../guides/egress-config/index.md/#use-private-link) to get static IP address to Azure databases or other SaaS for use in egress rules
+Docs now recommend using [Private Link](../../guides/egress-config/#use-private-link) to get static IP address to Azure databases or other SaaS for use in egress rules
 
 ### 2022-04-12 Static **ingress** IPs
 
@@ -426,7 +426,7 @@ Specifying monitoring path and port is now supported for application components 
 
 ### 2022-02-28 Support for egress rules
 
-Network egress rules are now supported for application environments in Radix. Read the [radixconfig.yaml reference entry](https://www.radix.equinor.com/references/reference-radix-config/#egressrules) for details, and read the [guide](../../guides/egress-rules/#default-rules) for limitations, tips and usage patterns.
+Network egress rules are now supported for application environments in Radix. Read the [radixconfig.yaml reference entry](https://www.radix.equinor.com/references/reference-radix-config/#egressrules) for details, and read the [guide](../../guides/egress-config/#built-in-rules) for limitations, tips and usage patterns.
 
 Implement egress rules with caution!  
 Applications may break if egress rules inadvertently block required resources.
