@@ -7,33 +7,31 @@ import '../css/custom.css'
 function HomepageHeader() {
     const {siteConfig} = useDocusaurusContext();
     return (
-        <div className="app">
-            <main className="home">
-                <header className="title">
-                    <h1 className="mainTitle">Welcome to Radix</h1>
-                    <h2>
-                        Radix makes your app develop
-                    </h2>
-                </header>
-                <div className="home-content">
-                    <HomepageFeatures/>
-                    <p>You provide your code and a Dockerfile to build
-                        it, and Radix will take it from there.
-                    </p>
-                    <div className="home-buttons-container">
-                        <Link
-                            to="/docs/start/">
-                            Get started
-                        </Link>
-                        <Link
-                            to="/docs/docs/">
-                            Read the docs
-                        </Link>
-                        <Link
-                            to="/docs/community/">
-                            Our community
-                        </Link>
-                    </div>
+        <div className="home">
+            <header className="title">
+                <h1 className="mainTitle">Welcome to Radix</h1>
+                <h2>
+                    Radix makes your app develop
+                </h2>
+            </header>
+            <main className="home-content">
+                <HomepageFeatures/>
+                <p>You provide your code and a Dockerfile to build
+                    it, and Radix will take it from there.
+                </p>
+                <div className="home-buttons-container">
+                    <Link
+                        to="/docs/start/">
+                        Get started
+                    </Link>
+                    <Link
+                        to="/docs/docs/">
+                        Read the docs
+                    </Link>
+                    <Link
+                        to="/docs/community/">
+                        Our community
+                    </Link>
                 </div>
             </main>
         </div>
