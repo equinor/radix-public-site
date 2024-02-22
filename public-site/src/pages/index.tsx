@@ -2,26 +2,25 @@ import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import HomepageFeatures from '@site/src/components/HomepageFeatures';
-import style from './index.module.css';
 import '../css/custom.css'
 
 function HomepageHeader() {
     const {siteConfig} = useDocusaurusContext();
     return (
-        <div className={style.app}>
-            <main className={style.home}>
-                <header className={style.title}>
-                    <h1 className={style.mainTitle}>Welcome to Radix</h1>
-                </header>
-                <div>
-                    <h1 className={style.title}>
+        <div className="app">
+            <main className="home">
+                <header className="title">
+                    <h1 className="mainTitle">Welcome to Radix</h1>
+                    <h2>
                         Radix makes your app develop
-                    </h1>
+                    </h2>
+                </header>
+                <div className="home-content">
                     <HomepageFeatures/>
                     <p>You provide your code and a Dockerfile to build
                         it, and Radix will take it from there.
                     </p>
-                    <div className={style.buttonsContainer1}>
+                    <div className="home-buttons-container">
                         <Link
                             to="/docs/start/">
                             Get started
