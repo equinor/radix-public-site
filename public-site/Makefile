@@ -32,12 +32,10 @@ build-docker:
 
 .PHONY: run-docker
 run-docker:
-	docker run -it -p 3000:3000 public-site
+	docker run -it -p 8080:8080 public-site
 
 .PHONY: run-docker-rebuilt
-run-docker-rebuilt:
-	build-docker
-	run-docker
+run-docker-rebuilt: build-docker run-docker
 
 .PHONY: down
 down:

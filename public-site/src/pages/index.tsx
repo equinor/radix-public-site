@@ -13,26 +13,25 @@ function HomepageHeader() {
                 <header className={style.title}>
                     <h1 className={style.mainTitle}>Welcome to Radix</h1>
                 </header>
-                <div className={style.title2}>
+                <div>
                     <h1 className={style.title}>
-                        Radix makes your app develop</h1>
-                </div>
-                <HomepageFeatures/>
-                <div className={style.title3}>
+                        Radix makes your app develop
+                    </h1>
+                    <HomepageFeatures/>
                     <p>You provide your code and a Dockerfile to build
                         it, and Radix will take it from there.
                     </p>
-                    <div className={style.buttons}>
-                        <Link className={style.aaa2}
-                              to="/docs/start/">
+                    <div className={style.buttonsContainer1}>
+                        <Link
+                            to="/docs/start/">
                             Get started
                         </Link>
-                        <Link className={style.aaa2}
-                              to="/docs/docs/">
+                        <Link
+                            to="/docs/docs/">
                             Read the docs
                         </Link>
-                        <Link className={style.aaa2}
-                              to="/docs/community/">
+                        <Link
+                            to="/docs/community/">
                             Our community
                         </Link>
                     </div>
