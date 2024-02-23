@@ -4,8 +4,6 @@ title: Configuring your application
 
 # How to configure your application
 
-&gt; Visual learner? Check out the [Introduction to Radix video](https://web.microsoftstream.com/video/fa523b5c-3509-4e11-97b0-868ae499f603) 🎥
-
 In this guide we'll set up an application in Radix. Here's what we need:
 
 - A GitHub repository for our code (only GitHub is supported at the moment)
