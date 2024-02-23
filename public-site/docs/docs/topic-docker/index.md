@@ -45,7 +45,7 @@ The ID of the group and user can be anything in the range 1000-65535.
 
 `useradd` command follows the syntax `useradd -S -u [USER_ID] -g [GROUP_NAME] [USER_NAME]`
 
-&gt; Be aware - [the syntax for add user and group](../../guides/docker-useradd/) can be different for the distribution of images
+&gt; Be aware - [the syntax for add user and group](/docs/guides/docker-useradd/) can be different for the distribution of images
 
 There are many great articles on securing docker images. See [Snyk](https://res.cloudinary.com/snyk/image/upload/v1551798390/Docker_Image_Security_Best_Practices_.pdf).
 

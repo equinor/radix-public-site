@@ -15,9 +15,9 @@ In order to make use of this functionality you have to:
 - Retrieve necessary values from [Azure Storage Account](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview) with [BlobFuse2 - a Microsoft supported Azure Storage FUSE driver](https://learn.microsoft.com/en-us/azure/storage/blobs/blobfuse2-what-is). 
 
 ### Supported features
-* [Hierarchical file system](https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-namespace) in the Storage Account, particularly [Azure Data Lake Storage Gen2](https://docs.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-introduction). In this case an option `useAdls` should be set to `true` in the [radixconfig](../../references/reference-radix-config/#volumemounts).
+* [Hierarchical file system](https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-namespace) in the Storage Account, particularly [Azure Data Lake Storage Gen2](https://docs.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-introduction). In this case an option `useAdls` should be set to `true` in the [radixconfig](/docs/references/reference-radix-config/#volumemounts).
  ![Azure Storage Account Hierarchical Namespaces](./azure-storage-account-hierarchical-namespaces.png)
-* File streaming, when there is no file caching on nodes. In this case an option `streaming.enabled` should be set to `true` in the [radixconfig](../../references/reference-radix-config/#volumemounts) (it is `true` by default). Streaming file operations are slower than with use of cache, but it is more reliable, and it is recommended to use it, particularly for large files. More details about streaming can be found [here](https://learn.microsoft.com/en-us/azure/storage/blobs/blobfuse2-what-is#streaming)
+* File streaming, when there is no file caching on nodes. In this case an option `streaming.enabled` should be set to `true` in the [radixconfig](/docs/references/reference-radix-config/#volumemounts) (it is `true` by default). Streaming file operations are slower than with use of cache, but it is more reliable, and it is recommended to use it, particularly for large files. More details about streaming can be found [here](https://learn.microsoft.com/en-us/azure/storage/blobs/blobfuse2-what-is#streaming)
 
 ## Optional settings
 There are [optional settings](./optional-settings/) to fine tune volumes.
@@ -28,7 +28,7 @@ There are [optional settings](./optional-settings/) to fine tune volumes.
 Name of container
 ![ContainerName](./container-name.png)
 
-- Define the volume mounts for the environment in the [radixconfig.yaml](../../references/reference-radix-config). The container should match the one found in step 1
+- Define the volume mounts for the environment in the [radixconfig.yaml](/docs/references/reference-radix-config). The container should match the one found in step 1
 
 ```yaml
 environmentConfig:
@@ -86,7 +86,7 @@ Multiple containers within one storage account
 
 To add multiple volumes
 
-- Define the volume mounts for the environment in the [radixconfig.yaml](../../references/reference-radix-config).
+- Define the volume mounts for the environment in the [radixconfig.yaml](/docs/references/reference-radix-config).
   - add more `volumeMounts`, with `name`-s, unique within `volumeMounts` of an environment (do not use storage account name as this `name` as it is not secure and can be not unique)
   - specify `container` names for each `volumeMount`. The `container` should match the one found in step 1
   - specify `path` for each `volumeMount`, unique within `volumeMounts` of an environment

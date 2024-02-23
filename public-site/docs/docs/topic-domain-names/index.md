@@ -4,7 +4,7 @@ title: Domain names
 
 # Domain names
 
-There can be several domain names mapped to [application components](../topic-concepts/#component) in Radix. In general you will want to use the [public name](#public-name), but you should understand all options.
+There can be several domain names mapped to [application components](/docs/docs/topic-concepts/#component) in Radix. In general you will want to use the [public name](#public-name), but you should understand all options.
 
 &gt; Some domain names include a `clusterEnvNamepace` component. This varies depending on the type of cluster. In Radix there are three **cluster types**; these are the values for `clusterEnvNamepace` in each type
 &gt;
@@ -53,7 +53,7 @@ Examples:
 The _app default alias_ is a convenience domain name to make it easier to publish and use your application. It points to a specific component and environment in your application, and allows a reasonable URL to be distributed to end-users without the hassle of setting up [external aliases](#external-alias).
 
 - One per application
-- [Defined in `radixconfig.yaml`](../../references/reference-radix-config/#dnsappalias)
+- [Defined in `radixconfig.yaml`](/docs/references/reference-radix-config/#dnsappalias)
 
 Examples:
 
@@ -68,7 +68,7 @@ Examples:
 `dnsAlias` creates one or several DNS aliases in the form of `&lt;alias&gt;.radix.equinor.com` for the specified environment and component. There are few reserved aliases which cannot be used:
 
 - Difference from App default alias - it does not have `app.` domain before `radix.equinor.com` and there can be multiple aliases per application, per environment, per component
-- [Defined in `radixconfig.yaml`](../../references/reference-radix-config/#dnsalias)
+- [Defined in `radixconfig.yaml`](/docs/references/reference-radix-config/#dnsalias)
 
 Examples:
 
@@ -81,10 +81,10 @@ Examples:
 [whatever]
 ```
 
-For ultimate customisation of your domain names, you can "bring your own" domain into Radix with an _external alias_. There is a [detailed guide](../../guides/external-alias/) on how to configure this.
+For ultimate customisation of your domain names, you can "bring your own" domain into Radix with an _external alias_. There is a [detailed guide](/docs/guides/external-alias/) on how to configure this.
 
 - Multiple allowed per component
-- [Defined in `radixconfig.yaml`](../../references/reference-radix-config/#dnsexternalalias)
+- [Defined in `radixconfig.yaml`](/docs/references/reference-radix-config/#dnsexternalalias)
 - Requires external DNS alias management
 - Requires custom TLS certificate
 

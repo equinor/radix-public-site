@@ -5,7 +5,7 @@ sidebarDepth: 3
 
 # Enable and disable components
 
-* Component can be [disabled or enabled](../../references/reference-radix-config/#enabled) for all or specific environment configurations.
+* Component can be [disabled or enabled](/docs/references/reference-radix-config/#enabled) for all or specific environment configurations.
 
     ```yaml
     spec:

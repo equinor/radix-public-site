@@ -13,7 +13,7 @@ Of course, Radix is developed and maintained by Equinor developers as well. That
 We are based in Forus Øst in Stavanger. If you see us on the corridor, say hello!  
 :::
 
- ![radix team](../../static/images/Toppbilde2.jpg)
+ ![radix team](/images/Toppbilde2.jpg)
 
 ## On Slack
 
@@ -29,7 +29,7 @@ If you think you found a bug, or you have a concrete proposal, [log an issue](ht
 
 New features are publicly announced in the [Omnia Radix Slack channel](https://equinor.slack.com/messages/C8U7XGGAJ), and added to the release register page.  
 
-Check out what's new in the [Release register](../docs/topic-releases/index.md)
+Check out what's new in the [Release register](/docs/docs/topic-releases/index.md)
 
 ## The Radix team
 

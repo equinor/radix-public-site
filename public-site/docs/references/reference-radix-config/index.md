@@ -5,7 +5,7 @@ sidebarDepth: 3
 
 # Overview
 
-In order for Radix to configure your application it needs a configuration file. By default, it is expected to be located in the root of the application repository, has a name `radixconfig.yaml` and be in YAML or JSON format - in either case, it must have the `.yaml` or `.yml` extension (the name and extension should be exactly same as for the file in the GitHub repository). The name of the file and its location in the repository can be different. It can also be changed later on the Radix web-console configuration page for the application. Read more in the [monorepo](../../guides/monorepo) guide.
+In order for Radix to configure your application it needs a configuration file. By default, it is expected to be located in the root of the application repository, has a name `radixconfig.yaml` and be in YAML or JSON format - in either case, it must have the `.yaml` or `.yml` extension (the name and extension should be exactly same as for the file in the GitHub repository). The name of the file and its location in the repository can be different. It can also be changed later on the Radix web-console configuration page for the application. Read more in the [monorepo](/docs/guides/monorepo) guide.
 
 &gt; Radix only reads `radixconfig.yaml` from the branch, set as the `Config Branch` in the application registration form. If the file is changed in other branches, those changes will be ignored. The `Config Branch` must be mapped to an environment in the configuration file.
 
@@ -54,7 +54,7 @@ spec:
 The `build` section of the spec contains configuration needed during build (CI part) of the components. In this section you can specify build secrets, which is needed when pulling from locked registries, or cloning from locked repositories.
 
 ### `useBuildKit`
-`useBuildKit` - (optional, default `false`) build a component with Docker BuildKit. Read  [more](../../guides/build-secrets/#build-secrets-with-buildkit) in the guide.
+`useBuildKit` - (optional, default `false`) build a component with Docker BuildKit. Read  [more](/docs/guides/build-secrets/#build-secrets-with-buildkit) in the guide.
 
 :::tip
 When the option `useBuildKit` is set to `true`, Radix will use [buildah](https://www.redhat.com/en/topics/containers/what-is-buildah) to build the components. Buildah requires the `Dockerfile` instruction `FROM` to have a repository prefixing the docker image name.
@@ -72,16 +72,16 @@ Make sure you never store secrets or confidential information in any intermitent
 :::
 
 ### `secrets`
-`secrets` - (optional) add secrets to Radix config `radixconfig.yaml` in the branch defined as `Config Branch` for your application. This will trigger a new build. This build will fail as no specified build secret has been set. You will now be able to set the secret **values** in the configuration section of your app in the Radix Web Console. These secrets also can be used in the [sub-pipelines](../../guides/sub-pipeline).
+`secrets` - (optional) add secrets to Radix config `radixconfig.yaml` in the branch defined as `Config Branch` for your application. This will trigger a new build. This build will fail as no specified build secret has been set. You will now be able to set the secret **values** in the configuration section of your app in the Radix Web Console. These secrets also can be used in the [sub-pipelines](/docs/guides/sub-pipeline).
 
 ### `variables`
-`variables` - (optional, available only in [sub-pipelines](../../guides/sub-pipeline)) environment variables names and values, provided for all build Radix environments in [sub-pipelines](../../guides/sub-pipeline). These common environment variables are overridden by environment-specific environment variables with the same names.
+`variables` - (optional, available only in [sub-pipelines](/docs/guides/sub-pipeline)) environment variables names and values, provided for all build Radix environments in [sub-pipelines](/docs/guides/sub-pipeline). These common environment variables are overridden by environment-specific environment variables with the same names.
 
 :::tip
 * When an option `useBuildKit: false`, to ensure that multiline build secrets are handled correct by the build, **all** build secrets are passed as `ARG`-s during container build, base-64 encoded (they need to be decoded before use). 
 * When an option `useBuildKit: true`, build secrets are not available as `ARG`-s during container build, but they can be mounted as files. Secret values are not base-64 encoded in these files.
 
-Read the [build secrets](../../guides/build-secrets/) guide to see how to use build secrets in a Dockerfile.
+Read the [build secrets](/docs/guides/build-secrets/) guide to see how to use build secrets in a Dockerfile.
 :::
 
 ## `environments`
@@ -107,7 +107,7 @@ The name of the environment. Can be `dev`, `qa`, `production` etc.
 
 ### `build`
 
-`from` specifies which branch each environment will build from. If `from` is not specified for the environment, no automatic builds or deployments will be created. This configuration is useful for a promotion-based [workflow](../../start/workflows/#promotion).
+`from` specifies which branch each environment will build from. If `from` is not specified for the environment, no automatic builds or deployments will be created. This configuration is useful for a promotion-based [workflow](/docs/start/workflows/#promotion).
 
 Wildcard branch mapping is also support, using `*` and `?`. Examples:
 
@@ -115,7 +115,7 @@ Wildcard branch mapping is also support, using `*` and `?`. Examples:
 - `feature-?`
 - `hotfix/**/*`
 
-`variables` - environment variable names and values (currently available only in [sub-pipelines](../../guides/sub-pipeline)), provided for specific environments. They override common environment variables with the same names, if specified in the `spec.build.variables`.  
+`variables` - environment variable names and values (currently available only in [sub-pipelines](/docs/guides/sub-pipeline)), provided for specific environments. They override common environment variables with the same names, if specified in the `spec.build.variables`.  
 
 A text input field, will be available to put a full branch name for a build environment.  
 
@@ -169,10 +169,10 @@ Specify `egress` with settings for which egress traffic is allowed from all comp
 
 `rules` can be defined with a list of legal `destinations` and `ports` for egress traffic. Each entry in `destinations` must be a string representing a valid IPv4 mask. Each entry in `ports` must be an object with a valid TCP/UDP `port` number and `protocol` equal to either "TCP" or "UDP". If one or more egress rules are defined, any traffic not allowed by the egress rules will be blocked. If no egress rules are defined, all traffic is allowed.
 
-See [the egress configuration guide](../../guides/egress-config/) for usage patterns and tips and tricks.
+See [the egress configuration guide](/docs/guides/egress-config/) for usage patterns and tips and tricks.
 
 &gt; Note! If an `environment` has defined the `egress` field, all traffic is blocked by default. If `egress` is not defined, all traffic is allowed.
-&gt; Note! If your application uses a custom OAuth2 implementation, outbound access to Microsoft authentication endpoints must be allowed. See [allow traffic for OAuth2](../../guides/egress-config/#allow-traffic-for-oauth2).
+&gt; Note! If your application uses a custom OAuth2 implementation, outbound access to Microsoft authentication endpoints must be allowed. See [allow traffic for OAuth2](/docs/guides/egress-config/#allow-traffic-for-oauth2).
 
 ## `components`
 
@@ -195,7 +195,7 @@ spec:
           port: 5000
 ```
 
-`src` a folder, relative to the repository root, where the `Dockerfile` for the component is located. The Dockerfile is used by the [Build and deploy](../../guides/build-and-deploy/) workflow of the Radix CI-CD pipeline to build a container image for the component. By default `src` is `.` - a root of the GitHub repository.
+`src` a folder, relative to the repository root, where the `Dockerfile` for the component is located. The Dockerfile is used by the [Build and deploy](/docs/guides/build-and-deploy/) workflow of the Radix CI-CD pipeline to build a container image for the component. By default `src` is `.` - a root of the GitHub repository.
 
 &gt; When the `image` option is set - `src` option is ignored.
 
@@ -273,9 +273,9 @@ A component can optionally have one or several ports:
 * `name` - internal name of a port, used as a reference within the radixconfig. It needs to be unique within the component `ports` list.
 * `port` - numeric value of a port, in the range between 1024 and 65535. It needs to be unique within the component `ports` list.
 
-A component doesn't need to have ports. If it has at least one port, it has to respond to TCP or HTTP requests, sent to this port. Kubernetes [readiness probe](../../docs/topic-rollingupdate/#readiness-probe) will regularly request the first port in the `ports` list to ensure that the component can handle requests. 
+A component doesn't need to have ports. If it has at least one port, it has to respond to TCP or HTTP requests, sent to this port. Kubernetes [readiness probe](/docs/docs/topic-rollingupdate/#readiness-probe) will regularly request the first port in the `ports` list to ensure that the component can handle requests. 
 
-When a new component version is deployed, the probe waits until replicas of the new component version start responding to such requests, keeping them in the "Starting" state. When the new replicas respond to these requests, the [rolling update](../../docs/topic-rollingupdate/) will remove the replicas of the old component version 
+When a new component version is deployed, the probe waits until replicas of the new component version start responding to such requests, keeping them in the "Starting" state. When the new replicas respond to these requests, the [rolling update](/docs/docs/topic-rollingupdate/) will remove the replicas of the old component version 
 
 ### `publicPort`
 
@@ -342,7 +342,7 @@ spec:
       alwaysPullImageOnDeploy: false
 ```
 
-Only relevant for teams that uses another CI tool than Radix and static tags. See [deploy-only](../../guides/deploy-only/#updating-deployments-on-static-tags) for more information.
+Only relevant for teams that uses another CI tool than Radix and static tags. See [deploy-only](/docs/guides/deploy-only/#updating-deployments-on-static-tags) for more information.
 
 ### `secrets`
 
@@ -386,7 +386,7 @@ spec:
 
 The `variables` key contains environment variable names and their values, that are shared among all Radix environments in a component. These common environment variables are overridden by environment-specific environment variables that have exactly same names.
 
-Environment variables [can be changed](../../guides/environment-variables/) in Radix Console.
+Environment variables [can be changed](/docs/guides/environment-variables/) in Radix Console.
 
 ### `environmentConfig`
 
@@ -457,7 +457,7 @@ spec:
             DB_PORT: "9876"
 ```
 
-The `variables` key contains environment variable names and their values, that are defined per Radix environment in a component. In addition to what is defined here, running containers will also have some [environment variables automatically set by Radix](../../docs/topic-runtime-env/#environment-variables).
+The `variables` key contains environment variable names and their values, that are defined per Radix environment in a component. In addition to what is defined here, running containers will also have some [environment variables automatically set by Radix](/docs/docs/topic-runtime-env/#environment-variables).
 
 For shared environment variables across Radix environments, refer to [common environment variables](./#variables-common).
 
@@ -498,7 +498,7 @@ components:
         imageTagName: release-39f1a082
 ```
 
-&gt; See [this](../../guides/deploy-only/) guide on how make use of `imageTagName` in a deploy-only scenario.
+&gt; See [this](/docs/guides/deploy-only/) guide on how make use of `imageTagName` in a deploy-only scenario.
 
 ### `volumeMounts`
 
@@ -534,11 +534,11 @@ _Options for `blobfuse2`_
     _Options for `streaming`_
     - `enabled` - (optional) turn on/off a file streaming. Default is `true`
 
-There are [optional settings](../../guides/volume-mounts/optional-settings/) to fine tune volumes.
+There are [optional settings](/docs/guides/volume-mounts/optional-settings/) to fine tune volumes.
 
 Access to the Azure storage need to be set in `secrets` for the component.
 
-&gt; See [this](../../guides/volume-mounts/) guide on how make use of `volumeMounts`.
+&gt; See [this](/docs/guides/volume-mounts/) guide on how make use of `volumeMounts`.
 
 ### `authentication`
 
@@ -595,7 +595,7 @@ If no [ports](./#ports) specified for a component, `authentication.oauth2` shoul
 :::
 
 The OAuth2 service handles incoming requests to the path _/oauth2_ (or the path defined in _proxyPrefix_) for all public DNS names configured for a component. Valid _redirect URIs_ must be registered for the application registration in Azure AD, e.g. `https://myapp.app.radix.equinor.com/oauth2/callback`.  
-See [guide](../../guides/authentication/#configuration) for more information.
+See [guide](/docs/guides/authentication/#configuration) for more information.
 
 ```yaml
 oauth2:
@@ -647,7 +647,7 @@ oauth2:
   - `refresh` Optional. Default **60m0s**. Refresh interval defines how often the OAuth2 service should redeem the refresh token to get a new access token. The session cookie's _Expires_ is updated after refresh.
   - `sameSite` Optional. Default **lax**. The _SameSite_ attribute for the session cookie.
 
-&gt; See [guide](../../guides/authentication/#using-the-radix-oauth2-feature) on how to configure OAuth2 authentication for a component.
+&gt; See [guide](/docs/guides/authentication/#using-the-radix-oauth2-feature) on how to configure OAuth2 authentication for a component.
 
 ### `enabled`
 
@@ -675,7 +675,7 @@ spec:
           enabled: false
 ```
 
-Read more details in the [guide](../../guides/enable-and-disable-components/).
+Read more details in the [guide](/docs/guides/enable-and-disable-components/).
 
 [Job](./#jobs) components can be disabled similar way.
 
@@ -703,11 +703,11 @@ The following environment variables are added to the replicas automatically when
 
 `identity` can be configured on the component/job level and/or per environment in the `environmentConfig` section. Configuration in `environmentConfig` overrides configuration on the component/job level.
 
-See [guide](../../guides/workload-identity) for more information.
+See [guide](/docs/guides/workload-identity) for more information.
 
 ## `jobs`
 
-This is where you specify the various [jobs](../../guides/jobs) for your application.
+This is where you specify the various [jobs](/docs/guides/jobs) for your application.
 
 ### `src`
 
@@ -757,7 +757,7 @@ spec:
       schedulerPort: 8000
 ```
 
-The port number that the [job-scheduler](../../guides/jobs/#job-scheduler) will listen to for HTTP requests to manage jobs. schedulerPort is a **required** field.
+The port number that the [job-scheduler](/docs/guides/jobs/job-manager-and-job-api.md) will listen to for HTTP requests to manage jobs. schedulerPort is a **required** field.
 
 ### `notifications`
 
@@ -769,7 +769,7 @@ spec:
         webhook: http://api:8080/monitor-batch-status
 ```
 
-`webhook` is an optional URL to the Radix application component or job component which will be called when any of the job-component's running jobs or batches changes states. Only changes are sent by POST method with a `application/json` `ContentType` in a [batch event format](../../guides/jobs/notifications/#radix-batch-event). Read [more](../../guides/jobs/notifications)
+`webhook` is an optional URL to the Radix application component or job component which will be called when any of the job-component's running jobs or batches changes states. Only changes are sent by POST method with a `application/json` `ContentType` in a [batch event format](/docs/guides/jobs/notifications.md#radix-batch-event). Read [more](/docs/guides/jobs/notifications)
 
 ### `monitoringConfig`
 
@@ -798,7 +798,7 @@ spec:
         path: /compute/args
 ```
 
-Job specific arguments must be sent in the request body to the [job-scheduler](../../guides/jobs/#job-scheduler) as a JSON document with an element named `payload` and a value of type string.
+Job specific arguments must be sent in the request body to the [job-scheduler](/docs/guides/jobs/job-manager-and-job-api.md) as a JSON document with an element named `payload` and a value of type string.
 The content of the payload is then mounted into the job container as a file named `payload` in the directory specified in the `payload.path`.
 In the example above, a payload sent to the job-scheduler will be mounted as file `/compute/args/payload`
 
@@ -1094,7 +1094,7 @@ In the example above, the component **frontend** hosted in environment **prod** 
 The `useCertificateAutomation` property defines how the TLS certificate for the alias is issued. When set to `true`, certificate issuing and renewal is automatically handled by Radix, and when set to `false`, the application administrator is responsible for providing a valid certificate and private key. If the value is toggled, Radix deletes the existing certificate and private key. This will cause a TLS error when accessing the external DNS alias until a new certificate and private key is set.
 --&gt;
 
-There is a [detailed guide](../../guides/external-alias/) on how to set up external aliases.
+There is a [detailed guide](/docs/guides/external-alias/) on how to set up external aliases.
 
 ## `privateImageHubs`
 
@@ -1119,7 +1119,7 @@ A `password` for these must be set via the Radix Web Console (under Configuratio
 
 To get more information on how to connect to a private Azure container registry (ACR), see the following [guide](https://thorsten-hans.com/how-to-use-private-azure-container-registry-with-kubernetes). The chapter `Provisioning an Azure Container Registry` provide information on how to get service principle `username` and `password`. It is also possible to create a Service Principle in Azure AD, and then manually grant it access to your ACR.
 
-&gt; See [guide](../../guides/deploy-only/) on how make use of `privateImageHubs` in a deploy-only scenario.
+&gt; See [guide](/docs/guides/deploy-only/) on how make use of `privateImageHubs` in a deploy-only scenario.
 
 ## `node`
 
@@ -1205,7 +1205,7 @@ secretRefs:
 - `azureKeyVaults` - list of Azure Key Vault configurations.
 - `name` - Name of the Key Vault resource in an Azure subscription. Radix supports capital letters in the name, but not spaces.
 - `path` - Folder path in running replica container, where secrets, keys and/or certificate contents are available as files (with file names, corresponding to their names in the Azure Key Vault). This field is optional. If set, it overrides default path: `/mnt/azure-key-vault/&lt;azure-key-vault-name&gt;`.
-- `useAzureIdentity` - If set to `true`, Radix will use [Azure Workload Identity](../../guides/azure-key-vaults/#authentication-with-azure-workload-identity) to acquire credentials for accessing Azure Key Vault using the service principal configured in [identity.azure](#identity). This field is optional, with default value `false`. If omitted or set to `false`, credentials are acquired using [Azure Service Principal Client ID and Client Secret](../../guides/azure-key-vaults/#authentication-with-azure-service-principal-client-id-and-client-secret).
+- `useAzureIdentity` - If set to `true`, Radix will use [Azure Workload Identity](/docs/guides/azure-key-vaults/#authentication-with-azure-workload-identity) to acquire credentials for accessing Azure Key Vault using the service principal configured in [identity.azure](#identity). This field is optional, with default value `false`. If omitted or set to `false`, credentials are acquired using [Azure Service Principal Client ID and Client Secret](/docs/guides/azure-key-vaults/#authentication-with-azure-service-principal-client-id-and-client-secret).
 - `items` - list of secrets, keys and/or certificates with corresponding environment variable names.
   - `name` - name of secret, key or certificate in an Azure Key Vault.
   - `type` - Type of the item in the Azure Key Vault. Possible values: `secret`, `key`, `cert`. This field is optional, by default it is `secret`.
@@ -1218,7 +1218,7 @@ Updated values of secrets, keys or certificates in Azure Key Vault are not autom
 
 Azure Key Vaults configurable the same way in job-components.
 
-&gt; See [guide](../../guides/azure-key-vaults/) on how to configure Azure Key Vault in Radix.
+&gt; See [guide](/docs/guides/azure-key-vaults/) on how to configure Azure Key Vault in Radix.
 
 # Example `radixconfig.yaml` file
 

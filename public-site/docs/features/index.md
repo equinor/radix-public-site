@@ -195,11 +195,11 @@ Number of replicas can be used to horizontally scale.
 
 ## Job manager
 
-[Guide](/docs/guides/jobs/configure-jobs/index.md#job-scheduler) - [Radix config reference](/docs/references/reference-radix-config/index.md#jobs)
+[Guide](/docs/guides/jobs/job-manager-and-job-api.md) - [Radix config reference](/docs/references/reference-radix-config/index.md#jobs)
 
 ## Job batches
 
-[Guide](/docs/guides/jobs/configure-jobs/index.md#batch-of-jobs)
+[Guide](/docs/guides/jobs/configure-jobs.md#batch-of-jobs)
 
 ## Jobs
 

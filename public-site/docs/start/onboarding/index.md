@@ -4,7 +4,7 @@ title: Onboarding
 
 # Onboarding
 
-[Radix team](../../community/community/#the-radix-team) offer onboard support for teams or projects, where we walk through your application and togheter try to find out if Radix is a good fit for you. Contact us on [slack](https://equinor.slack.com/archives/C8U7XGGAJ) for more information.
+[Radix team](/docs/community/index.md) offer onboard support for teams or projects, where we walk through your application and togheter try to find out if Radix is a good fit for you. Contact us on [slack](https://equinor.slack.com/archives/C8U7XGGAJ) for more information.
 
 You should have a basic understanding of some technologies are required for working efficient with Radix.
 
@@ -12,7 +12,7 @@ For questions around topics covered in this section, its recommended to ask on s
 
 ## git / github
 
-A basic understanding of Git and Github is required to use Radix. [git - the simple guide](http://rogerdudler.github.io/git-guide/) is a good place to start.
+A basic understanding of Git and GitHub is required to use Radix. [git - the simple guide](http://rogerdudler.github.io/git-guide/) is a good place to start.
 
 ## docker / containers
 

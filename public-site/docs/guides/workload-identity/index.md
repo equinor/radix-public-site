@@ -10,7 +10,7 @@ Using shared secrets or certificates pose a security risk as they have to be sto
 
 ## Configure workload identity in Radix
 
-**Workload identity** for a component or job is configured in the [identity](../../references/reference-radix-config/#identity) section in [radixconfig.yaml](../../references/reference-radix-config/).  
+**Workload identity** for a component or job is configured in the [identity](/docs/references/reference-radix-config/#identity) section in [radixconfig.yaml](/docs/references/reference-radix-config/).  
 The value of `clientId` is either the *Application (client) ID* for an Azure AD app registration or the *Client ID* for a user-assigned managed identity. Read the Azure documentation on how to create an [Azure AD app registration](https://learn.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/qs-configure-portal-windows-vm) or [user-assigned managed identity](https://learn.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview).
 
 ```yaml

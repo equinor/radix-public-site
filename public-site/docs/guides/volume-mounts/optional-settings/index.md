@@ -3,7 +3,7 @@ title: VolumeMounts optional settings
 ---
 
 ## VolumeMounts optional settings
-* [Main settings](../../../references/reference-radix-config/#volumemounts)
+* [Main settings](/docs/references/reference-radix-config/#volumemounts)
 * [Guide](../)
 
 _Applicable for: `blobfuse2`_

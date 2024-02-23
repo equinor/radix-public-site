@@ -8,7 +8,7 @@ title: Docker Build secrets
 
 
 ## Build secrets without BuildKit  
-With an option `spec.build.useBuildKit: false`, to ensure that multiline build secrets are handled correct by the build, **all** [Build secrets](../../references/reference-radix-config/#secrets) are passed as `ARG`-s during container build, base-64 encoded (they need to be decoded before use).
+With an option `spec.build.useBuildKit: false`, to ensure that multiline build secrets are handled correct by the build, **all** [Build secrets](/docs/references/reference-radix-config/#secrets) are passed as `ARG`-s during container build, base-64 encoded (they need to be decoded before use).
 
 ```dockerfile
 FROM docker.io/alpine
@@ -24,7 +24,7 @@ RUN BUILD_ARG=$(echo $SECRET1|base64 -d) && \
     echo "BUILD_ARG contains $BUILD_ARG"
 ```
 
-In the example above - the actual command can be used instead of `echo` command. However `echo` is useful during development to validate what values have been passed via the `--build-arg` option to the `docker build` command (this is how [build secrets](../../references/reference-radix-config/#secrets) from `radixconfig` are passed in Radix during the build pipeline). Use `docker build` arguments `--progress=plain --no-cache` for such validation on development computer
+In the example above - the actual command can be used instead of `echo` command. However `echo` is useful during development to validate what values have been passed via the `--build-arg` option to the `docker build` command (this is how [build secrets](/docs/references/reference-radix-config/#secrets) from `radixconfig` are passed in Radix during the build pipeline). Use `docker build` arguments `--progress=plain --no-cache` for such validation on development computer
 
 ```sh
 docker build . --build-arg SECRET1=$(echo "some-build-arg"|base64) --progress=plain --no-cache
@@ -46,7 +46,7 @@ ARG SECRET1
 #.....
 ```
 ## Build secrets with BuildKit  
-With an option `spec.build.useBuildKit: true`, build secrets are not available as `ARG`-s during container build. [Build secrets](../../references/reference-radix-config/#secrets) can be mounted as files within the `RUN` directive. BuildKit is an improved backend to replace the legacy builder. Read [more](https://docs.docker.com/build/buildkit/).
+With an option `spec.build.useBuildKit: true`, build secrets are not available as `ARG`-s during container build. [Build secrets](/docs/references/reference-radix-config/#secrets) can be mounted as files within the `RUN` directive. BuildKit is an improved backend to replace the legacy builder. Read [more](https://docs.docker.com/build/buildkit/).
 
 :::tip
 Docker build workflow has some differences for the command `docker build`, for example how [ARG](https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact) with BuildKit [persists across build stages](https://github.com/moby/buildkit/issues/1977).

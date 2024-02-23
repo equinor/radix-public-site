@@ -74,10 +74,10 @@ Custom continuous integration tool like Jenkins or GitHub Action can use Radix C
 Radix CLI can be used with help of the GitHub Action [equinor/radix-github-actions](https://github.com/equinor/radix-github-actions).
 
 More details can be found in guidelines and examples:
-* [Guideline to run "Deploy Only" pipeline job](../../guides/deploy-only/)
-* [Example of using GitHub action to create a Radix deploy pipeline job](../../guides/deploy-only/example-github-action-to-create-radix-deploy-pipeline-job.md)
-* [Example of using AD service principal to get access to a Radix application in a GitHub action](../../guides/deploy-only/example-github-action-to-create-radix-deploy-pipeline-job.md)
-* [Example of using GitHub Action to build and push container to custom Container Registry](../../guides/deploy-only/example-github-action-building-and-deploying-application.md)
+* [Guideline to run "Deploy Only" pipeline job](/docs/guides/deploy-only/)
+* [Example of using GitHub action to create a Radix deploy pipeline job](/docs/guides/deploy-only/example-github-action-to-create-radix-deploy-pipeline-job.md)
+* [Example of using AD service principal to get access to a Radix application in a GitHub action](/docs/guides/deploy-only/example-github-action-to-create-radix-deploy-pipeline-job.md)
+* [Example of using GitHub Action to build and push container to custom Container Registry](/docs/guides/deploy-only/example-github-action-building-and-deploying-application.md)
 
 ### Commands
 

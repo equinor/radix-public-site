@@ -4,20 +4,20 @@ title: Egress
 
 # Egress
 
-The [egress configuration](../../references/reference-radix-config/#egress) defines rules for outbound traffic from a Radix application.
+The [egress configuration](/docs/references/reference-radix-config/#egress) defines rules for outbound traffic from a Radix application.
 
 ## Built-in rules
 
 Two built-in egress rules are applied to every Radix application environment:
 
 1. TCP and UDP port 53 to the internal Radix DNS service
-1. all TCP and UDP ports to all jobs and components in the same [Radix application environment](../../docs/topic-concepts/#environment)
+1. all TCP and UDP ports to all jobs and components in the same [Radix application environment](/docs/docs/topic-concepts/#environment)
 
 ## Limitations
 
 As of May 2022, the following limitations apply
 
-* Egress configuration only applies per application [environment](../../docs/topic-concepts/#environment). Egress configurations which are specific for [components](../../docs/topic-concepts/#component) or [jobs](../../docs/topic-concepts/#job) are currently not supported.
+* Egress configuration only applies per application [environment](/docs/docs/topic-concepts/#environment). Egress configurations which are specific for [components](/docs/docs/topic-concepts/#component) or [jobs](/docs/docs/topic-concepts/#job) are currently not supported.
 * Destinations in egress rules must be IPv4 subnets. IPv6 subnets or FQDNs are currently not supported.
 * Network traffic logs to debug egress configurations are currently not available.
 
@@ -31,7 +31,7 @@ However, if an application uses a custom OAuth2 implementation, it is necessary 
 
 ### Use Private Link
 
-In order to create a stable egress rule which allows traffic to an Azure SaaS service, it is best practice to make a [Private Link from the Radix cluster](../../references/reference-private-link/#overview) to the SaaS service. A Private Link provides a stable IPv4 address from the RFC1918 range which will not change during the lifetime of the Private Link. This address can be safely referred to in egress rules in the radixconfig file.
+In order to create a stable egress rule which allows traffic to an Azure SaaS service, it is best practice to make a [Private Link from the Radix cluster](/docs/references/reference-private-link/index.md#overview) to the SaaS service. A Private Link provides a stable IPv4 address from the RFC1918 range which will not change during the lifetime of the Private Link. This address can be safely referred to in egress rules in the radixconfig file.
 
 ### Allow traffic to public IP
 

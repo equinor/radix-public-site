@@ -4,7 +4,7 @@ title: Azure Key Vault
 
 # Configuring Azure Key Vaults
 
-Azure Key Vault secrets, keys and certificates can be used in Radix, configured in the property `secretRefs.azureKeyVaults` of the [radixconfig.yaml](../../references/reference-radix-config/#secretrefs) file. It is implemented with Azure Key Vault Provider for Secrets Store CSI Driver for Kubernetes. Read [more](https://github.com/Azure/secrets-store-csi-driver-provider-azure) about the driver.
+Azure Key Vault secrets, keys and certificates can be used in Radix, configured in the property `secretRefs.azureKeyVaults` of the [radixconfig.yaml](/docs/references/reference-radix-config/#secretrefs) file. It is implemented with Azure Key Vault Provider for Secrets Store CSI Driver for Kubernetes. Read [more](https://github.com/Azure/secrets-store-csi-driver-provider-azure) about the driver.
 
 ## Configuration
 
@@ -17,7 +17,7 @@ Azure Key Vault secrets, keys and certificates can be used in Radix, configured 
   ![Add Azure Key Vault secrets](./add-key-vault-access-policy-secrets.png)
   ![Add Azure Key Vault secrets](./add-second-key-vault-access-policy-secrets.png)
 
-- Define properties of the Azure Key Vaults in the [`radixconfig.yaml`](../../references/reference-radix-config/#secretRefs) property `secretRefs.azureKeyVaults`
+- Define properties of the Azure Key Vaults in the [`radixconfig.yaml`](/docs/references/reference-radix-config/#secretRefs) property `secretRefs.azureKeyVaults`
 - `secretRefs.azureKeyVaults` properties `name` and `path` should be unique within one Radix application component and its environment (different environments can have the same `name` and `path`).
   - Examples of correct configurations in component and `environmentConfig` (if exists) sections
 
@@ -206,7 +206,7 @@ There are two options for authentication to Azure Key Vault from a Radix applica
 
 ### Authentication with Azure Workload Identity
 - Enable [Workload Identity](../workload-identity/#configure-workload-identity-in-radix) for the component or job.
-- Configure Workload Identity authentication for the Azure Key Vault by setting `useAzureIdentity: true` in the [azureKeyVault](../../references/reference-radix-config/#azurekeyvault) section in [radixconfig.yaml](../../references/reference-radix-config/)
+- Configure Workload Identity authentication for the Azure Key Vault by setting `useAzureIdentity: true` in the [azureKeyVault](/docs/references/reference-radix-config/#azurekeyvault) section in [radixconfig.yaml](/docs/references/reference-radix-config/)
 
 An option `useAzureIdentity` on a component level, defined or left default `false`, can be overridden on an `environmentConfig` level.
 

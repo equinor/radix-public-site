@@ -25,7 +25,7 @@ The user has access to a front-end client, but needs to acquire an authenticatio
 
 Radix has built-in support for OAuth2 code flow authentication with OIDC.
 
-When OAuth2 is enabled for a component in [`radixconfig.yaml`](../../references/reference-radix-config/#oauth2), Radix creates an OAuth2 service and configures this service to verify if incoming requests are authorized or not, handle the authorization code flow, and manage session state for an authorized user.
+When OAuth2 is enabled for a component in [`radixconfig.yaml`](/docs/references/reference-radix-config/#oauth2), Radix creates an OAuth2 service and configures this service to verify if incoming requests are authorized or not, handle the authorization code flow, and manage session state for an authorized user.
 
 ![Diagram](./oauth2.png "OAuth2 Sequence Diagram")
 
