@@ -4,8 +4,8 @@ metadata:
   name: radix-platform-docusaurus
 spec:
   build:
-    useBuildKit: true
-    useBuildCache: true
+    useBuildKit: false
+    useBuildCache: false
   environments:
     - name: prod
     - name: qa
