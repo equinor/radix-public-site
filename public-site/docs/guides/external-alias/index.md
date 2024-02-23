@@ -3,16 +3,16 @@ title: Configure External DNS Alias
 ---
 # Configure External DNS Alias
 
-&lt;!--
+
 An application can be configured to use external DNS aliases, in addition to the automatically generated [domain names](/docs/docs/topic-domain-names), provided you register the DNS record and optionally bring the corresponding TLS certificate into Radix. Traffic routing is configured in [`dnsExternalAlias`](/docs/references/reference-radix-config/#dnsexternalalias) in `radixconfig.yaml`.
---&gt;
+
 An application can be configured to use external DNS aliases, in addition to the automatically generated [domain names](/docs/docs/topic-domain-names), provided you register the DNS record and bring the corresponding TLS certificate into Radix. Traffic routing is configured in [`dnsExternalAlias`](/docs/references/reference-radix-config/#dnsexternalalias) in `radixconfig.yaml`.
 
 The external DNS record must point to the [public name](/docs/docs/topic-domain-names/#public-name) of a component, to the [app default alias](/docs/docs/topic-domain-names/#app-default-alias) or to the [app alias](/docs/docs/topic-domain-names/#app-alias).
 
-&lt;!--
+
 `useCertificateAutomation` in [`dnsExternalAlias`](/docs/references/reference-radix-config/#dnsexternalalias) controls if the TLS certificate is automatically managed by Radix, or manually by you.
---&gt;
+
 ## Acquire a DNS record in the equinor.com zone
 
 The process for setting up the DNS record depends on the service used to register and manage the DNS zone. This guide assumes registration of a DNS record in the `equinor.com` zone, but you should be able to adapt the instructions to a third-party provider.
@@ -49,11 +49,8 @@ frontend-myapp-prod.radix.equinor.com
 
 Add the alias to `dnsExternalAlias` in radixconfig.yaml. You can add multiple entries as long as the `alias` value is unique. The referenced environment must be re-deployed in order for the changes to take effect.
 
-&lt;!-- 
 If `useCertificateAutomation` is `true`, the external DNS record must be already created in order for Radix to start the automatic certificate issuing process.
---&gt;
 
-&lt;!--
 ``` yaml
 apiVersion: radix.equinor.com/v1
 kind: RadixApplication
@@ -67,27 +64,12 @@ spec:
       environment: prod
       useCertificateAutomation: false|true
 ```
---&gt;
-``` yaml
-apiVersion: radix.equinor.com/v1
-kind: RadixApplication
-metadata:
-  name: myapp
-spec:
-  ...
-  dnsExternalAlias:
-    - alias: myapp.equinor.com
-      component: frontend
-      environment: prod
-```
 
 ## Acquire an Equinor TLS certificate
 
-&lt;!-- 
 This step is only required when `useCertificateAutomation` in `dnsExternalAlias` is omitted or set to `false`.
 
 ### How to get it
---&gt;
 1. Start by getting familiar with the appropriate procedures about handling keys and certificates in Equinor, as they are considered to be sensitive information.
 1. Create a _Certificate Signing Request_ on you local pc using the [openssl](https://www.openssl.org/) command:
     ```sh
