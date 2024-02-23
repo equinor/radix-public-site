@@ -2,7 +2,7 @@ FROM docker.io/node:21-alpine3.18 as builder
 
 WORKDIR /site
 COPY . .
-RUN npm install
+RUN npm cache clean --force && npm install
 RUN npm run build
 
 FROM docker.io/nginxinc/nginx-unprivileged:1.25.2-alpine
