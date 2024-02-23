@@ -5,7 +5,7 @@ metadata:
 spec:
   build:
     useBuildKit: true
-    useBuildCache: false
+    useBuildCache: true
   environments:
     - name: prod
     - name: qa
