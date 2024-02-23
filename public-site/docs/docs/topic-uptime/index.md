@@ -3,7 +3,7 @@ title: Service, support, uptime and availability
 ---
 
 # Uptime and availability
-
+    
 Historical uptime is an indicator of the reliability of a service, in our case the Radix Kubernetes cluster. The Radix uptime is measured by sending requests from an external service every 1 minute to an endpoint running in Radix, and recording whether the request completed successfully or not. The uptime number is then calculated as the ratio (percentage) of aggregated time between consecutive successful requests over the length of the measurement period.  
 
 Radix will only report the measured uptime for the Radix platform, and not the other services provided, i.e. build- deploy pipeline, montitoring, vulnerability scanning. We will use an external service that monitors an application running on the Radix Platform, from outside the Azure tenant, it will calculate availability of the applicable monitored service.  

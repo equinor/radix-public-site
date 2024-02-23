@@ -15,7 +15,7 @@ It requires ``useBuildKit: true`` in the radixconfig.
 
 ### 2023-11-14 Only build changed components and jobs
 
-[`build-deploy`](../../guides/build-and-deploy/) pipeline jobs created from a Github webhook will only build changed components and jobs. The commit ID from the webhook is compared with the commit ID from the active deployment to generate a list of changed directories. This list is compared with the path of the Dockerfile for each component and job. The component/job is built if the Dockerfile path is equal to, or a parent of any changed directory.
+[`build-deploy`](/docs/guides/build-and-deploy/) pipeline jobs created from a Github webhook will only build changed components and jobs. The commit ID from the webhook is compared with the commit ID from the active deployment to generate a list of changed directories. This list is compared with the path of the Dockerfile for each component and job. The component/job is built if the Dockerfile path is equal to, or a parent of any changed directory.
 
 ### 2023-11-13 New version of Radix CLI
 We have just released a new version of Radix CLI v1.12.1 with a ``validate radix-config`` command. It checks radixconfig.yaml for structural and logical errors
@@ -38,7 +38,7 @@ This can be particularly useful in case of job, failed due to timeout in accessi
 To reduce the error "TLS Handshake timeout" it has been mitigated in Radix pipeline logic now.  
 
 ### 2023-10-09 Changes in Azure Blob volume-mounts
-If your Radix application uses Azure Blob volume mount, [radixconfig.yaml](../../references/reference-radix-config/) has a configuration of this volume mount, which has an optional property ``accessMode``. If the application need not only read, but also write to this Azure Blob container, please specify explicitly this property, we recommend for the read-write purpose to set it to ``ReadWriteMany``:
+If your Radix application uses Azure Blob volume mount, [radixconfig.yaml](/docs/references/reference-radix-config/) has a configuration of this volume mount, which has an optional property ``accessMode``. If the application need not only read, but also write to this Azure Blob container, please specify explicitly this property, we recommend for the read-write purpose to set it to ``ReadWriteMany``:
 ````yaml
 volumeMounts:
   - name: volume-name
@@ -51,9 +51,9 @@ volumeMounts:
 
 ### 2023-10-02 Radix now supports docker BuildKit in the pipeline
 Radix application can be configured to be built with [Docker BuildKit](https://docs.docker.com/build/buildkit/)  
-Use an option ``useBuildKit: true`` in the [build radixconfig](../../references/reference-radix-config/#build) section.
+Use an option ``useBuildKit: true`` in the [build radixconfig](/docs/references/reference-radix-config/#build) section.
 Please note:
-there maybe be changes required in a dockerfile, particularly secrets will be passed with more secure way, repository name is needed in the FROM instruction. Read more in the [guide](../../guides/build-secrets/#build-secrets-with-buildkit)  
+there maybe be changes required in a dockerfile, particularly secrets will be passed with more secure way, repository name is needed in the FROM instruction. Read more in the [guide](/docs/guides/build-secrets/#build-secrets-with-buildkit)  
 
 ### Grouped secrets in Radix Web Console
 Secrets in Components have been redesigned, sorted and grouped, hopefully making them bearable to read through  
@@ -96,8 +96,8 @@ The role is an Azure AD group that can be assigned under `Access control` in the
 
 ### 2023-08-01 Restart batches and *jobs with recent active deployment*
 
-In addition to restart job with original deployment, Radix now allows to restart scheduled single jobs, entire batch or individual jobs within the batch with latest active deployment (if it is different than for the restarting job). [Read more](../../guides/jobs/jobs-in-web-console.md)
-Scheduled jobs now can be run with `imageTagName` , specified in [radixconfig](../../references/reference-radix-config/index.md) and altered in [JobDescription](../../guides/jobs/configure-jobs.md#single-job)  
+In addition to restart job with original deployment, Radix now allows to restart scheduled single jobs, entire batch or individual jobs within the batch with latest active deployment (if it is different than for the restarting job). [Read more](/docs/guides/jobs/jobs-in-web-console.md)
+Scheduled jobs now can be run with `imageTagName` , specified in [radixconfig](/docs/references/reference-radix-config/index.md) and altered in [JobDescription](/docs/guides/jobs/job-manager-and-job-api.md#create-a-single-job)  
 ````
 {
   "payload": "abc",
@@ -113,7 +113,7 @@ Use-case - restart jobs, failed due to temporary issues, lack of memory, unavail
 
 ### 2023-07-05 Change in Azure Blob volume-mounts option
 
-If your Radix application uses [Azure Blob volume mount](../../guides/volume-mounts/), [radixconfig.yaml](../../references/reference-radix-config/index.md) it is recommended to replace its configuration with BlobFuse2:  
+If your Radix application uses [Azure Blob volume mount](/docs/guides/volume-mounts/), [radixconfig.yaml](/docs/references/reference-radix-config/index.md) it is recommended to replace its configuration with BlobFuse2:  
 
 ```yaml
   volumeMounts:
@@ -127,7 +127,7 @@ If your Radix application uses [Azure Blob volume mount](../../guides/volume-mou
 
 ### 2023-05-16 Support for custom CPU scaling threshold and autoscaling on memory
 Autoscaling has only been supported on CPU, with a hardcoded threshold of 80% utilization. Now the CPU threshold is configurable, and you can also configure autoscaling on memory.
-This can be enabled in [radixconfig.yaml](../../references/reference-radix-config/#horizontalscaling).
+This can be enabled in [radixconfig.yaml](/docs/references/reference-radix-config/#horizontalscaling).
 
 Example:
 
@@ -174,8 +174,8 @@ spec:
 ### 2023-04-14 Radix supports Azure Workload Identity for Azure Key Vaults
 
 Radix now supports two options for authentication to Azure Key Vault from a Radix application component  
-- [Azure Service Principal Client ID and Client Secret](../../guides/azure-key-vaults/#authentication-with-azure-service-principal-client-id-and-client-secret) , already existing  
-- [Azure Workload Identity](../../guides/azure-key-vaults/#authentication-with-azure-workload-identity) , available from now, authentication without need of Azure Service Principal's Client ID and Client Secret  
+- [Azure Service Principal Client ID and Client Secret](/docs/guides/azure-key-vaults/#authentication-with-azure-service-principal-client-id-and-client-secret) , already existing  
+- [Azure Workload Identity](/docs/guides/azure-key-vaults/#authentication-with-azure-workload-identity) , available from now, authentication without need of Azure Service Principal's Client ID and Client Secret  
 
 ### 2023-04-12 Radix application configuration - Admin AD group is now mandatory
 
@@ -183,7 +183,7 @@ Admin AD group can be set in Web console =&gt; Configuration =&gt; “Change adm
 
 ### 2023-03-28 New version of Radix CLI version 1.7
 
-More details in the [Radix documentation](../../docs/topic-radix-cli/#commands) or with built-in `help`   
+More details in the [Radix documentation](/docs/docs/topic-radix-cli/#commands) or with built-in `help`   
 rx scale --help  
 rx get logs component --help  
 rx create pipeline-job deploy --help  
@@ -199,7 +199,7 @@ rx create pipeline-job deploy --help
 ### 2023-03-07 Schema for radixconfig.yaml
 
 We have released the OpenAPI 3.0 Schema (an extended subset of JSON Schema) for the radixconfig.yaml file.  
-This schema can be used in code editors (e.g. VS Code and Jetbrains IDEs) to provide auto-completion and validation when working with `radixconfig.yaml`, see [radixconfig schema](../../references/reference-code-editor-integration/)
+This schema can be used in code editors (e.g. VS Code and Jetbrains IDEs) to provide auto-completion and validation when working with `radixconfig.yaml`, see [radixconfig schema](/docs/references/reference-code-editor-integration/)
 
 ### 2023-02-28 Radix Web Console: Stop a regular job and batched jobs
 
@@ -229,7 +229,7 @@ The Radix Github Action is used by many Radixians to execute rx CLI commands in 
 
 ### 2023-01-31 Radix Playground lifecycle policy
 
-We will now implement a stricter [lifecycle policy](../../docs/topic-uptime/#Automatic-cleanup-in-Playground-cluster) for using Radix Playground.  
+We will now implement a stricter [lifecycle policy](/docs/docs/topic-uptime/index.md#automatic-cleanup-in-playground-cluster) for using Radix Playground.  
 Any application which has not been  
 a - deployed - or  
 b - restarted  
@@ -244,7 +244,7 @@ Radix now provides Request and Limit resources for component replicas and schedu
 
 ### 2023-01-18 Custom branch name for wildcard branch mapping
 
-Radix now provides a text input field to put a full branch name for a build environment with [wildcard branch mappings](../../references/reference-radix-config/#build-2)
+Radix now provides a text input field to put a full branch name for a build environment with [wildcard branch mappings](/docs/references/reference-radix-config/index.md#build-1)
 
 ### 2023-01-17 Machine user tokens deprecated
 
@@ -256,7 +256,7 @@ Applications that currently use machine user tokens in their external CICD pipel
 ### 2023-01-10 Federated Credentials with Azure AD Application and Managed Identity
 
 We have enabled support for federated credentials between applications running in Radix and Azure AD applications and Azure Managed Identities.
-[Workload identities](../../guides/workload-identity/) in Radix
+[Workload identities](/docs/guides/workload-identity/) in Radix
 
 ## 2022
 
@@ -278,7 +278,7 @@ For the Playground cluster a Configuration Item is not mandatory.
 ### 2022-11-01 Enable and/or Disable components
 
 Components in the Radix application now can be enabled and disabled for any and all environments.  
-This can be configured in [radixconfig.yaml](../../references/reference-radix-config/#enabled).
+This can be configured in [radixconfig.yaml](/docs/references/reference-radix-config/#enabled).
 
 Example:
 
@@ -300,13 +300,13 @@ spec:
 
 ### 2022-11-01 External DNS certificate and key validation
 
-You can now view information about TLS certificates for [external DNS aliases](../../guides/external-alias/#apply-custom-certificate) in Radix Web Console.
+You can now view information about TLS certificates for [external DNS aliases](/docs/guides/external-alias/index.md#apply-custom-certificate) in Radix Web Console.
 
 ### 2022-10-13 Supporting monorepo and custom radixconfig names
 
 Radix now supports multiple Radix applications in the same GitHub repository - **monorepo** strategy.
-It is now possible to use custom Radix configuration filenames (aka [radixconfig.yaml](../../references/reference-radix-config/index.md)) and/or its location in the GitHub repository.  
-Please read more in the [monorepo guideline](../../guides/monorepo/)
+It is now possible to use custom Radix configuration filenames (aka [radixconfig.yaml](/docs/references/reference-radix-config/index.md)) and/or its location in the GitHub repository.  
+Please read more in the [monorepo guideline](/docs/guides/monorepo/)
 
 ### 2022-10-12 Radix CLI version v1.2.1
 
@@ -315,9 +315,9 @@ Use `version` to print current version of the rx
 
 ### 2022-09-23 Improvements in Radix Web Console
 
-Ensure you have assigned permissions to your app's [configuration](../../start/registering-app/), now you are able to grant the permission using the name of an AD group. At the same time add your applications to the list of favourites, only favourites will have the application status available on the Web Console front page.
+Ensure you have assigned permissions to your app's [configuration](/docs/start/registering-app/), now you are able to grant the permission using the name of an AD group. At the same time add your applications to the list of favourites, only favourites will have the application status available on the Web Console front page.
 
-Check out your vulnerability scan results: Are you using OAUTH feature? You may want to switch to [Radix OAUTH service](../../guides/authentication/#using-the-radix-oauth2-feature), we are updating the images (dependencies) regularly
+Check out your vulnerability scan results: Are you using OAUTH feature? You may want to switch to [Radix OAUTH service](/docs/guides/authentication/#using-the-radix-oauth2-feature), we are updating the images (dependencies) regularly
 
 ### 2022-09-20 Radix CLI version v1.2.0
 
@@ -333,7 +333,7 @@ rx restart application -a &lt;application-name&gt;
 
 ### 2022-09-20 Azure key vault secret autorotation
 
-Radix now offers the [Azure Key Vault autorotation](../../guides/azure-key-vaults/#autorotation-of-secrets) feature.
+Radix now offers the [Azure Key Vault autorotation](/docs/guides/azure-key-vaults/#autorotation-of-secrets) feature.
 
 ### 2022-09-01 Vulnerability scan removed from build pipeline
 
@@ -356,7 +356,7 @@ A new feature in Radix Web Console simplifies the configuration of application a
 
 ### 2022-08-10 Azure Key Vault values version
 
-Radix Web Console can show version of [Azure Key Vault values](../../guides/azure-key-vaults/#azure-key-vault-secret-certificate-and-key-versions) used in a Radix application component (if applicable) - which pod uses which version. Click the link of the Azure Key Vault secret, certificate or key to open a popup with this info. Statuses also reflect actual state, not just *External*
+Radix Web Console can show version of [Azure Key Vault values](/docs/guides/azure-key-vaults/#azure-key-vault-secret-certificate-and-key-versions) used in a Radix application component (if applicable) - which pod uses which version. Click the link of the Azure Key Vault secret, certificate or key to open a popup with this info. Statuses also reflect actual state, not just *External*
 
 ### 2022-08-10 Pipeline information for favourite appliactions in Radix Web Console
 
@@ -370,7 +370,7 @@ The **Download** button will return the entire log.
 
 ### 2022-06-20 Change in Azure Blob volume-mounts accessMode
 
-If your Radix application uses [Azure Blob volume mount](../../guides/volume-mounts/), [radixconfig.yaml](../../references/reference-radix-config/index.md) has a configuration of this volume mount, which has an optional property `accessMode`. If the application need not only read, but also write to this Azure Blob container, please specify explicitly this property.  
+If your Radix application uses [Azure Blob volume mount](/docs/guides/volume-mounts/), [radixconfig.yaml](/docs/references/reference-radix-config/index.md) has a configuration of this volume mount, which has an optional property `accessMode`. If the application need not only read, but also write to this Azure Blob container, please specify explicitly this property.  
 For `read-write` acces, we recommend to set it to `ReadWriteMany`.  
 
 ```yaml
@@ -383,12 +383,12 @@ For `read-write` acces, we recommend to set it to `ReadWriteMany`.
       accessMode: ReadWriteMany
 ```
 
-Radix will soon get an update to set Blob volumes `accessMode` as `ReadOnlyMany` by default, when `accessMode` is not specified explicitly in the [radixconfig.yaml](../../references/reference-radix-config/#volumemounts). If a Radix application needs a read-only access to the Azure blob volume mount, please specify it explicitly  
+Radix will soon get an update to set Blob volumes `accessMode` as `ReadOnlyMany` by default, when `accessMode` is not specified explicitly in the [radixconfig.yaml](/docs/references/reference-radix-config/#volumemounts). If a Radix application needs a read-only access to the Azure blob volume mount, please specify it explicitly  
 **accessMode: ReadOnlyMany**
 
 ### 2022-06-20 Introducing sub-pipeline concept (Tekton)
 
-This is an optional, configurable build step that is run before deployment. A typical use case for [sub-pipeline](../../guides/sub-pipeline/#configure-sub-pipeline) is to perform a database update/migration immediately before deployment
+This is an optional, configurable build step that is run before deployment. A typical use case for [sub-pipeline](/docs/guides/sub-pipeline/#configure-sub-pipeline) is to perform a database update/migration immediately before deployment
 
 ### 2022-06-20 Improved performance of the Radix Operator
 
@@ -401,10 +401,10 @@ The scan of all images in Radix will now be done on a regular basis, and the ![r
 
 ### 2022-04-28 Improved/simpler **egress** rules configuration
 
-[Egress rules](../../references/reference-radix-config/#egress) have been simplified. A new field `allowRadix` can be set to allow or deny traffic to other Radix applications.  
-If you use the [built-in Oauth2 feature](../../guides/authentication/#using-the-radix-oauth2-feature), it is no longer necessary to allow traffic to [login.microsoftonline.com](http://login.microsoftonline.com/).
+[Egress rules](/docs/references/reference-radix-config/#egress) have been simplified. A new field `allowRadix` can be set to allow or deny traffic to other Radix applications.  
+If you use the [built-in Oauth2 feature](/docs/guides/authentication/#using-the-radix-oauth2-feature), it is no longer necessary to allow traffic to [login.microsoftonline.com](http://login.microsoftonline.com/).
 
-Docs now recommend using [Private Link](../../guides/egress-config/#use-private-link) to get static IP address to Azure databases or other SaaS for use in egress rules
+Docs now recommend using [Private Link](/docs/guides/egress-config/#use-private-link) to get static IP address to Azure databases or other SaaS for use in egress rules
 
 ### 2022-04-12 Static **ingress** IPs
 
@@ -422,11 +422,11 @@ Playground: 20.223.26.208/30
 
 You can now specify a custom port and path for monitoring.
 
-Specifying monitoring path and port is now supported for application components in Radix. Read the [radixconfig.yaml reference entry](../../references/reference-radix-config/#monitoringconfig) for details.
+Specifying monitoring path and port is now supported for application components in Radix. Read the [radixconfig.yaml reference entry](/docs/references/reference-radix-config/#monitoringconfig) for details.
 
 ### 2022-02-28 Support for egress rules
 
-Network egress rules are now supported for application environments in Radix. Read the [radixconfig.yaml reference entry](https://www.radix.equinor.com/references/reference-radix-config/#egressrules) for details, and read the [guide](../../guides/egress-config/#built-in-rules) for limitations, tips and usage patterns.
+Network egress rules are now supported for application environments in Radix. Read the [radixconfig.yaml reference entry](https://www.radix.equinor.com/references/reference-radix-config/#egressrules) for details, and read the [guide](/docs/guides/egress-config/#built-in-rules) for limitations, tips and usage patterns.
 
 Implement egress rules with caution!  
 Applications may break if egress rules inadvertently block required resources.
@@ -507,7 +507,7 @@ The results from the vulnerability scanning running on all components deployed t
 
 ![vuln-scan](./vuln-scan.png)  
 
-[Vulnerability scanning - more information](../../docs/topic-concepts#scanning-images-for-security-issues)
+[Vulnerability scanning - more information](/docs/docs/topic-concepts#scanning-images-for-security-issues)
 
 #### Favourites
 
@@ -526,7 +526,7 @@ Environment variables can now be overridden from the Radix Web Console. Previous
 
 ![env-var](./env-var.png)
 
-[Environment variables documentation](../../guides/environment-variables/)
+[Environment variables documentation](/docs/guides/environment-variables/)
 
 #### Performance improvement
 
@@ -539,14 +539,14 @@ As you may know, Docker containers have root privileges enabled by default. This
 From now on every time you (build and) deploy your app, Radix will not allow applications to run as root. If you have not configured the app correctly, an error will be logged in Events (Events section can be found in the Environments page). The new image will not be deployed and the previous image will remain running.  
 If by any circumstance the pod running your app restarts, for instance due to lack of required memory, all applications running on it will also be restarted. Any app not complying with the Security Policy will not be started.  
 
-[Security – running as non-root](../../docs/topic-docker/#running-as-non-root)  
+[Security – running as non-root](/docs/docs/topic-docker/#running-as-non-root)  
 
 
 ### 2021-06-22 Support for files in Azure blob container
 
 The Blobfuse FlexVolume driver has been deprecated by Microsoft. Radix has decided to replace it with the Azure Blob Storage CSI driver (particularly azure-storage-fuse), which is the recommended option.  
 FlexVolume will be supported in Radix during transition periods for projects that still uses it.  
-[Volume mounts documentation](../../references/reference-radix-config/#volumemounts)
+[Volume mounts documentation](/docs/references/reference-radix-config/#volumemounts)
 
 ```yaml
 environmentConfig:
@@ -566,13 +566,13 @@ For those who have used the FlexVolume driver: the `container` property is depre
 We have added support for generating badges that shows the status of the latest Radix Pipeline Job for a specific job type, environment and application.
 A common place to add a status badge is in the README.md file of your repository, but it can be added to any web page you'd like.  
 
-Read more about Pipeline Badges here: [Pipeline Badge](../../guides/pipeline-badge/)
+Read more about Pipeline Badges here: [Pipeline Badge](/docs/guides/pipeline-badge/)
 
 ### 2021-06-07 Support for ClientCertificate authentication
 
 We have added support for ClientCertificates, which can be configured for a component or a specific environment.  
 
-Read more about ClientCertificates here: [ClientCertificate](../../references/reference-radix-config/#clientcertificate)
+Read more about ClientCertificates here: [ClientCertificate](/docs/references/reference-radix-config/#clientcertificate)
 
 ### 2021-04-19 Running on-demand jobs in Radix
 
@@ -587,7 +587,7 @@ You define jobs in the radixconfig.yaml file in your repo, similar to how you de
 Jobs are started and monitored through a job-scheduler web API, created by Radix for each job defined in radixconfig.yaml
 The OpenAPI/Swagger definition for the job-scheduler can be downloaded here, and you can use &lt;https://github.com/OpenAPITools/openapi-generator&gt; to generate clients for your preferred language.  
 
-Read more about jobs here: [Configure Jobs](../../guides/jobs)
+Read more about jobs here: [Configure Jobs](/docs/guides/jobs)
 
 ### 2021-03-22 Regenerate webhook secret and deploy key
 
@@ -627,4 +627,4 @@ The current implementation uses the Blobfuse FlexVolume Driver.
 This driver will most likely be replaced by the Blob CSI Driver, which was in preview when development started.
 Blob storage is available in both Radix Playground and Radix Platform.  
 
-[External storage configuration](../../guides/volume-mounts/)
+[External storage configuration](/docs/guides/volume-mounts/)
