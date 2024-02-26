@@ -14,7 +14,7 @@ Of course, Radix is developed and maintained by Equinor developers as well. That
 We are based in Forus Øst in Stavanger. If you see us on the corridor, say hello!  
 :::
 
- ![radix team](/images/Toppbilde2.jpg)
+ ![radix team](/images/Toppbilde.jpg)
 
 ## On Slack
 
