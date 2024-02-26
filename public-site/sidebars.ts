@@ -21,7 +21,7 @@ const sidebars: SidebarsConfig = {
         label: 'Getting started',
         collapsed: false,
         items: [
-          'start/what-is-radix/index',
+          'start/index',
           'start/radix-concepts/index',
           'start/getting-access/index',
           'start/requirements/index',
@@ -39,6 +39,7 @@ const sidebars: SidebarsConfig = {
       label: 'Guides',
       collapsed: false,
       items: [
+          'guides/index',
           'guides/authentication/index',
           'guides/workload-identity/index',
           'guides/docker/index',
@@ -66,10 +67,46 @@ const sidebars: SidebarsConfig = {
     }
   ],
   docsSidebar: [
+    {
+      type: 'category',
+      label: 'Guides',
+      collapsed: false,
+      items: [
+          'docs/index',
+          'docs/topic-docker/index',
+          'docs/topic-runtime-env/index',
+          'docs/topic-logs/index',
+          'docs/topic-security/index',
+          'docs/topic-vulnerabilities/index',
+          'docs/topic-monitoring/index',
+          'docs/topic-domain-names/index',
+          'docs/topic-cost/index',
+          'docs/topic-rollingupdate/index',
+          'docs/topic-uptime/index',
+          'docs/topic-radix-cli/index',
+          'docs/topic-dynatrace-int/index',
+      ],
+    }
   ],
-  featuresSidebar: [],
-  referencesSidebar: [],
-  communitySidebar: [],
+  featuresSidebar: [
+      'features/index',
+  ],
+  referencesSidebar: [
+      {
+          type: 'category',
+          label: 'References',
+          collapsed: false,
+          items: [
+              'references/index',
+              'references/reference-radix-config/index',
+              'references/reference-code-editor-integration/index',
+              'references/reference-private-link/index',
+          ],
+      }
+  ],
+  communitySidebar: [
+     'community/index'
+  ],
 };
 
 export default sidebars;
