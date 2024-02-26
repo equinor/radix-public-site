@@ -507,7 +507,7 @@ The results from the vulnerability scanning running on all components deployed t
 
 ![vuln-scan](./vuln-scan.png)  
 
-[Vulnerability scanning - more information](/docs/docs/topic-concepts#scanning-images-for-security-issues)
+[Vulnerability scanning - more information](/docs/start/radix-concepts/index.md#scanning-images-for-security-issues)
 
 #### Favourites
 

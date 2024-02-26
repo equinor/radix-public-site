@@ -4,7 +4,7 @@ title: Docs
 
 ## The basics
 
-- Understanding [Radix concepts](topic-concepts/)
+- Understanding [Radix concepts](/docs/start/radix-concepts/index.md)
 - The application [runtime environment](topic-runtime-env)
 - [Domain names](topic-domain-names) for your components
 

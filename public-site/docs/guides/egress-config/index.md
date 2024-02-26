@@ -11,13 +11,13 @@ The [egress configuration](/docs/references/reference-radix-config/#egress) defi
 Two built-in egress rules are applied to every Radix application environment:
 
 1. TCP and UDP port 53 to the internal Radix DNS service
-1. all TCP and UDP ports to all jobs and components in the same [Radix application environment](/docs/docs/topic-concepts/#environment)
+1. all TCP and UDP ports to all jobs and components in the same [Radix application environment](/docs/start/radix-concepts/index.md#environment)
 
 ## Limitations
 
 As of May 2022, the following limitations apply
 
-* Egress configuration only applies per application [environment](/docs/docs/topic-concepts/#environment). Egress configurations which are specific for [components](/docs/docs/topic-concepts/#component) or [jobs](/docs/docs/topic-concepts/#job) are currently not supported.
+* Egress configuration only applies per application [environment](/docs/start/radix-concepts/index.md#environment). Egress configurations which are specific for [components](/docs/start/radix-concepts/index.md#component) or [jobs](/docs/start/radix-concepts/index.md#job) are currently not supported.
 * Destinations in egress rules must be IPv4 subnets. IPv6 subnets or FQDNs are currently not supported.
 * Network traffic logs to debug egress configurations are currently not available.
 

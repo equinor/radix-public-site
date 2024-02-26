@@ -5,7 +5,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 const config: Config = {
   title: 'Welcome to Radix',
   tagline: 'Radix makes your app develop',
-  favicon: 'img/favicon.ico',
+  favicon: 'images/logos/logo.svg',
 
   // Set the production url of your site here
   url: 'https://radix.equinor.com',

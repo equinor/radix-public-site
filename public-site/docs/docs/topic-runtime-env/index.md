@@ -12,7 +12,7 @@ Running an application in Radix is not much different to running Docker containe
 
 Only HTTPS traffic is allowed into the application. There is no protocol restriction on outbound traffic. SSL certificates are automatically managed by Radix, except for custom [external aliases](/docs/guides/external-alias/).
 
-Internally, [components](/docs/docs/topic-concepts/#component) can communicate with each other using other protocols and [ports](/docs/references/reference-radix-config/#components), provided they use TCP.
+Internally, [components](/docs/start/radix-concepts/index.md#component) can communicate with each other using other protocols and [ports](/docs/references/reference-radix-config/#components), provided they use TCP.
 
 ### Internal DNS
 
@@ -43,7 +43,7 @@ Radix does not currently support persistent storage. Any files written to the fi
 
 ## Multiple copies
 
-Although you can configure the number of [replicas](/docs/docs/topic-concepts/#replica) for a component, Radix will occasionally run a different number of these. For instance, a component that has been configured to run with just one replica (this is the default) might momentarily have two replicas running during a Radix cluster migration.
+Although you can configure the number of [replicas](/docs/start/radix-concepts/index.md#replica) for a component, Radix will occasionally run a different number of these. For instance, a component that has been configured to run with just one replica (this is the default) might momentarily have two replicas running during a Radix cluster migration.
 
 This is a common characteristic of high-availability cloud-based environments. Your application should be written in a way that can cope with multiple running copies of a component (or the whole application), even if momentarily.
 

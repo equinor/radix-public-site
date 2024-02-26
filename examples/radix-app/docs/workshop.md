@@ -40,8 +40,8 @@ An OpenAPI specification has been agreed on with the API team, so we'll begin wi
 Important to know:
 
 1. The difference between ```platform user``` and ```application user```
-1. Important terminology: ```application```, ```environments```,```components```, and ```replicas``` [Important Radix Concepts](https://www.radix.equinor.com/docs/topic-concepts/)
-1. ```radixconfig.yaml``` - lives on the `main` branch and is your infrastrucure as code - drive your app in Radix.
+1. Important terminology: ```application```, ```environments```,```components```, and ```replicas``` [Important Radix Concepts](https://www.radix.equinor.com/start/radix-concepts//)
+1. ```radixconfig.yaml``` - lives on the `main` branch and is your infrastructure as code - drive your app in Radix.
 
 ### 2.1.4. Explore radixconfig.yaml
 
@@ -59,7 +59,7 @@ Important to know:
 
 Scenario
 
-The UI is comming along nicely, and your team has started on the API. Next step is to integrate the API with the UI, so users can also start testing the logic behind password generation.
+The UI is coming along nicely, and your team has started on the API. Next step is to integrate the API with the UI, so users can also start testing the logic behind password generation.
 
 ### 2.2.1. Exploring the `server` app
 

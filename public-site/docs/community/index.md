@@ -33,4 +33,4 @@ Check out what's new in the [Release register](/docs/docs/topic-releases/index.m
 
 ## The Radix team
 
-<RadixTeam />
+&lt;RadixTeam /&gt;

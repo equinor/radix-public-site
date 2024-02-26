@@ -4,9 +4,9 @@ title: Sub-pipeline
 
 # Sub-pipeline
 
-In the [Radix pipeline](/docs/docs/topic-concepts/#pipeline), optionally a sub-pipeline can be run. It is run after "Build components step" (if components need to be built) or after "Prepare pipeline" step.  This sub-pipeline is based on the [Tekton CI/CD framework](https://tekton.dev/docs/getting-started/).
+In the [Radix pipeline](/docs/start/radix-concepts/index.md#pipeline), optionally a sub-pipeline can be run. It is run after "Build components step" (if components need to be built) or after "Prepare pipeline" step.  This sub-pipeline is based on the [Tekton CI/CD framework](https://tekton.dev/docs/getting-started/).
 
-&gt; Note on nomenclature! The content in this guide concerns a [Tekton pipeline](https://tekton.dev/docs/getting-started/) which is defined as a *pipeline within* a parent [Radix pipeline](/docs/docs/topic-concepts/#pipeline). In the context of the Radix platform, a Tekton pipeline is referred to as a *sub-pipeline* or *Tekton pipeline*, while the parent Radix pipeline is referred to as a *pipeline* or *Radix pipeline*.
+&gt; Note on nomenclature! The content in this guide concerns a [Tekton pipeline](https://tekton.dev/docs/getting-started/) which is defined as a *pipeline within* a parent [Radix pipeline](/docs/start/radix-concepts/index.md#pipeline). In the context of the Radix platform, a Tekton pipeline is referred to as a *sub-pipeline* or *Tekton pipeline*, while the parent Radix pipeline is referred to as a *pipeline* or *Radix pipeline*.
 
 ## Configure sub-pipeline
 

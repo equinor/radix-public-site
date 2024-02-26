@@ -4,15 +4,15 @@ title: Deployment Promotion
 
 # Deployment Promotion
 
-[Deployments](/docs/docs/topic-concepts/#deployment) in Radix are portable, which makes it possible to use them in several scenarios.
+[Deployments](/docs/start/radix-concepts/index.md#deployment) in Radix are portable, which makes it possible to use them in several scenarios.
 
-Usually deployments are created by a `build-deploy` [job](/docs/docs/topic-concepts/#job) and deployed into an [environment](/docs/docs/topic-concepts/#environment). Older deployments remain accessible under the "Deployments" section of the Web Console.
+Usually deployments are created by a `build-deploy` [job](/docs/start/radix-concepts/index.md#job) and deployed into an [environment](/docs/start/radix-concepts/index.md#environment). Older deployments remain accessible under the "Deployments" section of the Web Console.
 
 ![Web Console deployments](./web-console-deployments.png)
 
 A deployment can be *promoted* into any environment. In effect this creates a new, duplicate deployment, which becomes the *active deployment* in the target environment. The new deployment uses the same component images (Docker images) as the original deployment, while the original deployment remains unchanged.
 
-&gt; Careful: Deployments do not encapsulate [environment variables](/docs/docs/topic-concepts/#environment-variable). When a deployment is promoted from one environment to another, environment variables are read from the **current** settings in `radixconfig.yaml` for the target environment. Variables, overridden in Radix Web Console get current overriding values from the target environment.
+&gt; Careful: Deployments do not encapsulate [environment variables](/docs/start/radix-concepts/index.md#environment-variable). When a deployment is promoted from one environment to another, environment variables are read from the **current** settings in `radixconfig.yaml` for the target environment. Variables, overridden in Radix Web Console get current overriding values from the target environment.
 &gt;
 &gt; The same is true for an old deployment promoted to the same environment: the values of environment variables are those defined in `radixconfig.yaml` at the moment of promotion, not what they were when the original deployment was created. Variables, overridden in Radix Web Console get current overriding values.
 
