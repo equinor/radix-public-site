@@ -182,6 +182,7 @@
 }
 
 article {
+    text-decoration: none;
     a {
         font-size: 1rem;
         font-weight: 400;
@@ -218,7 +219,6 @@ article {
 }
 
 .alert {
-
     --ifm-code-background: #f3f4f5;
     --ifm-link-decoration: underline;
     --ifm-tabs-color: var(--ifm-alert-foreground-color);
