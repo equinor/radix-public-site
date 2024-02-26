@@ -1,5 +1,6 @@
 ---
 title: Features in Omnia Radix
+displayed_sidebar: featuresSidebar
 ---
 
 # Features in Omnia Radix

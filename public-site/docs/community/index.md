@@ -1,5 +1,6 @@
 ---
 title: Community
+displayed_sidebar: communitySidebar
 ---
 import RadixTeam from '../../src/components/RadixTeam/index.tsx'
 

@@ -1,5 +1,6 @@
 ---
 title: Guides
+displayed_sidebar: guidesSidebar
 ---
 
 # Radix guides

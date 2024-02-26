@@ -1,5 +1,6 @@
 ---
 title: Docs
+displayed_sidebar: docsSidebar
 ---
 
 ## The basics

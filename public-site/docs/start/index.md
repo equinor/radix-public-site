@@ -1,5 +1,6 @@
 ---
 title: What is Radix
+displayed_sidebar: gettingStartedSidebar
 ---
 
 # What is Radix

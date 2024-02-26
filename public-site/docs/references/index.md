@@ -1,5 +1,6 @@
 ---
 title: References
+displayed_sidebar: referencesSidebar
 ---
 
 # References
