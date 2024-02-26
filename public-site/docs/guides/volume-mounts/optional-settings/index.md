@@ -39,4 +39,6 @@ Volume setting [ReclaimPolice](https://kubernetes.io/docs/concepts/storage/persi
 
 Blob CSI driver [has certain limitations](https://github.com/kubernetes-sigs/blob-csi-driver/blob/master/docs/limitations.md). BlobFuse2 particularly has [these limitations](https://github.com/Azure/azure-storage-fuse#un-supported-file-system-operations).
 
-&gt; See [this](../index.md) guide on how make use of `volumeMounts`.
+:::tip
+See [this](../index.md) guide on how make use of `volumeMounts`.
+:::

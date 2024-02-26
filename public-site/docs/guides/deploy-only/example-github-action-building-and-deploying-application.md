@@ -55,7 +55,7 @@ jobs:
         run: |
           token=$(az account get-access-token --resource 6dae42f8-4368-4678-94ff-3960e28e3630 --query=accessToken -otsv | tr -d '[:space:]')
           echo "::add-mask::$token"
-          echo "APP_SERVICE_ACCOUNT_TOKEN=$token" &gt;&gt; $GITHUB_ENV
+          echo "APP_SERVICE_ACCOUNT_TOKEN=$token" >> $GITHUB_ENV
 
       - name: Build and push Docker images
         uses: docker/build-push-action@v5
@@ -67,7 +67,7 @@ jobs:
         id: radix
         uses: equinor/radix-github-actions@v1
         with:
-          args: &gt;
+          args: >
             get config branch-environment
             --from-config 
             -b ${GITHUB_REF##*/}
@@ -75,7 +75,7 @@ jobs:
       - name: 'Deploy API on Radix'
         uses: equinor/radix-github-actions@v1
         with:
-          args: &gt;
+          args: >
             create pipeline-job
             deploy
             --context playground 
@@ -92,7 +92,7 @@ Example how to provide [current commit](https://docs.github.com/en/actions/learn
       - name: 'Deploy API on Radix'
         uses: equinor/radix-github-actions@v1
         with:
-          args: &gt;
+          args: >
             create pipeline-job
             deploy
             --context playground 

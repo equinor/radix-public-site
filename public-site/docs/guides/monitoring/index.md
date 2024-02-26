@@ -38,7 +38,9 @@ Radix will now collect these metrics and make them available in your Grafana das
 
 Once you have started creating and monitoring metrics you might want to [explore the possibilities](/docs/docs/topic-monitoring/) to make them more useful for your application.
 
-&gt; Metrics information is open (shared) among Radix users. Make sure you do not include confidential information in your metrics. It is suggested that you *prefix* your metric names with your application name (e.g. `&lt;app_name&gt;_metric_name`), so that your application metrics can be easily distinguishable from other application metrics.
+:::tip
+Metrics information is open (shared) among Radix users. Make sure you do not include confidential information in your metrics. It is suggested that you *prefix* your metric names with your application name (e.g. `<app_name>_metric_name`), so that your application metrics can be easily distinguishable from other application metrics.
+:::
 
 ### Adding custom metrics to a NodeJS application
 
@@ -79,7 +81,7 @@ const http_requests = new client.Counter({
   labelNames: ['path']
 });
 
-server.get('/', (req, res) =&gt; {
+server.get('/', (req, res) => {
   // Increase the counter with path label /
   http_requests.inc({path: '/'});
   res.statusCode = 200;
@@ -87,14 +89,14 @@ server.get('/', (req, res) =&gt; {
   res.end('Hello World\n');
 });
 
-server.get('/metrics', (req, res) =&gt; {
+server.get('/metrics', (req, res) => {
   // Increase the counter with path label /metrics
   http_requests.inc({path: '/metrics'});
   res.set('Content-Type', register.contentType);
   res.end(register.metrics());
 });
 
-server.listen(port, hostname, () =&gt; {
+server.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
 ```

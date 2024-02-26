@@ -22,13 +22,17 @@ Example:
   * Because the same repository will be used for multiple applications, a warning is shown on creating of the application
   ![Warning on repository, used in another applications](./register-application-with-already-used-repository.png)
   * Ticking the checkbox under warnings confirms understood consequences, like pushed changes to the repository can start Radix pipeline jobs for all applications, which use it.
-    &gt; [Radix CLI](https://github.com/equinor/radix-cli) also shows this warning, when creating an application with a GitHub repository, used in another application. To confirm such operation - add an option `--acknowledge-warnings` to command line arguments
+    :::tip
+    [Radix CLI](https://github.com/equinor/radix-cli) also shows this warning, when creating an application with a GitHub repository, used in another application. To confirm such operation - add an option `--acknowledge-warnings` to command line arguments
+    :::
 * When an application is registered, GitHub webhook with a secret can be added to the repository to run Radix pipeline jobs, when changes are pushed to the repository. Because each application has a unique webhook secret, the webhook URL has an argument with an application name to validate GitHub event signature with a webhook secret of this particular application. Example:
   * Webhook URL for the application "radix-app-1"
   `https://webhook.playground.radix.equinor.com/events/github?appName=radix-app-1`
   * Webhook URL for the application "radix-app-2"
   `https://webhook.playground.radix.equinor.com/events/github?appName=radix-app-2`
-  &gt; Newly introduced webhook URL argument `appName` does not exist in webhooks of already registered applications. If repositories of such applications will be used in another applications, these existing webhook need to get this argument with their application names. Otherwise, Radix pipeline is not able to validate GitHub events from webhooks of multiple applications.  
+  :::tip
+  Newly introduced webhook URL argument `appName` does not exist in webhooks of already registered applications. If repositories of such applications will be used in another applications, these existing webhook need to get this argument with their application names. Otherwise, Radix pipeline is not able to validate GitHub events from webhooks of multiple applications.
+  :::
 * When an application is registered, Radix web-console configuration page for the application shows the GitHub repository name, config branch and config file - all with actual links
   ![img.png](./application-configuration-page-repo-info.png)
 

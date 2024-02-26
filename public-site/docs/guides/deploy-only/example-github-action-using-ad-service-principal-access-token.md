@@ -39,7 +39,7 @@ jobs:
         run: |
           token=$(az account get-access-token --resource 6dae42f8-4368-4678-94ff-3960e28e3630 --query=accessToken -otsv)
           echo "::add-mask::$token"
-          echo "APP_SERVICE_ACCOUNT_TOKEN=$token" &gt;&gt; $GITHUB_ENV
+          echo "APP_SERVICE_ACCOUNT_TOKEN=$token" >> $GITHUB_ENV
       - name: Update build secret
         run: |
           curl https://api.playground.radix.equinor.com/api/v1/applications/your-radix-app-name/buildsecrets/A_BUILD_SECRET \
@@ -49,7 +49,7 @@ jobs:
       - name: Restart qa env
         uses: equinor/radix-github-actions@v1
         with:
-          args: &gt;
+          args: >
             restart
             environment
             --application your-radix-app-name

@@ -261,7 +261,9 @@ spec:
           CONNECTION_STRING: "Provider=MySQLProv;Data Source=prodDb;" #overrides common env-var CONNECTION_STRING in the "prod" custom sub-pipeline
   ```
 
-&gt; Common variable `CONNECTION_STRING` does not exists, as it is always different in each environment
+:::tip
+Common variable `CONNECTION_STRING` does not exists, as it is always different in each environment
+:::
 This sub-pipeline runs the task `show-env-vars` (which reference to the task `env-vars-list` described in the file `env-vars-list-task.yaml`), which has one step, as described above. This step run a script, printing environment variables, which names contain text `VAR`
 
 ```yaml

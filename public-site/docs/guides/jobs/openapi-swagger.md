@@ -22,7 +22,7 @@ openapi-generator-cli list
 Each language/framework generator has its own set of additional configuration options
 
 ```sh
-openapi-generator-cli config-help -g &lt;generator-name&gt;
+openapi-generator-cli config-help -g <generator-name>
 ```
 
 These configuration options can be added to a file, e.g. `config.yaml`, and referenced in the `openapi-generator` CLI using the `-c` option (see examples below)

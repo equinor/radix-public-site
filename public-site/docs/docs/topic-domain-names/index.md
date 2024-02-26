@@ -6,10 +6,12 @@ title: Domain names
 
 There can be several domain names mapped to [application components](/docs/start/radix-concepts/index.md#component) in Radix. In general you will want to use the [public name](#public-name), but you should understand all options.
 
-&gt; Some domain names include a `clusterEnvNamepace` component. This varies depending on the type of cluster. In Radix there are three **cluster types**; these are the values for `clusterEnvNamepace` in each type
-&gt;
-&gt; - prod (_blank_)
-&gt; - playground (`playground`)
+:::tip
+Some domain names include a `clusterEnvNamepace` component. This varies depending on the type of cluster. In Radix there are three **cluster types**; these are the values for `clusterEnvNamepace` in each type
+
+ - prod (_blank_)
+ - playground (`playground`)
+:::
 
 ## Canonical name
 
@@ -65,7 +67,7 @@ Examples:
 ```text
 [appName].[clusterEnvNamepace].radix.equinor.com
 ```
-`dnsAlias` creates one or several DNS aliases in the form of `&lt;alias&gt;.radix.equinor.com` for the specified environment and component. There are few reserved aliases which cannot be used:
+`dnsAlias` creates one or several DNS aliases in the form of `<alias>.radix.equinor.com` for the specified environment and component. There are few reserved aliases which cannot be used:
 
 - Difference from App default alias - it does not have `app.` domain before `radix.equinor.com` and there can be multiple aliases per application, per environment, per component
 - [Defined in `radixconfig.yaml`](/docs/references/reference-radix-config/#dnsalias)

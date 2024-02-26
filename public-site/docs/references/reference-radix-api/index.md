@@ -2,4 +2,6 @@
 title: Radix API
 ---
 
-&gt; Oops, this page isn't done yet 😅
+:::tip
+Oops, this page isn't done yet 😅
+:::

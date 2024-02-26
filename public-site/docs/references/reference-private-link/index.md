@@ -27,7 +27,9 @@ In order to establish a Private Endpoint from Radix to your external resource, t
 - Subscription ID
 - Resource ID (found in the properties of a resource in the Azure portal)
 
-&gt; Resource ID example: `/subscriptions/A01234567-bc89-123d-ef45-678g9hi12jkl/resourceGroups/Some_RG_Prod/providers/Microsoft.Sql/servers/sql-some-prod`
+:::tip
+Resource ID example: `/subscriptions/A01234567-bc89-123d-ef45-678g9hi12jkl/resourceGroups/Some_RG_Prod/providers/Microsoft.Sql/servers/sql-some-prod`
+:::
 
 ## Instructions
 

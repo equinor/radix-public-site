@@ -14,7 +14,9 @@ Other resources could be the official [Docker documentation](https://docs.docker
 
 Application hosted on Radix must be run with non-root privileges in the container. A security policy enabled in the Radix platform will prevent the application from running if it is not configured to run as non-root. Here's an sample on how you can run change a Docker container to run as a non-root user, the principle is that you create a dedicated user and group on the image and use this user to run the process.
 
-&gt; If this is not configured, your deployment will not start.
+:::tip
+If this is not configured, your deployment will not start.
+:::
 
 If your base image is a unprivileged image, you'll need to find the ID of the running user, and use that id in your Dockerfile.
 
@@ -45,7 +47,9 @@ The ID of the group and user can be anything in the range 1000-65535.
 
 `useradd` command follows the syntax `useradd -S -u [USER_ID] -g [GROUP_NAME] [USER_NAME]`
 
-&gt; Be aware - [the syntax for add user and group](/docs/guides/docker-useradd/) can be different for the distribution of images
+:::tip
+Be aware - [the syntax for add user and group](/docs/guides/docker-useradd/) can be different for the distribution of images
+:::
 
 There are many great articles on securing docker images. See [Snyk](https://res.cloudinary.com/snyk/image/upload/v1551798390/Docker_Image_Security_Best_Practices_.pdf).
 

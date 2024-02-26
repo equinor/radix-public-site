@@ -83,7 +83,7 @@ Recommended use example:
 ``````      - name: 'Deploy app'
         uses: equinor/radix-github-actions@v1
         with:
-          args: &gt;
+          args: >
             create job
 ``````
 * With this v1 release it will get particular Radix CLI stable release instead of the latest one.
@@ -216,7 +216,7 @@ The Radix Github Action is used by many Radixians to execute rx CLI commands in 
         uses: equinor/radix-github-actions@v1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          args: &gt;
+          args: >
             get
             application
 ```
@@ -326,9 +326,9 @@ Radix CLI 1.2.0 has new commands added such as `start`, `stop` and `restart` for
 #### Example
 
 ```sh
-rx start component -a &lt;application-name&gt; -e &lt;environment-name&gt; -n &lt;component-name&gt;
-rx stop environment -a &lt;application-name&gt; -e &lt;environment-name&gt;
-rx restart application -a &lt;application-name&gt;
+rx start component -a <application-name> -e <environment-name> -n <component-name>
+rx stop environment -a <application-name> -e <environment-name>
+rx restart application -a <application-name>
 ```
 
 ### 2022-09-20 Azure key vault secret autorotation
@@ -479,7 +479,7 @@ Cluster IPs are now visible in the `About Pages` in Radix Web Console.
 ### 2021-11-18 Radix Slack Alerts
 
 We have released a new feature in Radix for sending alerts to Slack if a pipeline job fails, or a component or job fails to start or crashes/restarts (e.g. due to insufficient memory, unhandled exceptions etc.).  
-Read the documentation, &lt;https://www.radix.equinor.com/guides/alerting/&gt;,  on how to configure alerting for your application.  
+[Read the documentation](/docs/guides/alerting/index.md),  on how to configure alerting for your application.  
 
 PS! The alert GUI in Radix web console is still "work in progress". We're working with EDS to make it more aligned with the EDS design standard.  
 
@@ -522,7 +522,9 @@ Favourites are local and stored in the browser cache.
 
 Environment variables can now be overridden from the Radix Web Console. Previously users would have to make changes to their `radixconfig.yaml` file and redeploy it to change the value of environment variables.  
 
-&gt; Note that you will need to restart the component, or for jobs a new job should be started, for your changes to take effect.
+:::tip
+Note that you will need to restart the component, or for jobs a new job should be started, for your changes to take effect.
+:::
 
 ![env-var](./env-var.png)
 
@@ -585,9 +587,9 @@ CPU, GPU and memory resources requested by a job are reserved when it starts, an
 You define jobs in the radixconfig.yaml file in your repo, similar to how you define components.  
 
 Jobs are started and monitored through a job-scheduler web API, created by Radix for each job defined in radixconfig.yaml
-The OpenAPI/Swagger definition for the job-scheduler can be downloaded here, and you can use &lt;https://github.com/OpenAPITools/openapi-generator&gt; to generate clients for your preferred language.  
+The OpenAPI/Swagger definition for the job-scheduler can be downloaded here, and you can use [https://github.com/OpenAPITools/openapi-generator](https://github.com/OpenAPITools/openapi-generator) to generate clients for your preferred language.  
 
-Read more about jobs here: [Configure Jobs](/docs/guides/jobs)
+Read more about jobs here: [Configure Jobs](/docs/guides/jobs/index.md)
 
 ### 2021-03-22 Regenerate webhook secret and deploy key
 
@@ -602,7 +604,9 @@ You will now be alerted on the Applications page if there is anything wrong with
 The icon is a small exclamation mark next to the component name. To get more information on what is wrong you can hover over the icon. There is also a new warning label stating 'Outdated image' on the Environments page under 'Active components'.  
 This label will appear when your running component is using an old image and typically happens when the latest deployment causes the new component to be unable to start, or the readiness probe is unable to reach it.  
 
-&gt; Note: In the transition right after a deployment, the Outdated image label will appear. Once the new replicas have started this will be replaced with the Ok label.
+:::tip
+Note: In the transition right after a deployment, the Outdated image label will appear. Once the new replicas have started this will be replaced with the Ok label.
+:::
 
 ### 2021-01-12 Radix Web Console: Events available
 

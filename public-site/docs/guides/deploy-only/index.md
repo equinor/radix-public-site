@@ -31,7 +31,9 @@ The documentation will use the second option.
 
 ## The `radixconfig.yaml` file
 
-&gt; Radix only reads `radixconfig.yaml` from the branch we set as the `Config Branch` in the application registration form. If the file is changed in other branches, those changes will be ignored. The `Config Branch` must be mapped to an environment in `radixconfig.yaml`
+:::tip
+Radix only reads `radixconfig.yaml` from the branch we set as the `Config Branch` in the application registration form. If the file is changed in other branches, those changes will be ignored. The `Config Branch` must be mapped to an environment in `radixconfig.yaml`
+:::
 
 The major difference between a `deploy-only` and a regular Radix application, is that the [`image`](/docs/references/reference-radix-config/#image) property in `radixconfig.yaml` is set for all components and jobs. 
 
@@ -69,14 +71,14 @@ spec:
           port: 6379
   privateImageHubs:
     ghcr.io:
-      username: &lt;some GitHub user name&gt;
-      email: &lt;some email&gt;
+      username: <some GitHub user name>
+      email: <some email>
 ```
 
 In the `radixconfig.yaml` above, there are two tagging strategies;
 
 - Using a latest tag (i.e. master-latest)
-- Using a dynamic tag (i.e release-39f1a082)
+- Using a dynamic tag (i.e. release-39f1a082)
 
 A dynamic tag in this context means that there is a new tag produced for every build, either referring to the release tag, or the commit sha (in the case above) or any other attributes that uniquely identifies what the image is produced from. The dynamic tag will give better control over what runs in the environment, and it also allows for promoting older deployments in case there is a need for a rollback.
 
@@ -109,7 +111,9 @@ In a deploy-only scenario, Radix will only deploy, rather than build and deploy,
 
 ![Pipeline job list with IDs](./pipeline-job-list.png)
 
-&gt; Note that the access token has one-hour live period, with access to all operations that an application administrator has (i.e. deleting the application, setting secrets). Please make efforts not to have this token fall into the wrong hands.
+:::tip
+Note that the access token has one-hour live period, with access to all operations that an application administrator has (i.e. deleting the application, setting secrets). Please make efforts not to have this token fall into the wrong hands.
+:::
 
 Read about [how to connect GitHub actions and Azure](https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure) to add federation between them.
 
@@ -179,8 +183,10 @@ In the above workflow we have a series of steps. They are:
 - `Get environment from branch` - This steps calls a utility function in the CLI for obtaining the environment based on the current brach from the branch-environment mapping in the `radixconfig.yaml` of the repository
 - `Deploy API on Radix` - This step calls the CLI function, which calls the deploy pipeline function of the Radix API for running the deploy pipeline. It uses the output of the previous step to tell Radix which environment it should deploy to. Note that is using `development` context to contact the API in the development cluster. Similarly if context is `playground` it will contact API in playground cluster. If you remove this entirely, it will default to `production` context
 
-&gt; Note that the push of the dynamic image tag of the prod environment to master branch creates a side-effect of building the QA environment again, as this is mapped to master. This shows, master branch should not be mapped to any environment (neither in the `radixconfig.yaml`, nor in the GitHub Actions workflow)  
-&gt; `--from-config` is an argument to `radix-cli` to tell it that there is an radixconfig in your repository that it can get information from, such as application name or branch mapping
+:::tip
+Note that the push of the dynamic image tag of the prod environment to master branch creates a side-effect of building the QA environment again, as this is mapped to master. This shows, master branch should not be mapped to any environment (neither in the `radixconfig.yaml`, nor in the GitHub Actions workflow)  
+ `--from-config` is an argument to `radix-cli` to tell it that there is an radixconfig in your repository that it can get information from, such as application name or branch mapping
+:::
 
 ## Configure Radix to use GitHub package
 
@@ -199,7 +205,9 @@ In the example repository that we have used for this documentation we are settin
 
 [Example of using GitHub action to create a Radix deploy pipeline job](./example-github-action-to-create-radix-deploy-pipeline-job.md)
 
-&gt; Disclaimer: Please seek advice elsewhere on whether GitHub Actions and/or GitHub package repository is the right option for you. Both features are new, and we have too little experience as an organization to make any recommendations, both in terms of robustness and in terms of cost. A private Azure container registry (ACR) would for instance allow you to set it up with a service account, rather than using your personal account. This document is meant to be a user guide on how to combine these with Radix, as one of many alternatives for running CI outside of Radix.
+:::tip
+Disclaimer: Please seek advice elsewhere on whether GitHub Actions and/or GitHub package repository is the right option for you. Both features are new, and we have too little experience as an organization to make any recommendations, both in terms of robustness and in terms of cost. A private Azure container registry (ACR) would for instance allow you to set it up with a service account, rather than using your personal account. This document is meant to be a user guide on how to combine these with Radix, as one of many alternatives for running CI outside of Radix.
+:::
 
 ## Deploy only specific component
 

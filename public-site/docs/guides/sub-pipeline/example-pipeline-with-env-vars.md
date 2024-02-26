@@ -103,7 +103,9 @@ spec:
         name: env-vars-list    #task name
 ```
 
-&gt; In Tekton documentation and examples `params` items have fields `value` and `default`, assigned directly with strings, not with objects, which is not correspond to the [API specification](https://github.com/tektoncd/pipeline/blob/main/docs/api-spec.md#param). Currently, Radix strictly follows thes specification.  
+:::tip
+In Tekton documentation and examples `params` items have fields `value` and `default`, assigned directly with strings, not with objects, which is not correspond to the [API specification](https://github.com/tektoncd/pipeline/blob/main/docs/api-spec.md#param). Currently, Radix strictly follows thes specification.  
+:::
 
 * File structure can be like this:
 
@@ -138,11 +140,12 @@ This sub-pipeline runs the task `show-env-vars` (which reference to the task `en
 printenv | grep 'VAR'
 ```
 
-&gt; First line of the script is [shebang](https://en.wikipedia.org/wiki/Shebang_(Unix)). It is recommended to use for consistent script behaviour. It can refer to a default shell `sh` or to a specific shell, existing in the step's image distribution, like `bash` for Ubuntu:
-&gt;
-&gt; ```bash
-&gt; #!/usr/bin/env bash
-&gt; ```
+:::tip
+First line of the script is [shebang](https://en.wikipedia.org/wiki/Shebang_(Unix)). It is recommended to use for consistent script behaviour. It can refer to a default shell `sh` or to a specific shell, existing in the step's image distribution, like `bash` for Ubuntu:
+```bash
+#!/usr/bin/env bash
+```
+:::
 
 * Commit changes in the repository. Look at the details of a started Radix pipeline job (if the Radix app is connected to the GitHub WebHook, otherwise - start a job manually).
 * Navigate to the Radix pipeline step "Run pipeline", when it is running or completed: the pipelines overview page shows a table with a list of sub-pipelines - in this example it is one sub-pipeline "pipeline-example-with-env-vars", running for an environment "dev", and the sub-pipeline status.

@@ -93,7 +93,7 @@ You will need to change the value for the `OAUTH2_PROXY_CLIENT_ID`, `OAUTH2_PROX
 
 The two [secrets](https://www.radix.equinor.com/start/radix-concepts/#secret) that must be configured in the Radix Web Console are `OAUTH2_PROXY_CLIENT_SECRET` and `OAUTH2_PROXY_COOKIE_SECRET`. Note that the **cookie secret** does not need to match the one used locally.
 
-The application should then build and deploy, and it will be availble at `https://&lt;app-name&gt;.app.radix.equinor.com/`. The `auth-proxy` component will be exposed via this endpoint.
+The application should then build and deploy, and it will be availble at `https://<app-name>.app.radix.equinor.com/`. The `auth-proxy` component will be exposed via this endpoint.
 
 ## Further development
 

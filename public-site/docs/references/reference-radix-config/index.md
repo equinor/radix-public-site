@@ -7,7 +7,9 @@ sidebarDepth: 3
 
 In order for Radix to configure your application it needs a configuration file. By default, it is expected to be located in the root of the application repository, has a name `radixconfig.yaml` and be in YAML or JSON format - in either case, it must have the `.yaml` or `.yml` extension (the name and extension should be exactly same as for the file in the GitHub repository). The name of the file and its location in the repository can be different. It can also be changed later on the Radix web-console configuration page for the application. Read more in the [monorepo](/docs/guides/monorepo) guide.
 
-&gt; Radix only reads `radixconfig.yaml` from the branch, set as the `Config Branch` in the application registration form. If the file is changed in other branches, those changes will be ignored. The `Config Branch` must be mapped to an environment in the configuration file.
+:::tip
+Radix only reads `radixconfig.yaml` from the branch, set as the `Config Branch` in the application registration form. If the file is changed in other branches, those changes will be ignored. The `Config Branch` must be mapped to an environment in the configuration file.
+:::
 
 The basic format of the file is this; the configuration keys are explained in the Reference section below:
 
@@ -59,7 +61,8 @@ The `build` section of the spec contains configuration needed during build (CI p
 :::tip
 When the option `useBuildKit` is set to `true`, Radix will use [buildah](https://www.redhat.com/en/topics/containers/what-is-buildah) to build the components. Buildah requires the `Dockerfile` instruction `FROM` to have a repository prefixing the docker image name.
 Otherwise, there will be an error during the docker image build:
-&gt; Error: creating build container: short-name resolution enforced but cannot prompt without a TTY
+
+Error: creating build container: short-name resolution enforced but cannot prompt without a TTY
 
 Example: instead of `FROM alpine` use `FROM docker.io/alpine`, as this `alpine` image is located in the [Docker Hub](https://hub.docker.com/) repository.
 :::
@@ -99,7 +102,9 @@ spec:
 
 The `environments` section of the spec lists the environments for the application.
 
-&gt; The `Config Branch` set in the application registration form **must** be mapped to the name of one of the `environments`.
+:::tip
+The `Config Branch` set in the application registration form **must** be mapped to the name of one of the `environments`.
+:::
 
 ### `name`
 
@@ -171,8 +176,10 @@ Specify `egress` with settings for which egress traffic is allowed from all comp
 
 See [the egress configuration guide](/docs/guides/egress-config/) for usage patterns and tips and tricks.
 
-&gt; Note! If an `environment` has defined the `egress` field, all traffic is blocked by default. If `egress` is not defined, all traffic is allowed.
-&gt; Note! If your application uses a custom OAuth2 implementation, outbound access to Microsoft authentication endpoints must be allowed. See [allow traffic for OAuth2](/docs/guides/egress-config/#allow-traffic-for-oauth2).
+:::tip
+If an `environment` has defined the `egress` field, all traffic is blocked by default. If `egress` is not defined, all traffic is allowed.
+If your application uses a custom OAuth2 implementation, outbound access to Microsoft authentication endpoints must be allowed. See [allow traffic for OAuth2](/docs/guides/egress-config/#allow-traffic-for-oauth2).
+:::
 
 ## `components`
 
@@ -197,7 +204,9 @@ spec:
 
 `src` a folder, relative to the repository root, where the `Dockerfile` for the component is located. The Dockerfile is used by the [Build and deploy](/docs/guides/build-and-deploy/) workflow of the Radix CI-CD pipeline to build a container image for the component. By default `src` is `.` - a root of the GitHub repository.
 
-&gt; When the `image` option is set - `src` option is ignored.
+:::tip
+When the `image` option is set - `src` option is ignored.
+:::
 
 ### `dockerfileName`
 
@@ -231,7 +240,9 @@ spec:
 
 By default, Radix pipeline expects a docker file with a name `Dockefile` in the component `src` folder. If this file name needs to be different, it can be specified in the option `dockerfileName`. The name can also contain a path relative to `src`. See configuration examples above.
 
-&gt; When the `image` option is set - `dockerfileName` option is ignored.
+:::tip
+When the `image` option is set - `dockerfileName` option is ignored.
+:::
 
 ### `image`
 
@@ -250,13 +261,15 @@ spec:
       publicPort: http
 ```
 
-&gt; - When a container image is from the DockerHub repository, it is enough to specify only the image name. Examples:
-&gt;   - `image: redis:latest`
-&gt;   - `image: redis:7.0.5`.
-&gt; - When an image is located in another container registry, the image name need to have the container registry URL. Example:
-&gt;   - `image: gcr.io/distroless/nodejs18-debian11`.
-&gt;   - `image: gcr.io/distroless/nodejs18-debian11:latest`.
-&gt; - When an image is not publicly available, it is required to provide an authentication information. Please read more about [privateImageHubs](./#privateimagehubs) option.
+:::tip
+- When a container image is from the DockerHub repository, it is enough to specify only the image name. Examples:
+  - `image: redis:latest`
+  - `image: redis:7.0.5`.
+  - When an image is located in another container registry, the image name need to have the container registry URL. Example:
+  - `image: gcr.io/distroless/nodejs18-debian11`.
+  - `image: gcr.io/distroless/nodejs18-debian11:latest`.
+- When an image is not publicly available, it is required to provide an authentication information. Please read more about [privateImageHubs](./#privateimagehubs) option.
+:::
 
 ### `ports`
 ```yaml
@@ -286,7 +299,7 @@ spec:
       publicPort: http
 ```
 
-The `publicPort` field of a component, if set to `&lt;PORT_NAME&gt;`, is used to make the component accessible on the internet by generating a public endpoint. Any component without `publicPort: &lt;PORT_NAME&gt;` can only be accessed from another component in the app. If specified, the `&lt;PORT_NAME&gt;` should exist in the `ports` field.
+The `publicPort` field of a component, if set to `<PORT_NAME>`, is used to make the component accessible on the internet by generating a public endpoint. Any component without `publicPort: <PORT_NAME>` can only be accessed from another component in the app. If specified, the `<PORT_NAME>` should exist in the `ports` field.
 
 :::tip
 If no [ports](./#ports) specified for a component, `publicPort` should not be set.
@@ -310,7 +323,9 @@ spec:
 
 The `monitoringConfig` field of a component can be used to override the default port and/or path used for `monitoring`. Both fields are optional and are by default set to use the first available port and the path as `/metrics`.
 
-&gt; Note: If overriding `portName` it will have to match one of the defined ports in the component.
+:::tip
+Note: If overriding `portName` it will have to match one of the defined ports in the component.
+:::
 
 ### `ingressConfiguration`
 
@@ -324,7 +339,9 @@ spec:
 
 The `ingressConfiguration` field of a component will add extra configuration by [annotations](https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/) to the Nginx ingress, useful for a particular scenario.
 
-&gt; Note that the settings affect the connections with the public component, not between a public and a private component.
+:::tip
+Note that the settings affect the connections with the public component, not between a public and a private component.
+:::
 
 - `websocketfriendly` will change connection timeout to 1 hour for the component.
 - `stickysessions` will change load balancing of the ingress to route to a single replica.
@@ -498,7 +515,9 @@ components:
         imageTagName: release-39f1a082
 ```
 
-&gt; See [this](/docs/guides/deploy-only/) guide on how make use of `imageTagName` in a deploy-only scenario.
+:::tip
+See [this](/docs/guides/deploy-only/) guide on how make use of `imageTagName` in a deploy-only scenario.
+:::
 
 ### `volumeMounts`
 
@@ -538,7 +557,9 @@ There are [optional settings](/docs/guides/volume-mounts/optional-settings/) to 
 
 Access to the Azure storage need to be set in `secrets` for the component.
 
-&gt; See [this](/docs/guides/volume-mounts/) guide on how make use of `volumeMounts`.
+:::tip
+See [this](/docs/guides/volume-mounts/) guide on how make use of `volumeMounts`.
+:::
 
 ### `authentication`
 
@@ -558,7 +579,9 @@ spec:
 
 The `authentication` section can be used to configure an authentication option for either an entire component or a specific environment.
 
-&gt; Note that the environment config will override the component config for that specific environment.
+:::tip
+Note that the environment config will override the component config for that specific environment.
+:::
 
 #### `clientCertificate`
 
@@ -570,8 +593,9 @@ clientCertificate:
 
 `clientCertificate` is a subsection of [authentication](#authentication) and may be used to configure the Nginx Client Certificate Authentication.
 
-&gt; Note that the Client Certificate configuration will be omitted if the component does not have a public port.
-
+:::tip
+Note that the Client Certificate configuration will be omitted if the component does not have a public port.
+:::
 - `verification` Specifies type of verification of client certificates. Possible values are:
   - `off`: Don't request client certificates and don't do client certificate verification. (default)
   - `on`: Request a client certificate that must be signed by a certificate that is included in the secret key ca.crt of the secret specified by `nginx.ingress.kubernetes.io/auth-tls-secret: secretName`. Failed certificate verification will result in a status code 400 (Bad Request).
@@ -580,8 +604,9 @@ clientCertificate:
 
 - `passCertificateToUpstream` Indicates if the received certificates should be passed or not to the upstream server in the header ssl-client-cert. `verification` will have to be set to something other than `off` for the certificate to be passed upstream. Possible values are `true` or `false` (default).
 
-&gt; If `verification` has been set to something other than `off` or `passCertificateToUpstream` is set to `true`, a valid certificate will need to be applied in the `Radix Console` for the affected environment(s). This can be found under `Environments\[environmentName]\[componentName]\[componentName]-clientcertca` in the `Radix Console` for your application.
-
+:::tip
+If `verification` has been set to something other than `off` or `passCertificateToUpstream` is set to `true`, a valid certificate will need to be applied in the `Radix Console` for the affected environment(s). This can be found under `Environments\[environmentName]\[componentName]\[componentName]-clientcertca` in the `Radix Console` for your application.
+:::
 #### `oauth2`
 
 Configuration for adding OAuth2 authorization with OIDC to the component.
@@ -647,7 +672,9 @@ oauth2:
   - `refresh` Optional. Default **60m0s**. Refresh interval defines how often the OAuth2 service should redeem the refresh token to get a new access token. The session cookie's _Expires_ is updated after refresh.
   - `sameSite` Optional. Default **lax**. The _SameSite_ attribute for the session cookie.
 
-&gt; See [guide](/docs/guides/authentication/#using-the-radix-oauth2-feature) on how to configure OAuth2 authentication for a component.
+:::tip
+See [guide](/docs/guides/authentication/#using-the-radix-oauth2-feature) on how to configure OAuth2 authentication for a component.
+:::
 
 ### `enabled`
 
@@ -1038,9 +1065,9 @@ spec:
     component: frontend
 ```
 
-As a convenience for nicer URLs, `dnsAppAlias` creates a DNS alias in the form of `&lt;app-name&gt;.app.radix.equinor.com` for the specified environment and component.
+As a convenience for nicer URLs, `dnsAppAlias` creates a DNS alias in the form of `<app-name>.app.radix.equinor.com` for the specified environment and component.
 
-In the example above, the component **frontend** hosted in environment **prod** will be accessible from `myapp.app.radix.equinor.com`, in addition to the default endpoint provided for the frontend component, `frontend-myapp-prod.&lt;clustername&gt;.radix.equinor.com`.
+In the example above, the component **frontend** hosted in environment **prod** will be accessible from `myapp.app.radix.equinor.com`, in addition to the default endpoint provided for the frontend component, `frontend-myapp-prod.<clustername>.radix.equinor.com`.
 
 ## `dnsAlias`
 
@@ -1052,7 +1079,7 @@ spec:
       component: frontend
 ```
 
-`dnsAlias` creates one or several DNS aliases in the form of `&lt;alias&gt;.radix.equinor.com` for the specified environment and component. There are few reserved aliases which cannot be used: 
+`dnsAlias` creates one or several DNS aliases in the form of `<alias>.radix.equinor.com` for the specified environment and component. There are few reserved aliases which cannot be used: 
 
 `www`, `app`, `api`, `console`, `webhook`, `playground`, `dev`, `grafana`, `prometheus`, `canary`, `cost-api`. 
 
@@ -1104,7 +1131,9 @@ A `password` for these must be set via the Radix Web Console (under Configuratio
 
 To get more information on how to connect to a private Azure container registry (ACR), see the following [guide](https://thorsten-hans.com/how-to-use-private-azure-container-registry-with-kubernetes). The chapter `Provisioning an Azure Container Registry` provide information on how to get service principle `username` and `password`. It is also possible to create a Service Principle in Azure AD, and then manually grant it access to your ACR.
 
-&gt; See [guide](/docs/guides/deploy-only/) on how make use of `privateImageHubs` in a deploy-only scenario.
+:::tip
+See [guide](/docs/guides/deploy-only/) on how make use of `privateImageHubs` in a deploy-only scenario.
+:::
 
 ## `node`
 
@@ -1189,7 +1218,7 @@ secretRefs:
 
 - `azureKeyVaults` - list of Azure Key Vault configurations.
 - `name` - Name of the Key Vault resource in an Azure subscription. Radix supports capital letters in the name, but not spaces.
-- `path` - Folder path in running replica container, where secrets, keys and/or certificate contents are available as files (with file names, corresponding to their names in the Azure Key Vault). This field is optional. If set, it overrides default path: `/mnt/azure-key-vault/&lt;azure-key-vault-name&gt;`.
+- `path` - Folder path in running replica container, where secrets, keys and/or certificate contents are available as files (with file names, corresponding to their names in the Azure Key Vault). This field is optional. If set, it overrides default path: `/mnt/azure-key-vault/<azure-key-vault-name>`.
 - `useAzureIdentity` - If set to `true`, Radix will use [Azure Workload Identity](/docs/guides/azure-key-vaults/#authentication-with-azure-workload-identity) to acquire credentials for accessing Azure Key Vault using the service principal configured in [identity.azure](#identity). This field is optional, with default value `false`. If omitted or set to `false`, credentials are acquired using [Azure Service Principal Client ID and Client Secret](/docs/guides/azure-key-vaults/#authentication-with-azure-service-principal-client-id-and-client-secret).
 - `items` - list of secrets, keys and/or certificates with corresponding environment variable names.
   - `name` - name of secret, key or certificate in an Azure Key Vault.
@@ -1203,7 +1232,9 @@ Updated values of secrets, keys or certificates in Azure Key Vault are not autom
 
 Azure Key Vaults configurable the same way in job-components.
 
-&gt; See [guide](/docs/guides/azure-key-vaults/) on how to configure Azure Key Vault in Radix.
+:::tip
+See [guide](/docs/guides/azure-key-vaults/) on how to configure Azure Key Vault in Radix.
+:::
 
 # Example `radixconfig.yaml` file
 

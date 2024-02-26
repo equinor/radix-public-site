@@ -16,7 +16,9 @@ Detailed information about vulnerabilities can be accessed by clicking on the in
 
 ![Scan Step Details](./scan-build-deploy-details.png "Scan Step Details")
 
-&gt; Scanning as part of the `build-deploy` pipeline will be removed in a future release.
+:::tip
+Scanning as part of the `build-deploy` pipeline will be removed in a future release.
+:::
 
 ## Scheduled scan of deployed images
 

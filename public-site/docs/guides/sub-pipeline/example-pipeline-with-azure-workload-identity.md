@@ -18,20 +18,20 @@ You will need to configure a federated credential in your Azure Managed Identity
 :::tip
 The `issuer` URL will change in certain cases when a Radix Cluster is replaced during upgrading or in a disaster recovery scenario.
 
-We will notify as early as possbile when this happens in the **#omnia_radix** slack channel.
+We will notify as early as possible when this happens in the **#omnia_radix** slack channel.
 :::
 
 1. Go to Radix Console and click the `i` icon in the top right corner of the cluster you want to use. Or click [here](https://console.radix.equinor.com/about) for the Platform Cluster.
 2. Copy the `CLUSTER_OIDC_ISSUER_URL` value. This is the credentials issuer in Radix Cluster.
-3. The `Namespace` has the format of `&lt;application name&gt;-app`, for the application `my-radix-app` the namespace will be `my-radix-app-app`.
-4. The `Service Account` has the format of `subpipeline-&lt;environment&gt;-sa`, for the environment `dev` the service accont will be `subpipeline-dev-sa`.
+3. The `Namespace` has the format of `<application name>-app`, for the application `my-radix-app` the namespace will be `my-radix-app-app`.
+4. The `Service Account` has the format of `subpipeline-<environment>-sa`, for the environment `dev` the service account will be `subpipeline-dev-sa`.
 5. On the Managed Identity overview page and take a note of your `Client ID`. This is the `AZURE_CLIENT_ID` you will need to provide in the next step.
 
 For a Radix application named `my-radix-app` in the `dev` environment, the `Service Account` would be `subpipeline-dev-sa` and the `Namespace` would be `my-radix-app-app`:
 
 ![Federated Credentials](./example-pipeline-with-azure-workload-identity-federated-credential.png "Example of federated credentials")
 
-(The Credential name can be anything you want, but it is recommended to use the name `&lt;application&gt;-&lt;env&gt;`)
+(The Credential name can be anything you want, but it is recommended to use the name `<application>-<env>`)
 
 ## Create a Task
 
@@ -68,7 +68,7 @@ spec:
       script: |
         #!/usr/bin/env sh
         TOKEN=`cat $AZURE_FEDERATED_TOKEN_FILE`
-        AZURE_CLIENT_ID="&lt;Client ID&gt;" # Use you App (client) Id here
+        AZURE_CLIENT_ID="<Client ID>" # Use you App (client) Id here
 
         # Log in to Azure with the provided credentials, that matches the configured ferated credential
         az login --service-principal \
@@ -78,7 +78,7 @@ spec:
           --query [0].name
 
         # Use your current logged in user to access protected Azure resources
-        az keyvault secret  show --vault-name &lt;your-key-vault-name&gt; --name &lt;secret-name&gt; --query value
+        az keyvault secret  show --vault-name <your-key-vault-name> --name <secret-name> --query value
         # Never print the secret to output, this is only for demo purposes
 
     # This step will fail since it is not enabled for workload identity

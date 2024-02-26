@@ -168,11 +168,11 @@ echo "--- Print file: /var/cert-volume/priv/cert.pub"
 cat /var/cert-volume/priv/cert.pub|head -n 3
 ```
 
-&gt; First line of the script is [shebang](https://en.wikipedia.org/wiki/Shebang_(Unix)). It is recommended to use for consistent script behaviour. It can refer to a default shell `sh` or to a specific shell, existing in the step's image distribution, like `bash` for Ubuntu:
-&gt;
-&gt; ```bash
-&gt; #!/usr/bin/env bash
-&gt; ```
+> First line of the script is [shebang](https://en.wikipedia.org/wiki/Shebang_(Unix)). It is recommended to use for consistent script behaviour. It can refer to a default shell `sh` or to a specific shell, existing in the step's image distribution, like `bash` for Ubuntu:
+>
+> ```bash
+> #!/usr/bin/env bash
+> ```
 
 * Commit changes in the repository. Look at the details of a started Radix pipeline job (if the Radix app is connected to the GitHub WebHook, otherwise - start a job manually).
 * If build secrets were just added - the build will fail. Navigate to the "Configuration" page of the Radix application, fill in secrets in the section "Build secrets". In the page "Pipeline jobs" create a new job.

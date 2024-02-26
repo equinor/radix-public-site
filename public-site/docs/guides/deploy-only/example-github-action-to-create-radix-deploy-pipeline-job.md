@@ -45,21 +45,21 @@ jobs:
         run: |
           token=$(az account get-access-token --resource 6dae42f8-4368-4678-94ff-3960e28e3630 --query=accessToken -otsv)
           echo "::add-mask::$token"
-          echo "APP_SERVICE_ACCOUNT_TOKEN=$token" &gt;&gt; $GITHUB_ENV
+          echo "APP_SERVICE_ACCOUNT_TOKEN=$token" >> $GITHUB_ENV
       - uses: actions/checkout@v1
       - name: 'Set default image tag'
         run: |
-          echo "IMAGE_TAG=$(echo ${GITHUB_REF##*/}-latest)" &gt;&gt; $GITHUB_ENV
+          echo "IMAGE_TAG=$(echo ${GITHUB_REF##*/}-latest)" >> $GITHUB_ENV
       - name: Override image tag for prod environment
         if: github.ref == 'refs/heads/release'
         run: |
-          echo "IMAGE_TAG=$(echo ${GITHUB_REF##*/}-${GITHUB_SHA::8})" &gt;&gt; $GITHUB_ENV
+          echo "IMAGE_TAG=$(echo ${GITHUB_REF##*/}-${GITHUB_SHA::8})" >> $GITHUB_ENV
       - name: 'Build API component'
         run: |
           docker build -t ghcr.io/your-radix-app-repo-name/component1:${IMAGE_TAG} ./todoapi/
       - name: 'Push the image to GPR'
         run: |
-          echo ${{ "{{ secrets.PRIVATE_TOKEN " }}}} | docker login ghcr.io -u &lt;your-github-user-name&gt; --password-stdin
+          echo ${{ "{{ secrets.PRIVATE_TOKEN " }}}} | docker login ghcr.io -u <your-github-user-name> --password-stdin
           docker push ghcr.io/your-radix-app-repo-name/component1:${IMAGE_TAG}
       - name: Prepare for committing new tag to radix config on main
         uses: actions/checkout@v2-beta
@@ -80,14 +80,14 @@ jobs:
         id: getEnvironment
         uses: equinor/radix-github-actions@v1
         with:
-          args: &gt;
+          args: >
             get config branch-environment
             --from-config
             -b ${GITHUB_REF##*/}
       - name: 'Deploy API on Radix'
         uses: equinor/radix-github-actions@v1
         with:
-          args: &gt;
+          args: >
             create pipeline-job
             deploy
             --context playground 
@@ -101,7 +101,7 @@ Following are last steps for "Build and deploy" pipeline workflow (e.g. when som
       - name: 'Build and deploy API on Radix'
         uses: equinor/radix-github-actions@v1
         with:
-          args: &gt;
+          args: >
             create pipeline-job
             build-deploy
             --context playground  

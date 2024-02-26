@@ -281,13 +281,15 @@ cert1.crt     cert1.key     cert1.pem  secret1
 
 Radix cluster supports Azure Key Vault autorotation. Kubernetes secrets, containing Azure Key Vault secrets, keys and certificates, used in Radix component containers are updated every 2 minutes with new versions of these values if new versions exist.
 
-&gt;Recommendation of using Azure Key Vault secrets in Kubernetes replicas [in Microsoft documentation](https://docs.microsoft.com/en-us/azure/aks/csi-secrets-store-driver#enable-and-disable-autorotation):
-&gt;
-&gt; _When a secret is updated in an external secrets store after initial pod deployment, the Kubernetes Secret and the pod mount will be periodically updated depending on how the application consumes the secret data._
-&gt;
-&gt;- _**Mount the Kubernetes Secret as a volume**: Use the auto rotation and Sync K8s secrets features of Secrets Store CSI Driver. The application will need to watch for changes from the mounted Kubernetes Secret volume. When the Kubernetes Secret is updated by the CSI Driver, the corresponding volume contents are automatically updated._
-&gt;- _**Application reads the data from the container’s filesystem**: Use the rotation feature of Secrets Store CSI Driver. The application will need to watch for the file change from the volume mounted by the CSI driver._
-&gt;- _**Use the Kubernetes Secret for an environment variable**: Restart the pod to get the latest secret as an environment variable. Use a tool such as Reloader to watch for changes on the synced Kubernetes Secret and perform rolling upgrades on pods._
+:::tip
+Recommendation of using Azure Key Vault secrets in Kubernetes replicas [in Microsoft documentation](https://docs.microsoft.com/en-us/azure/aks/csi-secrets-store-driver#enable-and-disable-autorotation):
+
+_When a secret is updated in an external secrets store after initial pod deployment, the Kubernetes Secret and the pod mount will be periodically updated depending on how the application consumes the secret data._
+
+- _**Mount the Kubernetes Secret as a volume**: Use the auto rotation and Sync K8s secrets features of Secrets Store CSI Driver. The application will need to watch for changes from the mounted Kubernetes Secret volume. When the Kubernetes Secret is updated by the CSI Driver, the corresponding volume contents are automatically updated._
+- _**Application reads the data from the container’s filesystem**: Use the rotation feature of Secrets Store CSI Driver. The application will need to watch for the file change from the volume mounted by the CSI driver._
+- _**Use the Kubernetes Secret for an environment variable**: Restart the pod to get the latest secret as an environment variable. Use a tool such as Reloader to watch for changes on the synced Kubernetes Secret and perform rolling upgrades on pods._
+:::
 
 Follow the secret versions in the [popup dialogue](#azure-key-vault-secret-certificate-and-key-versions) and notifications about rotated secret in the events list:
   ![Azure Key Vault secret rotation event](./azure-key-vault-secret-rotation-event.png)

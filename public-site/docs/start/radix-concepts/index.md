@@ -24,7 +24,9 @@ A typical setup is to create two environments, `development` and `production` �
 
 Within an environment, components should address each other over the network by using just their names, instead of IP addresses or FQDNs. For instance, if you have two components, `api` and `worker` (listening on port 3000 for HTTP calls), the API can communicate with `http://worker:3000/some-endpoint`.
 
-&gt; If you ❤️ Kubernetes, you'll be happy to know that Radix environments are actually just [K8s namespaces](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/).
+:::tip
+If you ❤️ Kubernetes, you'll be happy to know that Radix environments are actually just [K8s namespaces](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/).
+:::
 
 Environments are targets for [deployments](index.md#deployment); at any time an environment will contain at most one _active deployment_. When a deployment is made active, all components within the environment are shut down and new ones are started, using the images defined in the deployment.
 
@@ -36,11 +38,15 @@ Environments (not deployments) also define any [secrets](index.md#secret) that a
 
 A component represents a standalone process running within an [environment](index.md#environment) in a Radix application. Components are defined in the [`radixconfig.yaml`](/docs/references/reference-radix-config/#components), but they are only instantiated by [deployments](index.md#deployment), which specify the Docker image to use. A component can have one or more running [replicas](index.md#replica), depending on its configuration.
 
-&gt; Familiar with Docker or containers? A Radix component can be thought of as Docker image, and replicas as containers running that image.
+:::tip
+Familiar with Docker or containers? A Radix component can be thought of as Docker image, and replicas as containers running that image.
+:::
 
 If a component's `publicPort` is defined, endpoints are made available on the public Internet for each environment the component is deployed to. This allows connections via HTTPS into Radix, which are routed internally to an HTTP endpoint on the component. The domain name for the public endpoint is auto-generated from the component, environment, and application names: `https://[component]-[application]-[environment].[cluster-name].radix.equinor.com`.
 
-&gt; The `[cluster-name]` part of the domain refers to the current Radix cluster. This should become a static name in the future.
+:::tip
+The `[cluster-name]` part of the domain refers to the current Radix cluster. This should become a static name in the future.
+:::
 
 Components can further be configured independently on each environment. Besides [environment variables](index.md#environment-variable) and [secrets](index.md#secret), a component can have different resource usage and monitoring settings.
 
@@ -114,8 +120,9 @@ Deployments are created by some types of [job](/docs/start/radix-concepts/#job).
 
 [Environment variables](./#environment-variable) (but not [secrets](/docs/start/radix-concepts/#secret)) are also stored within a deployment.
 
-&gt; See [this](/docs/guides/deploy-only/) guide on how to set up your application to only use the continuous deployment (CD) on Radix
-
+:::tip
+See [this](/docs/guides/deploy-only/) guide on how to set up your application to only use the continuous deployment (CD) on Radix
+:::
 ## Publishing applications
 
 ### Default alias

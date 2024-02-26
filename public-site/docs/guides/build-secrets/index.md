@@ -30,7 +30,9 @@ In the example above - the actual command can be used instead of `echo` command.
 docker build . --build-arg SECRET1=$(echo "some-build-arg"|base64) --progress=plain --no-cache
 ```
 
-&gt; Note! An `ARG` instruction _goes out of scope_ at the end of the build stage where it was defined. To use an `ARG` in multiple stages, each stage must include the `ARG` instruction ([docs](https://docs.docker.com/engine/reference/builder/#arg)):
+:::tip
+Note! An `ARG` instruction _goes out of scope_ at the end of the build stage where it was defined. To use an `ARG` in multiple stages, each stage must include the `ARG` instruction ([docs](https://docs.docker.com/engine/reference/builder/#arg)):
+:::
 
 ```dockerfile
 # Use SDK image (first stage)
@@ -108,7 +110,7 @@ For verification that secrets are used as expected, Docker image can be built an
     ```dockerfile
     FROM docker.io/alpine
     #put some original text to a file /abc/db_server.txt
-    RUN mkdir -p /abc && echo "default-server-name"&gt;/abc/db_server.txt
+    RUN mkdir -p /abc && echo "default-server-name">/abc/db_server.txt
     #verify the file contents a text "default-server-name"
     RUN cat /abc/db_server.txt
     #get secret value to the same file and veryfy it contains a value from the secret, overriding the original text

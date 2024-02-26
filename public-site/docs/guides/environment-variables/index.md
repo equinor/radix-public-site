@@ -18,12 +18,14 @@ The value of an environment variable, changed to a new value in the Radix Consol
 - Click the `Apply` button
 
 After a few seconds the value of the overridden environment variables will be shown in the table.
-&gt; Note that changes made in the Radix Console will not be applied to _currently running_ replicas or jobs, meaning these will have to be restarted for the changes to take effect.
-&gt;
-&gt; To apply changed environment variables:
-&gt;
-&gt; - go to component replicas - restart the component
-&gt; - go to jobs - start new jobs
+:::tip
+Note that changes made in the Radix Console will not be applied to _currently running_ replicas or jobs, meaning these will have to be restarted for the changes to take effect.
+
+ To apply changed environment variables:
+
+ - go to component replicas - restart the component
+ - go to jobs - start new jobs
+:::
 
 In the `Environment variables` table, the column marked `Original` is used to show the original value of all modified variables.
 

@@ -17,8 +17,9 @@ Radix will only report the measured uptime for the Radix platform, and not the o
 
 The [Uptime/Availability report](https://console.radix.equinor.com/about), will be an indication of future reliability of Radix Platform.  
 
-&gt;Note  
-&gt;The monitoring has not been active for 90 days yet, so the current report will show the availability % for the number of days it has been running.
+:::tip  
+The monitoring has not been active for 90 days yet, so the current report will show the availability % for the number of days it has been running.
+:::
 
 - **Planned maintenance:** We will announce, in our main Slack channel - [#omnia_radix](https://equinor.slack.com/archives/C8U7XGGAJ), planned maintenance at least 2 business days in advance. Downtime during planned maintenance does not affect uptime goals
 - **Disaster Recovery:** A Disaster Recovery Procedure is in place and the procedure is executed on a weekly basis. Estimated time to recover a cluster is 15 minutes, estimated time to rebuild and recover a complete cluster is 1 hour. (A backup of all resources in the Kubernetes cluster is done every 1 hour, and is the main ingredient of the recovery recipe)  

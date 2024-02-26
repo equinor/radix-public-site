@@ -14,7 +14,9 @@ where `app-name` is the name of the application, `env-name` is the name of the e
 Requesting a badge for a non-existing application or environment, or for a pipeline type that hasn't been run yet, the badge returns with an **unknown** status.  
 ![build-deploy unknown](./build-deploy-unknown.png "build-deploy unknown")
 
-&gt; GitHub uses an image cache and proxy for images referenced in markdown files. Initial investigation shows that images are cached for up to one minute, which means that a pipeline status badge will not be "realtime" when viewed on GitHub.
+:::tip
+GitHub uses an image cache and proxy for images referenced in markdown files. Initial investigation shows that images are cached for up to one minute, which means that a pipeline status badge will not be "realtime" when viewed on GitHub.
+:::
 
 ## Example
 

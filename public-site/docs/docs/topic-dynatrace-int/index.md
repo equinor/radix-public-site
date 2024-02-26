@@ -39,7 +39,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS PRODUCTION
 COPY --from=DYNATRACE / /
 ENV DT_TENANT eddaec99-38b1-4a9c-9f4c-9148921efa10  # Defaults to PRE-PRODUCTION, can be changed in RadixConfig for Prod
 ENV LD_PRELOAD /opt/dynatrace/oneagent/agent/lib64/liboneagentproc.so
-ENV DT_TAGS DT_MZ=&lt;TeamMzName&gt; # Set yor app name here
+ENV DT_TAGS DT_MZ=<TeamMzName> # Set yor app name here
 
 #Application config
 WORKDIR /app
@@ -83,9 +83,9 @@ spec:
 After changing your `radixconfig.yaml` file and pushing the changes, you must log in to your Application Configuration page in [Radix Console](https://console.radix.equinor.com) and paste in the PaaS-Token in **Private image hubs** under **App Secrets**. 
 Then you must update environment secrets in each component with corresponding Dynatrace configuration: `DT_TENANT`, `DT_TENANTTOKEN` (`tenantToken`) and `DT_CONNECTION_POINT` (`formattedCommunicationEndpoints`).
 ```request
-GET https://spa-equinor.kanari.com/e/&lt;DT_TENANT&gt;/api/v1/deployment/installer/agent/connectioninfo
+GET https://spa-equinor.kanari.com/e/<DT_TENANT>/api/v1/deployment/installer/agent/connectioninfo
 accept: application/json
-Authorization: Api-Token &lt;Paas Token&gt;
+Authorization: Api-Token <Paas Token>
 ```
 
 - Read about Dynatrace Container monitoring integration [here](https://statoilsrm.sharepoint.com/sites/applicationperformancemanagement/SitePages/Container-monitoring---attaching-to-a-management-zone.aspx)

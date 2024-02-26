@@ -12,9 +12,11 @@ Usually deployments are created by a `build-deploy` [job](/docs/start/radix-conc
 
 A deployment can be *promoted* into any environment. In effect this creates a new, duplicate deployment, which becomes the *active deployment* in the target environment. The new deployment uses the same component images (Docker images) as the original deployment, while the original deployment remains unchanged.
 
-&gt; Careful: Deployments do not encapsulate [environment variables](/docs/start/radix-concepts/index.md#environment-variable). When a deployment is promoted from one environment to another, environment variables are read from the **current** settings in `radixconfig.yaml` for the target environment. Variables, overridden in Radix Web Console get current overriding values from the target environment.
-&gt;
-&gt; The same is true for an old deployment promoted to the same environment: the values of environment variables are those defined in `radixconfig.yaml` at the moment of promotion, not what they were when the original deployment was created. Variables, overridden in Radix Web Console get current overriding values.
+:::tip
+Careful: Deployments do not encapsulate [environment variables](/docs/start/radix-concepts/index.md#environment-variable). When a deployment is promoted from one environment to another, environment variables are read from the **current** settings in `radixconfig.yaml` for the target environment. Variables, overridden in Radix Web Console get current overriding values from the target environment.
+
+The same is true for an old deployment promoted to the same environment: the values of environment variables are those defined in `radixconfig.yaml` at the moment of promotion, not what they were when the original deployment was created. Variables, overridden in Radix Web Console get current overriding values.
+:::
 
 To promote a deployment you must create a new Job of type `promote`. There are some ways to do this in the Web Console:
 
