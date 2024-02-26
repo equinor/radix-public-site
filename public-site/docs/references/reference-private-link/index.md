@@ -8,7 +8,7 @@ When running an application in Radix and there is a need to access external Azur
 
 More information can be found in the [Azure documentation](https://learn.microsoft.com/en-us/azure/private-link/private-link-service-overview)
 
-:::warning Omnia Classic governance
+:::tip Omnia Classic governance
 
 Private links have other [policies](https://docs.omnia.equinor.com/governance/security/components/v4/vnet-private-link/#introduction) in Omnia Classic subscriptions, which makes it not possible to establish services like Private Endpoints with Radix. More information in [Omnia Docs](https://docs.omnia.equinor.com/products/classic/PrivateEndpoints-documentation-for-AppTeams/)
 

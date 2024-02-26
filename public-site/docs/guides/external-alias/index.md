@@ -24,7 +24,7 @@ The process for setting up the DNS record depends on the service used to registe
 1. Select `CNAME` in the `Type` drop down.
 1. In the `Data (IP or FQDN)` field, enter the [public name](/docs/docs/topic-domain-names/#public-name), [app default alias](/docs/docs/topic-domain-names/#app-default-alias) or [app alias](/docs/docs/topic-domain-names/#app-alias) for which the new DNS record should point to.  
 
-:::details Example
+:::tip Example
 
 ```text
 Select service:

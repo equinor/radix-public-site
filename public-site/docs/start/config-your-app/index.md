@@ -29,7 +29,7 @@ Radix only reads `radixconfig.yaml` from the branch we set as the `Config Branch
 If you are unfamiliar with YAML, it is fine to write the configuration as JSON instead — just keep the same filename.
 
 Here is a simple example of the file:
-:::details Click me to view the code
+:::tip Click me to view the code
 
 ```yaml
 apiVersion: radix.equinor.com/v1
@@ -54,7 +54,7 @@ spec:
 :::
 
 The same, but as JSON:
-:::details Click me to view the code
+:::tip Click me to view the code
 
 ```json
 {
