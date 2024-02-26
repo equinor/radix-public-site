@@ -64,7 +64,7 @@ Application configuration is backed up every hour using Velero and that backup i
 
 Continuous integration/deployment (CI/CD), using a GitHub Webhook, secured by a deploy key and a webhook secret.
 
-[Doc](/docs/start/radix-concepts/index.mdindex.md#continuous-integration-and-deployment) - [Guide](/docs/guides/build-and-deploy/index.md#build-and-deploy)
+[Doc](/docs/start/radix-concepts/index.md#continuous-integration-and-deployment) - [Guide](/docs/guides/build-and-deploy/index.md#build-and-deploy)
 
 ### Workflows
 
@@ -154,13 +154,13 @@ Cost calculation is based on the total time the replicas(containers) belonging t
 
 Each application can have one specific component in one specific environment set as the default alias.
 
-[Doc](/docs/start/radix-concepts/index.mdindex.md#default-alias) - [Radix config reference](/docs/references/reference-radix-config/index.md#dnsappalias)
+[Doc](/docs/start/radix-concepts/index.md#default-alias) - [Radix config reference](/docs/references/reference-radix-config/index.md#dnsappalias)
 
 ## External alias (byo DNS certificate)
 
 It is possible to have multiple custom DNS aliases (i.e. to choose your own custom domain) for the application.
 
-[Doc](/docs/start/radix-concepts/index.mdindex.md#external-custom-alias) [Guide](/docs/guides/external-alias/) - [Radix config reference](/docs/references/reference-radix-config/index.md#dnsexternalalias)
+[Doc](/docs/start/radix-concepts/index.md#external-custom-alias) [Guide](/docs/guides/external-alias/) - [Radix config reference](/docs/references/reference-radix-config/index.md#dnsexternalalias)
 
 ## Egress rules
 
@@ -177,7 +177,7 @@ Components can be enabled or disabled for all or only certain environments.
 
 ## Environment(s)
 
-[Doc](/docs/start/radix-concepts/index.mdindex.md#environment)
+[Doc](/docs/start/radix-concepts/index.md#environment)
 
 ### Environment variables
 
@@ -227,7 +227,7 @@ Prometheus and Grafana are the main tools provided in Radix for analytics and mo
 
 After "Build components" step (if it does not exist - after "Prepare pipeline" step), the step "Run sub-pipeline" runs optional sub-pipeline. Using the Tekton CI/CD framework.
 
-[Doc](/docs/start/radix-concepts/index.mdindex.md#sub-pipeline) [Guide](/docs/guides/sub-pipeline/) - [Tekton documentation](https://tekton.dev/docs/pipelines/pipelines/)
+[Doc](/docs/start/radix-concepts/index.md#sub-pipeline) [Guide](/docs/guides/sub-pipeline/) - [Tekton documentation](https://tekton.dev/docs/pipelines/pipelines/)
 
 ## Pipeline status badges
 
@@ -251,7 +251,7 @@ Radix uses readiness probe to minimize this downtime as close to zero as possibl
 
 A replica is a running instance of a component. As a normal process, it can write to the standard output (stdout), which is made available for inspection by Radix.
 
-[Doc](/docs/start/radix-concepts/index.mdindex.md#replica)
+[Doc](/docs/start/radix-concepts/index.md#replica)
 
 ## Resource request and limits
 
@@ -269,7 +269,7 @@ Radix aims to support zero downtime application re-deployment by utilising Kuber
 
 Secrets are made available to components as environment variables
 
-[Doc](/docs/start/radix-concepts/index.mdindex.md#secret)
+[Doc](/docs/start/radix-concepts/index.md#secret)
 
 ## Git Submodules
 
