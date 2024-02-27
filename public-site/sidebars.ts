@@ -73,6 +73,7 @@ const sidebars: SidebarsConfig = {
       collapsed: false,
       items: [
           'docs/index',
+          'docs/topic-releases/index',
           'docs/topic-docker/index',
           'docs/topic-runtime-env/index',
           'docs/topic-logs/index',
