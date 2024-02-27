@@ -107,7 +107,7 @@ It is easy to rollback to an earlier version, using the promote pipeline (yes, i
 
 Named values, entered in the Radix console, passed as arguments to a Dockerfile build operation.
 
-[Guide](/docs/guides/build-secrets/) -  [Radix config reference](/docs/references/references/reference-radix-config/index.md#secrets)
+[Guide](/docs/guides/build-secrets/) -  [Radix config reference](/docs/references/reference-radix-config/index.md#secrets)
 
 ## Certificates, SSL certificates
 
