@@ -9,11 +9,11 @@ displayed_sidebar: featuresSidebar
 
 Radix can send alerts about failing pipeline jobs, components or jobs to Slack using Incoming Webhooks.
 
-[Guide](/docs/guides/alerting/index.md#alerting)
+[Guide](/docs/guides/alerting/index.md)
 
 ## Authentication
 
-[Guide](/docs/guides/authentication/index.md#authentication) -
+[Guide](/docs/guides/authentication/index.md) -
 [Radix config reference](/docs/references/reference-radix-config/index.md#authentication)
 
 ### Client certificates
@@ -65,25 +65,25 @@ Application configuration is backed up every hour using Velero and that backup i
 
 Continuous integration/deployment (CI/CD), using a GitHub Webhook, secured by a deploy key and a webhook secret.
 
-[Doc](/docs/start/radix-concepts/index.md#continuous-integration-and-deployment) - [Guide](/docs/guides/build-and-deploy/index.md#build-and-deploy)
+[Doc](/docs/start/radix-concepts/index.md#continuous-integration-and-deployment) - [Guide](/docs/guides/build-and-deploy/index.md)
 
 ### Workflows
 
 It is possible to use, for instance Git Flow or Trunk-based development. Radix gives us a couple of tools to shape our workflow: branch-environment mapping and deployment promotion.
 
-[Doc](/docs/start/workflows/index.md#workflows)
+[Doc](/docs/start/workflows/index.md)
 
 ## Build and deploy pipeline
 
 The most used pipeline is the build and deploy pipeline, which builds the application and deploys the resulting image(s).
 
-[Guide](/docs/guides/build-and-deploy/index.md#build-and-deploy)
+[Guide](/docs/guides/build-and-deploy/index.md)
 
 ## Deploy only pipeline
 
 Another pipeline is the deploy only pipeline, which deployes a already built image.
 
-[Guide](/docs/guides/deploy-only/index.md#deploy-to-radix-using-other-continuous-integration-ci-tool) - [Radix config reference](/docs/guides/deploy-only/index.md#the-radixconfig-yaml-file)
+[Guide](/docs/guides/deploy-only/index.md) - [Radix config reference](/docs/guides/deploy-only/index.md#the-radixconfigyaml-file)
 
 ### AD Service Access Token
 
@@ -101,7 +101,7 @@ Promote a deployment to another or the same environment.
 
 It is easy to rollback to an earlier version, using the promote pipeline (yes, it should have been called demote - or rollback)
 
-[Guide](/docs/guides/deployment-promotion/index.md#promote-an-old-deployment-rollback)
+[Guide](/docs/guides/deployment-promotion/index.md#promote-an-old-deploymentrollback)
 
 ## Build secrets
 
@@ -119,7 +119,7 @@ Only HTTPS traffic is allowed in and out of the application. SSL certificates ar
 
 Managing your own certificate is possible. Adding the certificate information to your application is done using the Radix Console
 
-[Guide](/docs/guides/external-alias/index.md#acquire-an-equinor-certificate)
+[Guide](/docs/guides/external-alias/index.md#acquire-an-equinor-tls-certificate)
 
 ## Component and/or Environment stop/start/restart
 
@@ -167,7 +167,7 @@ It is possible to have multiple custom DNS aliases (i.e. to choose your own cust
 
 An egress configuration can define rules for outbound traffic from a Radix application.
 
-[Guide](/docs/guides/egress-config/index.md#egress) - [Radix config reference](/docs/references/reference-radix-config/index.md#egress)
+[Guide](/docs/guides/egress-config/index.md) - [Radix config reference](/docs/references/reference-radix-config/index.md#egress)
 
 ## Enable/disable components
 
@@ -200,7 +200,7 @@ Number of replicas can be used to horizontally scale.
 
 ## Job batches
 
-[Guide](/docs/guides/jobs/configure-jobs.md#batch-of-jobs)
+[Guide](/docs/guides/jobs/configure-jobs.md)
 
 ## Jobs
 
@@ -222,7 +222,7 @@ It is possible to have multiple Radix applications, using the same GitHub reposi
 
 Prometheus and Grafana are the main tools provided in Radix for analytics and monitoring visualisation.
 
-[Guide](/docs/guides/monitoring/index.md#monitoring-your-app) - [Doc](/docs/docs/topic-monitoring/) - [Radix config reference](/docs/references/reference-radix-config/index.md#monitoring) and [config reference](/docs/references/reference-radix-config/index.md#monitoringconfig)
+[Guide](/docs/guides/monitoring/index.md) - [Doc](/docs/docs/topic-monitoring/) - [Radix config reference](/docs/references/reference-radix-config/index.md#monitoring) and [config reference](/docs/references/reference-radix-config/index.md#monitoringconfig)
 
 ## Sub-pipelines (Tekton)
 
@@ -234,13 +234,13 @@ After "Build components" step (if it does not exist - after "Prepare pipeline" s
 
 A pipeline status badge shows the status of the latest pipeline job of a specific type in a specific environment. Status is one of success, failing, stopped, pending or running.
 
-[Guide](/docs/guides/pipeline-badge/index.md#configure-pipeline-badges)
+[Guide](/docs/guides/pipeline-badge/index.md)
 
 ## Private container image repositories
 
 When using a Deploy only strategy, a private image is often used.
 
-[Guide](/docs/guides/deploy-only/index.md#the-radixconfig-yaml-file) - [Radix config reference](/docs/references/reference-radix-config/index.md#privateimagehubs)
+[Guide](/docs/guides/deploy-only/index.md#the-radixconfigyaml-file) - [Radix config reference](/docs/references/reference-radix-config/index.md#privateimagehubs)
 
 ## Probes, monitoring container liveness
 
@@ -264,7 +264,7 @@ A replica is a running instance of a component. As a normal process, it can writ
 
 Radix aims to support zero downtime application re-deployment by utilising Kubernetes' rolling update and readiness probe features.
 
-[Doc](/docs/docs/topic-rollingupdate/index.md#rolling-updates)
+[Doc](/docs/docs/topic-rollingupdate/index.md)
 
 ## Runtime secrets
 

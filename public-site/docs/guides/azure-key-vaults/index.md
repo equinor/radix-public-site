@@ -17,7 +17,7 @@ Azure Key Vault secrets, keys and certificates can be used in Radix, configured 
   ![Add Azure Key Vault secrets](./add-key-vault-access-policy-secrets.png)
   ![Add Azure Key Vault secrets](./add-second-key-vault-access-policy-secrets.png)
 
-- Define properties of the Azure Key Vaults in the [`radixconfig.yaml`](/docs/references/reference-radix-config/#secretRefs) property `secretRefs.azureKeyVaults`
+- Define properties of the Azure Key Vaults in the [`radixconfig.yaml`](/docs/references/reference-radix-config/index.md#secretrefs) property `secretRefs.azureKeyVaults`
 - `secretRefs.azureKeyVaults` properties `name` and `path` should be unique within one Radix application component and its environment (different environments can have the same `name` and `path`).
   - Examples of correct configurations in component and `environmentConfig` (if exists) sections
 

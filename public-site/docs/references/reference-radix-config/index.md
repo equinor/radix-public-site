@@ -812,7 +812,7 @@ spec:
         path: /my-metrics
 ```
 
-See [monitoringConfig](#monitoringConfig) for a component for more information.
+See [monitoringConfig](#monitoringconfig) for a component for more information.
 
 ### `payload`
 

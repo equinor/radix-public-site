@@ -86,6 +86,8 @@ The data type of the `resources` is of type `ResourceRequirements` an requires t
 
 The etl job in the example above has `resource` configured.
 
+[More details](/docs/guides/resource-request/index.md) about `resources`.
+
 ### node
 
 The node requirerement for a job can be sent in the request body to the job manager as a JSON document with an element named `node`.

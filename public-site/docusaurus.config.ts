@@ -18,7 +18,7 @@ const config: Config = {
   organizationName: 'Equinor', // Usually your GitHub org/user name.
   projectName: 'radix-public-site', // Usually your repo name.
 
-  onBrokenLinks: 'warn',//originally: throw
+  onBrokenLinks: 'throw', //'warn'
   onBrokenMarkdownLinks: 'warn',
 
   // Even if you don't use internationalization, you can use this field to set

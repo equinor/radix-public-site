@@ -60,7 +60,7 @@ For `radix-api` normal load gives between 100-200ms of CPU time, peaking at arou
 
 This will allocate `200ms` CPU to each container.  
 
-Because of a limit ([1](https://www.youtube.com/watch?v=eBChCFD9hfs), [2](https://engineering.indeedblog.com/blog/2019/12/unthrottled-fixing-cpu-limits-in-the-cloud/)) in kubernetes and cgroups on how throttling is done, it is recommended to keep `resources.requests.limits` empty or set it to a multitude of `1000ms`. The configuration for `radix-api` could then be:
+Because of a limit ([1](https://www.youtube.com/watch?v=eBChCFD9hfs), [2](https://engineering.indeedblog.com/blog/2019/12/unthrottled-fixing-cpu-limits-in-the-cloud/)) in kubernetes and cgroups on how throttling is done, it is recommended to keep `resources.limits.cpu` empty or set it to a multitude of `1000ms`. The configuration for `radix-api` could then be:
 
 ```yaml
   resources:
@@ -78,17 +78,35 @@ Go back to the `Default dashboard` and select graph `Container memory usage`.
 
 Memory is a non-compressible resource, meaning that if a container requires more memory to run than what is available it will be killed. To guarantee that a container has enough memory available, `resources.requests.memory` is recommended to be set to the same value as `resources.limits.memory`.
 
-The value should be set a little higher than the highest memory consumption observed over period of time with different loads, not accounting for memory leaks. Since the highest memory consumption observed for `radix-api` was around 300MB, we set the resource requirements a little higher.
+The value should be set a little higher than the highest memory consumption observed over period of time with different loads, not accounting for memory leaks. Since the highest memory consumption observed for `radix-api` was around 300M, we set the resource requirements a little higher.
 
 ```yaml
   resources:
     requests:
-      memory: 400MB
+      memory: 400M
+```
+`resources.limits.memory` is set automatically to the same value as in the `resources.requests.memory`. This ensures that `400M` is always allocated to each container in the `radix-api`.
+
+```yaml
+  resources:
+    requests:
+      memory: 400M
     limits:
-      memory: 400MB
+      memory: 400M
 ```
 
-This ensures that `400MB` is always allocated to each container in the `radix-api`.
+### Default resources
+
+When `resources` values are not explicitly defined, they are set to following values
+```yaml
+  resources:
+    limits:
+      memory: 500M
+    requests:
+      cpu: 100m
+      memory: 500M
+```
+These default values can be changed on the cluster in the future if needed.
 
 More information can be found on Google - e.g. ["Kubernetes best practices: Resource requests and limits"](https://cloud.google.com/blog/products/gcp/kubernetes-best-practices-resource-requests-and-limits)
 
