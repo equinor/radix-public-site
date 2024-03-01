@@ -4,7 +4,7 @@ title: Egress
 
 # Egress
 
-The [egress configuration](/docs/references/reference-radix-config/#egress) defines rules for outbound traffic from a Radix application.
+The [egress configuration](/docs/radix-config/index.md#egress) defines rules for outbound traffic from a Radix application.
 
 ## Built-in rules
 
@@ -31,7 +31,7 @@ However, if an application uses a custom OAuth2 implementation, it is necessary 
 
 ### Use Private Link
 
-In order to create a stable egress rule which allows traffic to an Azure SaaS service, it is best practice to make a [Private Link from the Radix cluster](/docs/references/reference-private-link/index.md) to the SaaS service. A Private Link provides a stable IPv4 address from the RFC1918 range which will not change during the lifetime of the Private Link. This address can be safely referred to in egress rules in the radixconfig file.
+In order to create a stable egress rule which allows traffic to an Azure SaaS service, it is best practice to make a [Private Link from the Radix cluster](/docs/docs/topic-private-link/index.md) to the SaaS service. A Private Link provides a stable IPv4 address from the RFC1918 range which will not change during the lifetime of the Private Link. This address can be safely referred to in egress rules in the radixconfig file.
 
 ### Allow traffic to public IP
 

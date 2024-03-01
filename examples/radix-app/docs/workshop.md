@@ -45,7 +45,7 @@ Important to know:
 
 ### 2.1.4. Explore radixconfig.yaml
 
-1. Reading about radixconfig.yaml in [docs](https://www.radix.equinor.com/docs/reference-radix-config)
+1. Reading about radixconfig.yaml in [docs](https://www.radix.equinor.com/docs/radix-config)
 1. Exploring the config file for the example app [./radixconfig.yaml](../radixconfig.yaml)
 
 ### 2.1.5. Creating the application on Radix
@@ -167,5 +167,5 @@ It makes sense to examing existing issues and perhaps discuss on Slack prior to 
 
 ## 4 Next steps
 
-- The application is currently hosted under a *.radix.equinor.com domain. This is OK for now, but it has been identified that for the future we'll want our own *.equinor.com domain as is possible in [Radix](https://www.radix.equinor.com/docs/reference-radix-config/#dnsexternalalias).
+- The application is currently hosted under a *.radix.equinor.com domain. This is OK for now, but it has been identified that for the future we'll want our own *.equinor.com domain as is possible in [Radix](https://www.radix.equinor.com/docs/radix-config/index.md#dnsexternalalias).
 - Move your own apps into Radix

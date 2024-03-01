@@ -23,5 +23,6 @@ displayed_sidebar: docsSidebar
 
 ## Reference
 
-- [The `radixconfig.yaml` file](/docs/references/reference-radix-config/)
-- [Private Link](/docs/references/reference-private-link/index.md)
+- [The `radixconfig.yaml` file](/docs/radix-config/index.md)
+- [Code editor integration](/docs/docs/topic-code-editor-integration/index.md)
+- [Private Link](/docs/docs/topic-private-link/index.md)

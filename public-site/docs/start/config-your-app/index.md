@@ -7,7 +7,7 @@ title: Configuring your application
 In this guide we'll set up an application in Radix. Here's what we need:
 
 - A GitHub repository for our code (only GitHub is supported at the moment)
-- A 📖 [`radixconfig.yaml`](/docs/references/reference-radix-config/) file that defines the running environments. By default, it is in the root directory of our repository.
+- A 📖 [`radixconfig.yaml`](/docs/radix-config/index.md) file that defines the running environments. By default, it is in the root directory of our repository.
 - At least one `Dockerfile` that builds and serves our application. We can have several of these files: one per component, in separate directories (e.g. a "front-end" component and a "back-end" component).
 
 We will go over these points below.
@@ -20,7 +20,7 @@ The way we use branches and tags in our repository depends on what type of workf
 
 ## The `radixconfig.yaml` file
 
-A 📖 [`radixconfig.yaml`](/docs/references/reference-radix-config/) file that defines the running environments, which specifies how our application is built and deployed. By default, it is in the root directory of our repository.
+A 📖 [`radixconfig.yaml`](/docs/radix-config/index.md) file that defines the running environments, which specifies how our application is built and deployed. By default, it is in the root directory of our repository.
 
 :::tip
 Radix only reads `radixconfig.yaml` from the branch we set as the `Config Branch` in the application registration/configuration form. If the file is changed in other branches, those changes will be ignored. The `Config Branch` must be mapped to an environment in `radixconfig.yaml`
@@ -90,7 +90,7 @@ A breakdown of the configuration above:
 - Radix will look for the `Dockerfile` for the `frontend` component in the root directory of the repository
 - Once `frontend` is built, it will be exposed on the internet on port 8080 on each environment it is deployed to (in `dev`, for instance, it will have a domain name like `frontend-myapp-dev.playground.radix.equinor.com` (on the Playground cluster) or `frontend-myapp-dev.radix.equinor.com` (on the Platform cluster))
 
-The full syntax of `radixconfig.yaml` is explained in 📖 [`radixconfig.yaml`](/docs/references/reference-radix-config/) reference.
+The full syntax of `radixconfig.yaml` is explained in 📖 [`radixconfig.yaml`](/docs/radix-config/index.md) reference.
 
 ## A `Dockerfile` per component
 
@@ -111,7 +111,7 @@ If we organize our repository with this structure, for instance:
 └─ radixconfig.yaml
 ```
 
-In [`radixconfig.yaml`](/docs/references/reference-radix-config/#components) we can define the following components:
+In [`radixconfig.yaml`](/docs/radix-config/index.md#components) we can define the following components:
 
 ```yaml
 components:

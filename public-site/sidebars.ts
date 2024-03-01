@@ -81,10 +81,12 @@ const sidebars: SidebarsConfig = {
           'docs/topic-vulnerabilities/index',
           'docs/topic-monitoring/index',
           'docs/topic-domain-names/index',
+          'docs/topic-private-link/index',
           'docs/topic-cost/index',
           'docs/topic-rollingupdate/index',
           'docs/topic-uptime/index',
           'docs/topic-radix-cli/index',
+          'docs/topic-code-editor-integration/index',
           'docs/topic-dynatrace-int/index',
       ],
     }
@@ -92,18 +94,8 @@ const sidebars: SidebarsConfig = {
   featuresSidebar: [
       'features/index',
   ],
-  referencesSidebar: [
-      {
-          type: 'category',
-          label: 'References',
-          collapsed: false,
-          items: [
-              'references/index',
-              'references/reference-radix-config/index',
-              'references/reference-code-editor-integration/index',
-              'references/reference-private-link/index',
-          ],
-      }
+  radixConfigSidebar: [
+      '/docs/radix-config/index'
   ],
   communitySidebar: [
      'community/index'

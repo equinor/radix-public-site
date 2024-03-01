@@ -7,7 +7,7 @@ next: notifications
 ## Job Manager and job API
 
 The Job Manager, aka "job-scheduler", is a web API service, that you use to create, delete and monitor the state of jobs.
-Radix creates one job-scheduler per job defined in [`radixconfig.yaml`](/docs/references/reference-radix-config/#jobs). A job-scheduler will listen to the port defined by `schedulerPort` and host name equal to the `name` of the job. The job-scheduler API can only be accessed by components running in the same environment, and it is not exposed to the Internet. No authentication is required.
+Radix creates one job-scheduler per job defined in [`radixconfig.yaml`](/docs/radix-config/index.md#jobs). A job-scheduler will listen to the port defined by `schedulerPort` and host name equal to the `name` of the job. The job-scheduler API can only be accessed by components running in the same environment, and it is not exposed to the Internet. No authentication is required.
 
 The Job Manager exposes the following methods for managing jobs:
 - `GET /api/v1/jobs` Get states (with names and statuses) for all jobs
@@ -52,7 +52,7 @@ The Job Manager exposes the following methods for managing jobs:
 
  `payload`, `imageTagName`, `timeLimitSeconds`, `backoffLimit`, `resources` and `node` are all optional fields and any of them can be omitted in the request.
 
-`imageTagName` field allows to alter specific job image tag. In order to use it, the `{imageTagName}` need to be set as described in the [`radixconfig.yaml`](/docs/references/reference-radix-config/#imagetagname)
+`imageTagName` field allows to alter specific job image tag. In order to use it, the `{imageTagName}` need to be set as described in the [`radixconfig.yaml`](/docs/radix-config/index.md#imagetagname)
 
 ## Create a batch of jobs
 

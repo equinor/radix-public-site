@@ -4,7 +4,7 @@ title: Code Editor Integrations
 
 # Overview
 
-The [OpenAPI 3.0 Schema](https://swagger.io/docs/specification/data-models/) for [radixconfig.yaml](../reference-radix-config/) is available at [https://raw.githubusercontent.com/equinor/radix-operator/release/json-schema/radixapplication.json](https://raw.githubusercontent.com/equinor/radix-operator/release/json-schema/radixapplication.json). This schema is an [extended subset](https://swagger.io/docs/specification/data-models/keywords/) of the [JSON Schema Specification](https://json-schema.org/). 
+The [OpenAPI 3.0 Schema](https://swagger.io/docs/specification/data-models/) for [radixconfig.yaml](../radix-config/) is available at [https://raw.githubusercontent.com/equinor/radix-operator/release/json-schema/radixapplication.json](https://raw.githubusercontent.com/equinor/radix-operator/release/json-schema/radixapplication.json). This schema is an [extended subset](https://swagger.io/docs/specification/data-models/keywords/) of the [JSON Schema Specification](https://json-schema.org/). 
 
 The schema can be used in code editors to provide auto completion and schema validation when editing a `radixconfig.yaml` file.
 

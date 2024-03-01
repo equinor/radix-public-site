@@ -1,5 +1,6 @@
 ---
 title: The radixconfig.yaml file
+displayed_sidebar: radixConfigSidebar
 sidebarDepth: 3
 ---
 
@@ -21,7 +22,7 @@ spec: ...
 ```
 
 :::tip
-You can enable auto completion and validation for `radixconfig.yaml` in your code editor. Read more about it [here](../reference-code-editor-integration/).
+You can enable auto-completion and validation for `radixconfig.yaml` in your code editor. Read more about it [here](/docs/docs/topic-code-editor-integration/index.md).
 :::
 
 # Reference

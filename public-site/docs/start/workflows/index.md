@@ -15,7 +15,7 @@ A common strategy is to use [promotion](/docs/guides/deployment-promotion/) to c
 
 It is fine to combine these features to produce the workflow that we want. For instance, we can automatically build and deploy `master` branch to the `dev` environment, and the `release` branch to `preprod` environment. We can then manually promote the deployment in `preprod` environment to the `prod` environment.
 
-📖 [`radixconfig.yaml`](/docs/references/reference-radix-config/) reference.
+📖 [`radixconfig.yaml`](/docs/radix-config/index.md) reference.
 
 ![Dev and QA workflow](./workflow-dev-qa.png)
 

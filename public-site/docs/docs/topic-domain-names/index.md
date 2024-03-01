@@ -55,7 +55,7 @@ Examples:
 The _app default alias_ is a convenience domain name to make it easier to publish and use your application. It points to a specific component and environment in your application, and allows a reasonable URL to be distributed to end-users without the hassle of setting up [external aliases](#external-alias).
 
 - One per application
-- [Defined in `radixconfig.yaml`](/docs/references/reference-radix-config/#dnsappalias)
+- [Defined in `radixconfig.yaml`](/docs/radix-config/index.md#dnsappalias)
 
 Examples:
 
@@ -70,7 +70,7 @@ Examples:
 `dnsAlias` creates one or several DNS aliases in the form of `<alias>.radix.equinor.com` for the specified environment and component. There are few reserved aliases which cannot be used:
 
 - Difference from App default alias - it does not have `app.` domain before `radix.equinor.com` and there can be multiple aliases per application, per environment, per component
-- [Defined in `radixconfig.yaml`](/docs/references/reference-radix-config/#dnsalias)
+- [Defined in `radixconfig.yaml`](/docs/radix-config/index.md#dnsalias)
 
 Examples:
 
@@ -86,7 +86,7 @@ Examples:
 For ultimate customisation of your domain names, you can "bring your own" domain into Radix with an _external alias_. There is a [detailed guide](/docs/guides/external-alias/) on how to configure this.
 
 - Multiple allowed per component
-- [Defined in `radixconfig.yaml`](/docs/references/reference-radix-config/#dnsexternalalias)
+- [Defined in `radixconfig.yaml`](/docs/radix-config/index.md#dnsexternalalias)
 - Requires external DNS alias management
 - Requires custom TLS certificate
 

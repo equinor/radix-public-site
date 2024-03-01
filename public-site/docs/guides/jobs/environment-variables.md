@@ -6,7 +6,7 @@ next: jobs-in-web-console
 
 # Environment variables in jobs
 
-In addition to [variables defined in `radixconfig.yaml`](/docs/references/reference-radix-config/#variables), Radix will automatically set the following variables
+In addition to [variables defined in `radixconfig.yaml`](/docs/radix-config/index.md#variables), Radix will automatically set the following variables
 
 - `RADIX_JOB_NAME`: The instance name of the job (e.g. "batch-compute-20230220101417-idwsxncs-rkwaibwe")
 - `RADIX_APP`: The name of the Radix application

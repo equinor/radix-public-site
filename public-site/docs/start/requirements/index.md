@@ -22,4 +22,4 @@ A GitHub repository for our code is required (only GitHub is supported at the mo
 
 A `radixconfig.yaml` file that defines the running environments. By default, it is in the root directory of our repository and in the branch we set as our `Config Branch` when we register our application in Radix. Usually we set it to *main* or *master*, but you can use any branch in your repository.
 
-See the 📖 [`radixconfig.yaml`](/docs/references/reference-radix-config/)  documentation.
+See the 📖 [`radixconfig.yaml`](/docs/radix-config/index.md)  documentation.

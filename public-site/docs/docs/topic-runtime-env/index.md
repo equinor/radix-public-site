@@ -12,7 +12,7 @@ Running an application in Radix is not much different to running Docker containe
 
 Only HTTPS traffic is allowed into the application. There is no protocol restriction on outbound traffic. SSL certificates are automatically managed by Radix, except for custom [external aliases](/docs/guides/external-alias/).
 
-Internally, [components](/docs/start/radix-concepts/index.md#component) can communicate with each other using other protocols and [ports](/docs/references/reference-radix-config/#components), provided they use TCP.
+Internally, [components](/docs/start/radix-concepts/index.md#component) can communicate with each other using other protocols and [ports](/docs/radix-config/index.md#components), provided they use TCP.
 
 ### Internal DNS
 
@@ -49,7 +49,7 @@ This is a common characteristic of high-availability cloud-based environments. Y
 
 ## Environment variables
 
-In addition to [variables defined in `radixconfig.yaml`](/docs/references/reference-radix-config/#variables), Radix will automatically set the following variables
+In addition to [variables defined in `radixconfig.yaml`](/docs/radix-config/index.md#variables), Radix will automatically set the following variables
 
 - `RADIX_ACTIVE_CLUSTER_EGRESS_IPS`: IP address range of the current cluster
 - `RADIX_APP`: The name of the Radix application

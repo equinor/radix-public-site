@@ -135,7 +135,7 @@ spec:
 └── radixconfig.yaml
 ```
 
-* In the file `radixconfig.yaml` add a field `build` with sub-field `secrets`, as described in the `radixconfig.yaml` [reference](/docs/references/reference-radix-config/index.md#build). Values of these secrets will be passed to the sub-pipeline task with build secret reference `$(radix.build-secrets)`:
+* In the file `radixconfig.yaml` add a field `build` with sub-field `secrets`, as described in the `radixconfig.yaml` [reference](/docs/radix-config/index.md#build). Values of these secrets will be passed to the sub-pipeline task with build secret reference `$(radix.build-secrets)`:
 
 ```yaml
 spec:

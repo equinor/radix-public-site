@@ -14,33 +14,33 @@ Radix can send alerts about failing pipeline jobs, components or jobs to Slack u
 ## Authentication
 
 [Guide](/docs/guides/authentication/index.md) -
-[Radix config reference](/docs/references/reference-radix-config/index.md#authentication)
+[Radix config reference](/docs/radix-config/index.md#authentication)
 
 ### Client certificates
 
 ClientCertificates, which can be configured for a component or a specific environment.
 
-[Radix config reference](/docs/references/reference-radix-config/index.md#clientcertificate)
+[Radix config reference](/docs/radix-config/index.md#clientcertificate)
 
 ### OAuth service
 
 Radix provides built-in configuration for adding OAuth2 authorization with OIDC to the component. Common `oauth2` settings can be configured at component level and/or in the component's `environmentConfig` section.
 
 [Guide](/docs/guides/authentication/index.md#using-the-radix-oauth2-feature) -
-[Radix config reference](/docs/references/reference-radix-config/index.md#oauth2)
+[Radix config reference](/docs/radix-config/index.md#oauth2)
 
 ## Azure Blob Storage CSI driver
 
 This driver allows Kubernetes to access Azure Storage - Blobs.
 
-[Guide](/docs/guides/volume-mounts) - [Radix config reference](/docs/references/reference-radix-config/index.md#volumemounts)
+[Guide](/docs/guides/volume-mounts) - [Radix config reference](/docs/radix-config/index.md#volumemounts)
 
 ## Azure Key Vault integration
 
 Azure Key Vault secrets, keys and certificates can be used in Radix as secrets. Once configured, they are available in replicas of Radix application as environment variables and files.
 
 [Guide](/docs/guides/azure-key-vaults/) -
-[Radix config reference](/docs/references/reference-radix-config/index.md#azurekeyvault)
+[Radix config reference](/docs/radix-config/index.md#azurekeyvault)
 
 Key Vault secret, keys and certificates are listed as variables in web console, including version information.
 
@@ -55,7 +55,7 @@ Autorotation of secrets
 Some workloads (component or job replicas) running in Radix require credentials (JWT access tokens) for an Azure AD app registration or user-assigned managed identity to access Azure AD protected resources, like MS Graph, Key Vaults, Storage Accounts or Azure SQL Databases. Credentials for such workloads can be acquired using the OAuth 2.0 client credentials flow. The client credentials flow permits a workload to use its own credentials to access protected resources instead of impersonating a user. Credentials can be acquired by using either a shared secret, a certificate or with federated credentials.
 
 [Guide](/docs/guides/workload-identity/) -
-[Radix config reference](/docs/references/reference-radix-config/index.md#identity)
+[Radix config reference](/docs/radix-config/index.md#identity)
 
 ## Backup
 
@@ -107,13 +107,13 @@ It is easy to rollback to an earlier version, using the promote pipeline (yes, i
 
 Named values, entered in the Radix console, passed as arguments to a Dockerfile build operation.
 
-[Guide](/docs/guides/build-secrets/) -  [Radix config reference](/docs/references/reference-radix-config/index.md#secrets)
+[Guide](/docs/guides/build-secrets/) -  [Radix config reference](/docs/radix-config/index.md#secrets)
 
 ## Certificates, SSL certificates
 
 Only HTTPS traffic is allowed in and out of the application. SSL certificates are automatically managed by Radix, except for custom external aliases.
 
-[Doc](/docs/docs/topic-runtime-env/index.md#traffic) - [Radix config reference](/docs/references/reference-radix-config/index.md#clientcertificate)
+[Doc](/docs/docs/topic-runtime-env/index.md#traffic) - [Radix config reference](/docs/radix-config/index.md#clientcertificate)
 
 ### Custom certificate
 
@@ -143,7 +143,7 @@ Container logs can be accessed using Radix Web Console or Radix CLI.
 
 Enable auto-completion and schema validation for `radixconfig.yaml` in VS Code and Jetbrains IDEs.
 
-[Guide](/docs/references/reference-code-editor-integration)
+[Guide](/docs/docs/topic-code-editor-integration)
 
 ## Cost calculation
 
@@ -155,26 +155,26 @@ Cost calculation is based on the total time the replicas(containers) belonging t
 
 Each application can have one specific component in one specific environment set as the default alias.
 
-[Doc](/docs/start/radix-concepts/index.md#default-alias) - [Radix config reference](/docs/references/reference-radix-config/index.md#dnsappalias)
+[Doc](/docs/start/radix-concepts/index.md#default-alias) - [Radix config reference](/docs/radix-config/index.md#dnsappalias)
 
 ## External alias (byo DNS certificate)
 
 It is possible to have multiple custom DNS aliases (i.e. to choose your own custom domain) for the application.
 
-[Doc](/docs/start/radix-concepts/index.md#external-custom-alias) [Guide](/docs/guides/external-alias/) - [Radix config reference](/docs/references/reference-radix-config/index.md#dnsexternalalias)
+[Doc](/docs/start/radix-concepts/index.md#external-custom-alias) [Guide](/docs/guides/external-alias/) - [Radix config reference](/docs/radix-config/index.md#dnsexternalalias)
 
 ## Egress rules
 
 An egress configuration can define rules for outbound traffic from a Radix application.
 
-[Guide](/docs/guides/egress-config/index.md) - [Radix config reference](/docs/references/reference-radix-config/index.md#egress)
+[Guide](/docs/guides/egress-config/index.md) - [Radix config reference](/docs/radix-config/index.md#egress)
 
 ## Enable/disable components
 
 Components can be enabled or disabled for all or only certain environments.
 
 [Guide](/docs/guides/enable-and-disable-components/) -
-[Radix config reference](/docs/references/reference-radix-config/index.md#enabled)
+[Radix config reference](/docs/radix-config/index.md#enabled)
 
 ## Environment(s)
 
@@ -192,11 +192,11 @@ Components can be enabled or disabled for all or only certain environments.
 
 Number of replicas can be used to horizontally scale.
 
-[Radix config](/docs/references/reference-radix-config/index.md#horizontalscaling)
+[Radix config](/docs/radix-config/index.md#horizontalscaling)
 
 ## Job manager
 
-[Guide](/docs/guides/jobs/job-manager-and-job-api.md) - [Radix config reference](/docs/references/reference-radix-config/index.md#jobs)
+[Guide](/docs/guides/jobs/job-manager-and-job-api.md) - [Radix config reference](/docs/radix-config/index.md#jobs)
 
 ## Job batches
 
@@ -222,7 +222,7 @@ It is possible to have multiple Radix applications, using the same GitHub reposi
 
 Prometheus and Grafana are the main tools provided in Radix for analytics and monitoring visualisation.
 
-[Guide](/docs/guides/monitoring/index.md) - [Doc](/docs/docs/topic-monitoring/) - [Radix config reference](/docs/references/reference-radix-config/index.md#monitoring) and [config reference](/docs/references/reference-radix-config/index.md#monitoringconfig)
+[Guide](/docs/guides/monitoring/index.md) - [Doc](/docs/docs/topic-monitoring/) - [Radix config reference](/docs/radix-config/index.md#monitoring) and [config reference](/docs/radix-config/index.md#monitoringconfig)
 
 ## Sub-pipelines (Tekton)
 
@@ -240,7 +240,7 @@ A pipeline status badge shows the status of the latest pipeline job of a specifi
 
 When using a Deploy only strategy, a private image is often used.
 
-[Guide](/docs/guides/deploy-only/index.md#the-radixconfigyaml-file) - [Radix config reference](/docs/references/reference-radix-config/index.md#privateimagehubs)
+[Guide](/docs/guides/deploy-only/index.md#the-radixconfigyaml-file) - [Radix config reference](/docs/radix-config/index.md#privateimagehubs)
 
 ## Probes, monitoring container liveness
 

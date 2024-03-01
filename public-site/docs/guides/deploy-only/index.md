@@ -35,9 +35,9 @@ The documentation will use the second option.
 Radix only reads `radixconfig.yaml` from the branch we set as the `Config Branch` in the application registration form. If the file is changed in other branches, those changes will be ignored. The `Config Branch` must be mapped to an environment in `radixconfig.yaml`
 :::
 
-The major difference between a `deploy-only` and a regular Radix application, is that the [`image`](/docs/references/reference-radix-config/#image) property in `radixconfig.yaml` is set for all components and jobs. 
+The major difference between a `deploy-only` and a regular Radix application, is that the [`image`](/docs/radix-config/index.md#image) property in `radixconfig.yaml` is set for all components and jobs. 
 
-When `image` is suffixed with [`{imageTagName}`](/docs/references/reference-radix-config/#imagetagname), the Radix `deploy` pipeline will replace `{imageTagName}` with the environment specific `imageTagName` from `radixconfig.yaml`, or from the value specified with the `--image-tag-name` flag in [`Radix CLI`](/docs/docs/topic-radix-cli/#commands). If `imageTagName` is not specified for an environment, it must be set with the `--image-tag-name` flag. If both are specified, `--image-tag-name` takes precedence over `imageTagName`. 
+When `image` is suffixed with [`{imageTagName}`](/docs/radix-config/index.md#imagetagname), the Radix `deploy` pipeline will replace `{imageTagName}` with the environment specific `imageTagName` from `radixconfig.yaml`, or from the value specified with the `--image-tag-name` flag in [`Radix CLI`](/docs/docs/topic-radix-cli/#commands). If `imageTagName` is not specified for an environment, it must be set with the `--image-tag-name` flag. If both are specified, `--image-tag-name` takes precedence over `imageTagName`. 
 
 ```yaml
 apiVersion: radix.equinor.com/v1
@@ -84,11 +84,11 @@ A dynamic tag in this context means that there is a new tag produced for every b
 
 A static tag will not permit radix to update an existing deployment by relying on changes to `imageTagName` to pull a new image. To force radix to pull a new image from the image-hub, the component must be restarted using the component page on the web-console or restart call to the [API](https://api.radix.equinor.com/swaggerui/#/component/restartComponent) or [CLI](https://github.com/equinor/radix-cli). There is currently no log trace of components starting and stopping. If this is necessary, one may call `deploy-only` once on the application before `restart` on each component using static tags.
 
-The second part of the `radixconfig.yaml` which distinguishes itself from a regular radix application is the [`privateImageHubs` property](/docs/references/reference-radix-config/#privateimagehubs). In short, it will allow for the image produced outside of Radix to be pulled down to the Radix cluster.
+The second part of the `radixconfig.yaml` which distinguishes itself from a regular radix application is the [`privateImageHubs` property](/docs/radix-config/index.md#privateimagehubs). In short, it will allow for the image produced outside of Radix to be pulled down to the Radix cluster.
 
 Also what can be said about the configuration above is the branch to environment mapping. Since build of components happens outside of Radix the build -&gt; from configuration seems unnecessary. You could, especially if the repository for the Radix application is a mere configuration repository, leave environments unmapped. We will explain later why we, in this example, have opted to have a branch-environment mapping.
 
-The full syntax of `radixconfig.yaml` is explained in [Radix Config reference](/docs/references/reference-radix-config/).
+The full syntax of `radixconfig.yaml` is explained in [Radix Config reference](/docs/radix-config/index.md).
 
 ## Registering the application
 

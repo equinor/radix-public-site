@@ -14,7 +14,7 @@ An application declares all its [components](index.md#component); this allows fo
 
 The components of an application don't need to share aspects like coding language, runtime, or system resources — they are just running processes. But within an application, components should in principle relate closely by communicating with each other.
 
-The basic configuration for an application (the _application registration_) is composed of a **name**, the URL of a **GitHub repository**, and **access control** configuration (i.e. which Active Directory groups can administer the application in Radix). The remainder of the configuration is provided by the [`radixconfig.yaml`](/docs/references/reference-radix-config/).
+The basic configuration for an application (the _application registration_) is composed of a **name**, the URL of a **GitHub repository**, and **access control** configuration (i.e. which Active Directory groups can administer the application in Radix). The remainder of the configuration is provided by the [`radixconfig.yaml`](/docs/radix-config/index.md).
 
 ## Environment
 
@@ -36,7 +36,7 @@ Environments (not deployments) also define any [secrets](index.md#secret) that a
 
 ## Component
 
-A component represents a standalone process running within an [environment](index.md#environment) in a Radix application. Components are defined in the [`radixconfig.yaml`](/docs/references/reference-radix-config/#components), but they are only instantiated by [deployments](index.md#deployment), which specify the Docker image to use. A component can have one or more running [replicas](index.md#replica), depending on its configuration.
+A component represents a standalone process running within an [environment](index.md#environment) in a Radix application. Components are defined in the [`radixconfig.yaml`](/docs/radix-config/index.md#components), but they are only instantiated by [deployments](index.md#deployment), which specify the Docker image to use. A component can have one or more running [replicas](index.md#replica), depending on its configuration.
 
 :::tip
 Familiar with Docker or containers? A Radix component can be thought of as Docker image, and replicas as containers running that image.
@@ -52,9 +52,9 @@ Components can further be configured independently on each environment. Besides 
 
 ## Job
 
-A [job](/docs/guides/jobs/index.md) represents an on-demand and short lived container/process, running within an [environment](index.md#environment), that performs a set of tasks and exits when it is done. Jobs are defined in the [`radixconfig.yaml`](/docs/references/reference-radix-config/#jobs). They share the same configuration as a component with a few exceptions; a job does not have publicPort, ingressConfiguration, replicas, horizontalScaling and alwaysPullImageOnDeploy. A job has two extra configuration options: [`schedulerPort`](/docs/guides/jobs/configure-jobs#schedulerport) (required), which is the port the [job-scheduler](/docs/guides/jobs/job-manager-and-job-api.md) will listen to, and [`payload`](/docs/guides/jobs/configure-jobs#payload) (optional), which is a directory in the container where the payload, sent via the job-scheduler, is mounted.
+A [job](/docs/guides/jobs/index.md) represents an on-demand and short lived container/process, running within an [environment](index.md#environment), that performs a set of tasks and exits when it is done. Jobs are defined in the [`radixconfig.yaml`](/docs/radix-config/index.md#jobs). They share the same configuration as a component with a few exceptions; a job does not have publicPort, ingressConfiguration, replicas, horizontalScaling and alwaysPullImageOnDeploy. A job has two extra configuration options: [`schedulerPort`](/docs/guides/jobs/configure-jobs#schedulerport) (required), which is the port the [job-scheduler](/docs/guides/jobs/job-manager-and-job-api.md) will listen to, and [`payload`](/docs/guides/jobs/configure-jobs#payload) (optional), which is a directory in the container where the payload, sent via the job-scheduler, is mounted.
 
-Radix creates a [job-scheduler](/docs/guides/jobs/job-manager-and-job-api.md) service for each job defined in [`radixconfig.yaml`](/docs/references/reference-radix-config/#jobs). The job-scheduler is a web API that you use to create, delete and monitor containers from the Docker image built or defined for the job. HTTP requests to the job-scheduler can only be sent by components running in the same application and environment.
+Radix creates a [job-scheduler](/docs/guides/jobs/job-manager-and-job-api.md) service for each job defined in [`radixconfig.yaml`](/docs/radix-config/index.md#jobs). The job-scheduler is a web API that you use to create, delete and monitor containers from the Docker image built or defined for the job. HTTP requests to the job-scheduler can only be sent by components running in the same application and environment.
 
 When creating a new job, a payload with arbitrary arguments can be specified in the body of the HTTP request to the job-scheduler. The payload is a string and can therefore contain any type of data (text, json, binary) as long as you encode it as a string, e.g. base64, when sending the request to the job-scheduler, and decode it when reading it from the file in the container where the payload is mounted.
 
@@ -72,7 +72,7 @@ A component can use any number of environment variables; the values of these are
 
 Note that each component has its own set of environment variables. It's quite possible (though maybe not great practice) to have two different components in the same environment using variables with the same name (e.g. `MY_ENV_VAR`), each with different values.
 
-In addition to the user-defined variables, a series of variables prefixed with `RADIX_*` are made available to all components. Check the [variables section](/docs/references/reference-radix-config/#variables) of the `radixconfig.yaml` reference for details.
+In addition to the user-defined variables, a series of variables prefixed with `RADIX_*` are made available to all components. Check the [variables section](/docs/radix-config/index.md#variables) of the `radixconfig.yaml` reference for details.
 
 ## Secret
 
@@ -129,10 +129,10 @@ See [this](/docs/guides/deploy-only/) guide on how to set up your application to
 
 Each application can have one specific component in one specific environment set as the _default alias_. This component is assigned a domain name in the format `[application].app.radix.equinor.com` and assigned a certificate. This domain can be used as the public URL for accessing the application.
 
-The default alias is configured by the [`dnsAppAlias` setting](/docs/references/reference-radix-config/#dnsappalias) in the `radixconfig.yaml`.
+The default alias is configured by the [`dnsAppAlias` setting](/docs/radix-config/index.md#dnsappalias) in the `radixconfig.yaml`.
 
 ### External (custom) alias
 
-It is possible to have multiple custom DNS aliases (i.e. to choose your own custom domain) for the application. The _external alias_ needs to point to a component [marked as public](/docs/references/reference-radix-config/#publicport). This external alias can be any domain name, which can be used as the public URL for accessing the application, as long as a valid certificate for the domain is applied.
+It is possible to have multiple custom DNS aliases (i.e. to choose your own custom domain) for the application. The _external alias_ needs to point to a component [marked as public](/docs/radix-config/index.md#publicport). This external alias can be any domain name, which can be used as the public URL for accessing the application, as long as a valid certificate for the domain is applied.
 
-The external alias is configured by the [`dnsExternalAlias` setting](/docs/references/reference-radix-config/#dnsexternalalias) in the `radixconfig.yaml`.
+The external alias is configured by the [`dnsExternalAlias` setting](/docs/radix-config/index.md#dnsexternalalias) in the `radixconfig.yaml`.
