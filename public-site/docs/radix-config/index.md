@@ -4,7 +4,7 @@ displayed_sidebar: radixConfigSidebar
 sidebarDepth: 3
 ---
 
-# Overview
+# Radix Config
 
 In order for Radix to configure your application it needs a configuration file. By default, it is expected to be located in the root of the application repository, has a name `radixconfig.yaml` and be in YAML or JSON format - in either case, it must have the `.yaml` or `.yml` extension (the name and extension should be exactly same as for the file in the GitHub repository). The name of the file and its location in the repository can be different. It can also be changed later on the Radix web-console configuration page for the application. Read more in the [monorepo](/docs/guides/monorepo) guide.
 
