@@ -57,9 +57,9 @@ const config: Config = {
       },
       items: [
         {to: '/docs/start', label: 'Getting started', position: 'right'},
-        {to: '/docs/guides', label: 'Guides', position: 'right'},
         {to: '/docs/docs', label: 'Docs', position: 'right'},
         {to: '/docs/radix-config', label: 'Radix Config', position: 'right'},
+        {to: '/docs/guides', label: 'Guides', position: 'right'},
         {to: '/docs/features', label: 'Features', position: 'right'},
         {to: '/docs/community', label: 'Community', position: 'right'},
         {href: 'https://console.radix.equinor.com/', label: 'Web Console', position: 'right'},

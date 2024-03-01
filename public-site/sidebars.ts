@@ -95,7 +95,7 @@ const sidebars: SidebarsConfig = {
       'features/index',
   ],
   radixConfigSidebar: [
-      '/docs/radix-config/index'
+      'radix-config/index'
   ],
   communitySidebar: [
      'community/index'
