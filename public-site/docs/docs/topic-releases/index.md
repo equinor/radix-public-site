@@ -199,7 +199,7 @@ rx create pipeline-job deploy --help
 ### 2023-03-07 Schema for radixconfig.yaml
 
 We have released the OpenAPI 3.0 Schema (an extended subset of JSON Schema) for the radixconfig.yaml file.  
-This schema can be used in code editors (e.g. VS Code and Jetbrains IDEs) to provide auto-completion and validation when working with `radixconfig.yaml`, see [radixconfig schema](/docs/docs/topic-code-editor-integration/)
+This schema can be used in code editors (e.g. VS Code and Jetbrains IDEs) to provide auto-completion and validation when working with `radixconfig.yaml`, see [radixconfig schema](/docs/docs/topic-code-editor-integration/index.md)
 
 ### 2023-02-28 Radix Web Console: Stop a regular job and batched jobs
 
