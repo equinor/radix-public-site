@@ -1,8 +1,8 @@
-FROM docker.io/node:21-alpine3.18
+FROM docker.io/node:21-alpine3.18 as builder
 
 WORKDIR /site
-COPY ./docs/package.json ./docs/package-lock.json /site/
+COPY . .
 RUN npm install
-COPY ./docs .
+RUN npm run build
 
 CMD npm run dev

@@ -1,0 +1,30 @@
+apiVersion: radix.equinor.com/v1
+kind: RadixApplication
+metadata:
+  name: radix-platform-docusaurus
+spec:
+  build:
+    useBuildKit: false
+    useBuildCache: false
+  environments:
+    - name: prod
+    - name: qa
+      build:
+        from: transition-to-docusaurus
+  components:
+    - name: public-site
+      src: "./public-site"
+      ports:
+        - name: http
+          port: 8080
+      publicPort: http
+      environmentConfig:
+        - environment: prod
+          replicas: 2
+          resources:
+            requests:
+              memory: "100Mi"
+              cpu: "100m"
+            limits:
+              cpu: "120m"
+

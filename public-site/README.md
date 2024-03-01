@@ -13,7 +13,7 @@ This builds a Docker image `radix-public-site`, runs it in the container
 `radix-public-site_container`, mounts the local directory into `/site` in the
 container.
 
-You can see the site on <http://localhost:8081>
+You can see the site on &lt;http://localhost:8081&gt;
 
 Stop the server with Ctrl+C, but also run `docker-compose down` to clean up the
 Docker state.
@@ -53,19 +53,32 @@ But the interesting bits are the actual content:
 - `/references/`: Reference documentation for end-users.
 - `/other/`: Documentation not directly related to any specific category.
 
-## CSS
+## ducusaurus
+This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
 
-Vuepress is using [Stylus](https://stylus-lang.com/).  
+[Create an application](https://docusaurus.io/docs/installation)
+```bash
+npx create-docusaurus@latest public-site classic --typescript
+```
 
-The `/.vuepress/styles/index.styl` file includes all stylesheet files (organised under
-`/.vuepress/public/assets/styles/`) as well as style overrides for the Vuepress generator.
+## docusaurus development
 
-The `/.vuepress/styles/pallete.styl` file is used to override certain style variables used for by the different Vuepress components. This file should not contain CSS styles.
+`npm start`
+Starts the development server.
 
-You can read more about Vuepress Styling here:
+`npm run build`
+Bundles your website into static files for production.
 
-- [index.styl](https://vuepress.vuejs.org/config/#index-styl)
-- [palette.styl](https://vuepress.vuejs.org/config/#palette-styl)
+`npm run serve`
+Serves the built website locally.
+
+`npm run deploy`
+Publishes the website to GitHub pages.
+
+We recommend that you begin by typing:
+
+`cd public-site`
+`npm start`
 
 ## Production build
 
@@ -75,10 +88,10 @@ build image locally:
     docker build -t radix-public-site-prod .
     docker run --name radix-public-site-prod_container --rm -p 8080:8080 radix-public-site-prod
 
-The web server will be available on <http://localhost:8080>
+The web server will be available on &lt;http://localhost:8080&gt;
 
 # Credits
 
-trees by Made x Made from the Noun Project: <https://thenounproject.com/term/trees/1723897/>  
-pot plant by Made x Made from the Noun Project: <https://thenounproject.com/term/pot-plant/1724797/>  
-Tumbleweed by Megan Sorenson from the Noun Project: <https://thenounproject.com/term/tumbleweed/1390797/>  
+trees by Made x Made from the Noun Project: &lt;https://thenounproject.com/term/trees/1723897/&gt;  
+pot plant by Made x Made from the Noun Project: &lt;https://thenounproject.com/term/pot-plant/1724797/&gt;  
+Tumbleweed by Megan Sorenson from the Noun Project: &lt;https://thenounproject.com/term/tumbleweed/1390797/&gt;  

@@ -1,0 +1,7 @@
+node_modules
+README.md
+dev.Dockerfile
+Dockerfile
+docker-compose.yml
+.dockerignore
+build

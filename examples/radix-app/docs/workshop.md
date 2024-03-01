@@ -1,4 +1,4 @@
- <!-- markdownlint-disable MD014 MD007 MD034-->
+<!-- markdownlint-disable MD014 MD007 MD034-->
 
 # 1. Omnia Radix example application
 
@@ -40,12 +40,12 @@ An OpenAPI specification has been agreed on with the API team, so we'll begin wi
 Important to know:
 
 1. The difference between ```platform user``` and ```application user```
-1. Important terminology: ```application```, ```environments```,```components```, and ```replicas``` [Important Radix Concepts](https://www.radix.equinor.com/docs/topic-concepts/)
-1. ```radixconfig.yaml``` - lives on the `main` branch and is your infrastrucure as code - drive your app in Radix.
+1. Important terminology: ```application```, ```environments```,```components```, and ```replicas``` [Important Radix Concepts](https://www.radix.equinor.com/start/radix-concepts//)
+1. ```radixconfig.yaml``` - lives on the `main` branch and is your infrastructure as code - drive your app in Radix.
 
 ### 2.1.4. Explore radixconfig.yaml
 
-1. Reading about radixconfig.yaml in [docs](https://www.radix.equinor.com/docs/reference-radix-config)
+1. Reading about radixconfig.yaml in [docs](https://www.radix.equinor.com/docs/radix-config)
 1. Exploring the config file for the example app [./radixconfig.yaml](../radixconfig.yaml)
 
 ### 2.1.5. Creating the application on Radix
@@ -59,7 +59,7 @@ Important to know:
 
 Scenario
 
-The UI is comming along nicely, and your team has started on the API. Next step is to integrate the API with the UI, so users can also start testing the logic behind password generation.
+The UI is coming along nicely, and your team has started on the API. Next step is to integrate the API with the UI, so users can also start testing the logic behind password generation.
 
 ### 2.2.1. Exploring the `server` app
 
@@ -167,5 +167,5 @@ It makes sense to examing existing issues and perhaps discuss on Slack prior to 
 
 ## 4 Next steps
 
-- The application is currently hosted under a *.radix.equinor.com domain. This is OK for now, but it has been identified that for the future we'll want our own *.equinor.com domain as is possible in [Radix](https://www.radix.equinor.com/docs/reference-radix-config/#dnsexternalalias).
+- The application is currently hosted under a *.radix.equinor.com domain. This is OK for now, but it has been identified that for the future we'll want our own *.equinor.com domain as is possible in [Radix](https://www.radix.equinor.com/docs/radix-config/index.md#dnsexternalalias).
 - Move your own apps into Radix
