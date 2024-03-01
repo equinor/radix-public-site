@@ -119,7 +119,7 @@ Only HTTPS traffic is allowed in and out of the application. SSL certificates ar
 
 Managing your own certificate is possible. Adding the certificate information to your application is done using the Radix Console
 
-[Guide](/docs/guides/external-alias/index.md#acquire-an-equinor-tls-certificate)
+[Guide](/docs/guides/external-alias-certificate/)
 
 ## Component and/or Environment stop/start/restart
 

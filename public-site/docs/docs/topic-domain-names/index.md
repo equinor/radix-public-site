@@ -7,10 +7,11 @@ title: Domain names
 There can be several domain names mapped to [application components](/docs/start/radix-concepts/index.md#component) in Radix. In general you will want to use the [public name](#public-name), but you should understand all options.
 
 :::tip
-Some domain names include a `clusterEnvNamepace` component. This varies depending on the type of cluster. In Radix there are three **cluster types**; these are the values for `clusterEnvNamepace` in each type
+Some domain names include a `clusterEnvNamepace` component. This varies depending on the type of cluster. In Radix there are two(three) **cluster types**; these are the values for `clusterEnvNamepace` in each type
 
- - prod (_blank_)
- - playground (`playground`)
+ - platform (_blank_) - (eu-"weeknumber")
+ - playground (`playground`) - (playground-"weeknumber")
+ - (dev (`dev`))
 :::
 
 ## Canonical name
@@ -29,7 +30,7 @@ Examples:
 
 - `frontend-myapp-production.playground-92.playground.radix.equinor.com`
 - `backend-myapp-production.playground-92.playground.radix.equinor.com`
-- `serializer-oneapp-qa.prod-12.radix.equinor.com`
+- `serializer-oneapp-qa.eu-12.radix.equinor.com`
 
 ## Public name
 

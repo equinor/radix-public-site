@@ -300,7 +300,7 @@ spec:
 
 ### 2022-11-01 External DNS certificate and key validation
 
-You can now view information about TLS certificates for [external DNS aliases](/docs/guides/external-alias/index.md#apply-the-certificate-and-private-key-to-the-external-dns-alias) in Radix Web Console.
+You can now view information about TLS certificates for [external DNS aliases](/docs/guides/external-alias-certificate/) in Radix Web Console.
 
 ### 2022-10-13 Supporting monorepo and custom radixconfig names
 
