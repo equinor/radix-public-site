@@ -4,7 +4,7 @@ metadata:
   name: radix-platform
 spec:
   build:
-    useBuildKit: true
+    useBuildKit: false
   environments:
     - name: prod
     - name: qa
