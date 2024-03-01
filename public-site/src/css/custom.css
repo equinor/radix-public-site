@@ -5,6 +5,8 @@
  */
 
 /* You can override the default Infima variables here. */
+@import url('https://cdn.eds.equinor.com/font/equinor-uprights-vf.css');
+@import url('https://cdn.eds.equinor.com/font/equinor-mono.css');
 :root {
     --ifm-color-primary: #2e8555;
     --ifm-color-primary-dark: #29784c;
