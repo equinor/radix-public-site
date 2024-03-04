@@ -48,7 +48,12 @@ const sidebars: SidebarsConfig = {
           'guides/build-secrets/index',
           'guides/environment-variables/index',
           'guides/enable-and-disable-components/index',
-          'guides/external-alias/index',
+          { 
+            type: 'category',
+            label: 'External DNS Alias',
+            items: [
+              'guides/external-alias/index',
+            'guides/external-alias-certificate/index',]},
           'guides/component-start-stop-restart/index',
           'guides/jobs/index',
           'guides/deploy-only/index',
