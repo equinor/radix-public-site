@@ -53,9 +53,21 @@ const sidebars: SidebarsConfig = {
             label: 'External DNS Alias',
             items: [
               'guides/external-alias/index',
-            'guides/external-alias-certificate/index',]},
+              'guides/external-alias-certificate/index',
+            ]},
           'guides/component-start-stop-restart/index',
-          'guides/jobs/index',
+          {
+              type: 'category',
+              label: 'Jobs',
+              items: [
+                  'guides/jobs/index',
+                  'guides/jobs/configure-jobs',
+                  'guides/jobs/job-manager-and-job-api',
+                  'guides/jobs/notifications',
+                  'guides/jobs/environment-variables',
+                  'guides/jobs/jobs-in-web-console',
+                  'guides/jobs/openapi-swagger',
+              ]},
           'guides/deploy-only/index',
           'guides/build-and-deploy/index',
           'guides/deployment-promotion/index',

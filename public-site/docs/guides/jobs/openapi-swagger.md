@@ -33,8 +33,8 @@ additionalProperties:
   packageName: JobScheduler
   netCoreProjectFile: true
 ```
-
-Download or reference the [swagger.json](https://raw.githubusercontent.com/equinor/radix-public-site/main/public-site/docs/src/guides/jobs/swagger.json) file
+## swagger.json
+Download or reference the [swagger.json](https://raw.githubusercontent.com/equinor/radix-public-site/main/public-site/docs/guides/jobs/swagger.json) file
 
 ## Examples
 

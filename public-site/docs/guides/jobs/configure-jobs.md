@@ -86,7 +86,7 @@ The data type of the `resources` is of type `ResourceRequirements` an requires t
 
 The etl job in the example above has `resource` configured.
 
-[More details](/docs/guides/resource-request/index.md) about `resources`.
+[More details](/docs/guides/resource-request/index.md) about `resources` and about [default resources](/docs/guides/resource-request/index.md#default-resources).
 
 ### node
 

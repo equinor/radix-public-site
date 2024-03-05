@@ -390,7 +390,8 @@ spec:
 
 The `resources` section specifies how much CPU and memory each component needs, that are shared among all Radix environments in a component. These common resources are overridden by environment-specific resources.
 
-The property `limits.memory` cannot be explicitly set, it is set automatically with the same value as `requests.memory` to reduce potential risk of not sufficient memory on a node. [Read more](https://kubernetes.io/blog/2021/11/26/qos-memory-resources/) about memory resources and QoS. 
+The property `limits.memory` cannot be explicitly set, it is set automatically with the same value as `requests.memory` to reduce potential risk of not sufficient memory on a node. [Read more](https://kubernetes.io/blog/2021/11/26/qos-memory-resources/) about memory resources and QoS.
+[More details](/docs/guides/resource-request/index.md) about `resources` and about [default resources](/docs/guides/resource-request/index.md#default-resources).
 
 ### `variables` (common)
 
