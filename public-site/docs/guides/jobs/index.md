@@ -1,11 +1,11 @@
 ---
-title: Jobs
+title: Overview
 next: 'configure-jobs'
 ---
 
 # Jobs
 
-A job is an on-demand and short lived container/process that performs a set of tasks, e.g. a ML training job or an ETL job, and exits when it is done.
+A job is an on-demand and short-lived container/process that performs a set of tasks, e.g. a ML training job or an ETL job, and exits when it is done.
 The duration of a job can span from seconds to hours, depending on what tasks it performs, but it is expected to exit when it has completed the work. Multiple jobs can be created and running simultaneously.
 
 CPU, GPU and memory resources requested by a job are reserved when it starts, and released when it exits. This will help reduce the total cost for an application since cost is only calculated for running containers. A job that requests 10GB of memory and 2 CPUs, started once per day and runs for one hour, will only accumulate cost for the hour it is running. A component that requests the same resources will accumulate cost for all 24 hours of a day.
