@@ -411,6 +411,31 @@ Environment variables [can be changed](/docs/guides/environment-variables/) in R
 
 The `environmentConfig` section is to set environment-specific settings for each component.
 
+### `image`
+
+When a component needs a different docker image in a particular application environment, this image can be specified in the `image` option of the `environmentConfig` section for this environment. An example of such a configuration:
+
+```yaml
+spec:
+  components:
+    - name: redis
+      image: redis:5.0-alpine
+      environmentConfig:
+        - environment: qa
+          image: redis:7.2.4
+    - name: web-app
+      src: ./app
+      dockerfileName: Dockerfile.app
+      environmentConfig:
+        - environment: prod
+          image: ghcr.io/equinor/my-app/web-app:v1.10
+```
+In this example:
+* The `redis` component in the `qa` environment will be run on the image `redis:7.2.4`, in other environments it will be run on the default image `redis:5.0-alpine`
+* The `web-app` component in the `prod` environment will be run on the pre-build image `ghcr.io/equinor/my-app/web-app:v1.10`, in other environments it will be built from the source folder `./app` and the docker-file `Dockerfile.app`
+
+For shared image across Radix environments, refer to [common image](./#image).
+
 #### `replicas`
 
 ```yaml
