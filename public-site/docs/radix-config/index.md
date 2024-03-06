@@ -205,6 +205,8 @@ spec:
 
 `src` a folder, relative to the repository root, where the `Dockerfile` for the component is located. The Dockerfile is used by the [Build and deploy](/docs/guides/build-and-deploy/) workflow of the Radix CI-CD pipeline to build a container image for the component. By default `src` is `.` - a root of the GitHub repository.
 
+For Radix environment specific `src`, refer to [environmentConfig src](/docs/radix-config/index.md#src-1).
+
 :::tip
 When the `image` option is set - `src` option is ignored.
 :::
@@ -241,6 +243,8 @@ spec:
 
 By default, Radix pipeline expects a docker file with a name `Dockefile` in the component `src` folder. If this file name needs to be different, it can be specified in the option `dockerfileName`. The name can also contain a path relative to `src`. See configuration examples above.
 
+For Radix environment specific `dockerfileName`, refer to [environmentConfig image](/docs/radix-config/index.md#dockerfilename-1).
+
 :::tip
 When the `image` option is set - `dockerfileName` option is ignored.
 :::
@@ -271,6 +275,8 @@ spec:
   - `image: gcr.io/distroless/nodejs18-debian11:latest`.
 - When an image is not publicly available, it is required to provide an authentication information. Please read more about [privateImageHubs](./#privateimagehubs) option.
 :::
+
+For Radix environment specific `image`, refer to [environmentConfig image](/docs/radix-config/index.md#image-1).
 
 ### `ports`
 ```yaml
@@ -411,9 +417,80 @@ Environment variables [can be changed](/docs/guides/environment-variables/) in R
 
 The `environmentConfig` section is to set environment-specific settings for each component.
 
+### `src`
+
+When a component needs to be built with a different folder in a particular application environment, this folder can be specified in the `src` option of the `environmentConfig` section for this environment. If the component has an option `image` specified on the component level, this `image` option will be ignored and this component will be built for this environment with that specified `src`. An example of such configuration:
+
+```yaml
+spec:
+  components:
+    - name: frontend
+      src: "."
+      environmentConfig:
+        - environment: dev
+          src: "./frontend"
+    - name: backend
+      environmentConfig:
+        - environment: dev
+          src: "./backend"
+    - name: api
+      image: ghcr.io/my-repo/my-app/api:v1.10
+      environmentConfig:
+        - environment: dev
+          src: "./api"
+```
+In this example:
+* The `frontend` component in the `dev` environment will be built from the `frontend` folder of the GitHub repo, and from a root folder for other environments. Both docker-files expected to be `Dockerfile` as `dockerfileName` option is not specified.
+* The `backend` component in the `dev` environment will be built from the `backend` folder of the GitHub repo, and from a root folder (used by default) for other environments. Both docker-files expected to be `Dockerfile` as `dockerfileName` option is not specified.
+* The `api` component in the `dev` environment will be built from the `api` folder. This option in the environment overrides an `image` option on the component level, which value `ghcr.io/my-repo/my-app/api:v1.10` will be used to deploy this component in other environments. The docker-file expected to be `Dockerfile` as `dockerfileName` option is not specified.
+
+For shared `src` across Radix environments, refer to [common src](/docs/radix-config/index.md#src).
+
+:::tip
+When both  `image` and `src` options are specified - the `image` has higher priority, the `src` option is ignored.
+
+The `src` option can be combined with `dockerfileName` option.
+:::
+
+### `dockerfileName`
+
+When a component needs to be built with a different docker-file in a particular application environment, this docker-file can be specified in the `dockerfileName` option of the `environmentConfig` section for this environment. If the component has an option `image` specified on the component level, this `image` option will be ignored and this component will be built for this environment with that specified `dockerfileName`. An example of such configuration:
+
+```yaml
+spec:
+  components:
+    - name: frontend
+      dockerfileName: Dockerfile
+      environmentConfig:
+        - environment: dev
+          dockerfileName: Dockerfile.dev
+    - name: backend
+      src: "./backend"
+      environmentConfig:
+        - environment: dev
+          dockerfileName: Dockerfile.dev
+    - name: api
+      image: ghcr.io/my-repo/my-app/api:v1.10
+      environmentConfig:
+        - environment: dev
+          dockerfileName: Dockerfile
+```
+In this example:
+* The `frontend` component in the `dev` environment will be built with the `Dockerfile.dev` docker-file, and with a `Dockerfile` docker-file for other environments. Both docker-files expected to be in the root of the GitHub repo as `src` option is not specified.
+* The `backend` component in the `dev` environment will be built with the `Dockerfile.dev` docker-file, and with a `Dockerfile` docker-file (a name, used by default) for other environments. Both docker-files expected to be in the `backend` folder in the root of the GitHub repo.
+* The `api` component in the `dev` environment will be built with the `Dockerfile` docker-file. This option in the environment overrides an `image` option on the component level, which value `ghcr.io/my-repo/my-app/api:v1.10` will be used to deploy this component in other environments. The docker-file expected to be in the root of the GitHub repo as `src` option is not specified.
+
+For shared `dockerfileName` across Radix environments, refer to [common dockerfileName](/docs/radix-config/index.md#dockerfilename).
+
+:::tip
+When both  `image` and `dockerfileName` options are specified - the `image` has higher priority, the `dockerfileName` option is ignored.
+
+The `dockerfileName` option can be combined with `src` option.
+:::
+
 ### `image`
 
-When a component needs a different docker image in a particular application environment, this image can be specified in the `image` option of the `environmentConfig` section for this environment. An example of such a configuration:
+When a component needs a different docker image in a particular application environment, this image can be specified in the `image` option of the `environmentConfig` section for this environment. An example of such configuration:
 
 ```yaml
 spec:
@@ -428,11 +505,11 @@ spec:
       dockerfileName: Dockerfile.app
       environmentConfig:
         - environment: prod
-          image: ghcr.io/equinor/my-app/web-app:v1.10
+          image: ghcr.io/my-repo/my-app/web-app:v1.10
 ```
 In this example:
 * The `redis` component in the `qa` environment will be run on the image `redis:7.2.4`, in other environments it will be run on the default image `redis:5.0-alpine`
-* The `web-app` component in the `prod` environment will be run on the pre-build image `ghcr.io/equinor/my-app/web-app:v1.10`, in other environments it will be built from the source folder `./app` and the docker-file `Dockerfile.app`
+* The `web-app` component in the `prod` environment will be run on the pre-build image `ghcr.io/my-repo/my-app/web-app:v1.10`, in other environments it will be built from the source folder `./app` and the docker-file `Dockerfile.app`
 
 For shared image across Radix environments, refer to [common image](./#image).
 
