@@ -35,9 +35,9 @@ The documentation will use the second option.
 Radix only reads `radixconfig.yaml` from the branch we set as the `Config Branch` in the application registration form. If the file is changed in other branches, those changes will be ignored. The `Config Branch` must be mapped to an environment in `radixconfig.yaml`
 :::
 
-The major difference between a `deploy-only` and a regular Radix application, is that the [`image`](/docs/radix-config/index.md#image) property in `radixconfig.yaml` is set for all components and jobs. 
+The major difference between a `deploy-only` and a regular Radix application, is that the [`image`](/radix-config/index.md#image) property in `radixconfig.yaml` is set for all components and jobs. 
 
-When `image` is suffixed with [`{imageTagName}`](/docs/radix-config/index.md#imagetagname), the Radix `deploy` pipeline will replace `{imageTagName}` with the environment specific `imageTagName` from `radixconfig.yaml`, or from the value specified with the `--image-tag-name` flag in [`Radix CLI`](/docs/docs/topic-radix-cli/#commands). If `imageTagName` is not specified for an environment, it must be set with the `--image-tag-name` flag. If both are specified, `--image-tag-name` takes precedence over `imageTagName`. 
+When `image` is suffixed with [`{imageTagName}`](/radix-config/index.md#imagetagname), the Radix `deploy` pipeline will replace `{imageTagName}` with the environment specific `imageTagName` from `radixconfig.yaml`, or from the value specified with the `--image-tag-name` flag in [`Radix CLI`](/docs/topic-radix-cli/#commands). If `imageTagName` is not specified for an environment, it must be set with the `--image-tag-name` flag. If both are specified, `--image-tag-name` takes precedence over `imageTagName`. 
 
 ```yaml
 apiVersion: radix.equinor.com/v1
@@ -84,11 +84,11 @@ A dynamic tag in this context means that there is a new tag produced for every b
 
 A static tag will not permit radix to update an existing deployment by relying on changes to `imageTagName` to pull a new image. To force radix to pull a new image from the image-hub, the component must be restarted using the component page on the web-console or restart call to the [API](https://api.radix.equinor.com/swaggerui/#/component/restartComponent) or [CLI](https://github.com/equinor/radix-cli). There is currently no log trace of components starting and stopping. If this is necessary, one may call `deploy-only` once on the application before `restart` on each component using static tags.
 
-The second part of the `radixconfig.yaml` which distinguishes itself from a regular radix application is the [`privateImageHubs` property](/docs/radix-config/index.md#privateimagehubs). In short, it will allow for the image produced outside of Radix to be pulled down to the Radix cluster.
+The second part of the `radixconfig.yaml` which distinguishes itself from a regular radix application is the [`privateImageHubs` property](/radix-config/index.md#privateimagehubs). In short, it will allow for the image produced outside of Radix to be pulled down to the Radix cluster.
 
 Also what can be said about the configuration above is the branch to environment mapping. Since build of components happens outside of Radix the build -&gt; from configuration seems unnecessary. You could, especially if the repository for the Radix application is a mere configuration repository, leave environments unmapped. We will explain later why we, in this example, have opted to have a branch-environment mapping.
 
-The full syntax of `radixconfig.yaml` is explained in [Radix Config reference](/docs/radix-config/index.md).
+The full syntax of `radixconfig.yaml` is explained in [Radix Config reference](/radix-config/index.md).
 
 ## Registering the application
 
@@ -127,7 +127,7 @@ With the access token you can make calls to Radix API through either:
 - Calling the API though functions in the [Radix CLI](https://github.com/equinor/radix-cli), which allows for simpler access to the API
 - Calling the API through [Radix GitHub Actions](https://github.com/equinor/radix-github-actions). If you have opted for GitHub Actions as your CI tool, then calling the Radix API indirectly through the Radix CLI using the Radix GitHub Actions can be done. It allows for simpler access to the CLI in your action's workflow.
 
-[Example of using GitHub action to create a Radix deploy pipeline job](/docs/guides/deploy-only/example-github-action-to-create-radix-deploy-pipeline-job.md)
+[Example of using GitHub action to create a Radix deploy pipeline job](/guides/deploy-only/example-github-action-to-create-radix-deploy-pipeline-job.md)
 
 ### Updating deployments on static tags
 
@@ -203,7 +203,7 @@ In the example repository that we have used for this documentation we are settin
 - `Set instrumentation key as secret` - Takes one of the secrets passed on from the previous steps and set the secret for the application, for the environment this branch is mapped to (in the `development` cluster)
 - `Set connection string as secret` - Sets the second secret value
 
-[Example of using GitHub action to create a Radix deploy pipeline job](/docs/guides/deploy-only/example-github-action-to-create-radix-deploy-pipeline-job.md)
+[Example of using GitHub action to create a Radix deploy pipeline job](/guides/deploy-only/example-github-action-to-create-radix-deploy-pipeline-job.md)
 
 :::tip
 Disclaimer: Please seek advice elsewhere on whether GitHub Actions and/or GitHub package repository is the right option for you. Both features are new, and we have too little experience as an organization to make any recommendations, both in terms of robustness and in terms of cost. A private Azure container registry (ACR) would for instance allow you to set it up with a service account, rather than using your personal account. This document is meant to be a user guide on how to combine these with Radix, as one of many alternatives for running CI outside of Radix.
@@ -213,7 +213,7 @@ Disclaimer: Please seek advice elsewhere on whether GitHub Actions and/or GitHub
 
 When a Radix application has multiple components and only one or some of them need to be deployed, an option `component` can be used to specify these components. Multiple components can be specified. Other components, if exist in the environment, will not be re-deployed, keeping their `commitID` and `gitTags`, environment variables, secrets, etc. Replicas of not deployed components will not be restarted on deployment.
 
-Please look at [Radix CLI deploy command](/docs/docs/topic-radix-cli/index.md#deploy-pipeline-job) for examples. The `component` option can also be used with [Radix GitHub action](https://github.com/equinor/radix-github-actions) and [Radix API](https://api.radix.equinor.com/swaggerui/).
+Please look at [Radix CLI deploy command](/docs/topic-radix-cli/index.md#deploy-pipeline-job) for examples. The `component` option can also be used with [Radix GitHub action](https://github.com/equinor/radix-github-actions) and [Radix API](https://api.radix.equinor.com/swaggerui/).
 
 When deploy pipeline job has been run with `component` option, Radix console will indicate on pipeline job, deployment and environment pages which components were not deployed: 
 

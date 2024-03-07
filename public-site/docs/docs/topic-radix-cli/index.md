@@ -74,10 +74,10 @@ Custom continuous integration tool like Jenkins or GitHub Action can use Radix C
 Radix CLI can be used with help of the GitHub Action [equinor/radix-github-actions](https://github.com/equinor/radix-github-actions).
 
 More details can be found in guidelines and examples:
-* [Guideline to run "Deploy Only" pipeline job](/docs/guides/deploy-only/)
-* [Example of using GitHub action to create a Radix deploy pipeline job](/docs/guides/deploy-only/example-github-action-to-create-radix-deploy-pipeline-job.md)
-* [Example of using AD service principal to get access to a Radix application in a GitHub action](/docs/guides/deploy-only/example-github-action-to-create-radix-deploy-pipeline-job.md)
-* [Example of using GitHub Action to build and push container to custom Container Registry](/docs/guides/deploy-only/example-github-action-building-and-deploying-application.md)
+* [Guideline to run "Deploy Only" pipeline job](/guides/deploy-only/)
+* [Example of using GitHub action to create a Radix deploy pipeline job](/guides/deploy-only/example-github-action-to-create-radix-deploy-pipeline-job.md)
+* [Example of using AD service principal to get access to a Radix application in a GitHub action](/guides/deploy-only/example-github-action-to-create-radix-deploy-pipeline-job.md)
+* [Example of using GitHub Action to build and push container to custom Container Registry](/guides/deploy-only/example-github-action-building-and-deploying-application.md)
 
 ### Commands
 
@@ -107,7 +107,7 @@ Scope can be specified for most commands:
 :::tip
 An option `job` of commands `create`, `get logs` is replaced with `pipeline-job`. It will be supported for backward compatibility. 
 :::
-* Create a new "deploy only" pipeline job with specified image tags. When `radixconfig.yaml` contains `image` option with dynamic [imageTagName](https://radix.equinor.com/docs/radix-config/index.md#imagetagname), this `imageTagName` can be altered in the Radix CLI `create pipeline-job deploy` command option `image-tag-name`. This option will override values defined in the `radixconfig.yaml` and can be defined for multiple components in the command. `image-tag-name`, provided as an option in the command `rx create pipeline-job deploy` is shown in the Radix pipeline orchestration job log. Component names that does not exist within the Radix application environment will be ignored.
+* Create a new "deploy only" pipeline job with specified image tags. When `radixconfig.yaml` contains `image` option with dynamic [imageTagName](https://radix.equinor.com/radix-config/index.md#imagetagname), this `imageTagName` can be altered in the Radix CLI `create pipeline-job deploy` command option `image-tag-name`. This option will override values defined in the `radixconfig.yaml` and can be defined for multiple components in the command. `image-tag-name`, provided as an option in the command `rx create pipeline-job deploy` is shown in the Radix pipeline orchestration job log. Component names that does not exist within the Radix application environment will be ignored.
     ```shell
     rx create pipeline-job deploy --application your-app-name --environment dev --image-tag-name web-app=stable-123 --image-tag-name api=1.22.0
     rx create pipeline-job deploy -a your-app-name -e dev -t web-app=stable-123 -t api=1.22.0
@@ -178,7 +178,7 @@ An option `job` of commands `create`, `get logs` is replaced with `pipeline-job`
     rx restart application -a your-app-name
     ```
 #### Scale replicas
-* Scale up or down Radix application component replicas. Allowed values between "0" and "20" (value "0" is an equivalent of the command `rx stop`). Scaling can be useful for tuning the resource configuration to figure out what amount of replicas affect performance of an application and particular need of CPU and memory. After re-deployment, start or restart, scaled component gets replicas, specified in the `radixconfig.yaml`, "1" if not specified, or set by [horizontal scaling](https://radix.equinor.com/docs/radix-config/index.md#environmentconfig)  
+* Scale up or down Radix application component replicas. Allowed values between "0" and "20" (value "0" is an equivalent of the command `rx stop`). Scaling can be useful for tuning the resource configuration to figure out what amount of replicas affect performance of an application and particular need of CPU and memory. After re-deployment, start or restart, scaled component gets replicas, specified in the `radixconfig.yaml`, "1" if not specified, or set by [horizontal scaling](https://radix.equinor.com/radix-config/index.md#environmentconfig)  
     ```shell
     rx scale --application your-app-name --environment your-env-name --component web-app --replicas 2
     rx scale -a your-app-name -e your-env-name --component web-app -r 2

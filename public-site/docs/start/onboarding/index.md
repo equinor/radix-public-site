@@ -4,7 +4,7 @@ title: Onboarding
 
 # Onboarding
 
-[Radix team](/docs/community/index.md) offer onboard support for teams or projects, where we walk through your application and togheter try to find out if Radix is a good fit for you. Contact us on [slack](https://equinor.slack.com/archives/C8U7XGGAJ) for more information.
+[Radix team](/community/index.md) offer onboard support for teams or projects, where we walk through your application and togheter try to find out if Radix is a good fit for you. Contact us on [slack](https://equinor.slack.com/archives/C8U7XGGAJ) for more information.
 
 You should have a basic understanding of some technologies are required for working efficient with Radix.
 
@@ -18,7 +18,7 @@ A basic understanding of Git and GitHub is required to use Radix. [git - the sim
 
 Even if your not using Radix, we would still recommend you to learn how to use Docker for containerization, and use it for hosting. It has many benefits when utilizing cloud.
 
-[What is a container](https://www.youtube.com/watch?v=EnJ7qX9fkcU) and [Benefits of containers](https://www.youtube.com/watch?v=cCTLjAdIQho) are both good videos to explain what and why containers. [Best practice](https://radix.equinor.com/docs/topic-docker/) contains references to other relevant resources.
+[What is a container](https://www.youtube.com/watch?v=EnJ7qX9fkcU) and [Benefits of containers](https://www.youtube.com/watch?v=cCTLjAdIQho) are both good videos to explain what and why containers. [Best practice](https://radix.equinor.com/topic-docker/) contains references to other relevant resources.
 
 ## OAuth 2.0 - Authentication and Authorization
 

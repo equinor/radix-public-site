@@ -21,7 +21,7 @@ By default every application on Radix gets the standard metrics about CPU, memor
 
 Developers are encouraged to also export internal metrics. These metrics are automaticaly collected, stored and made available to graph by Radix. Advanced applications sometimes expose hundreds of custom metrics, but even a few help. Start with what's most important for your application to track.
 
-When you add `monitoring: true` to [`radixconfig.yaml`](/docs/radix-config/index.md#monitoring), Radix will scrape the `/metrics` endpoint on your application expecting metrics in the `Prometheus` format (this is a very simple text-based format).
+When you add `monitoring: true` to [`radixconfig.yaml`](/radix-config/index.md#monitoring), Radix will scrape the `/metrics` endpoint on your application expecting metrics in the `Prometheus` format (this is a very simple text-based format).
 
 The Prometheus format looks something like this ([full documentation](https://github.com/prometheus/docs/blob/master/content/docs/instrumenting/exposition_formats.md)):
 
@@ -36,7 +36,7 @@ You can either write the handler to construct this format yourself, or use one o
 
 Radix will now collect these metrics and make them available in your Grafana dashboards.
 
-Once you have started creating and monitoring metrics you might want to [explore the possibilities](/docs/docs/topic-monitoring/) to make them more useful for your application.
+Once you have started creating and monitoring metrics you might want to [explore the possibilities](/docs/topic-monitoring/) to make them more useful for your application.
 
 :::tip
 Metrics information is open (shared) among Radix users. Make sure you do not include confidential information in your metrics. It is suggested that you *prefix* your metric names with your application name (e.g. `<app_name>_metric_name`), so that your application metrics can be easily distinguishable from other application metrics.

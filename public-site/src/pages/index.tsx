@@ -21,15 +21,15 @@ function HomepageHeader() {
                 </p>
                 <div className="home-buttons-container">
                     <Link
-                        to="/docs/start/">
+                        to="/start/">
                         Get started
                     </Link>
                     <Link
-                        to="/docs/docs/">
+                        to="/docs/">
                         Read the docs
                     </Link>
                     <Link
-                        to="/docs/community/">
+                        to="/community/">
                         Our community
                     </Link>
                 </div>
