@@ -3,7 +3,7 @@ import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'Welcome to Radix',
+  title: 'Omnia Radix',
   tagline: 'Radix makes your app develop',
   favicon: 'images/logos/logo.svg',
 
