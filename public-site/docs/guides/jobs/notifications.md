@@ -6,9 +6,9 @@ next: environment-variables
 
 ## Notifications
 
-When job and batch status needs to be monitored, their statuses can be [pulled](docs/guides/jobs/job-manager-and-job-api.md#get-a-state-of-a-batch). Another option is to use job component [notifications](/docs/radix-config/index.md#notifications), posted to one of Radix application components.
+When job and batch status needs to be monitored, their statuses can be [pulled](docs/guides/jobs/job-manager-and-job-api.md#get-a-state-of-a-batch). Another option is to use job component [notifications](/radix-config/index.md#notifications), posted to one of Radix application components.
 
-The URL to the Radix application component or job component endpoint can be specified in the `webhook` option in the `notifications` section in the [radixconfig.yaml](/docs/radix-config/index.md). This is an endpoint where a Radix batch events will be posted when any of the running jobs or batches for this job component changes states. Notification about changes are sent by a `POST` method with an `application/json` `ContentType` with a [Radix batch event format](#radix-batch-event), which extends the [Radix batch status](./job-manager-and-job-api.md#get-a-state-of-a-batch) format with fields
+The URL to the Radix application component or job component endpoint can be specified in the `webhook` option in the `notifications` section in the [radixconfig.yaml](/radix-config/index.md). This is an endpoint where a Radix batch events will be posted when any of the running jobs or batches for this job component changes states. Notification about changes are sent by a `POST` method with an `application/json` `ContentType` with a [Radix batch event format](#radix-batch-event), which extends the [Radix batch status](./job-manager-and-job-api.md#get-a-state-of-a-batch) format with fields
 * `name` - internal name of the batch or a single job. In both cases the name begins with `batch-`
 * `created`, `started`, `ended` - timestamp of corresponding batch live cycle event
 * `status` - status of a batch or a single job

@@ -12,16 +12,16 @@ title: Build and deploy
 - When values for `build secrets` defined in radixconfig.yaml, are updated, the next pipeline job will build all components and jobs.
 :::
 
-The [`build-deploy`](/docs/start/workflows/) pipeline builds and deploys container images from Dockerfiles for components and jobs that do not have the [`image`](/docs/radix-config/index.md#image) property set in [`radixconfig.yaml`](/docs/radix-config). The name and path of the Dockerfile for each component and job is defined in the [`dockerfileName`](/docs/radix-config/index.md#dockerfilename) and [`src`](/docs/radix-config/index.md#src) properties.
+The [`build-deploy`](/start/workflows/) pipeline builds and deploys container images from Dockerfiles for components and jobs that do not have the [`image`](/radix-config/index.md#image) property set in [`radixconfig.yaml`](/radix-config). The name and path of the Dockerfile for each component and job is defined in the [`dockerfileName`](/radix-config/index.md#dockerfilename) and [`src`](/radix-config/index.md#src) properties.
 
-A `build-deploy` pipeline job can be created manually from [`Radix Web Console`](https://console.radix.equinor.com/) or [`Radix CLI`](/docs/docs/topic-radix-cli/), or automatically when code is pushed to the application's Github repository, if a [GitHub webhook](https://docs.github.com/en/developers/webhooks-and-events/webhooks/about-webhooks) is configured. Instructions on how to configure a Github webhook can be found in the `Webhook` section on the application's configuration page in Radix Web Console.
+A `build-deploy` pipeline job can be created manually from [`Radix Web Console`](https://console.radix.equinor.com/) or [`Radix CLI`](/docs/topic-radix-cli/), or automatically when code is pushed to the application's Github repository, if a [GitHub webhook](https://docs.github.com/en/developers/webhooks-and-events/webhooks/about-webhooks) is configured. Instructions on how to configure a Github webhook can be found in the `Webhook` section on the application's configuration page in Radix Web Console.
 
 For manually created pipeline jobs, Radix will always build container images for all components and jobs. When a pipeline job is created by a Github webhook, Radix compares the commit ID from the webhook request body with the commit ID of the active deployment, to detect which directories have changed. The list of changed directories are then compared to the path of the Dockerfile for each component and job. If any of the changed directories are equal to, or a child of the Dockerfile path, a new image is built for the matching component or job. Radix will reuse the image from the current active deployment for components and jobs that have not changed.
 
 :::tip
 The path to the Dockerfile is defined by the `src` and `dockerfileName` properties. `dockerfileName` can contain path elements relative to `src`, for example `../Dockerfile` or `myfolder/Dockerfile`.
 
-See [`dockerfileName`](/docs/radix-config/index.md#dockerfilename) and [`src`](/docs/radix-config/index.md#src) for more information.
+See [`dockerfileName`](/radix-config/index.md#dockerfilename) and [`src`](/radix-config/index.md#src) for more information.
 :::
 
 When Radix detects that `radixconfig.yaml` or `build secret` values have changed, all components and jobs are built.

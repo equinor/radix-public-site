@@ -3,7 +3,7 @@ import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'Welcome to Radix',
+  title: 'Omnia Radix',
   tagline: 'Radix makes your app develop',
   favicon: 'images/logos/logo.svg',
 
@@ -35,6 +35,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
+          routeBasePath: '',
         },
         blog: {
           showReadingTime: false,
@@ -56,12 +57,12 @@ const config: Config = {
         src: 'images/logos/logo.svg',
       },
       items: [
-        {to: '/docs/start', label: 'Getting started', position: 'right'},
-        {to: '/docs/docs', label: 'Docs', position: 'right'},
-        {to: '/docs/radix-config', label: 'Radix Config', position: 'right'},
-        {to: '/docs/guides', label: 'Guides', position: 'right'},
-        {to: '/docs/features', label: 'Features', position: 'right'},
-        {to: '/docs/community', label: 'Community', position: 'right'},
+        {to: '/start', label: 'Getting started', position: 'right'},
+        {to: '/docs', label: 'Docs', position: 'right'},
+        {to: '/radix-config', label: 'Radix Config', position: 'right'},
+        {to: '/guides', label: 'Guides', position: 'right'},
+        {to: '/features', label: 'Features', position: 'right'},
+        {to: '/community', label: 'Community', position: 'right'},
         {href: 'https://console.radix.equinor.com/', label: 'Web Console', position: 'right'},
       ],
     },
