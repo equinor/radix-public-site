@@ -43,7 +43,7 @@ When `image` is suffixed with [`{imageTagName}`](/docs/radix-config/index.md#ima
 apiVersion: radix.equinor.com/v1
 kind: RadixApplication
 metadata:
-  name: radix-example-arm-template
+  name: my-app
 spec:
   environments:
     - name: qa
@@ -54,7 +54,7 @@ spec:
         from: release
   components:
     - name: api
-      image: ghcr.io/equinor/radix-example-arm-template/api:{imageTagName}
+      image: ghcr.io/my-repo/my-app/api:{imageTagName}
       ports:
         - name: http
           port: 3000
@@ -142,7 +142,7 @@ spec:
   environments: 
   components:
     - name: api
-      image: ghcr.io/equinor/my-app/api:latest
+      image: ghcr.io/my-repo/my-app/api:latest
       alwaysPullImageOnDeploy: true
 ```
 
