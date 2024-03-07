@@ -1,7 +1,7 @@
 apiVersion: radix.equinor.com/v1
 kind: RadixApplication
 metadata:
-  name: radix-platform
+  name: radix-public-site
 spec:
   build:
     useBuildKit: false
