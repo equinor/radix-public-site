@@ -4,7 +4,8 @@ metadata:
   name: radix-public-site
 spec:
   build:
-    useBuildKit: false
+    useBuildKit: true
+    useBuildCache: true
   environments:
     - name: prod
     - name: qa
