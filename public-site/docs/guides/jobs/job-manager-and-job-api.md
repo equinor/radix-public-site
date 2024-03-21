@@ -30,6 +30,7 @@ The Job Manager exposes the following methods for managing jobs:
 ```json
 {
   "payload": "Sk9CX1BBUkFNMTogeHl6Cg==",
+  "jobId": "my-job-1",
   "imageTagName": "1.0.0",
   "timeLimitSeconds": 120,
   "backoffLimit": 10,
@@ -50,7 +51,7 @@ The Job Manager exposes the following methods for managing jobs:
 }
 ```
 
- `payload`, `imageTagName`, `timeLimitSeconds`, `backoffLimit`, `resources` and `node` are all optional fields and any of them can be omitted in the request.
+ `payload`, `jobId`, `imageTagName`, `timeLimitSeconds`, `backoffLimit`, `resources` and `node` are all optional fields and any of them can be omitted in the request.
 
 `imageTagName` field allows to alter specific job image tag. In order to use it, the `{imageTagName}` need to be set as described in the [`radixconfig.yaml`](/radix-config/index.md#imagetagname)
 
@@ -82,6 +83,7 @@ The Job Manager exposes the following methods for managing jobs:
   "jobScheduleDescriptions": [
     {
       "payload": "{'data':'value1'}",
+      "jobId": "my-job-1",
       "imageTagName": "1.0.0",
       "timeLimitSeconds": 120,
       "backoffLimit": 10,
@@ -102,6 +104,7 @@ The Job Manager exposes the following methods for managing jobs:
     },
     {
       "payload": "{'data':'value2'}",
+      "jobId": "my-job-2",
       ...
     },
     {
@@ -222,17 +225,28 @@ To start a new batch of jobs, send a `POST` request to `http://compute:8000/api/
 }
 ```
 
-Jobs can have `jobId`
+### Job ID 
+Jobs can have `jobId` - it is an optional string, where any value can be put. Radix does not process it. It can exist in a `jobScheduleDescription` for a single job or in batch jobs  
+If the `jobId` is specified, it will be returned in the job's status, and it will be shown in the Radix console in the job list.
 
+#### Job ID in a single job
+```json
+{
+  "jobId": "my-job",
+  "payload": "{\"x\": 10, \"y\": 20}"
+}
+```
+
+#### Job ID in the batch jobs
 ```json
 {
   "jobScheduleDescriptions": [
     {
-      "jobId": "job-1",
+      "jobId": "my-job-1",
       "payload": "{\"x\": 10, \"y\": 20}"
     },
     {
-      "jobId": "job-2",
+      "jobId": "my-job-2",
       "payload": "{\"x\": 20, \"y\": 30}"
     }
   ]

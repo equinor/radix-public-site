@@ -18,6 +18,7 @@ To get the list of supported language and framework generators, execute
 ```sh
 openapi-generator-cli list
 ```
+On MacOS this CLI has the name `openapi-generator`.
 
 Each language/framework generator has its own set of additional configuration options
 
@@ -34,7 +35,7 @@ additionalProperties:
   netCoreProjectFile: true
 ```
 ## swagger.json
-Download or reference the [swagger.json](https://raw.githubusercontent.com/equinor/radix-public-site/main/public-site/docs/guides/jobs/swagger.json) file
+Download or reference the [swagger.json](https://raw.githubusercontent.com/equinor/radix-job-scheduler/main/swaggerui/html/swagger.json) file
 
 ## Examples
 
@@ -43,7 +44,7 @@ Using the `config.yaml` above, we can generate a C# NET Core 5.0 client by execu
 ```sh
 openapi-generator-cli generate 
   -g csharp-netcore
-  -i https://raw.githubusercontent.com/equinor/radix-public-site/main/public-site/docs/src/guides/jobs/swagger.json
+  -i https://raw.githubusercontent.com/equinor/radix-job-scheduler/main/swaggerui/html/swagger.json
   -c config.yaml
   -o Client
 ```
@@ -57,9 +58,9 @@ Server stub code for AspNetCore can be generated using the `aspnetcore` generato
 ```sh
 openapi-generator-cli generate 
   -g aspnetcore 
-  -i https://raw.githubusercontent.com/equinor/radix-public-site/main/public-site/docs/src/guides/jobs/swagger.json
+  -i https://raw.githubusercontent.com/equinor/radix-job-scheduler/main/swaggerui/html/swagger.json
   -c config_server.yaml
   -o Server
 ```
 
-[1]:https://raw.githubusercontent.com/equinor/radix-public-site/main/public-site/docs/src/guides/jobs/swagger.json
+[1]:https://raw.githubusercontent.com/equinor/radix-job-scheduler/main/swaggerui/html/swagger.json
