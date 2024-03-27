@@ -53,6 +53,33 @@ Be aware - [the syntax for add user and group](/guides/docker-useradd/) can be d
 
 There are many great articles on securing docker images. See [Snyk](https://res.cloudinary.com/snyk/image/upload/v1551798390/Docker_Image_Security_Best_Practices_.pdf).
 
+### Use immutable (read-only) root filesystem
+
+An immutable root filesystem prevents applications from writing to the local disk. This is desirable, if an intrusion from an attacker, the attacker will not be able to tamper with the filesystem or write foreign executables to disk.
+
+The container's root filesystem should be treated as a *golden image* by using Docker run's `--read-only` option. This prevents any writes to the container's root filesystem at container runtime and enforces the principle of immutable infrastructure.
+
+#### What about logs
+
+If this is really about logs a better solution might be to reconfigure your application to send its logs to ``stdout``, kubectl logs will be able to retrieve them without needing to access the container filesystem, and typical log collectors know how to read the container logs as well.
+
+Notes
+
+- If you want to write it to a file, mount a volume instead. 
+- For temporary files or local caching, en **emptyDir** volume can be mounted with type Memory
+- Any volume mounted into the container will have its own filesystem permissions
+- You could also use an ephemeral volume, however this will get deleted once the pod restarts.
+
+#### emptyDir
+
+Note: A container crashing does not remove a Pod from a node. The data in an emptyDir volume is safe across container crashes.
+
+Some uses for an emptyDir are:
+
+scratch space, such as for a disk-based merge sort
+checkpointing a long computation for recovery from crashes
+holding files that a content-manager container fetches while a webserver container serves the data
+
 ## Best-practice `Dockerfile`
 
 The official Docker documentation has a set of [best practices](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/) when it comes to creating `Dockerfile`s. This is often related to optimizing build, push and pull speed and creating small and secure images.
