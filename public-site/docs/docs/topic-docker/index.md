@@ -47,11 +47,19 @@ The ID of the group and user can be anything in the range 1000-65535.
 
 `useradd` command follows the syntax `useradd -S -u [USER_ID] -g [GROUP_NAME] [USER_NAME]`
 
-:::tip
-Be aware - [the syntax for add user and group](/guides/docker-useradd/) can be different for the distribution of images
+:::tip Be aware
+[The syntax for add user and group](/guides/docker-useradd/) can be different for the distribution of images
 :::
 
 There are many great articles on securing docker images. See [Snyk](https://res.cloudinary.com/snyk/image/upload/v1551798390/Docker_Image_Security_Best_Practices_.pdf).
+
+### Use immutable (read-only) root filesystem
+
+An immutable root filesystem prevents applications from writing to the local disk. This is desirable, if an intrusion from an attacker, the attacker will not be able to tamper with the filesystem or write foreign executables to disk.
+
+The container's root filesystem should be treated as a *golden image* by using Docker run's `--read-only` option. This prevents any writes to the container's root filesystem at container runtime and enforces the principle of immutable infrastructure.
+
+The Radix equivalent to Docker's `--read-only` is the [`readOnlyFileSystem`](../../radix-config/#readonlyfilesystem-1) property in `radixconfig.yaml`.
 
 ## Best-practice `Dockerfile`
 

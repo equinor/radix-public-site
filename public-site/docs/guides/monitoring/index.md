@@ -1,6 +1,5 @@
 ---
 title: Monitoring your app
-sidebarDepth: 3
 ---
 
 # Monitoring your app

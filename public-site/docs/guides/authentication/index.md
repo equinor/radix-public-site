@@ -1,6 +1,5 @@
 ---
 title: Authentication
-sidebarDepth: 2
 ---
 
 # Authentication

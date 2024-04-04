@@ -1,6 +1,5 @@
 ---
 title: Example of using GitHub Action to build and push container to custom Container Registry
-sidebarDepth: 3
 ---
 
 # Example of using GitHub Action to build and push container to custom Container Registry

@@ -1,6 +1,5 @@
 ---
 title: Example of using GitHub action to create a Radix deploy pipeline job
-sidebarDepth: 3
 ---
 
 # Example of using GitHub action to create a Radix deploy pipeline job

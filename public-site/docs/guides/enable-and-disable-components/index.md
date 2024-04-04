@@ -1,6 +1,5 @@
 ---
 title: Enable and disable components
-sidebarDepth: 3
 ---
 
 # Enable and disable components
