@@ -1,6 +1,5 @@
 ---
 title: Alerting
-sidebarDepth: 3
 ---
 
 # Alerting

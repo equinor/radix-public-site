@@ -1,7 +1,8 @@
 ---
 title: The radixconfig.yaml file
 displayed_sidebar: radixConfigSidebar
-sidebarDepth: 3
+toc_min_heading_level: 2
+toc_max_heading_level: 4
 ---
 
 # Radix Config
@@ -417,7 +418,7 @@ Environment variables [can be changed](/guides/environment-variables/) in Radix 
 
 The `environmentConfig` section is to set environment-specific settings for each component.
 
-### `src`
+#### `src`
 
 When a component needs to be built with a different folder in a particular application environment, this folder can be specified in the `src` option of the `environmentConfig` section for this environment. If the component has an option `image` specified on the component level, this `image` option will be ignored and this component will be built for this environment with that specified `src`. An example of such configuration:
 
@@ -452,7 +453,7 @@ When both  `image` and `src` options are specified - the `image` has higher prio
 The `src` option can be combined with `dockerfileName` option.
 :::
 
-### `dockerfileName`
+#### `dockerfileName`
 
 When a component needs to be built with a different docker-file in a particular application environment, this docker-file can be specified in the `dockerfileName` option of the `environmentConfig` section for this environment. If the component has an option `image` specified on the component level, this `image` option will be ignored and this component will be built for this environment with that specified `dockerfileName`. An example of such configuration:
 
@@ -488,7 +489,7 @@ When both  `image` and `dockerfileName` options are specified - the `image` has 
 The `dockerfileName` option can be combined with `src` option.
 :::
 
-### `image`
+#### `image`
 
 When a component needs a different docker image in a particular application environment, this image can be specified in the `image` option of the `environmentConfig` section for this environment. An example of such configuration:
 
@@ -623,7 +624,7 @@ components:
 See [this](/guides/deploy-only/) guide on how make use of `imageTagName` in a deploy-only scenario.
 :::
 
-### `volumeMounts`
+#### `volumeMounts`
 
 ```yaml
 spec:
@@ -637,17 +638,34 @@ spec:
               blobfuse2:
                 container: container-name
                 uid: 1000
+            - name: temp-volume-name
+              path: /another/path/in/container/to/mount/to
+              emptyDir:
+                sizeLimit: 10M
+
 ```
 
 The `volumeMounts` field configures volume mounts within the running component.
 
-#### `volumeMounts` settings
+##### `volumeMounts` settings
 
 - `name` - the name of the volume. Unique within `volumeMounts` list of a component
 - `path` - the folder inside the running container, where the external storage is mounted.
+- `emptyDir` - mounts a read-write empty volume in the container.
 - `blobfuse2` - mount a container from blob in [Azure storage account](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview). Uses [CSI Azure blob storage driver](https://github.com/kubernetes-sigs/blob-csi-driver). Replaces types `blob` and `azure-blob` for obsolete drivers.
 
-_Options for `blobfuse2`_
+`emptyDir` and `blobfuse2` are mutually exclusive.
+
+##### `emptyDir` settings
+
+ - `sizeLimit` - The maxiumum capacity for the volume.
+
+An `emptyDir` volume mounts a temporary writable volume in the container. Data in an `emptyDir` volume is safe across container crashes for component replicas, but is lost if a job container crashes and restarts. When a component replica is deleted for any reason, the data in `emptyDir` is removed permanently.
+
+`emptyDir` volumes are useful when [`readOnlyFileSystem`](#readonlyfilesystem) is set to `true`, and the application requires a temporary volume for local caching purposes.
+
+##### `blobfuse2` settings
+
   - `protocol` - (optional) a protocol, supported by the BlobFuse2. Currently, supports `fuse2` (default) and `nfs`.
   - `container` - name of the blob container.
   - `uid` and/or `gid` - User ID and/or group ID (numbers) of a [mounted volume owner](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.21/#podsecuritycontext-v1-core). It is a User ID and Group ID of a user in the running container within component replicas. Usually a user, which is a member of one or multiple [groups](https://en.wikipedia.org/wiki/Group_identifier), is specified in the `Dockerfile` for the component with command `USER`. Read [more details](https://www.radix.equinor.com/topic-docker/#running-as-non-root) about specifying user within `Dockerfile`. It is recommended to use because Blobfuse driver do [not honor fsGroup securityContext settings](https://github.com/kubernetes-sigs/blob-csi-driver/blob/master/docs/driver-parameters.md).
@@ -664,6 +682,19 @@ Access to the Azure storage need to be set in `secrets` for the component.
 :::tip
 See [this](/guides/volume-mounts/) guide on how make use of `volumeMounts`.
 :::
+
+#### `readOnlyFileSystem`
+
+```yaml
+spec:
+  components:
+    - name: backend
+      environmentConfig:
+        - environment: prod
+          readOnlyFileSystem: true|false
+```
+
+See [readOnlyFileSystem](#readonlyfilesystem-1) for more information.
 
 ### `authentication`
 
@@ -835,6 +866,24 @@ The following environment variables are added to the replicas automatically when
 `identity` can be configured on the component/job level and/or per environment in the `environmentConfig` section. Configuration in `environmentConfig` overrides configuration on the component/job level.
 
 See [guide](/guides/workload-identity) for more information.
+
+### `readOnlyFileSystem`
+
+```yaml
+spec:
+  components:
+    - name: backend
+      readOnlyFileSystem: true|false
+      environmentConfig:
+        - environment: prod
+          readOnlyFileSystem: true|false
+```
+
+Mounts the container's root filesystem as read-only. Setting `readOnlyFileSystem` in `environmentConfig` overrides the value configured on component level. Defaults to `false` if not specified.
+
+Read-only filesystems will prevent the application from writing to disk. This is desirable in the event of an intrusion as the attacker will not be able to tamper with the filesystem or write foreign executables to disk. Without a writable filesystem the attack surface is dramatically reduced.
+
+There may be a requirement for temporary files or local caching, in which case one or more writable [`emptyDir`](#volumemounts) volumes can be mounted.
 
 ## `jobs`
 
@@ -1144,6 +1193,19 @@ spec:
 
 See [backoffLimit](#backofflimit) for more information.
 
+#### `readOnlyFileSystem`
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      environmentConfig:
+        - environment: prod
+          readOnlyFileSystem: true|false
+```
+
+See [readOnlyFileSystem](#readonlyfilesystem-1) for more information.
+
 ### `identity`
 
 ```yaml
@@ -1159,6 +1221,20 @@ spec:
 ```
 
 See [identity](#identity) for more information.
+
+### `readOnlyFileSystem`
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      readOnlyFileSystem: true|false
+      environmentConfig:
+        - environment: prod
+          readOnlyFileSystem: true|false
+```
+
+See [readOnlyFileSystem](#readonlyfilesystem-1) for more information.
 
 ## `dnsAppAlias`
 

@@ -1,6 +1,5 @@
 ---
 title: Example of using AD service principal to get access to a Radix application in a GitHub action
-sidebarDepth: 3
 ---
 
 # Example of using AD service principal to get access to a Radix application in a GitHub action

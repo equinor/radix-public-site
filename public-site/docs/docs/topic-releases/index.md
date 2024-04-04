@@ -1,6 +1,5 @@
 ---
 title: What's new
-sidebarDepth: 2
 ---
 
 # What's new

@@ -1,6 +1,5 @@
 ---
 title: Workload Identity
-sidebarDepth: 2
 ---
 # Workload Identity
 

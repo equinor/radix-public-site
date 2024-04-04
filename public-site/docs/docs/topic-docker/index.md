@@ -59,29 +59,7 @@ An immutable root filesystem prevents applications from writing to the local dis
 
 The container's root filesystem should be treated as a *golden image* by using Docker run's `--read-only` option. This prevents any writes to the container's root filesystem at container runtime and enforces the principle of immutable infrastructure.
 
-#### What about logs
-
-If this is really about logs a better solution might be to reconfigure your application to send its logs to ``stdout``, kubectl logs will be able to retrieve them without needing to access the container filesystem, and typical log collectors know how to read the container logs as well.
-
-::: tip Notes
-
-- If you want to write it to a file, mount a volume instead. 
-- For temporary files or local caching, en **emptyDir** volume can be mounted with type Memory
-- Any volume mounted into the container will have its own filesystem permissions
-- You could also use an ephemeral volume, however this will get deleted once the pod restarts.
-:::
-
-#### emptyDir
-
-:::tip Note 
-A container crashing does not remove a Pod from a node. The data in an emptyDir volume is safe across container crashes.
-:::
-
-Some uses for an emptyDir are:
-
-scratch space, such as for a disk-based merge sort
-checkpointing a long computation for recovery from crashes
-holding files that a content-manager container fetches while a webserver container serves the data
+The Radix equivalent to Docker's `--read-only` is the [`readOnlyFileSystem`](../../radix-config/#readonlyfilesystem-1) property in `radixconfig.yaml`.
 
 ## Best-practice `Dockerfile`
 

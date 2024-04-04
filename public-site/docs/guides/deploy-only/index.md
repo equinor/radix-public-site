@@ -1,6 +1,5 @@
 ---
 title: Deploy to Radix using other Continuous Integration (CI) tool
-sidebarDepth: 3
 ---
 
 # Deploy to Radix using other Continuous Integration (CI) tool
