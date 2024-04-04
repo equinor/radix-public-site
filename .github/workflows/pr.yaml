@@ -30,11 +30,6 @@ jobs:
         uses: equinor/radix-github-actions@v1
         with:
           args: validate radix-config --config-file radixconfig.yaml
-      - name: 'Validate example radix-app'
-        uses: equinor/radix-github-actions@v1
-        with:
-          args: validate radix-config --config-file examples/radix-app/radixconfig.yaml
-
       - name: 'Validate oauth example radix-app'
         uses: equinor/radix-github-actions@v1
         with:
