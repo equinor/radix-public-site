@@ -662,7 +662,14 @@ The `volumeMounts` field configures volume mounts within the running component.
 
 An `emptyDir` volume mounts a temporary writable volume in the container. Data in an `emptyDir` volume is safe across container crashes for component replicas, but is lost if a job container crashes and restarts. When a component replica is deleted for any reason, the data in `emptyDir` is removed permanently.
 
-`emptyDir` volumes are useful when [`readOnlyFileSystem`](#readonlyfilesystem) is set to `true`, and the application requires a temporary volume for local caching purposes.
+`emptyDir` volumes are useful when [`readOnlyFileSystem`](#readonlyfilesystem) is set to `true`.
+
+:::tip Some uses for an emptyDir are
+
+- scratch space, such as for a disk-based merge sort
+- checkpointing a long computation for recovery from crashes
+- holding files that a content-manager container fetches while a webserver container serves the data
+:::
 
 ##### `blobfuse2` settings
 
