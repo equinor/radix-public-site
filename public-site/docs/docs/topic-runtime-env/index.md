@@ -10,9 +10,9 @@ Running an application in Radix is not much different to running Docker containe
 
 ### Traffic
 
-Only HTTPS traffic is allowed into the application. There is no protocol restriction on outbound traffic. SSL certificates are automatically managed by Radix, except for custom [external aliases](/guides/external-alias/).
+Only HTTPS traffic is allowed into the application. There is no protocol restriction on outbound traffic. SSL certificates are automatically managed by Radix, [external aliases](/guides/external-alias/) can also be managed by Radix, i.e. automatically refreshed.
 
-Internally, [components](/start/radix-concepts/index.md#component) can communicate with each other using other protocols and [ports](/radix-config/index.md#components), provided they use TCP.
+Internally - within the same environment/namespace, [components](/start/radix-concepts/index.md#component) can communicate with each other using other protocols and [ports](/radix-config/index.md#components), provided they use TCP.
 
 ### Internal DNS
 
@@ -39,7 +39,7 @@ Requests reaching your components from outside Radix are routed, and will have s
 
 ## Storage
 
-Radix does not currently support persistent storage. Any files written to the filesystem will be lost when a component restarts or is redeployed. If you need persistence, cloud-based systems like [Azure storage](https://docs.microsoft.com/en-us/azure/storage/common/storage-introduction) are recommended.
+Radix **does not** support persistent storage. Any files written to the filesystem will be lost when a component restarts or is redeployed. If you need persistence, cloud-based systems like [Azure storage](https://docs.microsoft.com/en-us/azure/storage/common/storage-introduction) are recommended, these can be [mounted as volumes](/guides/volume-mounts/index.md).
 
 ## Multiple copies
 
