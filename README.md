@@ -1,14 +1,14 @@
-PROD ![prod](https://api.radix.equinor.com/api/v1/applications/radix-platform//environments/prod/buildstatus)  
-QA   ![qa](https://api.radix.equinor.com/api/v1/applications/radix-platform//environments/qa/buildstatus)
+PROD ![prod](https://api.radix.equinor.com/api/v1/applications/radix-public-site/environments/prod/buildstatus)  
+QA   ![qa](https://api.radix.equinor.com/api/v1/applications/radix-public-site/environments/qa/buildstatus)
+Promote ![build_deploy_promote](https://api.radix.equinor.com/api/v1/applications/radix-platform/environments/prod/buildstatus?pipeline=promote) 
 
 # Radix Public Site
 
 [![Logo](logo/Banner%20energy%20red@2x.png)](https://radix.equinor.com)  
 radix.equinor.com (public site)  
-![build_deploy_promote](https://api.radix.equinor.com/api/v1/applications/radix-platform/environments/prod/buildstatus?pipeline=promote)  
 
 This is the public site for promoting, documenting & showcasing the Radix
-platform. It is a static site built with [Vuepress](https://vuepress.vuejs.org/).
+platform. It is a static site built with [Docusaurus](https://docusaurus.io/).
 
 ## Versioning
 
