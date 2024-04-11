@@ -1,6 +1,6 @@
-PROD ![prod](https://api.radix.equinor.com/api/v1/applications/radix-public-site/environments/prod/buildstatus)  
-QA   ![qa](https://api.radix.equinor.com/api/v1/applications/radix-public-site/environments/qa/buildstatus)
-Promote ![build_deploy_promote](https://api.radix.equinor.com/api/v1/applications/radix-platform/environments/prod/buildstatus?pipeline=promote) 
+PROD    ![prod](https://api.radix.equinor.com/api/v1/applications/radix-public-site//environments/prod/buildstatus)  
+QA      ![qa](https://api.radix.equinor.com/api/v1/applications/radix-public-site//environments/qa/buildstatus)  
+Promote ![build_deploy_promote](https://api.radix.equinor.com/api/v1/applications/radix-public-site//environments/prod/buildstatus?pipeline=promote) 
 
 # Radix Public Site
 
