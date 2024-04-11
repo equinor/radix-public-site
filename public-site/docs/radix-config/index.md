@@ -343,7 +343,9 @@ spec:
 The `monitoringConfig` field of a component can be used to override the default port and/or path used for `monitoring`. Both fields are optional and are by default set to use the first available port and the path as `/metrics`.
 
 :::tip
-Note: If overriding `portName` it will have to match one of the defined ports in the component.
+:::tip Note
+If overriding `portName` it will have to match one of the defined ports in the component.
+:::
 :::
 
 ### `horizontalScaling`
