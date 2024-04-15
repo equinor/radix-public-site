@@ -13,6 +13,7 @@ spec:
         from: main
   components:
     - name: public-site
+      readOnlyFileSystem: true
       src: "./public-site"
       ports:
         - name: http
