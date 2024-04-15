@@ -20,6 +20,12 @@ spec:
           port: 8080
       publicPort: http
       environmentConfig:
+        - environment: qa
+          volumeMounts:
+            - name: tmp
+              path: /tmp
+              emptyDir:
+                sizeLimit: 10M
         - environment: prod
           replicas: 2
           resources:
@@ -29,4 +35,9 @@ spec:
             limits:
               memory: "150Mi"
               cpu: "120m"
+          volumeMounts:
+            - name: tmp
+              path: /tmp
+              emptyDir:
+                sizeLimit: 10M
 
