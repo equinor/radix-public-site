@@ -14,6 +14,7 @@
 - [ ] 🧑‍💻 Code Refactor
 - [ ] 🔥 Performance Improvements
 - [ ] ✅ Test
+- [ ] 🔒 Security
 - [ ] 📦 Release
 - [ ] ⏩ Revert
 
