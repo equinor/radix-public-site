@@ -71,6 +71,7 @@ const sidebars: SidebarsConfig = {
           'guides/deploy-only/index',
           'guides/build-and-deploy/index',
           'guides/deployment-promotion/index',
+          'guides/apply-config/index',
           'guides/monorepo/index',
           'guides/monitoring/index',
           'guides/resource-request/index',
