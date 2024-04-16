@@ -313,6 +313,17 @@ The `publicPort` field of a component, if set to `<PORT_NAME>`, is used to make 
 If no [ports](./#ports) specified for a component, `publicPort` should not be set.
 :::
 
+### `monitoring`
+
+```yaml
+spec:
+  components:
+    - name: frontend
+      monitoring: true
+```
+
+When the `monitoring` field is set to `true`, is used to expose custom application metrics in the Radix monitoring dashboards. It is expected that the component provides a `/metrics` endpoint: this will be queried periodically (every five seconds) by an instance of [Prometheus](https://prometheus.io/) running within Radix. General metrics, such as resource usage, will always be available in monitors, regardless of this being set.
+
 ### `monitoringConfig`
 
 ```yaml
@@ -332,7 +343,107 @@ spec:
 The `monitoringConfig` field of a component can be used to override the default port and/or path used for `monitoring`. Both fields are optional and are by default set to use the first available port and the path as `/metrics`.
 
 :::tip
-Note: If overriding `portName` it will have to match one of the defined ports in the component.
+:::tip Note
+If overriding `portName` it will have to match one of the defined ports in the component.
+:::
+:::
+
+### `horizontalScaling`
+
+```yaml
+spec:
+  components:
+    - name: backend
+      horizontalScaling:
+        resources:
+            memory:
+              averageUtilization: 75
+            cpu:
+              averageUtilization: 85
+        minReplicas: 2
+        maxReplicas: 6
+```
+
+The `horizontalScaling` field is used for enabling automatic scaling of the component. This field is optional, and if set, it will override the `replicas` value of the component. One exception is when the `replicas` value is set to `0` (i.e. the component is stopped), the `horizontalScaling` config will not be used.
+
+The `horizontalScaling` field contains two sub-fields, `minReplicas` and `maxReplicas`, and one subsection, `resources`. The `minReplicas` and `maxReplicas` fields specify the minimum and maximum number of replicas for a component, respectively. The value of `minReplicas` must strictly be smaller or equal to the value of `maxReplicas`. Memory and CPU scaling thresholds are determined by the `resources.memory.averageUtilization` and `resources.cpu.averageUtilization` fields. The value of `averageUtilization` must be greater than 1. If the `horizontalScaling.resources` section is omitted from the environment config, the `cpu.averageUtilization` will default to a value of 80. However, if `memory.averageUtilization` is defined while `cpu.averageUtilization` is undefined, CPU based autoscaling will be disabled for this component.
+
+### `imageTagName`
+
+```yaml
+components:
+  - name: backend
+    image: docker.pkg.github.com/equinor/myapp/backend:{imageTagName}
+    imageTagName: master-latest
+```
+The `imageTagName` allows for flexible configuration of fixed images, built outside of Radix. It can be configured with separate tag for each environment.
+
+:::tip
+See [this](/guides/deploy-only/) guide on how make use of `imageTagName` in a deploy-only scenario.
+:::
+
+### `volumeMounts`
+
+```yaml
+spec:
+  components:
+    - name: backend
+      volumeMounts:
+        - name: volume-name
+          path: /path/in/container/to/mount/to
+          blobfuse2:
+            container: container-name
+            uid: 1000
+        - name: temp-volume-name
+          path: /another/path/in/container/to/mount/to
+          emptyDir:
+            sizeLimit: 10M
+
+```
+
+The `volumeMounts` field configures volume mounts within the running component.
+
+#### `main` settings
+
+- `name` - the name of the volume. Unique within `volumeMounts` list of a component
+- `path` - the folder inside the running container, where the external storage is mounted.
+- `emptyDir` - mounts a read-write empty volume in the container.
+- `blobfuse2` - mount a container from blob in [Azure storage account](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview). Uses [CSI Azure blob storage driver](https://github.com/kubernetes-sigs/blob-csi-driver). Replaces types `blob` and `azure-blob` for obsolete drivers.
+
+`emptyDir` and `blobfuse2` are mutually exclusive.
+
+#### `emptyDir` settings
+
+- `sizeLimit` - The maxiumum capacity for the volume.
+
+An `emptyDir` volume mounts a temporary writable volume in the container. Data in an `emptyDir` volume is safe across container crashes for component replicas, but is lost if a job container crashes and restarts. When a component replica is deleted for any reason, the data in `emptyDir` is removed permanently.
+
+`emptyDir` volumes are useful when [`readOnlyFileSystem`](#readonlyfilesystem) is set to `true`.
+
+:::tip Some uses for an emptyDir are
+
+- scratch space, such as for a disk-based merge sort
+- checkpointing a long computation for recovery from crashes
+- holding files that a content-manager container fetches while a webserver container serves the data
+  :::
+
+#### `blobfuse2` settings
+
+- `protocol` - (optional) a protocol, supported by the BlobFuse2. Currently, supports `fuse2` (default) and `nfs`.
+- `container` - name of the blob container.
+- `uid` and/or `gid` - User ID and/or group ID (numbers) of a [mounted volume owner](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.21/#podsecuritycontext-v1-core). It is a User ID and Group ID of a user in the running container within component replicas. Usually a user, which is a member of one or multiple [groups](https://en.wikipedia.org/wiki/Group_identifier), is specified in the `Dockerfile` for the component with command `USER`. Read [more details](https://www.radix.equinor.com/topic-docker/#running-as-non-root) about specifying user within `Dockerfile`. It is recommended to use because Blobfuse driver do [not honor fsGroup securityContext settings](https://github.com/kubernetes-sigs/blob-csi-driver/blob/master/docs/driver-parameters.md).
+- `useAdls` - (optional) enables blobfuse to access Azure DataLake storage account. When set to false, blobfuse will access Azure Block Blob storage account, hierarchical file system is not supported. Default `false`. This must be set `true` when [HNS enabled account](https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-namespace) is mounted.
+- `streaming` - (optional) defines a file streaming. When it is turned on (it is by default), files, opened by a container in its volume mount are not cached on a node, but read directly from a blob storage. It is recommended to use. When it is turned off, files are cached on a node, but it may cause a problem with a limited node disk available space.
+
+  _Options for `streaming`_
+  - `enabled` - (optional) turn on/off a file streaming. Default is `true`
+
+There are [optional settings](/guides/volume-mounts/optional-settings/) to fine tune volumes.
+
+Access to the Azure storage need to be set in `secrets` for the component.
+
+:::tip
+See [this](/guides/volume-mounts/) guide on how make use of `volumeMounts`.
 :::
 
 ### `ingressConfiguration`
@@ -538,7 +649,8 @@ spec:
           monitoring: true
 ```
 
-The `monitoring` field of a component environment config, if set to `true`, is used to expose custom application metrics in the Radix monitoring dashboards. It is expected that the component provides a `/metrics` endpoint: this will be queried periodically (every five seconds) by an instance of [Prometheus](https://prometheus.io/) running within Radix. General metrics, such as resource usage, will always be available in monitors, regardless of this being set.
+When the `monitoring` field of a component environment config is set to `true`, is used to expose custom application metrics for the specific environment.
+See [monitoring](#monitoring) for more information.
 
 #### `resources`
 
@@ -601,13 +713,9 @@ spec:
             maxReplicas: 6
 ```
 
-The `horizontalScaling` field of a component environment config is used for enabling automatic scaling of the component in the environment. This field is optional, and if set, it will override the `replicas` value of the component. One exception is when the `replicas` value is set to `0` (i.e. the component is stopped), the `horizontalScaling` config will not be used.
-
-The `horizontalScaling` field contains two sub-fields, `minReplicas` and `maxReplicas`, and one subsection, `resources`. The `minReplicas` and `maxReplicas` fields specify the minimum and maximum number of replicas for a component, respectively. The value of `minReplicas` must strictly be smaller or equal to the value of `maxReplicas`. Memory and CPU scaling thresholds are determined by the `resources.memory.averageUtilization` and `resources.cpu.averageUtilization` fields. The value of `averageUtilization` must be greater than 1. If the `horizontalScaling.resources` section is omitted from the environment config, the `cpu.averageUtilization` will default to a value of 80. However, if `memory.averageUtilization` is defined while `cpu.averageUtilization` is undefined, CPU based autoscaling will be disabled for this component.
+The `horizontalScaling` field of a component environment config adds automatic scaling of the component in the environment, or it combines or overrides a component `imageTagName` if it is defined.
 
 #### `imageTagName`
-
-The `imageTagName` allows for flexible configuration of fixed images, built outside of Radix, to be configured with separate tag for each environment.
 
 ```yaml
 components:
@@ -619,10 +727,8 @@ components:
       - environment: prod
         imageTagName: release-39f1a082
 ```
-
-:::tip
-See [this](/guides/deploy-only/) guide on how make use of `imageTagName` in a deploy-only scenario.
-:::
+The `imageTagName` can be configured with separate tag for each environment. Environment `imageTagName` overrides a component `imageTagName` if it is also defined.
+See [imageTagName](#imagetagname) for a component for more information.
 
 #### `volumeMounts`
 
@@ -645,50 +751,9 @@ spec:
 
 ```
 
-The `volumeMounts` field configures volume mounts within the running component.
+The `volumeMounts` field configures volume mounts within the component running in the specific environment. EnvironmentConfig `volumeMounts` combine or override a component `volumeMounts` if they are defined.
 
-##### `volumeMounts` settings
-
-- `name` - the name of the volume. Unique within `volumeMounts` list of a component
-- `path` - the folder inside the running container, where the external storage is mounted.
-- `emptyDir` - mounts a read-write empty volume in the container.
-- `blobfuse2` - mount a container from blob in [Azure storage account](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview). Uses [CSI Azure blob storage driver](https://github.com/kubernetes-sigs/blob-csi-driver). Replaces types `blob` and `azure-blob` for obsolete drivers.
-
-`emptyDir` and `blobfuse2` are mutually exclusive.
-
-##### `emptyDir` settings
-
- - `sizeLimit` - The maxiumum capacity for the volume.
-
-An `emptyDir` volume mounts a temporary writable volume in the container. Data in an `emptyDir` volume is safe across container crashes for component replicas, but is lost if a job container crashes and restarts. When a component replica is deleted for any reason, the data in `emptyDir` is removed permanently.
-
-`emptyDir` volumes are useful when [`readOnlyFileSystem`](#readonlyfilesystem) is set to `true`.
-
-:::tip Some uses for an emptyDir are
-
-- scratch space, such as for a disk-based merge sort
-- checkpointing a long computation for recovery from crashes
-- holding files that a content-manager container fetches while a webserver container serves the data
-:::
-
-##### `blobfuse2` settings
-
-  - `protocol` - (optional) a protocol, supported by the BlobFuse2. Currently, supports `fuse2` (default) and `nfs`.
-  - `container` - name of the blob container.
-  - `uid` and/or `gid` - User ID and/or group ID (numbers) of a [mounted volume owner](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.21/#podsecuritycontext-v1-core). It is a User ID and Group ID of a user in the running container within component replicas. Usually a user, which is a member of one or multiple [groups](https://en.wikipedia.org/wiki/Group_identifier), is specified in the `Dockerfile` for the component with command `USER`. Read [more details](https://www.radix.equinor.com/topic-docker/#running-as-non-root) about specifying user within `Dockerfile`. It is recommended to use because Blobfuse driver do [not honor fsGroup securityContext settings](https://github.com/kubernetes-sigs/blob-csi-driver/blob/master/docs/driver-parameters.md).
-  - `useAdls` - (optional) enables blobfuse to access Azure DataLake storage account. When set to false, blobfuse will access Azure Block Blob storage account, hierarchical file system is not supported. Default `false`. This must be set `true` when [HNS enabled account](https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-namespace) is mounted.
-  - `streaming` - (optional) defines a file streaming. When it is turned on (it is by default), files, opened by a container in its volume mount are not cached on a node, but read directly from a blob storage. It is recommended to use. When it is turned off, files are cached on a node, but it may cause a problem with a limited node disk available space.
-
-    _Options for `streaming`_
-    - `enabled` - (optional) turn on/off a file streaming. Default is `true`
-
-There are [optional settings](/guides/volume-mounts/optional-settings/) to fine tune volumes.
-
-Access to the Azure storage need to be set in `secrets` for the component.
-
-:::tip
-See [this](/guides/volume-mounts/) guide on how make use of `volumeMounts`.
-:::
+See [volumeMounts](#volumemounts) for more information.
 
 #### `readOnlyFileSystem`
 
@@ -958,6 +1023,21 @@ spec:
 
 `webhook` is an optional URL to the Radix application component or job component which will be called when any of the job-component's running jobs or batches changes states. Only changes are sent by POST method with a `application/json` `ContentType` in a [batch event format](/guides/jobs/notifications.md#radix-batch-event). Read [more](/guides/jobs/notifications)
 
+### `monitoring`
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      environmentConfig:
+        - environment: prod
+          monitoring: true
+```
+
+When the `monitoring` field of a job-component environment config is set to `true`, is used to expose custom application metrics for the specific environment.
+
+See [monitoring](#monitoring) for more information.
+
 ### `monitoringConfig`
 
 ```yaml
@@ -1073,6 +1153,36 @@ spec:
 
 Defines the number of times a job will be restarted if its container exits in error. Once the `backoffLimit` has been reached the job will be marked as `Failed`. The default value is `0`.
 
+### `volumeMounts`
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      volumeMounts:
+        - name: volume-name
+          path: /path/in/container/to/mount/to
+          blobfuse2:
+            container: container-name
+            uid: 1000
+```
+
+The `volumeMounts` field configures volume mounts within the job-component.
+
+See [volumeMounts](#volumemounts) for more information.
+
+### `imageTagName`
+
+```yaml
+jobs:
+  - name: compute
+    image: docker.pkg.github.com/equinor/myapp/compute:{imageTagName}
+    imageTagName: master-latest
+```
+The `imageTagName` allows for flexible configuration of fixed images, built outside of Radix. It can be configured with separate tag for each environment.
+
+See [imageTagName](#imagetagname) for a component for more information.
+
 ### `environmentConfig`
 
 The `environmentConfig` section is to set environment-specific settings for each job.
@@ -1102,7 +1212,9 @@ spec:
           monitoring: true
 ```
 
-See [monitoring](#monitoring) for a component for more information.
+When the `monitoring` field of a job-component environment config is set to `true`, is used to expose custom application metrics for the specific environment.
+
+See [monitoring](#monitoring) for more information.
 
 #### `resources`
 
@@ -1153,6 +1265,7 @@ jobs:
       - environment: prod
         imageTagName: release-39f1a082
 ```
+The `imageTagName` can be configured with separate tag for each environment. Environment `imageTagName` overrides a job-component `imageTagName` if it is also defined.
 
 See [imageTagName](#imagetagname) for a component for more information.
 
@@ -1172,7 +1285,9 @@ spec:
                 uid: 1000
 ```
 
-See [volumeMounts](#volumemounts) for a component for more information.
+The `volumeMounts` field configures volume mounts within the job-component running in the specific environment. EnvironmentConfig `volumeMounts` combine or override a job-component `volumeMounts` if they are defined.
+
+See [volumeMounts](#volumemounts) for more information.
 
 #### `timeLimitSeconds`
 
