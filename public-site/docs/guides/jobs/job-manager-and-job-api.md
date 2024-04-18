@@ -350,7 +350,7 @@ Get a list of all batches with their states by sending a `GET` request to `http:
 
 ## Get a state of a batch
 
-To get state for a specific batch, e.g. `batch-compute-20220302155333-hrwl53mw`, send a `GET` request to `http://compute:8000/api/v1/batches/batch-compute-20220302155333-hrwl53mw`. The response is a batch state object, with states of its jobs
+To get state for a specific batch, e.g. `batch-compute-20220302155333-hrwl53mw`, send a `GET` request to `http://compute:8000/api/v1/batches/batch-compute-20220302155333-hrwl53mw`. The response is a batch state object, with states of its jobs and their replicas (pods) statuses.
 
 ```json
 {
@@ -359,6 +359,7 @@ To get state for a specific batch, e.g. `batch-compute-20220302155333-hrwl53mw`,
   "started": "2022-03-02T15:53:33+01:00",
   "ended": "2022-03-02T15:54:00+01:00",
   "status": "Succeeded",
+  "updated": "2022-03-02T15:54:00+01:00",
   "jobStatuses": [
     {
       "jobId": "job1",
@@ -367,7 +368,24 @@ To get state for a specific batch, e.g. `batch-compute-20220302155333-hrwl53mw`,
       "created": "2022-03-02T15:53:36+01:00",
       "started": "2022-03-02T15:53:36+01:00",
       "ended": "2022-03-02T15:53:56+01:00",
-      "status": "Succeeded"
+      "status": "Succeeded",
+      "updated": "2022-03-02T15:53:56+01:00",
+      "podStatuses": [
+        {
+          "name": "batch-compute-20220302155333-hrwl53mw-fjhcqwj7-5sfnl",
+          "created": "2022-03-02T15:53:36Z",
+          "startTime": "2022-03-02T15:53:36Z",
+          "endTime": "2022-03-02T15:53:56Z",
+          "containerStarted": "2022-03-02T15:53:36Z",
+          "replicaStatus": {
+            "status": "Succeeded"
+          },
+          "image": "radixprod.azurecr.io/radix-app-dev-compute:6k8vv",
+          "imageId": "radixprod.azurecr.io/radix-app-dev-compute@sha256:1f9ce890db8eb89ae0369995f76676a58af2a82129fc0babe080a5daca86a44e",
+          "exitCode": 0,
+          "reason": "Completed"
+        }
+      ]
     },
     {
       "jobId": "job2",
@@ -376,7 +394,81 @@ To get state for a specific batch, e.g. `batch-compute-20220302155333-hrwl53mw`,
       "created": "2022-03-02T15:53:39+01:00",
       "started": "2022-03-02T15:53:39+01:00",
       "ended": "2022-03-02T15:53:56+01:00",
-      "status": "Succeeded"
+      "status": "Succeeded",
+      "updated": "2022-03-02T15:53:56+01:00",
+      "podStatuses": [
+        {
+          "name": "batch-compute-20220302155333-hrwl53mw-qjzykhrd-5sfnl",
+          "created": "2022-03-02T15:53:39Z",
+          "startTime": "2022-03-02T15:53:40Z",
+          "endTime": "2022-03-02T15:53:56Z",
+          "containerStarted": "2022-03-02T15:53:40Z",
+          "replicaStatus": {
+            "status": "Succeeded"
+          },
+          "image": "radixprod.azurecr.io/radix-app-dev-compute:6k8vv",
+          "imageId": "radixprod.azurecr.io/radix-app-dev-compute@sha256:1f9ce890db8eb89ae0369995f76676a58af2a82129fc0babe080a5daca86a44e",
+          "exitCode": 0,
+          "reason": "Completed"
+        }
+      ]
+    }
+  ]
+}
+```
+
+If the job's replica failed and job-component has [backoffLimit](/radix-config/index.md#backofflimit) greater then `0`, `podStatus` contains `exitCode` and `reason` for failed pods. `podIndex` gives an order of pod statuses (starting from `0`)
+
+```json
+{
+  "name": "batch-compute-20220302155333-hrwl53mw",
+  "created": "2022-03-02T15:53:33+01:00",
+  "started": "2022-03-02T15:53:33+01:00",
+  "ended": "2022-03-02T15:53:48+01:00",
+  "status": "Failed",
+  "updated": "2022-03-02T15:53:48+01:00",
+  "jobStatuses": [
+    {
+      "jobId": "job1",
+      "batchName": "batch-compute-20220302155333-hrwl53mw",
+      "name": "batch-compute-20220302155333-hrwl53mw-fjhcqwj7",
+      "created": "2022-03-02T15:53:36+01:00",
+      "started": "2022-03-02T15:53:36+01:00",
+      "ended": "2022-03-02T15:53:56+01:00",
+      "status": "Failed",
+      "message": "Job has reached the specified backoff limit",
+      "updated": "2022-03-02T15:53:56+01:00",
+      "podStatuses": [
+        {
+          "name": "batch-compute-20220302155333-hrwl53mw-fjhcqwj7-wbn9q",
+          "created": "2022-03-02T15:53:36Z",
+          "startTime": "2022-03-02T15:53:36Z",
+          "endTime": "2022-03-02T15:53:40Z",
+          "containerStarted": "2022-03-02T15:53:36Z",
+          "replicaStatus": {
+            "status": "Failed"
+          },
+          "image": "radixprod.azurecr.io/radix-app-dev-compute:6k8vv",
+          "imageId": "radixprod.azurecr.io/radix-app-dev-compute@sha256:1f9ce890db8eb89ae0369995f76676a58af2a82129fc0babe080a5daca86a44e",
+          "exitCode": 1,
+          "reason": "Error"
+        },
+        {
+          "name": "batch-compute-20220302155333-hrwl53mw-fjhcqwj7-859xq",
+          "created": "2022-03-02T15:53:40Z",
+          "startTime": "2022-03-02T15:53:42Z",
+          "endTime": "2022-03-02T15:53:48Z",
+          "containerStarted": "2022-03-02T15:53:42Z",
+          "replicaStatus": {
+            "status": "Failed"
+          },
+          "image": "radixprod.azurecr.io/radix-app-dev-compute:6k8vv",
+          "imageId": "radixprod.azurecr.io/radix-app-dev-compute@sha256:1f9ce890db8eb89ae0369995f76676a58af2a82129fc0babe080a5daca86a44e",
+          "podIndex": 1,
+          "exitCode": 1,
+          "reason": "Error"
+        }
+      ]
     }
   ]
 }
