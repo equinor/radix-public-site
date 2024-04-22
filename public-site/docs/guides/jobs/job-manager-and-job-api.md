@@ -141,8 +141,8 @@ Once the job has been created successfully, the `job-scheduler` responds to `bac
 
 - `name` is the unique name for the job. This is the value to be used in the `GET /api/v1/jobs/{jobName}` and `DELETE /api/v1/jobs/{jobName}` methods. It is also the host name to connect to running job's container, with its exposed port, e.g. `http://batch-compute-20230220100755-xkoxce5g-mll3kxxh:3000`
 - `started` is the date and time the job was started. It is represented in RFC3339 form and is in UTC.
-- `ended` is the date and time the job successfully ended. Also represented in RFC3339 form and is in UTC. This value is only set for `Successful` jobs.
-- `status` is the current status of the job. Possible values are  `Waiting`, `Stopping`, `Stopped`, `Active`, `Running`, `Successful`, `Failed`, `DeadlineExceeded`. `Active` status means that the job has a replica created, but this replica is not ready (due to such reasons as volume mount is not ready, or it is a problem to schedule replica on a node because not enough memory available, etc.), this status can remain forever. Status `Failed` if the job's replica container exits with a non-zero exit code, and `Successful` if the exit code is zero.
+- `ended` is the date and time the job successfully ended. Also represented in RFC3339 form and is in UTC. This value is only set for `Succeeded` jobs.
+- `status` is the current status of the job. Possible values are  `Waiting`, `Stopping`, `Stopped`, `Active`, `Running`, `Succeeded`, `Failed`, `DeadlineExceeded`. `Active` status means that the job has a replica created, but this replica is not ready (due to such reasons as volume mount is not ready, or it is a problem to schedule replica on a node because not enough memory available, etc.), this status can remain forever. Status `Failed` if the job's replica container exits with a non-zero exit code, and `Succeeded` if the exit code is zero.
 
 ## Getting the status of all existing jobs
 
@@ -323,8 +323,8 @@ Once the batch has been created, the `job-scheduler` responds to `backend` with 
 
 - `batchName` is the unique name for the batch. This is the value to be used in the `GET /api/v1/batches/{batchName}` and `DELETE /api/v1/batches/{batchName}` methods.
 - `started` is the date and time the batch was started. The value is represented in RFC3339 form and is in UTC.
-- `ended` is the date and time the batch successfully ended (empty when not completed). The value is represented in RFC3339 form and is in UTC. This value is only set for `Successful` batches. Batch is ended when all batched jobs are completed or failed.
-- `status` is the current status of the batch. Possible values are `Running`, `Successful` and `Failed`. Status is `Failed` if the batch fails for any reason.
+- `ended` is the date and time the batch successfully ended (empty when not completed). The value is represented in RFC3339 form and is in UTC. This value is only set for `Succeeded` batches. Batch is ended when all batched jobs are completed or failed.
+- `status` is the current status of the batch. Possible values are `Running`, `Succeeded` and `Failed`. Status is `Failed` if the batch fails for any reason.
 
 ## Get a list of all batches
 
