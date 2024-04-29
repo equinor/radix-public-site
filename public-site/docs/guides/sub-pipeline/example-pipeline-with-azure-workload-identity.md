@@ -37,10 +37,18 @@ For a Radix application named `my-radix-app` in the `dev` environment, the `Serv
 
 This task will run two steps, one enabled for workload identity and one disabled for workload identity.
 Radix will automatically inject credentials prepared for workload identity and set the corresponding environment variable `AZURE_FEDERATED_TOKEN_FILE` to the path of the token file.
-Radix will also provide `AZURE_TENANT_ID` and `AZURE_AUTHORITY_HOST`. You need to add your `AZURE_CLIENT_ID` from the previous step to your workload.
-You can either pass it straight in as it is shown below, or use parameters and build secrets or variables to store the Client ID. 
-Together these four enironment variables enables MSAL to automatically pick up the token and use it for authentication. You can also log in manually using the `az login` command as it is shown in the example below:
+Radix will also provide `AZURE_TENANT_ID` and `AZURE_AUTHORITY_HOST`. `Client ID` from the previous step need to be provided as the environment variable `AZURE_CLIENT_ID` to steps of the task. It can be provided explicitly in step scripts [as shown below](/guides/sub-pipeline/example-pipeline-with-azure-workload-identity.md#azure_client_id-explicitly-set-in-the-task-step), of configured in the [identity](/radix-config/index.md#identity) option, which will automatically add `AZURE_CLIENT_ID` parameter to the running pipeline, and it can be used in this pipeline tasks:
 
+#### Fragment from radixconfig.yaml
+```yaml 
+spec:
+  build:
+    subPipeline:
+      identity:
+        azure:
+          clientId: 12345678-a263-abcd-8993-683cc6123456
+```
+#### Task identity.yaml
 ```yaml
 apiVersion: tekton.dev/v1
 kind: Task
@@ -53,6 +61,9 @@ metadata:
     # This annotation is optional and can be used to limit wich steps are enabled for workload identity
     azure.workload.identity/skip-containers: skip-id
 spec:
+  params:
+    - name: AZURE_CLIENT_ID                    # this value will be delivered from pipeline automatically
+      default: not-set-AZURE_CLIENT_ID-in-task # optional default value
   stepTemplate:
     # Make sure all steps runs as a regular user. Running as root is not allowed
     securityContext:
@@ -62,13 +73,14 @@ spec:
       # Az needs a home directory that the authorizatio information can be stored in
       - name: HOME
         value: "/tmp"
+      - name: AZURE_CLIENT_ID
+        value: $(params.AZURE_CLIENT_ID)      # AZURE_CLIENT_ID environment gets value from the task parameter AZURE_CLIENT_ID, set by pipeline parameter
 
   steps:
     - name: get-secret
       script: |
         #!/usr/bin/env sh
         TOKEN=`cat $AZURE_FEDERATED_TOKEN_FILE`
-        AZURE_CLIENT_ID="<Client ID>" # Use you App (client) Id here
 
         # Log in to Azure with the provided credentials, that matches the configured ferated credential
         az login --service-principal \
@@ -88,6 +100,29 @@ spec:
         ls -lah /var/run/secrets/azure/tokens/
         :
 ```
+
+####  AZURE_CLIENT_ID explicitly set in the task step
+
+```yaml
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: identity
+  labels:
+    azure.workload.identity/use: "true"
+spec:
+  steps:
+    - name: get-secret
+      script: |
+        #!/usr/bin/env sh
+        TOKEN=`cat $AZURE_FEDERATED_TOKEN_FILE`
+        
+        AZURE_CLIENT_ID="<Client ID>" # Use you App (client) Id here
+
+```
+
+Together these four environment variables enables MSAL to automatically pick up the token and use it for authentication. You can also log in manually using the `az login` command as it is shown in the example below:
+
 The first step logs in to Azure with the provided credentials and prints the subscription name to the output.
 The second half of the scripts use this authentication to fetch and print out a secret from your key vault.
 
