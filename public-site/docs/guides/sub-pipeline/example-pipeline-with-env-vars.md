@@ -117,7 +117,7 @@ In Tekton documentation and examples `params` items have fields `value` and `def
 └── radixconfig.yaml
 ```
 
-* In the file `radixconfig.yaml` add a field `build` with sub-field `variables`. Values of these variables will be passed to the sub-pipeline parameters, which have the same name:
+* In the file `radixconfig.yaml` add a field `build` with sub-field `variables` within the `subPipeline` option. Values of these variables will be passed to the sub-pipeline parameters, which have the same name:
   * `VAR1` - mandatory variable, passed to the sub-pipeline's parameter `VAR1`
   * `VAR2` - optional variable, passed to the sub-pipeline's parameter `VAR2`. If it does not exist in the `radixconfig.yaml`, the sub-pipeline parameter `VAR2` will get a value, specified in its `default` field.
   * `VAR100` - unnecessary variable, not used in the sub-pipeline, it will be not passed to the sub-pipeline parameters.
@@ -125,10 +125,11 @@ In Tekton documentation and examples `params` items have fields `value` and `def
 ```yaml
 spec:
   build:
-    variables:
-      VAR1: value1     #it must be set, as it is expected by the sub-pipeline
-      VAR2: value2     #it can be set, if it does not exist - the sub-pipeline will set default value
-      VAR100: value100 #it is not used in the sub-pipeline and its tasks
+    subPipeline:
+      variables:
+        VAR1: value1     #it must be set, as it is expected by the sub-pipeline
+        VAR2: value2     #it can be set, if it does not exist - the sub-pipeline will set default value
+        VAR100: value100 #it is not used in the sub-pipeline and its tasks
 ```
 
 *
@@ -171,9 +172,10 @@ The log shows environment variables of the step container:
 
   ```yaml
   build:
-    variables:
-      VAR1: value1
-      VAR2: value2
+    subPipeline:
+      variables:
+        VAR1: value1
+        VAR2: value2
   ```
 
   * `VAR3example` - this variable gets its default value fom sub-pipeline's `params` field
@@ -215,8 +217,8 @@ The log shows environment variables of the step container:
   ```yaml
     steps:
       - env:
-          - name: VAR6example
-            value: "value6"
+        - name: VAR6example
+          value: "value6"
   ```
 
   ![radixconfig to pipeline](./example-pipeline-with-env-vars-buildenvs-to-pipeline.jpg "Sub-pipeline env-vars: radixconfig to pipeline")  ![Pipeline to task](./example-pipeline-with-env-vars-pipeline-to-task.jpg "Sub-pipeline env-vars: pipeline to task")
