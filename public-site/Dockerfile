@@ -6,6 +6,6 @@ RUN npm install -g npm@10.6.0
 RUN npm install
 RUN npm run build
 
-EXPOSE 3000
+EXPOSE 8080
 USER 1000
 CMD ["npm", "run", "serve"]
