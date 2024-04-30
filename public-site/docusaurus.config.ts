@@ -37,9 +37,6 @@ const config: Config = {
           sidebarPath: './sidebars.ts',
           routeBasePath: '',
         },
-        blog: {
-          showReadingTime: false,
-        },
         theme: {
           customCss: './src/css/custom.css',
         },
@@ -76,14 +73,11 @@ const config: Config = {
     },
   } satisfies Preset.ThemeConfig,
   themes: [
-    // ... Your other themes.
     [
-      require.resolve("@easyops-cn/docusaurus-search-local"),
-      /** @type {import("@easyops-cn/docusaurus-search-local").PluginOptions} */
+      require.resolve('docusaurus-lunr-search'),
       ({
-        // ... Your options.
-        // `hashed` is recommended as long-term-cache of index file is possible.
-        hashed: true,
+        maxHits: 10,
+        highlightResult: true,
       }),
     ],
   ],
