@@ -79,15 +79,47 @@ Make sure you never store secrets or confidential information in any intermitent
 ### `secrets`
 `secrets` - (optional) add secrets to Radix config `radixconfig.yaml` in the branch defined as `Config Branch` for your application. This will trigger a new build. This build will fail as no specified build secret has been set. You will now be able to set the secret **values** in the configuration section of your app in the Radix Web Console. These secrets also can be used in the [sub-pipelines](/guides/sub-pipeline).
 
-### `variables`
-`variables` - (optional, available only in [sub-pipelines](/guides/sub-pipeline)) environment variables names and values, provided for all build Radix environments in [sub-pipelines](/guides/sub-pipeline). These common environment variables are overridden by environment-specific environment variables with the same names.
-
 :::tip
-* When an option `useBuildKit: false`, to ensure that multiline build secrets are handled correct by the build, **all** build secrets are passed as `ARG`-s during container build, base-64 encoded (they need to be decoded before use). 
+* When an option `useBuildKit: false`, to ensure that multiline build secrets are handled correct by the build, **all** build secrets are passed as `ARG`-s during container build, base-64 encoded (they need to be decoded before use).
 * When an option `useBuildKit: true`, build secrets are not available as `ARG`-s during container build, but they can be mounted as files. Secret values are not base-64 encoded in these files.
 
 Read the [build secrets](/guides/build-secrets/) guide to see how to use build secrets in a Dockerfile.
 :::
+
+### `variables`
+```yaml
+spec:
+  build:
+    subPipeline:
+      variables:
+        VAR1: value1
+        VAR2: value2
+```
+`variables` - (optional, available only in [sub-pipelines](/guides/sub-pipeline), they are ignored for sub-pipeline if the [subPipeline](/radix-config/index.md#subpipeline) option exists) environment variables names and values, provided for all build Radix environments in [sub-pipelines](/guides/sub-pipeline). These common environment variables are overridden by environment-specific environment variables with the same names.
+
+### `subPipeline`
+`subPipeline` - (optional, available only in [sub-pipelines](/guides/sub-pipeline)) configuration of sub-pipeline options. When it exists, [variables](/radix-config/index.md#variables) are not used in sub-pipeline.
+
+#### `variables`
+```yaml
+spec:
+  build:
+    subPipeline:
+      variables:
+        VAR1: value1
+        VAR2: value2
+```
+Sub-pipeline environment variables names and values, provided for all build Radix environments in [sub-pipelines](/guides/sub-pipeline). These common environment variables can be overridden by environment-specific environment variables with the same names.
+#### `identity`
+```yaml
+spec:
+  build:
+    subPipeline:
+      identity:
+        azure:
+          clientId: 12345678-a263-abcd-8993-683cc6123456
+```
+When `identity.azure.clientId` option is set, the environment variable `AZURE_CLIENT_ID` with its value is automatically added to the running pipeline, and it can be used in this pipeline tasks. Read more about the identity in the [component identity](/radix-config/#identity-1) option and about using it in the sub-pipeline in the [Pipeline with Azure workload identity](/guides/sub-pipeline/example-pipeline-with-azure-workload-identity.md) example.
 
 ## `environments`
 
@@ -182,6 +214,49 @@ See [the egress configuration guide](/guides/egress-config/) for usage patterns 
 If an `environment` has defined the `egress` field, all traffic is blocked by default. If `egress` is not defined, all traffic is allowed.
 If your application uses a custom OAuth2 implementation, outbound access to Microsoft authentication endpoints must be allowed. See [allow traffic for OAuth2](/guides/egress-config/#allow-traffic-for-oauth2).
 :::
+
+### `subPipeline`
+`subPipeline` - (optional, available only in [sub-pipelines](/guides/sub-pipeline)) configuration of sub-pipeline options for specific environment. 
+* It can override common [subPipeline](/radix-config/index.md#subpipeline) or combine with it (if present) for a specific environment.
+* It can remove all [common environment variables](/radix-config/index.md#variables-2) and the common [identity](/radix-config/index.md#identity) (if present) with `{}` (empty object) for a specific environment
+```yaml
+spec:
+  environments:
+    - name: dev
+      subPipeline: {}
+```
+#### `variables`
+```yaml
+spec:
+  environments:
+    - name: dev
+      subPipeline:
+        variables:
+          VAR1: value1
+          VAR2: value2
+```
+Sub-pipeline environment variables names and values, provided for specific build Radix environment in [sub-pipelines](/guides/sub-pipeline). These variables will be combined with [common environment variables](/radix-config/index.md#variables-2) (if present).
+
+#### `identity`
+```yaml
+spec:
+  environments:
+    - name: dev
+      subPipeline:
+        identity:
+          azure:
+            clientId: 12345678-a263-abcd-8993-683cc6123456
+```
+The `identity` section enables identity for a specific environment. Read mode about [build identity](/radix-config/index.md#identity).
+* It can remove the common [identity](/radix-config/index.md#identity) with `{}` empty object for a specific environment
+```yaml
+spec:
+  environments:
+    - name: dev
+      subPipeline:
+        identity:
+          azure: {}
+```
 
 ## `components`
 

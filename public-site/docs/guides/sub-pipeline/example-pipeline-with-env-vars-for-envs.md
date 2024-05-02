@@ -181,7 +181,7 @@ spec:
 └── radixconfig.yaml
 ```
 
-* The file `radixconfig.yaml` has two environments `dev` and `prod`, with addition field `variables`, which adds or overrides common build variables from the field `build.valiables`:
+* The file `radixconfig.yaml` has two environments `dev` and `prod`, with addition field `variables` within the `subPipeline` option, which adds or overrides common build variables from the field `build.valiables`:
 
 ```yaml
 apiVersion: radix.equinor.com/v1
@@ -190,20 +190,23 @@ metadata:
   name: radix-sub-pipeline-example
 spec:
   build:
-    variables:
-      VAR1: value1     #it must be set, as it is expected by the sub-pipeline
-      VAR2: value2     #it can be set, if it does not exist - the sub-pipeline will set default value
-      VAR100: value100 #it is not used in the sub-pipeline and its tasks
+    subPipeline:
+      variables:
+        VAR1: value1     #it must be set, as it is expected by the sub-pipeline
+        VAR2: value2     #it can be set, if it does not exist - the sub-pipeline will set default value
+        VAR100: value100 #it is not used in the sub-pipeline and its tasks
   environments:
     - name: dev
       build:
         from: pipeline-example-with-env-vars-for-envs
+      subPipeline:
         variables:
           VAR1: "val1-for-dev"  #overrides common env-var VAR1 in the "dev" Radix pipeline
           CONNECTION_STRING: "Provider=MySQLProv;Data Source=devDb;" #overrides common env-var CONNECTION_STRING in the "dev" custom sub-pipeline
     - name: prod
       build:
         from: release
+      subPipeline:
         variables:
           PROD_USER: "prod-user" #it exists only in prod environment
           CONNECTION_STRING: "Provider=MySQLProv;Data Source=prodDb;" #overrides common env-var CONNECTION_STRING in the "prod" custom sub-pipeline
@@ -227,10 +230,11 @@ spec:
   ```yaml
   spec:
     build:
-      variables:
-        VAR1: value1     #it must be set, as it is expected by the sub-pipeline
-        VAR2: value2     #it can be set, if it does not exist - the sub-pipeline will set default value
-        VAR100: value100 #it is not used in the sub-pipeline and its tasks
+      subPipeline:
+        variables:
+          VAR1: value1     #it must be set, as it is expected by the sub-pipeline
+          VAR2: value2     #it can be set, if it does not exist - the sub-pipeline will set default value
+          VAR100: value100 #it is not used in the sub-pipeline and its tasks
   ```
 
 * `dev` build environment:
@@ -242,6 +246,7 @@ spec:
     - name: dev
       build:
         from: pipeline-example-with-env-vars-for-envs
+      subPipeline:
         variables:
           VAR1: "val1-for-dev"  #overrides common env-var VAR1 in the "dev" external pipeline
           CONNECTION_STRING: "Provider=MySQLProv;Data Source=devDb;" #overrides common env-var CONNECTION_STRING in the "dev" custom sub-pipeline
@@ -256,6 +261,7 @@ spec:
     - name: prod
       build:
         from: release
+      subPipeline:
         variables:
           PROD_USER: "prod-user" #it exists only in prod environment
           CONNECTION_STRING: "Provider=MySQLProv;Data Source=prodDb;" #overrides common env-var CONNECTION_STRING in the "prod" custom sub-pipeline
@@ -295,8 +301,8 @@ printenv | grep -E 'VAR|Connection|User'
     ```yaml
       steps:
         - env:
-            - name: VAR6example
-              value: "value6"
+          - name: VAR6example
+            value: "value6"
     ```
 
   * Step for the sub-pipeline in the `prod` environment. The variable `ConnectionString` contains "Data Source=**prod**Db", `VAR1example` has _common_ value "value1", `ProdUser` has value "value6"
