@@ -104,7 +104,7 @@ Configured FQDNs are shown in the Radix application and component web-console fo
 ### 2024-01-03 Sub-Pipeline can now use Workload Identity (Tekton)
 
 We now support the use of Azure Workload Identity for Sub-Pipelines. With this release, a unique credential for each of your environments is provided, which will allow you to use Federated Credential wherever needed.
-[Sub-Pipeline guide with Workload Identity](/guides/sub-pipeline/example-pipeline-with-azure-workload-identity.html)
+[Sub-Pipeline guide with Workload Identity](/guides/sub-pipeline/example-pipeline-with-azure-workload-identity.md)
 
 
 ### 2024-01-02 New command available in Radix CLI
