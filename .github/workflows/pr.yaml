@@ -34,3 +34,8 @@ jobs:
         uses: equinor/radix-github-actions@v1
         with:
           args: validate radix-config --config-file examples/radix-example-oauth-proxy/radixconfig.yaml
+
+      - name: 'Validate keda example radix-app'
+        uses: equinor/radix-github-actions@v1
+        with:
+          args: validate radix-config --config-file examples/radix-example-keda/radixconfig.yaml
