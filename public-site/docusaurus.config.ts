@@ -68,8 +68,9 @@ const config: Config = {
       copyright: `Copyright © ${new Date().getFullYear()} Equinor ASA`,
     },
     prism: {
-      theme: prismThemes.dracula,
-      darkTheme: prismThemes.dracula,
+      theme: prismThemes.oceanicNext,
+      darkTheme: prismThemes.oceanicNext,
+      additionalLanguages: ['docker']
     },
   } satisfies Preset.ThemeConfig,
   themes: [
