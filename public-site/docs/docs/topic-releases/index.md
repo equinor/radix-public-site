@@ -5,7 +5,7 @@ title: What's new
 # What's new
 
 ## 2024
-### 2024-06-6 Support for advanced horizontal scaling (KEDA)
+### 2024-06-06 Support for advanced horizontal scaling (KEDA)
 We have released initial support for KEDA Triggers, to enable scaling of pods based on messages in a Azure Service Bus, or based on a CRON Schedule, as well as resource metrics as before (CPU/Memory). If you are using a non-resource trigger, we also support scaling to 0 replicas!
 See  [radixconfig.yaml](/radix-config/index.md#horizontalscaling) for more details.
 
