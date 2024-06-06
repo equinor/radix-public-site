@@ -47,7 +47,7 @@ An immutable root filesystem prevents applications from writing to the local dis
 The [container’s](/docs/topic-docker/) **root filesystem** should be treated as not usable. This prevents any writes to the container’s root filesystem at container runtime and enforces the principle of immutable infrastructure. Read about read-only filesystems in Kubernetes for more info.  
 
 Some options you can consider
-- If you want to write it to a file, [mount a volume](/guides/volmue-mount/) instead.
+- If you want to write it to a file, [mount a volume](/guides/volume-mount/) instead.
 - For temporary files or local caching, en **emptyDir** volume can be mounted with type Memory
 - Any volume mounted into the container will have its own filesystem permissions
 
