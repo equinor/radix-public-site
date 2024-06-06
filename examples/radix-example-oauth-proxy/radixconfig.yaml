@@ -11,21 +11,19 @@ spec:
       build:
         from: test
   components:
-    # authenticate user using openid connect 
+    # authenticate user using openid connect
     # and perform oauth authorization code grant type - see https://developer.okta.com/blog/2018/04/10/oauth-authorization-code-grant-type
     # to gain access token that can be used to call API
     # offline_access scope grants a refresh token: https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow#successful-response-1
-    - name: auth-proxy 
+    - name: auth-proxy
       image: quay.io/oauth2-proxy/oauth2-proxy:v7.1.2
       publicPort: http
       secrets:
         - OAUTH2_PROXY_CLIENT_SECRET # client secret for the UI. Application exist under Azure Active Directory -> App registration
-        - OAUTH2_PROXY_COOKIE_SECRET # a secret key used to encrypt the auth tokens sent to browser in cookie 
+        - OAUTH2_PROXY_COOKIE_SECRET # a secret key used to encrypt the auth tokens sent to browser in cookie
       ports:
         - name: http
           port: 8000
-      environmentConfig:
-        - environment: test
       variables:
         OAUTH2_PROXY_PROVIDER: "oidc" # https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-protocols-oidc
         OAUTH2_PROXY_OIDC_ISSUER_URL: "https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/v2.0" # the UID points to Equinors AzureAd tenant
@@ -40,13 +38,14 @@ spec:
         OAUTH2_PROXY_PASS_USER_HEADERS: "false"
         OAUTH2_PROXY_SKIP_PROVIDER_BUTTON: "true"
       environmentConfig:
+        - environment: test
         - environment: prod
           variables:
             OAUTH2_PROXY_CLIENT_ID: "814607e6-3d71-44a7-8476-50e8b281abbc" # client id for the UI. Application exist under Azure Active Directory -> App registration
             OAUTH2_PROXY_REDIRECT_URL: "https://radix-example-oauth-proxy.app.playground.radix.equinor.com/oauth2/callback"
             OAUTH2_PROXY_SCOPE: "openid email offline_access 30bb41bb-be29-4b10-aef7-f759141b9923/user_impersonation" # UID is resource client id for API. Application exist under Azure Active Directory -> App registration
     # stores encrypted oauth sessions (access tokens)
-    - name: auth-state 
+    - name: auth-state
       dockerfileName: auth-state.Dockerfile
       variables:
         ALLOW_EMPTY_PASSWORD: "yes"
@@ -70,7 +69,7 @@ spec:
       environmentConfig:
         - environment: test
       variables:
-        # AZURE_AD_PUBLIC_KEY - public key: corresponding private key is used to sign tokens by Azure AD 
+        # AZURE_AD_PUBLIC_KEY - public key: corresponding private key is used to sign tokens by Azure AD
         API_RESOURCE_ID: "30bb41bb-be29-4b10-aef7-f759141b9923" # client id for the API. Application exist under Azure Active Directory -> App registration
         AZURE_AD_PUBLIC_KEY_URL: "https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/discovery/v2.0/keys"
   dnsAppAlias:
