@@ -6,7 +6,7 @@ title: Domain names
 
 There can be several domain names mapped to [application components](/start/radix-concepts/index.md#component) in Radix. In general you will want to use the [public name](#public-name), but you should understand all options.
 
-:::tip
+:::tip Domain names
 Some domain names include a `clusterEnvNamepace` component. This varies depending on the type of cluster. In Radix there are two(three) **cluster types**; these are the values for `clusterEnvNamepace` in each type
 
  - platform (_blank_) - (eu-"weeknumber")

@@ -4,8 +4,132 @@ title: What's new
 
 # What's new
 
+## 2024
+
+### 2024-06-04 Strict validation of RadixConfig.yaml in Radix CLI
+
+``rx`` (radix cli) and ``radix-github-action`` have received upgraded validation. It will now check for misplaced/misspelled  keys, and with even more checks than before!
+
+### 2024-05-06 New option in radixconfig.yaml - sub-pipeline
+
+[radixconfig.yaml](/radix-config/) has new option subPipeline in ``build`` and ``environments`` properties. Currently it has [variables](/radix-config#variables-2) (handovers from ``build.variables`` and ``environments.variables`` for sub-pipelines, backward compatible) and [identity](/radix-config#identity) (also in environments).  
+
+When this ``subPipeline``'s ``identity.azure.clientId`` option is set, the environment variable ``AZURE_CLIENT_ID`` with its value is automatically added to the running pipeline, and it can be used in this pipeline tasks. Read more about the identity in the [component identity](/radix-config/#identity-1) option and about using it in the sub-pipeline in the [Pipeline with Azure workload identity](/guides/sub-pipeline/example-pipeline-with-azure-workload-identity) example.
+
+### 2024-04-19 New pipeline job type: apply-config
+
+Sometimes radixconfig.yaml has properties, which does not require a re-deploy of components. The ``apply-config`` pipeline workflow perform these changes without re-deploying components or jobs. Currently it apply changes in : [DNS alias](/radix-config/#dnsalias), [build secrets](/radix-config/#secrets), [environments](/radix-config/#environments) (create new or soft-delete existing environments).  
+
+It is available in Radix CLI 1.17.0 and in the [Radix GitHub action](https://github.com/equinor/radix-github-actions).  
+
+### 2024-04-18 Extended scheduled job statuses
+
+Radix recently got extended information in its console for scheduled jobs - more detailed info about job replicas, including failed ones.  
+
+Job API also [provides extended status](/guides/jobs/job-manager-and-job-api#get-a-state-of-a-batch) info (and extra field ``updated`` and timestamp when the status was last updated). Job statuses includes statuses of one or several replicas.  
+New job status was added
+``Active`` (in addition to ``Waiting``, ``Stopping``, ``Stopped``, ``Running``, ``Successful``, ``Failed``, ``DeadlineExceeded``), which means that the job has a replica created, but it is not ready (reasons can be volume mount is not ready, or it is a problem to schedule replica on a node because not enough memory available, etc). 
+:::note
+This [extension](/guides/jobs/notifications#radix-batch-event) is also included in Notifications
+:::
+
+### 2024-04-16 Environment specific options now available on component level
+
+In Radixconfig the properties [monitoring](/radix-config/index.md#monitoring-1), [horizontalScaling](/radix-config/index.md#horizontalscaling-1) and [volumeMounts](/radix-config/index.md#volumemounts-1) could only be set in [environmentConfig](/radix-config/index.md#environmentconfig) . Now these properties is supported in radixconfig on component (and job) level (monitoring, horizontalScaling and volumeMounts), in environments they can be overridden/altered or new can be added. Configurations in existing applications are still valid, no changes required (if not needed).
+
+### 2024-04-12 Read-only root filesystem
+
+``Containers should run with read-only root filesystem``  
+In our Radix cluster a new security option has been enabled (but not enforced). However we encourage all teams to look into this and [opt in for the configuration](/radix-config/index.md#readonlyfilesystem-1).
+An immutable root filesystem prevents applications from writing to the local disk. This is desirable, in case of an intrusion from the attacker will not be able to tamper with the filesystem or write foreign executables to disk.  
+
+The [container’s](/docs/topic-docker/) **root filesystem** should be treated as not usable. This prevents any writes to the container’s root filesystem at container runtime and enforces the principle of immutable infrastructure. Read about read-only filesystems in Kubernetes for more info.  
+
+Some options you can consider
+- If you want to write it to a file, [mount a volume](/guides/volmue-mount/) instead.
+- For temporary files or local caching, en **emptyDir** volume can be mounted with type Memory
+- Any volume mounted into the container will have its own filesystem permissions
+
+**What about logs**
+If this is really about logs a better solution might be to reconfigure your application to send its logs to ``stdout``, typical log collectors know how to read the container logs.  
+
+
+:::tip **emptyDir** 
+A container crashing does not remove a Pod from a node. The data in an emptyDir volume is safe across container crashes.
+:::
+
+Some uses for an emptyDir are:
+- Scratch space, such as for a disk-based merge sort
+- Checkpointing a long computation for recovery from crashes
+- Holding files that a content-manager container fetches while a webserver container serves the data
+
+
+### 2024-03-07 Environment specific ``image``, src , dockerfileName in radixconfig.yaml
+
+So far a component could be built from for all environments from the same ``src`` and ``dockerfileName`` (or "." and "Dockerfile" by default), or it could be deployed with an image, specified in ``image`` option (with possible altering by ``imageTagName`` for environments).  
+
+Now these options can be different for individual environments of one component. Motivation was to allow building the component for one environment, but keep other environments being deployed from pre-built images (and vice-versa).  
+
+Please read more about ``environmentConfig`` with [src](/radix-config/index.md#src-1), [dockerfileName](/radix-config/index.md#dockerfilename-1) and [image](/radix-config/index.md#image-1).  
+
+### 2024-03-06 automatic issuance of Digicert (equinor.com) certificates
+
+Managing SSL/TLS certificates can be a daunting task that requires a lot of manual effort. But now, with our new automated process, you can take the hassle out of issuing SSL/TLS certificates and let us handle it for you with ease.  
+
+With this feature, you can ensure that all your certificates are up-to-date and issued on time. Our system will automatically generate and renew certificates for you, so you’re always one step ahead.  
+
+More information regarding this feature can be found in the [External Alias Guide](/guides/external-alias/)
+
+
+### 2024-03-04 Updated Radix documentation website
+
+Radix documentation website has been migrated to the framework [Docusaurus](https://docusaurus.io/) due to previously used VuePress is retired. We also rearranged some of menu items.
+
+### 2024-01-25 Option "component" added to deploy-only pipeline job
+
+One or several components can be specified for a [deploy pipeline workflow](/guides/deploy-only/index.md#deploy-only-specific-component) with the new option ``component`` for [Radix CLI](/docs/topic-radix-cli/index.md#deploy-pipeline-job), [Radix GitHub action](https://github.com/equinor/radix-github-actions) and [Radix API](https://api.radix.equinor.com/swaggerui/).
+
+### Custom DNS for your application - within radix.equinor.com
+
+Radix now allows you to configure a custom FQDN in a form ``*abc*.radix.equinor.com``
+Multiple FQDNs can be defined in the [radixconfig dnsAlias](/radix-config/index.md#dnsalias) property (similar to [dnsAppAlias](/radix-config/index.md#dnsappalias), but with less limitations and without .app in FQDN) for any environment component with public port. A supporting certificate is issued automatically.  
+
+For the Playground cluster FQDN will be like  ``abc.playground.radix.equinor.com``  
+
+Configured FQDNs are shown in the Radix application and component web-console forms  
+![DNS alias](./custom-alias.png)  ![alias link](./alias-link.png)
+
+
+### 2024-01-03 Sub-Pipeline can now use Workload Identity (Tekton)
+
+We now support the use of Azure Workload Identity for Sub-Pipelines. With this release, a unique credential for each of your environments is provided, which will allow you to use Federated Credential wherever needed.
+[Sub-Pipeline guide with Workload Identity](/guides/sub-pipeline/example-pipeline-with-azure-workload-identity.html)
+
+
+### 2024-01-02 New command available in Radix CLI
+
+Runtime environment variable can be set or changed not only in the ``radixconfig`` or Radix console, now also in the Radix CLI
+````
+rx set environment-variable --application your-app1 --environment your-env --component your-component1 --variable LOG_LEVEL --value DEBUG
+````
+Use with github action
+````
+      - name: Set variable
+        uses: equinor/radix-github-actions@v1
+        with:
+          args: >
+            set environment-variable 
+            --application your-app1
+            --environment your-env
+            --component your-component1
+            --variable LOG_LEVEL 
+            --value DEBUG    
+````
+
+
 ## 2023
 ### 2023-12-05 Support for using images from private repositories
+
 We have released support for using images from private repositories in the Dockerfile ``FROM`` instruction.
 ````
 FROM myappacr.azurecr.io/myapp-base:latest
@@ -51,8 +175,9 @@ volumeMounts:
 ### 2023-10-02 Radix now supports docker BuildKit in the pipeline
 Radix application can be configured to be built with [Docker BuildKit](https://docs.docker.com/build/buildkit/)  
 Use an option ``useBuildKit: true`` in the [build radixconfig](/radix-config/index.md#build) section.
-Please note:
-there maybe be changes required in a dockerfile, particularly secrets will be passed with more secure way, repository name is needed in the FROM instruction. Read more in the [guide](/guides/build-secrets/#build-secrets-with-buildkit)  
+:::info Note
+There maybe be changes required in a dockerfile, particularly secrets will be passed with more secure way, repository name is needed in the FROM instruction. Read more in the [guide](/guides/build-secrets/#build-secrets-with-buildkit)  
+:::
 
 ### Grouped secrets in Radix Web Console
 Secrets in Components have been redesigned, sorted and grouped, hopefully making them bearable to read through  
@@ -268,7 +393,7 @@ To see more information regarding the selected `Configuration Item`, click the `
 
 Existing applications should be updated with a `Configuration Item` in the Application Configuration page.
 
-:::tip
+:::info
 For the Playground cluster a Configuration Item is not mandatory.
 :::
 
@@ -410,12 +535,13 @@ Docs now recommend using [Private Link](/guides/egress-config/#use-private-link)
 The Radix clusters now have static ingress IP ranges.  
 This information can be found on the :information_source: information page on the applicable Radix Web Console.
 
-#### Note: IP ranges
+:::info IP ranges
 
 ```text
 Production: 20.223.122.0/30
 Playground: 20.223.26.208/30
 ```
+:::
 
 ### 2022-03-11 Custom configuration of the Metrics endpoint
 
@@ -521,7 +647,7 @@ Favourites are local and stored in the browser cache.
 
 Environment variables can now be overridden from the Radix Web Console. Previously users would have to make changes to their `radixconfig.yaml` file and redeploy it to change the value of environment variables.  
 
-:::tip
+:::tip 
 Note that you will need to restart the component, or for jobs a new job should be started, for your changes to take effect.
 :::
 
@@ -603,8 +729,8 @@ You will now be alerted on the Applications page if there is anything wrong with
 The icon is a small exclamation mark next to the component name. To get more information on what is wrong you can hover over the icon. There is also a new warning label stating 'Outdated image' on the Environments page under 'Active components'.  
 This label will appear when your running component is using an old image and typically happens when the latest deployment causes the new component to be unable to start, or the readiness probe is unable to reach it.  
 
-:::tip
-Note: In the transition right after a deployment, the Outdated image label will appear. Once the new replicas have started this will be replaced with the Ok label.
+:::warning
+In the transition right after a deployment, the Outdated image label will appear. Once the new replicas have started this will be replaced with the Ok label.
 :::
 
 ### 2021-01-12 Radix Web Console: Events available
