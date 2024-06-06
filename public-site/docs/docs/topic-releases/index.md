@@ -6,6 +6,7 @@ title: What's new
 
 ## 2024
 
+
 ### 2024-06-04 Strict validation of RadixConfig.yaml in Radix CLI
 
 ``rx`` (radix cli) and ``radix-github-action`` have received upgraded validation. It will now check for misplaced/misspelled  keys, and with even more checks than before!
@@ -127,13 +128,43 @@ Use with github action
 ````
 
 
+### 2024-06-06 Support for advanced horizontal scaling (KEDA)
+We have released initial support for KEDA Triggers, to enable scaling of pods based on messages in a Azure Service Bus, or based on a CRON Schedule, as well as resource metrics as before (CPU/Memory). If you are using a non-resource trigger, we also support scaling to 0 replicas!
+See  [radixconfig.yaml](/radix-config/index.md#horizontalscaling) for more details.
+
+:::tip
+We reccomend scaling most environments to 0 when not in use, this will save on cost and the environment 🌳💸
+:::
+
+#### Example:
+- Scales to 0 at night
+- Scales to minimum 1 at day time
+- Scales up to maximum 5 at heavy load (the trigger with the highest number of target replicas will win)
+```yaml
+horizontalScaling:
+  maxReplicas: 5
+  minReplicas: 0
+  triggers:
+    - name: cpu
+      cpu:
+        value: 50 
+    - name: cron
+      cron:
+        timezone: Europe/Oslo
+        start: 08:00
+        stop: 16:00
+        desiredReplicas: 1
+
+```
+
+
 ## 2023
 ### 2023-12-05 Support for using images from private repositories
 
 We have released support for using images from private repositories in the Dockerfile ``FROM`` instruction.
-````
+```docker
 FROM myappacr.azurecr.io/myapp-base:latest
-````
+```
 It requires ``useBuildKit: true`` in the radixconfig.
 
 ### 2023-11-14 Only build changed components and jobs
@@ -143,12 +174,12 @@ It requires ``useBuildKit: true`` in the radixconfig.
 ### 2023-11-13 New version of Radix CLI
 We have just released a new version of Radix CLI v1.12.1 with a ``validate radix-config`` command. It checks radixconfig.yaml for structural and logical errors
 Also available as a GitHub action step
-````
+```yaml
 - name: 'Validate RadixConfig file '
   uses: equinor/radix-github-actions@v1
   with:
     args: validate radix-config --print
-````
+```
 
 ### 2023-10-20 Commit ID option in deploy-only pipeline jobs
 Radix CLI v1.10.0 and Radix GitHub action support an additional option ``commitID`` in the command ``rx create pipeline-job deploy`` . It is a 40 chars text field, which can have a reference to a GitHub commit-id, which will be shown in the Radix console, in the list of pipeline jobs and job details.  
@@ -162,7 +193,7 @@ To reduce the error "TLS Handshake timeout" it has been mitigated in Radix pipel
 
 ### 2023-10-09 Changes in Azure Blob volume-mounts
 If your Radix application uses Azure Blob volume mount, [radixconfig.yaml](/radix-config/index.md) has a configuration of this volume mount, which has an optional property ``accessMode``. If the application need not only read, but also write to this Azure Blob container, please specify explicitly this property, we recommend for the read-write purpose to set it to ``ReadWriteMany``:
-````yaml
+```yaml
 volumeMounts:
   - name: volume-name
     path: /path/in/container/to/mount/to
@@ -170,7 +201,7 @@ volumeMounts:
       container: container-name
       uid: 1000
       accessMode: ReadWriteMany
-````
+```
 
 ### 2023-10-02 Radix now supports docker BuildKit in the pipeline
 Radix application can be configured to be built with [Docker BuildKit](https://docs.docker.com/build/buildkit/)  
@@ -204,12 +235,13 @@ This node pool also has autoscaling.
 Now [it has releases](https://github.com/equinor/radix-github-actions/releases), with latest tested release v1 , which is recommended to use in GitHub actions, instead of master
 Previous use example: ``equinor/radix-github-actions@master``
 Recommended use example:
-``````      - name: 'Deploy app'
-        uses: equinor/radix-github-actions@v1
-        with:
-          args: >
-            create job
-``````
+```yaml      
+- name: 'Deploy app'
+  uses: equinor/radix-github-actions@v1
+  with:
+    args: >
+      create job
+```
 * With this v1 release it will get particular Radix CLI stable release instead of the latest one.
 
 
@@ -222,12 +254,12 @@ The role is an Azure AD group that can be assigned under `Access control` in the
 
 In addition to restart job with original deployment, Radix now allows to restart scheduled single jobs, entire batch or individual jobs within the batch with latest active deployment (if it is different than for the restarting job). [Read more](/guides/jobs/jobs-in-web-console.md)
 Scheduled jobs now can be run with `imageTagName` , specified in [radixconfig](/radix-config/index.md) and altered in [JobDescription](/guides/jobs/job-manager-and-job-api.md#create-a-single-job)  
-````
+```yaml
 {
   "payload": "abc",
   "imageTagName": "1.0.0"
 } 
-````
+```
 
 ### 2023-07-13 Restart scheduled batches and jobs
 
@@ -252,7 +284,9 @@ If your Radix application uses [Azure Blob volume mount](/guides/volume-mounts/)
 ### 2023-05-16 Support for custom CPU scaling threshold and autoscaling on memory
 Autoscaling has only been supported on CPU, with a hardcoded threshold of 80% utilization. Now the CPU threshold is configurable, and you can also configure autoscaling on memory.
 This can be enabled in [radixconfig.yaml](/radix-config/index.md#horizontalscaling).
-
+:::info Deprecated
+The `resources` block is deprecated and replaced by more flexible `triggers`, see [radixconfig.yaml](/radix-config/index.md#horizontalscaling) for more details.
+:::
 Example:
 
 ```yaml
@@ -308,9 +342,11 @@ Admin AD group can be set in Web console =&gt; Configuration =&gt; “Change adm
 ### 2023-03-28 New version of Radix CLI version 1.7
 
 More details in the [Radix documentation](/docs/topic-radix-cli/#commands) or with built-in `help`   
+```shell
 rx scale --help  
 rx get logs component --help  
 rx create pipeline-job deploy --help  
+```
 
 ### 2023-03-14 Radix updates
 
@@ -336,13 +372,13 @@ The `Payload` button (`Scheduled Jobs` only) has been moved inside an elipsis me
 The Radix Github Action is used by many Radixians to execute rx CLI commands in workflows. We have seen cases where workflows fail because the Radix Action fails to download the rx CLI because of GitHub API rate limits. To remedy this, we have patched the Action with an optional argument github-token, where you can supply your workflow's GITHUB_TOKEN secret. This effectively increases the hourly API request limit from 60 to 15,000.
 
 ```yaml
-      - name: list-apps
-        uses: equinor/radix-github-actions@v1
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          args: >
-            get
-            application
+- name: list-apps
+  uses: equinor/radix-github-actions@v1
+  with:
+    github-token: ${{ secrets.GITHUB_TOKEN }}
+    args: >
+      get
+      application
 ```
 
 ### 2023-02-16 Radix Web Console: Start, Stop and Restart environments

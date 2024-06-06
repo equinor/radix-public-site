@@ -417,31 +417,95 @@ spec:
 
 The `monitoringConfig` field of a component can be used to override the default port and/or path used for `monitoring`. Both fields are optional and are by default set to use the first available port and the path as `/metrics`.
 
-:::tip
 :::tip Note
 If overriding `portName` it will have to match one of the defined ports in the component.
 :::
-:::
 
 ### `horizontalScaling`
+
+Scale your components replicas up and down based on resources or external metrics like CRON or Azure Service Bus.
+
+More triggers are available at https://keda.sh/docs/latest/scalers/, and open a feature request on https://github.com/equinor/radix
+
+You can override horizontalScaling in your environments and we will merge `minReplicas`, `maxReplicas`, `pollingInterval` and `CooldownPeriod`, if more any triggers is defined in the environment, the will override all triggers defined on the component level.
 
 ```yaml
 spec:
   components:
     - name: backend
       horizontalScaling:
-        resources:
-            memory:
-              averageUtilization: 75
-            cpu:
-              averageUtilization: 85
-        minReplicas: 2
+        minReplicas: 0 # defaults to 1 if not set
         maxReplicas: 6
+        # pollingInterval: 30 # Default
+        # CooldownPeriod: 300 # Default
+        triggers:
+          # Cpu/Memory triggers will scale up/down so the average usage
+          # is 85% of requested Cpu across all pods, 
+          # or 75% of requested memory across all pods, whatever is highest.
+        - name: cpu
+          cpu:
+            value: 85
+        
+        - name: memory
+          cpu:
+            value: 75
+            
+        - name: cron
+          cron:
+            timezone: Europe/Oslo
+            start: 08:00
+            stop: 16:00
+            desiredReplicas: 1
+
+        - name: azuresb
+          azureServiceBus:
+            namespace: <your servicebus namespace> #.servicebus.windows.net
+            # messageCount: 5
+            # activationMessageCount: 0
+            queueName: main
+            # or use TopicName/subscriptionName:
+            # topicName: my-topic
+            # subscriptionName: my-subscription
+            authentication: # Currently we only support Workload Identity
+              identity:
+                azure:
+                  clientId: 00000000-0000-0000-0000-000000000000
+
+        # Deperecated: legacy resources will be rewritten as triggers by Radix. 
+        # - It is not allowed to mix resources with triggers.
+        # resources:
+        #     memory:
+        #       averageUtilization: 75
+        #     cpu:
+        #       averageUtilization: 85
 ```
 
-The `horizontalScaling` field is used for enabling automatic scaling of the component. This field is optional, and if set, it will override the `replicas` value of the component. One exception is when the `replicas` value is set to `0` (i.e. the component is stopped), the `horizontalScaling` config will not be used.
+The `horizontalScaling` field is used for enabling automatic scaling of the component. This field is optional, and if set, it will override the `replicas` value of the component. If no triggers are defined, we will configure a default CPU trigger with a target of 80% average usage.
 
-The `horizontalScaling` field contains two sub-fields, `minReplicas` and `maxReplicas`, and one subsection, `resources`. The `minReplicas` and `maxReplicas` fields specify the minimum and maximum number of replicas for a component, respectively. The value of `minReplicas` must strictly be smaller or equal to the value of `maxReplicas`. Memory and CPU scaling thresholds are determined by the `resources.memory.averageUtilization` and `resources.cpu.averageUtilization` fields. The value of `averageUtilization` must be greater than 1. If the `horizontalScaling.resources` section is omitted from the environment config, the `cpu.averageUtilization` will default to a value of 80. However, if `memory.averageUtilization` is defined while `cpu.averageUtilization` is undefined, CPU based autoscaling will be disabled for this component.
+One exception is when the `replicas` value is set to `0` (i.e. the component is stopped), the `horizontalScaling` config will not be used.
+
+:::info Deprecation
+The previous `resources` block have been replaced by `triggers`.
+:::
+
+#### Azure Service bus
+
+Take a look here [github.com/equinor/radix-sample-keda](https://github.com/equinor/radix-sample-keda) for a sample implementation that runs on Radix.
+
+Azure Service Bus supports either a `queueName`, or a `topicName` and `subscriptionName`. You can also select the target average `messageCount` (defaults to 5), and `activationMessageCount` (defaults to 0).
+
+To authenticate Keda for scaling, you must provide a clientId to a managed identity, that contains a federeated credential with these properties:
+```yaml
+Federated credential scenario: Kubernetes Service Account
+# Find real and current value here: https://console.radix.equinor.com/about (CLUSTER_OIDC_ISSUER_URL), 
+# it will change in the future, we will post details in the slack channel #omnia-radix when it must be changed.
+Cluster Issuer URL: https://northeurope.oic.prod-aks.azure.com/00000000-0000-0000-0000-000000000000/00000000-0000-0000-0000-000000000000/ 
+Namespace: keda
+Service Account: keda-operator
+
+# ⚠️ When you give Keda access to your Service Bus, any other Radix app can scale their app based on your queue. 
+#    We are hoping on improving this - https://github.com/kedacore/keda/issues/5630
+```
 
 ### `imageTagName`
 
