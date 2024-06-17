@@ -6,6 +6,34 @@ title: What's new
 
 ## 2024
 
+### 2024-06-06 Support for advanced horizontal scaling (KEDA)
+We have released initial support for KEDA Triggers, to enable scaling of pods based on messages in a Azure Service Bus, or based on a CRON Schedule, as well as resource metrics as before (CPU/Memory). If you are using a non-resource trigger, we also support scaling to 0 replicas!
+See  [radixconfig.yaml](/radix-config/index.md#horizontalscaling) for more details.
+
+:::tip
+We reccomend scaling most environments to 0 when not in use, this will save on cost and the environment 🌳💸
+:::
+
+#### Example:
+- Scales to 0 at night
+- Scales to minimum 1 at day time
+- Scales up to maximum 5 at heavy load (the trigger with the highest number of target replicas will win)
+```yaml
+horizontalScaling:
+  maxReplicas: 5
+  minReplicas: 0
+  triggers:
+    - name: cpu
+      cpu:
+        value: 50 
+    - name: cron
+      cron:
+        timezone: Europe/Oslo
+        start: 08:00
+        stop: 16:00
+        desiredReplicas: 1
+
+```
 
 ### 2024-06-04 Strict validation of RadixConfig.yaml in Radix CLI
 
@@ -126,36 +154,6 @@ Use with github action
             --variable LOG_LEVEL 
             --value DEBUG    
 ````
-
-
-### 2024-06-06 Support for advanced horizontal scaling (KEDA)
-We have released initial support for KEDA Triggers, to enable scaling of pods based on messages in a Azure Service Bus, or based on a CRON Schedule, as well as resource metrics as before (CPU/Memory). If you are using a non-resource trigger, we also support scaling to 0 replicas!
-See  [radixconfig.yaml](/radix-config/index.md#horizontalscaling) for more details.
-
-:::tip
-We reccomend scaling most environments to 0 when not in use, this will save on cost and the environment 🌳💸
-:::
-
-#### Example:
-- Scales to 0 at night
-- Scales to minimum 1 at day time
-- Scales up to maximum 5 at heavy load (the trigger with the highest number of target replicas will win)
-```yaml
-horizontalScaling:
-  maxReplicas: 5
-  minReplicas: 0
-  triggers:
-    - name: cpu
-      cpu:
-        value: 50 
-    - name: cron
-      cron:
-        timezone: Europe/Oslo
-        start: 08:00
-        stop: 16:00
-        desiredReplicas: 1
-
-```
 
 
 ## 2023
