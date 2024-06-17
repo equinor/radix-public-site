@@ -427,7 +427,7 @@ Scale your components replicas up and down based on resources or external metric
 
 If you need any other trigger types, find the list of available triggers at https://keda.sh/docs/latest/scalers/ and open a feature request on https://github.com/equinor/radix
 
-You can override horizontalScaling in your environments and we will merge `minReplicas`, `maxReplicas`, `pollingInterval` and `CooldownPeriod`. If any triggers are defined in the environment, they will replace all triggers on the component level.
+You can override horizontalScaling in your environments and we will merge `minReplicas`, `maxReplicas`, `pollingInterval` and `cooldownPeriod`. If any triggers are defined in the environment, they will replace all triggers on the component level.
 Read more about polling intervall and cooldown period in KEDAs documentation [here](https://keda.sh/docs/latest/concepts/scaling-deployments/#pollinginterval)
 
 ```yaml
@@ -438,7 +438,7 @@ spec:
         minReplicas: 0 # defaults to 1 if not set
         maxReplicas: 6
         # pollingInterval: 30 # Default
-        # CooldownPeriod: 300 # Default
+        # cooldownPeriod: 300 # Default
         triggers:
           # Cpu/Memory triggers will scale up/down so the average usage
           # is 85% of requested Cpu across all pods, 
