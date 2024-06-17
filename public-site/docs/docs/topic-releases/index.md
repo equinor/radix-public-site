@@ -11,7 +11,7 @@ We have released initial support for KEDA Triggers, to enable scaling of pods ba
 See  [radixconfig.yaml](/radix-config/index.md#horizontalscaling) for more details.
 
 :::tip
-We reccomend scaling most environments to 0 when not in use, this will save on cost and the environment 🌳💸
+We recommend scaling most environments to 0 when not in use, this will save on cost and the environment 🌳💸
 :::
 
 #### Example:
