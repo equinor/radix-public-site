@@ -425,9 +425,9 @@ If overriding `portName` it will have to match one of the defined ports in the c
 
 Scale your components replicas up and down based on resources or external metrics like CRON or Azure Service Bus.
 
-More triggers are available at https://keda.sh/docs/latest/scalers/, and open a feature request on https://github.com/equinor/radix
+If you need any other trigger types, find the list of available triggers at https://keda.sh/docs/latest/scalers/ and open a feature request on https://github.com/equinor/radix
 
-You can override horizontalScaling in your environments and we will merge `minReplicas`, `maxReplicas`, `pollingInterval` and `CooldownPeriod`. If any triggers are defined in environment, they will replace all triggers on the component level.
+You can override horizontalScaling in your environments and we will merge `minReplicas`, `maxReplicas`, `pollingInterval` and `CooldownPeriod`. If any triggers are defined in the environment, they will replace all triggers on the component level.
 Read more about polling intervall and cooldown period in KEDAs documentation [here](https://keda.sh/docs/latest/concepts/scaling-deployments/#pollinginterval)
 
 ```yaml
