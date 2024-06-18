@@ -1125,7 +1125,7 @@ spec:
             architecture: amd64|arm64
 ```
 
-The `architecture` property in `Runtime` defines the CPU architecture a component or job should be built and deployed to. Valid values are `amd64` and `arm64`. The `Runtime` section can be configured on the component/job level and in `environmentConfig` for a specific environment. `environmentConfig` takes precedence over component/job level configuration. `amd64` is used if neither is configured.
+The `architecture` property in `runtime` defines the CPU architecture a component or job should be built and deployed to. Valid values are `amd64` and `arm64`. The `runtime` section can be configured on the component/job level and in `environmentConfig` for a specific environment. `environmentConfig` takes precedence over component/job level configuration. `amd64` is used if neither is configured.
 
 If you use the [`build and deploy`](/guides/build-and-deploy) pipeline to build components or jobs, [`usebuildkit`](#usebuildkit) must be enabled if at least one component or job is configured for `arm64`. Radix will run the **build steps** on nodes with matching architecture, which in most cases mean that you do not have to change anything in the Dockerfile to support the configured architecture. This applies as long as the images defined in the Dockerfile's `FROM <image>` supports the architecture.
 
