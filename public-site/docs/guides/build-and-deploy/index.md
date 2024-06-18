@@ -14,6 +14,8 @@ title: Build and deploy
 
 The [`build-deploy`](/start/workflows/) pipeline builds and deploys container images from Dockerfiles for components and jobs that do not have the [`image`](/radix-config/index.md#image) property set in [`radixconfig.yaml`](/radix-config). The name and path of the Dockerfile for each component and job is defined in the [`dockerfileName`](/radix-config/index.md#dockerfilename) and [`src`](/radix-config/index.md#src) properties.
 
+By default, the container image is built and deployed using `amd64` CPU architecture, but this can be configured to use `arm64` in the [`runtime`](/radix-config/#runtime-1) section in `radixconfig.yaml`.
+
 A `build-deploy` pipeline job can be created manually from [`Radix Web Console`](https://console.radix.equinor.com/) or [`Radix CLI`](/docs/topic-radix-cli/), or automatically when code is pushed to the application's Github repository, if a [GitHub webhook](https://docs.github.com/en/developers/webhooks-and-events/webhooks/about-webhooks) is configured. Instructions on how to configure a Github webhook can be found in the `Webhook` section on the application's configuration page in Radix Web Console.
 
 For manually created pipeline jobs, Radix will always build container images for all components and jobs. When a pipeline job is created by a Github webhook, Radix compares the commit ID from the webhook request body with the commit ID of the active deployment, to detect which directories have changed. The list of changed directories are then compared to the path of the Dockerfile for each component and job. If any of the changed directories are equal to, or a child of the Dockerfile path, a new image is built for the matching component or job. Radix will reuse the image from the current active deployment for components and jobs that have not changed.
@@ -30,13 +32,13 @@ If no changes are detected, and [`sub-pipeline`](../sub-pipeline/) is not config
 
 The log from the `Orchestrating pipeline` step prints decisions made by Radix whether to build new images, reuse images from current deployment or use images from `image` property in `radixconfig`.
 
-:::details Log examples
+#### Log examples
 
 Component `server` was changed, and a new container image is built. `compute` and `compute2` are unchanged, and images from active deployment are used. Image for `redis` is configured in `image` property in `radixconfig`:
 ```
 time="2023-11-13T14:44:31Z" level=info msg="Component image source in environments:"
 time="2023-11-13T14:44:31Z" level=info msg="  qa:"
-time="2023-11-13T14:44:31Z" level=info msg="    - server from build"
+time="2023-11-13T14:44:31Z" level=info msg="    - server (arch: amd64) from build"
 time="2023-11-13T14:44:31Z" level=info msg="    - redis from image in radixconfig"
 time="2023-11-13T14:44:31Z" level=info msg="    - compute from active deployment"
 time="2023-11-13T14:44:31Z" level=info msg="    - compute2 from active deployment"
@@ -47,10 +49,10 @@ Changed `radixconfig`, requiring all components to be built:
 time="2023-11-13T14:42:56Z" level=info msg="RadixApplication updated since last deployment to environment qa"
 time="2023-11-13T14:42:56Z" level=info msg="Component image source in environments:"
 time="2023-11-13T14:42:56Z" level=info msg="  qa:"
-time="2023-11-13T14:42:56Z" level=info msg="    - server from build"
+time="2023-11-13T14:42:56Z" level=info msg="    - server (arch: amd64) from build"
 time="2023-11-13T14:42:56Z" level=info msg="    - redis from image in radixconfig"
-time="2023-11-13T14:42:56Z" level=info msg="    - compute from build"
-time="2023-11-13T14:42:56Z" level=info msg="    - compute2 from build"
+time="2023-11-13T14:42:56Z" level=info msg="    - compute (arch: amd64) from build"
+time="2023-11-13T14:42:56Z" level=info msg="    - compute2 (arch: amd64) from build"
 ```
 
 Changed `build secret` values, requiring all components to be built:
@@ -58,12 +60,11 @@ Changed `build secret` values, requiring all components to be built:
 time="2023-11-13T14:37:44Z" level=info msg="Build secrets updated since last deployment to environment dev"
 time="2023-11-13T14:37:44Z" level=info msg="Component image source in environments:"
 time="2023-11-13T14:37:44Z" level=info msg="  qa:"
-time="2023-11-13T14:37:44Z" level=info msg="    - server from build"
+time="2023-11-13T14:37:44Z" level=info msg="    - server (arch: amd64) from build"
 time="2023-11-13T14:37:44Z" level=info msg="    - redis from image in radixconfig"
-time="2023-11-13T14:37:44Z" level=info msg="    - compute from build"
-time="2023-11-13T14:37:44Z" level=info msg="    - compute2 from build"
+time="2023-11-13T14:37:44Z" level=info msg="    - compute (arch: amd64) from build"
+time="2023-11-13T14:37:44Z" level=info msg="    - compute2 (arch: amd64) from build"
 ```
-:::
 
 #### Example
 
