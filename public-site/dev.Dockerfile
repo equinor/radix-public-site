@@ -1,4 +1,4 @@
-FROM docker.io/node:21-alpine3.18 as builder
+FROM docker.io/node:20.14.0-alpine3.20 as builder
 
 WORKDIR /site
 COPY . .

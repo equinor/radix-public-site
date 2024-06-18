@@ -1,8 +1,7 @@
-FROM docker.io/node:20.11.1-alpine3.19 as builder
+FROM docker.io/node:20.14.0-alpine3.20 as builder
 
 WORKDIR /site
 COPY . .
-RUN npm install -g npm@10.6.0
 RUN npm install
 RUN npm run build
 
