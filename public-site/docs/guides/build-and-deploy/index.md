@@ -14,7 +14,7 @@ title: Build and deploy
 
 The [`build-deploy`](/start/workflows/) pipeline builds and deploys container images from Dockerfiles for components and jobs that do not have the [`image`](/radix-config/index.md#image) property set in [`radixconfig.yaml`](/radix-config). The name and path of the Dockerfile for each component and job is defined in the [`dockerfileName`](/radix-config/index.md#dockerfilename) and [`src`](/radix-config/index.md#src) properties.
 
-By default, the container image is built and deployed using `amd64` CPU architecture, but can be configured to use `arm64` in the [`Runtime`](/radix-config/#runtime-1) section in `radixconfig.yaml`.
+By default, the container image is built and deployed using `amd64` CPU architecture, but this can be configured to use `arm64` in the [`Runtime`](/radix-config/#runtime-1) section in `radixconfig.yaml`.
 
 A `build-deploy` pipeline job can be created manually from [`Radix Web Console`](https://console.radix.equinor.com/) or [`Radix CLI`](/docs/topic-radix-cli/), or automatically when code is pushed to the application's Github repository, if a [GitHub webhook](https://docs.github.com/en/developers/webhooks-and-events/webhooks/about-webhooks) is configured. Instructions on how to configure a Github webhook can be found in the `Webhook` section on the application's configuration page in Radix Web Console.
 
