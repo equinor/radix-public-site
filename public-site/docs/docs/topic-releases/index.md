@@ -29,8 +29,8 @@ horizontalScaling:
     - name: cron
       cron:
         timezone: Europe/Oslo
-        start: 08:00
-        stop: 16:00
+        start: 0 7 * * 1-5 # 07:00 Monday - Friday
+        end: 0 17 * * 1-5 # 17:00 Monday - Friday
         desiredReplicas: 1
 
 ```
