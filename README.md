@@ -1,6 +1,9 @@
-PROD    ![prod](https://api.radix.equinor.com/api/v1/applications/radix-public-site//environments/prod/buildstatus)  
-QA      ![qa](https://api.radix.equinor.com/api/v1/applications/radix-public-site//environments/qa/buildstatus)  
-Promote ![build_deploy_promote](https://api.radix.equinor.com/api/v1/applications/radix-public-site//environments/prod/buildstatus?pipeline=promote) 
+| Prod                                                                                       |   QA   | Promote                        |  | 
+|---------------------------------------------------------------------------------------------------|------|-----------------------------|----------------|
+| ![prod](https://api.radix.equinor.com/api/v1/applications/radix-public-site//environments/prod/buildstatus) |   ![qa](https://api.radix.equinor.com/api/v1/applications/radix-public-site//environments/qa/buildstatus)   | ![build_deploy_promote](https://api.radix.equinor.com/api/v1/applications/radix-public-site//environments/prod/buildstatus?pipeline=promote)  |  | 
+
+
+[![SCM Compliance](https://scm-compliance-api.radix.equinor.com/repos/equinor/8de2870b-4681-4c54-8f5e-2cb7a85f3201/badge)](https://developer.equinor.com/governance/scm-policy/)
 
 # Radix Public Site
 
