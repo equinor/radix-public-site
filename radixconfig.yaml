@@ -21,20 +21,39 @@ spec:
       publicPort: http
       environmentConfig:
         - environment: qa
+          resources:
+            requests:
+              memory: "150Mi"
+              cpu: "10m"
+            limits:
+              memory: "150Mi"
+              cpu: "10m"
           volumeMounts:
             - name: tmp
               path: /tmp
               emptyDir:
                 sizeLimit: 10M
+          runtime:
+            architecture: arm64
+          horizontalScaling:
+            maxReplicas: 1
+            minReplicas: 0
+            triggers:
+              - name: cron
+                cron:
+                  timezone: Europe/Oslo
+                  start: 0 7 * * 1-5 # 07:00 Monday - Friday
+                  end: 0 17 * * 1-5 # 17:00 Monday - Friday
+                  desiredReplicas: 1                   
         - environment: prod
           replicas: 2
           resources:
             requests:
-              memory: "100Mi"
-              cpu: "100m"
+              memory: "150Mi"
+              cpu: "10m"
             limits:
               memory: "150Mi"
-              cpu: "120m"
+              cpu: "10m"
           volumeMounts:
             - name: tmp
               path: /tmp
