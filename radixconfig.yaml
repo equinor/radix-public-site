@@ -27,7 +27,7 @@ spec:
               cpu: "10m"
             limits:
               memory: "150Mi"
-              cpu: "10m"
+              cpu: "1000m" # docusaurus use a lot of cpu during startup/init
           volumeMounts:
             - name: tmp
               path: /tmp
@@ -53,7 +53,7 @@ spec:
               cpu: "10m"
             limits:
               memory: "150Mi"
-              cpu: "10m"
+              cpu: "1000m" # docusaurus use a lot of cpu during startup/init
           volumeMounts:
             - name: tmp
               path: /tmp
