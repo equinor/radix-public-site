@@ -1221,14 +1221,14 @@ spec:
 - `condition` - `Any`, `All`
 - `operator` - `In`, `NotIn`
 - `jobStatuses` - `Waiting`, `Active`, `Running`, `Succeeded`, `Failed`, `Stopped`
-- `batchStatus` - `Running`, `Succeeded`, `Failed`, `Waiting`, `Stopping`, `Stopped`, `DeadlineExceeded`, `Active`, `Completed`
+- `batchStatus` - `Waiting`, `Active`, `Running`, `Succeeded`, `Failed`, `Stopping`, `Stopped`, `DeadlineExceeded`, `Completed`
 
 Rules are applied in the order from top to bottom in the rules list. When any rule matches, rules following it are ignored.
 
-If `batchStatusRules` are not defined or no rules match - following rules are applied:
-* No jobs are started - the batch status is `Waiting`
-* Any jobs are in `Active` or `Running` state - the batch status is `Active`
-* No jobs are in `Waiting`, `Active` or `Running` states - the batch status is `Completed`
+If `batchStatusRules` are not defined or no rules match a batch status is set by following rules:
+* `Waiting` - no jobs are started
+* `Active` - any jobs are in `Active` or `Running` state
+* `Completed` - no jobs are in `Waiting`, `Active` or `Running` states
 
 Batch statuses, default or defined by rules, are the same in the Radix console, returned by [job notifications](/guides/jobs/notifications.md) and [Job Manager API](/guides/jobs/job-manager-and-job-api.md). If rules are changed, they will be applied on next deployment of an application environment, also affecting already existing batches statuses in this environment.
 
