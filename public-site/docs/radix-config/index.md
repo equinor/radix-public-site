@@ -1197,6 +1197,43 @@ spec:
 
 `webhook` is an optional URL to the Radix application component or job component which will be called when any of the job-component's running jobs or batches changes states. Only changes are sent by POST method with a `application/json` `ContentType` in a [batch event format](/guides/jobs/notifications.md#radix-batch-event). Read [more](/guides/jobs/notifications)
 
+### `batchStatusRules`
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      batchStatusRules:
+        - condition: Any
+          operator: In
+          jobStatuses:
+            - Failed
+          batchStatus: Failed
+        - condition: All
+          operator: NotIn
+          jobStatuses:
+            - Waiting
+            - Active
+            - Running
+          batchStatus: Completed
+```
+`batchStatusRules` - Optional rules to define batch statuses by their jobs statuses. 
+- `condition` - `Any`, `All`
+- `operator` - `In`, `NotIn`
+- `jobStatuses` - `Waiting`, `Active`, `Running`, `Succeeded`, `Failed`, `Stopped`
+- `batchStatus` - `Waiting`, `Active`, `Running`, `Succeeded`, `Failed`, `Stopping`, `Stopped`, `DeadlineExceeded`, `Completed`
+
+Rules are applied in the order from top to bottom in the rules list. When any rule matches, rules following it are ignored.
+
+If `batchStatusRules` are not defined or no rules match a batch status is set by following rules:
+* `Waiting` - no jobs are started
+* `Active` - any jobs are in `Active` or `Running` state
+* `Completed` - no jobs are in `Waiting`, `Active` or `Running` states
+
+Batch statuses, default or defined by rules, are the same in the Radix console, returned by [job notifications](/guides/jobs/notifications.md) and [Job Manager API](/guides/jobs/job-manager-and-job-api.md). If rules are changed, they will be applied on next deployment of an application environment, also affecting already existing batches statuses in this environment.
+
+`batchStatusRules` [can be overridden](#batchstatusrules-1) for individual environments.
+
 ### `monitoring`
 
 ```yaml
@@ -1374,6 +1411,32 @@ spec:
 ```
 
 See [notifications](#notifications) for a component for more information.
+
+### `batchStatusRules`
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      batchStatusRules:
+        - condition: All
+          operator: NotIn
+          jobStatuses:
+            - Waiting
+            - Active
+            - Running
+          batchStatus: Completed
+      environmentConfig:
+        - environment: prod
+          batchStatusRules:
+            - condition: All
+              operator: In
+              jobStatuses:
+                - Succeeded
+              batchStatus: Succeeded
+```
+When `batchStatusRules` is defined for an environment it fully overrides the job's `batchStatusRules`.
+See [batchStatusRules](#batchstatusrules) for a job for more information.
 
 #### `monitoring`
 
