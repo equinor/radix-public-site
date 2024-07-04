@@ -41,6 +41,12 @@ spec:
       node:
         gpu: nvidia-k80
         gpuCount: 2
+      batchStatusRules:
+        - condition: Any
+          operator: In
+          jobStatuses:
+            - Failed
+          batchStatus: Failed
 ```
 
 ## Options
@@ -61,6 +67,7 @@ Jobs have three extra configuration options; `schedulerPort`, `payload` and `tim
 - `timeLimitSeconds` (optional) defines maximum running time for a job.
 - `backoffLimit` (optional) defines the number of times a job will be restarted if its container exits in error.
 - `notifications.webhook` (optional) the Radix application component or job component endpoint, where Radix batch events will be posted when any of its job-component's running jobs or batches changes states.
+- `batchStatusRules` - (optional) rules to define batch statuses by their jobs statuses. See [batchStatusRules](/radix-config/index.md#batchstatusrules) for a job for more information.
 
 ### schedulerPort
 

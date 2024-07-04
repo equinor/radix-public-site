@@ -1197,6 +1197,41 @@ spec:
 
 `webhook` is an optional URL to the Radix application component or job component which will be called when any of the job-component's running jobs or batches changes states. Only changes are sent by POST method with a `application/json` `ContentType` in a [batch event format](/guides/jobs/notifications.md#radix-batch-event). Read [more](/guides/jobs/notifications)
 
+### `batchStatusRules`
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      batchStatusRules:
+        - condition: Any
+          operator: In
+          jobStatuses:
+            - Failed
+          batchStatus: Failed
+        - condition: All
+          operator: NotIn
+          jobStatuses:
+            - Waiting
+            - Active
+            - Running
+          batchStatus: Completed
+```
+`batchStatusRules` - Optional rules to define batch statuses by their jobs statuses. 
+- `condition` - `Any`, `All`
+- `operator` - `In`, `NotIn`
+- `jobStatuses` - `Waiting`, `Active`, `Running`, `Succeeded`, `Failed`, `Stopped`
+- `batchStatus` - `Running`, `Succeeded`, `Failed`, `Waiting`, `Stopping`, `Stopped`, `DeadlineExceeded`, `Active`, `Completed`
+
+Rules are applied in the order from top to bottom in the rules list. When any rule matches, rules following it are ignored.
+
+If `batchStatusRules` are not defined or no rules match - following rules are applied:
+* No jobs are started - the batch status is `Waiting`
+* Any jobs are in `Active` or `Running` state - the batch status is `Active`
+* No jobs are in `Waiting`, `Active` or `Running` states - the batch status is `Completed`
+
+`batchStatusRules` [can be overridden](#batchstatusrules-1) for individual environments.
+
 ### `monitoring`
 
 ```yaml
@@ -1374,6 +1409,32 @@ spec:
 ```
 
 See [notifications](#notifications) for a component for more information.
+
+### `batchStatusRules`
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      batchStatusRules:
+        - condition: All
+          operator: NotIn
+          jobStatuses:
+            - Waiting
+            - Active
+            - Running
+          batchStatus: Completed
+      environmentConfig:
+        - environment: prod
+          batchStatusRules:
+            - condition: All
+              operator: In
+              jobStatuses:
+                - Succeeded
+              batchStatus: Succeeded
+```
+When `batchStatusRules` is defined for an environment it fully overrides the job's `batchStatusRules`.
+See [batchStatusRules](#batchstatusrules) for a job for more information.
 
 #### `monitoring`
 
