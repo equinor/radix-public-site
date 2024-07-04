@@ -19,6 +19,8 @@ spec:
         - name: http
           port: 8080
       publicPort: http
+      runtime:
+        architecture: arm64
       environmentConfig:
         - environment: qa
           resources:
@@ -33,8 +35,6 @@ spec:
               path: /tmp
               emptyDir:
                 sizeLimit: 10M
-          runtime:
-            architecture: arm64
           horizontalScaling:
             maxReplicas: 1
             minReplicas: 0
