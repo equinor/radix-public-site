@@ -1230,6 +1230,8 @@ If `batchStatusRules` are not defined or no rules match - following rules are ap
 * Any jobs are in `Active` or `Running` state - the batch status is `Active`
 * No jobs are in `Waiting`, `Active` or `Running` states - the batch status is `Completed`
 
+Batch statuses, default or defined by rules, are the same in the Radix console, returned by [job notifications](/guides/jobs/notifications.md) and [Job Manager API](/guides/jobs/job-manager-and-job-api.md). If rules are changed, they will be applied on next deployment of an application environment, also affecting already existing batches statuses in this environment.
+
 `batchStatusRules` [can be overridden](#batchstatusrules-1) for individual environments.
 
 ### `monitoring`
