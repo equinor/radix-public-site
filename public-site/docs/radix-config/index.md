@@ -1221,7 +1221,7 @@ spec:
 - `condition` - `Any`, `All`
 - `operator` - `In`, `NotIn`
 - `jobStatuses` - `Waiting`, `Active`, `Running`, `Succeeded`, `Failed`, `Stopped`
-- `batchStatus` - `Waiting`, `Active`, `Running`, `Succeeded`, `Failed`, `Stopping`, `Stopped`, `DeadlineExceeded`, `Completed`
+- `batchStatus` - `Waiting`, `Active`, `Running`, `Succeeded`, `Failed`, `Stopping`, `Stopped`, `Completed`
 
 Rules are applied in the order from top to bottom in the rules list. When any rule matches, rules following it are ignored.
 
