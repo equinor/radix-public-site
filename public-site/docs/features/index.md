@@ -217,7 +217,7 @@ For modern application development in Kubernetes and in Radix it is preferred to
 
 ## Advanced autoscaling using KEDA
 
-Support for advanced autoscaling enabled, KeDA triggers. Scaling of pods based on messages in a Azure Service Bus, or based on a CRON Schedule, as well as resource metrics  (CPU/Memory). If you are using a non-resource trigger, we also support scaling to 0 replicas! 
+Support for advanced autoscaling enabled, KEDA triggers. Scaling of pods based on messages in a Azure Service Bus, or based on a CRON Schedule, as well as resource metrics  (CPU/Memory). If you are using a non-resource trigger, we also support scaling to 0 replicas! 
 
 [Radix config reference](/radix-config/#horizontalscaling)
 
