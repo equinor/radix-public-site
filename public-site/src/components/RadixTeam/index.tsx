@@ -49,15 +49,6 @@ const TeamCardList: Card[] = [
     ),
   },
   {
-    name: 'Anneli Walla Aune',
-    image: 'images/radix-anneli-aune.jpg',
-    description: (
-      <>
-          Developer
-      </>
-    ),
-  },
-  {
     name: 'Elsa Mäyrä Irgens',
     image: 'images/radix-elsa-mayra-irgens.jpg',
     description: (
@@ -67,7 +58,7 @@ const TeamCardList: Card[] = [
     ),
   },
   {
-    name: 'Sergey Smolniko',
+    name: 'Sergey Smolnikov',
     image: 'images/radix-sergey-smolnikov.jpg',
     description: (
       <>
