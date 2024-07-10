@@ -5,6 +5,9 @@ displayed_sidebar: featuresSidebar
 
 # Features in Omnia Radix
 
+Sorted sort of alphabeticly.
+
+
 ## Alerting and notification
 
 Radix can send alerts about failing pipeline jobs, components or jobs to Slack using Incoming Webhooks.
@@ -157,7 +160,7 @@ Each application can have one specific component in one specific environment set
 
 [Doc](/start/radix-concepts/index.md#default-alias) - [Radix config reference](/radix-config/index.md#dnsappalias)
 
-## External alias (byo DNS certificate)
+## External alias 
 
 It is possible to have multiple custom DNS aliases (i.e. to choose your own custom domain) for the application.
 
@@ -212,6 +215,12 @@ For modern application development in Kubernetes and in Radix it is preferred to
 
 [Guide](/guides/resource-request/index.md#autoscaling)
 
+## Advanced autoscaling using KEDA
+
+Support for advanced autoscaling enabled, KEDA triggers. Scaling of pods based on messages in a Azure Service Bus, or based on a CRON Schedule, as well as resource metrics  (CPU/Memory). If you are using a non-resource trigger, we also support scaling to 0 replicas! 
+
+[Radix config reference](/radix-config/#horizontalscaling)
+
 ## Monorepo
 
 It is possible to have multiple Radix applications, using the same GitHub repository, also known as monorepo software development strategy.
@@ -254,7 +263,7 @@ A replica is a running instance of a component. As a normal process, it can writ
 
 [Doc](/start/radix-concepts/index.md#replica)
 
-## Resource request and limits
+## Resource request 
 
 `resources` is used to ensure that each container is allocated enough resources to run as it should.
 
@@ -281,3 +290,5 @@ Submodules is a native git feature which enables git repositories within other g
 ## Vulnerability scanning
 
 ## Web console (dashboard)
+
+[Radix Web Console](https://console.radix.equinor.com/)
