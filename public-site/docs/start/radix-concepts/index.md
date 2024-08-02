@@ -90,15 +90,11 @@ Jobs consist of a series of _steps_, run either in parallel or sequentially (thi
 
 ### Pipeline
 
-A pipeline defines a type of job. There are currently three types of pipeline in Radix:
+A pipeline defines a type of job. There are following types of pipeline in Radix:
 
 ### The `build-deploy` pipeline
 
 This is triggered by a commit in GitHub to a branch mapped to an environment. In turn, this causes all components to be rebuilt and a new deployment to be created in the appropriate environment. If many components are built from the same source, then one multi-component image is built for all components. If there are several multi-components in the config, the multi-component images will be indexed.
-
-### Scanning images for security issues
-
-Before the deployment is done, after a build, the image is scanned for security-related issues using the tool [Snyk](https://snyk.io/). This scan will be a seperate step in the pipeline and the result will be logged in the step. Please note that the job will not fail if the result contains CRITICAL, HIGH and/or SEVERE issues. However every developer should investigate and fix any security issues.
 
 ![Diagram of the build-deploy pipeline](./pipeline-build-deploy.jpg "The build-deploy pipeline")
 
@@ -109,6 +105,24 @@ Exactly the same as the `build-deploy` pipeline, but a deployment is not created
 ### The `promote` pipeline
 
 Used to duplicate an existing [deployment](index.md#deployment) from one environment into another (or to redeploy an old deployment). You can read more about it in the [promotion guide](/guides/deployment-promotion/index.md).
+
+### The `apply-config` pipeline
+
+Used to apply config without re-building or re-deploying components in environments. No Radix deployment is created. Changes in the [radixconfig.yaml](/radix-config/index.md) are applied to the Radix application regarding changes in properties [environments](/radix-config/index.md#environments), [build](/radix-config/index.md#build), [dnsAlias](/radix-config/index.md#dnsalias).
+
+### Cleanup of pipeline Jobs
+
+Number of pipeline jobs may accumulate in time for a Radix application, cluttering the job list. Following rules are used to clean them up when a new pipeline job is created for a Radix application:
+* Pipeline jobs preserved in the job history:
+  * All successful jobs for which there is a Radix deployment they created
+  * Up to 5 jobs per each environment and status type (Successful, Failed, etc.)
+* Pipeline jobs being removed from the job history:
+  * There is no anymore a Radix deployment for a corresponding successful job
+  * A job is older than 30 days
+
+### Scanning images for security issues
+
+Before the deployment is done, after a build, the image is scanned for security-related issues using the tool [Snyk](https://snyk.io/). This scan will be a seperate step in the pipeline and the result will be logged in the step. Please note that the job will not fail if the result contains CRITICAL, HIGH and/or SEVERE issues. However every developer should investigate and fix any security issues.
 
 ### Sub-pipeline
 
