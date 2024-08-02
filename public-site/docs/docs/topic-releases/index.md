@@ -6,6 +6,9 @@ title: What's new
 
 ## 2024
 
+### 2024-07-10 Custom batch status in Radix scheduled jobs
+Radix now supports an optional custom rules defining a [batch status](/radix-config/index.md#batchstatusrules) by batch job statuses. If rules are not set or none of them matching, the base (previously defined) rules are applied.
+
 ### 2024-06-06 Support for advanced horizontal scaling (KEDA)
 We have released initial support for KEDA Triggers, to enable scaling of pods based on messages in a Azure Service Bus, or based on a CRON Schedule, as well as resource metrics as before (CPU/Memory). If you are using a non-resource trigger, we also support scaling to 0 replicas!
 See  [radixconfig.yaml](/radix-config/index.md#horizontalscaling) for more details.
