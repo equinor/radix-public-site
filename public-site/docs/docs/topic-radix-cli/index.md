@@ -126,6 +126,7 @@ An option `job` of commands `create`, `get logs` is replaced with `pipeline-job`
     ```shell
     rx create pipeline-job build-deploy -a your-app-name --branch main
     ```
+  Optional argument `--use-build-cache=true|false` can override the radixconfig option [useBuildCache](/radix-config/index.md#usebuildcache)
 #### Promote pipeline job
 * Promote active deployment in one environment to another:
     ```shell
