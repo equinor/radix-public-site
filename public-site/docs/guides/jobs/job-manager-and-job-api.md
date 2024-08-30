@@ -61,6 +61,7 @@ The Job Manager exposes the following methods for managing jobs:
 
 ```json
 {
+  "batchId": "random-batch-id-123",
   "defaultRadixJobComponentConfig": {
     "imageTagName": "1.0.0",
     "timeLimitSeconds": 200,
@@ -224,6 +225,10 @@ To start a new batch of jobs, send a `POST` request to `http://compute:8000/api/
   ]
 }
 ```
+
+### Batch ID 
+Batch can have `batchId` - it is an optional string, where any value can be put. Radix does not process it. It can exist in a `batchScheduleDescription` (a request body json) for a batch.  
+If the `batchId` is specified, it will be returned in the batch status, and it will be shown in the Radix console in the batch list.
 
 ### Job ID 
 Jobs can have `jobId` - it is an optional string, where any value can be put. Radix does not process it. It can exist in a `jobScheduleDescription` for a single job or in batch jobs  

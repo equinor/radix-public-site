@@ -10,6 +10,7 @@ When job and batch status needs to be monitored, their statuses can be [pulled](
 
 The URL to the Radix application component or job component endpoint can be specified in the `webhook` option in the `notifications` section in the [radixconfig.yaml](/radix-config/index.md). This is an endpoint where a Radix batch events will be posted when any of the running jobs or batches for this job component changes states. Notification about changes are sent by a `POST` method with an `application/json` `ContentType` with a [Radix batch event format](#radix-batch-event), which extends the [Radix batch status](./job-manager-and-job-api.md#get-a-state-of-a-batch) format with fields
 * `name` - internal name of the batch or a single job. In both cases the name begins with `batch-`
+* `batchId` - optional string value to identify a batch.
 * `created`, `started`, `ended` - timestamp of corresponding batch live cycle event
 * `status` - status of a batch or a single job
 * `updated` - timestamp when a status was updated
@@ -57,6 +58,7 @@ Fields in the `jobStatus` list items:
 ```json
 {
   "name": "batch-compute-20220302155333-hrwl53mw",
+  "batchId": "random-batch-id-123",
   "created": "2022-03-02T15:53:33+01:00",
   "started": "2022-03-02T15:53:33+01:00",
   "ended": "2022-03-02T15:54:00+01:00",
