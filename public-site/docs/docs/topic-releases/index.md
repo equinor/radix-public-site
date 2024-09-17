@@ -6,6 +6,14 @@ title: What's new
 
 ## 2024
 
+### 2024-09-17 Manual Component Scaling
+
+A new Scaling feature has been added to Radix Web Console and to RX, while also supports overriding any automatic scaling. Any manually scaled components (even scaled to 0, ie. Stopped) will retain the custom scaled untill its been reset, even across new deployments.
+
+Start component has now been deprecated and should be replaced with reset-scale (both in the radix-api and in rx cli, and will be removed after August 2025).
+
+![reset-scaled-component.png](reset-scaled-component.png)
+
 ### 2024-07-10 Custom batch status in Radix scheduled jobs
 Radix now supports an optional custom rules defining a [batch status](/radix-config/index.md#batchstatusrules) by batch job statuses. If rules are not set or none of them matching, the base (previously defined) rules are applied.
 
