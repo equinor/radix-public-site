@@ -126,7 +126,7 @@ Managing your own certificate is possible. Adding the certificate information to
 
 ## Component and/or Environment stop/start/restart
 
-Stop, Start and Restart of a running component or all components in an environment can be done in the Web console.
+Stop, Scale, Reset and Restart of a running component or all components in an environment can be done in the Web console.
 
 [Guide](/guides/component-start-stop-restart/)
 
