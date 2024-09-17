@@ -163,7 +163,7 @@ An option `job` of commands `create`, `get logs` is replaced with `pipeline-job`
 * Stop, Scale, reset or restart a Radix application component
     ```shell
     rx stop component --application your-app-name --environment your-env-name --component your-component-name # does the same as scale to 0 replicas
-    rx scale component -a your-app-name -e your-env-name --component your-component-name --replicas "0 - 20"
+    rx scale component -a your-app-name -e your-env-name --component your-component-name --replicas 5 # Allowed values: 0 - 20
     rx scale component -a your-app-name -e your-env-name --component your-component-name --reset # reset manually scaled or stopped component
     rx restart component -a your-app-name -e your-env-name --component your-component-name
   
