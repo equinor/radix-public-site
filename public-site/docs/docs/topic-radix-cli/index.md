@@ -160,11 +160,15 @@ An option `job` of commands `create`, `get logs` is replaced with `pipeline-job`
     rx get logs component -a your-app-name -e your-env-name --component your-component-name -p
     ```
 #### Start, stop, restart
-* Stop, start or restart a Radix application component
+* Stop, Scale, reset or restart a Radix application component
     ```shell
-    rx stop component --application your-app-name --environment your-env-name --component your-component-name
-    rx start component -a your-app-name -e your-env-name --component your-component-name
+    rx stop component --application your-app-name --environment your-env-name --component your-component-name # does the same as scale to 0 replicas
+    rx scale component -a your-app-name -e your-env-name --component your-component-name --replicas 5 # Allowed values: 0 - 20
+    rx scale component -a your-app-name -e your-env-name --component your-component-name --reset # reset manually scaled or stopped component
     rx restart component -a your-app-name -e your-env-name --component your-component-name
+  
+    # Depreceated: replaced by `rx scale component -a your-app-name -e your-env-name -n your-component-name --reset`
+    rx start -a your-app-name -e your-env-name -n your-component-name
     ```
 * Stop, start or restart all components in a Radix application environment
     ```shell
@@ -179,11 +183,15 @@ An option `job` of commands `create`, `get logs` is replaced with `pipeline-job`
     rx restart application -a your-app-name
     ```
 #### Scale replicas
-* Scale up or down Radix application component replicas. Allowed values between "0" and "20" (value "0" is an equivalent of the command `rx stop`). Scaling can be useful for tuning the resource configuration to figure out what amount of replicas affect performance of an application and particular need of CPU and memory. After re-deployment, start or restart, scaled component gets replicas, specified in the `radixconfig.yaml`, "1" if not specified, or set by [horizontal scaling](https://radix.equinor.com/radix-config/index.md#environmentconfig)  
-    ```shell
-    rx scale --application your-app-name --environment your-env-name --component web-app --replicas 2
-    rx scale -a your-app-name -e your-env-name --component web-app -r 2
+* Scale up or down Radix application component replicas. Allowed values between "0" and "20" (value "0" is an equivalent of the command `rx stop`). Scaling can be useful for tuning the resource configuration to figure out what amount of replicas affect performance of an application and particular need of CPU and memory. 
+    ```bash
+    rx scale component --application your-app-name --environment your-env-name --component web-app --replicas 2
+    rx scale component --application your-app-name --environment your-env-name --component web-app --reset
     ```
+  :::info
+  This scale will persist after re-deployment, so remember to reset the component when you are finished.  
+  After reset, scaled component gets replicas specified in the `radixconfig.yaml`, "1" if not specified, or set by [horizontal scaling](https://radix.equinor.com/radix-config/index.md#environmentconfig)  
+  :::
 #### Manage components
 * Set a value of a component secret (runtime secret)
     ```shell

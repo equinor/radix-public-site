@@ -70,7 +70,10 @@ const config: Config = {
     prism: {
       theme: prismThemes.oceanicNext,
       darkTheme: prismThemes.oceanicNext,
-      additionalLanguages: ['docker']
+      additionalLanguages: [
+        'docker',
+        'bash', // also includes shell and sh styles
+      ]
     },
   } satisfies Preset.ThemeConfig,
   themes: [

@@ -1,24 +1,28 @@
 ---
-title: Component start/stop/restart
+title: Component scale/stop/restart
 ---
 
-# Component start/stop/restart
+# Component scale/stop/restart
 
-Stop, Start and Restart of a running component can be done in the Web console, when special circumstances requires it (i.e. after having updated a secret), even though the recommended approach is to change the configuration in [`radixconfig.yaml`](/radix-config/index.md)
+Stop, Scale and Restart of a running component can be done in the Web console, when special circumstances requires it (i.e. after having updated a secret), even though the recommended approach is to change the configuration in [`radixconfig.yaml`](/radix-config/index.md)
 
-:::tip
-A new deployment will apply the configuration from the [`radixconfig.yaml`](/radix-config/index.md) and may overrun the actions performed in the Radix web console
+:::info
+When manually scaled a component, it will be persisted accross deployments. Click `reset` to resume normal scaling.
 :::
 
 ![Component-stop-start-restart](./Component-stop-start-restart.png)
 
-## Starting
+## Scale
 
-*Starting* the component will set the number of replica to the number set in the [`radixconfig.yaml`](/radix-config/index.md) for the *active deployment*.
+*Scale* will manually override the configured number of replicas. Click *reset* to resume normal scaling.
 
-## Stopping
+## Stop
 
-*Stopping* the component will set the number of replica to 0 for the *active deployment*. Note that if you make a new deployment to the environment, by pushing a change to the branch mapped to the environment, and the replica configuration in the [`radixconfig.yaml`](/radix-config/index.md) is not  0 for the applicable component, it will start the component.
+*Stop* will manually scale the number of replicas to 0 for the component.
+
+## Reset
+
+*Reset* removes the manually configured replicas count and will use the number of replica to the number set in the [`radixconfig.yaml`](/radix-config/index.md) for the *active deployment* or by [horizontal scaling](https://radix.equinor.com/radix-config/index.md#environmentconfig).
 
 ## Restarting
 
