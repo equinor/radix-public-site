@@ -384,7 +384,9 @@ spec:
       publicPort: http
 ```
 
-The `publicPort` field of a component, if set to `<PORT_NAME>`, is used to make the component accessible on the internet by generating a public endpoint. Any component without `publicPort: <PORT_NAME>` can only be accessed from another component in the app. If specified, the `<PORT_NAME>` should exist in the `ports` field.
+The `publicPort` field of a component, if set to `<PORT_NAME>`, is used to make the component accessible on the internet by generating a public endpoint. By default, the public endpoint can be accessed from all public IP addresses. You can restrict access to the public endpoints by configuring a list of IP address ranges in `network.ingress.public.allow`, see [network](#network-1) for more information.
+
+A component without `publicPort: <PORT_NAME>` can only be accessed from another component in the app. If specified, the `<PORT_NAME>` should exist in the `ports` field.
 
 :::tip
 If no [ports](./#ports) specified for a component, `publicPort` should not be set.
@@ -924,6 +926,24 @@ spec:
 
 See [runtime](#runtime-1) for more information.
 
+#### `network`
+
+```yaml
+spec:
+  components:
+    - name: backend
+      environmentConfig:
+        - environment: prod
+          network:
+            ingress:
+              public:
+                allow:
+                  - 100.1.1.1
+                  - 100.2.2.2/30
+```
+
+See [network](#network-1) for more information.
+
 ### `authentication`
 
 ```yaml
@@ -1132,6 +1152,42 @@ The `architecture` property in `runtime` defines the CPU architecture a componen
 If you use the [`build and deploy`](/guides/build-and-deploy) pipeline to build components or jobs, [`useBuildKit`](#usebuildkit) must be enabled if at least one component or job is configured for `arm64`. Radix will run the **build steps** on nodes with matching architecture, which in most cases mean that you do not have to change anything in the Dockerfile to support the configured architecture. This applies as long as the images defined in the Dockerfile's `FROM <image>` supports this architecture.
 
 For deploy-only components and jobs (with [`image`](#image) property set), make sure that the selected image supports the configured architecture. Many frequently used public images, like [nginx-unprivileged](https://hub.docker.com/r/nginxinc/nginx-unprivileged) and [bitnami/redis](https://hub.docker.com/r/bitnami/redis/tags), includes variants for both `amd64` and `arm64` in the same image. Radix (Kubernetes) will pull the appropriate variant based on the configured architecture.
+
+### `network`
+
+```yaml
+spec:
+  environment:
+    - name: dev
+    - name: qa
+    - name: prod
+  components:
+    - name: backend
+      network:
+        ingress:
+          public:
+            allow:
+              - 100.1.1.1
+              - 110.1.1.1/30
+      environmentConfig:
+        - environment: dev
+          network:
+            ingress:
+              public:
+                allow: []
+        - environment: qa
+          network:
+            ingress:
+              public:
+                allow:
+                  - 200.1.1.1
+                  - 200.10.1.1
+        - environment: prod
+```
+
+The `network.ingress.public.allow` property defines a list of public IP addresses or CIDRs allowed to access the component's public endpoints. The `allow` list can be configured on the component level and/or in `environmentConfig` for a specific environment. `environmentConfig` takes precedence over component level configuration. Setting `allow` to an empty list allows access from all public IP addresses.
+
+In the example, `allow` is configured on the component level with two IP ranges. This configuration will apply to all environments, unless `allow` is configured in `environmentConfig`. For environment `dev` we set `allow` to en empty list, which will allow all public IP addresses to access the component. In the `qa` environment we configure `allow` with a new list if IP addresses. These will be used instead of the IP addresses configured on the component level. The `environmentConfig` for `prod` does not specify `allow`, which means the configuration on the component level will be used.
 
 ## `jobs`
 
