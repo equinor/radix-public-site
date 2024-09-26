@@ -47,6 +47,17 @@ const config: Config = {
   themeConfig: {
     // Replace with your project's social card
     // image: 'img/docusaurus-social-card.jpg',
+    
+    metadata:[
+      {name: 'Content-Security-Policy', content: `default-src 'self'; object-src 'none'; img-src 'self' data:; style-src 'self' https://cdn.eds.equinor.com/font/; font-src 'self' https://cdn.eds.equinor.com/font/; frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content`},
+      {name: 'Permissions-Policy', content: 'none'},
+      {name: 'Cross-Origin-Resource-Policy', content: 'same-origin'},
+      {name: 'Referrer-Policy', content: 'no-referrer'},
+      {name: 'X-Content-Type-Options', content: 'nosniff'},
+      {name: 'X-Frame-Options', content: 'deny'},
+      {name: 'X-Permitted-Cross-Domain-Policies', content: 'none'},
+    ],
+
     navbar: {
       title: 'Omnia Radix',
       logo: {
