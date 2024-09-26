@@ -1187,7 +1187,7 @@ spec:
 
 The `network.ingress.public.allow` property defines a list of public IP addresses or CIDRs allowed to access the component's public endpoints. The `allow` list can be configured on the component level and/or in `environmentConfig` for a specific environment. `environmentConfig` takes precedence over component level configuration. Setting `allow` to an empty list allows access from all public IP addresses.
 
-In the example, `allow` is configured on the component level with two IP ranges. This configuration will apply to all environments, unless `allow` is configured in `environmentConfig`. For environment `dev` we set `allow` to en empty list, which will allow all public IP addresses to access the component. In the `qa` environment we configure `allow` with a new list if IP addresses. These will be used instead of the IP addresses configured on the component level. The `environmentConfig` for `prod` does not specify `allow`, which means the configuration on the component level will be used.
+In the example, `allow` is configured on the component level with two IP address ranges. This configuration will apply to all environments, unless `allow` is configured in `environmentConfig`. For environment `dev`, `allow` to en empty list, which will allow all public IP addresses to access the component. In the `qa` environment, `allow` is configured with a new list if IP addresses. These will be used instead of the IP addresses configured on the component level. The `environmentConfig` for `prod` does not specify `allow`, which means that the configuration from the component level will be used.
 
 ## `jobs`
 
