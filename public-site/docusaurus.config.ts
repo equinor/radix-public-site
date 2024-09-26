@@ -49,13 +49,12 @@ const config: Config = {
     // image: 'img/docusaurus-social-card.jpg',
     
     metadata:[
-      {name: 'Content-Security-Policy', content: `default-src 'self'; object-src 'none'; img-src 'self' data:; style-src 'self' https://cdn.eds.equinor.com/font/; font-src 'self' https://cdn.eds.equinor.com/font/; frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content`},
-      {name: 'Permissions-Policy', content: 'none'},
-      {name: 'Cross-Origin-Resource-Policy', content: 'same-origin'},
-      {name: 'Referrer-Policy', content: 'no-referrer'},
-      {name: 'X-Content-Type-Options', content: 'nosniff'},
-      {name: 'X-Frame-Options', content: 'deny'},
-      {name: 'X-Permitted-Cross-Domain-Policies', content: 'none'},
+      {"http-equiv": 'Content-Security-Policy', content: `default-src 'self';script-src 'self' 'unsafe-eval'; object-src 'none'; img-src 'self' data:; style-src 'self' https://cdn.eds.equinor.com/font/; font-src 'self' https://cdn.eds.equinor.com/font/; upgrade-insecure-requests; block-all-mixed-content`},
+      {"http-equiv": 'Permissions-Policy', content: 'none'},
+      {"http-equiv": 'Cross-Origin-Resource-Policy', content: 'same-origin'},
+      {"http-equiv": 'Referrer-Policy', content: 'no-referrer'},
+      {"http-equiv": 'X-Content-Type-Options', content: 'nosniff'},
+      {"http-equiv": 'X-Permitted-Cross-Domain-Policies', content: 'none'},
     ],
 
     navbar: {
