@@ -48,15 +48,6 @@ const config: Config = {
     // Replace with your project's social card
     // image: 'img/docusaurus-social-card.jpg',
     
-    metadata:[
-      {"http-equiv": 'Content-Security-Policy', content: `default-src 'self';script-src 'self' 'unsafe-eval' 'unsafe-inline'; object-src 'none'; img-src 'self' data:; style-src 'self' https://cdn.eds.equinor.com/font/; font-src 'self' https://cdn.eds.equinor.com/font/; upgrade-insecure-requests; block-all-mixed-content`},
-      {"http-equiv": 'Permissions-Policy', content: 'none'},
-      {"http-equiv": 'Cross-Origin-Resource-Policy', content: 'same-origin'},
-      {"http-equiv": 'Referrer-Policy', content: 'no-referrer'},
-      {"http-equiv": 'X-Content-Type-Options', content: 'nosniff'},
-      {"http-equiv": 'X-Permitted-Cross-Domain-Policies', content: 'none'},
-    ],
-
     navbar: {
       title: 'Omnia Radix',
       logo: {
