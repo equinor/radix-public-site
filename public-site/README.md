@@ -7,25 +7,22 @@ platform. It is a static site built with [VuePress 2](https://v2.vuepress.vuejs.
 
 ### The easy way
 
-    docker-compose up --build
+`docker compose --profile dev up --build`
 
-This builds a Docker image `radix-public-site`, runs it in the container
-`radix-public-site_container`, mounts the local directory into `/site` in the
-container.
+This starts the Docusaurus developer server on port 8000, and NGINX on port 8080 which proxies requests to the docusaurus server. This ensures that your browser receives the same security related headers (defined in ./proxy/headers) as when you build and run the Dockerfile container image. Changes to source files are immediatly shown in the browser.
 
-You can see the site on &lt;http://localhost:8081&gt;
+You can see the site on &lt;http://localhost:8080&gt;
 
-Stop the server with Ctrl+C, but also run `docker-compose down` to clean up the
+Stop the server with Ctrl+C, but also run `docker compose --profile dev down` to clean up the
 Docker state.
 
 If you need a shell in the container:
 
-    docker exec -ti radix-public-site_container sh
+    `docker exec -ti radix-public-site_container sh`
 
-If you change the `package.json` (e.g. add a dependency), or want to force a clean
-dev environment, you will need to rebuild the dev image:
+NB: The search plugin does not work when running the docusaurus development server.
 
-    docker-compose up --build
+You can also build and run the container image intended for production environments by running `docker compose --profile prod up --build`. To stop and cleanup you run `docker compose --profile prod down`.
 
 **Windows**: There is currently [a
 problem](https://github.com/docker/for-win/issues/56) with Docker that prevents
@@ -35,7 +32,7 @@ process](https://github.com/FrodeHus/docker-windows-volume-watcher/releases).
 
 ### The other way
 
-You can also run Vuepress locally. All that is needed is NodeJS and NPM. In the root folder of the project run `npm i` to fetch dependencies followed by `npm run dev` to start serving the development environment of the Public Site.
+You can also run docusurus locally. All that is needed is NodeJS and NPM. In the root folder of the project run `npm i` to fetch dependencies followed by `npm run start` to start serving the development environment of the Public Site. The disadvantage is that you will not catch errors caused by the security headers set by NGINX.
 
 ## Folder structure
 
@@ -53,7 +50,7 @@ But the interesting bits are the actual content:
 - `/references/`: Reference documentation for end-users.
 - `/other/`: Documentation not directly related to any specific category.
 
-## ducusaurus
+## docusaurus
 This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
 
 [Create an application](https://docusaurus.io/docs/installation)
