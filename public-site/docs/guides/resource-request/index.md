@@ -116,4 +116,4 @@ For modern application development in Kubernetes and in Radix it is preferred to
 
 ![horizontal-pod-autoscaling](./horizontal-pod-autoscaling.png)
 
-For Radix this can easily be done through horizontal pod autoscaling in the [radixconfig.yaml](https://www.radix.equinor.com/radix-config/index.md#horizontalscaling). It will scale up based on CPU load over time for containers of a component (higher than 80%). More information can be found at [kubernetes docs](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
+For Radix this can easily be done through horizontal pod autoscaling in the [radixconfig.yaml](../../radix-config/index.md#horizontalscaling). It will scale up based on CPU load over time for containers of a component (higher than 80%). More information can be found at [kubernetes docs](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)

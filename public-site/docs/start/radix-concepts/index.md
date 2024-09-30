@@ -42,11 +42,7 @@ A component represents a standalone process running within an [environment](inde
 Familiar with Docker or containers? A Radix component can be thought of as Docker image, and replicas as containers running that image.
 :::
 
-If a component's `publicPort` is defined, endpoints are made available on the public Internet for each environment the component is deployed to. This allows connections via HTTPS into Radix, which are routed internally to an HTTP endpoint on the component. The domain name for the public endpoint is auto-generated from the component, environment, and application names: `https://[component]-[application]-[environment].[cluster-name].radix.equinor.com`.
-
-:::tip
-The `[cluster-name]` part of the domain refers to the current Radix cluster. This should become a static name in the future.
-:::
+If a component's `publicPort` is defined, endpoints are made available on the public Internet for each environment the component is deployed to. This allows connections via HTTPS into Radix, which are routed internally to an HTTP endpoint on the component. The domain name for the public endpoint is auto-generated from the component, environment, application name and the Radix cluster's DNS zone: `[component]-[application]-[environment].[cluster-dns-zone]`, e.g. `frontend-myapp-prod.radix.equinor.com`. See [Radix clusters](../radix-clusters/) for a complete list of clusters and corresponding DNS zones.
 
 Components can further be configured independently on each environment. Besides [environment variables](index.md#environment-variable) and [secrets](index.md#secret), a component can have different resource usage and monitoring settings.
 
@@ -141,9 +137,9 @@ See [this](/guides/deploy-only/) guide on how to set up your application to only
 
 ### Default alias
 
-Each application can have one specific component in one specific environment set as the _default alias_. This component is assigned a domain name in the format `[application].app.radix.equinor.com` and assigned a certificate. This domain can be used as the public URL for accessing the application.
+Each application can have one specific component in one specific environment set as the _default alias_. This component is assigned a domain name in the format `[application].app.[cluster-dns-zone]` and assigned a certificate. This domain can be used as the public URL for accessing the application.
 
-The default alias is configured by the [`dnsAppAlias` setting](/radix-config/index.md#dnsappalias) in the `radixconfig.yaml`.
+The default alias is configured by the [`dnsAppAlias`](/radix-config/index.md#dnsappalias) setting in the `radixconfig.yaml`.
 
 ### External (custom) alias
 

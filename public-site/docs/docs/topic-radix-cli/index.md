@@ -107,7 +107,7 @@ Scope can be specified for most commands:
 :::tip
 An option `job` of commands `create`, `get logs` is replaced with `pipeline-job`. It will be supported for backward compatibility. 
 :::
-* Create a new "deploy only" pipeline job with specified image tags. When `radixconfig.yaml` contains `image` option with dynamic [imageTagName](https://radix.equinor.com/radix-config/index.md#imagetagname), this `imageTagName` can be altered in the Radix CLI `create pipeline-job deploy` command option `image-tag-name`. This option will override values defined in the `radixconfig.yaml` and can be defined for multiple components in the command. `image-tag-name`, provided as an option in the command `rx create pipeline-job deploy` is shown in the Radix pipeline orchestration job log. Component names that does not exist within the Radix application environment will be ignored.
+* Create a new "deploy only" pipeline job with specified image tags. When `radixconfig.yaml` contains `image` option with dynamic [imageTagName](../../radix-config/index.md#imagetagname), this `imageTagName` can be altered in the Radix CLI `create pipeline-job deploy` command option `image-tag-name`. This option will override values defined in the `radixconfig.yaml` and can be defined for multiple components in the command. `image-tag-name`, provided as an option in the command `rx create pipeline-job deploy` is shown in the Radix pipeline orchestration job log. Component names that does not exist within the Radix application environment will be ignored.
     ```shell
     rx create pipeline-job deploy --application your-app-name --environment dev --image-tag-name web-app=stable-123 --image-tag-name api=1.22.0
     rx create pipeline-job deploy -a your-app-name -e dev -t web-app=stable-123 -t api=1.22.0
@@ -190,7 +190,7 @@ An option `job` of commands `create`, `get logs` is replaced with `pipeline-job`
     ```
   :::info
   This scale will persist after re-deployment, so remember to reset the component when you are finished.  
-  After reset, scaled component gets replicas specified in the `radixconfig.yaml`, "1" if not specified, or set by [horizontal scaling](https://radix.equinor.com/radix-config/index.md#environmentconfig)  
+  After reset, scaled component gets replicas specified in the `radixconfig.yaml`, "1" if not specified, or set by [horizontal scaling](../../radix-config/index.md#horizontalscaling)  
   :::
 #### Manage components
 * Set a value of a component secret (runtime secret)

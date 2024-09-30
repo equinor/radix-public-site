@@ -80,7 +80,7 @@ spec:
         - DT_CONNECTION_POINT # formattedCommunicationEndpoints from response
 ```
 
-After changing your `radixconfig.yaml` file and pushing the changes, you must log in to your Application Configuration page in [Radix Console](https://console.radix.equinor.com) and paste in the PaaS-Token in **Private image hubs** under **App Secrets**. 
+After changing your `radixconfig.yaml` file and pushing the changes, you must log in to your Application Configuration page in [Web Console](https://console.radix.equinor.com) and paste in the PaaS-Token in **Private image hubs** under **App Secrets**. 
 Then you must update environment secrets in each component with corresponding Dynatrace configuration: `DT_TENANT`, `DT_TENANTTOKEN` (`tenantToken`) and `DT_CONNECTION_POINT` (`formattedCommunicationEndpoints`).
 ```request
 GET https://spa-equinor.kanari.com/e/<DT_TENANT>/api/v1/deployment/installer/agent/connectioninfo

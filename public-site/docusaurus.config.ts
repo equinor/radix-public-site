@@ -55,21 +55,13 @@ const config: Config = {
         src: 'images/logos/logo.svg',
       },
       items: [
-        {to: '/start', label: 'Getting started', position: 'left'},
-        {to: '/docs', label: 'Docs', position: 'left'},
-        {to: '/radix-config', label: 'Radix Config', position: 'left'},
-        {to: '/guides', label: 'Guides', position: 'left'},
-        {to: '/features', label: 'Features', position: 'left'},
-        {to: '/community', label: 'Community', position: 'left'},
-        {
-          type: 'dropdown',
-          label: 'Web Console',
-          position: 'left',
-          items: [
-            {label: 'Radix Platform (North Europe)', href: 'https://console.radix.equinor.com/'},
-            {label: 'Radix Platform 2 (West Europe)', href: 'https://console.c2.radix.equinor.com/'},
-          ],
-        },
+        {to: '/start', label: 'Getting started', position: 'right'},
+        {to: '/docs', label: 'Docs', position: 'right'},
+        {to: '/radix-config', label: 'Radix Config', position: 'right'},
+        {to: '/guides', label: 'Guides', position: 'right'},
+        {to: '/features', label: 'Features', position: 'right'},
+        {to: '/community', label: 'Community', position: 'right'},
+        {label: 'Web Console', href: 'https://console.radix.equinor.com/', position:'right'},
       ],
     },
     footer: {
