@@ -4,32 +4,15 @@ title: Domain names
 
 # Domain names
 
-There can be several domain names mapped to [application components](/start/radix-concepts/index.md#component) in Radix. In general you will want to use the [public name](#public-name), but you should understand all options.
+There can be several domain names mapped to [application components](/start/radix-concepts/index.md#component) in Radix.
 
-The domain names are composed by combining information about the application, and the Radix cluster where the application is hosted:
+The domain names are composed of information from the application, and the [Radix cluster](../../start/radix-clusters/) where the application is hosted:
 
-- `component-name`: The name of a component, e.g. `frontend`.
+- `component-name`: The name of the component, e.g. `frontend`.
 - `app-name`: The name of the application, e.g. `myapp`.
 - `env-name`: The name of the environment where the component is deployed to, e.g. `production`.
 - `cluster-name`: The name of the underlying Kubernetes cluster used for hosting a specific [Radix cluster](../../start/radix-clusters/), e.g. `eu-18`. This value can change, for example during upgrade of a Radix cluster. Domain names using this value should only be used for debugging purposes, and should never be used by end users/services.
 - `cluster-dns-zone`: The DNS zone for the [Radix cluster](../../start/radix-clusters/) where the application is hosted, e.g. `radix.equinor.com`.
-
-## Canonical name
-
-```text
-[component-name]-[app-name]-[env-name].[cluster-name].[cluster-dns-zone]
-```
-
-The authoritative name for a specific component in a specific Kubernetes and Radix cluster. The _canonical name_ should never be used by end users/services, but can be useful for debugging purposes, for example during Radix cluster upgrade that requires a new Kubernetes cluster.
-
-- Automatically allocated
-- One per component
-
-Examples:
-
-- `serializer-oneapp-qa.eu-18.radix.equinor.com`
-- `frontend-myapp-production.c2-11.c2.radix.equinor.com`
-- `backend-myapp-production.playground-92.playground.radix.equinor.com`
 
 ## Public name
 
@@ -98,3 +81,23 @@ Examples:
 
 - `myapp.equinor.com`
 - `www.mydomain.com`
+## Canonical name
+
+```text
+[component-name]-[app-name]-[env-name].[cluster-name].[cluster-dns-zone]
+```
+
+The authoritative name for a specific component in a specific Kubernetes- and Radix-cluster.
+
+- Automatically allocated
+- One per component
+
+:::warning
+ The _canonical name_ should never be used by end users/services because `[cluster-name]` is not considered stable, and can change without warning.
+:::
+
+Examples:
+
+- `serializer-oneapp-qa.eu-18.radix.equinor.com`
+- `frontend-myapp-production.c2-11.c2.radix.equinor.com`
+- `backend-myapp-production.playground-92.playground.radix.equinor.com`
