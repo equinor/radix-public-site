@@ -14,6 +14,6 @@ Your application(s) will run in a *Kubernetes cluster*. Radix currently have thr
 
 :::info Moving applications between clusters
 
-Currently, there is no automated process of moving an application between clusters. To move an application, you must manually register it in the new cluster, run pipeline jobs to deploy the application, and reconfigure any secrets, workload identities, external DNS entries etc.
+Currently, there is no automated process of moving an application between clusters. To move an application, you must manually register it in the new cluster, run pipeline jobs to deploy the application, and reconfigure any secrets, workload identities, external DNS entries, network settings on external resources etc.
 
 :::
