@@ -11,7 +11,7 @@ The URL for generating a badge is:
 https://api.<cluster-dns-zone>/api/v1/applications/<app-name>/environments/<env-name>/buildstatus?pipeline=<pipeline-type>
 ```
 
-where `app-name` is the name of the application, `env-name` is the name of the environment within the application, and `pipeline-type`(optional) is one of **build-deploy**(default), **deploy** or **promote**. Refer to **DNS Zone** in [Radix clusters](../../start/radix-clusters/) for the correct value of `cluster-dns-zone`
+where `app-name` is the name of the application, `env-name` is the name of the environment within the application, and `pipeline-type`(optional) is one of **build-deploy**(default), **deploy** or **promote**. Refer to *DNS Zone* in [Radix clusters](../../start/radix-clusters/) to get the `cluster-dns-zone` value for the cluster where your application is hosted.
 
 Requesting a badge for a non-existing application or environment, or for a pipeline type that hasn't been run yet, the badge returns with an **unknown** status.  
 ![build-deploy unknown](./build-deploy-unknown.png "build-deploy unknown")

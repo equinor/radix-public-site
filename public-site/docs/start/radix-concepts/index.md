@@ -42,7 +42,7 @@ A component represents a standalone process running within an [environment](inde
 Familiar with Docker or containers? A Radix component can be thought of as Docker image, and replicas as containers running that image.
 :::
 
-If a component's `publicPort` is defined, endpoints are made available on the public Internet for each environment the component is deployed to. This allows connections via HTTPS into Radix, which are routed internally to an HTTP endpoint on the component. The domain name for the public endpoint is auto-generated from the component, environment, application name and the Radix cluster's DNS zone: `[component]-[application]-[environment].[cluster-dns-zone]`, e.g. `frontend-myapp-prod.radix.equinor.com`. See [Radix clusters](../radix-clusters/) for a complete list of clusters and corresponding DNS zones.
+If a component's [`publicPort`](../../radix-config/index.md#publicport) is defined, [endpoints](../../docs/topic-domain-names/) are made available on the public Internet for each environment the component is deployed to. This allows connections via HTTPS into Radix, which are routed internally to an HTTP endpoint on the component.
 
 Components can further be configured independently on each environment. Besides [environment variables](index.md#environment-variable) and [secrets](index.md#secret), a component can have different resource usage and monitoring settings.
 
@@ -118,7 +118,7 @@ Number of pipeline jobs may accumulate in time for a Radix application, clutteri
 
 ### Scanning images for security issues
 
-Before the deployment is done, after a build, the image is scanned for security-related issues using the tool [Snyk](https://snyk.io/). This scan will be a seperate step in the pipeline and the result will be logged in the step. Please note that the job will not fail if the result contains CRITICAL, HIGH and/or SEVERE issues. However every developer should investigate and fix any security issues.
+After a successful deployment, and on a daily schedule, component and job images are scanned for security related issues using [Snyk](https://snyk.io/). Refer to the [Vulnerability Scanning](../../docs/topic-vulnerabilities/) documentation for more information.
 
 ### Sub-pipeline
 
@@ -133,16 +133,3 @@ Deployments are created by some types of [job](/start/radix-concepts/#job). A de
 :::tip
 See [this](/guides/deploy-only/) guide on how to set up your application to only use the continuous deployment (CD) on Radix
 :::
-## Publishing applications
-
-### Default alias
-
-Each application can have one specific component in one specific environment set as the _default alias_. This component is assigned a domain name in the format `[application].app.[cluster-dns-zone]` and assigned a certificate. This domain can be used as the public URL for accessing the application.
-
-The default alias is configured by the [`dnsAppAlias`](/radix-config/index.md#dnsappalias) setting in the `radixconfig.yaml`.
-
-### External (custom) alias
-
-It is possible to have multiple custom DNS aliases (i.e. to choose your own custom domain) for the application. The _external alias_ needs to point to a component [marked as public](/radix-config/index.md#publicport). This external alias can be any domain name, which can be used as the public URL for accessing the application, as long as a valid certificate for the domain is applied.
-
-The external alias is configured by the [`dnsExternalAlias` setting](/radix-config/index.md#dnsexternalalias) in the `radixconfig.yaml`.

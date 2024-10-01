@@ -1692,7 +1692,7 @@ spec:
     component: frontend
 ```
 
-As a convenience for nicer URLs, `dnsAppAlias` creates a DNS alias in the form of `<app-name>.app.<cluster-dns-zone>` (`<cluster-dns-zone>` depends on which [Radix cluster](../start/radix-clusters/) you use) for the specified environment and component.
+As a convenience for nicer URLs, `dnsAppAlias` creates a DNS alias in the form of `<app-name>.app.<cluster-dns-zone>` (`<cluster-dns-zone>` depends on which [Radix cluster](../start/radix-clusters/) is hosting the application) for the specified environment and component.
 
 In the example above, if the application is host in the **Platform (North Europe)** cluster, the component **frontend** in environment **prod** will be accessible from `myapp.app.radix.equinor.com`, in addition to automatically allocated [domain names](../docs/topic-domain-names/).
 
@@ -1706,7 +1706,7 @@ spec:
       component: frontend
 ```
 
-`dnsAlias` creates one or several DNS aliases in the form of `<alias>.<cluster-dns-zone>` (`<cluster-dns-zone>` depends on which [Radix cluster](../start/radix-clusters/) you use) for the specified environment and component. There are few reserved aliases which cannot be used: 
+`dnsAlias` creates one or several DNS aliases in the form of `<alias>.<cluster-dns-zone>` (`<cluster-dns-zone>` depends on which [Radix cluster](../start/radix-clusters/) is hosting the application) for the specified environment and component. There are few reserved aliases which cannot be used: 
 
 `www`, `app`, `api`, `console`, `webhook`, `playground`, `dev`, `grafana`, `prometheus`, `canary`, `cost-api`. 
 

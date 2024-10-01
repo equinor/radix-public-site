@@ -6,7 +6,7 @@ title: Domain names
 
 There can be several domain names mapped to [application components](/start/radix-concepts/index.md#component) in Radix.
 
-The domain names are composed of information from the application, and the [Radix cluster](../../start/radix-clusters/) where the application is hosted:
+The domain names are composed with information from the application, and the [Radix cluster](../../start/radix-clusters/) where the application is hosted:
 
 - `component-name`: The name of the component, e.g. `frontend`.
 - `app-name`: The name of the application, e.g. `myapp`.
@@ -43,7 +43,7 @@ The _app default alias_ is a convenience domain name to make it easier to publis
 Examples:
 
 - `oneapp.app.radix.equinor.com`
-- `theapp.app.c2.radix.equinor.com`
+- `otherapp.app.c2.radix.equinor.com`
 - `myapp.app.playground.radix.equinor.com`
 
 ## App alias

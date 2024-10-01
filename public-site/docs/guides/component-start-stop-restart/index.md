@@ -22,7 +22,7 @@ When manually scaled a component, it will be persisted accross deployments. Clic
 
 ## Reset
 
-*Reset* removes the manually configured replicas count and will use the number of replica to the number set in the [`radixconfig.yaml`](../../radix-config/index.md#replicas) for the *active deployment* or by [horizontal scaling](../../radix-config/index.md#horizontalscaling).
+*Reset* removes the manually configured replica count and sets it to the value defined in [`replicas`](../../radix-config/index.md#replicas) or [`horizontalScaling`](../../radix-config/index.md#horizontalscaling) defined by the *active deployment*.
 
 ## Restarting
 
