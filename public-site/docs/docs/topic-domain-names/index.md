@@ -75,7 +75,7 @@ For ultimate customisation of your domain names, you can "bring your own" domain
 - Multiple allowed per component
 - [Defined in `radixconfig.yaml`](/radix-config/index.md#dnsexternalalias)
 - Requires external DNS alias management
-- Bring your own TLS certificate, or let Radix handle it
+- [Bring your own TLS](../../guides/external-alias-certificate/index.md) certificate, or let [Radix handle](../../guides/external-alias/index.md#configure-certificate-automation-service) it
 
 Examples:
 
