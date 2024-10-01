@@ -95,14 +95,14 @@ The default file name with a private key can be changed with one of following op
     ```shell
     cat private-key-file
     ```
-  * the public key need to be copy-pasted to a new deploy-key in the submodule's GitHub repository: `Repository/Settings/Deploy keys/Add deploy key`. `Allow write access` is not needed. 
+  * the public key need to be copy-pasted (the whole text, ending with email) to a new deploy-key in the submodule's GitHub repository: `Repository/Settings/Deploy keys/Add deploy key`. `Allow write access` is not needed. 
     ```shell
     cat private-key-file.pem`
     ```
 ## Register and deploy Radix application
 * Register a Radix application in the Radix cluster
 * Create a first pipeline job `build-deploy`
-* This job will fail due to a build secret `SSH_KEY` is not populated. This can be fixed within the Radix console, "Configuration" page of the application, the section "Build secrets" - click on the secret name `SSH_KEY` and copy-paste the private key from the previous step
+* This job will fail due to a build secret `SSH_KEY` is not populated. This can be fixed within the Radix console, "Configuration" page of the application, the section "Build secrets" - click on the secret name `SSH_KEY` and copy-paste the private key from the previous step (the whole text, starting with `-----BEGIN RSA PRIVATE KEY-----` and ending with `-----END RSA PRIVATE KEY-----`).
 * Create a new `build-deploy` pipeline job - when it is completed. Navigate to the job step `Building server-dev component`, ensure that log does not have an error on the step:
   ```shell
   [1/2] STEP 7/7: RUN --mount=type=secret,id=SSH_KEY,dst=id_rsa cd /app && git submodule update --init --remote --merge --recursive --verbose
