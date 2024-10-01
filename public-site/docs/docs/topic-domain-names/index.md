@@ -21,7 +21,7 @@ The domain names are composed with information from the application, and the [Ra
 ```
 
 - Automatically allocated
-- One per component
+- Unique for each component in each environment
 
 Examples:
 
