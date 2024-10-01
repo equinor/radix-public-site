@@ -30,7 +30,7 @@ You can also run docusurus locally. All that is needed is NodeJS and NPM. In the
 
 ## Files and folder structure
 
-File `docusaurus.config.ts` contains the main configuration for Docusaurus. This is where we configure the overall page layout like headers, footers, navbar, themes etc.
+File `docusaurus.config.ts` contains the main configuration for Docusaurus. This is where we configure the overall page layout like headers, footers, navbar, themes etc. `sidebars.ts` contains configuration for the sidebars.
 
 - `/community/`: Information about the Radix community and team. 
 - `/docs/`: General concepts (topics).
