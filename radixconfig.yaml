@@ -21,20 +21,17 @@ spec:
       publicPort: http
       runtime:
         architecture: arm64
+      resources:
+        requests:
+          memory: 25M
+          cpu: 10m
+      volumeMounts:
+        - name: tmp
+          path: /tmp
+          emptyDir:
+            sizeLimit: 10M
       environmentConfig:
         - environment: qa
-          resources:
-            requests:
-              memory: "150Mi"
-              cpu: "10m"
-            limits:
-              memory: "150Mi"
-              cpu: "1000m" # docusaurus use a lot of cpu during startup/init
-          volumeMounts:
-            - name: tmp
-              path: /tmp
-              emptyDir:
-                sizeLimit: 10M
           horizontalScaling:
             maxReplicas: 1
             minReplicas: 0
@@ -47,16 +44,3 @@ spec:
                   desiredReplicas: 1                   
         - environment: prod
           replicas: 2
-          resources:
-            requests:
-              memory: "150Mi"
-              cpu: "10m"
-            limits:
-              memory: "150Mi"
-              cpu: "1000m" # docusaurus use a lot of cpu during startup/init
-          volumeMounts:
-            - name: tmp
-              path: /tmp
-              emptyDir:
-                sizeLimit: 10M
-

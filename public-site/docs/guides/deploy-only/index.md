@@ -81,7 +81,7 @@ In the `radixconfig.yaml` above, there are two tagging strategies;
 
 A dynamic tag in this context means that there is a new tag produced for every build, either referring to the release tag, or the commit sha (in the case above) or any other attributes that uniquely identifies what the image is produced from. The dynamic tag will give better control over what runs in the environment, and it also allows for promoting older deployments in case there is a need for a rollback.
 
-A static tag will not permit radix to update an existing deployment by relying on changes to `imageTagName` to pull a new image. To force radix to pull a new image from the image-hub, the component must be restarted using the component page on the web-console or restart call to the [API](https://api.radix.equinor.com/swaggerui/#/component/restartComponent) or [CLI](https://github.com/equinor/radix-cli). There is currently no log trace of components starting and stopping. If this is necessary, one may call `deploy-only` once on the application before `restart` on each component using static tags.
+A static tag will not permit radix to update an existing deployment by relying on changes to [`imageTagName`](../../radix-config/index.md#imagetagname) to pull a new image. To force radix to pull a new image from the image-hub, the component must be restarted using the component page on the web-console or restart call to the [Radix API](https://api.radix.equinor.com/swaggerui/#/component/restartComponent) or [CLI](https://github.com/equinor/radix-cli). The URL for Radix API depends on which [Radix cluster](../../start/radix-clusters/) is hosting the application.
 
 The second part of the `radixconfig.yaml` which distinguishes itself from a regular radix application is the [`privateImageHubs` property](/radix-config/index.md#privateimagehubs). In short, it will allow for the image produced outside of Radix to be pulled down to the Radix cluster.
 
@@ -122,7 +122,7 @@ Read about [how to connect GitHub actions and Azure](https://learn.microsoft.com
 
 With the access token you can make calls to Radix API through either:
 
-- Calling the API directly ([Radix Platform API](https://api.radix.equinor.com/swaggerui/) or [Radix Playground API](https://api.playground.radix.equinor.com/swaggerui/)), by passing the bearer token (i.e. curl -X GET --header "Authorization: Bearer \$token")
+- Calling the Radix API directly by passing the bearer token (i.e. curl -X GET --header "Authorization: Bearer \$token")
 - Calling the API though functions in the [Radix CLI](https://github.com/equinor/radix-cli), which allows for simpler access to the API
 - Calling the API through [Radix GitHub Actions](https://github.com/equinor/radix-github-actions). If you have opted for GitHub Actions as your CI tool, then calling the Radix API indirectly through the Radix CLI using the Radix GitHub Actions can be done. It allows for simpler access to the CLI in your action's workflow.
 
@@ -212,7 +212,7 @@ Disclaimer: Please seek advice elsewhere on whether GitHub Actions and/or GitHub
 
 When a Radix application has multiple components and only one or some of them need to be deployed, an option `component` can be used to specify these components. Multiple components can be specified. Other components, if exist in the environment, will not be re-deployed, keeping their `commitID` and `gitTags`, environment variables, secrets, etc. Replicas of not deployed components will not be restarted on deployment.
 
-Please look at [Radix CLI deploy command](/docs/topic-radix-cli/index.md#deploy-pipeline-job) for examples. The `component` option can also be used with [Radix GitHub action](https://github.com/equinor/radix-github-actions) and [Radix API](https://api.radix.equinor.com/swaggerui/).
+Please look at [Radix CLI deploy command](/docs/topic-radix-cli/index.md#deploy-pipeline-job) for examples. The `component` option can also be used with [Radix GitHub action](https://github.com/equinor/radix-github-actions) and Radix API.
 
 When deploy pipeline job has been run with `component` option, Radix console will indicate on pipeline job, deployment and environment pages which components were not deployed: 
 

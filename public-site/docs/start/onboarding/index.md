@@ -18,11 +18,11 @@ A basic understanding of Git and GitHub is required to use Radix. [git - the sim
 
 Even if your not using Radix, we would still recommend you to learn how to use Docker for containerization, and use it for hosting. It has many benefits when utilizing cloud.
 
-[What is a container](https://www.youtube.com/watch?v=EnJ7qX9fkcU) and [Benefits of containers](https://www.youtube.com/watch?v=cCTLjAdIQho) are both good videos to explain what and why containers. [Best practice](https://radix.equinor.com/topic-docker/) contains references to other relevant resources.
+[What is a container](https://www.youtube.com/watch?v=EnJ7qX9fkcU) and [Benefits of containers](https://www.youtube.com/watch?v=cCTLjAdIQho) are both good videos to explain what and why containers. [Best practice](../../docs/topic-docker/) contains references to other relevant resources.
 
 ## OAuth 2.0 - Authentication and Authorization
 
-If your API needs to be protected and only accessible for a group of users, understanding of OAuth 2.0 is required. Again this is not bound to Radix, but general knowledge needed when hosting applications in Azure (and cloud). [Radix authentication service](https://radix.equinor.com/guides/authentication/) can be a good place to start.
+If your API needs to be protected and only accessible for a group of users, understanding of OAuth 2.0 is required. Again this is not bound to Radix, but general knowledge needed when hosting applications in Azure (and cloud). [Radix authentication service](../../guides/authentication/) can be a good place to start.
 
 ## Azure services
 

@@ -575,7 +575,7 @@ An `emptyDir` volume mounts a temporary writable volume in the container. Data i
 
 - `protocol` - (optional) a protocol, supported by the BlobFuse2. Currently, supports `fuse2` (default) and `nfs`.
 - `container` - name of the blob container.
-- `uid` and/or `gid` - User ID and/or group ID (numbers) of a [mounted volume owner](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.21/#podsecuritycontext-v1-core). It is a User ID and Group ID of a user in the running container within component replicas. Usually a user, which is a member of one or multiple [groups](https://en.wikipedia.org/wiki/Group_identifier), is specified in the `Dockerfile` for the component with command `USER`. Read [more details](https://www.radix.equinor.com/topic-docker/#running-as-non-root) about specifying user within `Dockerfile`. It is recommended to use because Blobfuse driver do [not honor fsGroup securityContext settings](https://github.com/kubernetes-sigs/blob-csi-driver/blob/master/docs/driver-parameters.md).
+- `uid` and/or `gid` - User ID and/or group ID (numbers) of a [mounted volume owner](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.21/#podsecuritycontext-v1-core). It is a User ID and Group ID of a user in the running container within component replicas. Usually a user, which is a member of one or multiple [groups](https://en.wikipedia.org/wiki/Group_identifier), is specified in the `Dockerfile` for the component with command `USER`. Read [more details](../docs/topic-docker/index.md#running-as-non-root) about specifying user within `Dockerfile`. It is recommended to use because Blobfuse driver do [not honor fsGroup securityContext settings](https://github.com/kubernetes-sigs/blob-csi-driver/blob/master/docs/driver-parameters.md).
 - `useAdls` - (optional) enables blobfuse to access Azure DataLake storage account. When set to false, blobfuse will access Azure Block Blob storage account, hierarchical file system is not supported. Default `false`. This must be set `true` when [HNS enabled account](https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-namespace) is mounted.
 - `streaming` - (optional) defines a file streaming. When it is turned on (it is by default), files, opened by a container in its volume mount are not cached on a node, but read directly from a blob storage. It is recommended to use. When it is turned off, files are cached on a node, but it may cause a problem with a limited node disk available space.
 
@@ -1692,9 +1692,9 @@ spec:
     component: frontend
 ```
 
-As a convenience for nicer URLs, `dnsAppAlias` creates a DNS alias in the form of `<app-name>.app.radix.equinor.com` for the specified environment and component.
+As a convenience for nicer URLs, `dnsAppAlias` creates a DNS alias in the form of `<app-name>.app.<cluster-dns-zone>` (`<cluster-dns-zone>` depends on which [Radix cluster](../start/radix-clusters/) is hosting the application) for the specified environment and component.
 
-In the example above, the component **frontend** hosted in environment **prod** will be accessible from `myapp.app.radix.equinor.com`, in addition to the default endpoint provided for the frontend component, `frontend-myapp-prod.<clustername>.radix.equinor.com`.
+In the example above, if the application is host in the **Platform (North Europe)** cluster, the component **frontend** in environment **prod** will be accessible from `myapp.app.radix.equinor.com`, in addition to automatically allocated [domain names](../docs/topic-domain-names/).
 
 ## `dnsAlias`
 
@@ -1706,11 +1706,11 @@ spec:
       component: frontend
 ```
 
-`dnsAlias` creates one or several DNS aliases in the form of `<alias>.radix.equinor.com` for the specified environment and component. There are few reserved aliases which cannot be used: 
+`dnsAlias` creates one or several DNS aliases in the form of `<alias>.<cluster-dns-zone>` (`<cluster-dns-zone>` depends on which [Radix cluster](../start/radix-clusters/) is hosting the application) for the specified environment and component. There are few reserved aliases which cannot be used: 
 
 `www`, `app`, `api`, `console`, `webhook`, `playground`, `dev`, `grafana`, `prometheus`, `canary`, `cost-api`. 
 
-In the example above, the component **frontend** hosted in environment **prod** will be accessible from `myapp.radix.equinor.com` (or for the Playground: `myapp.playground.radix.equinor.com`), in addition to the default endpoint provided for the frontend component `frontend-myapp-prod.radix.equinor.com` (or for the Playground: `frontend-myapp-prod.playground.radix.equinor.com`).
+In the example above, if the application is host in the **Platform (North Europe)** cluster, the component **frontend** in environment **prod** will be accessible from `myapp.radix.equinor.com`, in addition to automatically allocated [domain names](../docs/topic-domain-names/).
 
 ## `dnsExternalAlias`
 

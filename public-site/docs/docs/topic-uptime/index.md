@@ -28,10 +28,11 @@ The monitoring has not been active for 90 days yet, so the current report will s
 
 The Radix Platform should be used when your team has chosen Radix as PaaS (Platform-as-a-Service) for a product under development or in production.
 
-| Cluster        | Purpose                                     | Upgrade             |   Support   |
-| -------------- | ------------------------------------------- | :-----------------: | :---------: |
-| **Platform**   | Products under development or in production |   Every ~6 months   |     Yes     |
-| **Playground** | Testing and experimenting with Radix        |                     | Best-effort |
+| Cluster                      | Purpose                                     | Upgrade         |   Support   |
+| ---------------------------- | ------------------------------------------- | :-------------: | :---------: |
+| **Platform (North Europe)**  | Apps under development or in production | Every ~6 months | Yes         |
+| **Platform 2 (West Europe)** | Apps under development or in production | Every ~6 months | Yes         |
+| **Playground**               | Testing and experimenting with Radix        |                 | Best-effort |
 
 ### Support
 

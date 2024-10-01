@@ -6,57 +6,35 @@ title: Radix CLI
 
 ## Purpose
 
-[Radix command line interface](https://github.com/equinor/radix-cli) is an application to execute commands for getting information, creating a Radix application or pipeline jobs, setting values of secrets, start and stop Radis components and other operations, described below. The Radix CLI, available for multiple platforms, it can be downloaded from the [GitHub repository](https://github.com/equinor/radix-cli/tags).
+[Radix CLI](https://github.com/equinor/radix-cli) is an application to execute commands for getting information, creating a Radix application or pipeline jobs, setting values of secrets, start and stop Radis components and other operations, described below. The Radix CLI, available for multiple platforms, it can be downloaded from the [GitHub repository](https://github.com/equinor/radix-cli/releases).
 
 ## Use
 
-The Radix CLI can be used on local PC, in CI workflow, in a docker container.
+Radix CLI can be installed and run from your local PC, as a Docker container, or in CI workflows, like GitHub actions.
 
-Commands can be executed for `platform` or `playground` cluster, specified by an option `--context` or `-c`. Example: `--context platform` or `-c playground`. When no context specified, `platform` is used.
+Commands can be executed towards all Radix cluster, either by  setting the `--context` flag when executing a command, or by configuring the default context. `platform` is used if no context is specified.
 
-The default context can be changed
+Set the default context:
 ```shell
 rx set context --context playground
 ```
-Check the current context
+Check the current context:
 ```shell
 rx get context
 ```
 
-Only applications, permitted for users or Azure AD groups, where they are member of, are available to execute commands for.
-
-The command `rx --version` or `rx -v` shows the version, installed on the PC.
-
-To get debug information about request, sent by the Radix CLI prefix the command with set of environment variable `DEBUG`: `DEBUG=true rx get application -a your-app-name`
-
 ### Run on a local PC
 
-Download a [version of a Radix CLI](https://github.com/equinor/radix-cli/tags) for a required platform, extract an executable binary from an archive and move it to a folder, where executables usually located on the PC (or it can remain the folder, from it can be run). Example for a Linux or Mac:
+Install Radix CLI locally by following the installation instructions in the [Radix CLI GitHub repository](https://github.com/equinor/radix-cli#installation).
 
-```shell
-LATEST_VERSION=$(
-curl --silent "https://api.github.com/repos/equinor/radix-cli/releases/latest" |
-grep '"tag_name":' |
-sed -E 's/.*"v([^"]+)".*/\1/'
-)
-
-rx_tar=radix-cli_${LATEST_VERSION}_Darwin_x86_64.tar.gz
-curl -OL "https://github.com/equinor/radix-cli/releases/download/v${LATEST_VERSION}/${rx_tar}"
-tar -xf ${rx_tar}
-
-sudo mv rx /usr/local/bin/rx
-rm ${rx_tar}
-```
-
-To start working with Radix CLI, first login to the cluster:
+To start working with Radix CLI you must first login:
 ```shell
 rx login
 ```
-Follow the provided Microsoft sign in device login URL and enter the provided code.
 
-On successful login - commands can be executed within your user permissions to the Radix.
+After successful login, you can start executing commands.
 
-To clean up the login data - logout from the Radix:
+To clean up the login data, logout from the Radix:
 ```shell
 rx logout
 ```
@@ -107,7 +85,7 @@ Scope can be specified for most commands:
 :::tip
 An option `job` of commands `create`, `get logs` is replaced with `pipeline-job`. It will be supported for backward compatibility. 
 :::
-* Create a new "deploy only" pipeline job with specified image tags. When `radixconfig.yaml` contains `image` option with dynamic [imageTagName](https://radix.equinor.com/radix-config/index.md#imagetagname), this `imageTagName` can be altered in the Radix CLI `create pipeline-job deploy` command option `image-tag-name`. This option will override values defined in the `radixconfig.yaml` and can be defined for multiple components in the command. `image-tag-name`, provided as an option in the command `rx create pipeline-job deploy` is shown in the Radix pipeline orchestration job log. Component names that does not exist within the Radix application environment will be ignored.
+* Create a new "deploy only" pipeline job with specified image tags. When `radixconfig.yaml` contains `image` option with dynamic [imageTagName](../../radix-config/index.md#imagetagname), this `imageTagName` can be altered in the Radix CLI `create pipeline-job deploy` command option `image-tag-name`. This option will override values defined in the `radixconfig.yaml` and can be defined for multiple components in the command. `image-tag-name`, provided as an option in the command `rx create pipeline-job deploy` is shown in the Radix pipeline orchestration job log. Component names that does not exist within the Radix application environment will be ignored.
     ```shell
     rx create pipeline-job deploy --application your-app-name --environment dev --image-tag-name web-app=stable-123 --image-tag-name api=1.22.0
     rx create pipeline-job deploy -a your-app-name -e dev -t web-app=stable-123 -t api=1.22.0
@@ -190,7 +168,7 @@ An option `job` of commands `create`, `get logs` is replaced with `pipeline-job`
     ```
   :::info
   This scale will persist after re-deployment, so remember to reset the component when you are finished.  
-  After reset, scaled component gets replicas specified in the `radixconfig.yaml`, "1" if not specified, or set by [horizontal scaling](https://radix.equinor.com/radix-config/index.md#environmentconfig)  
+  After reset, scaled component gets replicas specified in the [`radixconfig.yaml`](../../radix-config/index.md), "1" if not specified, or set by [`horizontal scaling`](../../radix-config/index.md#horizontalscaling)  
   :::
 #### Manage components
 * Set a value of a component secret (runtime secret)
