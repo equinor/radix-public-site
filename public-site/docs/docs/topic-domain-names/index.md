@@ -11,7 +11,7 @@ The domain names are composed with information from the application, and the [Ra
 - `component-name`: The name of the component, e.g. `frontend`.
 - `app-name`: The name of the application, e.g. `myapp`.
 - `env-name`: The name of the environment where the component is deployed to, e.g. `production`.
-- `cluster-name`: The name of the underlying Kubernetes cluster used for hosting a specific [Radix cluster](../../start/radix-clusters/), e.g. `eu-18`. This value can change, for example during upgrade of a Radix cluster. Domain names using this value should only be used for debugging purposes, and should never be used by end users/services.
+- `cluster-name`: Exists only in [canonical name](./#canonical-name).  The name of the underlying Kubernetes cluster used for hosting a specific [Radix cluster](../../start/radix-clusters/), e.g. `eu-18`. This value can change, for example during upgrade of a Radix cluster. Domain names using this value should only be used for debugging purposes, and should never be used by end users/services.
 - `cluster-dns-zone`: The DNS zone for the [Radix cluster](../../start/radix-clusters/) where the application is hosted, e.g. `radix.equinor.com`.
 
 ## Public name
