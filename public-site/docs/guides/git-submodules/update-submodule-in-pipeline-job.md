@@ -51,7 +51,7 @@ spec:
           port: 8080
       publicPort: http
 ```
-This Radix application has a build secret `SSH_KEY` and it uses build-kit to be built. 
+This Radix application has a build secret `SSH_KEY` and it uses build-kit to be built. The name of the build secret does not have to be `SSH_KEY`, it just need be the same as used in the Dockerfile `RUN --mount...` directive (see this below).
 ## Dockerfile
 ```Dockerfile
 FROM docker.io/alpine AS builder
@@ -82,7 +82,7 @@ If an option `--remote` is not specified - submodule will be cloned with a versi
 
 :::info Hint
 The default file name with a private key can be changed with one of following options:
-* `env GIT_SSH_COMMAND='ssh -i /path/to/your/private_key' submodule update --init --recursive`
+* `env GIT_SSH_COMMAND='ssh -i /path/to/your/private_key' git submodule update --init --recursive`
 * `git -c core.sshCommand="ssh -i /path/to/your/private_key" submodule update --init --recursive`
 :::
 ## Prepare keys
