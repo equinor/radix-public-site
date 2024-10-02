@@ -23,8 +23,8 @@ spec:
         architecture: arm64
       resources:
         requests:
-          memory: 25M
-          cpu: 10m
+          memory: 15M
+          cpu: 5m
       volumeMounts:
         - name: tmp
           path: /tmp
