@@ -32,12 +32,20 @@ You can also run docusurus locally. All that is needed is NodeJS and NPM. In the
 
 File `docusaurus.config.ts` contains the main configuration for Docusaurus. This is where we configure the overall page layout like headers, footers, navbar, themes etc. `sidebars.ts` contains configuration for the sidebars.
 
+Documentation folder structure:
+
 - `/community/`: Information about the Radix community and team. 
 - `/docs/`: General concepts (topics).
 - `/feature/`: List of all fratures in Radix.
 - `/guides/`: User-friendly, conversational guides on how to achieve specific objectives.
 - `/radix-config/`: Reference documentation for end-users.
 - `/start/`: Getting started guide
+
+NGINX configuration:
+
+- `/proxy/server.conf`: Configuration used for production. Serves the statically built files.
+- `/proxy/server.dev.conf`: Configuration used for development. Proxies requests to docusaurus backend.
+- `/proxy/securityheaders`: Contains security related headers for the HTTP response. Included in both production and development configurations.
 
 ## docusaurus
 
@@ -47,6 +55,7 @@ This website is built using [Docusaurus](https://docusaurus.io/), a modern stati
 ```bash
 npx create-docusaurus@latest public-site classic --typescript
 ```
+
 # Credits
 
 trees by Made x Made from the Noun Project: &lt;https://thenounproject.com/term/trees/1723897/&gt;  
