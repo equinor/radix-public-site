@@ -1166,6 +1166,9 @@ spec:
       network:
         ingress:
           public:
+            proxyBodySize: 500m
+            proxyReadTimeout: 5
+            proxySendTimeout: 10
             allow:
               - 100.1.1.1
               - 110.1.1.1/30
@@ -1173,21 +1176,33 @@ spec:
         - environment: dev
           network:
             ingress:
+              proxyBodySize: 20m
+              proxyReadTimeout: 30
+              proxySendTimeout: 30
               public:
                 allow: []
         - environment: qa
           network:
             ingress:
               public:
+                proxyBodySize: 100m
                 allow:
                   - 200.1.1.1
                   - 200.10.1.1
         - environment: prod
 ```
 
-The `network.ingress.public.allow` property defines a list of public IP addresses or CIDRs allowed to access the component's public endpoints. The `allow` list can be configured on the component level and/or in `environmentConfig` for a specific environment. `environmentConfig` takes precedence over component level configuration. Setting `allow` to an empty list allows access from all public IP addresses.
+`network.ingress.public` contains settings used to control the behavior of [public endpoints](../docs/topic-domain-names/). These settings can be configured on the component level and/or in `environmentConfig` for a specific environment. `environmentConfig` takes precedence over component level configuration.
 
-In the example, `allow` is configured on the component level with two IP address ranges. This configuration will apply to all environments, unless `allow` is configured in `environmentConfig`. For environment `dev`, `allow` to en empty list, which will allow all public IP addresses to access the component. In the `qa` environment, `allow` is configured with a new list if IP addresses. These will be used instead of the IP addresses configured on the component level. The `environmentConfig` for `prod` does not specify `allow`, which means that the configuration from the component level will be used.
+- `allow`: Defines a list of public IP addresses or CIDRs allowed to access the component's public endpoints. Setting `allow` to an empty list allows access from all public IP addresses.  
+**Note**: When `allow` is configured in `environmentConfig`, it will _overwrite_ any values defined on component level. 
+- `proxyBodySize`: Sets the maximum allowed size of the client request body. Sizes can be specified in bytes, kilobytes (suffixes k and K), megabytes (suffixes m and M), or gigabytes (suffixes g and G), for example "1024", "64k", "32m" or "2g". If the size in a request exceeds the configured value, the 413 (Request Entity Too Large) error is returned to the client. Setting this value to "0" disables checking of client request body size. The default is 100m.
+- `proxyReadTimeout`: Defines a timeout, in seconds, for reading a response from the proxied server. The timeout is set only between two successive read operations, not for the transmission of the whole response. If the proxied server does not transmit anything within this time, the connection is closed. The default is 60 seconds.
+- `proxySendTimeout`: Defines a timeout, in seconds, for transmitting a request to the proxied server. The timeout is set only between two successive write operations, not for the transmission of the whole request. If the proxied server does not receive anything within this time, the connection is closed. The default is 60 seconds.
+
+:::warning Caution
+Setting `proxyBodySize` to "0", or an unneccessary high value, can lead to instability/denial of service or increased cost, depending on how the request body is processed by the backend, e.g. when buffering to memory or storing the content to disk, either locally or remotly. Never set the value to "0" unless the backend component is configured to enforce a limit.
+:::
 
 ## `jobs`
 
