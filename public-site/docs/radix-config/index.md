@@ -55,18 +55,21 @@ spec:
       CONNECTION_STRING: "Provider=MySQLProv;Data Source=mydb;"
 ```
 
-The `build` section of the spec contains configuration needed during build (CI part) of the components. In this section you can specify build secrets, which is needed when pulling from locked registries, or cloning from locked repositories.
+The `build` section of the spec contains configuration used during the build process of the components and jobs.
 
 ### `useBuildKit`
-`useBuildKit` - (optional, default `false`) build a component with Docker BuildKit. Read  [more](/guides/build-secrets/#build-secrets-with-buildkit) in the guide.
+`useBuildKit` - (optional, default `false`) builds components and jobs using [Buildah](https://www.redhat.com/en/topics/containers/what-is-buildah). This option provides several benefits over the default Radix build engine:
+- Secure handling of [**build secrets**](/guides/build-secrets/#build-secrets-with-buildkit).
+- Caching support that can reduce build time, see [`useBuildCache`](#usebuildcache).
+- Use images from protected container registries defined in [`privateImageHubs`](#privateimagehubs), in the Dockerfile's `FROM` instructions.
 
 :::tip
-When the option `useBuildKit` is set to `true`, Radix will use [buildah](https://www.redhat.com/en/topics/containers/what-is-buildah) to build the components. Buildah requires the `Dockerfile` instruction `FROM` to have a repository prefixing the docker image name.
-Otherwise, there will be an error during the docker image build:
+Buildah requires the image name in a Dockerfile's `FROM` instructions to be fully qualified, e.g. `FROM docker.io/library/golang:1.22` instead of `FROM golang:1.22`. If you are using the style `bitnami/golang:1.22` you should use `docker.io/bitnami/golang:1.22`
+The build step will fail with the following error an image name is not fully qualified:
 
+```
 Error: creating build container: short-name resolution enforced but cannot prompt without a TTY
-
-Example: instead of `FROM alpine` use `FROM docker.io/alpine`, as this `alpine` image is located in the [Docker Hub](https://hub.docker.com/) repository.
+```
 :::
 
 ### `useBuildCache`
