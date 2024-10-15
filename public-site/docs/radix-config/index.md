@@ -64,7 +64,7 @@ The `build` section of the spec contains configuration used during the build pro
 - Use images from protected container registries defined in [`privateImageHubs`](#privateimagehubs), in the Dockerfile's `FROM` instructions.
 
 :::tip
-Buildah requires the image name in a Dockerfile's `FROM` instructions to be fully qualified, e.g. `FROM docker.io/library/golang:1.22` instead of `FROM golang:1.22`.
+Buildah requires the image name in a Dockerfile's `FROM` instructions to be fully qualified, e.g. `FROM docker.io/library/golang:1.22` instead of `FROM golang:1.22`. If you are using the style `bitnami/golang:1.22` you should use `docker.io/bitnami/golang:1.22`
 The build step will fail with the following error an image name is not fully qualified:
 
 ```
