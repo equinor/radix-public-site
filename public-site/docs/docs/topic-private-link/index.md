@@ -33,12 +33,27 @@ Resource ID example: `/subscriptions/A01234567-bc89-123d-ef45-678g9hi12jkl/resou
 
 ## Instructions
 
-The creation of Private Endpoints in Radix is currently a manual process, and the destination subscription must be part of Omnia Standalone. When in need of a Private Endpoint, contact the Radix team.
+The creation of Private Endpoints in Radix is a semi automated process, and the destination subscription must be part of Omnia Standalone.
 
-The destination subscription must be whitelisted in an Azure policy managed by Solum. The policy allows the creation of Private Endpoints Connections only to Private Link Services in a list of whitelisted subscriptions.
-Adding a subscription to the whitelist is done by making a pull request to the Solum repository in GitHub. This is where most of the information is required, and the Subscription Owner will have to validate the request.
+The destination subscription must be whitelisted in an Azure policy managed by [Solum](https://github.com/equinor/Solum). The policy allows the creation of Private Endpoints Connections only to Private Link Services in a list of whitelisted subscriptions.
+Adding a subscription to the whitelist is done by making a pull request to the Solum repository or submit an issue in GitHub. This is where most of the information is required, and the Subscription Owner will have to validate the request.  
+`Important:` If the target subscription are in this list [for Platform and Platform2](https://github.com/equinor/Solum/blob/master/src/platform/policyConfig/policy-assignments/S940_OP-Allow-PLS-Sub.json) or [for Playground](https://github.com/equinor/Solum/blob/master/src/platform/policyConfig/policy-assignments/S941_OP-Allow-PLS-Sub.json) the requirments are met.
 
-When the pull request has been approved and merged, the policy will be updated. After that, the Radix team can create a Private Endpoint using the `Resource ID` provided by the user. This will show up as a pending request in the destination subscription. When the user approves the request, a Private Endpoint will be created on the destination subscription, and a Private Link between the two endpoints will be established.
+When the pull request has been approved and merged, the policy will be updated. After that, a issue [request a new private link](https://github.com/equinor/radix/issues/new?template=privatelink.yaml) can be made using the `Resource ID`.
+The three input fields that need to be submitted:
+```
+- [x]Confirm target subscription are whitelisted by Solum (as described above)  
+- Resource ID:  
+  /subscriptions/A01234567-bc89-123d-ef45-678g9hi12jkl/resourceGroups/Some_RG_Prod/providers/Microsoft.Sql/servers/sql-some-prod  
+- Radix environment (either):  
+  - Platform NE
+  - Platform WE
+  - Playground
+```
+Radix team will now get a notification about the issue, and approve the privatelink if all requirements are met.
+The submitter will get a mail with text 'Private link is created but needs manuall approval in Azure Portal.'
+
+This will show up as a pending request in the destination subscription. When the user approves the request, a Private Endpoint will be created on the destination subscription, and a Private Link between the two endpoints will be established.
 
 The user can continue using the same FQDN to access the remote resource after the Private Endpoint has been created.
 
