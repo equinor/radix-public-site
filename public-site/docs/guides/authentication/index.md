@@ -64,7 +64,7 @@ When OAuth2 is enabled for a component in [`radixconfig.yaml`](/radix-config/ind
   `scope` is configured to include **offline_access**. With **offline_access** included, the OAuth2 service receives a long lived refresh token that is used to get a new access token as the old one expires. Read more about Microsoft Identity Platform scopes [here](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#openid-connect-scopes).  
   `setXAuthRequestHeaders` and `setAuthorizationHeader` are set to **true** to include to the upstream request *X-Auth-** headers with claims from the access token, the access token itself, and the *Authorization: Bearer* header with the ID Token.  
   `sessionStoreType` can be set to **redis** instead of using the default of **cookie**. `connectionUrl` defines the address to the Redis server.
-  It is recommended to use Redis as session store instead of cookie because of [knows issues](#known-issues) with refreshing the access token and updating the session cookie's Expires attribute.  
+  It is recommended to use [Redis](../../docs/topic-redis/index.md) as session store instead of cookie because of [knows issues](#known-issues) with refreshing the access token and updating the session cookie's Expires attribute.  
   The Redis server can be hosted as a Radix component, or an external Redis service like [Azure Cache for Redis](https://azure.microsoft.com/nb-no/services/cache/). In this example, Redis is hosted as a Radix component.
 
 - Build the application in Radix and open the Radix Web Console to set REDIS_PASSWORD for the `redis` component, and required secrets for the OAuth service used by the `web` component.
