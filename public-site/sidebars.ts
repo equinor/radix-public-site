@@ -106,6 +106,7 @@ const sidebars: SidebarsConfig = {
           'docs/topic-radix-cli/index',
           'docs/topic-code-editor-integration/index',
           'docs/topic-dynatrace-int/index',
+          'docs/topic-redis/index',
       ],
     }
   ],
