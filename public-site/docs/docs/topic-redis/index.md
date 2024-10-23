@@ -19,3 +19,9 @@ Radix does not implicitly restart pods, configured to use pre-built `image` prop
 # Using Azure Cache for Redis as an Alternative
 
 To overcome the limitations of running Redis natively in Kubernetes, a more robust solution is to use https://azure.microsoft.com/en-us/products/cache. Azure Cache for Redis is a fully managed, scalable, and highly available Redis service provided by Microsoft Azure. 
+
+:::tip
+It is highly recommend to use a persistent Session Store for production applications, like [Azure Cache for Redis](https://azure.microsoft.com/en-us/products/cache). 
+
+Radix Web Console also uses Azure Cache for Redis to store sessions.
+:::
