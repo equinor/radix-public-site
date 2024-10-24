@@ -45,6 +45,7 @@ const sidebars: SidebarsConfig = {
           'guides/docker/index',
           'guides/docker-useradd/index',
           'guides/azure-key-vaults/index',
+          'guides/private-link/index',
           'guides/build-secrets/index',
           'guides/environment-variables/index',
           'guides/enable-and-disable-components/index',
