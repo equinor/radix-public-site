@@ -18,10 +18,8 @@ ARG SECRET1
 
 #decode `SECRET1` argument and assign it to `BUILD_ARG` variable for further commands in this `RUN`
 RUN BUILD_ARG=$(echo $SECRET1|base64 -d) && \
-#instead of `echo` - use real command with $BUILD_ARG argument
-    echo $BUILD_ARG && \
-#this is for validation purpose only
-    echo "BUILD_ARG contains $BUILD_ARG"
+#instead of `echo...|wc` - use real command with $BUILD_ARG argument
+    echo $BUILD_ARG|wc -m
 ```
 
 In the example above - the actual command can be used instead of `echo` command. However `echo` is useful during development to validate what values have been passed via the `--build-arg` option to the `docker build` command (this is how [build secrets](/radix-config/index.md#secrets) from `radixconfig` are passed in Radix during the build pipeline). Use `docker build` arguments `--progress=plain --no-cache` for such validation on development computer
@@ -65,11 +63,13 @@ FROM docker.io/alpine
 
 #one secret in the specified destination file and folder /abc/my-secrets/secret-1.txt
 RUN --mount=type=secret,id=SECRET1,dst=/abc/my-secrets/secret-1.txt export BUILD_ARG=$(cat /abc/my-secrets/secret-1.txt) && \
-    echo $BUILD_ARG
+    #instead of `echo...|wc` - use real command with $BUILD_ARG argument
+    echo $BUILD_ARG|wc -m 
 
 #one secret in the default destination file and folder /run/secrets and a file with a name, the same as the secret name
 RUN --mount=type=secret,id=SECRET1 export BUILD_ARG=$(cat /run/secrets/SECRET1) && \
-    echo $BUILD_ARG
+    #instead of `echo...|wc` - use real command with $BUILD_ARG argument
+    echo $BUILD_ARG|wc -m 
 ```
 
 ### Development and troubleshooting
@@ -94,12 +94,15 @@ For verification that secrets are used as expected, Docker image can be built an
   FROM docker.io/alpine
   
   #one secret in the specified destination file and folder /abc/my-secrets/secret-1.txt
+  #newer echo secrets in real code
   RUN --mount=type=secret,id=SECRET1,dst=/abc/my-secrets/secret-1.txt \
       --mount=type=secret,id=DB_PASSWORD,dst=/config/db-pass.txt \
       export BUILD_ARG=$(cat /abc/my-secrets/secret-1.txt) && \
       export DB_PASS=$(cat /config/db-pass.txt) && \
-      echo $BUILD_ARG && \
-      echo $DB_PASS
+      #instead of `echo...|wc` - use real command with $BUILD_ARG env-var
+      echo $BUILD_ARG|wc -m && \
+      #instead of `echo...|wc` - use real command with $DB_PASS env-var
+      echo $DB_PASS|wc -m
   ```
   Run it locally
   ```bash
