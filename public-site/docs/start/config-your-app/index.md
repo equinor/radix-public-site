@@ -23,7 +23,7 @@ The way we use branches and tags in our repository depends on what type of workf
 A 📖 [`radixconfig.yaml`](/radix-config/index.md) file that defines the running environments, which specifies how our application is built and deployed. By default, it is in the root directory of our repository.
 
 :::tip
-Radix only reads `radixconfig.yaml` from the branch we set as the `Config Branch` in the application registration/configuration form. If the file is changed in other branches, those changes will be ignored. The `Config Branch` must be mapped to an environment in `radixconfig.yaml`
+Radix only reads `radixconfig.yaml` from the branch we set as the `Config Branch` in the application registration form. If the file is changed in other branches, those changes will be ignored.
 :::
 
 If you are unfamiliar with YAML, it is fine to write the configuration as JSON instead — just keep the same filename.
