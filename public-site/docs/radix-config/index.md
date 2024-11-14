@@ -10,7 +10,7 @@ toc_max_heading_level: 4
 In order for Radix to configure your application it needs a configuration file. By default, it is expected to be located in the root of the application repository, has a name `radixconfig.yaml` and be in YAML or JSON format - in either case, it must have the `.yaml` or `.yml` extension (the name and extension should be exactly same as for the file in the GitHub repository). The name of the file and its location in the repository can be different. It can also be changed later on the Radix web-console configuration page for the application. Read more in the [monorepo](/guides/monorepo) guide.
 
 :::tip
-Radix only reads `radixconfig.yaml` from the branch, set as the `Config Branch` in the application registration form. If the file is changed in other branches, those changes will be ignored. The `Config Branch` must be mapped to an environment in the configuration file.
+Radix only reads `radixconfig.yaml` from the branch we set as the `Config Branch` in the application registration form. If the file is changed in other branches, those changes will be ignored.
 :::
 
 The basic format of the file is this; the configuration keys are explained in the Reference section below:
@@ -82,7 +82,7 @@ Make sure you never store secrets or confidential information in any intermitent
 :::
 
 ### `secrets`
-`secrets` - (optional) add secrets to Radix config `radixconfig.yaml` in the branch defined as `Config Branch` for your application. This will trigger a new build. This build will fail as no specified build secret has been set. You will now be able to set the secret **values** in the configuration section of your app in the Radix Web Console. These secrets also can be used in the [sub-pipelines](/guides/sub-pipeline).
+`secrets` - (optional) Defines secrets to be used in Dockerfiles or [sub-pipelines](/guides/sub-pipeline). Secrets values must be set in Radix Web Console. `build-deploy` jobs will fail if not all secret values are set.
 
 :::tip
 * When an option `useBuildKit: false`, to ensure that multiline build secrets are handled correct by the build, **all** build secrets are passed as `ARG`-s during container build, base-64 encoded (they need to be decoded before use).
@@ -140,10 +140,6 @@ spec:
 ```
 
 The `environments` section of the spec lists the environments for the application.
-
-:::tip
-The `Config Branch` set in the application registration form **must** be mapped to the name of one of the `environments`.
-:::
 
 ### `name`
 

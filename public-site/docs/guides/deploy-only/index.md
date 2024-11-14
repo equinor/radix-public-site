@@ -31,7 +31,7 @@ The documentation will use the second option.
 ## The `radixconfig.yaml` file
 
 :::tip
-Radix only reads `radixconfig.yaml` from the branch we set as the `Config Branch` in the application registration form. If the file is changed in other branches, those changes will be ignored. The `Config Branch` must be mapped to an environment in `radixconfig.yaml`
+Radix only reads `radixconfig.yaml` from the branch we set as the `Config Branch` in the application configuration form. If the file is changed in other branches, those changes will be ignored.
 :::
 
 The major difference between a `deploy-only` and a regular Radix application, is that the [`image`](/radix-config/index.md#image) property in `radixconfig.yaml` is set for all components and jobs. 

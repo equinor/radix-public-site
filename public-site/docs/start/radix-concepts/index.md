@@ -90,7 +90,7 @@ A pipeline defines a type of job. There are following types of pipeline in Radix
 
 ### The `build-deploy` pipeline
 
-This is triggered by a commit in GitHub to a branch mapped to an environment. In turn, this causes all components to be rebuilt and a new deployment to be created in the appropriate environment. If many components are built from the same source, then one multi-component image is built for all components. If there are several multi-components in the config, the multi-component images will be indexed.
+This is triggered by a commit in GitHub to a branch mapped to an environment. In turn, this causes all components to be rebuilt and a new deployment to be created in the appropriate environment.
 
 ![Diagram of the build-deploy pipeline](./pipeline-build-deploy.jpg "The build-deploy pipeline")
 
