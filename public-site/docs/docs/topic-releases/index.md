@@ -6,6 +6,75 @@ title: What's new
 
 ## 2024
 
+### 2024-11-12 Radix CLI and gitHub action updates
+[Radix CLI 1.24](https://github.com/equinor/radix-cli/releases/tag/v1.24.0) and Radix github action v1 now support announced earlier :arrow_up: :
+- "apply-config" pipeline job with an option ``--deploy-external-dns-alias`` true|false (by default ``false`` )
+- "build-deploy" pipeline job with an option ``--environment`` in addition to mandatory ``--branch``
+
+### 2024-11-11 Changes to Radix pipeline jobs
+The pipeline job "apply-config" can now optionally apply changes of External DNS aliases in the radixconfig without need to explicitly re-deploy connected environment (a new deployment willbe created though automatically)
+The pipeline job "build-deploy" can now optionally have selected environment, if a selected branch is used in more then one environment or a build.from template matches to multiple environments. Support in Radix cli and github action will follow soon.
+
+### 2024-11-11 Some UI (Web Console) improvements
+The sections events, environment variables, scheduled job and batches list now keep its last collapsed/expanded state in the browser local storage.
+
+Scheduled batch page and its job has extended breadcrumb and properties
+
+:::tip Tips
+Please hit Ctrl+F5 (⌘-R) if changes are not seen in the web-console
+:::
+
+### 2024-10-30 Components and pods events in the Radix console 
+In addition to app-environment events, Radix console now shows events on component page (component-related) and replica page (replica's component and replica itself related).
+
+:::tip Note
+Just to remember - each event remains during only one hour.
+:::
+
+### 2024-10-24 Update on Azure PostgreSQL Flexible Server DNS resolution 
+Microsoft has reverted the temporary DNS configuration for PostgreSQL servers described in this post: https://learn.microsoft.com/en-us/azure/postgresql/flexible-server/concepts-networking-private-link#private-link-and-dns
+
+The new DNS configuration for PostgreSQL servers will only resolve to ``"server-name".privatelink.postgres.database.azure.com`` if the server has a private endpoint.
+:::info Info
+This means to you are no longer required to use private links from Radix to PostgreSQL servers.
+:::
+
+### 2024-10-14 Radix - new platform location
+It is now an option to run your application in the West Europe data centre. This can be a good option if your data also is located in the same data centre. You will now find two platforms in the Radix, named Platform (North Europe)🇮🇪 and Platform 2 (West Europe)🇳🇱
+
+### 2024-10-09 Public endpoint configuration options 
+We have added three setting to [radixconfig](/radix-config#network-1) for configuration of limits for public endpoints:
+proxyReadTimeout: Defines a timeout, in seconds, for reading a response from the proxied server. The timeout is set only between two successive read operations, not for the transmission of the whole response. Default is 60 seconds.
+
+``proxySendTimeout``: Defines a timeout, in seconds, for transmitting a request to the proxied server. The timeout is set only between two successive write operations, not for the transmission of the whole request: Defaults to 60 seconds.
+
+``proxyBodySize``: Sets the maximum allowed size of the client request body. Default is 100M.
+
+:::warning Caution
+Setting ``proxyBodySize`` to "0", or an unnecessary high value, can lead to instability/denial of service or increased cost, depending on how the request body is processed by the backend, e.g. when buffering to memory or storing the content to disk, either locally or remotely. Never set the value to "0" unless the backend component is configured to enforce a limit.
+:::
+
+### 2024-09-27 Add service principals to the application's administrators/readers list in Radix Web Console
+
+You can now add service principals (App Registration or Managed Identity) to the Administrators or Readers list in the application configuration page. You no longer have to go via a group.
+
+The drop-down will search for groups and service principals when you start typing. Groups and service principals are grouped in the result list, showing groups first and service principals last. See attached screen recording.
+
+### 2024-09-27 Restrict access to public components by IP address or CIDR
+You can restrict access to the public endpoints for a component by configuring a list of IP addresses or CIDRs in the ``network.ingress.public.allow`` field in [radixconfig](/radix-config#network-1).
+
+When this field is set, only IP addresses matching items in the list can access the public endpoints for the component. Unauthorized IP addresses will receive a 403 response.
+
+The component page in Radix Web Console will show information when IP filtering is active, or if all IPs are allowed.
+
+
+### 2024-09-18  Fix for docker.io rate limit during build 
+This fix will resolve docker.io rate limit errors during the build step for applications using [useBuildKit](/radix-config#usebuildkit).
+
+If your Dockerfile uses images from docker.io in the FROM instruction, Radix will pull the image as an authenticated used instead of as anonymous. This increases the rate limit to 5000 pulls per day, instead of 100 per 6 hours.
+
+If you have configured credentials for docker.io in radixconfig ([privateImageHubs](/radix-config#privateimagehubs)), these will be used instead.
+
 ### 2024-09-17 Manual Component Scaling
 
 A new Scaling feature has been added to Radix Web Console and to RX, while also supports overriding any automatic scaling. Any manually scaled components (even scaled to 0, ie. Stopped) will retain the custom scaled untill its been reset, even across new deployments.
