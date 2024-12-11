@@ -51,7 +51,7 @@ frontend-myapp-prod.radix.equinor.com
 
 Add the alias to `dnsExternalAlias` in [radixconfig.yaml](../../radix-config/index.md#dnsexternalalias). You can add multiple entries as long as the `alias` value is unique. The referenced environment must be re-deployed in order for the changes to take effect.
 
-If `useCertificateAutomation` is `true`, the external DNS record must be already created in order for Radix to start the automatic certificate issuing process.
+If `useCertificateAutomation` is `true`, the external DNS record must be created in order for Radix to start the automatic certificate issuing process. `digicert.com` must also be authorized (from [CAA](https://en.wikipedia.org/wiki/DNS_Certification_Authority_Authorization) records) to issue certificates to the `alias`. You can use an online tool like [Entrust CAA Lookup](https://www.entrust.com/resources/tools/caa-lookup) to check this.
 
 ``` yaml
 apiVersion: radix.equinor.com/v1
