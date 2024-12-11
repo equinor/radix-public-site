@@ -1421,9 +1421,7 @@ spec:
       timeLimitSeconds: 120
 ```
 
-The maximum number of seconds a job can run. If the job's running time exceeds the limit, it will be automatically stopped with status `Failed`. The default value is `43200` seconds, 12 hours.
-
-`timeLimitSeconds` applies to the total duration of the job, and takes precedence over `backoffLimit`. Once `timeLimitSeconds` has been reached, the job will be stopped with status `Failed` even if `backoffLimit` has not been reached.
+The maximum number of seconds a job can run, with a default value of `43200` seconds (12 hours). If the job's running time exceeds the limit, a SIGTERM signal is sent to allow the job to gracefully shut down with a 30 second time limit, after which it will be forcefully terminated.
 
 ### `backoffLimit`
 
@@ -1435,6 +1433,35 @@ spec:
 ```
 
 Defines the number of times a job will be restarted if its container exits in error. Once the `backoffLimit` has been reached the job will be marked as `Failed`. The default value is `0`.
+
+### `failurePolicy`
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      failurePolicy:
+        rules:
+          - action: FailJob
+            onExitCodes:
+              operator: In
+              values: [1]
+          - action: Ignore
+            onExitCodes:
+              operator: In
+              values: [143]
+      environmentConfig:
+        - environment: prod
+          failurePolicy:
+            rules:
+              - action: FailJob
+                onExitCodes:
+                  operator: In
+                  values: [42]
+```
+
+`failurePolicy` defines how job replica failures should be handled based on the exit codes.
+
 
 ### `volumeMounts`
 
@@ -1484,7 +1511,7 @@ spec:
 
 See [notifications](#notifications) for a component for more information.
 
-### `batchStatusRules`
+#### `batchStatusRules`
 
 ```yaml
 spec:
@@ -1623,6 +1650,32 @@ spec:
 ```
 
 See [backoffLimit](#backofflimit) for more information.
+
+#### `failurePolicy`
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      environmentConfig:
+        - environment: prod
+          failurePolicy:
+            rules:
+              - action: FailJob
+                onExitCodes:
+                  operator: In
+                  values: [42]
+              - action: Count
+                onExitCodes:
+                  operator: In
+                  values: [1, 2, 3]
+              - action: Ignore
+                onExitCodes:
+                  operator: In
+                  values: [143]
+```
+
+See [failurePolicy](#failurepolicy) for more information.
 
 #### `readOnlyFileSystem`
 
