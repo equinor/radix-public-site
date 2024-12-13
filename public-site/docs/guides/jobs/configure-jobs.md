@@ -30,6 +30,12 @@ spec:
       schedulerPort: 9000
       timeLimitSeconds: 100
       backoffLimit: 5
+      failurePolicy:
+        rules:
+          - action: FailJob
+            onExitCodes:
+              operator: In
+              values: [42]
       notifications:
         webhook: http://api:8080/monitor-batch-status
       resources:
@@ -48,69 +54,3 @@ spec:
             - Failed
           batchStatus: Failed
 ```
-
-## Options
-They share many of the same configuration options with a few exceptions.
-
-A job does not have `publicPort`, `ingressConfiguration`, `replicas`, `horizontalScaling` and `alwaysPullImageOnDeploy`
-
-- `publicPort` and `ingressConfiguration` controls exposure of component to the Internet. Jobs cannot be exposed to the Internet, so these options are not applicable.
-- `replicas` and `hortizontalScaling` controls how many containers of a Docker image a component should run. A job has always one replica.
-- `alwaysPullImageOnDeploy` is used by Radix to restart components that use static Docker image tags, and pulling the newest image if the SHA has changed. Jobs will always pull and check the SHA of the cached image with the SHA of the source image.
-
-Jobs have three extra configuration options; `schedulerPort`, `payload` and `timeLimitSeconds`
-
-- `schedulerPort` (required) defines the port of job-scheduler's endpoint.
-- `payload` (optional) defines the directory in the job container where the payload received by the job-scheduler is mounted.
-- `resources` (optional) defines cpu and memory requested for a job.
-- `node` (optional) defines gpu node requested for a job.
-- `timeLimitSeconds` (optional) defines maximum running time for a job.
-- `backoffLimit` (optional) defines the number of times a job will be restarted if its container exits in error.
-- `notifications.webhook` (optional) the Radix application component or job component endpoint, where Radix batch events will be posted when any of its job-component's running jobs or batches changes states.
-- `batchStatusRules` - (optional) rules to define batch statuses by their jobs statuses. See [batchStatusRules](/radix-config/index.md#batchstatusrules) for a job for more information.
-
-### schedulerPort
-
-In the [`radixconfig.yaml`](/radix-config/index.md#schedulerport) example above, two jobs are defined: `compute` and `etl`.
-
-`compute` has `schedulerPort` set to 8000, and Radix will create a job-scheduler service named compute that listens for HTTP requests on port 8000. The URL for the compute job-scheduler is `http://compute:8000`
-
-The job-scheduler for the `etl` job listens for HTTP requests on port 9000, and the URL is `http://etl:9000`
-
-### payload
-
-Arguments required by a job is sent in the request body to the job-scheduler as a JSON document with an element named `payload`.
-The content of the payload is then mounted in the job container as a file named `payload` in the directory specified in `payload.path` in [`radixconfig.yaml`](/radix-config/index.md#payload).
-The data type of the `payload` value is string, and it can therefore contain any type of data (text, json, binary) as long as you encode it as a string, e.g. base64, when sending it to the job-scheduler, and decoding it when reading it from the mounted file inside the job container. The max size of the payload is 1MB.
-
-The compute job in the example above has `payload.path` set to `/compute/args`. Any payload, send to the compute job-scheduler, will available inside the job container in the file `/compute/args/payload`
-
-### resources
-
-The resource requirement for a job can be sent in the request body to the job manager as a JSON document with an element named `resources`.
-The content of the resources will be used to set the resource definition for the job [`radixconfig.yaml`](/radix-config/index.md#resources-common).
-The data type of the `resources` is of type `ResourceRequirements` an requires this specific format.
-
-The etl job in the example above has `resource` configured.
-
-[More details](/guides/resource-request/index.md) about `resources` and about [default resources](/guides/resource-request/index.md#default-resources).
-
-### node
-
-The node requirerement for a job can be sent in the request body to the job manager as a JSON document with an element named `node`.
-The content of the node will be used to set the node definition for the job [`radixconfig.yaml`](/radix-config/index.md#node).
-The data type of the `node` is of type `RadixNode` an requires this specific format.
-
-The etl job in the example above has `node` configured.
-
-### timeLimitSeconds
-
-The maximum running time for a job can be sent in the request body to the job manager as a JSON document with an element named `timeLimitSeconds`.
-
-The etl job in the example above has `timeLimitSeconds` configured in its [`radixconfig.yaml`](/radix-config/index.md#timelimitseconds). If a new job is sent to the job manager without an element `timeLimitSeconds`, it will default to the value specified in radixconfig.yaml. If no value is specified in radixconfig.yaml, it will default to 43200 (12 hours).
-
-### backoffLimit
-
-The maximum number of restarts if the job fails can be sent in the request body to the job manager as a JSON document with an element named `backoffLimit`.
-
-The etl job in the example above has `backoffLimit` configured in its [`radixconfig.yaml`](/radix-config/index.md#backofflimit). If a new job is sent to the job manager without an element `backoffLimit`, it will default to the value specified in radixconfig.yaml.

@@ -34,6 +34,17 @@ The Job Manager exposes the following methods for managing jobs:
   "imageTagName": "1.0.0",
   "timeLimitSeconds": 120,
   "backoffLimit": 10,
+  "failurePolicy": {
+    "rules": [
+      {
+        "action": "FailJob",
+        "onExitCodes": {
+          "operator": "In",
+          "values": [42]
+        }
+      }
+    ]
+  },
   "resources": {
     "limits": {
       "memory": "32Mi",
@@ -51,7 +62,7 @@ The Job Manager exposes the following methods for managing jobs:
 }
 ```
 
- `payload`, `jobId`, `imageTagName`, `timeLimitSeconds`, `backoffLimit`, `resources` and `node` are all optional fields and any of them can be omitted in the request.
+ `payload`, `jobId`, `imageTagName`, `timeLimitSeconds`, `backoffLimit`, `failurePolicy`, `resources` and `node` are all optional fields and any of them can be omitted in the request.
 
 `imageTagName` field allows to alter specific job image tag. In order to use it, the `{imageTagName}` need to be set as described in the [`radixconfig.yaml`](/radix-config/index.md#imagetagname)
 

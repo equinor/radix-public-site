@@ -1257,6 +1257,8 @@ spec:
 
 The port number that the [job-scheduler](/guides/jobs/job-manager-and-job-api.md) will listen to for HTTP requests to manage jobs. schedulerPort is a **required** field.
 
+In the example above, the URL for the compute job-scheduler is `http://compute:8000`
+
 ### `notifications`
 
 ```yaml
@@ -1349,7 +1351,9 @@ spec:
 ```
 
 Job specific arguments must be sent in the request body to the [job-scheduler](/guides/jobs/job-manager-and-job-api.md) as a JSON document with an element named `payload` and a value of type string.
-The content of the payload is then mounted into the job container as a file named `payload` in the directory specified in the `payload.path`.
+
+The data type of the `payload` value is string, and it can therefore contain any type of data (text, json, binary) as long as you encode it as a string, e.g. base64, when sending it to the job-scheduler, and decoding it when reading it from the mounted file inside the job container. The content of the payload is then mounted into the job container as a file named `payload` in the directory specified in the `payload.path`. The max size of the payload is 1MB.
+
 In the example above, a payload sent to the job-scheduler will be mounted as file `/compute/args/payload`
 
 ### `resources`
@@ -1460,7 +1464,17 @@ spec:
                   values: [42]
 ```
 
-`failurePolicy` defines how job replica failures should be handled based on the exit codes.
+`failurePolicy` defines how job container failures should be handled based on the exit code. When a job container exits with a non-zero exit code, it is evaluated against the `rules` in the order they are defined. Once a rule matches the exit code, the remaining rules are ignored, and the defined `action` is performed. When no rule matches the exit code, the default handling is applied.
+
+Possible values for `action` are:
+- `FailJob`: indicates that the job should be marked as `Failed`, even if [`backoffLimit`](#backofflimit) has not been reached.
+- `Ignore`: indicates that the counter towards [`backoffLimit`](#backofflimit) should not be incremented.
+- `Count`: indicates that the job should be handled the default way. The counter towards [`backoffLimit`](#backofflimit) is incremented.
+
+
+`failurePolicy` can be configured on the job level, or in `environmentConfig` for a specific environment. Configuration in `environmentConfig` will override all rules defined on the job level. 
+
+
 
 
 ### `volumeMounts`
