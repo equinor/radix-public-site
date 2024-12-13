@@ -1257,6 +1257,8 @@ spec:
 
 The port number that the [job-scheduler](/guides/jobs/job-manager-and-job-api.md) will listen to for HTTP requests to manage jobs. schedulerPort is a **required** field.
 
+In the example above, the URL for the compute job-scheduler is `http://compute:8000`
+
 ### `notifications`
 
 ```yaml
@@ -1349,7 +1351,9 @@ spec:
 ```
 
 Job specific arguments must be sent in the request body to the [job-scheduler](/guides/jobs/job-manager-and-job-api.md) as a JSON document with an element named `payload` and a value of type string.
-The content of the payload is then mounted into the job container as a file named `payload` in the directory specified in the `payload.path`.
+
+The data type of the `payload` value is string, and it can therefore contain any type of data (text, json, binary) as long as you encode it as a string, e.g. base64, when sending it to the job-scheduler, and decoding it when reading it from the mounted file inside the job container. The content of the payload is then mounted into the job container as a file named `payload` in the directory specified in the `payload.path`. The max size of the payload is 1MB.
+
 In the example above, a payload sent to the job-scheduler will be mounted as file `/compute/args/payload`
 
 ### `resources`
@@ -1421,9 +1425,7 @@ spec:
       timeLimitSeconds: 120
 ```
 
-The maximum number of seconds a job can run. If the job's running time exceeds the limit, it will be automatically stopped with status `Failed`. The default value is `43200` seconds, 12 hours.
-
-`timeLimitSeconds` applies to the total duration of the job, and takes precedence over `backoffLimit`. Once `timeLimitSeconds` has been reached, the job will be stopped with status `Failed` even if `backoffLimit` has not been reached.
+The maximum number of seconds a job can run, with a default value of `43200` seconds (12 hours). If the job's running time exceeds the limit, a SIGTERM signal is sent to allow the job to gracefully shut down with a 30 second time limit, after which it will be forcefully terminated.
 
 ### `backoffLimit`
 
@@ -1435,6 +1437,43 @@ spec:
 ```
 
 Defines the number of times a job will be restarted if its container exits in error. Once the `backoffLimit` has been reached the job will be marked as `Failed`. The default value is `0`.
+
+### `failurePolicy`
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      backoffLimit: 5
+      failurePolicy:
+        rules:
+          - action: FailJob
+            onExitCodes:
+              operator: In
+              values: [1]
+          - action: Ignore
+            onExitCodes:
+              operator: In
+              values: [143]
+      environmentConfig:
+        - environment: prod
+          failurePolicy:
+            rules:
+              - action: FailJob
+                onExitCodes:
+                  operator: In
+                  values: [42]
+```
+
+`failurePolicy` defines how job container failures should be handled based on the exit code. When a job container exits with a non-zero exit code, it is evaluated against the `rules` in the order they are defined. Once a rule matches the exit code, the remaining rules are ignored, and the defined `action` is performed. When no rule matches the exit code, the default handling is applied.
+
+Possible values for `action` are:
+- `FailJob`: indicates that the job should be marked as `Failed`, even if [`backoffLimit`](#backofflimit) has not been reached.
+- `Ignore`: indicates that the counter towards [`backoffLimit`](#backofflimit) should not be incremented.
+- `Count`: indicates that the job should be handled the default way. The counter towards [`backoffLimit`](#backofflimit) is incremented.
+
+
+`failurePolicy` can be configured on the job level, or in `environmentConfig` for a specific environment. Configuration in `environmentConfig` will override all rules defined on the job level. 
 
 ### `volumeMounts`
 
@@ -1484,7 +1523,7 @@ spec:
 
 See [notifications](#notifications) for a component for more information.
 
-### `batchStatusRules`
+#### `batchStatusRules`
 
 ```yaml
 spec:
@@ -1623,6 +1662,33 @@ spec:
 ```
 
 See [backoffLimit](#backofflimit) for more information.
+
+#### `failurePolicy`
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      environmentConfig:
+        - environment: prod
+          backoffLimit: 5
+          failurePolicy:
+            rules:
+              - action: FailJob
+                onExitCodes:
+                  operator: In
+                  values: [42]
+              - action: Count
+                onExitCodes:
+                  operator: In
+                  values: [1, 2, 3]
+              - action: Ignore
+                onExitCodes:
+                  operator: In
+                  values: [143]
+```
+
+See [failurePolicy](#failurepolicy) for more information.
 
 #### `readOnlyFileSystem`
 
