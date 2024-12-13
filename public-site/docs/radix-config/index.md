@@ -1444,6 +1444,7 @@ Defines the number of times a job will be restarted if its container exits in er
 spec:
   jobs:
     - name: compute
+      backoffLimit: 5
       failurePolicy:
         rules:
           - action: FailJob
@@ -1473,9 +1474,6 @@ Possible values for `action` are:
 
 
 `failurePolicy` can be configured on the job level, or in `environmentConfig` for a specific environment. Configuration in `environmentConfig` will override all rules defined on the job level. 
-
-
-
 
 ### `volumeMounts`
 
@@ -1673,6 +1671,7 @@ spec:
     - name: compute
       environmentConfig:
         - environment: prod
+          backoffLimit: 5
           failurePolicy:
             rules:
               - action: FailJob
