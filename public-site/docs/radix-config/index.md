@@ -514,10 +514,17 @@ Service Account: keda-operator
 
 ### `healthChecks`
 
-By default Radix configures a TCP Readiness probe that tells the platform your application is ready to accept traffic as soon as the port is opened.
-However it is reccommended to to configure this yourself. A HTTP Probe could inform Radix that the application with all the required backend systems (like databases or caches) is ready for work. We also support Liveness and Startup Probes.
+By default Radix configures a TCP Readiness probe that tells the platform your component is ready to accept traffic as soon as the port is opened.
+Radix support [Readiness, Liveness and Startup Probes](https://kubernetes.io/docs/concepts/configuration/liveness-readiness-startup-probes).
 
-If any custom probes are configured, Radix will not include the default readiness probe and you must configure it yourself.
+If any custom probes are configured, Radix will not include the default readiness probe and you should configure it yourself.
+
+:::tip
+A **HTTP Get probe** for readiness probe is usually easer to manage than a TCP probe, and the probe should let Radix now when your component _and_ your dependencies are ready for traffic.
+
+**TCP Probes** only checks if the port is open or closed. This way its hard to explicitly open or close the port when your component or dependencies are unavailable after startup. This could also disrupt regular requests that might not be affected.
+:::
+
 
 ```yaml
 spec:
