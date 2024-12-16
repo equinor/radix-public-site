@@ -492,7 +492,7 @@ One exception is when the `replicas` value is set to `0` (i.e. the component is 
 The previous `resources` block have been replaced by `triggers`.
 :::
 
-#### Azure Service bus
+#### `azureServiceBus` trigger
 
 Take a look here [github.com/equinor/radix-sample-keda](https://github.com/equinor/radix-sample-keda) for a sample implementation that runs on Radix.
 
@@ -510,6 +510,53 @@ Service Account: keda-operator
 # ⚠️ When you give Keda access to your Service Bus, any other Radix app can scale their app based on your queue. 
 #    We are hoping on improving this - https://github.com/kedacore/keda/issues/5630
 ```
+
+
+### `healthChecks`
+
+By default Radix configures a TCP Readiness probe that tells the platform your component is ready to accept traffic as soon as the port is opened.
+Radix support [Readiness, Liveness and Startup Probes](https://kubernetes.io/docs/concepts/configuration/liveness-readiness-startup-probes).
+
+If any custom probes are configured, Radix will not include the default readiness probe and you should configure it yourself.
+
+:::tip
+A **HTTP Get probe** for readiness probe is usually easer to manage than a TCP probe, and the probe should let Radix now when your component _and_ your dependencies are ready for traffic.
+
+**TCP Probes** only checks if the port is open or closed. This way its hard to explicitly open or close the port when your component or dependencies are unavailable after startup. This could also disrupt regular requests that might not be affected.
+:::
+
+
+```yaml
+spec:
+  components:
+    - name: backend
+      healthChecks:
+        startupProbe:
+          tcpSocket:
+            port: 8000
+        livenessProbe:
+          httpGet:
+            port: 8000
+            path: /healthz/live
+        readinessProbe:
+          successThreshold: 1
+          periodSeconds: 30
+          failureThreshold: 3
+          initialDelaySeconds: 10
+          timeoutSeconds: 5
+          httpGet:
+            port: 8000
+            path: /healthz/ready # Component is Ready when this endpoint returns a successful status code (2xx or 3xx)
+```
+
+All probes have all settings (except for successThreshold that is not available for liveness and startup probes). We support HTTP, TCP, Exec and GRPC probes.
+`environmentConfig` can also override individual startup, liveness or readiness-probes (but will not merge probe specific config).
+
+:::warning
+Incorrectly configured probes can lead to premature restarts and will affect your uptime.
+
+Read more about probes here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+:::
 
 ### `imageTagName`
 
@@ -857,6 +904,38 @@ spec:
 ```
 
 The `horizontalScaling` field of a component environment config adds automatic scaling of the component in the environment, or it combines or overrides a component `imageTagName` if it is defined.
+
+#### `healthChecks`
+
+Health check probes defined here will override probes defined on the component level. 
+
+```yaml
+spec:
+  components:
+    - name: backend
+      healthChecks:
+        startupProbe:
+          tcpSocket:
+            port: 8000
+        livenessProbe:
+          tcpSocket:
+            port: 8000
+        readinessProbe:
+          httpGet:
+            port: 8000
+            path: /health/ready
+      environmentConfig:
+        - environment: prod
+          healthChecks:
+            livenessProbe:
+              httpGet:
+                port: 8000
+                path: /health/alive
+```
+
+In this example, the prod environment will have 3 probes, a startup probe (TCP port 8000), a liveness check (HTTP /health/ready) and a readiness probe (HTTP /health/ready)
+
+Please see more information at [`healthChecks`](#healthchecks) for detailed information and warnings.
 
 #### `imageTagName`
 
