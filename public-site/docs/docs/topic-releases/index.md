@@ -6,6 +6,22 @@ title: What's new
 
 ## 2024
 
+### 2024-12-20 Relaxed Memory limit rules
+
+You can now have a higher memory limit than your requested limits. 
+Beware that the memory abouve your requested amount might not be available and can lead to a Out Of Memory Exception that will terminate and restart your component. 
+
+### 2024-12-19 Advanced Health Checks
+
+A new `healthChecks` field is introduced to the `components` and `environmentConfig` section of your `radixconfig.yaml` file. This allows for more fine grained rules that will tell Radix when your application is ready for smoother upgrades and rollouts of new versions, or when we upgrade or replace a node.
+
+See more in the in the [reference](/radix-config#healthchecks)
+
+### 2024-12-17 Controlling batch job failures using exit codes
+
+We have added a new (optional) configuration option [failurePolicy](/radix-config#failurepolicy) for jobs in radixconfig.
+This allows you to control how job failures should be counted towards the backofflimit for different exit codes, for example by using FailJob to prevent retries in case of a software bug or configuration error, or not incrementing the counter toward backoffLimit in case of transient errors like connection issues by using Ignore.
+
 ### 2024-11-12 Radix CLI and gitHub action updates
 [Radix CLI 1.24](https://github.com/equinor/radix-cli/releases/tag/v1.24.0) and Radix github action v1 now support announced earlier :arrow_up: :
 - "apply-config" pipeline job with an option ``--deploy-external-dns-alias`` true|false (by default ``false`` )
