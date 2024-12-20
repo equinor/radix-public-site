@@ -697,10 +697,10 @@ spec:
 ```
 
 The `resources` section specifies how much CPU and memory each component needs, that are shared among all Radix environments in a component. 
-These common resources are overridden by environment-specific resources. The requested quote of memory and cpu must be belowe the limit.
+These common resources are overridden by environment-specific resources. The requested quota of memory and cpu must be below the limit.
 
 If no memory limit is set, but a memory request is set, we will set the limit equal to the requested value. 
-The opposite is also true, if a memory limit is set, but no requests, we wil sett the requested memory equal to the memory limit.
+The opposite is also true, if a memory limit is set, but no requests, we will sett the requested memory equal to the memory limit.
 
 [Read more](https://kubernetes.io/blog/2021/11/26/qos-memory-resources/) about memory resources and QoS.
 [More details](/guides/resource-request/index.md) about `resources` and about [default resources](/guides/resource-request/index.md#default-resources).
