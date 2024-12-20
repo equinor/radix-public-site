@@ -64,7 +64,7 @@ volumes:
 and files appear inside the container. If there are folders within blob container - it will exist in the pod's container as well
 
 ```sh
-kubectl exec -it -n radix-csi-azure-example-dev deploy/frontend -- ls -l /app/image-storage
+kubectl exec -it -n radix-example-dev deploy/frontend -- ls -l /app/image-storage
 total 0
 -rwxrwxrwx    1 root     root         21133 Nov 13 13:56 image-01.png
 -rwxrwxrwx    1 root     root         21989 Nov 13 13:56 image-02.png
@@ -136,7 +136,7 @@ volumes:
 and files appear inside the container
 
 ```sh
-kubectl exec -it -n radix-csi-azure-example-dev deploy/frontend -- ls -lR /app
+kubectl exec -it -n radix-example-dev deploy/frontend -- ls -lR /app
 /app:
 total 4
 drwxrwxrwx    2 root     root          4096 Dec 11 15:10 image-storage
