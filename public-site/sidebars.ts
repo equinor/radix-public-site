@@ -30,6 +30,7 @@ const sidebars: SidebarsConfig = {
           'start/workflows/index',
           'start/radix-clusters/index',
           'start/onboarding/index',
+          'start/not-radix/index',
         ],
       },
   ],
