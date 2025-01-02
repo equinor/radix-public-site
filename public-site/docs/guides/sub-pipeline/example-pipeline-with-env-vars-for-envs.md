@@ -15,9 +15,7 @@ title: "Sub-pipeline with environment variables"
     ...
     - name: CONNECTION_STRING     #it must be set in a sub-pipeline's task params, because it does not have default value
     - name: PROD_USER             #it can be set in a sub-pipeline's task params, if not - used default "not-set-in-task"
-      default:
-        type: string
-        stringVal: not-set-in-task  
+      default: not-set-in-task  
   ```
 
   * There are two more environment variables in a step `ConnectionString` and `ProdUser`
@@ -44,26 +42,16 @@ title: "Sub-pipeline with environment variables"
     params:
       - name: VAR1T                 #it must be set in a sub-pipeline's task params, because it does not have default value
       - name: VAR2T                 #it can be set in a sub-pipeline's task params, if not - used default "not-set-var2-in-task"
-        default:
-          type: string
-          stringVal: not-set-var2-in-task
+        default: not-set-var2-in-task
       - name: VAR3T                 #it can be set in a sub-pipeline's task params, if not - used default "not-set-var3-in-task"
-        default:
-          type: string
-          stringVal: not-set-var3-in-task
+        default: not-set-var3-in-task
       - name: VAR4T                 #it can be set in a sub-pipeline's task params, if not - used default "not-set-var4-in-task"
-        default:
-          type: string
-          stringVal: not-set-var4-in-task
+        default: not-set-var4-in-task
       - name: VAR5T                 #it can be set in a sub-pipeline's task params, if not - used default "not-set-var5-in-task"
-        default:
-          type: string
-          stringVal: not-set-var5-in-task
+        default: not-set-var5-in-task
       - name: CONNECTION_STRING     #it must be set in a sub-pipeline's task params, because it does not have default value
       - name: PROD_USER             #it can be set in a sub-pipeline's task params, if not - used default "not-set-in-task"
-        default:
-          type: string
-          stringVal: not-set-in-task
+        default: not-set-in-task
     steps:
       - name: show-env-vars-list
         image: alpine
@@ -97,9 +85,7 @@ title: "Sub-pipeline with environment variables"
       ...
       - name: CONNECTION_STRING  #it must be set in the radixconfig.yaml
       - name: PROD_USER          #it can be set in the radixconfig.yaml, if not - used default empty string
-        default:
-          type: string
-          stringVal: ""
+        default: ""
   ```
 
   * task parameters `CONNECTION_STRING` - set by `CONNECTION_STRING` sub-pipeline parameter, and `PROD_USER` - set by `PROD_USER` sub-pipeline parameter
@@ -108,13 +94,9 @@ title: "Sub-pipeline with environment variables"
   params:
     ...
     - name: CONNECTION_STRING #set by parameter CONNECTION_STRING, from the radixconfig.yaml
-      value:
-        type: string
-        stringVal: $(params.CONNECTION_STRING)
+      value: $(params.CONNECTION_STRING)
     - name: PROD_USER         #set by parameter PROD_USER, from the radixconfig.yaml
-      value:
-        type: string
-        stringVal: $(params.PROD_USER)
+      value: $(params.PROD_USER)
   ```
 
   * Sub-pipeline file `pipeline.yaml`
@@ -128,45 +110,27 @@ spec:
   params:
     - name: VAR1               #it must be set in the radixconfig.yaml
     - name: VAR2               #it can be set in the radixconfig.yaml, if not - used default "not-set-var2"
-      default:
-        type: string
-        stringVal: not-set-var2
+      default: not-set-var2
     - name: VAR3               #it can be set in the radixconfig.yaml, if not - used default "not-set-var3"
-      default:
-        type: string
-        stringVal: not-set-var3
+      default: not-set-var3
     - name: CONNECTION_STRING  #it must be set in the radixconfig.yaml
     - name: PROD_USER          #it can be set in the radixconfig.yaml, if not - used default empty string
-      default:
-        type: string
-        stringVal: ""
+      default: ""
   tasks:
     - name: show-env-vars      #name of the task "env-vars-list" in this pipeline
       params:
         - name: VAR1T          #set by parameter VAR1, from the radixconfig.yaml
-          value:
-            type: string
-            stringVal: $(params.VAR1)
+          value: $(params.VAR1)
         - name: VAR2T          #set by parameter VAR2, from the radixconfig.yaml or used default "not-set-var2"
-          value:
-            type: string
-            stringVal: $(params.VAR2)
+          value: $(params.VAR2)
         - name: VAR3T          #set by parameter VAR3, not set in the radixconfig.yaml - used default "not-set-var3"
-          value:
-            type: string
-            stringVal: $(params.VAR3)
+          value: $(params.VAR3)
         - name: VAR4T          #set explicitly with the value "value4"
-          value:
-            type: string
-            stringVal: value4
+          value: value4
         - name: CONNECTION_STRING #set by parameter CONNECTION_STRING, from the radixconfig.yaml
-          value:
-            type: string
-            stringVal: $(params.CONNECTION_STRING)
+          value: $(params.CONNECTION_STRING)
         - name: PROD_USER         #set by parameter PROD_USER, from the radixconfig.yaml
-          value:
-            type: string
-            stringVal: $(params.PROD_USER)
+          value: $(params.PROD_USER)
       taskRef:
         name: env-vars-list    #task name
 ```
