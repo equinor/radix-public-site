@@ -15,7 +15,7 @@ title: "Sub-pipeline with environment variables"
   * In the task below - there is parameters with names `VAR1T`, `VAR2T`, `VAR3T` (names not necessary have to be in capital letters).
     * Actual parameter values are set in the sub-pipeline, which use the task, like arguments of a method in programming languages
     * `VAR1T` - this parameter does not have default value, so it _has_ to be set in the sub-pipeline, otherwise there will be an error "missing parameters". When `type` of a parameter is not set, it is a `string`.
-    * `VAR2T`, `VAR3T`, `VAR4T`, `VAR5T` - these parameters have default values. Field `default` allows to specify a value, used when the param is not passed from a sub-pipeline and its type. Available types are `string` and `array`. When type is `string` - default value should be put to the field `stringVal`, when type is `array` - default value should be put to the field `arrayVal`.
+    * `VAR2T`, `VAR3T`, `VAR4T`, `VAR5T` - these parameters have default values. Field `default` allows to specify a value, used when the param is not passed from a sub-pipeline. Available types are `string` and `array`. When type is `string` - default value should be put as a string value, when type is `array` - default value should be put as [an array of items lead by a dash](https://tekton.dev/docs/pipelines/tasks/#substituting-array-parameters), an additional field `type` need to be set as `array`: `type: array`.
 
   ```yaml
   apiVersion: tekton.dev/v1
@@ -26,21 +26,13 @@ title: "Sub-pipeline with environment variables"
     params:
       - name: VAR1T                 #it must be set in a sub-pipeline's task params, because it does not have default value
       - name: VAR2T                 #it can be set in a sub-pipeline's task params, if not - used default "not-set-var2-in-task"
-        default:
-          type: string
-          stringVal: not-set-var2-in-task
+        default: not-set-var2-in-task
       - name: VAR3T                 #it can be set in a sub-pipeline's task params, if not - used default "not-set-var3-in-task"
-        default:
-          type: string
-          stringVal: not-set-var3-in-task
+        default: not-set-var3-in-task
       - name: VAR4T                 #it can be set in a sub-pipeline's task params, if not - used default "not-set-var4-in-task"
-        default:
-          type: string
-          stringVal: not-set-var4-in-task
+        default: not-set-var4-in-task
       - name: VAR5T                 #it can be set in a sub-pipeline's task params, if not - used default "not-set-var5-in-task"
-        default:
-          type: string
-          stringVal: not-set-var5-in-task
+        default: not-set-var5-in-task
     steps:
       - name: show-env-vars-list
         image: alpine
@@ -73,32 +65,20 @@ spec:
   params:
     - name: VAR1               #it must be set in the radixconfig.yaml
     - name: VAR2               #it can be set in the radixconfig.yaml, if not - used default "not-set-var2"
-      default:
-        type: string
-        stringVal: not-set-var2
+      default: not-set-var2
     - name: VAR3               #it can be set in the radixconfig.yaml, if not - used default "not-set-var3"
-      default:
-        type: string
-        stringVal: not-set-var3
+      default: not-set-var3
   tasks:
     - name: show-env-vars      #name of the task "env-vars-list" in this sub-pipeline
       params:
         - name: VAR1T          #set by parameter VAR1, from the radixconfig.yaml
-          value:
-            type: string
-            stringVal: $(params.VAR1)
+          value: $(params.VAR1)
         - name: VAR2T          #set by parameter VAR2, from the radixconfig.yaml or used default "not-set-var2"
-          value:
-            type: string
-            stringVal: $(params.VAR2)
+          value: $(params.VAR2)
         - name: VAR3T          #set by parameter VAR3, not set in the radixconfig.yaml - used default "not-set-var3"
-          value:
-            type: string
-            stringVal: $(params.VAR3)
+          value: $(params.VAR3)
         - name: VAR4T          #set explicitly with the value "value4"
-          value:
-            type: string
-            stringVal: value4
+          value: value4
       taskRef:
         name: env-vars-list    #task name
 ```
@@ -184,9 +164,7 @@ The log shows environment variables of the step container:
   spec:
     params:
       - name: VAR3
-        default:
-          type: string
-          stringVal: not-set-var3
+        default: not-set-var3
   ```
 
   * `VAR4example` - this variable is set explicitly in the sub-pipeline, in the task `params`
@@ -196,9 +174,7 @@ The log shows environment variables of the step container:
       - name: show-env-vars
         params:
           - name: VAR4T
-            value:
-              type: string
-              stringVal: value4
+            value: value4
   ```
 
   * `VAR5example` - this variable is not defined in the sub-pipeline's task `params`, it is set to its default value, specified in the task
@@ -207,9 +183,7 @@ The log shows environment variables of the step container:
   spec:
     params:
       - name: VAR5T                 #it can be set in a sub-pipeline's task params, if not - used default "not-set-var5-in-task"
-        default:
-          type: string
-          stringVal: not-set-var5-in-task
+        default: not-set-var5-in-task
   ```
 
   * `VAR6example` - this variable is not defined in the sub-pipeline's task `params` and task's `params`, it is set implicitly in the task step's field `env`
