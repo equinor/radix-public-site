@@ -1,0 +1,70 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/equinor/radix-operator/release/json-schema/radixapplication.json
+apiVersion: radix.equinor.com/v1
+kind: RadixApplication
+metadata:
+  name: radix-keda-sample
+spec:
+  environments:
+    - name: dev
+      build:
+        from: main
+  build:
+    useBuildKit: true
+  components:
+    - name: web
+      src: src
+      #      runtime:
+      #        architecture: arm64
+      dockerfileName: Dockerfile.Web
+
+      # Workload Identity for the running application:
+      identity:
+        azure:
+          clientId: 00000000-0000-0000-0000-000000000000 # FIXME
+
+      horizontalScaling:
+        # defaults to using CPU scaling with 80% target utilization, and min 1 replica
+        maxReplicas: 3
+
+      publicPort: http
+      ports:
+        - name: http
+          port: 8080
+
+      variables:
+        ASPNETCORE_ENVIRONMENT: Development
+        OrderQueueOptions__FullyQualifiedNamespace: your-service-bus-namespace.servicebus.windows.net # FIXME
+        OrderQueueOptions__QueueName: orders
+
+    - name: processor
+      src: src
+      dockerfileName: Dockerfile.Processor
+      #      runtime:
+      #        architecture: arm64
+
+      # Workload Identity for the running application:
+      identity:
+        azure:
+          clientId: 00000000-0000-0000-0000-000000000000  # FIXME
+
+      variables:
+        ASPNETCORE_ENVIRONMENT: Development
+        OrderQueueOptions__FullyQualifiedNamespace: your-service-bus-namespace.servicebus.windows.net # FIXME
+        OrderQueueOptions__QueueName: orders
+
+
+      horizontalScaling:
+        maxReplicas: 10
+        minReplicas: 0
+        triggers:
+          - name: azuresb
+            azureServiceBus:
+              namespace: your-service-bus-namespace #.servicebus.windows.net  # FIXME
+              queueName: orders
+              messageCount: 2
+
+              # Workload Identity for KEDA to access service bus
+              authentication:
+                identity:
+                  azure:
+                    clientId: 00000000-0000-0000-0000-000000000000  # FIXME
