@@ -5,8 +5,6 @@ The message processor will receive a single message at a time (per instance), an
 
 ![Scenario](images/scenario.png)
 
-> 💡 *If you want to learn how to scale this sample with KEDA 1.0, feel free to read about it [here](https://github.com/kedacore/sample-dotnet-worker-servicebus-queue/tree/keda-v1.0).*
-
 This sample is a refactored version of the one found at https://github.com/kedacore/sample-dotnet-worker-servicebus-queue.
 We Have removed all authentication options, and added AzureDefaultCredentials.
 The sample is also upgraded from Dotnet core 3.1 to Dotnet 8.
@@ -25,6 +23,8 @@ You need the following resources in Azure to run this example (these can be inst
   - subject: `"system:serviceaccount:keda:keda-operator"`
 
 All Federated Credentials **Issuers** is the same, and can be found in the About page in the cluster https://console.radix.equinor.com/about (or in https://console.playground.radix.equinor.com/about for playground). It will look something like this: `https://northeurope.oic.prod-aks.azure.com/00000000-0000-0000-0000-000000000000/00000000-0000-0000-0000-000000000000/`.
+
+Se our [documentation](https://radix.equinor.com/guides/workload-identity/#configure-workload-identity-in-radix) for more details about working with Managed Identities and Workload Identity in Radx.
 
 ### Configure resources with Terraform
 Configure `terraform.tf` and modify `resource_group_name`, `location`, `name`, and `radix_app_name` (minium).
