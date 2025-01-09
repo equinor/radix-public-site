@@ -4,15 +4,15 @@ provider "azurerm" {
 }
 
 locals {
-  location            = "North Europe"   #FIXME
-  resource_group_name = "test-resources" #FIXME
+  location            = "North Europe"   #Optional
+  resource_group_name = "test-resources" #Optional
 
   name            = "<Your service bus namespace>" #FIXME
   queue_name      = "orders"
-  managed_id_name = "radix-sample-keda"
+  managed_id_name = "<Your Managed Identity Name>" #FIXME: Probably id-appname-dev
 
-  radix_app_name = "radix-keda-sample"
-  radix_app_env  = "prod"
+  radix_app_name = "<Your App Name>" #FIXME
+  radix_app_env  = "<Your Environment Name>" #FIXME: probably dev
 
   # https://console.radix.equinor.com/about
   radix_oidc_issuer_url = "https://northeurope.oic.prod-aks.azure.com/00000000-0000-0000-0000-000000000000/00000000-0000-0000-0000-000000000000/" #FIXME

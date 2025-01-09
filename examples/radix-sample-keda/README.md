@@ -13,6 +13,20 @@ The sample is also upgraded from Dotnet core 3.1 to Dotnet 8.
 
 ## Configuring resources
 
+You need the following resources in Azure to run this example (these can be installed automatically with Terraform):
+
+- Azure ServiceBus Queue
+- Managed Identity 
+  - Assigned `Azure Service Bus Data Owner` role for your ServiceBus namespace
+  - Federated credentials:
+    - Processor subject: `"system:serviceaccount:<YOUR-APP-NAME>-<YOUR-ENV-NAME>:processor-sa"`
+    - Web subject: `"system:serviceaccount:<YOUR-APP-NAME>-<YOUR-ENV-NAME>:web-sa"`
+- Keda Federated Credentials
+  - subject: `"system:serviceaccount:keda:keda-operator"`
+
+All Federated Credentials **Issuers** is the same, and can be found in the About page in the cluster https://console.radix.equinor.com/about (or in https://console.playground.radix.equinor.com/about for playground). It will look something like this: `https://northeurope.oic.prod-aks.azure.com/00000000-0000-0000-0000-000000000000/00000000-0000-0000-0000-000000000000/`.
+
+### Configure resources with Terraform
 Configure `terraform.tf` and modify `resource_group_name`, `location`, `name`, and `radix_app_name` (minium).
 
 ```shell
@@ -27,8 +41,11 @@ terraform apply
 # queue_name = "orders"
 ```
 
-Configure `appsettings.json` (or create a `appsettings.local.json`) in `./Radix.Samples.DotNet.Web`, `./Radix.Samples.DotNet.Processor` and `./Radix.Samples.DotNet.Generator`.
+### App Settings
 
+Configure `appsettings.json` in `./Radix.Samples.DotNet.Web`, `./Radix.Samples.DotNet.Processor` and `./Radix.Samples.DotNet.Generator`.
+
+## Development
 Start web server:
 ```shell
 cd src/Radix.Samples.DotNet.Web; dotnet run
@@ -80,7 +97,7 @@ metadata:
              authentication:
                identity:
                  azure:
-                   clientId: c2f17b62-7c2f-4541-acbc-22d7cfc66e0b
+                   clientId: 00000000-0000-0000-0000-000000000000 # Replace with Client ID of your managed identity
 ```
 
 
