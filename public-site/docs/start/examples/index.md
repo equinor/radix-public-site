@@ -4,7 +4,7 @@ title: Examples
 
 # Examples
 
-This site is running on Radix, see how in our [radixconfig.yaml](https://github.com/equinor/radix-public-site/tree/main/radixconfig.yaml) file.
+This site is running as a Radix application, configured with its [radixconfig.yaml](https://github.com/equinor/radix-public-site/tree/main/radixconfig.yaml) file.
 
 There are also two sample projects you can look at in the same repository:
 
