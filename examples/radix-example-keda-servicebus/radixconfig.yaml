@@ -2,7 +2,7 @@
 apiVersion: radix.equinor.com/v1
 kind: RadixApplication
 metadata:
-  name: radix-keda-sample
+  name: <YOUR APP NAME> #FIXME
 spec:
   environments:
     - name: dev
