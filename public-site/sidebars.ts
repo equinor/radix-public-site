@@ -30,6 +30,7 @@ const sidebars: SidebarsConfig = {
           'start/workflows/index',
           'start/radix-clusters/index',
           'start/onboarding/index',
+          'start/examples/index',
           'start/not-radix/index',
         ],
       },
@@ -50,7 +51,7 @@ const sidebars: SidebarsConfig = {
           'guides/build-secrets/index',
           'guides/environment-variables/index',
           'guides/enable-and-disable-components/index',
-          { 
+          {
             type: 'category',
             label: 'External DNS Alias',
             items: [
