@@ -494,7 +494,7 @@ The previous `resources` block have been replaced by `triggers`.
 
 #### `azureServiceBus` trigger
 
-Take a look here [github.com/equinor/radix-sample-keda](https://github.com/equinor/radix-sample-keda) for a sample implementation that runs on Radix.
+Take a look here [github.com/equinor/radix-public-site/examples/radix-example-keda-servicebus](https://github.com/equinor/radix-public-site/tree/main/examples/radix-example-keda-servicebus) for a sample implementation that runs on Radix.
 
 Azure Service Bus supports either a `queueName`, or a `topicName` and `subscriptionName`. You can also select the target average `messageCount` (defaults to 5), and `activationMessageCount` (defaults to 0).
 
