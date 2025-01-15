@@ -25,6 +25,8 @@ spec:
         requests:
           memory: 30M
           cpu: 5m
+        limits:
+          cpu: 5m
       volumeMounts:
         - name: tmp
           path: /tmp
