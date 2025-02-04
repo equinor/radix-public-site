@@ -6,7 +6,7 @@ title: VolumeMounts optional settings
 * [Main settings](/radix-config/index.md#volumemounts)
 * [Guide](../)
 
-_Applicable for: `blobfuse2`_
+_Applicable for: `blobFuse2`_
 
 - `accessMode` - [access mode](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#access-modes) from container to external storage:
   - `ReadOnlyMany` - (default) read-only access.

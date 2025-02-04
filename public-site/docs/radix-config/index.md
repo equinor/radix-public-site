@@ -581,7 +581,7 @@ spec:
       volumeMounts:
         - name: volume-name
           path: /path/in/container/to/mount/to
-          blobfuse2:
+          blobFuse2:
             container: container-name
             uid: 1000
         - name: temp-volume-name
@@ -598,9 +598,9 @@ The `volumeMounts` field configures volume mounts within the running component.
 - `name` - the name of the volume. Unique within `volumeMounts` list of a component
 - `path` - the folder inside the running container, where the external storage is mounted.
 - `emptyDir` - mounts a read-write empty volume in the container.
-- `blobfuse2` - mount a container from blob in [Azure storage account](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview). Uses [CSI Azure blob storage driver](https://github.com/kubernetes-sigs/blob-csi-driver). Replaces types `blob` and `azure-blob` for obsolete drivers.
+- `blobFuse2` - mount a container from blob in [Azure storage account](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview). Uses [CSI Azure blob storage driver](https://github.com/kubernetes-sigs/blob-csi-driver). Replaces types `blob` and `azure-blob` for obsolete drivers.
 
-`emptyDir` and `blobfuse2` are mutually exclusive.
+`emptyDir` and `blobFuse2` are mutually exclusive.
 
 #### `emptyDir` settings
 
@@ -622,7 +622,14 @@ An `emptyDir` volume mounts a temporary writable volume in the container. Data i
 - `protocol` - (optional) a protocol, supported by the BlobFuse2. Currently, supports `fuse2` (default) and `nfs`.
 - `container` - name of the blob container.
 - `uid` and/or `gid` - User ID and/or group ID (numbers) of a [mounted volume owner](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.21/#podsecuritycontext-v1-core). It is a User ID and Group ID of a user in the running container within component replicas. Usually a user, which is a member of one or multiple [groups](https://en.wikipedia.org/wiki/Group_identifier), is specified in the `Dockerfile` for the component with command `USER`. Read [more details](../docs/topic-docker/index.md#running-as-non-root) about specifying user within `Dockerfile`. It is recommended to use because Blobfuse driver do [not honor fsGroup securityContext settings](https://github.com/kubernetes-sigs/blob-csi-driver/blob/master/docs/driver-parameters.md).
-- `useAdls` - (optional) enables blobfuse to access Azure DataLake storage account. When set to false, blobfuse will access Azure Block Blob storage account, hierarchical file system is not supported. Default `false`. This must be set `true` when [HNS enabled account](https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-namespace) is mounted.
+- `useAdls` - (optional) enables blobfuse to access Azure DataLake storage account or when hierarchical namespace (filesystem) is enabled. When set to false, blobfuse will access Azure Block Blob storage account, hierarchical file system is not supported. Default `false`. This must be set `true` when [HNS enabled account](https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-namespace) is mounted.
+- `useAzureIdentity` - If set to `true`, Radix will use [Azure Workload Identity](/guides/volume-mounts/#authentication-with-azure-workload-identity) to acquire credentials for accessing Azure Storage Account using the service principal configured in [identity.azure](#identity). This field is optional, with default value `false`. If omitted or set to `false`, credentials are acquired using [Azure Storage Account Keys](/guides/volume-mounts/#authentication-with-azure-storage-account-keys).
+- `storageAccount` - name of the Azure Storage Account. 
+  - required when `useAzureIdentity: true`.
+  - optional when `useAzureIdentity: false` or omitted. If not set, the value from the `Account Name` field in the `secrets` section is used.
+- `resourceGroup` - name of the Azure Resource Group for the Storage Account. (required when `useAzureIdentity: true`).
+- `subscriptionId` - Azure Subscription ID for the Storage Account (required when `useAzureIdentity: true`).
+- `tenantId` - (optional) Azure Tenant ID for the Storage Account. (applicable when `useAzureIdentity: true`).
 - `streaming` - (optional) defines a file streaming. When it is turned on (it is by default), files, opened by a container in its volume mount are not cached on a node, but read directly from a blob storage. It is recommended to use. When it is turned off, files are cached on a node, but it may cause a problem with a limited node disk available space.
 
   _Options for `streaming`_
@@ -967,7 +974,7 @@ spec:
           volumeMounts:
             - name: volume-name
               path: /path/in/container/to/mount/to
-              blobfuse2:
+              blobFuse2:
                 container: container-name
                 uid: 1000
             - name: temp-volume-name
@@ -1567,7 +1574,7 @@ spec:
       volumeMounts:
         - name: volume-name
           path: /path/in/container/to/mount/to
-          blobfuse2:
+          blobFuse2:
             container: container-name
             uid: 1000
 ```
@@ -1711,7 +1718,7 @@ spec:
           volumeMounts:
             - name: volume-name
               path: /path/in/container/to/mount/to
-              blobfuse2:
+              blobFuse2:
                 container: container-name
                 uid: 1000
 ```
@@ -2076,7 +2083,7 @@ spec:
       volumeMounts:
         - name: volume-name
           path: /path/in/container/to/mount/to
-          blobfuse2:
+          blobFuse2:
             container: container-name
             uid: 1000
       secretRefs:
