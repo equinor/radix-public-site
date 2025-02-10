@@ -4,6 +4,13 @@ title: What's new
 
 # What's new
 
+## 2025
+
+### 2025-02-10 
+Radix now supports two options for authentication to Azure Storage Account from a Radix application component
+- [Azure Storage Account Keys](/guides/volume-mounts/#authentication-with-azure-storage-account-keys), already existing
+- [Azure Workload Identity](/guides/volume-mounts/#authentication-with-azure-workload-identity), available from now, authentication without need of Azure Storage Account key=
+
 ## 2024
 
 ### 2024-12-20 Relaxed Memory limit rules
@@ -291,7 +298,7 @@ If your Radix application uses Azure Blob volume mount, [radixconfig.yaml](/radi
 volumeMounts:
   - name: volume-name
     path: /path/in/container/to/mount/to
-    blobfuse2:
+    blobFuse2:
       container: container-name
       uid: 1000
       accessMode: ReadWriteMany
@@ -369,7 +376,7 @@ If your Radix application uses [Azure Blob volume mount](/guides/volume-mounts/)
   volumeMounts:
     - name: storage1
       path: /app/image-storage
-      blobfuse2:
+      blobFuse2:
         protocol: fuse2
         container: blobfusevolume
         uid: 1700

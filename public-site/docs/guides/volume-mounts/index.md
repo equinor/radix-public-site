@@ -36,15 +36,42 @@ environmentConfig:
     volumeMounts:
       - name: storage
         path: /app/image-storage
-        blobfuse2:
+        blobFuse2:
           container: blobfusevolumetestdata
 ```
 
 - After environment has been built, set the generated secret to key found in step 1. This should ensure that key value is Consistent status. It is recommended to restart a component after a key has been set in the console
 
-![SetSecrets](./set-secrets.png)
+### Authentication with Azure Storage Account keys
+![SetSecrets](./storage-account-key-name-secrets.png)
 
-This results in the Kubernetes deployment holding the volume mount in PersistentVolumeClaim and its StorageClass:
+When [storageAccount](/radix-config#blobfuse2-settings) is set, the "Account Name" secret is not shown.
+
+### Authentication with Azure Workload Identity
+- Enable [Workload Identity](../workload-identity/#configure-workload-identity-in-radix) for the component or job.
+- Configure Workload Identity authentication for the Azure Storage Account by setting `useAzureIdentity: true` in the [volumeMounts](/radix-config#blobfuse2-settings) section in [radixconfig.yaml](/radix-config/index.md)
+
+An option `useAzureIdentity` on a component level, defined or left default `false`, can be overridden on an `environmentConfig` level.
+
+Example:
+```yaml
+identity:
+  azure:
+    clientId: abcdefgh-1234-5678-9012-34567abcdefg
+volumeMounts:
+  - name: volume-name
+    path: /path/in/container/to/mount/to
+    blobFuse2:
+      container: container-name
+      uid: 1000
+      useAzureIdentity: true
+      storageAccount: storage-account-name
+      resourceGroup: resource-group-for-storage-account
+      subscriptionId: subscription-id-for-storage-account
+```
+
+
+This results in the Kubernetes deployment holding the volume mount in PersistentVolumeClaim and PersistentVolume:
 
 ```yaml
 spec:
@@ -97,12 +124,12 @@ To add multiple volumes
       volumeMounts:
         - name: storage1
           path: /app/image-storage
-          blobfuse2:
+          blobFuse2:
             container: blobfusevolumetestdata
             uid: 1000
         - name: storage3
           path: /app/image-storage3
-          blobfuse2:
+          blobFuse2:
             container: blobfusevolumetestdata3
             uid: 1000
   ```
