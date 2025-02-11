@@ -50,6 +50,9 @@ When [storageAccount](/radix-config#blobfuse2-settings) is set, the "Account Nam
 ### Authentication with Azure Workload Identity
 - Enable [Workload Identity](../workload-identity/#configure-workload-identity-in-radix) for the component or job.
 - Configure Workload Identity authentication for the Azure Storage Account by setting `useAzureIdentity: true` in the [volumeMounts](/radix-config#blobfuse2-settings) section in [radixconfig.yaml](/radix-config/index.md)
+- Add to the storage account a role assignment to the service principal, configured in the `Identity`. The role should be `Storage Account Contributor`. Read [more details](https://github.com/kubernetes-sigs/blob-csi-driver/blob/master/docs/workload-identity-static-pv-mount.md).
+
+![add role to sp to storage account](./add-role-to-sp-to-storage-account.png)
 
 An option `useAzureIdentity` on a component level, defined or left default `false`, can be overridden on an `environmentConfig` level.
 
@@ -70,6 +73,7 @@ volumeMounts:
       subscriptionId: subscription-id-for-storage-account
 ```
 
+Secrets with Account Name and Account Key will not be shown in the console, when `useAzureIdentity: true`.
 
 This results in the Kubernetes deployment holding the volume mount in PersistentVolumeClaim and PersistentVolume:
 
