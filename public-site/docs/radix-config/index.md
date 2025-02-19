@@ -1108,7 +1108,7 @@ oauth2:
     insecureSkipVerifyNonce: false
   loginUrl: https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/oauth2/v2.0/authorize
   redeemUrl: https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/oauth2/v2.0/token
-  useAzureIdentity: true
+  credentials: azureWorkloadIdentity
   sessionStoreType: redis # redis or cookie
   redisStore:
     connectionUrl: rediss://app-session-store.redis.cache.windows.net:6380
@@ -1134,7 +1134,10 @@ oauth2:
   - `insecureSkipVerifyNonce` Optional. Default **false**. Skip verifying the OIDC ID Token's nonce claim. Should only be enabled with OIDC providers that does not support the nonce claim.
 - `loginUrl` Optional - The authorization URL. Required if `skipDiscovery` is set to **true**.
 - `redeemUrl` Optional - The URL used to redeem authorization code and refresh token. Required if `skipDiscovery` is set to **true**.
-- `useAzureIdentity` - If set to `true`, Radix will use [Azure Workload Identity](/guides/authentication/#authentication-with-azure-workload-identity) to authenticate the OAuth2 proxy using the Entra ID application registration with its `ClientID` set to the `oauth2.clientId` field. The field `useAzureIdentity` is optional, with default value `false`. If omitted or set to `false` a Client Secret is required, see details in the [Authentication with Client Secret](/guides/authentication/#authentication-with-client-secret).
+- `credentials` - The type of the authentication. Supported values:
+  - `secret` (using a client secret)
+  - `azureWorkloadIdentity`- [Azure Workload Identity](/guides/authentication/#authentication-with-azure-workload-identity) to authenticate the OAuth2 proxy using the Entra ID application registration with its `ClientID` set to the `oauth2.clientId` field. 
+  The field `credentials` is optional, with default value `secret`. If omitted or set to `secret` a Client Secret is required, see details in the [Authentication with Client Secret](/guides/authentication/#authentication-with-client-secret).
 - `sessionStoreType` Optional. Default **cookie**. Allowed values: **cookie**, **redis** - Defines where session data shall be stored.
 - `redisStore` Redis session store configuration if `sessionStoreType` is **redis**.
   - `connectionUrl` Connection URL of redis server.
