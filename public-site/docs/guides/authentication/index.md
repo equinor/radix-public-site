@@ -100,7 +100,7 @@ Example:
     - name: web
       authentication:
         oauth2:
-          clientId: 5e48ca1f-a2bf-4dec-b96d-bbf8ce69f9f6
+          clientId: 5e48ca1f-a2bf-4dec-b96d-bbf8ce69f9f7
           credentials: AzureWorkloadIdentity
   ```  
 
