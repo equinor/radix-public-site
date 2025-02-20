@@ -1134,10 +1134,9 @@ oauth2:
   - `insecureSkipVerifyNonce` Optional. Default **false**. Skip verifying the OIDC ID Token's nonce claim. Should only be enabled with OIDC providers that does not support the nonce claim.
 - `loginUrl` Optional - The authorization URL. Required if `skipDiscovery` is set to **true**.
 - `redeemUrl` Optional - The URL used to redeem authorization code and refresh token. Required if `skipDiscovery` is set to **true**.
-- `credentials` - The type of the authentication. Supported values:
-  - `secret` (using a client secret)
-  - `azureWorkloadIdentity`- [Azure Workload Identity](/guides/authentication/#authentication-with-azure-workload-identity) to authenticate the OAuth2 proxy using the Entra ID application registration with its `ClientID` set to the `oauth2.clientId` field. 
-  The field `credentials` is optional, with default value `secret`. If omitted or set to `secret` a Client Secret is required, see details in the [Authentication with Client Secret](/guides/authentication/#authentication-with-client-secret).
+- `credentials` Optional. Default **secret**. The type of the authentication. When the value of the `credentials` omitted or set to `secret` a Client Secret component or job secrets is required to be set. See details in the [Authentication with Client Secret](/guides/authentication/#authentication-with-client-secret). Supported values:
+  - `secret` - using a client secret to authenticate the OAuth2 proxy.
+  - `azureWorkloadIdentity`- [Azure Workload Identity](/guides/authentication/#authentication-with-azure-workload-identity) to authenticate the OAuth2 proxy using the Microsoft Entra ID application registration with its `ClientID` set to the `oauth2.clientId` field.
 - `sessionStoreType` Optional. Default **cookie**. Allowed values: **cookie**, **redis** - Defines where session data shall be stored.
 - `redisStore` Redis session store configuration if `sessionStoreType` is **redis**.
   - `connectionUrl` Connection URL of redis server.
