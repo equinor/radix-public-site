@@ -71,12 +71,12 @@ Scope can be specified for most commands:
 * component of a Radix application environment
 
 ## Examples
-#### Register application
+### Register application
 * Register (create) a new Radix application. `Deploy key` will be returned as a response - it can be put to the repository's "Deploy keys" to give the Radix access to an internal or a private repository.
     ```shell
     rx create application --application your-application-name --repository https://github.com/your-repository --config-branch main --ad-groups abcdef-1234-5678-9aaa-abcdefgf --shared-secret someSecretPhrase12345 --configuration-item "YOUR PROJECT CONFIG ITEM" --context playground
     ```
-#### Deploy pipeline job
+### Deploy pipeline job
 * Create a new "deploy only" pipeline job. An optional argument `--follow`(`-f`) allows to watch the log of the job
     ```shell
     rx create pipeline-job deploy --application your-app-name --environment dev --follow
@@ -99,13 +99,13 @@ An option `job` of commands `create`, `get logs` is replaced with `pipeline-job`
     rx create pipeline-job deploy --application your-app-name --environment dev --component web-app
     rx create pipeline-job deploy -a your-app-name -e dev --component web-app --component api-server --commitID 019e0d411de667dff6952852e03b4a38b0a689c3
     ```
-#### Build and deploy pipeline job
+### Build and deploy pipeline job
 * Create a new "build and deploy" pipeline job
     ```shell
     rx create pipeline-job build-deploy -a your-app-name --branch main
     ```
   Optional argument `--use-build-cache=true|false` can override the radixconfig option [useBuildCache](/radix-config/index.md#usebuildcache)
-#### Promote pipeline job
+### Promote pipeline job
 * Promote active deployment in one environment to another:
     ```shell
     rx create pipeline-job promote --application your-app-name --from-environment dev --to-environment prod --use-active-deployment
@@ -114,7 +114,7 @@ An option `job` of commands `create`, `get logs` is replaced with `pipeline-job`
     ```shell
     rx create pipeline-job promote --application your-app-name --from-environment dev --to-environment prod --use-active-deployment
     ```
-#### Manage pipeline jobs
+### Manage pipeline jobs
 * Restart failed or stopped pipeline job:
     ```shell
     rx restart pipeline-job --application your-app-name --job radix-pipeline-20231019122020-mhwif
@@ -123,7 +123,7 @@ An option `job` of commands `create`, `get logs` is replaced with `pipeline-job`
     ```shell
     rx get application -a your-app-name | jq -r '.jobs'
     ```
-#### Log
+### Log
 * Get log of a Radix application component. Each log line will be prefixed with a name of the replica, which sent it
     ```shell
     rx get logs component -a your-app-name --environment your-env-name --component your-component-name
@@ -137,15 +137,15 @@ An option `job` of commands `create`, `get logs` is replaced with `pipeline-job`
     rx get logs component --application your-app-name --environment your-env-name --component your-component-name --previous
     rx get logs component -a your-app-name -e your-env-name --component your-component-name -p
     ```
-#### Start, stop, restart
-* Stop, Scale, reset or restart a Radix application component
+### Scale, stop, restart components
+* Scale, stop, restart or reset a Radix application component
     ```shell
     rx stop component --application your-app-name --environment your-env-name --component your-component-name # does the same as scale to 0 replicas
     rx scale component -a your-app-name -e your-env-name --component your-component-name --replicas 5 # Allowed values: 0 - 20
     rx scale component -a your-app-name -e your-env-name --component your-component-name --reset # reset manually scaled or stopped component
     rx restart component -a your-app-name -e your-env-name --component your-component-name
   
-    # Depreceated: replaced by `rx scale component -a your-app-name -e your-env-name -n your-component-name --reset`
+    # Deprecated: replaced by `rx scale component -a your-app-name -e your-env-name -n your-component-name --reset`
     rx start -a your-app-name -e your-env-name -n your-component-name
     ```
 * Stop, start or restart all components in a Radix application environment
@@ -160,7 +160,7 @@ An option `job` of commands `create`, `get logs` is replaced with `pipeline-job`
     rx start application -a your-app-name
     rx restart application -a your-app-name
     ```
-#### Scale replicas
+### Scale replicas
 * Scale up or down Radix application component replicas. Allowed values between "0" and "20" (value "0" is an equivalent of the command `rx stop`). Scaling can be useful for tuning the resource configuration to figure out what amount of replicas affect performance of an application and particular need of CPU and memory. 
     ```bash
     rx scale component --application your-app-name --environment your-env-name --component web-app --replicas 2
@@ -170,7 +170,7 @@ An option `job` of commands `create`, `get logs` is replaced with `pipeline-job`
   This scale will persist after re-deployment, so remember to reset the component when you are finished.  
   After reset, scaled component gets replicas specified in the [`radixconfig.yaml`](../../radix-config/index.md), "1" if not specified, or set by [`horizontal scaling`](../../radix-config/index.md#horizontalscaling)  
   :::
-#### Manage components
+### Manage components
 * Set a value of a component secret (runtime secret)
     ```shell
     rx set environment-secret -a your-app-name -e your-env-name --component your-component-name -s CLIENT_ID -v qtrty-1234-5678-9aaa-abcdefgf
@@ -183,5 +183,38 @@ An option `job` of commands `create`, `get logs` is replaced with `pipeline-job`
     ```shell
     rx set external-dns-tls --application myapp --environment prod --component web --alias myapp.example.com --certificate-from-file "cert.crt" --private-key-from-file "cert.key"
     ```
-
-
+### Get scheduled batches and jobs
+An option `--output json` (or `-o json`) returns data in the `json` format.
+* Get scheduled batch or job by its name for the Radix application environment job-component
+    ```shell
+    rx get scheduled-job --application your-app-name --environment your-env-name --component your-job-component-name --batch your-batch-name
+    
+    rx get scheduled-job --a your-app-name --e your-env-name --component your-job-component-name --job your-job-name
+    ```
+* Get scheduled batches _or_ jobs for the Radix application environment job-component
+    ```shell
+    rx get scheduled-job --a your-app-name --e your-env-name --component your-job-component-name --batches
+    
+    rx get scheduled-job --a your-app-name --e your-env-name --component your-job-component-name --jobs
+    ```
+* Get scheduled batches _and_ jobs for the Radix application environment job-component
+    ```shell
+    rx get scheduled-job --a your-app-name --e your-env-name --component your-job-component-name --batches --jobs
+    ```
+### Stop scheduled batches and jobs
+* Stop scheduled batch or job by its name for the Radix application environment job-component
+    ```shell
+    rx stop scheduled-job --application your-app-name --environment your-env-name --component your-job-component-name --batch your-batch-name
+    
+    rx stop scheduled-job --a your-app-name --e your-env-name --component your-job-component-name --job your-job-name
+    ```
+* Stop scheduled batches or jobs for the Radix application environment job-component
+    ```shell
+    rx stop scheduled-job --a your-app-name --e your-env-name --component your-job-component-name --batches
+    
+    rx stop scheduled-job --a your-app-name --e your-env-name --component your-job-component-name --jobs
+    ```
+* Stop all scheduled batches and jobs in all job-components of the Radix application environment
+    ```shell
+    rx stop scheduled-job --a your-app-name --e your-env-name --all
+    ```
