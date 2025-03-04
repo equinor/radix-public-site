@@ -6,9 +6,11 @@ title: What's new
 
 ## 2025
 
+### 2025-03-05
+[OAuth2 service](/radix-config#oauth2) gets an option `skipAuthRoutes` - an optional list of URL paths to bypass authentication for requests that match the method and path.
+
 ### 2025-03-03
 Radix API and Radix CLI can be used to [get](/docs/topic-radix-cli/#get-scheduled-batches-and-jobs) and [stop](/docs/topic-radix-cli/#stop-scheduled-batches-and-jobs) Radix scheduled batches and jobs.
-
 
 ### 2025-02-20 
 Radix now supports two options for authentication to OAuth2 proxy for a Radix application component
