@@ -354,6 +354,16 @@ spec:
 :::
 
 For Radix environment specific `image`, refer to [environmentConfig image](/radix-config/index.md#image-1).
+### `replicas`
+
+```yaml
+spec:
+  components:
+    - name: backend
+      replicas: 2
+```
+
+`replicas` can be used to [horizontally scale](https://en.wikipedia.org/wiki/Scalability#Horizontal_and_vertical_scaling) the component. If `replicas` is not set, it defaults to `1`. If `replicas` is set to `0`, the component will not be deployed (i.e. stopped).
 
 ### `ports`
 ```yaml
@@ -837,7 +847,7 @@ spec:
           replicas: 2
 ```
 
-`replicas` can be used to [horizontally scale](https://en.wikipedia.org/wiki/Scalability#Horizontal_and_vertical_scaling) the component. If `replicas` is not set, it defaults to `1`. If `replicas` is set to `0`, the component will not be deployed (i.e. stopped).
+`replicas` can be used to [horizontally scale](https://en.wikipedia.org/wiki/Scalability#Horizontal_and_vertical_scaling) the component. If `replicas` is not set, it defaults to `1`. If `replicas` is set to `0`, the component will not be deployed (i.e. stopped). This can override the [component level](/radix-config#replicas) `replicas` value.
 
 #### `monitoring`
 
@@ -1110,6 +1120,9 @@ oauth2:
   redeemUrl: https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/oauth2/v2.0/token
   credentials: azureWorkloadIdentity
   sessionStoreType: redis # redis or cookie
+  skipAuthRoutes:
+    - GET=^/api/v1/resource/[0-9]+/
+    - POST=^/login/
   redisStore:
     connectionUrl: rediss://app-session-store.redis.cache.windows.net:6380
   cookieStore:
@@ -1138,6 +1151,7 @@ oauth2:
   - `secret` - using a client secret to authenticate the OAuth2 proxy.
   - `azureWorkloadIdentity`- [Azure Workload Identity](/guides/authentication/#authentication-with-azure-workload-identity) to authenticate the OAuth2 proxy using the Microsoft Entra ID application registration with its `ClientID` set to the `oauth2.clientId` field.
 - `sessionStoreType` Optional. Default **cookie**. Allowed values: **cookie**, **redis** - Defines where session data shall be stored.
+- `skipAuthRoutes` Optional. List of URL paths to bypass authentication for requests that match the method and path. Read more about [skipAuthRoutes](https://oauth2-proxy.github.io/oauth2-proxy/configuration/overview/?_highlight=skip_auth_routes#proxy-options).
 - `redisStore` Redis session store configuration if `sessionStoreType` is **redis**.
   - `connectionUrl` Connection URL of redis server.
 - `cookieStore` Cookie session store configuration if `sessionStoreType` is **cookie**.
