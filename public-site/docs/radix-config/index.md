@@ -354,6 +354,16 @@ spec:
 :::
 
 For Radix environment specific `image`, refer to [environmentConfig image](/radix-config/index.md#image-1).
+### `replicas`
+
+```yaml
+spec:
+  components:
+    - name: backend
+      replicas: 2
+```
+
+`replicas` can be used to [horizontally scale](https://en.wikipedia.org/wiki/Scalability#Horizontal_and_vertical_scaling) the component. If `replicas` is not set, it defaults to `1`. If `replicas` is set to `0`, the component will not be deployed (i.e. stopped).
 
 ### `ports`
 ```yaml
@@ -837,7 +847,7 @@ spec:
           replicas: 2
 ```
 
-`replicas` can be used to [horizontally scale](https://en.wikipedia.org/wiki/Scalability#Horizontal_and_vertical_scaling) the component. If `replicas` is not set, it defaults to `1`. If `replicas` is set to `0`, the component will not be deployed (i.e. stopped).
+`replicas` can be used to [horizontally scale](https://en.wikipedia.org/wiki/Scalability#Horizontal_and_vertical_scaling) the component. If `replicas` is not set, it defaults to `1`. If `replicas` is set to `0`, the component will not be deployed (i.e. stopped). This can override the [component level](/radix-config#replicas) `replicas` value.
 
 #### `monitoring`
 
