@@ -1120,9 +1120,6 @@ oauth2:
   redeemUrl: https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/oauth2/v2.0/token
   credentials: azureWorkloadIdentity
   sessionStoreType: redis # redis or cookie
-  skipAuthRoutes:
-    - GET=^/api/public-entity/?$
-    - POST=^/login
   redisStore:
     connectionUrl: rediss://app-session-store.redis.cache.windows.net:6380
   cookieStore:
@@ -1151,7 +1148,6 @@ oauth2:
   - `secret` - using a client secret to authenticate the OAuth2 proxy.
   - `azureWorkloadIdentity`- [Azure Workload Identity](/guides/authentication/#authentication-with-azure-workload-identity) to authenticate the OAuth2 proxy using the Microsoft Entra ID application registration with its `ClientID` set to the `oauth2.clientId` field.
 - `sessionStoreType` Optional. Default **cookie**. Allowed values: **cookie**, **redis** - Defines where session data shall be stored.
-- `skipAuthRoutes` Optional. List of URL paths to bypass authentication for requests that match the method and path. Read more about [skipAuthRoutes](https://oauth2-proxy.github.io/oauth2-proxy/configuration/overview/?_highlight=skip_auth_routes#proxy-options). Examples: `POST=^/api/public-entity/?$`, `GET=^/skip/auth/routes/get`, `!=^/api`
 - `redisStore` Redis session store configuration if `sessionStoreType` is **redis**.
   - `connectionUrl` Connection URL of redis server.
 - `cookieStore` Cookie session store configuration if `sessionStoreType` is **cookie**.
