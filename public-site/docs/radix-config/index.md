@@ -1279,10 +1279,10 @@ spec:
         - environment: dev
           network:
             ingress:
-              proxyBodySize: 20m
-              proxyReadTimeout: 30
-              proxySendTimeout: 30
               public:
+                proxyBodySize: 20m
+                proxyReadTimeout: 30
+                proxySendTimeout: 30
                 allow: []
         - environment: qa
           network:
