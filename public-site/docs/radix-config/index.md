@@ -592,8 +592,32 @@ spec:
         - name: volume-name
           path: /path/in/container/to/mount/to
           blobFuse2:
+            protocol: fuse2
             container: container-name
-            uid: 1000
+            cacheMode: Block
+            blockCache:
+              blockSize: 4
+              poolSize: 100
+              diskSize: 250
+              diskTimeout: 120
+              prefetchCount: 11
+              prefetchOnOpen: false
+              parallelism: 8
+            fileCache:
+              timeout: 120
+            attributeCache:
+              timeout: 0
+            accessMode: ReadWriteMany
+            requestsStorage: 1M
+            uid: "2000"
+            gid: "2001"
+            useAdls: false
+            useAzureIdentity: false
+            storageAccount: radixblobtest6
+            subscriptionId: ffffffff-ffff-ffff-ffff-ffffffffffff
+            tenantId: ffffffff-ffff-ffff-ffff-ffffffffffff
+            streaming: # deprecated in favor of cacheMode
+              enabled: false
         - name: temp-volume-name
           path: /another/path/in/container/to/mount/to
           emptyDir:
@@ -603,49 +627,58 @@ spec:
 
 The `volumeMounts` field configures volume mounts within the running component.
 
-#### `main` settings
+- `name` (required) - The name of the volume. Unique within `volumeMounts` list of a component
+- `path` (required) - The folder inside the running container, where the external storage is mounted.
 
-- `name` - the name of the volume. Unique within `volumeMounts` list of a component
-- `path` - the folder inside the running container, where the external storage is mounted.
-- `emptyDir` - mounts a read-write empty volume in the container.
-- `blobFuse2` - mount a container from blob in [Azure storage account](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview). Uses [CSI Azure blob storage driver](https://github.com/kubernetes-sigs/blob-csi-driver). Replaces types `blob` and `azure-blob` for obsolete drivers.
+Configure one of the following volume types:
+- `emptyDir` - Mounts a read-write empty volume.
+- `blobFuse2` - Mounts an [Azure storage account](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview) blob container.
 
-`emptyDir` and `blobFuse2` are mutually exclusive.
+#### `emptyDir`
 
-#### `emptyDir` settings
-
-- `sizeLimit` - The maxiumum capacity for the volume.
+- `sizeLimit` (required) - The maxiumum capacity for the volume.
 
 An `emptyDir` volume mounts a temporary writable volume in the container. Data in an `emptyDir` volume is safe across container crashes for component replicas, but is lost if a job container crashes and restarts. When a component replica is deleted for any reason, the data in `emptyDir` is removed permanently.
 
 `emptyDir` volumes are useful when [`readOnlyFileSystem`](#readonlyfilesystem) is set to `true`.
 
-:::tip Some uses for an emptyDir are
+:::tip Use cases
 
 - scratch space, such as for a disk-based merge sort
 - checkpointing a long computation for recovery from crashes
 - holding files that a content-manager container fetches while a webserver container serves the data
   :::
 
-#### `blobfuse2` settings
+#### `blobfuse2`
 
-- `protocol` - (optional) a protocol, supported by the BlobFuse2. Currently, supports `fuse2` (default) and `nfs`.
-- `container` - name of the blob container.
-- `uid` and/or `gid` - User ID and/or group ID (numbers) of a [mounted volume owner](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.21/#podsecuritycontext-v1-core). It is a User ID and Group ID of a user in the running container within component replicas. Usually a user, which is a member of one or multiple [groups](https://en.wikipedia.org/wiki/Group_identifier), is specified in the `Dockerfile` for the component with command `USER`. Read [more details](../docs/topic-docker/index.md#running-as-non-root) about specifying user within `Dockerfile`. It is recommended to use because Blobfuse driver do [not honor fsGroup securityContext settings](https://github.com/kubernetes-sigs/blob-csi-driver/blob/master/docs/driver-parameters.md).
-- `useAdls` - (optional) enables blobfuse to access Azure DataLake storage account or when hierarchical namespace (filesystem) is enabled. When set to false, blobfuse will access Azure Block Blob storage account, hierarchical file system is not supported. Default `false`. This must be set `true` when [HNS enabled account](https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-namespace) is mounted.
-- `useAzureIdentity` - If set to `true`, Radix will use [Azure Workload Identity](/guides/volume-mounts/#authentication-with-azure-workload-identity) to acquire credentials for accessing Azure Storage Account using the service principal configured in [identity.azure](#identity-2). This field is optional, with default value `false`. If omitted or set to `false`, credentials are acquired using [Azure Storage Account Keys](/guides/volume-mounts/#authentication-with-azure-storage-account-keys).
-- `storageAccount` - name of the Azure Storage Account. 
-  - required when `useAzureIdentity: true`.
-  - optional when `useAzureIdentity: false` or omitted. If not set, the value from the `Account Name` field in the `secrets` section is used.
-- `resourceGroup` - name of the Azure Resource Group for the Storage Account. (required when `useAzureIdentity: true`).
-- `subscriptionId` - Azure Subscription ID for the Storage Account (required when `useAzureIdentity: true`).
-- `tenantId` - (optional) Azure Tenant ID for the Storage Account. (applicable when `useAzureIdentity: true`).
-- `streaming` - (optional) defines a file streaming. When it is turned on (it is by default), files, opened by a container in its volume mount are not cached on a node, but read directly from a blob storage. It is recommended to use. When it is turned off, files are cached on a node, but it may cause a problem with a limited node disk available space.
+- `protocol` (optional, default `fuse2`) - Name of the protocol to be used. Valid values are `fuse2` or `""` (blank).
+- `container` (required) - Name of the blob container in the Azure storage account.
+- `cacheMode` (optional, default `Block`) - Specify how files should be cached. Valid values are `Block`, `File` and `DirectIO`. Read more about the different mode [here](TODO: add link).
+- `blockCache` (optional) - Settings for `Block` cache mode.
+  - `blockSize` (optional, default `4`) - Size (in MB) of a block to be downloaded as a unit.
+  - `prefetchCount` (optional, default `11`) - Max number of blocks to prefetch. Value must be `0` or greater than `10`.
+  - `prefetchOnOpen` (optional, default `false`) - Start prefetching on open or wait for first read.
+  - `poolSize` (optional) - Defines the size (in MB) of total memory preallocated for block cache. Must be at least `blockSize` * `prefetchCount`. If `prefetchCount` is set to `0` then the minimum value is 1 * `blockSize`. If this value is set lower than the required minimum, Radix will automatically use minimum to prevent failures.
+  - `diskSize` (optional, default `0`) - Defines the size (in MB) of total disk capacity that block cache can use. `0` disables block caching on disk. Follows the same requirements and behavior as `poolSize` when set to a value greater than `0`.
+  - `diskTimeout` (optional, default `120`) - Timeout (in seconds) for which persisted data on disk cache. Applicable only when `diskSize` greater than `0`.
+  - `parallelism` (optional, default `8`) - Number of worker thread responsible for upload/download jobs.
+- `fileCache` (optional) - Settings for `File` cache mode.
+  - `timeout` (optional, default `120`) - The timeout (in seconds) for which file cache is valid.
+- `attributeCache` (optional) - Settings for file attribute cache.
+  - `timeout` (optional, default `0`) - The timeout (in seconds) for file attribute cache entries.
+- `accessMode` (optional, default `ReadOnlyMany`) - Defines the access mode to the mounted volume. Valid values are `ReadOnlyMany`, `ReadWriteOnce` or `ReadWriteMany`. Read more about the different access modes [here](/guides/volume-mounts/optional-settings/).
+- `requestsStorage` (optional, default `1Mi`) - Defines the requested storage size for the Azure storage account blob container. Currently, this setting has no effect.
+- `uid` (optional) - Defines the ID of the user that will own the mounted files and directories. Currently, the blobfuse2 driver does no honor this setting.
+- `gid` (optional) - Defines the ID of the group that will own the mounted files and directories. Currently, the blobfuse2 driver does no honor this setting.
+- `useAdls` (optional, default `false`) - Specify if Azure storage account is [HNS (hierarchical namespace) enabled](https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-namespace) or not. This must be set to `true` when a HNS enabled blob container is mounted.
+- `useAzureIdentity` (optional, default `false`) - Enables [Azure Workload Identity](/guides/volume-mounts/#authentication-with-azure-workload-identity) credentials using the service principal configured in [identity.azure](#identity-2) for accessing the Azure Storage. If omitted or set to `false`, [Azure storage account keys](/guides/volume-mounts/#authentication-with-azure-storage-account-keys) is used for authentication.
+- `storageAccount` (optional) - Name of the Azure storage account. Required when `useAzureIdentity` is `true`.
+- `resourceGroup` (optional) - Name of the Azure resource group for the Azure storage account. Required when `useAzureIdentity` is `true`.
+- `subscriptionId` (optional) - Azure subscription ID for the Azure storage account. Required when `useAzureIdentity` is `true`.
+- `tenantId` (optional, defaults to the Equinor tenant) - Azure tenant ID for the Azure storage account. Applicable when `useAzureIdentity` is `true`.
+- `streaming` (deprecated) - Streaming is deprecated by the blobfuse2 driver, and is replaced with block caching. To prevent breaking changes for applications that have explicitly disabled streaming, by setting `streaming.enabled` to `false`, in order to use file caching, this behavior is preserved as long as `cacheMode` is not set.
 
-  _Options for `streaming`_
-  - `enabled` - (optional) turn on/off a file streaming. Default is `true`
-
-There are [optional settings](/guides/volume-mounts/optional-settings/) to fine tune volumes.
+There are [optional settings](/guides/volume-mounts/optional-settings/) to fine tune volumes. 
 
 Access to the Azure storage need to be set in `secrets` for the component.
 

@@ -11,7 +11,7 @@ platform. It is a static site built with [Docusaurus](https://docusaurus.io).
 
 This starts the Docusaurus developer server on port 8000, and NGINX on port 8080 which proxies requests to the docusaurus server. This ensures that your browser receives the same security related headers (defined in ./proxy/headers) as when you build and run the Dockerfile container image. Changes to source files are immediatly shown in the browser.
 
-You can see the site on &lt;http://localhost:8080&gt;
+You can see the site on &lt;http://localhost:8081&gt;
 
 Stop the server with Ctrl+C, but also run `make dev-down` to clean up the
 Docker state.
