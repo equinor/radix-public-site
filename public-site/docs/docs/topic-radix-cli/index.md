@@ -218,3 +218,28 @@ An option `--output json` (or `-o json`) returns data in the `json` format.
     ```shell
     rx stop scheduled-job --a your-app-name --e your-env-name --all
     ```
+
+### Get Vulnearbility Scan Reports
+
+Returns a repport for an application, environment or copmonent. When a component is specified, a full log of the scan is returned.
+
+All variants support the flags `--fail-on-critical` to fail if critical vulnerabilities are found, 
+and `--output json` to return the report in `json` format.
+
+```shell
+rx get vulnerability --application your-app-name
+
+rx get vulnerability --application your-app-name \
+                     --environment your-env-name
+
+rx get vulnerability --application your-app-name \
+                     --environment your-env-name \
+                     --component your-job-component-name
+
+rx get vulnerability --application your-app-name \
+                     --environment your-env-name \
+                     --component your-job-component-name \
+                     --output json \
+                     --fail-on-critical
+
+```
