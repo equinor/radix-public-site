@@ -6,7 +6,14 @@ title: Logs
 
 Application logs can help you understand what is happening inside your application. The logs are particularly useful for debugging problems and monitoring activity.
 
-Log entries written to the `stdout` and `stderr` streams are stored for 30 days and can be accessed through Radix Web Console or Radix CLI. 
+Log entries written to the `stdout` and `stderr` streams are stored for 30 days and can be accessed through Radix Web Console or Radix CLI.
+After 30 days they are moved to cold storage for an additional 60 days.
+
+## What is Logged
+
+- Application logs (everything written to `stdout` and `stderr`)
+- Request logs from our Ingress Controller, Nginx that all public traffic flow trough. Not accessable from CLI or Console.
+- Management logs of all changes made to an application in Radix, like deployments, scaling, etc. Not accessable from CLI or Console.
 
 ## Radix Web Console
 
