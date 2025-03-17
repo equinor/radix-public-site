@@ -10,7 +10,7 @@ title: What's new
 Radix API and Radix CLI can be used to [get](/docs/topic-radix-cli/#get-scheduled-batches-and-jobs) and [stop](/docs/topic-radix-cli/#stop-scheduled-batches-and-jobs) Radix scheduled batches and jobs.
 
 ### 2025-02-21
-Radix CLI (v1.26.0) not supports getting vulnerability reports for your applications. Try `rx get vulnerability --application your-app-name` to see it in action. Read more [here](/docs/topic-radix-cli/#get-vulnearbility-scan-reports)
+Radix CLI (v1.26.0) now supports getting vulnerability reports for your applications. Try `rx get vulnerability --application your-app-name` to see it in action. Read more [here](/docs/topic-radix-cli/#get-vulnearbility-scan-reports)
 
 ### 2025-02-20 
 Radix now supports two options for authentication to OAuth2 proxy for a Radix application component
