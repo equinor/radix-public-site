@@ -1,8 +1,8 @@
 ---
-title: Build and deploy
+title: Build and Deploy
 ---
 
-# Build and deploy
+# Build and Deploy
 
 
 :::tip TL;DR

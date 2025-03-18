@@ -1,5 +1,5 @@
 ---
-title: Monitoring your app
+title: Metrics
 ---
 
 # Monitoring your app

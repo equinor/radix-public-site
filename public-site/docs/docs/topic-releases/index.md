@@ -6,6 +6,10 @@ title: What's new
 
 ## 2025
 
+### 2025-03-17
+- Fixed [issue](https://github.com/equinor/radix/issues/348) with stale files when mounting Azure storage account blob containers.
+- Add block cache support, and use as default instead of the [deprecated streaming option](../../guides/volume-mounts/index.md#deprecated-options), for [blobFuse2](../../radix-config/index.md#blobfuse2). See [guide](../../guides/volume-mounts/) for details.
+
 ### 2025-03-03
 Radix API and Radix CLI can be used to [get](/docs/topic-radix-cli/#get-scheduled-batches-and-jobs) and [stop](/docs/topic-radix-cli/#stop-scheduled-batches-and-jobs) Radix scheduled batches and jobs.
 

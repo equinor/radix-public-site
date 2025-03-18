@@ -649,11 +649,13 @@ An `emptyDir` volume mounts a temporary writable volume in the container. Data i
 - holding files that a content-manager container fetches while a webserver container serves the data
   :::
 
-#### `blobfuse2`
+#### `blobFuse2`
+
+The **blobFuse2** volume type adds support for mounting Azure storage account blob containers. Read the [guide](../guides/volume-mounts/) for detailed information and examples.
 
 - `protocol` (optional, default `fuse2`) - Name of the protocol to be used. Valid values are `fuse2` or `""` (blank).
 - `container` (required) - Name of the blob container in the Azure storage account.
-- `cacheMode` (optional, default `Block`) - Specify how files should be cached. Valid values are `Block`, `File` and `DirectIO`. Read more about the different mode [here](TODO: add link).
+- `cacheMode` (optional, default `Block`) - Specify how files should be cached. Valid values are `Block`, `File` and `DirectIO`. Read more about the different mode [here](../guides/volume-mounts/index.md#cache-modes).
 - `blockCache` (optional) - Settings for `Block` cache mode.
   - `blockSize` (optional, default `4`) - Size (in MB) of a block to be downloaded as a unit.
   - `prefetchCount` (optional, default `11`) - Max number of blocks to prefetch. Value must be `0` or greater than `10`.
@@ -666,7 +668,7 @@ An `emptyDir` volume mounts a temporary writable volume in the container. Data i
   - `timeout` (optional, default `120`) - The timeout (in seconds) for which file cache is valid.
 - `attributeCache` (optional) - Settings for file attribute cache.
   - `timeout` (optional, default `0`) - The timeout (in seconds) for file attribute cache entries.
-- `accessMode` (optional, default `ReadOnlyMany`) - Defines the access mode to the mounted volume. Valid values are `ReadOnlyMany`, `ReadWriteOnce` or `ReadWriteMany`. Read more about the different access modes [here](/guides/volume-mounts/optional-settings/).
+- `accessMode` (optional, default `ReadOnlyMany`) - Defines the access mode to the mounted volume. Valid values are `ReadOnlyMany`, `ReadWriteOnce` or `ReadWriteMany`.
 - `requestsStorage` (optional, default `1Mi`) - Defines the requested storage size for the Azure storage account blob container. Currently, this setting has no effect.
 - `uid` (optional) - Defines the ID of the user that will own the mounted files and directories. Currently, the blobfuse2 driver does no honor this setting.
 - `gid` (optional) - Defines the ID of the group that will own the mounted files and directories. Currently, the blobfuse2 driver does no honor this setting.
@@ -677,14 +679,6 @@ An `emptyDir` volume mounts a temporary writable volume in the container. Data i
 - `subscriptionId` (optional) - Azure subscription ID for the Azure storage account. Required when `useAzureIdentity` is `true`.
 - `tenantId` (optional, defaults to the Equinor tenant) - Azure tenant ID for the Azure storage account. Applicable when `useAzureIdentity` is `true`.
 - `streaming` (deprecated) - Streaming is deprecated by the blobfuse2 driver, and is replaced with block caching. To prevent breaking changes for applications that have explicitly disabled streaming, by setting `streaming.enabled` to `false`, in order to use file caching, this behavior is preserved as long as `cacheMode` is not set.
-
-There are [optional settings](/guides/volume-mounts/optional-settings/) to fine tune volumes. 
-
-Access to the Azure storage need to be set in `secrets` for the component.
-
-:::tip
-See [this](/guides/volume-mounts/) guide on how make use of `volumeMounts`.
-:::
 
 ### `ingressConfiguration`
 

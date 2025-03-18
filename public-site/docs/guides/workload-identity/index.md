@@ -1,5 +1,5 @@
 ---
-title: Workload Identity
+title: Azure Workload Identity
 ---
 # Workload Identity
 
