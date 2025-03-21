@@ -86,7 +86,7 @@ We next configure the environment variable in our radixconfig:
           variables:
             VITE_DEPLOYMENT_ENVIRONMENT: "test"
 ```
-As discussed, earlier, this does not work since the `VITE_*` variables have already been subsittuted during the _build step_ of our app, while the environment variable only gets injected _at runtime_. 
+As discussed, earlier, this does not work since the `VITE_*` variables have already been subsituted during the _build step_ of our app, while the environment variable only gets injected _at runtime_. 
 To work around this, we need to rework our app so we can inject the environment variables. We will do this in accordance with [this step-by-step guide](https://medium.com/quadcode-life/vite-nginx-and-environment-variables-for-a-static-website-at-runtime-f3d0b2995fc7). Note that this is one of _many_ variations on what you can do to get the environment variables working.
 
 We first create a single file called `environmentVariables.ts` in `src`. We populate it with the following content:
@@ -168,7 +168,7 @@ COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 ...
 ```
 
-Finally, we amend the nginx.conf to disable caching of the environment file, so that users will get updated variables if we need to change the envrionment of a deployment:
+Finally, we amend the nginx.conf to disable caching of the environment file, so that users will get updated variables if we need to change the environment of a deployment:
 
 ```diff
 server {
