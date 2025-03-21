@@ -1,0 +1,27 @@
+apiVersion: radix.equinor.com/v1
+kind: RadixApplication
+metadata:
+  name: radix-example-vite-spa-with-environment-variables
+spec:
+  environments:
+    - name: prod
+
+    - name: test
+      build:
+        from: test
+  components:
+    - name: frontend
+      src: .
+      ports:
+        - name: http
+          port: 8001
+      environmentConfig:
+        - environment: prod
+          variables:
+            VITE_DEPLOYMENT_ENVIRONMENT: "prod"
+        - environment: test
+          variables:
+            VITE_DEPLOYMENT_ENVIRONMENT: "test"
+  dnsAppAlias:
+    environment: prod
+    component: auth-proxy
