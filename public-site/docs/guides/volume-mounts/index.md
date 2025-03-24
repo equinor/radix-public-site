@@ -69,7 +69,7 @@ The following `blobFuse2` settings are required, and is used by the driver when 
 - `subscriptionId` - ID of the subscription for the storage account.
 
 Example configuration:
-``` yaml
+```yaml
 volumeMounts:
 - name: myimages
     path: /mnt/files
@@ -86,21 +86,60 @@ volumeMounts:
 Caching improves subsequent access times, and can reduce ingress and egress traffic to the Azure storage account, which in turn can lower cost related to data transfer.
 
 `cacheMode` defines how data should be cached:
-- `Block` (default) - Improve performance with parallel and chuncked (blocks) read/write operations for large files.
+- `Block` (default) - Improve performance for operations on large files by reading/writing blocks instead of entire files.
 - `File` (default) - Cache entire files for improved subsequent access.
 - `DirectIO` (default) - Disables caching.
 
 ### Block Cache
 
-Block cache adds support for parallel reading and writing file in blocks, which can improve access times for large files. 
+Block caching can improve access times and reduce cost related to ingress and egress traffic for the Azure storage account.
 
+With block cache, the driver reads and writes fixed size blocks of data, defined by `blockSize` (default 4MB), instead of the entire file. Blocks are cached in a driver specific memory pool, defined by `poolSize` (default 48MB), and in the Linux kernel cache, on the node where the replica is running. The driver also automatically reads consecutive blocks, defined by `prefetchCount` (default 11), from the current position of the file. `prefetchOnOpen` controls if prefetching should start when the file is opened, or wait for the first read. Data operations are performed in parallel, defined by `parallelism` (8 threads by default).
 
+Every time a file is opened, the driver will send a request to the Azure storage account to read attribute data (Size, Modified) for the file. If a change is detected, the driver will invalidate the cache and fetch data from the Azure storage account instead.
+
+The driver also supports using disk a cache from data blocks. This cache has its own timeout defined by `diskTimeout`. Disk caching is disabled by default, and must be enabled by setting `diskSize` (in MB) to the desired disk cache size.
+
+The following settings are available to fine-tune block cache. The example includes the default values:
+```yaml
+volumeMounts:
+- name: myimages
+    path: /mnt/files
+    blobFuse2:
+      container: images
+      cacheMode: Block
+      blockCache:
+        blockSize: 4 # Size in MB
+        poolSize: 48 # Size in MB
+        prefetchCount: 11
+        prefetchOnOpen: false
+        parallelism: 8
+        diskSize: 0 # Size in MB
+        diskTimeout: 120 # Seconds
+```
+
+`blockSize` defines the size of a block to be downloaded as a unit from the Azure storage account. Increasing this value can improved the transfer rate when reading large files.
+
+The following table lists the transfer rate when reading a 3GB file with different values of `blockSize`:
+| Block Size  | Transfer Rate |
+| ----------: | ------------: |
+| 4           | 220 MB/s      |
+| 8           | 350 MB/s      |
+| 16          | 440 MB/s      |
+
+`poolSize` defines the total size of the memory pool that the driver will use for caching data blocks. The default value is set to `blockSize` + `prefetchCount` * `blockSize`, which is the minimum allowed value. If set to a lower value, Radix will automatically adjust it at runtime.
+
+`prefetchCount` defines how many blocks the driver will prefetch at max when sequential reads are in progress. Prefetching can be disabled by setting the value to `0`. Otherwise the value must be `11` (default) or higher. When only small parts of a large file needs to be read, it can be beneficial to disable prefetching to reduced network traffic from the Azure storage account.
+
+Disk caching, enabled when `diskSize` is set, stores data blocks as files on disk, and is used by the driver when the requested file data is not in the memory pool or in the kernel cache. `diskTimeout` defines how long unused disk cache entries belonging to a file will be stored on disk before they are deleted.
 
 ### File Cache
 
+
+
 ### Direct IO
 
-Disables caching. All operations are sent directly to the storage account.
+`DirectIO` disables caching. All operations are sent directly to the storage account.
 
 ## Attribute Cache
 
