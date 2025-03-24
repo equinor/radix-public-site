@@ -319,7 +319,7 @@ volumeMounts:
 Radix application can be configured to be built with [Docker BuildKit](https://docs.docker.com/build/buildkit/)  
 Use an option ``useBuildKit: true`` in the [build radixconfig](/radix-config/index.md#build) section.
 :::info Note
-There maybe be changes required in a dockerfile, particularly secrets will be passed with more secure way, repository name is needed in the FROM instruction. Read more in the [guide](/guides/build-secrets/#build-secrets-with-buildkit)  
+There maybe be changes required in a dockerfile, particularly secrets will be passed with more secure way. Read more in the [guide](/guides/build-secrets/#build-secrets-with-buildkit)  
 :::
 
 ### Grouped secrets in Radix Web Console
