@@ -139,7 +139,7 @@ Disk caching, enabled when `diskSize` is set, stores data blocks as files on dis
 
 ### Direct IO
 
-`DirectIO` disables caching. All operations are sent directly to the storage account.
+`DirectIO` disables all caching on driver and kernel level. All operations are sent directly to the storage account.
 
 ## Attribute Cache
 
