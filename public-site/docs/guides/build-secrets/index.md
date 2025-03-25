@@ -11,7 +11,7 @@ title: Build Secrets
 With an option `spec.build.useBuildKit: false`, to ensure that multiline build secrets are handled correct by the build, **all** [Build secrets](/radix-config/index.md#secrets) are passed as `ARG`-s during container build, base-64 encoded (they need to be decoded before use).
 
 ```dockerfile
-FROM docker.io/alpine
+FROM alpine
 
 #an argument, passed to `docker build` with `--build-arg` option
 ARG SECRET1
@@ -59,7 +59,7 @@ Syntax: `RUN --mount=type=secret,id=SECRET_NAME,dst=DESTINATION_PATH COMMAND`, w
 - `COMMAND` is a single or multiple commands (separated by &&, semicolon or space), which can use the file with a secret.
 - `DESTINATION_PATH` is an optional path to a folder, where file with a secret will be created. Default is `/run/secrets`, if not specified.
 ```dockerfile
-FROM docker.io/alpine
+FROM alpine
 
 #one secret in the specified destination file and folder /abc/my-secrets/secret-1.txt
 RUN --mount=type=secret,id=SECRET1,dst=/abc/my-secrets/secret-1.txt export BUILD_ARG=$(cat /abc/my-secrets/secret-1.txt) && \
@@ -91,7 +91,7 @@ For verification that secrets are used as expected, Docker image can be built an
   ```
 * Multiple build secrets can be added as multiple `RUN --mount` options (and `docker build` options `--secrets`). Different `dst` files can be used
   ```dockerfile
-  FROM docker.io/alpine
+  FROM alpine
   
   #one secret in the specified destination file and folder /abc/my-secrets/secret-1.txt
   #newer echo secrets in real code
@@ -111,7 +111,7 @@ For verification that secrets are used as expected, Docker image can be built an
 * Files, created by a `RUN --mount` options are available only for commands, executed in that particular `RUN`, not in following `RUN` commands or within Docker container, running with this image.
 * If a file, specified in the `dst` option already exists, it will be overridden in the `RUN`, where the `--mount` option use it, but it will have original content in further layers
     ```dockerfile
-    FROM docker.io/alpine
+    FROM alpine
     #put some original text to a file /abc/db_server.txt
     RUN mkdir -p /abc && echo "default-server-name">/abc/db_server.txt
     #verify the file contents a text "default-server-name"

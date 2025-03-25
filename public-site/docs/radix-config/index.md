@@ -58,18 +58,14 @@ spec:
 The `build` section of the spec contains configuration used during the build process of the components and jobs.
 
 ### `useBuildKit`
-`useBuildKit` - (optional, default `false`) builds components and jobs using [Buildah](https://www.redhat.com/en/topics/containers/what-is-buildah). This option provides several benefits over the default Radix build engine:
+`useBuildKit` - (optional, default `false` for backwards compatibility) builds components and jobs using [Buildah](https://www.redhat.com/en/topics/containers/what-is-buildah). This option provides several benefits over the default Radix build engine:
 - Secure handling of [**build secrets**](/guides/build-secrets/#build-secrets-with-buildkit).
 - Caching support that can reduce build time, see [`useBuildCache`](#usebuildcache).
 - Use images from protected container registries defined in [`privateImageHubs`](#privateimagehubs), in the Dockerfile's `FROM` instructions.
+- Faster builds due to less steps involved and higher performance nodes.
 
 :::tip
-Buildah requires the image name in a Dockerfile's `FROM` instructions to be fully qualified, e.g. `FROM docker.io/library/golang:1.22` instead of `FROM golang:1.22`. If you are using the style `bitnami/golang:1.22` you should use `docker.io/bitnami/golang:1.22`
-The build step will fail with the following error an image name is not fully qualified:
-
-```
-Error: creating build container: short-name resolution enforced but cannot prompt without a TTY
-```
+`useBuildKit` is the recommended way to build containers and will be the default in the future.
 :::
 
 ### `useBuildCache`
