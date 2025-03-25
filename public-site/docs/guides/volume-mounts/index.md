@@ -20,7 +20,7 @@ volumeMounts:
       useAdls: true
 ```
 
-With this minimal configuration, the **videos** container is mounted **read only** into **/mnt/files**, using [access keys](#access-keys) as the authentication method, and [Block](#block-cache) as `cacheMode`. The two screenshots below shows where to find container names and if hierarchical namespace is enabled or disabled.
+With this minimal configuration, the **images** container is mounted **read only** into **/mnt/files**, using [access keys](#access-keys) as the authentication method, and [Block](#block-cache) as `cacheMode`. The two screenshots below shows where to find container names and if hierarchical namespace is enabled or disabled.
 
 Container names:
 ![Azure storage account container name](azure-storage-account-container.png)
