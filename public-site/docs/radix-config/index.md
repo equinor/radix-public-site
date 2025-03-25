@@ -623,8 +623,8 @@ spec:
 
 The `volumeMounts` field configures volume mounts within the running component.
 
-- `name` (required) - The name of the volume. Unique within `volumeMounts` list of a component
-- `path` (required) - The folder inside the running container, where the external storage is mounted.
+- `name` - The name of the volume. Unique within `volumeMounts` list of a component
+- `path` - The folder inside the running container, where the external storage is mounted.
 
 Configure one of the following volume types:
 - `emptyDir` - Mounts a read-write empty volume.
@@ -632,7 +632,7 @@ Configure one of the following volume types:
 
 #### `emptyDir`
 
-- `sizeLimit` (required) - The maxiumum capacity for the volume.
+- `sizeLimit` - The maxiumum capacity for the volume.
 
 An `emptyDir` volume mounts a temporary writable volume in the container. Data in an `emptyDir` volume is safe across container crashes for component replicas, but is lost if a job container crashes and restarts. When a component replica is deleted for any reason, the data in `emptyDir` is removed permanently.
 
@@ -650,7 +650,7 @@ An `emptyDir` volume mounts a temporary writable volume in the container. Data i
 The **blobFuse2** volume type adds support for mounting Azure storage account blob containers. Read the [guide](../guides/volume-mounts/) for detailed information and examples.
 
 - `protocol` (optional, default `fuse2`) - Name of the protocol to be used. Valid values are `fuse2` or `""` (blank).
-- `container` (required) - Name of the blob container in the Azure storage account.
+- `container` - Name of the blob container in the Azure storage account.
 - `cacheMode` (optional, default `Block`) - Specify how files should be cached. Valid values are `Block`, `File` and `DirectIO`. Read more about the different mode [here](../guides/volume-mounts/index.md#cache-modes).
 - `blockCache` (optional) - Settings for `Block` cache mode.
   - `blockSize` (optional, default `4`) - Size (in MB) of a block to be downloaded as a unit.
