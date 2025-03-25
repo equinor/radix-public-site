@@ -6,7 +6,10 @@ Radix supports mounting [Azure storage account](https://docs.microsoft.com/en-us
 
 ## General Settings
 
-The only required settings in a `blobFuse2` configuration are `container` and `useAdsl`. `container` defines the name of the container in the Azure storage account to mount into `path`, and `useAdls` is a flag that defines if the storage account is [hierarchical namespace](https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-namespace) enabled or not.
+The only required settings in a `blobFuse2` configuration are `container` and `useAdsl`.
+
+`container` defines the name of the container in the Azure storage account to be mounted into the directory defined in `path`.  
+`useAdls` is a flag that defines if the storage account is [hierarchical namespace](https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-namespace) enabled or not.
 
 ``` yaml
 volumeMounts:
@@ -17,21 +20,23 @@ volumeMounts:
       useAdls: true
 ```
 
-With this minimal configuration, the **videos** container is mounted **read only** into **/mnt/files**, using [Access Keys](#access-keys) as the authentication method, and [Block](#block-cache) as `cacheMode`. The two screenshots below shows where to find container names and if hierarchical namespace is enabled or disabled.
+With this minimal configuration, the **videos** container is mounted **read only** into **/mnt/files**, using [access keys](#access-keys) as the authentication method, and [Block](#block-cache) as `cacheMode`. The two screenshots below shows where to find container names and if hierarchical namespace is enabled or disabled.
 
+Container names:
 ![Azure storage account container name](azure-storage-account-container.png)
 
+Hierarchical Namespace:
 ![Azure storage account hierarcical namespace](hns-enabled-storage-account.png)
 
-`accessMode` specifies if the volume is mounted in **read-only** (default) or **read-write** mode. Valid values are:
+`accessMode` defines if the volume is mounted in **read-only** (default) or **read-write** mode. Valid values are:
 - `ReadOnlyMany` (default) - Volume is mounted read-only.
 - `ReadWriteMany` - Volume is mounted with read-write access. Warning: This option can lead to data corruption if multiple replicas write to the same file. Read [this](limitations.md) for more information.
 
-`uid` and `gid` specifies the owning user and group for the files and directories in the mounted volume. It is optional to configure these settings, since the current version of the driver does not honor user and group ownership.
+`uid` and `gid` defines the owning user and group for the files and directories in the mounted volume. It is optional to configure these settings, as the current version of the driver does not honor user and group ownership.
 
 ## Authentication
 
-The **blob-csi-driver** will use access key as credentials when accessing an Azure storage account. The access key can be set manually in [Radix Web Console](https://console.radix.equinor.com/), or it can be read by the driver using [Azure workload identity](https://www.radix.equinor.com/guides/workload-identity/#configure-workload-identity-in-radix) when `useAzureIdentity` is set to `true`.
+The **blob-csi-driver** uses access key credentials when accessing the Azure storage account. The access key can be set manually in [Radix Web Console](https://console.radix.equinor.com/), or it can be read by the driver from the Azure storage account using [Azure workload identity](https://www.radix.equinor.com/guides/workload-identity/#configure-workload-identity-in-radix) if `useAzureIdentity` is set to `true`.
 
 ### Access Keys
 
@@ -39,11 +44,11 @@ When `useAzureIdentity` is omitted or set to `false`, the access key and the nam
 
 ![Set account name and key](set-account-key-and-name.png)
 
-Values for these secrets can be found under **Access keys** in the Azure storage account.
+Values for these secrets is located in **Access keys** on the Azure storage account.
 
 ![Get account name and key](azure-storage-account-name-and-key.png)
 
-The name of the Azure storage account can also be specified in the `storageAccount` field in [`radixconfig.yaml`](../../radix-config/index.md), in which only the access key must be set i Radix Web Console.
+The name of the Azure storage account can also be defined in the `storageAccount` field in [`radixconfig.yaml`](../../radix-config/index.md), in which only the access key must be set i Radix Web Console.
 
 ``` yaml
 volumeMounts:
@@ -59,11 +64,11 @@ volumeMounts:
 
 ### Azure Workload Identity
 
-When `useAzureIdentity` is set to `true`, the driver will connect to the Azure storage account using the [Azure Workload Identity](../workload-identity/#configure-workload-identity-in-radix) configured for the compopnent or job, to acquire an access key to be used when accessing data in a blob container.
+When `useAzureIdentity` is set to `true`, the driver will connect to the Azure storage account using the [Azure Workload Identity](../workload-identity/#configure-workload-identity-in-radix) configured for the compopnent or job, to acquire an access key to use when accessing data in a blob container.
 
-For the driver to successfully acquire an access key, the service principal configured in `identity.azure.clientId` must be granted the [**Microsoft.Storage/storageAccounts/listkeys/action**](https://learn.microsoft.com/en-us/azure/storage/blobs/authorize-data-operations-portal#use-the-account-access-key) permission on the Azure storage account.
+In order for the driver to successfully acquire an access key, the service principal configured in [`identity.azure.clientId`](../../radix-config/index.md#identity-2) must be granted the [**Microsoft.Storage/storageAccounts/listkeys/action**](https://learn.microsoft.com/en-us/azure/storage/blobs/authorize-data-operations-portal#use-the-account-access-key) permission on the Azure storage account.
 
-The following `blobFuse2` settings are required, and is used by the driver when acquiring an access key.
+The following `blobFuse2` settings are required, and is used by the driver when acquiring the access key.
 - `storageAccount` - Name of the Azure storage account.
 - `resourceGroup` - Name of the resource group for the storage account.
 - `subscriptionId` - ID of the subscription for the storage account.
@@ -87,20 +92,18 @@ Caching improves subsequent access times, and can reduce ingress and egress traf
 
 `cacheMode` defines how data should be cached:
 - `Block` (default) - Improve performance for operations on large files by reading/writing blocks instead of entire files.
-- `File` (default) - Cache entire files for improved subsequent access.
-- `DirectIO` (default) - Disables caching.
+- `File` - Cache entire files for improved subsequent access.
+- `DirectIO` - Disables caching.
 
 ### Block Cache
 
-Block caching can improve access times and reduce cost related to ingress and egress traffic for the Azure storage account.
+With block cache, the driver reads and writes fixed size blocks of data, defined by `blockSize` (default 4MB), instead of the entire files. Blocks are cached by the driver in a memory pool, defined by `poolSize` (default 48MB), and in the OS kernel cache, on the node where the replica is running. The driver will also prefetch consecutive blocks, defined by `prefetchCount` (default 11), from the current position of the file. `prefetchOnOpen` defines if prefetching should start when the file is opened, or wait for the first read. Data operations are performed in parallel, defined by `parallelism` (8 threads by default).
 
-With block cache, the driver reads and writes fixed size blocks of data, defined by `blockSize` (default 4MB), instead of the entire file. Blocks are cached in a driver specific memory pool, defined by `poolSize` (default 48MB), and in the Linux kernel cache, on the node where the replica is running. The driver also automatically reads consecutive blocks, defined by `prefetchCount` (default 11), from the current position of the file. `prefetchOnOpen` controls if prefetching should start when the file is opened, or wait for the first read. Data operations are performed in parallel, defined by `parallelism` (8 threads by default).
+When a file is opened and cached data exist, the driver will check if the source file has changed by comparing file attributes (Size, Modified) for the cached data, with the current attributes (see [Attribute Cache](#attribute-cache)) of the source file. If a change is detected, the driver will evict the cached data and fetch up-to-date data from the Azure storage account.
 
-Every time a file is opened, the driver will send a request to the Azure storage account to read attribute data (Size, Modified) for the file. If a change is detected, the driver will invalidate the cache and fetch data from the Azure storage account instead.
+The driver also supports using disk a cache for data blocks. This cache has its own timeout defined by `diskTimeout`. Disk caching is disabled by default, and must be enabled by setting `diskSize` (in MB) to the desired disk cache size.
 
-The driver also supports using disk a cache from data blocks. This cache has its own timeout defined by `diskTimeout`. Disk caching is disabled by default, and must be enabled by setting `diskSize` (in MB) to the desired disk cache size.
-
-The following settings are available to fine-tune block cache. The example includes the default values:
+The following settings are available to fine-tune block cache:
 ```yaml
 volumeMounts:
 - name: myimages
@@ -120,7 +123,7 @@ volumeMounts:
 
 `blockSize` defines the size of a block to be downloaded as a unit from the Azure storage account. Increasing this value can improved the transfer rate when reading large files.
 
-The following table lists the transfer rate when reading a 3GB file with different values of `blockSize`:
+The following table shows the transfer rate when reading a 3GB file using different values for `blockSize`:
 | Block Size  | Transfer Rate |
 | ----------: | ------------: |
 | 4           | 220 MB/s      |
@@ -131,17 +134,40 @@ The following table lists the transfer rate when reading a 3GB file with differe
 
 `prefetchCount` defines how many blocks the driver will prefetch at max when sequential reads are in progress. Prefetching can be disabled by setting the value to `0`. Otherwise the value must be `11` (default) or higher. When only small parts of a large file needs to be read, it can be beneficial to disable prefetching to reduced network traffic from the Azure storage account.
 
-Disk caching, enabled when `diskSize` is set, stores data blocks as files on disk, and is used by the driver when the requested file data is not in the memory pool or in the kernel cache. `diskTimeout` defines how long unused disk cache entries belonging to a file will be stored on disk before they are deleted.
+Disk caching, enabled when `diskSize` is set to a non-zero value, is used by the driver to store data blocks as files on disk. The driver will check the disk cache for data blocks when reading from a file, and the requested data is found neither in the memory pool nor in the kernel cache. `diskTimeout` defines how long unused disk cache entries is stored on disk before being evicted.
 
 ### File Cache
 
+With file cache, the driver downloads and caches the entire file when it is opened. The cached file remains in cache for a duration defined by `timeout` (default 120 seconds).
 
+```yaml
+volumeMounts:
+- name: myimages
+    path: /mnt/files
+    blobFuse2:
+      container: images
+      fileCache:
+        timeout: 120 # Default value
+```
 
 ### Direct IO
 
-`DirectIO` disables all caching on driver and kernel level. All operations are sent directly to the storage account.
+`DirectIO` disables caching on driver and kernel level. All operations are sent directly to the storage account.
 
 ## Attribute Cache
+
+The attribute cache defines how long file attributes (Size, Modified) are cached by the driver. Caching is disabled by default, but can be enabled by setting `timeout` to a non-zero value.
+
+```yaml
+volumeMounts:
+- name: myimages
+    path: /mnt/files
+    blobFuse2:
+      container: images
+      attributeCache:
+        timeout: 0 # Disabled by default
+```
+
 
 ## Deprecated Options
 
