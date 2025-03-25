@@ -20,8 +20,8 @@ Radix now supports two options for authentication to OAuth2 proxy for a Radix ap
 
 ### 2025-02-10 
 Radix now supports two options for authentication to Azure Storage Account from a Radix application component
-- [Azure Storage Account Keys](/guides/volume-mounts/#authentication-with-azure-storage-account-keys), already existing
-- [Azure Workload Identity](/guides/volume-mounts/#authentication-with-azure-workload-identity), available from now, authentication without need of Azure Storage Account key
+- [Azure Storage Account Keys](../../guides/volume-mounts/index.md#access-keys), already existing
+- [Azure Workload Identity](../../guides/volume-mounts/index.md#azure-workload-identity), available from now, authentication without need of Azure Storage Account key
 
 ## 2024
 

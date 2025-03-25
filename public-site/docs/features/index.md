@@ -158,13 +158,13 @@ Cost calculation is based on the total time the replicas(containers) belonging t
 
 Each application can have one specific component in one specific environment set as the default alias.
 
-[Doc](/start/radix-concepts/index.md#default-alias) - [Radix config reference](/radix-config/index.md#dnsappalias)
+[Doc](../docs/topic-domain-names/index.md#app-default-alias) - [Radix config reference](/radix-config/index.md#dnsappalias)
 
 ## External alias 
 
 It is possible to have multiple custom DNS aliases (i.e. to choose your own custom domain) for the application.
 
-[Doc](/start/radix-concepts/index.md#external-custom-alias) [Guide](/guides/external-alias/) - [Radix config reference](/radix-config/index.md#dnsexternalalias)
+[Doc](../docs/topic-domain-names/index.md#external-alias) [Guide](/guides/external-alias/) - [Radix config reference](/radix-config/index.md#dnsexternalalias)
 
 ## Egress rules
 
