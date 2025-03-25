@@ -1,5 +1,5 @@
 ---
-title: Custom Pipeline Tasks
+title: Sub-pipeline
 ---
 
 # Sub-pipeline
