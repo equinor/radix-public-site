@@ -166,7 +166,7 @@ We make sure that this file runs by copying it into the _special folder_ `/docke
 # Dockerfile
 ...
 
-+ COPY ./100-inject-envvars.sh /docker-entrypoint.d/100-inject-envvars.sh
++ COPY --chmod=755 ./100-inject-envvars.sh /docker-entrypoint.d/100-inject-envvars.sh
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 ...
 ```
