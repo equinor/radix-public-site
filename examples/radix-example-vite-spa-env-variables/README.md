@@ -115,7 +115,7 @@ import './App.css'
 function App() {
 ...
 -          Hello from {import.meta.env.VITE_DEPLOYMENT_ENVIRONMENT}
-+          Hello from {envVariables.deploymentEnvironment}
++          Hello from {envVariables().deploymentEnvironment}
 
 ```
 
