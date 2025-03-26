@@ -16,102 +16,121 @@ const sidebars: SidebarsConfig = {
 
   //But you can create a sidebar manually
   gettingStartedSidebar: [
-      {
-        type: 'category',
-        label: 'Getting started',
-        collapsed: false,
-        items: [
-          'start/index',
-          'start/radix-concepts/index',
-          'start/getting-access/index',
-          'start/requirements/index',
-          'start/config-your-app/index',
-          'start/registering-app/index',
-          'start/workflows/index',
-          'start/radix-clusters/index',
-          'start/onboarding/index',
-          'start/examples/index',
-          'start/not-radix/index',
-        ],
-      },
+      'start/index',
+      'start/radix-concepts/index',
+      'start/getting-access/index',
+      'start/requirements/index',
+      'start/config-your-app/index',
+      'start/registering-app/index',
+      'start/workflows/index',
+      'start/radix-clusters/index',
+      'start/onboarding/index',
+      'start/examples/index',
+      'start/not-radix/index',
+    
   ],
   guidesSidebar: [
-    {
-      type: 'category',
-      label: 'Guides',
-      collapsed: false,
-      items: [
-          'guides/index',
-          'guides/authentication/index',
-          'guides/workload-identity/index',
+      'guides/index',
+      {
+        type: 'category',
+        label: 'Docker',
+        items: [
           'guides/docker/index',
           'guides/docker-useradd/index',
-          'guides/azure-key-vaults/index',
-          'guides/private-link/index',
-          'guides/build-secrets/index',
-          'guides/environment-variables/index',
-          'guides/enable-and-disable-components/index',
-          {
-            type: 'category',
-            label: 'External DNS Alias',
-            items: [
-              'guides/external-alias/index',
-              'guides/external-alias-certificate/index',
-            ]},
-          'guides/component-start-stop-restart/index',
-          {
-              type: 'category',
-              label: 'Jobs',
-              items: [
-                  'guides/jobs/index',
-                  'guides/jobs/configure-jobs',
-                  'guides/jobs/job-manager-and-job-api',
-                  'guides/jobs/notifications',
-                  'guides/jobs/environment-variables',
-                  'guides/jobs/jobs-in-web-console',
-                  'guides/jobs/openapi-swagger',
-              ]},
-          'guides/deploy-only/index',
+        ],
+      },
+      {
+        type: 'category',
+        label: 'CI/CD Pipeline',
+        items: [
           'guides/build-and-deploy/index',
+          'guides/deploy-only/index',
           'guides/deployment-promotion/index',
           'guides/apply-config/index',
-          'guides/monorepo/index',
-          'guides/monitoring/index',
-          'guides/resource-request/index',
-          'guides/egress-config/index',
-          'guides/git-submodules/index',
           'guides/sub-pipeline/index',
           'guides/pipeline-badge/index',
-          'guides/alerting/index',
+        ]
+      },
+      'guides/build-secrets/index',
+      'guides/environment-variables/index',
+      {
+        type: 'category',
+        label: 'Authentication',
+        items: [
+          'guides/authentication/index',
+          'guides/workload-identity/index',
+        ]
+      },
+      'guides/azure-key-vaults/index',
+      {
+        type: 'category',
+        label: 'External DNS Alias',
+        items: [
+          'guides/external-alias/index',
+          'guides/external-alias-certificate/index',
+        ]
+      },
+      {
+        type: 'category',
+        label: 'Jobs',
+        items: [
+          'guides/jobs/index',
+          'guides/jobs/configure-jobs',
+            'guides/jobs/job-manager-and-job-api',
+            'guides/jobs/notifications',
+            'guides/jobs/environment-variables',
+            'guides/jobs/jobs-in-web-console',
+            'guides/jobs/openapi-swagger',
+        ]
+      },
+      {
+        type: 'category',
+        label: 'Volume Mounts',
+        items: [
           'guides/volume-mounts/index',
-      ],
-    }
+          'guides/volume-mounts/limitations',
+        ]
+      },
+      'guides/private-link/index',
+      'guides/enable-and-disable-components/index',
+      'guides/component-start-stop-restart/index',
+      'guides/resource-request/index',
+      'guides/egress-config/index',
+      {
+        type: 'category',
+        label: 'Monitoring',
+        items: [
+          'guides/monitoring/index',
+          'guides/alerting/index',
+        ]
+      },
+      {
+        type: 'category',
+        label: 'GitHub',
+        items: [
+          'guides/git-submodules/index',
+          'guides/monorepo/index',
+        ]
+      }
   ],
   docsSidebar: [
-    {
-      type: 'category',
-      label: 'Guides',
-      collapsed: false,
-      items: [
-          'docs/index',
-          'docs/topic-releases/index',
-          'docs/topic-docker/index',
-          'docs/topic-runtime-env/index',
-          'docs/topic-logs/index',
-          'docs/topic-security/index',
-          'docs/topic-vulnerabilities/index',
-          'docs/topic-monitoring/index',
-          'docs/topic-domain-names/index',
-          'docs/topic-private-link/index',
-          'docs/topic-cost/index',
-          'docs/topic-rollingupdate/index',
-          'docs/topic-uptime/index',
-          'docs/topic-radix-cli/index',
-          'docs/topic-code-editor-integration/index',
-          'docs/topic-dynatrace-int/index',
-          'docs/topic-redis/index',
-      ],
-    }
+      'docs/index',
+      'docs/topic-releases/index',
+      'docs/topic-docker/index',
+      'docs/topic-runtime-env/index',
+      'docs/topic-logs/index',
+      'docs/topic-security/index',
+      'docs/topic-vulnerabilities/index',
+      'docs/topic-monitoring/index',
+      'docs/topic-domain-names/index',
+      'docs/topic-private-link/index',
+      'docs/topic-cost/index',
+      'docs/topic-rollingupdate/index',
+      'docs/topic-uptime/index',
+      'docs/topic-radix-cli/index',
+      'docs/topic-code-editor-integration/index',
+      'docs/topic-dynatrace-int/index',
+      'docs/topic-redis/index',
   ],
   featuresSidebar: [
       'features/index',

@@ -1,5 +1,5 @@
 ---
-title: Request Private Link
+title: Private Links
 ---
 
 The creation of Private Endpoints in Radix is a semi automated process, and the destination subscription must be part of Omnia Standalone.

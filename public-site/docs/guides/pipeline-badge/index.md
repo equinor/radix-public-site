@@ -1,5 +1,5 @@
 ---
-title: Pipeline Badges
+title: Status Badges
 ---
 
 # Configure Pipeline Badges

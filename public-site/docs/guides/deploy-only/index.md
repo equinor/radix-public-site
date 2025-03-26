@@ -1,5 +1,5 @@
 ---
-title: Deploy to Radix using other Continuous Integration (CI) tool
+title: Deploy Using External CI/CD Tools
 ---
 
 # Deploy to Radix using other Continuous Integration (CI) tool

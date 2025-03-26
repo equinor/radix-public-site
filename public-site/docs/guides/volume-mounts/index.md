@@ -1,194 +1,218 @@
 ---
-title: Mount volumes
+title: Azure Storage Account
 ---
 
-## Configuring mount volumes
+Radix supports mounting [Azure storage account](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview) blob containers with the [`blobFuse2`](../../radix-config/index.md#blobfuse2) volume type in [`radixconfig.yaml`](../../radix-config/index.md), using the [blob-csi-driver](https://github.com/kubernetes-sigs/blob-csi-driver/).
 
-The supported volume mount type is to mount CSI Azure Blob Container, using CSI Azure blob driver for Kubernetes. See [this](https://github.com/kubernetes-sigs/blob-csi-driver) for more information.
-:::tip
-* BlobFuse FlexVolume is considered obsolete and recommended being replaced with CSI Azure blob driver.
-* BlobFuse v1 CSI Azure blob driver is considered obsolete and recommended being replaced with BlobFuse2.
-:::
+## General Settings
 
-In order to make use of this functionality you have to:
+The only required settings in a `blobFuse2` configuration are `container` and `useAdsl`.
 
-- Retrieve necessary values from [Azure Storage Account](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview) with [BlobFuse2 - a Microsoft supported Azure Storage FUSE driver](https://learn.microsoft.com/en-us/azure/storage/blobs/blobfuse2-what-is). 
+`container` defines the name of the container in the Azure storage account to be mounted into the directory defined in `path`.  
+`useAdls` is a flag that defines if the storage account is [hierarchical namespace](https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-namespace) enabled or not.
 
-### Supported features
-* [Hierarchical file system](https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-namespace) in the Storage Account, particularly [Azure Data Lake Storage Gen2](https://docs.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-introduction). In this case an option `useAdls` should be set to `true` in the [radixconfig](/radix-config/index.md#volumemounts).
- ![Azure Storage Account Hierarchical Namespaces](./azure-storage-account-hierarchical-namespaces.png)
-* File streaming, when there is no file caching on nodes. In this case an option `streaming.enabled` should be set to `true` in the [radixconfig](/radix-config/index.md#volumemounts) (it is `true` by default). Streaming file operations are slower than with use of cache, but it is more reliable, and it is recommended to use it, particularly for large files. More details about streaming can be found [here](https://learn.microsoft.com/en-us/azure/storage/blobs/blobfuse2-what-is#streaming)
-
-## Optional settings
-There are [optional settings](./optional-settings/) to fine tune volumes.
-
-## Account name and key
-![SecretValues](./secret-values.png)
-
-Name of container
-![ContainerName](./container-name.png)
-
-- Define the volume mounts for the environment in the [radixconfig.yaml](/radix-config). The container should match the one found in step 1
-
-```yaml
-environmentConfig:
-  - environment: dev
-    volumeMounts:
-      - name: storage
-        path: /app/image-storage
-        blobFuse2:
-          container: blobfusevolumetestdata
-```
-
-- After environment has been built, set the generated secret to key found in step 1. This should ensure that key value is Consistent status. It is recommended to restart a component after a key has been set in the console
-
-### Authentication with Azure Storage Account keys
-![SetSecrets](./storage-account-key-name-secrets.png)
-
-When [storageAccount](/radix-config#blobfuse2-settings) is set, the "Account Name" secret is not shown.
-
-### Authentication with Azure Workload Identity
-- Enable [Workload Identity](../workload-identity/#configure-workload-identity-in-radix) for the component or job.
-- Configure Workload Identity authentication for the Azure Storage Account by setting `useAzureIdentity: true` in the [volumeMounts](/radix-config#blobfuse2-settings) section in [radixconfig.yaml](/radix-config/index.md)
-- Add to the storage account a role assignment to the service principal, configured in the `Identity`. The role should be `Storage Account Contributor`. Read [more details](https://github.com/kubernetes-sigs/blob-csi-driver/blob/master/docs/workload-identity-static-pv-mount.md).
-
-![add role to sp to storage account](./add-role-to-sp-to-storage-account.png)
-
-An option `useAzureIdentity` on a component level, defined or left default `false`, can be overridden on an `environmentConfig` level.
-
-Example:
-```yaml
-identity:
-  azure:
-    clientId: abcdefgh-1234-5678-9012-34567abcdefg
+``` yaml
 volumeMounts:
-  - name: volume-name
-    path: /path/in/container/to/mount/to
+- name: myimages
+    path: /mnt/files
     blobFuse2:
-      container: container-name
-      uid: 1000
-      useAzureIdentity: true
-      storageAccount: storage-account-name
-      resourceGroup: resource-group-for-storage-account
-      subscriptionId: subscription-id-for-storage-account
+      container: images
+      useAdls: true
 ```
 
-Secrets with Account Name and Account Key will not be shown in the console, when `useAzureIdentity: true`.
+With this minimal configuration, the **images** container is mounted **read only** into **/mnt/files**, using [access keys](#access-keys) as the authentication method, and [Block](#block-cache) as `cacheMode`. The two screenshots below shows where to find container names and if hierarchical namespace is enabled or disabled.
 
-This results in the Kubernetes deployment holding the volume mount in PersistentVolumeClaim and PersistentVolume:
+Container names:
+![Azure storage account container name](azure-storage-account-container.png)
+
+Hierarchical Namespace:
+![Azure storage account hierarcical namespace](hns-enabled-storage-account.png)
+
+`accessMode` defines if the volume is mounted in **read-only** (default) or **read-write** mode. Valid values are:
+- `ReadOnlyMany` (default) - Volume is mounted read-only.
+- `ReadWriteMany` - Volume is mounted with read-write access. Warning: This option can lead to data corruption if multiple replicas write to the same file. Read [this](limitations.md) for more information.
+
+`uid` and `gid` defines the owning user and group for the files and directories in the mounted volume. It is optional to configure these settings, as the current version of the driver does not honor user and group ownership.
+
+## Authentication
+
+The **blob-csi-driver** uses access key credentials when accessing the Azure storage account. The access key can be set manually in [Radix Web Console](https://console.radix.equinor.com/), or it can be read by the driver from the Azure storage account using [Azure workload identity](https://www.radix.equinor.com/guides/workload-identity/#configure-workload-identity-in-radix) if `useAzureIdentity` is set to `true`.
+
+### Access Keys
+
+When `useAzureIdentity` is omitted or set to `false`, the access key and the name of the Azure storage account must be set manually, either on the component/job page in Radix Web Console, or with [Radix CLI](../../docs/topic-radix-cli/). Component replicas will be in **Pending** state until both secrets are set.
+
+![Set account name and key](set-account-key-and-name.png)
+
+Values for these secrets is located in **Access keys** on the Azure storage account.
+
+![Get account name and key](azure-storage-account-name-and-key.png)
+
+The name of the Azure storage account can also be defined in the `storageAccount` field in [`radixconfig.yaml`](../../radix-config/index.md), in which only the access key must be set i Radix Web Console.
+
+``` yaml
+volumeMounts:
+- name: myimages
+    path: /mnt/files
+    blobFuse2:
+      container: images
+      useAdls: true
+      storageAccount: mystorageaccount # replace with real storage account name
+```
+
+![Set account name only](set-account-key-only.png)
+
+### Azure Workload Identity
+
+When `useAzureIdentity` is set to `true`, the driver will connect to the Azure storage account using the [Azure Workload Identity](../workload-identity/#configure-workload-identity-in-radix) configured for the compopnent or job, to acquire an access key to use when accessing data in a blob container.
+
+In order for the driver to successfully acquire an access key, the service principal configured in [`identity.azure.clientId`](../../radix-config/index.md#identity-2) must be granted the [**Microsoft.Storage/storageAccounts/listkeys/action**](https://learn.microsoft.com/en-us/azure/storage/blobs/authorize-data-operations-portal#use-the-account-access-key) permission on the Azure storage account.
+
+The following `blobFuse2` settings are required, and is used by the driver when acquiring the access key.
+- `storageAccount` - Name of the Azure storage account.
+- `resourceGroup` - Name of the resource group for the storage account.
+- `subscriptionId` - ID of the subscription for the storage account.
+
+Example configuration:
+```yaml
+volumeMounts:
+- name: myimages
+    path: /mnt/files
+    blobFuse2:
+      container: images
+      useAdls: true
+      storageAccount: mystorageaccount # replace with real storage account name
+      resourceGroup: myresourcegroup # replace with real resource group name
+      subscriptionId: ffffffff-ffff-ffff-ffff-ffffffffffff # replace with real subscription ID
+```
+
+## Cache Modes
+
+Caching improves subsequent access times, and can reduce ingress and egress traffic to the Azure storage account, which in turn can lower cost related to data transfer.
+
+`cacheMode` defines how data should be cached:
+- `Block` (default) - Improve performance for operations on large files by reading/writing blocks instead of entire files.
+- `File` - Cache entire files for improved subsequent access.
+- `DirectIO` - Disables caching.
+
+### Block Cache
+
+With block cache, the driver reads and writes fixed size blocks of data, defined by `blockSize` (default 4MB), instead of the entire files. Blocks are cached by the driver in a memory pool, defined by `poolSize` (default 48MB), and in the OS kernel cache, on the node where the replica is running. The driver will also prefetch consecutive blocks, defined by `prefetchCount` (default 11), from the current position of the file. `prefetchOnOpen` defines if prefetching should start when the file is opened, or wait for the first read. Data operations are performed in parallel, defined by `parallelism` (8 threads by default).
+
+When a file is opened and cached data exist, the driver will check if the source file has changed by comparing file attributes (Size, Modified) for the cached data, with the current attributes (see [Attribute Cache](#attribute-cache)) of the source file. If a change is detected, the driver will evict the cached data and fetch up-to-date data from the Azure storage account.
+
+The driver also supports using disk a cache for data blocks. This cache has its own timeout defined by `diskTimeout`. Disk caching is disabled by default, and must be enabled by setting `diskSize` (in MB) to the desired disk cache size.
+
+The following settings are available to fine-tune block cache:
+```yaml
+volumeMounts:
+- name: myimages
+    path: /mnt/files
+    blobFuse2:
+      container: images
+      cacheMode: Block
+      blockCache:
+        blockSize: 4 # Size in MB
+        poolSize: 48 # Size in MB
+        prefetchCount: 11
+        prefetchOnOpen: false
+        parallelism: 8
+        diskSize: 0 # Size in MB
+        diskTimeout: 120 # Seconds
+```
+
+`blockSize` defines the size of a block to be downloaded as a unit from the Azure storage account. Increasing this value can improved the transfer rate when reading large files.
+
+The following table shows the transfer rate when reading a 3GB file using different values for `blockSize`:
+| Block Size  | Transfer Rate |
+| ----------: | ------------: |
+| 4           | 220 MB/s      |
+| 8           | 350 MB/s      |
+| 16          | 440 MB/s      |
+
+`poolSize` defines the total size of the memory pool that the driver will use for caching data blocks. The default value is set to `blockSize` + `prefetchCount` * `blockSize`, which is the minimum allowed value. If set to a lower value, Radix will automatically adjust it at runtime.
+
+`prefetchCount` defines how many blocks the driver will prefetch at max when sequential reads are in progress. Prefetching can be disabled by setting the value to `0`. Otherwise the value must be `11` (default) or higher. When only small parts of a large file needs to be read, it can be beneficial to disable prefetching to reduced network traffic from the Azure storage account.
+
+Disk caching, enabled when `diskSize` is set to a non-zero value, is used by the driver to store data blocks as files on disk. The driver will check the disk cache for data blocks when reading from a file, and the requested data is found neither in the memory pool nor in the kernel cache. `diskTimeout` defines how long unused disk cache entries is stored on disk before being evicted.
+
+### File Cache
+
+With file cache, the driver downloads and caches the entire file when it is opened. The cached file remains in cache for a duration defined by `timeout` (default 120 seconds).
 
 ```yaml
-spec:
-  containers:
-    - env:
-  ...
 volumeMounts:
-  - mountPath: /app/image-storage
-    name: csi-az-blob-frontend-storage1-blobfusevolumetestdata
-  ...
-volumes:
-  - name: csi-az-blob-frontend-storage-blobfusevolumetestdata
-    persistentVolumeClaim:
-      claimName: pvc-csi-az-blob-frontend-storage-blobfusevolumetestdata
+- name: myimages
+    path: /mnt/files
+    blobFuse2:
+      container: images
+      fileCache:
+        timeout: 120 # Default value
 ```
 
-and files appear inside the container. If there are folders within blob container - it will exist in the pod's container as well
+### Direct IO
 
-```sh
-kubectl exec -it -n radix-example-dev deploy/frontend -- ls -l /app/image-storage
-total 0
--rwxrwxrwx    1 root     root         21133 Nov 13 13:56 image-01.png
--rwxrwxrwx    1 root     root         21989 Nov 13 13:56 image-02.png
--rwxrwxrwx    1 root     root         47540 Nov 26 14:51 image-04.png
--rwxrwxrwx    1 root     root         48391 Nov 26 14:50 image-06.png
--rwxrwxrwx    1 root     root         47732 Nov 26 14:50 image-07.png
-```
+`DirectIO` disables caching on driver and kernel level. All operations are sent directly to the storage account.
 
-Multiple volume mounts are also supported
+## Attribute Cache
 
-- for multiple blob-containers within one storage account
-- for containers within multiple storage accounts
-- for containers within storage accounts within multiple subscriptions and tenants
-
-Not supported mount from same blob container to different folders within one component.
-
-Multiple containers within one storage account
-![MultipleContainers](./multiple-containers.png)
-
-To add multiple volumes
-
-- Define the volume mounts for the environment in the [radixconfig.yaml](/radix-config).
-  - add more `volumeMounts`, with `name`-s, unique within `volumeMounts` of an environment (do not use storage account name as this `name` as it is not secure and can be not unique)
-  - specify `container` names for each `volumeMount`. The `container` should match the one found in step 1
-  - specify `path` for each `volumeMount`, unique within `volumeMounts` of an environment
-
-  ```yaml
-  environmentConfig:
-    - environment: dev
-      volumeMounts:
-        - name: storage1
-          path: /app/image-storage
-          blobFuse2:
-            container: blobfusevolumetestdata
-            uid: 1000
-        - name: storage3
-          path: /app/image-storage3
-          blobFuse2:
-            container: blobfusevolumetestdata3
-            uid: 1000
-  ```
-
-- After environment has been built, set the generated secret to account name and key, found in step 1 - for each volume. This should ensure that key value is Consistent status. It is recommended to restart a component after a all secrets have been set in the console
-
-![SetSecretsForMultiplemounts](./set-secrets-multiple-volumes.png)
-
-This results in the Kubernetes deployment holding the volume mounts in its spec:
+The attribute cache defines how long file attributes (Size, Modified) are cached by the driver. Caching is disabled by default, but can be enabled by setting `timeout` to a non-zero value.
 
 ```yaml
-spec:
-  containers:
-    - env:
-  ...
 volumeMounts:
-  - mountPath: /app/image-storage
-    name: csi-az-blob-frontend-storage1-blobfusevolumetestdata
-  - mountPath: /app/image-storage3
-    name: csi-az-blob-frontend-storage3-blobfusevolumetestdata3
-  ...
-volumes:
-  - name: csi-az-blob-frontend-storage1-blobfusevolumetestdata
-    persistentVolumeClaim:
-      claimName: pvc-csi-az-blob-frontend-storage1-blobfusevolumetestdata
-  - name: csi-az-blob-frontend-storage3-blobfusevolumetestdata3
-    persistentVolumeClaim:
-      claimName: pvc-csi-az-blob-frontend-storage3-blobfusevolumetestdata3
+- name: myimages
+    path: /mnt/files
+    blobFuse2:
+      container: images
+      attributeCache:
+        timeout: 0 # Disabled by default
 ```
 
-and files appear inside the container
 
-```sh
-kubectl exec -it -n radix-example-dev deploy/frontend -- ls -lR /app
-/app:
-total 4
-drwxrwxrwx    2 root     root          4096 Dec 11 15:10 image-storage
-drwxrwxrwx    2 root     root          4096 Dec 11 15:10 image-storage3
--rw-r--r--    1 root     root          1343 Dec 11 11:52 index.html
+## Deprecated Options
 
-/app/image-storage:
-total 0
--rwxrwxrwx    1 root     root         21133 Nov 13 13:56 image-01.png
--rwxrwxrwx    1 root     root         21989 Nov 13 13:56 image-02.png
--rwxrwxrwx    1 root     root         47540 Nov 26 14:51 image-04.png
--rwxrwxrwx    1 root     root         48391 Nov 26 14:50 image-06.png
--rwxrwxrwx    1 root     root         47732 Nov 26 14:50 image-07.png
+The `streaming` section in `blobFuse2` is deprecated in favor of `cacheMode`. To prevent breaking changes to existing configurations, Radix will implicitly use [File](#file-cache) as `cacheMode` when `streaming.enabled` is set to `false`, and [Block](#block-cache) when `streaming.enabled` is set to `true`. The `streaming` section is ignored when `cacheMode` is set.
 
-/app/image-storage3:
-total 0
--rwxrwxrwx    1 root     root         27803 Dec 11 11:11 image-01.png
--rwxrwxrwx    1 root     root         28692 Dec 11 11:11 image-02.png
--rwxrwxrwx    1 root     root         29008 Dec 11 11:11 image-03.png
--rwxrwxrwx    1 root     root         59023 Dec 11 11:11 image-04.png
--rwxrwxrwx    1 root     root         28732 Dec 11 11:11 image-05.png
--rwxrwxrwx    1 root     root         60062 Dec 11 11:11 image-06.png
--rwxrwxrwx    1 root     root         59143 Dec 11 11:11 image-07.png
+`streaming` will be removed in a future release, and it is therefore recommended to migrate to use `cacheMode` instead.
+
+Replace implicit **File** cache:
+```yaml
+volumeMounts:
+- name: myimages
+    path: /mnt/files
+    blobFuse2:
+      <...>
+      streaming:
+        enabled: false
+```
+
+with:
+```yaml
+volumeMounts:
+- name: myimages
+    path: /mnt/files
+    blobFuse2:
+      <...>
+      cacheMode: File
+```
+
+Replace implicit **Block** cache:
+```yaml
+volumeMounts:
+- name: myimages
+    path: /mnt/files
+    blobFuse2:
+      <...>
+      streaming:
+        enabled: true
+```
+
+with:
+```yaml
+volumeMounts:
+- name: myimages
+    path: /mnt/files
+    blobFuse2:
+      <...>
+      cacheMode: Block
 ```

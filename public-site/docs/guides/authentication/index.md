@@ -1,5 +1,5 @@
 ---
-title: Authentication
+title: OAuth 2.0 Authentication
 ---
 
 # Authentication
