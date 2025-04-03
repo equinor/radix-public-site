@@ -78,6 +78,13 @@ Make sure you never store secrets or confidential information in any intermitent
 :::
 
 ### `secrets`
+```yaml
+spec:
+  build:
+    secrets:
+      - SECRET_1
+      - SECRET_2
+```
 `secrets` - (optional) Defines secrets to be used in Dockerfiles or [sub-pipelines](/guides/sub-pipeline). Secrets values must be set in Radix Web Console. `build-deploy` jobs will fail if not all secret values are set.
 
 :::tip
@@ -143,9 +150,9 @@ The name of the environment. Can be `dev`, `qa`, `production` etc.
 
 ### `build`
 
-`from` specifies which branch each environment will build from. If `from` is not specified for the environment, no automatic builds or deployments will be created. This configuration is useful for a promotion-based [workflow](/start/workflows/#promotion).
+`from` specifies which branch or git tag each environment will build from. If `from` is not specified for the environment, no automatic builds or deployments will be created. This configuration is useful for a promotion-based [workflow](/start/workflows/#promotion).
 
-Wildcard branch mapping is also support, using `*` and `?`. Examples:
+Wildcard branch or git tag mapping is also support, using `*` and `?`. Examples:
 
 - `feature/*`
 - `feature-?`
