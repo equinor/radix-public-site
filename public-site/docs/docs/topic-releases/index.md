@@ -6,6 +6,11 @@ title: What's new
 
 ## 2025
 
+### 2025-04-08
+Added `proxyBufferSize` to the [network.ingress.public](../../radix-config/index.md#network-1) section in [radixconfig](../../radix-config/index.md):
+
+`proxyBufferSize` defines the size of the buffer used for reading the first part of the response received from the proxied server. The size must be large enough to hold the response headers.
+
 ### 2025-03-17
 - Fixed [issue](https://github.com/equinor/radix/issues/348) with stale files when mounting Azure storage account blob containers.
 - Add block cache support, and use as default instead of the [deprecated streaming option](../../guides/volume-mounts/index.md#deprecated-options), for [blobFuse2](../../radix-config/index.md#blobfuse2). See [guide](../../guides/volume-mounts/) for details.
@@ -82,14 +87,15 @@ It is now an option to run your application in the West Europe data centre. This
 
 ### 2024-10-09 Public endpoint configuration options 
 We have added three setting to [radixconfig](/radix-config#network-1) for configuration of limits for public endpoints:
-proxyReadTimeout: Defines a timeout, in seconds, for reading a response from the proxied server. The timeout is set only between two successive read operations, not for the transmission of the whole response. Default is 60 seconds.
 
-``proxySendTimeout``: Defines a timeout, in seconds, for transmitting a request to the proxied server. The timeout is set only between two successive write operations, not for the transmission of the whole request: Defaults to 60 seconds.
+`proxyReadTimeout`: Defines a timeout, in seconds, for reading a response from the proxied server. The timeout is set only between two successive read operations, not for the transmission of the whole response. Default is 60 seconds.
 
-``proxyBodySize``: Sets the maximum allowed size of the client request body. Default is 100M.
+`proxySendTimeout`: Defines a timeout, in seconds, for transmitting a request to the proxied server. The timeout is set only between two successive write operations, not for the transmission of the whole request: Defaults to 60 seconds.
+
+`proxyBodySize`: Sets the maximum allowed size of the client request body. Default is 100M.
 
 :::warning Caution
-Setting ``proxyBodySize`` to "0", or an unnecessary high value, can lead to instability/denial of service or increased cost, depending on how the request body is processed by the backend, e.g. when buffering to memory or storing the content to disk, either locally or remotely. Never set the value to "0" unless the backend component is configured to enforce a limit.
+Setting `proxyBodySize` to "0", or an unnecessary high value, can lead to instability/denial of service or increased cost, depending on how the request body is processed by the backend, e.g. when buffering to memory or storing the content to disk, either locally or remotely. Never set the value to "0" unless the backend component is configured to enforce a limit.
 :::
 
 ### 2024-09-27 Add service principals to the application's administrators/readers list in Radix Web Console
