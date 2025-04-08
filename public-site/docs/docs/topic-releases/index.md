@@ -7,7 +7,7 @@ title: What's new
 ## 2025
 
 ### 2025-04-08
-Added `proxyBufferSize` to the [network.ingress.public](../../radix-config/index.md#network-1) section in [radixconfig](../../radix-config/index.md):
+Added `proxyBufferSize` to the [`network.ingress.public`](../../radix-config/index.md#network-1) section in [radixconfig](../../radix-config/index.md):
 
 `proxyBufferSize` defines the size of the buffer used for reading the first part of the response received from the proxied server. The size must be large enough to hold the response headers.
 
