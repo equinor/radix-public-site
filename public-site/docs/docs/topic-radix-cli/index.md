@@ -106,6 +106,10 @@ An option `job` of commands `create`, `get logs` is replaced with `pipeline-job`
     ```
   Optional argument `--use-build-cache=true|false` can override the radixconfig option [useBuildCache](/radix-config/index.md#usebuildcache)
 ### Promote pipeline job
+* Promote a deployment in one environment to another, or to the same environment:
+    ```shell
+    rx create pipeline-job promote --application your-app-name --from-environment dev --to-environment prod --deployment dev3-16zqd-mr9jzhnv
+    ```
 * Promote active deployment in one environment to another:
     ```shell
     rx create pipeline-job promote --application your-app-name --from-environment dev --to-environment prod --use-active-deployment
@@ -113,6 +117,10 @@ An option `job` of commands `create`, `get logs` is replaced with `pipeline-job`
 * Promote active deployment in one environment to another:
     ```shell
     rx create pipeline-job promote --application your-app-name --from-environment dev --to-environment prod --use-active-deployment
+    ```
+* Promote a deployment with a particular commit-id. This option cannot be used together with an option `--deployment`. The latest deployment is promoted if there are multiple deployments with the same commit-id:
+    ```shell
+    rx create pipeline-job promote --application your-app-name --from-environment dev --to-environment prod --commitID 90f869ad058b3160e925e9bceaf28f3ec76a07e4
     ```
 ### Manage pipeline jobs
 * Restart failed or stopped pipeline job:
