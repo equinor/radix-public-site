@@ -1302,6 +1302,7 @@ spec:
             proxyBodySize: 500m
             proxyReadTimeout: 5
             proxySendTimeout: 10
+            proxyBufferSize: 16k
             allow:
               - 100.1.1.1
               - 110.1.1.1/30
@@ -1313,6 +1314,7 @@ spec:
                 proxyBodySize: 20m
                 proxyReadTimeout: 30
                 proxySendTimeout: 30
+                proxyBufferSize: 8k
                 allow: []
         - environment: qa
           network:
@@ -1332,6 +1334,7 @@ spec:
 - `proxyBodySize`: Sets the maximum allowed size of the client request body. Sizes can be specified in bytes, kilobytes (suffixes k and K), megabytes (suffixes m and M), or gigabytes (suffixes g and G), for example "1024", "64k", "32m" or "2g". If the size in a request exceeds the configured value, the 413 (Request Entity Too Large) error is returned to the client. Setting this value to "0" disables checking of client request body size. The default is 100m.
 - `proxyReadTimeout`: Defines a timeout, in seconds, for reading a response from the proxied server. The timeout is set only between two successive read operations, not for the transmission of the whole response. If the proxied server does not transmit anything within this time, the connection is closed. The default is 60 seconds.
 - `proxySendTimeout`: Defines a timeout, in seconds, for transmitting a request to the proxied server. The timeout is set only between two successive write operations, not for the transmission of the whole request. If the proxied server does not receive anything within this time, the connection is closed. The default is 60 seconds.
+- `proxyBufferSize`: Sets the size of the buffer used for reading the first part of the response received from the proxied server. The size must be large enough to hold the response headers. Sizes can be specified in bytes, kilobytes (suffixes k and K), megabytes (suffixes m and M), or gigabytes (suffixes g and G) for example, "1024", "64k", "32m", "2g". If the response headers exceed the buffer size, the 502 (Bad Gateway) error is returned to the client. The default is `16k`.
 
 :::warning Caution
 Setting `proxyBodySize` to "0", or an unnecessary high value, can lead to instability/denial of service or increased cost, depending on how the request body is processed by the backend, e.g. when buffering to memory or storing the content to disk, either locally or remotely. Never set the value to "0" unless the backend component is configured to enforce a limit.
