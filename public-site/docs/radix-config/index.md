@@ -184,6 +184,19 @@ spec:
           VAR3: val3 #env-var VAR3 only exists in the "prod" custom sub-pipeline, in addition to common VAR1 and CONNECTION_STRING 
 ```
 
+### `webhookEnabled`
+
+```yaml
+spec:
+  environments:
+    - name: dev
+      build:
+        from: master
+        webhookEnabled: false
+```
+
+`webhookEnabled` - (optional, default `true`) enables or disables the webhook for the build environment. If set to `false`, commit on GitHub repo will not trigger trough GitHub webhook a build-deploy pipeline job for this environment.
+
 ### `egress`
 
 ```yaml
@@ -2098,6 +2111,7 @@ spec:
     - name: dev
       build:
         from: master
+        webhookEnabled: false
     - name: prod
       egress:
         allowRadix: true
