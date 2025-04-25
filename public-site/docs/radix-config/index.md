@@ -195,7 +195,7 @@ spec:
         webhookEnabled: false
 ```
 
-`webhookEnabled` - (optional, default `true`) enables or disables the webhook for the build environment. If set to `false`, commit on GitHub repo will not trigger trough GitHub webhook a build-deploy pipeline job for this environment.
+`webhookEnabled` - (optional, default `true`) controls whether the environment is built and deployed by `build-deploy` pipeline jobs triggered from Github webhook.
 
 ### `egress`
 
