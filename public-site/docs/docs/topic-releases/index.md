@@ -6,6 +6,9 @@ title: What's new
 
 ## 2025
 
+### 2025-04-25
+Added `webhookEnabled` to the [`environments.build`](../../radix-config#webhookenabled) section in [radixconfig](../../radix-config/index.md):
+
 ### 2025-04-08
 Added `proxyBufferSize` to the [`network.ingress.public`](../../radix-config/index.md#network-1) section in [radixconfig](../../radix-config/index.md):
 
