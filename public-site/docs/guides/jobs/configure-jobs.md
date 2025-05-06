@@ -44,9 +44,8 @@ spec:
           cpu: "400m"
         limits:
           cpu: "500m"
-      node:
-        gpu: nvidia-k80
-        gpuCount: 2
+      runtime:
+        nodeType: nvidia-v100-v1
       batchStatusRules:
         - condition: Any
           operator: In

@@ -1280,7 +1280,9 @@ Read-only filesystems will prevent the application from writing to disk. This is
 There may be a requirement for temporary files or local caching, in which case one or more writable [`emptyDir`](#volumemounts) volumes can be mounted.
 
 ### `runtime`
-
+The `runtime` section can be configured on the component/job level and in `environmentConfig` for a specific environment. `environmentConfig` takes precedence over component/job level configuration.
+`runtime` can be optionally re-defined for individual Radix [batch jobs](/guides/jobs/job-manager-and-job-api#create-a-batch-of-jobs) or [single jobs](/guides/jobs/job-manager-and-job-api#create-a-single-job). 
+#### `architecture`
 ```yaml
 spec:
   components:
@@ -1292,8 +1294,50 @@ spec:
           runtime:
             architecture: amd64|arm64
 ```
+The `architecture` property in `runtime` defines the CPU architecture a component or job should be built and deployed to. Valid values are `amd64` and `arm64`. `amd64` is used if neither is configured. Currently used virtual machines, when `nodeType` is not defined:
+* `amd64`
+  * CPU: AMD64, 16 cores
+  * Memory: 128 GB
+* `arm64`
+  * CPU: ARM64, 16 cores
+  * Memory: 128 GB
 
-The `architecture` property in `runtime` defines the CPU architecture a component or job should be built and deployed to. Valid values are `amd64` and `arm64`. The `runtime` section can be configured on the component/job level and in `environmentConfig` for a specific environment. `environmentConfig` takes precedence over component/job level configuration. `amd64` is used if neither is configured.
+
+#### `nodeType`
+```yaml
+spec:
+  components:
+    - name: backend
+      runtime:
+        nodeType: memory-optimized-v1
+      environmentConfig:
+        - environment: prod
+          runtime:
+            nodeType: nvidia-v100-v1
+```
+The `nodeType` property in `runtime` defines the particular Kubernetes cluster node (virtual machine) in the list of supported by Radix, where a component or job replicas should be running on. Currently supported list of node types:
+* `memory-optimized-v1`
+  * CPU: AMD64, 32 cores
+  * Memory: 256 GB
+* `nvidia-v100-v1` 
+  * CPU: AMD64, 12 cores
+  * Memory: 256 GB
+  * GPU: 2 NVIDIA V100, 32 GB of memory
+
+:::note
+Properties `architecture` and `nodeType` cannot be used at the same time, but they can be used one on the component or job level, another on the `environmentConfig` level.
+:::
+```yaml
+spec:
+  components:
+    - name: backend
+      runtime:
+        nodeType: memory-optimized-v1
+      environmentConfig:
+        - environment: prod
+          runtime:
+            architecture: amd64|arm64
+```
 
 If you use the [`build and deploy`](/guides/build-and-deploy) pipeline to build components or jobs, [`useBuildKit`](#usebuildkit) must be enabled if at least one component or job is configured for `arm64`. Radix will run the **build steps** on nodes with matching architecture, which in most cases mean that you do not have to change anything in the Dockerfile to support the configured architecture. This applies as long as the images defined in the Dockerfile's `FROM <image>` supports this architecture.
 
@@ -1855,6 +1899,8 @@ See [readOnlyFileSystem](#readonlyfilesystem-1) for more information.
 
 #### `runtime`
 
+##### `architecture`
+
 ```yaml
 spec:
   jobs:
@@ -1865,6 +1911,17 @@ spec:
             architecture: amd64|arm64
 ```
 
+##### `nodeType`
+
+```yaml
+spec:
+  components:
+    - name: backend
+      environmentConfig:
+        - environment: prod
+          runtime:
+            nodeType: memory-optimized-v1
+```
 See [runtime](#runtime-1) for more information.
 
 ### `identity`
@@ -1994,60 +2051,7 @@ See [guide](/guides/deploy-only/) on how make use of `privateImageHubs` in a dep
 
 ## `node`
 
-`node` section describes settings of [Kubernetes node](https://kubernetes.io/docs/concepts/architecture/nodes/) on which Radix application components or jobs are scheduled to run.
-
-### `gpu`
-
-```yaml
-spec:
-  components:
-    - name: server
-      ports:
-        - name: http
-          port: 3000
-      node:
-        gpu: nvidia-v100, -nvidia-k80
-        gpuCount: 4
-  jobs:
-    - name: dev
-      node:
-        gpu: nvidia-k80
-        gpuCount: 2
-```
-
-When a component should run on a Kubernetes node with a GPU card on it, this need to be specified in the `gpu` key of the `node` section.
-
-```yaml
-  node:
-    gpu: nvidia-v100, nvidia-p100
-```
-
-Put one or multiple (comma separated) GPU types, which is currently supported by Radix Kubernetes cluster and which fits to component logic, which requires GPU.
-Currently available nodes with GPUs:
-
-- `nvidia-v100` with 1, 2 or 4 GPU-s per node
-
-```yaml
-  node:
-    gpu: nvidia-v100, -nvidia-k80
-```
-
-When particular type of GPUs do not fit to component's logic - prefix GPU type with _minus_ `-`, component will not be scheduled on nodes with such GPU types.
-
-```yaml
-  node:
-    gpu: nvidia-v100
-    gpuCount: 4
-```
-
-When the component required multiple GPUs available on a node - put required minimum GPU count in the `gpuCount` key (default value is `1`).
-
-When `gpuCount` is specified, but `gpu` key is not set - component will be running on a node with any type of available GPU, which has required amount of GPUs.
-
-```yaml
-  node:
-    gpuCount: 4
-```
+`node` section is deprecated. Please use [nodeType](#nodetype) instead.
 
 ## `secretRefs`
 
@@ -2137,9 +2141,6 @@ spec:
       authentication:
         clientCertificate:
           verification: "optional_no_ca"
-      node:
-        gpu: nvidia-v100
-        gpuCount: 4
       enabled: true
       volumeMounts:
         - name: volume-name
