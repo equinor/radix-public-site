@@ -69,12 +69,22 @@ The `build` section of the spec contains configuration used during the build pro
 :::
 
 ### `useBuildCache`
-`useBuildCache` - (optional, defaults to `true`) pushes all layers to cache, and uses it in future builds when possible. Requires `useBuildKit` to be enabled. Internally we set `--cache-to`, `--cache-from` and `--layers` in Buildah. Read more at [Buildahs Documentation](https://github.com/containers/buildah/blob/main/docs/buildah-build.1.md)
+`useBuildCache` - (optional, defaults to `true`) pushes all layers to cache, and uses it in future builds when possible. Requires `useBuildKit` to be enabled. Internally Radix sets `--cache-to`, `--cache-from` and `--layers` in Buildah. Read more at [Buildahs Documentation](https://github.com/containers/buildah/blob/main/docs/buildah-build.1.md)
 
-This option can be overridden in the [Radix CLI command](/docs/topic-radix-cli/index.md#build-and-deploy-pipeline-job) `rx create pipeline-job build-deploy` with an argument `--use-build-cache=true|false` 
+This option can be overridden in the [Radix CLI command](/docs/topic-radix-cli/index.md#build-and-deploy-pipeline-job) `rx create pipeline-job build-deploy` with an argument `--use-build-cache=true|false` and with the checkbox `Use Build Cache` in the Radix Web Console.
 
 :::tip
-Make sure you never store secrets or confidential information in any intermitent layer, multistage image, or in your final container image.
+* When the option `useBuildKit` or `useBuildCache` is changed to `false` in the `radixconfig.yaml`, the cache will be cleared during the week.
+* When the option `useBuildKit` is changed to `true` in the `radixconfig.yaml`, the potentially previously existing cache will be cleared on next `build` or `build-deploy` pipeline job.
+:::
+
+There is a case when cache need to be refreshed explicitly:
+* When `useBuildCache` is `true` and there are changes in source code dependencies or external resources, used by the Dockerfile (e.g. components, referenced to external Git repository or service)
+
+In these cases cash can be refreshed with `build` or `build-deploy` pipeline job created by the CLI command with the option `--refresh-build-cache` or with the ticked checkbox `Refresh Build Cache` in the Radix Web Console.
+
+:::tip
+Make sure you never store secrets or confidential information in any intermediate layer, multistage image, or in your final container image.
 :::
 
 ### `secrets`
