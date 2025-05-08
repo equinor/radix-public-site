@@ -45,7 +45,7 @@ spec:
         limits:
           cpu: "500m"
       runtime:
-        nodeType: nvidia-v100-v1
+        nodeType: gpu-nvidia-1-v1
       batchStatusRules:
         - condition: Any
           operator: In

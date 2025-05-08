@@ -1309,20 +1309,20 @@ spec:
   components:
     - name: backend
       runtime:
-        nodeType: memory-optimized-v1
+        nodeType: memory-optimized-2-v1
       environmentConfig:
         - environment: prod
           runtime:
-            nodeType: nvidia-v100-v1
+            nodeType: gpu-nvidia-1-v1
 ```
 The `nodeType` property in `runtime` defines the particular Kubernetes cluster node (virtual machine) in the list of supported by Radix, where a component or job replicas should be running on. Currently supported list of node types:
-* `memory-optimized-v1`
+* `memory-optimized-2-v1`
   * CPU: AMD64, 32 cores
   * Memory: 256 GB
-* `nvidia-v100-v1` 
+* `gpu-nvidia-1-v1` 
   * CPU: AMD64, 12 cores
   * Memory: 256 GB
-  * GPU: 2 NVIDIA V100, 32 GB of memory
+  * GPU: 1 NVIDIA V100, 32 GB of memory
 
 :::note
 Properties `architecture` and `nodeType` cannot be used at the same time, but they can be used one on the component or job level, another on the `environmentConfig` level.
@@ -1332,7 +1332,7 @@ spec:
   components:
     - name: backend
       runtime:
-        nodeType: memory-optimized-v1
+        nodeType: memory-optimized-2-v1
       environmentConfig:
         - environment: prod
           runtime:
@@ -1920,7 +1920,7 @@ spec:
       environmentConfig:
         - environment: prod
           runtime:
-            nodeType: memory-optimized-v1
+            nodeType: memory-optimized-2-v1
 ```
 See [runtime](#runtime-1) for more information.
 

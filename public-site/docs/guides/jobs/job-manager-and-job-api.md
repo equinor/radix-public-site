@@ -56,7 +56,7 @@ The Job Manager exposes the following methods for managing jobs:
     }
   },
   "runtime": {
-    "nodeType": "memory-optimized-v1"
+    "nodeType": "memory-optimized-2-v1"
   }
 }
 ```
@@ -108,7 +108,7 @@ The Job Manager exposes the following methods for managing jobs:
         }
       },
       "runtime": {
-        "nodeType": "memory-optimized-v1"
+        "nodeType": "memory-optimized-2-v1"
       }
     },
     {
@@ -301,7 +301,7 @@ Default parameters for jobs can be defined within `DefaultRadixJobComponentConfi
         }
       },
       "runtime": {
-        "nodeType": "memory-optimized-v1"
+        "nodeType": "memory-optimized-2-v1"
       }
     },
     {
