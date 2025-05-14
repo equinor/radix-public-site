@@ -6,6 +6,9 @@ title: What's new
 
 ## 2025
 
+### 2025-05-10
+Added `nodeType` to the [`runtime`](../../radix-config#runtime-1) section in [radixconfig](../../radix-config/index.md):
+
 ### 2025-04-25
 Added `webhookEnabled` to the [`environments.build`](../../radix-config#webhookenabled) section in [radixconfig](../../radix-config/index.md):
 

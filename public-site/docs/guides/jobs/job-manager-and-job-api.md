@@ -55,14 +55,13 @@ The Job Manager exposes the following methods for managing jobs:
       "cpu": "150m"
     }
   },
-  "node": {
-    "gpu": "gpu1, gpu2, gpu3",
-    "gpuCount": "6"
+  "runtime": {
+    "nodeType": "memory-optimized-2-v1"
   }
 }
 ```
 
- `payload`, `jobId`, `imageTagName`, `timeLimitSeconds`, `backoffLimit`, `failurePolicy`, `resources` and `node` are all optional fields and any of them can be omitted in the request.
+ `payload`, `jobId`, `imageTagName`, `timeLimitSeconds`, `backoffLimit`, `failurePolicy`, `resources` and `runtime` are all optional fields and any of them can be omitted in the request.
 
 `imageTagName` field allows to alter specific job image tag. In order to use it, the `{imageTagName}` need to be set as described in the [`radixconfig.yaml`](/radix-config/index.md#imagetagname)
 
@@ -86,9 +85,8 @@ The Job Manager exposes the following methods for managing jobs:
         "memory": "100Mi",
         "cpu": "100m"
       },
-      "node": {
-        "gpu": "gpu1",
-        "gpuCount": "2"
+      "runtime": {
+        "architecture": "amd64"
       }
     }
   },
@@ -109,9 +107,8 @@ The Job Manager exposes the following methods for managing jobs:
           "cpu": "150m"
         }
       },
-      "node": {
-        "gpu": "gpu1, gpu2, gpu3",
-        "gpuCount": "6"
+      "runtime": {
+        "nodeType": "memory-optimized-2-v1"
       }
     },
     {
@@ -303,9 +300,8 @@ Default parameters for jobs can be defined within `DefaultRadixJobComponentConfi
           "cpu": "150m"
         }
       },
-      "node": {
-        "gpu": "gpu1, gpu2, gpu3",
-        "gpuCount": "6"
+      "runtime": {
+        "nodeType": "memory-optimized-2-v1"
       }
     },
     {
@@ -316,10 +312,7 @@ Default parameters for jobs can be defined within `DefaultRadixJobComponentConfi
       "payload": "{'data':'value3'}",
       "timeLimitSeconds": 300,
       "backoffLimit": 10,
-      "node": {
-        "gpu": "gpu3",
-        "gpuCount": "1"
-      }
+      "runtime": {}
     }
   ]
 }
