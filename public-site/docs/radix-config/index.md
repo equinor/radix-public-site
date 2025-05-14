@@ -1296,10 +1296,10 @@ spec:
 ```
 The `architecture` property in `runtime` defines the CPU architecture a component or job should be built and deployed to. Valid values are `amd64` and `arm64`. `amd64` is used if neither is configured. Currently used virtual machines, when `nodeType` is not defined:
 * `amd64`
-  * CPU: AMD 3rd gen EPYC™ 7763v, 16 cores
+  * CPU: AMD 3rd gen EPYC™ 7763v, 16 cores, architecture: AMD64
   * Memory: 128 GB
 * `arm64`
-  * CPU: Arm Ampere® Altra®, 16 cores
+  * CPU: Arm Ampere® Altra®, 16 cores, architecture: ARM64
   * Memory: 128 GB
 
 
@@ -1317,10 +1317,10 @@ spec:
 ```
 The `nodeType` property in `runtime` defines the particular Kubernetes cluster node (virtual machine) in the list of supported by Radix, where a component or job replicas should be running on. Currently supported list of node types:
 * `memory-optimized-2-v1`
-  * CPU: Intel® 4th gen Xeon®, 96 cores
+  * CPU: Intel® 4th gen Xeon®, 96 cores, architecture: AMD64
   * Memory: 1946 GB
 * `gpu-nvidia-1-v1` 
-  * CPU: Intel® Xeon® E5-2690 v4, 6 cores
+  * CPU: Intel® Xeon® E5-2690 v4, 6 cores, architecture: AMD64
   * Memory: 112 GB
   * GPU: 1 Nvidia Tesla V100, 16 GB of memory
 :::warning
