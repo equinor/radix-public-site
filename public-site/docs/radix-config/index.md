@@ -73,15 +73,13 @@ The `build` section of the spec contains configuration used during the build pro
 
 This option can be overridden in the [Radix CLI command](/docs/topic-radix-cli/index.md#build-and-deploy-pipeline-job) `rx create pipeline-job build-deploy` with an argument `--use-build-cache=true|false` and with the checkbox `Use Build Cache` in the Radix Web Console.
 
-:::tip
-* When the option `useBuildKit` or `useBuildCache` is changed to `false` in the `radixconfig.yaml`, the cache will be cleared during the week.
-* When the option `useBuildKit` is changed to `true` in the `radixconfig.yaml`, the potentially previously existing cache will be cleared on next `build` or `build-deploy` pipeline job.
-:::
+#### Refresh Build Cache
 
-There is a case when cache need to be refreshed explicitly:
-* When `useBuildCache` is `true` and there are changes in source code dependencies or external resources, used by the Dockerfile (e.g. components, referenced to external Git repository or service)
+There are cases when cache need to be refreshed explicitly:
+* When `useBuildCache` is `true` and there are changes in source code's implicit dependencies or external resources, used by the Dockerfile (e.g. components, referenced to external Git repository or service)
+* When build secrets are changed
 
-In these cases cash can be refreshed with `build` or `build-deploy` pipeline job created by the CLI command with the option `--refresh-build-cache` or with the ticked checkbox `Refresh Build Cache` in the Radix Web Console.
+In such (or other) cases the build cache can be refreshed within a `build` or `build-deploy` pipeline job created with the CLI command with the option `--refresh-build-cache true` or with the ticked checkbox `Refresh Build Cache` in the Radix Web Console.
 
 :::tip
 Make sure you never store secrets or confidential information in any intermediate layer, multistage image, or in your final container image.
@@ -104,19 +102,8 @@ spec:
 Read the [build secrets](/guides/build-secrets/) guide to see how to use build secrets in a Dockerfile.
 :::
 
-### `variables`
-```yaml
-spec:
-  build:
-    subPipeline:
-      variables:
-        VAR1: value1
-        VAR2: value2
-```
-`variables` - (optional, available only in [sub-pipelines](/guides/sub-pipeline), they are ignored for sub-pipeline if the [subPipeline](/radix-config/index.md#subpipeline) option exists) environment variables names and values, provided for all build Radix environments in [sub-pipelines](/guides/sub-pipeline). These common environment variables are overridden by environment-specific environment variables with the same names.
-
 ### `subPipeline`
-`subPipeline` - (optional, available only in [sub-pipelines](/guides/sub-pipeline)) configuration of sub-pipeline options. When it exists, [variables](/radix-config/index.md#variables) are not used in sub-pipeline.
+`subPipeline` - (optional, available only in [sub-pipelines](/guides/sub-pipeline)) configuration of sub-pipeline options. 
 
 #### `variables`
 ```yaml
@@ -127,7 +114,8 @@ spec:
         VAR1: value1
         VAR2: value2
 ```
-Sub-pipeline environment variables names and values, provided for all build Radix environments in [sub-pipelines](/guides/sub-pipeline). These common environment variables can be overridden by environment-specific environment variables with the same names.
+`variables` - (optional, available only in [sub-pipelines](/guides/sub-pipeline)) environment variables names and values, provided for all build Radix environments in [sub-pipelines](/guides/sub-pipeline). These common environment variables can be overridden by environment-specific environment variables with the same names.
+
 #### `identity`
 ```yaml
 spec:
@@ -245,7 +233,7 @@ If your application uses a custom OAuth2 implementation, outbound access to Micr
 ### `subPipeline`
 `subPipeline` - (optional, available only in [sub-pipelines](/guides/sub-pipeline)) configuration of sub-pipeline options for specific environment. 
 * It can override common [subPipeline](/radix-config/index.md#subpipeline) or combine with it (if present) for a specific environment.
-* It can remove all [common environment variables](/radix-config/index.md#variables-2) and the common [identity](/radix-config/index.md#identity) (if present) with `{}` (empty object) for a specific environment
+* It can remove the common Sub-Pipeline [identity](/radix-config/index.md#identity) (if present) with `{}` (empty object) for a specific environment
 ```yaml
 spec:
   environments:
@@ -262,7 +250,7 @@ spec:
           VAR1: value1
           VAR2: value2
 ```
-Sub-pipeline environment variables names and values, provided for specific build Radix environment in [sub-pipelines](/guides/sub-pipeline). These variables will be combined with [common environment variables](/radix-config/index.md#variables-2) (if present).
+Sub-pipeline environment variables names and values, provided for specific build Radix environment in [sub-pipelines](/guides/sub-pipeline). These variables will be combined with [subPipeline environment variables](/radix-config/index.md#variables) (if present).
 
 #### `identity`
 ```yaml
@@ -1805,7 +1793,7 @@ spec:
             DB_PORT: "9876"
 ```
 
-See [variables](#variables) for a component for more information.
+See [variables](#variables-common) for a component for more information.
 
 #### `imageTagName`
 

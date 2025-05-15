@@ -68,7 +68,7 @@ A component can use any number of environment variables; the values of these are
 
 Note that each component has its own set of environment variables. It's quite possible (though maybe not great practice) to have two different components in the same environment using variables with the same name (e.g. `MY_ENV_VAR`), each with different values.
 
-In addition to the user-defined variables, a series of variables prefixed with `RADIX_*` are made available to all components. Check the [variables section](/radix-config/index.md#variables) of the `radixconfig.yaml` reference for details.
+In addition to the user-defined variables, a series of variables prefixed with `RADIX_*` are made available to all components. Check the [variables section](/radix-config/index.md#variables-common) of the `radixconfig.yaml` reference for details.
 
 ## Secret
 

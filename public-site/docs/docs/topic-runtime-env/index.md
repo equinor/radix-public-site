@@ -49,7 +49,7 @@ This is a common characteristic of high-availability cloud-based environments. Y
 
 ## Environment variables
 
-In addition to [variables defined in `radixconfig.yaml`](/radix-config/index.md#variables), Radix will automatically set the following variables
+In addition to [variables defined in `radixconfig.yaml`](/radix-config/index.md#variables-common), Radix will automatically set the following variables
 
 - `RADIX_ACTIVE_CLUSTER_EGRESS_IPS`: IP address range of the current cluster
 - `RADIX_APP`: The name of the Radix application

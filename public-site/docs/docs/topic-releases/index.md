@@ -6,6 +6,9 @@ title: What's new
 
 ## 2025
 
+### 2025-05-15
+Added an option to refresh build cache. It is applicable when a radixconfig.yaml property `useBuildKit` is set to `true`. Read more in [radixconfig](../../radix-config/#refresh-build-cache):
+
 ### 2025-05-10
 Added `nodeType` to the [`runtime`](../../radix-config#runtime-1) section in [radixconfig](../../radix-config/index.md):
 
@@ -171,7 +174,7 @@ horizontalScaling:
 
 ### 2024-05-06 New option in radixconfig.yaml - sub-pipeline
 
-[radixconfig.yaml](/radix-config/) has new option subPipeline in ``build`` and ``environments`` properties. Currently it has [variables](/radix-config#variables-2) (handovers from ``build.variables`` and ``environments.variables`` for sub-pipelines, backward compatible) and [identity](/radix-config#identity) (also in environments).  
+[radixconfig.yaml](/radix-config/) has new option subPipeline in ``build`` and ``environments`` properties. Currently it has [variables](/radix-config/index.md#variables) (handovers from ``build.variables`` and ``environments.variables`` for sub-pipelines, backward compatible) and [identity](/radix-config#identity) (also in environments).  
 
 When this ``subPipeline``'s ``identity.azure.clientId`` option is set, the environment variable ``AZURE_CLIENT_ID`` with its value is automatically added to the running pipeline, and it can be used in this pipeline tasks. Read more about the identity in the [component identity](/radix-config/#identity-1) option and about using it in the sub-pipeline in the [Pipeline with Azure workload identity](/guides/sub-pipeline/example-pipeline-with-azure-workload-identity) example.
 
