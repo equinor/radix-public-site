@@ -71,7 +71,7 @@ jobs:
           sha=${GITHUB_SHA::8}
           ts=$(date +%s)
           tag=${GITHUB_REF_NAME}-${sha}-${ts}
-          repo=${GITHUB_REPOSITORY@L} # @L is bash syntax that converts REPO to lovercase
+          repo=${GITHUB_REPOSITORY@L} # @L is bash syntax that converts REPO to lowercase
           
           echo "tag=${tag}" >> $GITHUB_OUTPUT
           echo "repo=${repo}" >> $GITHUB_OUTPUT 
