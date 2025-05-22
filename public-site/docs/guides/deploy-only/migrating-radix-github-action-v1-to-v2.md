@@ -123,7 +123,7 @@ jobs:
 
 
 ## Notes
-You can use the github action without arguments to just install `rx`. Afterwards you can login with `rx login` as you do locally:
+You can use the GitHub action without arguments to just install `rx`. Afterwards you can login with `rx login` as you do locally:
 
 ```shell
 rx login --help
