@@ -13,21 +13,15 @@ jobs:
     - name: Build docker image
       working-directory: public-site
       env:
-        REF: ${{ github. sha }}
+        REF: ${{ github.sha }}
       run: docker build -t radix-public-site:${REF##*/} .
 
   validate-radixconfig:
     runs-on: ubuntu-latest
     steps:
-      - name: 'Get Azure principal token for Radix'
-        run: |
-          echo "APP_SERVICE_ACCOUNT_TOKEN=hello-world" >> $GITHUB_ENV
       - uses: actions/checkout@v4
+      - uses: equinor/radix-github-actions@v2
       - name: 'Validate public-site'
-        uses: equinor/radix-github-actions@v1
-        with:
-          args: validate radix-config --config-file radixconfig.yaml
+        run: rx validate radix-config --config-file radixconfig.yaml
       - name: 'Validate oauth example radix-app'
-        uses: equinor/radix-github-actions@v1
-        with:
-          args: validate radix-config --config-file examples/radix-example-oauth-proxy/radixconfig.yaml
+        run: rx validate radix-config --config-file examples/radix-example-oauth-proxy/radixconfig.yaml

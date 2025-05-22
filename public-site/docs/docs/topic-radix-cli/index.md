@@ -45,17 +45,34 @@ rx create pipeline-job deploy -a your-app-name -e dev --verbose
 ```
 
 ### Run in CI workflow
-Custom continuous integration tool like Jenkins or GitHub Action can use Radix CLI with an access token with following options:
-* `--token-environment` - Take the token from environment variable `APP_SERVICE_ACCOUNT_TOKEN`
-* `--token-stdin` - Take the token from stdin
+Custom continuous integration tool like Jenkins or GitHub Action can use Radix CLI. 
 
-Radix CLI can be used with help of the GitHub Action [equinor/radix-github-actions](https://github.com/equinor/radix-github-actions).
+If you are using GitHub Workflows, you can use the [equinor/radix-github-actions](https://github.com/equinor/radix-github-actions) to easily install and authenticate `rx` in your current workflow:
+
+```yaml
+
+permissions: # set required permissions (https://docs.github.com/en/actions/using-jobs/assigning-permissions-to-jobs)
+  id-token: write # Required to authenticate with Azure Entra ID
+  contents: read 
+
+jobs:
+  deploy:
+    name: deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install RX and authenticate
+      uses: equinor/radix-github-actions@v2
+      with:
+        azure_client_id: "00000000-0000-0000-0000-000000000000" # App Registration Application ID or Managed Identity Client ID
+        # azure_client_secret: "some super secret password" # Optional: App Registration Client Secret
+        
+    - run: rx version # Run any rx command
+```
 
 More details can be found in guidelines and examples:
 * [Guideline to run "Deploy Only" pipeline job](/guides/deploy-only/)
 * [Example of using GitHub action to create a Radix deploy pipeline job](/guides/deploy-only/example-github-action-to-create-radix-deploy-pipeline-job.md)
-* [Example of using AD service principal to get access to a Radix application in a GitHub action](/guides/deploy-only/example-github-action-to-create-radix-deploy-pipeline-job.md)
-* [Example of using GitHub Action to build and push container to custom Container Registry](/guides/deploy-only/example-github-action-building-and-deploying-application.md)
+* [Migration guide from radix-github-actions v1 to v2](/guides/deploy-only/migrating-radix-github-action-v1-to-v2.md)
 
 ### Commands
 
