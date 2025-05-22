@@ -11,7 +11,7 @@ Steps in the example:
 * Install RX and authenticate: use the provided id-token (Workload Identity) and Azure Client ID to authenticate with matching federated credentials. The Federated Credentials must be configured upfront in Azure Entra for the specified Azure Client ID. 
 * "Update build secret" - example of using the [Radix CLI](https://github.com/equinor/radix-cli) to configure a build secret.
 * "Restart qa env" - example of use the [Radix CLI](https://github.com/equinor/radix-cli), in this case to restart a Radix application components for an environment. 
-* After the workflow is finished, the Radix GitHub action will automatically remove the Azure AD token from the GitHub Actions runner.
+* After the workflow is finished, the Radix GitHub action will automatically execute `rx logout` to clear any Radix tokens from the workflow runner.
 
 ```yaml
 name: Manage Radix App
