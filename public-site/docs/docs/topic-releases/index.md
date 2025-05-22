@@ -8,7 +8,7 @@ title: What's new
 
 ### 2025-05-14
 Released Radix Github Actions v2.0.0 with breaking changes.
-- The "arg" command is no longer executes. 
+- The `args` command no longer executes.
 - The action will now install `rx` into the worklow environment
 - Optionally authenticate with Github Workload Identity and Federaded Credentials, or Client Secret
 - Cleanup by executing `rx logout` after the workflow has completed.
