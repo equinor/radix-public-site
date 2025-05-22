@@ -59,8 +59,8 @@ permissions:
   contents: read # set required permissions (https://docs.github.com/en/actions/using-jobs/assigning-permissions-to-jobs)
 
 jobs:
-  build:
-    name: deploy
+  build-deploy:
+    name: Build and Deploy
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
