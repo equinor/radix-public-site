@@ -47,7 +47,7 @@ rx create pipeline-job deploy -a your-app-name -e dev --verbose
 ### Run in CI workflow
 Custom continuous integration tool like Jenkins or GitHub Action can use Radix CLI. 
 
-If you are using Github Workflows, you can use the [equinor/radix-github-actions](https://github.com/equinor/radix-github-actions) to easily install and authenticate `rx` in your current workflow:
+If you are using GitHub Workflows, you can use the [equinor/radix-github-actions](https://github.com/equinor/radix-github-actions) to easily install and authenticate `rx` in your current workflow:
 
 ```yaml
 
