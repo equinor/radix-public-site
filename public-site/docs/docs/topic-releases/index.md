@@ -6,6 +6,15 @@ title: What's new
 
 ## 2025
 
+### 2025-05-14
+Released Radix Github Actions v2.0.0 with breaking changes.
+- The "arg" command is no longer executes. 
+- The action will now install `rx` into the worklow environment
+- Optionally authenticate with Github Workload Identity and Federaded Credentials, or Client Secret
+- Cleanup by executing `rx logout` after the workflow has completed.
+
+Read details about the migrations here: [Migrating Radix Github Actions v1 to v2](/guides/deploy-only/migrating-radix-github-action-v1-to-v2)
+
 ### 2025-05-15
 Added an option to refresh build cache. It is applicable when a radixconfig.yaml property `useBuildKit` is set to `true`. Read more in [radixconfig](../../radix-config/#refresh-build-cache):
 

@@ -4,15 +4,44 @@ title: Example of using GitHub action to create a Radix deploy pipeline job
 
 # Example of using GitHub action to create a Radix deploy pipeline job
 
-To create a GitHub Actions you need to create a workflow file in the folder `.github/workflows`. In the sample workflow below we will build new images for `main` (`qa` environment) and `release` (`prod` environment) branches:
+To create a GitHub Actions you need to create a workflow file in the folder `.github/workflows`. In the sample workflow below we will build new images for the `api` component for the `main` branch and deploy to the `prod` environment.
+
+Make sure your radixconfig.yaml file is in the root of your repository. The workflow will read the application name from the radixconfig.yaml file (the argument `--from-config`), or you can specify it with `--application` option.
+
+It should also use the image tag name `api` for the component, but you can change it to your own component name.
+
+You must also add a Github Personal Access Token to Radix Console for the GitHub Container Registry. Add it to your Application Configuration in Radix Console under Private Image Hubs.
+
+```yaml
+apiVersion: radix.equinor.com/v1
+kind: RadixApplication
+metadata:
+  name: YOUR-APP-NAME # Must match the registerd app in Radix Console
+spec:
+  environments:
+    - name: prod
+  privateImageHubs:
+    ghcr.io:
+      username: YOUR-GITHUB-USERNAME
+  components:
+    - name: api
+      image: ghcr.io/YOUR-ORG/YOUR-REPO-NAME/api:{imageTagName}
+      imagePullSecret: latest
+      ports:
+        - name: http
+          port: 8000
+      publicPort: http
+```
+
 
 Steps in the example:
 
-* "Az CLI login" - login to the Azure with a service principal - an app registration Application ID or user-assigned managed identity Client ID
-* "Get Azure principal token for Radix" - get an Azure access token for the resource `6dae42f8-4368-4678-94ff-3960e28e3630`, which is a fixed Application ID, corresponding to the Azure Kubernetes Service AAD Server, globally provided by Azure. This token is put to the environment variable `APP_SERVICE_ACCOUNT_TOKEN`, available in following GitHub action job steps
-* "Deploy API on Radix" - create a Radix deploy-only pipeline job. The [Radix CLI](https://github.com/equinor/radix-cli) in this step expects an environment variable `APP_SERVICE_ACCOUNT_TOKEN` to be set
-
-`PRIVATE_TOKEN` - in this example it is a private token, used for publishing a package to the GitHub package repository. The name is irrelevant. It is a personal access token that you configure for your GitHub user. In this example the same token is used for producing the package, giving the Radix an access to pull the image to the cluster
+* Install RX and Authenticate
+* Authenticate to Github Container Registry
+* Build image tags
+* Set up Docker Buildx
+* Build and push radix-operator docker image
+* Deploy your component on Radix
 
 Read more about permissions in GitHub Actions [here](https://docs.github.com/en/actions/using-jobs/assigning-permissions-to-jobs)
 
@@ -23,90 +52,76 @@ on:
   push:
     branches:
       - main
-      - release
 
 permissions:
-  id-token: write
-  # contents: read # set required permissions (https://docs.github.com/en/actions/using-jobs/assigning-permissions-to-jobs)
+  id-token: write # Required to authenticate with Azure Entra ID
+  packages: write # Required to push to GitHub Container Registry
+  contents: read # set required permissions (https://docs.github.com/en/actions/using-jobs/assigning-permissions-to-jobs)
 
 jobs:
   build:
     name: deploy
     runs-on: ubuntu-latest
     steps:
-      - name: 'Az CLI login'
-        uses: azure/login@v1
+      - uses: actions/checkout@v4
+            
+      - name: Build image tags
+        id: metadata
+        run: |
+          sha=${GITHUB_SHA::8}
+          ts=$(date +%s)
+          tag=${GITHUB_REF_NAME}-${sha}-${ts}
+          repo=${GITHUB_REPOSITORY@L} # @L is bash syntax that converts REPO to lovercase
+          
+          echo "tag=${tag}" >> $GITHUB_OUTPUT
+          echo "repo=${repo}" >> $GITHUB_OUTPUT 
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # Login, build and push the image to your preffered registry
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
         with:
-          client-id: 5e5e5e5e-abcd-efgh-ijkl-f6f6f6f6f6f6 #app registration Application ID or user-assigned managed identity Client ID
-          tenant-id: 3aa4a235-b6e2-48d5-9195-7fcf05b459b0
-          allow-no-subscriptions: true
-      - name: 'Get Azure principal token for Radix'
-        run: |
-          token=$(az account get-access-token --resource 6dae42f8-4368-4678-94ff-3960e28e3630 --query=accessToken -otsv)
-          echo "::add-mask::$token"
-          echo "APP_SERVICE_ACCOUNT_TOKEN=$token" >> $GITHUB_ENV
-      - uses: actions/checkout@v1
-      - name: 'Set default image tag'
-        run: |
-          echo "IMAGE_TAG=$(echo ${GITHUB_REF##*/}-latest)" >> $GITHUB_ENV
-      - name: Override image tag for prod environment
-        if: github.ref == 'refs/heads/release'
-        run: |
-          echo "IMAGE_TAG=$(echo ${GITHUB_REF##*/}-${GITHUB_SHA::8})" >> $GITHUB_ENV
-      - name: 'Build API component'
-        run: |
-          docker build -t ghcr.io/your-radix-app-repo-name/component1:${IMAGE_TAG} ./todoapi/
-      - name: 'Push the image to GPR'
-        run: |
-          echo ${{ "{{ secrets.PRIVATE_TOKEN " }}}} | docker login ghcr.io -u <your-github-user-name> --password-stdin
-          docker push ghcr.io/your-radix-app-repo-name/component1:${IMAGE_TAG}
-      - name: Prepare for committing new tag to radix config on main
-        uses: actions/checkout@v2-beta
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }} # Use the default GITHUB_TOKEN for ghcr.io
+          
+      - name: Build and push radix-operator docker image
+        uses: docker/build-push-action@v6
         with:
-          ref: main
-      - name: 'Modify radixconfig tag for production on main branch'
-        if: github.ref == 'refs/heads/release'
-        run: |
-          # Install pre-requisite
-          python3 -m pip install --user ruamel.yaml
-          python3 hack/modifyTag.py api ${GITHUB_REF##*/} ${IMAGE_TAG}
-          git config --global user.name 'your-git-user'
-          git config --global user.email 'your-git-user@users.noreply.github.com'
-          git remote set-url origin https://x-access-token:${{ "{{ secrets.PRIVATE_TOKEN  " }}}}@github.com/${{ "{{ github.repository " }}}}
-          git commit -am ${IMAGE_TAG}
-          git push origin HEAD:main
-      - name: 'Get environment from branch' # for "deploy only" pipeline workflow
-        id: getEnvironment
-        uses: equinor/radix-github-actions@v1
+          push: true
+            ghcr.io/${{ steps.metadata.outputs.repo }}:latest
+            ghcr.io/${{ steps.metadata.outputs.repo }}:${{ steps.metadata.outputs.tag }}
+  
+      # Radix
+      # - Install rx cli and authenticate
+      # - Ccreate a pipeline job to deploy the application
+
+      - name: Install RX and authenticate
+        uses: equinor/radix-github-actions@v2
         with:
-          args: >
-            get config branch-environment
-            --from-config
-            -b ${GITHUB_REF##*/}
+          azure_client_id: "00000000-0000-0000-0000-000000000000" # App Registration Application ID or Managed Identity Client ID
+          
       - name: 'Deploy API on Radix'
-        uses: equinor/radix-github-actions@v1
-        with:
-          args: >
-            create pipeline-job
-            deploy
-            --context playground 
-            --from-config
-            --environment ${{ "{{ steps.getEnvironment.outputs.result " }}}}
-            -f
+        run: rx create pipeline-job deploy
+            --context playground
+            --from-config # Read application name from radixconfig.yaml in the root of the repository. Or use `--application your-app-name` to specify the application name
+            --environment prod
+            --image-tag-name api=${{ steps.metadata.outputs.tag }} # Specify the component name and image tag
+            --follow
 ```
 
 Following are last steps for "Build and deploy" pipeline workflow (e.g. when some application components need to be built):
 ```yaml
-      - name: 'Build and deploy API on Radix'
-        uses: equinor/radix-github-actions@v1
-        with:
-          args: >
-            create pipeline-job
-            build-deploy
-            --context playground  
-            --from-config
-            --branch ${GITHUB_REF##*/}
-            -f
+      - name: 'Deploy API on Radix'
+        run: rx create pipeline-job deploy
+          --context playground
+          --from-config
+          --environment prod
+          --image-tag-name api=${{ steps.metadata.outputs.tag }}
+          --follow
 ```
 An option `--context playground` is used if a Radix application is registered in the Playground cluster, otherwise remove this line - Platform cluster is used by default
 ### Troubleshooting
