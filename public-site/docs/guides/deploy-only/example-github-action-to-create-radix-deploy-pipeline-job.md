@@ -4,7 +4,7 @@ title: Example of using GitHub action to create a Radix deploy pipeline job
 
 # Example of using GitHub action to create a Radix deploy pipeline job
 
-To create a GitHub Actions you need to create a workflow file in the folder `.github/workflows`. In the sample workflow below we will build new images for the `api` component for the `main` branch and deploy to the `prod` environment.
+To use GitHub Actions, create a workflow file under `.github/workflows`. In the sample workflow below, we will build new images for the `api` component for the `main` branch and deploy to the `prod` environment.
 
 Make sure your radixconfig.yaml file is in the root of your repository. The workflow will read the application name from the radixconfig.yaml file (the argument `--from-config`), or you can specify it with `--application` option.
 
