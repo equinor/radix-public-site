@@ -36,11 +36,11 @@ spec:
 
 Steps in the example:
 
-* Install RX and Authenticate
-* Authenticate to Github Container Registry
 * Build image tags
 * Set up Docker Buildx
-* Build and push radix-operator docker image
+* Authenticate to Github Container Registry
+* Build and push docker image
+* Install RX and Authenticate
 * Deploy your component on Radix
 
 Read more about permissions in GitHub Actions [here](https://docs.github.com/en/actions/using-jobs/assigning-permissions-to-jobs)
@@ -88,7 +88,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }} # Use the default GITHUB_TOKEN for ghcr.io
           
-      - name: Build and push radix-operator docker image
+      - name: Build and push docker image
         uses: docker/build-push-action@v6
         with:
           push: true
