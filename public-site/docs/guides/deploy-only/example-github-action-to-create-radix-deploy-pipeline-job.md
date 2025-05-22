@@ -97,7 +97,7 @@ jobs:
   
       # Radix
       # - Install rx cli and authenticate
-      # - Ccreate a pipeline job to deploy the application
+      # - Create a pipeline job to deploy the application
 
       - name: Install RX and authenticate
         uses: equinor/radix-github-actions@v2
