@@ -6,6 +6,9 @@ title: What's new
 
 ## 2025
 
+### 2025-05-26
+Added `fromType` to the [`environments.build`](../../radix-config#build-1) section in [radixconfig](../../radix-config/index.md).
+
 ### 2025-05-14
 Released Radix Github Actions v2.0.0 with breaking changes.
 - The `args` command no longer executes.
@@ -16,10 +19,10 @@ Released Radix Github Actions v2.0.0 with breaking changes.
 Read details about the migrations here: [Migrating Radix Github Actions v1 to v2](/guides/deploy-only/migrating-radix-github-action-v1-to-v2)
 
 ### 2025-05-15
-Added an option to refresh build cache. It is applicable when a radixconfig.yaml property `useBuildKit` is set to `true`. Read more in [radixconfig](../../radix-config/#refresh-build-cache):
+Added an option to refresh build cache. It is applicable when a radixconfig.yaml property `useBuildKit` is set to `true`. Read more in [radixconfig](../../radix-config/#refresh-build-cache).
 
 ### 2025-05-10
-Added `nodeType` to the [`runtime`](../../radix-config#runtime-1) section in [radixconfig](../../radix-config/index.md):
+Added `nodeType` to the [`runtime`](../../radix-config#runtime-1) section in [radixconfig](../../radix-config/index.md).
 
 ### 2025-04-25
 Added `webhookEnabled` to the [`environments.build`](../../radix-config#webhookenabled) section in [radixconfig](../../radix-config/index.md):

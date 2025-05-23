@@ -193,7 +193,23 @@ spec:
         webhookEnabled: false
 ```
 
-`webhookEnabled` - (optional, default `true`) controls whether the environment is built and deployed by `build-deploy` pipeline jobs triggered from Github webhook.
+`webhookEnabled` - (optional, default `true`) controls whether the environment is built and deployed by `build-deploy` pipeline jobs triggered from GitHub webhook.
+
+### `fromType`
+
+```yaml
+spec:
+  environments:
+    - name: dev
+      build:
+        from: master
+        fromType: branch|tag
+```
+
+`fromType` - (optional, default both - branch or tag) controls whether the environment is built and deployed by `build-deploy` pipeline jobs triggered from GitHub webhook:
+* `branch` - on commit to a branch
+* `tag` - on created tag
+* not set - both on commit to a branch or on created tag
 
 ### `egress`
 
@@ -2116,6 +2132,7 @@ spec:
       build:
         from: master
         webhookEnabled: false
+        fromType: branch
     - name: prod
       egress:
         allowRadix: true
