@@ -124,6 +124,12 @@ An option `job` of commands `create`, `get logs` is replaced with `pipeline-job`
   Optional argument `--use-build-cache=true|false` can override the radixconfig option [useBuildCache](/radix-config/index.md#usebuildcache)
 
   Optional argument `--refresh-build-cache=true` refreshes the build cache. [Read more](/radix-config/index.md#refresh-build-cache) about refreshing the build cache.
+
+  Optional arguments `--from-type` defines which [Git reference](https://git-scm.com/book/ms/v2/Git-Internals-Git-References) (`branch` for `refs/heads` or `tag` for `refs/tags`) will be used for building. When this option is not set - both branch and tag are applicable. [Read more](/radix-config/index.md#fromtype) about build environment settings.
+
+  Optional arguments `--branch` (`-b`) defines GitHub branch to build. When `--from-type` is not set both branch and tag can be specified in this option.
+
+  Optional arguments `--tag` defines GitHub tag to build. Set `--from-type` is required for this option.
 ### Promote pipeline job
 * Promote a deployment in one environment to another, or to the same environment:
     ```shell
