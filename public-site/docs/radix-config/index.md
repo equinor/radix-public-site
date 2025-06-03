@@ -431,6 +431,65 @@ A component without `publicPort: <PORT_NAME>` can only be accessed from another 
 If no [ports](./#ports) specified for a component, `publicPort` should not be set.
 :::
 
+### `command`
+```yaml
+spec:
+  components:
+    - name: frontend
+      command:
+      - ./run.sh
+```
+`command` - (optional) sets or overrides [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint) directive array in a docker image. [Variable](https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#use-environment-variables-to-define-arguments) references like `$(VAR_NAME)` can be used with the container's environment variables. Read more in [Kubernetes documentation](https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#run-a-command-in-a-shell). `command` can be set or overridden for a specific environment.
+
+The command can be followed by a list of arguments.
+```yaml
+spec:
+  components:
+    - name: frontend
+      command:
+        - node
+        - server.js
+```
+Array syntax is also supported:
+```yaml
+spec:
+  components:
+    - name: frontend
+      command: ["node", "server.js"]
+```
+
+### `args`
+```yaml
+spec:
+  components:
+    - name: frontend
+      args:
+      - --port=8000
+      - --host=server
+```
+`args` - (optional) sets or overrides [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive array in a docker image. [Variable](https://kubernetes.io/docs/tasks/inject-data-application/define-args-argument-container/#use-environment-variables-to-define-arguments) references like `$(VAR_NAME)` can be used with the container's environment variables. Read more in [Kubernetes documentation](https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#run-a-command-in-a-shell). `args` can be set or overridden for a specific environment.
+
+Array syntax is also supported:
+```yaml
+spec:
+  components:
+    - name: frontend
+      args: ["--port=8000", "--host=server"]
+```
+:::tip
+`command` and `args` can be combined. If both are set, `command` will override the `ENTRYPOINT` and `args` will override the `CMD` of the container image.
+
+Following configuration will run the command in the container: `node server.js --port=8000 --host=server`
+
+```yaml
+spec:
+  components:
+    - name: frontend
+      command: ["node", "server.js"]
+      args: ["--port=8000", "--host=server"]
+```
+:::
+
 ### `monitoring`
 
 ```yaml
@@ -905,6 +964,54 @@ spec:
 ```
 
 `replicas` can be used to [horizontally scale](https://en.wikipedia.org/wiki/Scalability#Horizontal_and_vertical_scaling) the component. If `replicas` is not set, it defaults to `1`. If `replicas` is set to `0`, the component will not be deployed (i.e. stopped). This can override the [component level](/radix-config#replicas) `replicas` value.
+
+#### `command`
+```yaml
+spec:
+  components:
+    - name: frontend
+      environmentConfig:
+        - environment: prod
+          command:
+          - ./run.sh
+```
+`command` - (optional) sets or overrides [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint) directive array in a docker image. It can also override the component's `command` if it exists. Read more about [command](/radix-config/#command)
+
+#### `args`
+```yaml
+spec:
+  components:
+    - name: frontend
+      environmentConfig:
+        - environment: prod
+          args:
+          - --port=8000
+          - --host=server
+```
+`args` - (optional) sets or overrides [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive array in a docker image. It can also override the component's `args` if it exists. Read more about [args](/radix-config/#args)
+
+:::tip
+`command` and `args` in the component and its `environmentConfig` can be combined.
+Following configuration will run the command:
+* in the `dev` environment container: `node server.js --port=8000 --host=server` 
+* in the `prod` environment container: `node server.js --port=8099 --host=api` 
+
+```yaml
+spec:
+  components:
+    - name: frontend
+      command: ["node", "server.js", "--port=$(PORT)"]
+      variables:
+        PORT: "8000"
+      environmentConfig:
+        - environment: dev
+          args: ["--host=server"]
+          variables:
+            PORT: "8099"
+        - environment: prod
+          args: ["--host=api"]
+```
+:::
 
 #### `monitoring`
 
@@ -1469,6 +1576,26 @@ The port number that the [job-scheduler](/guides/jobs/job-manager-and-job-api.md
 
 In the example above, the URL for the compute job-scheduler is `http://compute:8000`
 
+### `command`
+```yaml
+spec:
+  jobs:
+    - name: compute
+      command:
+      - ./run.sh
+```
+`command` - (optional) sets or overrides [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint) directive array in a docker image. Read more about [command](/radix-config/#command)
+### `args`
+```yaml
+spec:
+  jobs:
+    - name: compute
+      args:
+      - --output=json
+      - --log-level=info
+```
+`args` - (optional) sets or overrides [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive array in a docker image. Read more about [args](/radix-config/#args)
+
 ### `notifications`
 
 ```yaml
@@ -1718,6 +1845,33 @@ See [imageTagName](#imagetagname) for a component for more information.
 ### `environmentConfig`
 
 The `environmentConfig` section is to set environment-specific settings for each job.
+
+#### `command`
+```yaml
+spec:
+  jobs:
+    - name: compute
+      environmentConfig:
+        - environment: prod
+          command:
+          - ./run.sh
+```
+`command` - (optional) sets or overrides [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint) directive array in a docker image. It can also override the component's `command` if it exists. Read more about [command](/radix-config/#command)
+
+#### `args`
+```yaml
+spec:
+  jobs:
+    - name: compute
+      args:
+        - --output=yaml
+      environmentConfig:
+        - environment: prod
+          args:
+          - --output=json
+          - --log-level=info
+```
+`args` - (optional) sets or overrides [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive array in a docker image. It can also override the component's `args` if it exists. Read more about [args](/radix-config/#args)
 
 #### `notifications`
 
