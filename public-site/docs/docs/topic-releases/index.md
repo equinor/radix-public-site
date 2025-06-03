@@ -6,6 +6,9 @@ title: What's new
 
 ## 2025
 
+### 2025-06-5
+Added `command` and `args` properties to components and job-components in [radixconfig](../../radix-config/index.md).
+
 ### 2025-05-26
 Added `fromType` to the [`environments.build`](../../radix-config#build-1) section in [radixconfig](../../radix-config/index.md).
 
