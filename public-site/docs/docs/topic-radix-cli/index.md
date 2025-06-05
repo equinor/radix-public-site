@@ -119,17 +119,27 @@ An option `job` of commands `create`, `get logs` is replaced with `pipeline-job`
 ### Build and deploy pipeline job
 * Create a new "build and deploy" pipeline job
     ```shell
+    # build latest commit of main branch
     rx create pipeline-job build-deploy -a your-app-name --branch main
+
+    # build a specific commit in the main branch
+    rx create pipeline-job build-deploy -a your-app-name --branch main --commitID e98ce2247a466c19bf7ab23527bd6331a23e27d3 
+    
+    # build a specific tag
+    rx create pipeline-job build-deploy -a your-app-name --tag v1.5.0
     ```
-  Optional argument `--use-build-cache=true|false` can override the radixconfig option [useBuildCache](/radix-config/index.md#usebuildcache)
+    Argument `--branch` defines a GitHub branch to build. Builds environments where [fromType](../../radix-config/index.md#fromtype) is set to `branch` or not configured.
 
-  Optional argument `--refresh-build-cache=true` refreshes the build cache. [Read more](/radix-config/index.md#refresh-build-cache) about refreshing the build cache.
+    Argument `--tag` defines a GitHub tag to build. Builds environments where [fromType](../../radix-config/index.md#fromtype) is set to `tag` or not configured.
 
-  An argument `--branch` (`-b`) defines GitHub branch to build. Builds Radix application environments which has an option [fromType](/radix-config/index.md#fromtype) not set or set to `branch`.
+    `--branch` and `--tag` cannot be used together.
 
-  An argument `--tag` defines GitHub tag to build. Builds Radix application environments which has an option [fromType](/radix-config/index.md#fromtype) not set or set to `tag`.
+    Optional argument `--commitID=<long commit hash>` defines a specific git commit to build for the branch specified in `--branch`. If ommitted, Radix will use the latest commit for the branch.
 
-  Arguments `--branch` and `--tag` cannot be used together.
+    Optional argument `--use-build-cache=true|false` can override the radixconfig option [useBuildCache](../../radix-config/index.md#usebuildcache)
+
+    Optional argument `--refresh-build-cache=true` refreshes the build cache. [Read more](../../radix-config/index.md#refresh-build-cache) about refreshing the build cache.
+
 ### Promote pipeline job
 * Promote a deployment in one environment to another, or to the same environment:
     ```shell
