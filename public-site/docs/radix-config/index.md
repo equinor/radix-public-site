@@ -859,6 +859,8 @@ The `environmentConfig` section is to set environment-specific settings for each
 
 Overrides the [`src`](#src) option defined on the component level.
 
+If the [`image`](#image) option is specified on the component level, this `image` option will be ignored and this component will be built for this environment with that specified `src`. An example of such configuration:
+
 ```yaml
 spec:
   components:
@@ -885,6 +887,8 @@ In this example:
 #### `dockerfileName`
 
 Overrides the [`dockerfileName`](#dockerfilename) option defined on the component level.
+
+If the [`image`](#image) option is specified on the component level, this `image` option will be ignored and this component will be built for this environment with that specified `dockerfileName`. An example of such configuration:
 
 ```yaml
 spec:
