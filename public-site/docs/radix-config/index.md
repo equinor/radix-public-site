@@ -310,12 +310,13 @@ spec:
           port: 5000
 ```
 
-`src` a folder, relative to the repository root, where the `Dockerfile` for the component is located. The Dockerfile is used by the [Build and deploy](/guides/build-and-deploy/) workflow of the Radix CI-CD pipeline to build a container image for the component. By default `src` is `.` - a root of the GitHub repository.
+`src` defines the folder, relative to the repository root, to use as [build context](https://docs.docker.com/build/concepts/context/) when building the `Dockerfile`, defined by [`dockerfileName`](#dockerfilename), in [Build and deploy](/guides/build-and-deploy/) pipeline jobs.  
+The default value is `.` (root of the repository).
 
-For Radix environment specific `src`, refer to [environmentConfig src](/radix-config/index.md#src-1).
+For Radix environment specific `src`, refer to [environmentConfig src](#src-1).
 
-:::tip
-When the `image` option is set - `src` option is ignored.
+:::info
+The [`image`](#image) option takes precedence over `src` and `dockerfilename`.
 :::
 
 ### `dockerfileName`
@@ -324,36 +325,34 @@ When the `image` option is set - `src` option is ignored.
 spec:
   components:
     - name: frontend
-      dockerfileName: Dockerfile # Absolute path from repository root: /Dockerfile
+      dockerfileName: Dockerfile # Resolved path from repository root: /Dockerfile
       ports:
         - name: http
           port: 8080
     - name: backend
-      src: .
-      dockerfileName: backend/Dockerfile # Absolute path from repository root: /backend/Dockerfile
+      dockerfileName: backend/Dockerfile # Resolved path from repository root: /backend/Dockerfile
       ports:
         - name: http
           port: 5000
     - name: api
       src: api
-      dockerfileName: "../Dockerfile" # Absolute path from repository root: /Dockerfile
+      dockerfileName: "../otherfolder/Dockerfile" # Resolved path from repository root: /otherfolder/Dockerfile
       ports:
         - name: http
           port: 5000
     - name: web
       src: web
-      dockerfileName: "subfolder/Dockerfile" # Absolute path from repository root: /web/subfolder/Dockerfile
+      dockerfileName: "subfolder/Dockerfile" # Resolved path from repository root: /web/subfolder/Dockerfile
       ports:
         - name: http
           port: 5000          
 ```
-
-By default, Radix pipeline expects a docker file with a name `Dockefile` in the component `src` folder. If this file name needs to be different, it can be specified in the option `dockerfileName`. The name can also contain a path relative to `src`. See configuration examples above.
+`dockerfileName` defines the name and path, relative to [`src`](#src), of the `Dockerfile` to build in [Build and deploy](/guides/build-and-deploy/) pipeline jobs.
 
 For Radix environment specific `dockerfileName`, refer to [environmentConfig image](/radix-config/index.md#dockerfilename-1).
 
-:::tip
-When the `image` option is set - `dockerfileName` option is ignored.
+:::info
+The [`image`](#image) option takes precedence over `src` and `dockerfilename`.
 :::
 
 ### `image`
@@ -858,7 +857,9 @@ The `environmentConfig` section is to set environment-specific settings for each
 
 #### `src`
 
-When a component needs to be built with a different folder in a particular application environment, this folder can be specified in the `src` option of the `environmentConfig` section for this environment. If the component has an option `image` specified on the component level, this `image` option will be ignored and this component will be built for this environment with that specified `src`. An example of such configuration:
+Overrides the [`src`](#src) option defined on the component level.
+
+If the [`image`](#image) option is specified on the component level, this `image` option will be ignored and this component will be built for this environment with that specified `src`. An example of such configuration:
 
 ```yaml
 spec:
@@ -883,17 +884,11 @@ In this example:
 * The `backend` component in the `dev` environment will be built from the `backend` folder of the GitHub repo, and from a root folder (used by default) for other environments. Both docker-files expected to be `Dockerfile` as `dockerfileName` option is not specified.
 * The `api` component in the `dev` environment will be built from the `api` folder. This option in the environment overrides an `image` option on the component level, which value `ghcr.io/my-repo/my-app/api:v1.10` will be used to deploy this component in other environments. The docker-file expected to be `Dockerfile` as `dockerfileName` option is not specified.
 
-For shared `src` across Radix environments, refer to [common src](/radix-config/index.md#src).
-
-:::tip
-When both  `image` and `src` options are specified - the `image` has higher priority, the `src` option is ignored.
-
-The `src` option can be combined with `dockerfileName` option.
-:::
-
 #### `dockerfileName`
 
-When a component needs to be built with a different docker-file in a particular application environment, this docker-file can be specified in the `dockerfileName` option of the `environmentConfig` section for this environment. If the component has an option `image` specified on the component level, this `image` option will be ignored and this component will be built for this environment with that specified `dockerfileName`. An example of such configuration:
+Overrides the [`dockerfileName`](#dockerfilename) option defined on the component level.
+
+If the [`image`](#image) option is specified on the component level, this `image` option will be ignored and this component will be built for this environment with that specified `dockerfileName`. An example of such configuration:
 
 ```yaml
 spec:
@@ -918,14 +913,6 @@ In this example:
 * The `frontend` component in the `dev` environment will be built with the `Dockerfile.dev` docker-file, and with a `Dockerfile` docker-file for other environments. Both docker-files expected to be in the root of the GitHub repo as `src` option is not specified.
 * The `backend` component in the `dev` environment will be built with the `Dockerfile.dev` docker-file, and with a `Dockerfile` docker-file (a name, used by default) for other environments. Both docker-files expected to be in the `backend` folder in the root of the GitHub repo.
 * The `api` component in the `dev` environment will be built with the `Dockerfile` docker-file. This option in the environment overrides an `image` option on the component level, which value `ghcr.io/my-repo/my-app/api:v1.10` will be used to deploy this component in other environments. The docker-file expected to be in the root of the GitHub repo as `src` option is not specified.
-
-For shared `dockerfileName` across Radix environments, refer to [common dockerfileName](/radix-config/index.md#dockerfilename).
-
-:::tip
-When both  `image` and `dockerfileName` options are specified - the `image` has higher priority, the `dockerfileName` option is ignored.
-
-The `dockerfileName` option can be combined with `src` option.
-:::
 
 #### `image`
 
