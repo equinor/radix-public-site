@@ -310,7 +310,7 @@ spec:
           port: 5000
 ```
 
-`src` defines the folder, relative to the repository root, to use as [build context](https://docs.docker.com/build/concepts/context/) when building the `Dockerfile`, defined by [`dockerfilename`](#dockerfilename), in [Build and deploy](/guides/build-and-deploy/) pipeline jobs.  
+`src` defines the folder, relative to the repository root, to use as [build context](https://docs.docker.com/build/concepts/context/) when building the `Dockerfile`, defined by [`dockerfileName`](#dockerfilename), in [Build and deploy](/guides/build-and-deploy/) pipeline jobs.  
 The default value is `.` (root of the repository).
 
 For Radix environment specific `src`, refer to [environmentConfig src](#src-1).
