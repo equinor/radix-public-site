@@ -6,7 +6,7 @@ title: Service, support, uptime and availability
     
 Historical uptime is an indicator of the reliability of a service, in our case the Radix Kubernetes cluster. The Radix uptime is measured by sending requests from an external service every 1 minute to an endpoint running in Radix, and recording whether the request completed successfully or not. The uptime number is then calculated as the ratio (percentage) of aggregated time between consecutive successful requests over the length of the measurement period.  
 
-Radix will only report the measured uptime for the Radix platform, and not the other services provided, i.e. build- deploy pipeline, montitoring, vulnerability scanning. We will use an external service that monitors an application running on the Radix Platform, from outside the Azure tenant, it will calculate availability of the applicable monitored service.  
+Radix will only report the measured uptime for the Radix platform, and not the other services provided, i.e. build-deploy pipeline, monitoring, vulnerability scanning. We will use an external service that monitors an application running on the Radix Platform, from outside the Azure tenant, it will calculate availability of the applicable monitored service.  
 
 | | |
 |-|---------------------------------------|
@@ -76,7 +76,7 @@ We are working hard to mitigate as much of these as possible.
 
 ## Radix Playground services
 
-Use Playground for testing Radix, see if it’s a good fit for your projects, and provide feedback. When you are ready to commit, register your application in the Radix Platform, even if your application still is development stage. The Radix Platform has improved services.
+Use Playground for testing Radix, see if it’s a good fit for your projects, and provide feedback (e.g. using the button "Give us feedback" on the application list page). When you are ready to commit, register your application in the Radix Platform, even if your application still is development stage. The Radix Platform has improved services.
 
 - **Support channels:** Same as for Radix Platform (see above). Help will be provided when team has capacity
 
