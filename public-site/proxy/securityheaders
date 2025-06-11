@@ -1,5 +1,5 @@
 set $script_src_dev_sha "'sha256-PE/7QjqXXKVhTWba7f6GhIv05JWyUEggAwueH3hMSXI='";
-set $script_src_prod_sha "'sha256-pBkmluod9Ko4GzDfbWgKM/wxzujFXUdGVOePkwOQT+c=' 'sha256-O8zYuOjyuzUZDv3fub7DKfAs5TEd1dG+fz+hCSCFmQA='";
+set $script_src_prod_sha "'sha256-O8zYuOjyuzUZDv3fub7DKfAs5TEd1dG+fz+hCSCFmQA=' 'sha256-B3XU3apKRxGUkcZIC2hb7S3n+DLs/vKwgVEnWv1EzR0='";
 set $script_src_sha "$script_src_dev_sha $script_src_prod_sha";
 
 add_header X-Frame-Options deny always;
