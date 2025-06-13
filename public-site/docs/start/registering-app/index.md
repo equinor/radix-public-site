@@ -15,3 +15,15 @@ Here is an example of how a new application registration could look like
 :::tip
 The **Configuration Item** and **Administrators** fields are optional in the Playground cluster.
 :::
+
+## Deploy key
+
+When registering the application, Radix will create a **Deploy key** for the GitHub repository. This key is used to read the `radixconfig.yaml` file and other files in the repository, and it is not used for writing to the repository.
+
+This key can be copied from the Radix Web Console, Configuration page, and put to the GitHub repository Deploy keys: `https://github.com/<user-organization>/<repo-name>/settings/keys`.
+
+![Deploy key for new app](deploy-key-for-new-app.png)
+
+This deploy key can be found later in the Radix Web Console, under the **Configuration** tab of the application.
+
+![Deploy key for existing app](deploy-key-for-existing-app.png)
