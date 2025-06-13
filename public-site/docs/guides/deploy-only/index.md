@@ -16,6 +16,7 @@ Same as with any other application deployed to Radix, a deploy-only application 
 
 - A GitHub repository for the code (only GitHub is supported at the moment)
 - A `radixconfig.yaml` file that defines the running environments, which by default is in the root directory of the repository
+- [Deploy key](/start/registering-app/#deploy-key) for the Radix application.
 
 These points are described below
 
