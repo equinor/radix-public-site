@@ -1298,7 +1298,10 @@ oauth2:
 - `credentials` Optional. Default **secret**. The type of the authentication. When the value of the `credentials` omitted or set to `secret` a Client Secret component or job secrets is required to be set. See details in the [Authentication with Client Secret](/guides/authentication/#authentication-with-client-secret). Supported values:
   - `secret` - using a client secret to authenticate the OAuth2 proxy.
   - `azureWorkloadIdentity`- [Azure Workload Identity](/guides/authentication/#authentication-with-azure-workload-identity) to authenticate the OAuth2 proxy using the Microsoft Entra ID application registration with its `ClientID` set to the `oauth2.clientId` field.
-- `sessionStoreType` Optional. Default **cookie**. Allowed values: **cookie**, **redis** - Defines where session data shall be stored.
+- `sessionStoreType` Optional. Default **cookie**. Allowed values: **cookie**, **redis**, **systemManaged**. Defines where session data shall be stored:
+  - When defined as **cookie**, the session data is stored in cookies.
+  - When defined as **systemManaged**, the session store is managed by Radix and the session data is stored in a Redis cache - a Redis component is automatically configured and deployed within the environment. 
+  - When defined as **redis**, the session data is stored in a Redis cache, which must be added as separate component and URL to it configured in `redisStore`.
 - `redisStore` Redis session store configuration if `sessionStoreType` is **redis**.
   - `connectionUrl` Connection URL of redis server.
 - `cookieStore` Cookie session store configuration if `sessionStoreType` is **cookie**.
