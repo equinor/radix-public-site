@@ -110,6 +110,7 @@ jobs:
             --from-config # Read application name from radixconfig.yaml in the root of the repository. Or use `--application your-app-name` to specify the application name
             --environment prod
             --image-tag-name api=${{ steps.metadata.outputs.tag }} # Specify the component name and image tag
+            --commitID ${{ github.sha }} # GitHub commit hash can be specified from the workflow context
             --follow
 ```
 

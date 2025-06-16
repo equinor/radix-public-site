@@ -109,7 +109,11 @@ An option `job` of commands `create`, `get logs` is replaced with `pipeline-job`
     ```
 * Specify `commitID` to provide reference to a corresponding commit in the Radix console. 
     ```shell
-    rx create pipeline-job deploy --application your-app-name --environment dev --commitID 019e0d411de667dff6952852e03b4a38b0a689c3
+    rx create pipeline-job deploy -a your-app-name -e dev --commitID 019e0d411de667dff6952852e03b4a38b0a689c3
+    ```
+* When run within GitHub action, `commitID` can be taken from GitHub context variable `github.sha`:
+    ```shell
+    rx create pipeline-job deploy -a your-app-name -e dev --commitID ${{ github.sha }}
     ```
 * Specify `component` to deploy when only specific component need to be deployed. Multiple components can be specified. Other components, if exist in the environment, will not be re-deployed, keeping their `commitID` and `gitTag`, environment variables, secrets, etc., their replicas will not be restarted.
     ```shell
