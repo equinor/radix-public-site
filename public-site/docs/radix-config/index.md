@@ -1301,7 +1301,7 @@ oauth2:
 - `sessionStoreType` Optional. Default **cookie**. Allowed values: **cookie**, **redis**, **systemManaged**. Defines where session data shall be stored:
   - When defined as **cookie**, the session data is stored in cookies.
   - When defined as **systemManaged**, the session store is managed by Radix and the session data is stored in a Redis cache - a Redis component is automatically configured and deployed within the environment. 
-  - When defined as **redis**, the session data is stored in a Redis cache, which must be added as separate component and URL to it configured in `redisStore`.
+  - When defined as **redis**, the session data is stored in a Redis cache. Set `redisStore` equal to the URL where Redis is located, and configure the password as a secret in Radix Web Console. This could be a seperate Redis component, or Azure Cache for Redis (recommended for production)`.
 - `redisStore` Redis session store configuration if `sessionStoreType` is **redis**.
   - `connectionUrl` Connection URL of redis server.
 - `cookieStore` Cookie session store configuration if `sessionStoreType` is **cookie**.
