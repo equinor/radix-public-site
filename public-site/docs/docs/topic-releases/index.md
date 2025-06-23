@@ -6,6 +6,9 @@ title: What's new
 
 ## 2025
 
+### 2025-06-23
+[OAuth2](../../radix-config/#oauth2) authentication can be configured with Redis session store, automatically deployed with an option `sessionStoreType: systemManaged` in the [radixconfig](../../radix-config/index.md).
+
 ### 2025-06-5
 Added `command` and `args` properties to components and job-components in [radixconfig](../../radix-config/index.md).
 
