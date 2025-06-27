@@ -9,7 +9,7 @@ metadata:
   links:
     - url: "https://console.radix.equinor.com/"
       title: Web console
-    spec:
+spec:
   type: documentation
   lifecycle: production
   owner: omnia-radix-adm
