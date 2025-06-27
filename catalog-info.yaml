@@ -1,10 +1,15 @@
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: System
 metadata:
   name: Radix
   annotations:
     github.com/project-slug: equinor/radix-public-site
-spec:
-  type: other
-  lifecycle: unknown
+  tags:
+    - Radix
+  links:
+    - url: "https://console.radix.equinor.com/"
+      title: Web console
+    spec:
+  type: documentation
+  lifecycle: production
   owner: omnia-radix-adm
