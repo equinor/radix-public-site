@@ -4,11 +4,9 @@ metadata:
   name: Radix
   annotations:
     github.com/project-slug: equinor/radix-public-site
-  tags:
-    - Radix
   links:
     - url: "https://console.radix.equinor.com/"
-      title: Web console
+      title: "Web console"
 spec:
   type: documentation
   lifecycle: production
