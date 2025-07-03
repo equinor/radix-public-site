@@ -91,6 +91,15 @@ const sidebars: SidebarsConfig = {
           'guides/volume-mounts/limitations',
         ]
       },
+      {
+          type: 'category',
+          label: 'Horizontal Scaling',
+          items: [
+              'guides/horizontal-scaling/index',
+              'guides/horizontal-scaling/keda-azure-service-bus-trigger',
+              'guides/horizontal-scaling/keda-azure-event-hub-trigger',
+          ]
+      },
       'guides/private-link/index',
       'guides/enable-and-disable-components/index',
       'guides/component-start-stop-restart/index',
