@@ -3,41 +3,64 @@ title: Azure Event Hub
 ---
 
 # Keda Azure Event Hub Trigger
+Scale application components based on [Azure Event Hub](https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-about) events.
 
+Azure Event Hub target average can be configured with `unprocessedEventThreshold` (defaults to 64) and `activationUnprocessedEventThreshold` (defaults to 0). Read [more](https://keda.sh/docs/2.17/concepts/scaling-deployments/#activating-and-scaling-thresholds) about activation.
 
+## Authenticate Keda to Azure Event Hub
+* [Authenticate with Workload Identity](#authenticate-with-workload-identity)
+* [Authenticate with connection string](#authenticate-with-connection-string)
+### Authenticate with Workload Identity
+:::warning
+When access to your Event Hub is provided to Keda, _any_ other Radix applications can scale their components based on your queue! Use authentication with [connection string](#authenticate-with-connection-string) to avoid this.
 
-##### Authenticate Keda for scaling
-* [Workload Identity](#azure-service-bus-workload-identity)
-* [Connection string](#azure-service-bus-connection-string)
-###### Azure Service Bus Workload Identity
-You must provide a clientId to a managed identity, that contains a federated credential with these properties:
+We are hoping on improving this - https://github.com/kedacore/keda/issues/5630
+:::
+ClientID to a managed identity should be provided, that contains a federated credential with following properties:
 ```yaml
 Federated credential scenario: Kubernetes Service Account
-# Find real and current value here: https://console.radix.equinor.com/about (CLUSTER_OIDC_ISSUER_URL), 
-# it will change in the future, we will post details in the slack channel #omnia-radix when it must be changed.
 Cluster Issuer URL: https://northeurope.oic.prod-aks.azure.com/00000000-0000-0000-0000-000000000000/00000000-0000-0000-0000-000000000000/ 
 Namespace: keda
 Service Account: keda-operator
-
-# ⚠️ When you give Keda access to your Service Bus, any other Radix app can scale their app based on your queue. 
-#    We are hoping on improving this - https://github.com/kedacore/keda/issues/5630
 ```
+`Cluster Issuer URL` - current value can be found in Radix console [About page](https://console.radix.equinor.com/about) in the environment variable `CLUSTER_OIDC_ISSUER_URL`.
+
+Cluster Issuer URL can be changed on cluster migration, please watch the Slack channel `#omnia-radix` for updates.
+
 ````yaml
-- name: azuresb
-  azureServiceBus:
-    namespace: <servicebus-namespace> #.servicebus.windows.net
-    queueName: main
-    authentication:
-      identity:
-        azure:
-          clientId: <client-id-of-service-principal>
+spec:
+  components:
+    - name: backend
+      horizontalScaling:
+        minReplicas: 0
+        maxReplicas: 2
+        triggers:
+          - name: azure-eh
+            azureEventHub:
+              eventHubName: my-event-hub
+              eventHubNamespace: my-event-hub-namespace
+              accountName: my-storage-account
+              container: my-blob-container
+              authentication:
+                identity:
+                  azure:
+                    clientId: 00000000-0000-0000-0000-000000000000
 ````
-###### Azure Service Bus connection string
+Read more about [Azure workload identity](/guides/workload-identity/)
+
+### Authenticate with connection string
 ````yaml
-- name: azuresb
-  azureServiceBus:
-    namespace: <servicebus-namespace> #.servicebus.windows.net
-    queueName: main
-    connectionFromEnv: SERVICEBUS_CONNECTIONSTRING_ENV_NAME
+spec:
+  components:
+    - name: backend
+      horizontalScaling:
+        minReplicas: 0
+        maxReplicas: 2
+        triggers:
+          - name: azure-eh
+            azureEventHub:
+              container: my-blob-container
+              eventHubConnectionFromEnv: EVENT_HUB_CONNECTION
+              storageConnectionFromEnv: STORAGE_CONNECTION
 ````
-`connectionFromEnv` - Name of the environment variable your deployment uses to get the connection string of the Azure Service Bus namespace. 
+`storageConnectionFromEnv` - Name of the environment variable your deployment uses to get the connection string of the Azure Event Hub namespace. 

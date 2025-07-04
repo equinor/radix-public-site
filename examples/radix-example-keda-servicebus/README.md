@@ -87,7 +87,7 @@ metadata:
         maxReplicas: 10
         minReplicas: 0
         triggers:
-         - name: azuresb
+         - name: azure-sb
            azureServiceBus:
              namespace: <AzureServiceBusNamespace> #.servicebus.windows.net
              queueName: orders

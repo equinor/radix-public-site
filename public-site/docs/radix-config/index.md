@@ -613,7 +613,7 @@ spec:
 Read [more](https://keda.sh/docs/2.17/scalers/cron/)
 
 #### `azureServiceBus` trigger
-Scale application components based on Azure Service Bus Queues or Topics.
+Scale application components based on [Azure Service Bus](https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-overview) Queues or Topics.
 ````yaml
 spec:
   components:
@@ -622,34 +622,34 @@ spec:
         minReplicas: 0
         maxReplicas: 2
         triggers:
-          - name: azuresb
+          - name: azure-sb
             azureServiceBus:
-              namespace: <servicebus-namespace>
-              queueName: <queue-name>
-              topicName: <topic-name>
-              subscriptionName: <subscription-name>
+              namespace: my-servicebus-namespace
+              queueName: my-queue
+              topicName: my-topic
+              subscriptionName: my-subscription
               messageCount: 5
               activationMessageCount: 0
               authentication:
                 identity:
                   azure:
-                    clientId: <client-id-of-service-principal>
-              connectionFromEnv: SERVICEBUS_CONNECTIONSTRING_ENV_NAME
+                    clientId: 00000000-0000-0000-0000-000000000000
+              connectionFromEnv: SERVICE_BUS_CONNECTION
 ````
 * `minReplicas` - it need to be set to `0` to allow scaling down to zero replicas.
-* `namespace` - The Azure Service Bus namespace, without the `.servicebus.windows.net` suffix.
-* `queueName` - (optional) Name of the Azure Service Bus queue to scale on.
-* `topicName` - (optional) Name of the Azure Service Bus topic to scale on.
-* `subscriptionName` - (optional) Name of the Azure Service Bus subscription to scale on. It is required when topicName is specified.
+* `namespace` - The Azure Service Bus namespace, without the `.servicebus.windows.net` suffix. Required when authenticate to Azure Service Bus using a Managed Identity.
+* `queueName` - (optional) Name of the Azure Service Bus queue to scale on. This cannot be used together with `topicName`.
+* `topicName` - (optional) Name of the Azure Service Bus topic to scale on. This cannot be used together with `queueName`.
+* `subscriptionName` - (optional) Name of the Azure Service Bus subscription to scale on. Required when `topicName` is specified. This cannot be used together with `queueName`.
 * `messageCount` - (optional, default 5) The target average number of messages in the queue or topic subscription. If the average number of messages is above this value, Keda will scale up the component.
 * `activationMessageCount` - (optional, default 0) The number of messages that must be present in the queue or topic subscription before Keda will activate scaling. If the number of messages is below this value, Keda will not scale up the component.
 * `authentication` - (optional) authenticate to Azure Service Bus using a Managed Identity. `identity.azure.clientId` is a service principal ClientID. Read [more](/guides/horizontal-scaling/keda-azure-service-bus-trigger#authenticate-with-workload-identity).
-* `connectionFromEnv` - (optional) The name of the environment variable or secret that contains the connection string to the Azure Service Bus namespace. It is ignored when the authentication with  Managed Identity is used. Read [more](/guides/horizontal-scaling/keda-azure-service-bus-trigger#authenticate-with-connection-string).
+* `connectionFromEnv` - (optional) The name of an environment variable or a secret that contains the connection string to the Azure Service Bus. Ignored when authentication is done with Workload Identity. Read [more](/guides/horizontal-scaling/keda-azure-service-bus-trigger#authenticate-with-connection-string).
 
 Read [more](https://keda.sh/docs/2.17/scalers/azure-service-bus/) about the Keda Azure Service Bus scheduler.
 
 #### `azureEventHub` trigger
-Scale application components based on Azure Event Hub events.
+Scale application components based on [Azure Event Hub](https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-about) events.
 ````yaml
 spec:
   components:
@@ -658,38 +658,41 @@ spec:
         minReplicas: 0
         maxReplicas: 1
         triggers:
-          - name: azure-event-hub
+          - name: azure-eh
             azureEventHub:
+              eventHubName: my-event-hub
+              eventHubNamespace: my-event-hub-namespace
               eventHubNameFromEnv: EVENT_HUB_NAME
-              eventHubName: radixtesteventhub
-              eventHubNamespace: radixtest
-              accountName: radixblobtest7
-              container: events
+              eventHubNamespaceFromEnv: EVENT_HUB_NAMESPACE
+              accountName: my-storage-account
+              container: my-blob-container
               checkpointStrategy: blobMetadata
               unprocessedEventThreshold: 20
               activationUnprocessedEventThreshold: 2
               authentication:
                 identity:
                   azure:
-                    clientId: <client-id-of-service-principal>
+                    clientId: 00000000-0000-0000-0000-000000000000
               eventHubConnectionFromEnv: EVENT_HUB_CONNECTION
               storageConnectionFromEnv: STORAGE_CONNECTION
 ````
 * `minReplicas` - it need to be set to `0` to allow scaling down to zero replicas.
 * `eventHubNamespace` - (optional) the Azure Event Hub namespace, without the `.servicebus.windows.net` suffix. Required when authentication is done with Workload Identity.
-* `eventHubNamespaceFromEnv` - (optional) the name of the environment variable that contains the Event Hub namespace. It is ignored when `eventHubNamespace` is specified.
-* `eventHubName` - (optional) the name of the Event Hub to scale on.
-* `eventHubNameFromEnv` - (optional) the name of the environment variable that contains the Event Hub name. It is ignored when `eventHubName` is specified.
+* `eventHubNamespaceFromEnv` - (optional) the name of an environment variable that contains the Event Hub namespace. Ignored when `eventHubNamespace` is specified. Required when authentication is done with Workload Identity.
+* `eventHubName` - (optional) the name of the Event Hub to scale on. Required when authentication is done with Workload Identity.
+* `eventHubNameFromEnv` - (optional) the name of an environment variable that contains the Event Hub name. Ignored when `eventHubName` is specified. Required when authentication is done with Workload Identity.
 * `accountName` - (optional) the name of the Azure Storage account to save current [checkpoint](https://keda.sh/docs/2.17/scalers/azure-event-hub/#checkpointing-behaviour). Required when authentication is done with Workload Identity.
-* `container` - (optional) the name of the Azure Storage container to save current [checkpoint](https://keda.sh/docs/2.17/scalers/azure-event-hub/#checkpointing-behaviour). Required when `checkpointStrategy` is not set to `azureFunction`.
+* `container` - (optional) the name of the Azure Storage container to save current [checkpoint](https://keda.sh/docs/2.17/scalers/azure-event-hub/#checkpointing-behaviour). Required when `checkpointStrategy` is _not_ `azureFunction`.
 * `checkpointStrategy` - (optional, default `blobMetadata`) the strategy to use for checkpointing. Can be one of the following values:
-  * `blobMetadata` - checkpoints are stored in the metadata of a file within an Azure Storage blob container, with keys `sequencenumber` and `offset`. This file and its folder hierarchy are created automatically when the first checkpoint is written.
-  * `azureFunction` - checkpoints are stored in an Azure Storage account blob container `azure-webjobs-eventhub`.
-  * `goSdk` - for all implementations using the [Golang SDK](https://github.com/Azure/azure-event-hubs-go)’s checkpointing.
-* `authentication` - (optional) authenticate to Azure Service Bus using a Managed Identity. `identity.azure.clientId` is a service principal ClientID. Read [more](/guides/horizontal-scaling/keda-azure-service-bus-trigger#authenticate-with-workload-identity).
-* `connectionFromEnv` - (optional) The name of the environment variable or secret that contains the connection string to the Azure Service Bus namespace. It is ignored when the authentication with  Managed Identity is used. Read [more](/guides/horizontal-scaling/keda-azure-service-bus-trigger#authenticate-with-connection-string).
+  * `blobMetadata` - checkpoint is stored in an Azure Storage Account.
+  * `azureFunction` - checkpoint is stored in an Azure Storage Account, in the blob container `azure-webjobs-eventhub` - Radix will automatically set or override with this value `container` property for this checkpoint type.
+  * `goSdk` - for all implementations using the [Golang SDK](https://github.com/Azure/azure-event-hubs-go) checkpointing.
+* `unprocessedEventThreshold` - (optional, default `64`) average target value to trigger scaling actions.
+* `activationUnprocessedEventThreshold` - (optional, default `0`) target value for activating the scaler. Read [more](https://keda.sh/docs/2.17/concepts/scaling-deployments/#activating-and-scaling-thresholds) about activation.
+* `authentication` - (optional) authenticate to Azure Event Hub using a Managed Identity. `identity.azure.clientId` is a service principal ClientID. Read [more](/guides/horizontal-scaling/keda-azure-event-hub-trigger#authenticate-with-workload-identity).
+* `storageConnectionFromEnv` - (optional) The name of an environment variable or a secret that contains the connection string to the Azure Event Hub. Ignored when authentication is done with Workload Identity. Read [more](/guides/horizontal-scaling/keda-azure-event-hub-trigger#authenticate-with-connection-string).
 
-Read [more](https://keda.sh/docs/2.17/scalers/azure-service-bus/) about the Keda Azure Service Bus scheduler.
+Read [more](https://keda.sh/docs/2.17/scalers/azure-event-hub/) about the Keda Azure Event Hub scheduler.
 
 ### `healthChecks`
 

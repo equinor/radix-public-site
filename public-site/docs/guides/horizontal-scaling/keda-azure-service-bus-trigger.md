@@ -3,16 +3,18 @@ title: Azure Service Bus
 ---
 
 # Keda Azure Service Bus Trigger
-Take a look here [github.com/equinor/radix-public-site/examples/radix-example-keda-servicebus](https://github.com/equinor/radix-public-site/tree/main/examples/radix-example-keda-servicebus) for a sample implementation that runs on Radix.
+Scale application components based on [Azure Service Bus](https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-overview) Queues or Topics.
 
-Azure Service Bus supports either a `queueName`, or a `topicName` and `subscriptionName`. You can also select the target average `messageCount` (defaults to 5), and `activationMessageCount` (defaults to 0).
+Learn from an [example](https://github.com/equinor/radix-public-site/tree/main/examples/radix-example-keda-servicebus) scaling Radix application component by Azure Service Bus messages.
+
+Azure Service Bus supports either `topicName` (with `subscriptionName`) or `queueName`. The target average can be configured with `messageCount` (defaults to 5) and `activationMessageCount` (defaults to 0).  Read [more](https://keda.sh/docs/2.17/concepts/scaling-deployments/#activating-and-scaling-thresholds) about activation.
 
 ## Authenticate Keda to Azure Service Bus
 * [Authenticate with Workload Identity](#authenticate-with-workload-identity)
 * [Authenticate with connection string](#authenticate-with-connection-string)
 ### Authenticate with Workload Identity
 :::warning
-When access to your Service Bus is provided to Keda, _any_ other Radix applications can scale their components based on your queue! Use authentication with [connection string](/guides/horizontal-scaling/keda-azure-service-bus-trigger#azure-service-bus-connection-string) to avoid this.
+When access to your Service Bus is provided to Keda, _any_ other Radix applications can scale their components based on your queue! Use authentication with [connection string](#authenticate-with-connection-string) to avoid this.
 
 We are hoping on improving this - https://github.com/kedacore/keda/issues/5630
 :::
@@ -35,18 +37,14 @@ spec:
         minReplicas: 0
         maxReplicas: 2
         triggers:
-          - name: azuresb
+          - name: azure-sb
             azureServiceBus:
-              namespace: <servicebus-namespace>
-              queueName: <queue-name>
-              topicName: <topic-name>
-              subscriptionName: <subscription-name>
-              messageCount: 5
-              activationMessageCount: 0
+              namespace: my-servicebus-namespace
+              queueName: my-queue
               authentication:
                 identity:
                   azure:
-                    clientId: <client-id-of-service-principal>
+                    clientId: 00000000-0000-0000-0000-000000000000
 ````
 Read more about [Azure workload identity](/guides/workload-identity/)
 ### Authenticate with connection string
@@ -58,10 +56,9 @@ spec:
         minReplicas: 0
         maxReplicas: 2
         triggers:
-        - name: azuresb
-          azureServiceBus:
-            namespace: <servicebus-namespace>
-            queueName: main
-            connectionFromEnv: SERVICEBUS_CONNECTIONSTRING_ENV_NAME
+          - name: azure-sb
+            azureServiceBus:
+              queueName: my-queue
+              connectionFromEnv: SERVICE_BUS_CONNECTION
 ````
 `connectionFromEnv` - Name of the environment variable your deployment uses to get the connection string of the Azure Service Bus namespace. 
