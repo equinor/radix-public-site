@@ -2,13 +2,6 @@
 title: Azure Service Bus
 ---
 
-# Keda Azure Service Bus Trigger
-Scale application components based on [Azure Service Bus](https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-overview) Queues or Topics.
-
-Learn from an [example](https://github.com/equinor/radix-public-site/tree/main/examples/radix-example-keda-servicebus) scaling Radix application component by Azure Service Bus messages.
-
-Azure Service Bus supports either `topicName` (with `subscriptionName`) or `queueName`. The target average can be configured with `messageCount` (defaults to 5) and `activationMessageCount` (defaults to 0).  Read [more](https://keda.sh/docs/2.17/concepts/scaling-deployments/#activating-and-scaling-thresholds) about activation.
-
 ## Authenticate Keda to Azure Service Bus
 * [Authenticate with Workload Identity](#authenticate-with-workload-identity)
 * [Authenticate with connection string](#authenticate-with-connection-string)
