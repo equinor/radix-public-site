@@ -42,7 +42,7 @@ spec:
         CONSUMER_GROUP: "$Default"
         HTTP_POLICY_LOG_LEVEL: WARNING
         EVENT_HUB_LOG_LEVEL: WARNING
-        SLEEP_SECONDS: 6
+        SLEEP_SECONDS: "6"
       horizontalScaling:
         minReplicas: 0
         maxReplicas: 1
