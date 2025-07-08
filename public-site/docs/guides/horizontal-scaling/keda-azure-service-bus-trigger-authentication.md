@@ -1,11 +1,11 @@
 ---
-title: Azure Service Bus
+title: Authentication
 ---
 
-## Authenticate Keda to Azure Service Bus
+# Azure Service Bus authentication
 * [Authenticate with Workload Identity](#authenticate-with-workload-identity)
 * [Authenticate with connection string](#authenticate-with-connection-string)
-### Authenticate with Workload Identity
+## Authenticate with Workload Identity
 :::warning
 When access to your Service Bus is provided to Keda, _any_ other Radix applications can scale their components based on your queue! Use authentication with [connection string](#authenticate-with-connection-string) to avoid this.
 
@@ -20,7 +20,7 @@ Service Account: keda-operator
 ```
 `Cluster Issuer URL` - current value can be found in Radix console [About page](https://console.radix.equinor.com/about) in the environment variable `CLUSTER_OIDC_ISSUER_URL`.
 
-Cluster Issuer URL can be changed on cluster migration, please watch the Slack channel `#omnia-radix` for updates.
+Cluster Issuer URL can be changed during cluster migration, please watch the Slack channel `#omnia_radix` for updates.
 
 ````yaml
 spec:
@@ -40,7 +40,7 @@ spec:
                     clientId: 00000000-0000-0000-0000-000000000000
 ````
 Read more about [Azure workload identity](/guides/workload-identity/)
-### Authenticate with connection string
+## Authenticate with connection string
 ````yaml
 spec:
   components:
@@ -51,6 +51,7 @@ spec:
         triggers:
           - name: azure-sb
             azureServiceBus:
+              namespace: my-servicebus-namespace
               queueName: my-queue
               connectionFromEnv: SERVICE_BUS_CONNECTION
 ````
