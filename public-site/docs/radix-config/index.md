@@ -621,6 +621,8 @@ spec:
       horizontalScaling:
         minReplicas: 0
         maxReplicas: 2
+        secrets:
+          - SERVICE_BUS_CONNECTION
         triggers:
           - name: azure-sb
             azureServiceBus:
@@ -643,8 +645,8 @@ spec:
 * `subscriptionName` - (optional) Name of the Azure Service Bus subscription to scale on. Required when `topicName` is specified. This cannot be used together with `queueName`.
 * `messageCount` - (optional, default 5) The target average number of messages in the queue or topic subscription. If the average number of messages is above this value, Keda will scale up the component.
 * `activationMessageCount` - (optional, default 0) The number of messages that must be present in the queue or topic subscription before Keda will activate scaling. If the number of messages is below this value, Keda will not scale up the component.
-* `authentication` - (optional) authenticate to Azure Service Bus using a Managed Identity. `identity.azure.clientId` is a service principal ClientID. Read [more](/guides/horizontal-scaling/keda-azure-service-bus-trigger#authenticate-with-workload-identity).
-* `connectionFromEnv` - (optional) The name of an environment variable or a secret that contains the connection string to the Azure Service Bus. Ignored when authentication is done with Workload Identity. Read [more](/guides/horizontal-scaling/keda-azure-service-bus-trigger#authenticate-with-connection-string).
+* `authentication` - (optional) authenticate to Azure Service Bus using a Managed Identity. `identity.azure.clientId` is a service principal ClientID. Read [more](/guides/horizontal-scaling/keda-azure-service-bus-trigger-authentication#authenticate-with-workload-identity).
+* `connectionFromEnv` - (optional) The name of an environment variable or a secret that contains the connection string to the Azure Service Bus. Ignored when authentication is done with Workload Identity. Read [more](/guides/horizontal-scaling/keda-azure-service-bus-trigger-authentication#authenticate-with-connection-string).
 
 Read [more](https://keda.sh/docs/2.17/scalers/azure-service-bus/) about the Keda Azure Service Bus scheduler.
 
@@ -657,6 +659,9 @@ spec:
       horizontalScaling:
         minReplicas: 0
         maxReplicas: 1
+        secrets:
+          - EVENT_HUB_CONNECTION
+          - STORAGE_CONNECTION
         triggers:
           - name: azure-eh
             azureEventHub:
@@ -689,8 +694,8 @@ spec:
   * `goSdk` - for all implementations using the [Golang SDK](https://github.com/Azure/azure-event-hubs-go) checkpointing.
 * `unprocessedEventThreshold` - (optional, default `64`) average target value to trigger scaling actions.
 * `activationUnprocessedEventThreshold` - (optional, default `0`) target value for activating the scaler. Read [more](https://keda.sh/docs/2.17/concepts/scaling-deployments/#activating-and-scaling-thresholds) about activation.
-* `authentication` - (optional) authenticate to Azure Event Hub using a Managed Identity. `identity.azure.clientId` is a service principal ClientID. Read [more](/guides/horizontal-scaling/keda-azure-event-hub-trigger#authenticate-with-workload-identity).
-* `storageConnectionFromEnv` - (optional) The name of an environment variable or a secret that contains the connection string to the Azure Event Hub. Ignored when authentication is done with Workload Identity. Read [more](/guides/horizontal-scaling/keda-azure-event-hub-trigger#authenticate-with-connection-string).
+* `authentication` - (optional) authenticate to Azure Event Hub using a Managed Identity. `identity.azure.clientId` is a service principal ClientID. Read [more](/guides/horizontal-scaling/keda-azure-event-hub-trigger-authentication#authenticate-with-workload-identity).
+* `storageConnectionFromEnv` - (optional) The name of an environment variable or a secret that contains the connection string to the Azure Event Hub. Ignored when authentication is done with Workload Identity. Read [more](/guides/horizontal-scaling/keda-azure-event-hub-trigger-authentication#authenticate-with-connection-string).
 
 Read [more](https://keda.sh/docs/2.17/scalers/azure-event-hub/) about the Keda Azure Event Hub scheduler.
 
