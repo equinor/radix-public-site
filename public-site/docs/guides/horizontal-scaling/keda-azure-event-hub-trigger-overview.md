@@ -6,6 +6,8 @@ title: Overview
 ## Overview
 Scale application components based on [Azure Event Hub](https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-about) events.
 
+Learn from an [example](https://github.com/equinor/radix-public-site/tree/main/examples/radix-example-keda-eventhub) scaling Radix application component by Azure Event Hub events.
+
 Azure Event Hub target average value can be configured with `unprocessedEventThreshold` (defaults to 64) and `activationUnprocessedEventThreshold` (defaults to 0). Read [more](https://keda.sh/docs/2.17/concepts/scaling-deployments/#activating-and-scaling-thresholds) about activating and scaling thresholds.
 
 Azure Event Hub scaler trigger reads events from Azure Event Hub and scales the component based on the number of unprocessed events in the Event Hub. To avoid re-process already read events, the scaler uses Azure Blob Storage to store the checkpoint of the last processed event. This allows the scaler to resume processing from the last checkpoint in case of a failure or restart. If the checkpoint is not found, the scaler starts processing from the beginning of the Event Hub event list.
