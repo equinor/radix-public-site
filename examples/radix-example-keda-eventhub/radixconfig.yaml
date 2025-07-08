@@ -1,0 +1,69 @@
+apiVersion: radix.equinor.com/v1
+kind: RadixApplication
+metadata:
+  name: radix-example-keda-eventhub
+spec:
+  build:
+    useBuildKit: true
+  environments:
+    - name: dev
+      build:
+        from: main
+  components:
+    - name: web-app
+      src: ./web-app
+      ports:
+        - name: http
+          port: 8008
+      publicPort: http
+      identity:
+        azure:
+          clientId: "00000000-0000-0000-0000-000000000000"
+      variables:
+        EVENT_HUB_NAMESPACE: my-event-hub-namespace
+        EVENT_HUB_NAME: my-event-hub
+      resources:
+        requests:
+          cpu: 100m
+          memory: 200Mi
+        limits:
+          cpu: 500m
+          memory: 500Mi
+    - name: event-hub-consumer
+      replicas: 0
+      src: ./event-hub-consumer
+      secrets:
+        - EVENT_HUB_CONNECTION
+        - STORAGE_CONNECTION
+      variables:
+        EVENT_HUB_NAME: my-event-hub-namespace
+        EVENT_HUB_NAMESPACE: my-event-hub
+        BLOB_CONTAINER: events
+        CONSUMER_GROUP: "$Default"
+        HTTP_POLICY_LOG_LEVEL: WARNING
+        EVENT_HUB_LOG_LEVEL: WARNING
+        SLEEP_SECONDS: 6
+      horizontalScaling:
+        minReplicas: 0
+        maxReplicas: 1
+        triggers:
+          - name: azure-event-hub
+            azureEventHub:
+              eventHubConnectionFromEnv: EVENT_HUB_CONNECTION
+              storageConnectionFromEnv: STORAGE_CONNECTION
+              container: my-blob-container
+              eventHubNameFromEnv: EVENT_HUB_NAME
+              unprocessedEventThreshold: 4
+              activationUnprocessedEventThreshold: 2
+# Workload identity
+#            azureEventHub:
+#              authentication:
+#                identity:
+#                  azure:
+#                    clientId: "00000000-0000-0000-0000-000000000000"
+#              eventHubName: my-event-hub-namespace
+#              eventHubNamespace: my-event-hub
+#              accountName: my-storage-account
+#              container: my-blob-container
+#              unprocessedEventThreshold: 4
+#              activationUnprocessedEventThreshold: 2

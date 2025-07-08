@@ -1,0 +1,7 @@
+flask
+azure-eventhub-checkpointstoreblob-aio
+azure-identity
+azure-eventhub
+azure-storage-blob
+asyncio
+environs

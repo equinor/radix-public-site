@@ -523,66 +523,7 @@ If overriding `portName` it will have to match one of the defined ports in the c
 :::
 
 ### `horizontalScaling`
-
-Scale your components replicas up and down based on resources or external metrics like CRON or Azure Service Bus.
-
-If you need any other trigger types, find the list of available triggers at https://keda.sh/docs/latest/scalers/ and open a feature request on https://github.com/equinor/radix
-
-You can override horizontalScaling in your environments and we will merge `minReplicas`, `maxReplicas`, `pollingInterval` and `cooldownPeriod`. If any triggers are defined in the environment, they will replace all triggers on the component level.
-Read more about polling intervall and cooldown period in KEDAs documentation [here](https://keda.sh/docs/latest/concepts/scaling-deployments/#pollinginterval)
-
-```yaml
-spec:
-  components:
-    - name: backend
-      horizontalScaling:
-        minReplicas: 0 # defaults to 1 if not set
-        maxReplicas: 6
-        # pollingInterval: 30 # Default
-        # cooldownPeriod: 300 # Default
-        triggers:
-          # Cpu/Memory triggers will scale up/down so the average usage
-          # is 85% of requested Cpu across all pods, 
-          # or 75% of requested memory across all pods, whatever is highest.
-        - name: cpu
-          cpu:
-            value: 85
-        
-        - name: memory
-          cpu:
-            value: 75
-            
-        - name: cron
-          cron:
-            timezone: Europe/Oslo
-            start: 0 7 * * 1-5 # 07:00 Monday - Friday
-            end: 0 17 * * 1-5 # 17:00 Monday - Friday
-            desiredReplicas: 1
-
-        - name: azuresb
-          azureServiceBus:
-            namespace: <your servicebus namespace> #.servicebus.windows.net
-            # messageCount: 5
-            # activationMessageCount: 0
-            queueName: main
-            # or use TopicName/subscriptionName:
-            # topicName: my-topic
-            # subscriptionName: my-subscription
-            authentication: # Currently we only support Workload Identity
-              identity:
-                azure:
-                  clientId: 00000000-0000-0000-0000-000000000000
-
-        # Deperecated: legacy resources will be rewritten as triggers by Radix. 
-        # - It is not allowed to mix resources with triggers.
-        # resources:
-        #     memory:
-        #       averageUtilization: 75
-        #     cpu:
-        #       averageUtilization: 85
-```
-
-The `horizontalScaling` field is used for enabling automatic scaling of the component. This field is optional, and if set, it will override the `replicas` value of the component. If no triggers are defined, we will configure a default CPU trigger with a target of 80% average usage.
+Configure automatic scaling of the component. This field is optional, and if set, it will override the `replicas` value of the component. If no triggers are defined, Radix will configure a default CPU trigger with a target of 80% average usage.
 
 One exception is when the `replicas` value is set to `0` (i.e. the component is stopped), the `horizontalScaling` config will not be used.
 
@@ -590,25 +531,173 @@ One exception is when the `replicas` value is set to `0` (i.e. the component is 
 The previous `resources` block have been replaced by `triggers`.
 :::
 
-#### `azureServiceBus` trigger
+Radix application components replicas can be scaled up and down based on resources (CPU, memory) or external metrics (cron, Azure Service Bus, etc.). Read [more](/guides/horizontal-scaling/).
 
-Take a look here [github.com/equinor/radix-public-site/examples/radix-example-keda-servicebus](https://github.com/equinor/radix-public-site/tree/main/examples/radix-example-keda-servicebus) for a sample implementation that runs on Radix.
-
-Azure Service Bus supports either a `queueName`, or a `topicName` and `subscriptionName`. You can also select the target average `messageCount` (defaults to 5), and `activationMessageCount` (defaults to 0).
-
-To authenticate Keda for scaling, you must provide a clientId to a managed identity, that contains a federeated credential with these properties:
+#### Scaling options
 ```yaml
-Federated credential scenario: Kubernetes Service Account
-# Find real and current value here: https://console.radix.equinor.com/about (CLUSTER_OIDC_ISSUER_URL), 
-# it will change in the future, we will post details in the slack channel #omnia-radix when it must be changed.
-Cluster Issuer URL: https://northeurope.oic.prod-aks.azure.com/00000000-0000-0000-0000-000000000000/00000000-0000-0000-0000-000000000000/ 
-Namespace: keda
-Service Account: keda-operator
-
-# ⚠️ When you give Keda access to your Service Bus, any other Radix app can scale their app based on your queue. 
-#    We are hoping on improving this - https://github.com/kedacore/keda/issues/5630
+spec:
+  components:
+    - name: backend
+      horizontalScaling:
+        minReplicas: 0
+        maxReplicas: 6
+        pollingInterval: 15
+        cooldownPeriod: 120
 ```
+* `minReplicas` - (optional, default `1`) The minimum number of replicas to scale down to. Valid minimum value depend on trigger type. If only CPU or memory trigger is defined, the default and minimum value is `1`. If other types of triggers are defined, the minimum value can be `0`.
+* `maxReplicas` - the maximum number of replicas to scale up to by any combination of triggers.
+* `pollingInterval` - (optional, default `30`) This is the interval in seconds to check each trigger on. Read [more](https://keda.sh/docs/2.14/concepts/scaling-deployments/#pollinginterval).
+* `cooldownPeriod` - (optional, default `300`) The period in seconds to wait after the last trigger reported active before scaling the resource back to `0`. Read [more](https://keda.sh/docs/2.14/concepts/scaling-deployments/#cooldownperiod).
 
+Read [more](https://keda.sh/docs/2.14/concepts/scaling-deployments/#scaledobject-spec) about other default options.
+
+#### `cpu` and `memory` triggers
+Scale applications based on CPU and/or memory metrics.
+```yaml
+spec:
+  components:
+    - name: backend
+      horizontalScaling:
+        minReplicas: 1
+        maxReplicas: 6
+        triggers:
+        - name: cpu
+          cpu:
+            value: 85
+        - name: memory
+          memory:
+            value: 75
+```
+* `minReplicas` - (optional) The minimum number of replicas to scale down to. If only CPU or memory trigger is defined, the default and minimum value is `1`. If other types of triggers are defined, the minimum value can be `0`.
+* `cpu` - (optional) The target average CPU usage (in percents) across all replicas. If the average CPU usage is above this value, KEDA will scale up the component. Read [more](https://keda.sh/docs/2.17/scalers/cpu/)
+* `memory` - (optional) The target average memory usage (in percents) across all replicas. If the average memory usage is above this value, KEDA will scale up the component. Read [more](https://keda.sh/docs/2.17/scalers/memory/).
+
+:::tip Deprecated
+* Legacy resources will be rewritten as triggers by Radix.
+* It is not allowed to mix resources with triggers.
+```yaml
+ #Deprecated
+ resources:
+     memory:
+       averageUtilization: 75
+     cpu:
+       averageUtilization: 85
+```
+:::
+#### `cron` trigger
+Scale applications based on a cron schedule. 
+
+The example below scales the `backend` component to `2` replicas between 07:00 and 17:00 on weekdays (Monday to Friday) in the Europe/Oslo timezone. Outside this period, the component will scale down to `0` replicas.
+```yaml
+spec:
+  components:
+    - name: backend
+      horizontalScaling:
+        minReplicas: 0
+        maxReplicas: 2
+        triggers:
+        - name: cron
+          cron:
+            timezone: Europe/Oslo
+            start: 0 7 * * 1-5 # 07:00 Monday - Friday
+            end: 0 17 * * 1-5 # 17:00 Monday - Friday
+            desiredReplicas: 2
+```
+* `minReplicas` - it need to be set to `0` to allow scaling down to zero replicas outside the cron scheduled period.
+* `maxReplicas` - the maximum number should be equal or great than `desiredReplicas`.
+* `timezone` - (optional) One of the acceptable values from the IANA Time Zone Database. The list of timezones can be found [here](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
+* `start` - (required) Cron expression indicating the start of the cron schedule.
+* `end` - (required) Cron expression indicating the end of the cron schedule.
+* `desiredReplicas` - Number of replicas to which the resource has to be scaled _between the start and end_ of the cron schedule.
+
+Read [more](https://keda.sh/docs/2.17/scalers/cron/)
+
+#### `azureServiceBus` trigger
+Scale application components based on [Azure Service Bus](https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-overview) Queues or Topics.
+````yaml
+spec:
+  components:
+    - name: backend
+      horizontalScaling:
+        minReplicas: 0
+        maxReplicas: 2
+        secrets:
+          - SERVICE_BUS_CONNECTION
+        triggers:
+          - name: azure-sb
+            azureServiceBus:
+              namespace: my-servicebus-namespace
+              queueName: my-queue
+              topicName: my-topic
+              subscriptionName: my-subscription
+              messageCount: 5
+              activationMessageCount: 0
+              authentication:
+                identity:
+                  azure:
+                    clientId: 00000000-0000-0000-0000-000000000000
+              connectionFromEnv: SERVICE_BUS_CONNECTION
+````
+* `minReplicas` - it need to be set to `0` to allow scaling down to zero replicas.
+* `namespace` - The Azure Service Bus namespace, without the `.servicebus.windows.net` suffix. Required when authenticate to Azure Service Bus using a Managed Identity.
+* `queueName` - (optional) Name of the Azure Service Bus queue to scale on. This cannot be used together with `topicName`.
+* `topicName` - (optional) Name of the Azure Service Bus topic to scale on. This cannot be used together with `queueName`.
+* `subscriptionName` - (optional) Name of the Azure Service Bus subscription to scale on. Required when `topicName` is specified. This cannot be used together with `queueName`.
+* `messageCount` - (optional, default 5) The target average number of messages in the queue or topic subscription. If the average number of messages is above this value, Keda will scale up the component.
+* `activationMessageCount` - (optional, default 0) The number of messages that must be present in the queue or topic subscription before Keda will activate scaling. If the number of messages is below this value, Keda will not scale up the component.
+* `authentication` - (optional) authenticate to Azure Service Bus using a Managed Identity. `identity.azure.clientId` is a service principal ClientID. Read [more](/guides/horizontal-scaling/keda-azure-service-bus-trigger-authentication#authenticate-with-workload-identity).
+* `connectionFromEnv` - (optional) The name of an environment variable or a secret that contains the connection string to the Azure Service Bus. Ignored when authentication is done with Workload Identity. Read [more](/guides/horizontal-scaling/keda-azure-service-bus-trigger-authentication#authenticate-with-connection-string).
+
+Read [more](https://keda.sh/docs/2.17/scalers/azure-service-bus/) about the Keda Azure Service Bus scheduler.
+
+#### `azureEventHub` trigger
+Scale application components based on [Azure Event Hub](https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-about) events.
+````yaml
+spec:
+  components:
+    - name: backend
+      horizontalScaling:
+        minReplicas: 0
+        maxReplicas: 1
+        secrets:
+          - EVENT_HUB_CONNECTION
+          - STORAGE_CONNECTION
+        triggers:
+          - name: azure-eh
+            azureEventHub:
+              eventHubName: my-event-hub
+              eventHubNamespace: my-event-hub-namespace
+              eventHubNameFromEnv: EVENT_HUB_NAME
+              eventHubNamespaceFromEnv: EVENT_HUB_NAMESPACE
+              accountName: my-storage-account
+              container: my-blob-container
+              checkpointStrategy: blobMetadata
+              unprocessedEventThreshold: 20
+              activationUnprocessedEventThreshold: 2
+              authentication:
+                identity:
+                  azure:
+                    clientId: 00000000-0000-0000-0000-000000000000
+              eventHubConnectionFromEnv: EVENT_HUB_CONNECTION
+              storageConnectionFromEnv: STORAGE_CONNECTION
+````
+* `minReplicas` - it need to be set to `0` to allow scaling down to zero replicas.
+* `eventHubNamespace` - (optional) the Azure Event Hub namespace, without the `.servicebus.windows.net` suffix. Required when authentication is done with Workload Identity.
+* `eventHubNamespaceFromEnv` - (optional) the name of an environment variable that contains the Event Hub namespace. Ignored when `eventHubNamespace` is specified. Required when authentication is done with Workload Identity.
+* `eventHubName` - (optional) the name of the Event Hub to scale on. Required when authentication is done with Workload Identity.
+* `eventHubNameFromEnv` - (optional) the name of an environment variable that contains the Event Hub name. Ignored when `eventHubName` is specified. Required when authentication is done with Workload Identity.
+* `accountName` - (optional) the name of the Azure Storage account to save current [checkpoint](https://keda.sh/docs/2.17/scalers/azure-event-hub/#checkpointing-behaviour). Required when authentication is done with Workload Identity.
+* `container` - (optional) the name of the Azure Storage container to save current [checkpoint](https://keda.sh/docs/2.17/scalers/azure-event-hub/#checkpointing-behaviour). Required when `checkpointStrategy` is _not_ `azureFunction`.
+* `checkpointStrategy` - (optional, default `blobMetadata`) the strategy to use for checkpointing. Can be one of the following values:
+  * `blobMetadata` - checkpoint is stored in an Azure Storage Account.
+  * `azureFunction` - checkpoint is stored in an Azure Storage Account, in the blob container `azure-webjobs-eventhub` - Radix will automatically set or override with this value `container` property for this checkpoint type.
+  * `goSdk` - for all implementations using the [Golang SDK](https://github.com/Azure/azure-event-hubs-go) checkpointing.
+* `unprocessedEventThreshold` - (optional, default `64`) average target value to trigger scaling actions.
+* `activationUnprocessedEventThreshold` - (optional, default `0`) target value for activating the scaler. Read [more](https://keda.sh/docs/2.17/concepts/scaling-deployments/#activating-and-scaling-thresholds) about activation.
+* `authentication` - (optional) authenticate to Azure Event Hub using a Managed Identity. `identity.azure.clientId` is a service principal ClientID. Read [more](/guides/horizontal-scaling/keda-azure-event-hub-trigger-authentication#authenticate-with-workload-identity).
+* `storageConnectionFromEnv` - (optional) The name of an environment variable or a secret that contains the connection string to the Azure Event Hub. Ignored when authentication is done with Workload Identity. Read [more](/guides/horizontal-scaling/keda-azure-event-hub-trigger-authentication#authenticate-with-connection-string).
+
+Read [more](https://keda.sh/docs/2.17/scalers/azure-event-hub/) about the Keda Azure Event Hub scheduler.
 
 ### `healthChecks`
 

@@ -1,0 +1,48 @@
+<!-- src/templates/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Send Event</title>
+    <script>
+        async function sendEvent() {
+            const info = document.getElementById("info").value;
+            const button = document.getElementById("sendButton");
+            const status = document.getElementById("status");
+
+            button.disabled = true;
+            status.innerText = "Sending...";
+            status.style.color = "blue";
+
+            try {
+                const response = await fetch("/send", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ info })
+                });
+
+                const result = await response.json();
+
+                if (result.status === "success") {
+                    status.innerText = "Event sent!";
+                    status.style.color = "green";
+                } else {
+                    throw new Error(result.message);
+                }
+            } catch (e) {
+                status.innerText = "Error: " + e.message;
+                status.style.color = "red";
+            }
+
+            button.disabled = false;
+        }
+    </script>
+</head>
+<body>
+    <h1>Azure Event Hub Sender</h1>
+    <input type="text" id="info" placeholder="Event info" required>
+    <button id="sendButton" onclick="sendEvent()">Send Event</button>
+    <p id="status"></p>
+</body>
+</html>
