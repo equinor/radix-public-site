@@ -49,6 +49,9 @@ Read more about [Azure workload identity](/guides/workload-identity/)
 spec:
   components:
     - name: backend
+      secrets:
+        - EVENT_HUB_CONNECTION
+        - STORAGE_CONNECTION
       horizontalScaling:
         minReplicas: 0
         maxReplicas: 2
