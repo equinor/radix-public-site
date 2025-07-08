@@ -19,10 +19,6 @@ spec:
       identity:
         azure:
           clientId: "00000000-0000-0000-0000-000000000000"
-      authentication:
-        oauth2:
-          clientId: "00000000-0000-0000-0000-000000000000"
-          credentials: azureWorkloadIdentity
       variables:
         EVENT_HUB_NAMESPACE: my-event-hub-namespace
         EVENT_HUB_NAME: my-event-hub
