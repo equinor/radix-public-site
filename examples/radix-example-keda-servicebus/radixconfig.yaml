@@ -2,7 +2,7 @@
 apiVersion: radix.equinor.com/v1
 kind: RadixApplication
 metadata:
-  name: <YOUR APP NAME> #FIXME
+  name: my-app-name #FIXME
 spec:
   environments:
     - name: dev
