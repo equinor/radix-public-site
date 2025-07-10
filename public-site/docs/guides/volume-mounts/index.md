@@ -168,6 +168,17 @@ volumeMounts:
         timeout: 0 # Disabled by default
 ```
 
+## Private endpoint
+When [requesting a private link](/guides/private-link/#request-the-private-linkendpoint) to connect to the Azure storage account:
+* in case `useAdls: false` - request `SubResource: blob`.
+* in case `useAdls: true` - request `SubResource: dfs` (Distributed File System).
+
+These different sub-resources use different private link endpoint DNS zones. Read [more](https://learn.microsoft.com/en-us/azure/storage/common/storage-private-endpoints#creating-a-private-endpoint) about Azure Storage private link endpoints.
+
+Indication that sub-resource is `blob` but it need to be `dfs` is events with failure message:
+```shell
+Error: failed to initialize new pipeline [failed to authenticate credentials for azstorage]
+````
 
 ## Deprecated Options
 
