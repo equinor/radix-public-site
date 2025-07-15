@@ -24,3 +24,5 @@ Batches and jobs can be found in the Web console under the "Batches" and "Jobs" 
     * when a job or a batch is running with a non-active deployment - it is an option to run a copy the job or the batch with a new active deployment.
       ![Restart job with new active deployment](./restart-job-with-active-deployment.png)
     * jobs in a batch can be restarted or copied individually. When a batch job restarted with another active deployment, a new batch is created with a copy of this only job
+  * When a job was created with custom environment variables in job description, these variables are shown on the job details page
+    ![Job environment variables](job-environment-variables.png)

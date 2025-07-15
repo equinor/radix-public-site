@@ -6,10 +6,19 @@ title: What's new
 
 ## 2025
 
+### 2025-07-16
+Radix jobs can be run with optional `image` and `variables`. Read [more](/guides/jobs/job-manager-and-job-api#create-a-single-job).
+
+### 2025-07-08
+Supported scale Radix application components based on [Azure Event Hub events](/guides/horizontal-scaling/keda-azure-event-hub-trigger-overview).
+
+### 2025-06-24
+[OAuth2](/radix-config/#oauth2) authentication can be configured with Redis session store, automatically configured and deployed with an option `sessionStoreType: systemManaged` (so no need to manually configure separate redis component).
+
 ### 2025-06-23
 [OAuth2](../../radix-config/#oauth2) authentication can be configured with Redis session store, automatically deployed with an option `sessionStoreType: systemManaged` in the [radixconfig](../../radix-config/index.md).
 
-### 2025-06-5
+### 2025-06-05
 Added `command` and `args` properties to components and job-components in [radixconfig](../../radix-config/index.md).
 
 ### 2025-05-26
