@@ -6,60 +6,60 @@ title: What's new
 
 ## 2025
 
-### 2025-07-16
+### 2025-07-16 Image and variables for Radix jobs
 Radix jobs can be run with optional `image` and `variables`. Read [more](/guides/jobs/job-manager-and-job-api#create-a-single-job).
 
-### 2025-07-08
+### 2025-07-08 Scale with Azure Event Hub events
 Supported scale Radix application components based on [Azure Event Hub events](/guides/horizontal-scaling/keda-azure-event-hub-trigger-overview).
 
-### 2025-06-23
+### 2025-06-23 System managed Redis for OAuth2
 [OAuth2](../../radix-config/#oauth2) authentication can be configured with Redis session store, automatically deployed with an option `sessionStoreType: systemManaged` in the [radixconfig](../../radix-config/index.md).
 
-### 2025-06-05
+### 2025-06-05 Command and args in components
 Added `command` and `args` properties to components and job-components in [radixconfig](../../radix-config/index.md).
 
-### 2025-05-26
+### 2025-05-26 fromType build options
 Added `fromType` to the [`environments.build`](../../radix-config#build-1) section in [radixconfig](../../radix-config/index.md).
 
-### 2025-05-14
-Released Radix Github Actions v2.0.0 with breaking changes.
+### 2025-05-14 Radix GitHub Actions v2.0.0
+Released Radix GitHub Actions v2.0.0 with breaking changes.
 - The `args` command no longer executes.
-- The action will now install `rx` into the worklow environment
-- Optionally authenticate with Github Workload Identity and Federaded Credentials, or Client Secret
+- The action will now install `rx` into the workflow environment
+- Optionally authenticate with GitHub Workload Identity and Federated Credentials, or Client Secret
 - Automatically runs `rx logout` after the workflow has completed to make sure any Radix authentication tokens are removed from the environment.
 
 Read details about the migrations here: [Migrating Radix Github Actions v1 to v2](/guides/deploy-only/migrating-radix-github-action-v1-to-v2)
 
-### 2025-05-15
+### 2025-05-15 Option to refresh build cache
 Added an option to refresh build cache. It is applicable when a radixconfig.yaml property `useBuildKit` is set to `true`. Read more in [radixconfig](../../radix-config/#refresh-build-cache).
 
-### 2025-05-10
+### 2025-05-10 Supported custom node types
 Added `nodeType` to the [`runtime`](../../radix-config#runtime-1) section in [radixconfig](../../radix-config/index.md).
 
-### 2025-04-25
+### 2025-04-25 Configurable webhookEnabled build option
 Added `webhookEnabled` to the [`environments.build`](../../radix-config#webhookenabled) section in [radixconfig](../../radix-config/index.md):
 
-### 2025-04-08
+### 2025-04-08 Configurable proxyBufferSize option
 Added `proxyBufferSize` to the [`network.ingress.public`](../../radix-config/index.md#network-1) section in [radixconfig](../../radix-config/index.md):
 
 `proxyBufferSize` defines the size of the buffer used for reading the first part of the response received from the proxied server. The size must be large enough to hold the response headers.
 
-### 2025-03-17
+### 2025-03-17 Improved volume mount cache
 - Fixed [issue](https://github.com/equinor/radix/issues/348) with stale files when mounting Azure storage account blob containers.
 - Add block cache support, and use as default instead of the [deprecated streaming option](../../guides/volume-mounts/index.md#deprecated-options), for [blobFuse2](../../radix-config/index.md#blobfuse2). See [guide](../../guides/volume-mounts/) for details.
 
-### 2025-03-03
+### 2025-03-03 Radix CLI gets and stops scheduled batches and jobs
 Radix API and Radix CLI can be used to [get](/docs/topic-radix-cli/#get-scheduled-batches-and-jobs) and [stop](/docs/topic-radix-cli/#stop-scheduled-batches-and-jobs) Radix scheduled batches and jobs.
 
-### 2025-02-21
+### 2025-02-21 Vulnerability reports with Radix CLI
 Radix CLI (v1.26.0) now supports getting vulnerability reports for your applications. Try `rx get vulnerability --application your-app-name` to see it in action. Read more [here](/docs/topic-radix-cli/#get-vulnearbility-scan-reports)
 
-### 2025-02-20 
+### 2025-02-20 Two options for authentication to OAuth2
 Radix now supports two options for authentication to OAuth2 proxy for a Radix application component
 - [Client Secret](/guides/authentication/#authentication-with-client-secret), already existing
 - [Azure Workload Identity](/guides/authentication/#authentication-with-azure-workload-identity), available from now, authentication without need of Client secret.
 
-### 2025-02-10 
+### 2025-02-10 Two authentication options for Azure Storage Account
 Radix now supports two options for authentication to Azure Storage Account from a Radix application component
 - [Azure Storage Account Keys](../../guides/volume-mounts/index.md#access-keys), already existing
 - [Azure Workload Identity](../../guides/volume-mounts/index.md#azure-workload-identity), available from now, authentication without need of Azure Storage Account key
