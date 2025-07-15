@@ -40,7 +40,9 @@ The Job Manager exposes the following methods for managing jobs:
         "action": "FailJob",
         "onExitCodes": {
           "operator": "In",
-          "values": [42]
+          "values": [
+            42
+          ]
         }
       }
     ]
@@ -57,13 +59,20 @@ The Job Manager exposes the following methods for managing jobs:
   },
   "runtime": {
     "nodeType": "memory-optimized-2-v1"
+  },
+  "variables": {
+    "INPUT_FILE_NAME": "chart-2025-07-15.json",
+    "OUTPUT_FILE_NAME": "result-2025-07-15.json",
+    "TRAINING_EPOCHS": "10"
   }
 }
 ```
 
- `payload`, `jobId`, `imageTagName`, `timeLimitSeconds`, `backoffLimit`, `failurePolicy`, `resources` and `runtime` are all optional fields and any of them can be omitted in the request.
+`payload`, `jobId`, `image`, `imageTagName`, `timeLimitSeconds`, `backoffLimit`, `failurePolicy`, `resources`, `runtime`, `variables` are all optional fields and any of them can be omitted in the request.
 
-`imageTagName` field allows to alter specific job image tag. In order to use it, the `{imageTagName}` need to be set as described in the [`radixconfig.yaml`](/radix-config/index.md#imagetagname)
+* `image` field allows to alter specific job [`image`](/radix-config/index.md#image-2)
+* `imageTagName` field allows to alter specific job image tag. In order to use it, the `{imageTagName}` need to be set as described in the [`radixconfig.yaml`](/radix-config/index.md#imagetagname)
+* `variables` can add or override for a specific job [variables](/radix-config/#variables-common-1) configured for a job component. It can be used to pass arguments to the job instead of `payload`.
 
 ## Create a batch of jobs
 
@@ -87,6 +96,9 @@ The Job Manager exposes the following methods for managing jobs:
       },
       "runtime": {
         "architecture": "amd64"
+      },
+      "variables": {
+        "TRAINING_EPOCHS": "5"
       }
     }
   },
@@ -109,16 +121,29 @@ The Job Manager exposes the following methods for managing jobs:
       },
       "runtime": {
         "nodeType": "memory-optimized-2-v1"
+      },
+      "variables": {
+        "INPUT_FILE_NAME": "chart-2025-07-15.json",
+        "OUTPUT_FILE_NAME": "result-2025-07-15.json"
       }
     },
     {
       "payload": "{'data':'value2'}",
       "jobId": "my-job-2",
       ...
+      "variables": {
+        "INPUT_FILE_NAME": "chart-2025-07-16.json",
+        "OUTPUT_FILE_NAME": "result-2025-07-16.json",
+        "TRAINING_EPOCHS": "10"
+      }
     },
     {
       "payload": "{'data':'value3'}",
       ...
+      "variables": {
+        "INPUT_FILE_NAME": "chart-2025-07-17.json",
+        "OUTPUT_FILE_NAME": "result-2025-07-17.json"
+      }
     }
   ]
 }
