@@ -6,8 +6,11 @@ title: What's new
 
 ## 2025
 
+### 2025-07-17 Command and args in Radix jobs and batches
+Added `command` and `args` properties to be optionally configurable when create Radix jobs and batches. Read [more](/guides/jobs/job-manager-and-job-api#parameters).
+
 ### 2025-07-16 Image and variables for Radix jobs
-Radix jobs can be run with optional `image` and `variables`. Read [more](/guides/jobs/job-manager-and-job-api#create-a-single-job).
+Radix jobs can be run with optional `image` and `variables`. Read [more](/guides/jobs/job-manager-and-job-api#parameters).
 
 ### 2025-07-08 Scale with Azure Event Hub events
 Supported scale Radix application components based on [Azure Event Hub events](/guides/horizontal-scaling/keda-azure-event-hub-trigger-overview).
