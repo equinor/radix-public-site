@@ -1663,7 +1663,8 @@ spec:
       command:
       - ./run.sh
 ```
-`command` - (optional) sets or overrides [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint) directive array in a docker image. Read more about [command](/radix-config/#command)
+`command` - (optional) sets or overrides [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint) directive array in a docker image. Read more about [command](/radix-config/#command). It can be overridden for individual job or batch jobs, read [more](/guides/jobs/job-manager-and-job-api#parameters).
+
 ### `args`
 ```yaml
 spec:
@@ -1673,7 +1674,7 @@ spec:
       - --output=json
       - --log-level=info
 ```
-`args` - (optional) sets or overrides [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive array in a docker image. Read more about [args](/radix-config/#args)
+`args` - (optional) sets or overrides [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive array in a docker image. Read more about [args](/radix-config/#args). It can be overridden for individual job or batch jobs, read [more](/guides/jobs/job-manager-and-job-api#parameters).
 
 ### `notifications`
 
@@ -1935,7 +1936,7 @@ spec:
           command:
           - ./run.sh
 ```
-`command` - (optional) sets or overrides [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint) directive array in a docker image. It can also override the component's `command` if it exists. Read more about [command](/radix-config/#command)
+`command` - (optional) sets or overrides [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint) directive array in a docker image. It can also override the component's `command` if it exists. Read more about [command](/radix-config/#command). It can be overridden for individual job or batch jobs, read [more](/guides/jobs/job-manager-and-job-api#parameters).
 
 #### `args`
 ```yaml
@@ -1950,7 +1951,7 @@ spec:
           - --output=json
           - --log-level=info
 ```
-`args` - (optional) sets or overrides [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive array in a docker image. It can also override the component's `args` if it exists. Read more about [args](/radix-config/#args)
+`args` - (optional) sets or overrides [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive array in a docker image. It can also override the component's `args` if it exists. Read more about [args](/radix-config/#args). It can be overridden for individual job or batch jobs, read [more](/guides/jobs/job-manager-and-job-api#parameters).
 
 #### `notifications`
 
