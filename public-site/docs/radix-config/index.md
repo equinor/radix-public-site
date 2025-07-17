@@ -1517,12 +1517,13 @@ spec:
 ```
 The `nodeType` property in `runtime` defines the particular Kubernetes cluster node (virtual machine) in the list of supported by Radix, where a component or job replicas should be running on. Currently supported list of node types:
 * `memory-optimized-2-v1`
-  * CPU: Intel® 4th gen Xeon®, 96 cores, architecture: AMD64
+  * CPU: Intel Xeon 4th Gen Scalable (Sapphire Rapids) [x86-64], 96 cores
   * Memory: 1946 GB
+  * GPU: n/a
 * `gpu-nvidia-1-v1` 
-  * CPU: Intel® Xeon® E5-2690 v4, 6 cores, architecture: AMD64
-  * Memory: 112 GB
-  * GPU: 1 Nvidia Tesla V100, 16 GB of memory
+  * CPU: AMD EPYC 7V13 (Milan) [x86-64], 24 cores
+  * Memory: 220 GB
+  * GPU: 1 x Nvidia PCIe A100 GPU, 80 GB of memory 
 :::warning
 Nodes, available with `nodeType` property are usually much more expensive than default nodes. Please use them only when needed, preferable with jobs, as these nodes automatically scaled up on started component or jobs (which can take up to 5 minutes) and scaled down (within minutes) when the job is finished.
 :::
