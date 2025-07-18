@@ -72,11 +72,22 @@ The Job Manager exposes the following methods for managing jobs:
 ### Parameters
 `payload`, `jobId`, `image`, `imageTagName`, `timeLimitSeconds`, `backoffLimit`, `failurePolicy`, `resources`, `runtime`, `variables`, `command`, `args` are optional fields and any of them can be omitted in the request.
 
-* `image` field allows to alter specific job [`image`](/radix-config/index.md#image-2)
-* `imageTagName` field allows to alter specific job image tag. In order to use it, the `{imageTagName}` need to be set as described in the [`radixconfig.yaml`](/radix-config/index.md#imagetagname)
-* `variables` can add or override for a specific job [variables](/radix-config/#variables-common-1) configured for a job component. It can be used to pass arguments to the job instead of `payload`.
-* `command` - sets or overrides [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint) directive array in a docker image. It can also override the job-component's `command` if it exists. Read more about [command](/radix-config/#command)
-* `args` - sets or overrides [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive array in a docker image. It can also override the job-component's `args` if it exists. Read more about [args](/radix-config/#args)
+#### image
+`image` field allows to alter specific job's [`image`](/radix-config/index.md#image-2)
+#### imageTagName
+`imageTagName` field allows to replace an image tag for specific job - it is not necessary to configure `{imageTagName}` in the [`radixconfig.yaml`](/radix-config/index.md#imagetagname) for it.
+#### variables
+`variables` can add or override for a specific job [variables](/radix-config/#variables-common-1) configured for a job component. It can be used to pass arguments to the job instead of `payload`.
+#### command
+`command` - sets or overrides [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint) directive array in a docker image. It can also override the job-component's `command` if it exists. Read more about [command](/radix-config/#command)
+
+When `command` is set and a Dockerfile used by the job-component has [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive (having a shell command or arguments to a command defined in [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint)), this [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive will be ignored.
+
+When `command` field is set to an empty array `[]`, it will suppress `command` on the job-component or its `environmentConfig` level if exists, an [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint) directive in the Dockerfile will be used if defined.
+#### args
+`args` - sets or overrides [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive array in a docker image. It can also override the job-component's `args` if it exists. Read more about [args](/radix-config/#args)
+
+When `args` field is set to an empty array `[]`, it will suppress `args` on the job-component or its `environmentConfig` level if exists, an [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive in the Dockerfile will be used if defined.
 
 ## Create a batch of jobs
 
@@ -152,6 +163,14 @@ The Job Manager exposes the following methods for managing jobs:
   ]
 }
 ```
+
+### Parameters
+Parameters are the same as described in the [Create a single job](#parameters) section, with the following differences:
+* Parameters can be defined in both `defaultRadixJobComponentConfig` and `jobScheduleDescriptions` items, individually for each job configuration 
+* A parameter defined in a `jobScheduleDescriptions` item overrides the same parameter in `defaultRadixJobComponentConfig` and on a job component or its `environmentConfig` levels.
+* `variables` defined in `defaultRadixJobComponentConfig` and/or in `jobScheduleDescriptions` items are combined and add or override [variables](/radix-config/#variables-common-1) configured for a job component.
+* When final `command` is set to an empty array `[]` in an `jobScheduleDescriptions` item and `defaultRadixJobComponentConfig`, for this batch or a specific job it suppresses `command` defined on a job-component or its `environmentConfig` level if exists, an [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint) directive in the Dockerfile will be used if defined.
+* When final `args` is set to an empty array `[]` in an `jobScheduleDescriptions` item and `defaultRadixJobComponentConfig`, for this batch or a specific job it suppresses `args` defined on a job-component or its `environmentConfig` level if exists, an [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive in the Dockerfile will be used if defined.
 
 ## Starting a new job
 
