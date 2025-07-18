@@ -438,7 +438,11 @@ spec:
       command:
       - ./run.sh
 ```
-`command` - (optional) sets or overrides [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint) directive array in a docker image. [Variable](https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#use-environment-variables-to-define-arguments) references like `$(VAR_NAME)` can be used with the container's environment variables. Read more in [Kubernetes documentation](https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#run-a-command-in-a-shell). `command` can be set or overridden for a specific environment.
+`command` - (optional) sets or overrides [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint) directive array in a docker image. [Variable](https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#use-environment-variables-to-define-arguments) references like `$(VAR_NAME)` can be used with the container's environment variables. Read more in [Kubernetes documentation](https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#run-a-command-in-a-shell). `command` can be set or overridden for a specific environment. 
+
+When `command` is set and a Dockerfile used by the job-component has [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive (having a shell command or arguments to a command defined in [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint)), this [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive will be ignored.
+
+When `command` is set to an empty array `[]`, it will be equivalent of empty `command`, no effect on configuration.  
 
 The command can be followed by a list of arguments.
 ```yaml
@@ -468,6 +472,8 @@ spec:
 ```
 `args` - (optional) sets or overrides [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive array in a docker image. [Variable](https://kubernetes.io/docs/tasks/inject-data-application/define-args-argument-container/#use-environment-variables-to-define-arguments) references like `$(VAR_NAME)` can be used with the container's environment variables. Read more in [Kubernetes documentation](https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#run-a-command-in-a-shell). `args` can be set or overridden for a specific environment.
 
+When `args` is set to an empty array `[]`, it will be equivalent of empty `args`, no effect on configuration.
+
 Array syntax is also supported:
 ```yaml
 spec:
@@ -476,7 +482,7 @@ spec:
       args: ["--port=8000", "--host=server"]
 ```
 :::tip
-`command` and `args` can be combined. If both are set, `command` will override the `ENTRYPOINT` and `args` will override the `CMD` of the container image.
+`command` and `args` can be combined. If both are set, `command` will override the [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint) and `args` will override the [CMD](https://docs.docker.com/reference/dockerfile/#cmd) of the container image.
 
 Following configuration will run the command in the container: `node server.js --port=8000 --host=server`
 
@@ -1664,7 +1670,10 @@ spec:
       command:
       - ./run.sh
 ```
-`command` - (optional) sets or overrides [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint) directive array in a docker image. Read more about [command](/radix-config/#command)
+`command` - (optional) sets or overrides [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint) directive array in a docker image. Read more about [command](/radix-config/#command). It can be overridden for individual job or batch jobs, read [more](/guides/jobs/job-manager-and-job-api#parameters).
+
+When `command` in an `environmentConfig` is set to an empty array `[]`, it will suppress `command` on the component or job-component level if exists, an [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint) directive in the Dockerfile will be used if defined.
+
 ### `args`
 ```yaml
 spec:
@@ -1674,7 +1683,9 @@ spec:
       - --output=json
       - --log-level=info
 ```
-`args` - (optional) sets or overrides [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive array in a docker image. Read more about [args](/radix-config/#args)
+`args` - (optional) sets or overrides [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive array in a docker image. Read more about [args](/radix-config/#args). It can be overridden for individual job or batch jobs, read [more](/guides/jobs/job-manager-and-job-api#parameters).
+
+When `args` in an `environmentConfig` is set to an empty array `[]`, it will suppress `args` on the component or job-component level if exists, an [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive in the Dockerfile will be used if defined.
 
 ### `notifications`
 
@@ -1936,7 +1947,7 @@ spec:
           command:
           - ./run.sh
 ```
-`command` - (optional) sets or overrides [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint) directive array in a docker image. It can also override the component's `command` if it exists. Read more about [command](/radix-config/#command)
+`command` - (optional) sets or overrides [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint) directive array in a docker image. It can also override the component's `command` if it exists. Read more about [command](/radix-config/#command). It can be overridden for individual job or batch jobs, read [more](/guides/jobs/job-manager-and-job-api#parameters).
 
 #### `args`
 ```yaml
@@ -1951,7 +1962,7 @@ spec:
           - --output=json
           - --log-level=info
 ```
-`args` - (optional) sets or overrides [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive array in a docker image. It can also override the component's `args` if it exists. Read more about [args](/radix-config/#args)
+`args` - (optional) sets or overrides [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive array in a docker image. It can also override the component's `args` if it exists. Read more about [args](/radix-config/#args). It can be overridden for individual job or batch jobs, read [more](/guides/jobs/job-manager-and-job-api#parameters).
 
 #### `notifications`
 
