@@ -40,7 +40,9 @@ The Job Manager exposes the following methods for managing jobs:
         "action": "FailJob",
         "onExitCodes": {
           "operator": "In",
-          "values": [42]
+          "values": [
+            42
+          ]
         }
       }
     ]
@@ -57,13 +59,35 @@ The Job Manager exposes the following methods for managing jobs:
   },
   "runtime": {
     "nodeType": "memory-optimized-2-v1"
-  }
+  },
+  "variables": {
+    "INPUT_FILE_NAME": "chart-2025-07-15.json",
+    "OUTPUT_FILE_NAME": "result-2025-07-15.json",
+    "TRAINING_EPOCHS": "10"
+  },
+  "command": ["./run.sh"],
+  "args": ["--input", "/data/input.json", "--output", "/data/output.json"]
 }
 ```
+### Parameters
+`payload`, `jobId`, `image`, `imageTagName`, `timeLimitSeconds`, `backoffLimit`, `failurePolicy`, `resources`, `runtime`, `variables`, `command`, `args` are optional fields and any of them can be omitted in the request.
 
- `payload`, `jobId`, `imageTagName`, `timeLimitSeconds`, `backoffLimit`, `failurePolicy`, `resources` and `runtime` are all optional fields and any of them can be omitted in the request.
+#### image
+`image` field allows to alter specific job's [`image`](/radix-config/index.md#image-2)
+#### imageTagName
+`imageTagName` field allows to replace an image tag for specific job - it is not necessary to configure `{imageTagName}` in the [`radixconfig.yaml`](/radix-config/index.md#imagetagname) for it.
+#### variables
+`variables` can add or override for a specific job [variables](/radix-config/#variables-common-1) configured for a job component. It can be used to pass arguments to the job instead of `payload`.
+#### command
+`command` - sets or overrides [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint) directive array in a docker image. It can also override the job-component's `command` if it exists. Read more about [command](/radix-config/#command)
 
-`imageTagName` field allows to alter specific job image tag. In order to use it, the `{imageTagName}` need to be set as described in the [`radixconfig.yaml`](/radix-config/index.md#imagetagname)
+When `command` is set and a Dockerfile used by the job-component has [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive (having a shell command or arguments to a command defined in [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint)), this [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive will be ignored.
+
+When `command` field is set to an empty array `[]`, it will suppress `command` on the job-component or its `environmentConfig` level if exists, an [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint) directive in the Dockerfile will be used if defined.
+#### args
+`args` - sets or overrides [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive array in a docker image. It can also override the job-component's `args` if it exists. Read more about [args](/radix-config/#args)
+
+When `args` field is set to an empty array `[]`, it will suppress `args` on the job-component or its `environmentConfig` level if exists, an [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive in the Dockerfile will be used if defined.
 
 ## Create a batch of jobs
 
@@ -87,6 +111,9 @@ The Job Manager exposes the following methods for managing jobs:
       },
       "runtime": {
         "architecture": "amd64"
+      },
+      "variables": {
+        "TRAINING_EPOCHS": "5"
       }
     }
   },
@@ -109,20 +136,41 @@ The Job Manager exposes the following methods for managing jobs:
       },
       "runtime": {
         "nodeType": "memory-optimized-2-v1"
+      },
+      "variables": {
+        "INPUT_FILE_NAME": "chart-2025-07-15.json",
+        "OUTPUT_FILE_NAME": "result-2025-07-15.json"
       }
     },
     {
       "payload": "{'data':'value2'}",
       "jobId": "my-job-2",
       ...
+      "variables": {
+        "INPUT_FILE_NAME": "chart-2025-07-16.json",
+        "OUTPUT_FILE_NAME": "result-2025-07-16.json",
+        "TRAINING_EPOCHS": "10"
+      }
     },
     {
       "payload": "{'data':'value3'}",
       ...
+      "variables": {
+        "INPUT_FILE_NAME": "chart-2025-07-17.json",
+        "OUTPUT_FILE_NAME": "result-2025-07-17.json"
+      }
     }
   ]
 }
 ```
+
+### Parameters
+Parameters are the same as described in the [Create a single job](#parameters) section, with the following differences:
+* Parameters can be defined in both `defaultRadixJobComponentConfig` and `jobScheduleDescriptions` items, individually for each job configuration 
+* A parameter defined in a `jobScheduleDescriptions` item overrides the same parameter in `defaultRadixJobComponentConfig` and on a job component or its `environmentConfig` levels.
+* `variables` defined in `defaultRadixJobComponentConfig` and/or in `jobScheduleDescriptions` items are combined and add or override [variables](/radix-config/#variables-common-1) configured for a job component.
+* When final `command` is set to an empty array `[]` in an `jobScheduleDescriptions` item and `defaultRadixJobComponentConfig`, for this batch or a specific job it suppresses `command` defined on a job-component or its `environmentConfig` level if exists, an [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint) directive in the Dockerfile will be used if defined.
+* When final `args` is set to an empty array `[]` in an `jobScheduleDescriptions` item and `defaultRadixJobComponentConfig`, for this batch or a specific job it suppresses `args` defined on a job-component or its `environmentConfig` level if exists, an [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive in the Dockerfile will be used if defined.
 
 ## Starting a new job
 
@@ -266,7 +314,7 @@ If the `jobId` is specified, it will be returned in the job's status, and it wil
 }
 ```
 
-Default parameters for jobs can be defined within `DefaultRadixJobComponentConfig`. These parameters can be overridden for each job individually in `JobScheduleDescriptions`
+Default [parameters](#parameters) for jobs can be defined within `DefaultRadixJobComponentConfig`. These [parameters](#parameters) can be overridden for each job individually in `JobScheduleDescriptions`
 
 ```json
 {
@@ -283,7 +331,8 @@ Default parameters for jobs can be defined within `DefaultRadixJobComponentConfi
         "memory": "100Mi",
         "cpu": "100m"
       }
-    }
+    },
+    "command": ["./run.sh"]
   },
   "jobScheduleDescriptions": [
     {
@@ -302,7 +351,8 @@ Default parameters for jobs can be defined within `DefaultRadixJobComponentConfi
       },
       "runtime": {
         "nodeType": "memory-optimized-2-v1"
-      }
+      },
+      "args": ["--input", "/data/input-2025-07-16.json", "--output", "/data/output-2025-07-16.json"]
     },
     {
       "payload": "{'data':'value2'}",
@@ -312,7 +362,9 @@ Default parameters for jobs can be defined within `DefaultRadixJobComponentConfi
       "payload": "{'data':'value3'}",
       "timeLimitSeconds": 300,
       "backoffLimit": 10,
-      "runtime": {}
+      "runtime": {},
+      "command": ["./calculate.sh", "--epochs", "10"],
+      "args": ["--input", "/data/input-ml.json", "--output", "/data/output-ml.json"]
     }
   ]
 }

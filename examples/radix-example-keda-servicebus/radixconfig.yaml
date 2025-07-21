@@ -2,7 +2,7 @@
 apiVersion: radix.equinor.com/v1
 kind: RadixApplication
 metadata:
-  name: <YOUR APP NAME> #FIXME
+  name: my-app-name #FIXME
 spec:
   environments:
     - name: dev
@@ -52,12 +52,14 @@ spec:
         OrderQueueOptions__FullyQualifiedNamespace: your-service-bus-namespace.servicebus.windows.net # FIXME
         OrderQueueOptions__QueueName: orders
 
+      #secrets:
+      #  - SERVICE_BUS_CONNECTION
 
       horizontalScaling:
         maxReplicas: 10
         minReplicas: 0
         triggers:
-          - name: azuresb
+          - name: azure-sb
             azureServiceBus:
               namespace: your-service-bus-namespace #.servicebus.windows.net  # FIXME
               queueName: orders
@@ -68,3 +70,4 @@ spec:
                 identity:
                   azure:
                     clientId: 00000000-0000-0000-0000-000000000000  # FIXME
+              #connectionFromEnv: SERVICE_BUS_CONNECTION

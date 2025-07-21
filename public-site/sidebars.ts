@@ -91,6 +91,30 @@ const sidebars: SidebarsConfig = {
           'guides/volume-mounts/limitations',
         ]
       },
+      {
+          type: 'category',
+          label: 'Horizontal Scaling',
+          items: [
+              'guides/horizontal-scaling/index',
+              {
+                  type: 'category',
+                  label: 'Azure Service Bus',
+                  items: [
+                      'guides/horizontal-scaling/keda-azure-service-bus-trigger-overview',
+                      'guides/horizontal-scaling/keda-azure-service-bus-trigger-authentication',
+                  ]
+              },
+              {
+                  type: 'category',
+                  label: 'Azure Event Hub',
+                  items: [
+                      'guides/horizontal-scaling/keda-azure-event-hub-trigger-overview',
+                      'guides/horizontal-scaling/keda-azure-event-hub-trigger-authentication',
+                      'guides/horizontal-scaling/keda-azure-event-hub-trigger-events',
+                  ]
+              },
+          ]
+      },
       'guides/private-link/index',
       'guides/enable-and-disable-components/index',
       'guides/component-start-stop-restart/index',
