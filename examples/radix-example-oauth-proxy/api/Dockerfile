@@ -1,4 +1,4 @@
-FROM node:20-alpine3.21
+FROM docker.io/node:22.16-alpine3.22
 
 # Create app directory
 WORKDIR /app
