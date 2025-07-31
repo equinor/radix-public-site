@@ -18,12 +18,15 @@ If alerting is enabled for an application environment, Radix will send alerts to
 
 - A **component** or **job** is unable to start due to missing secrets, or if the [Readiness Probe](/docs/topic-rollingupdate/#readiness-probe) is unable to verify that the container is running correctly. A 10 minute grace period is given from the alert is triggered until the message is sent. A **RESOLVED** message is sent once the underlying cause of this alert is resolved.
 - A **component** crashes/exits, e.g. due to insufficient memory or unhandled exceptions causing the application to exit. A **RESOLVED** message is sent once the component has been able to run for more than five minutes after this alert has been sent.
-- A **job** exits with an non-zero exit code, or is killed due to insufficient memory.
+- A **job** exits with a non-zero exit code, or is killed due to insufficient memory.
+- A new **Radix deployment** is activated. After this notification it takes seconds to minutes when changes will be applied to Kubernetes objects and current pods are replaced by new ones (if they can successfully start).
 
 **Example of an alert message and corresponding RESOLVED message**  
 ![component slack alert](./component-slackalert.png "component slack alert")  
 ![component slack resolved](./component-slackresolved.png "component slack resolved")
 
+**Example of an alert message about activated Radix deployment**
+![radix deployment slack alert](./deployment-slack-alert.png)
 To enable alerting for an application environment, open [Radix Web Console](https://console.radix.equinor.com/), navigate to an application and open one of the environment pages.  
 ![environment overview](./environment-overview.png "environment overview")
 
