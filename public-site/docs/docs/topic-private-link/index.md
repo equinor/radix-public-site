@@ -35,7 +35,7 @@ If your resource type has a Private DNS Zone in Omnia Classic, you **cannot** cr
 If you do so, devices on-premise will fail to resolve to the correct IP and will stop working. 
 This applies to Blob Storage for Azure Storage Accounts and SQL Server among many others.
 
-It is relativly easy to test:
+It is relatively easy to test:
 
 1. Create the Private endpoint using Radix Issue workflow linked above.
 2. Approve the private endpoint (this will create the required DNS records in Omnia Radix).
