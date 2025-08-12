@@ -42,7 +42,7 @@ It is relatively easy to test:
 3. Verify connectivity in On-Premise devices.
 4. **If they fail**, just remove the private endpoint in your resource's network pane in Azure Portal (this will remove any broken DNS records).
 
-For any suprises, notify Radix in **#omnia-radix-support** and we can update this document.
+For any surprises, notify Radix in **#omnia-radix-support** and we can update this document.
 
 ## A word about Omnia Classic
 
