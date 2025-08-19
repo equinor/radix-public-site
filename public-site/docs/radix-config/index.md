@@ -1365,9 +1365,11 @@ oauth2:
   loginUrl: https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/oauth2/v2.0/authorize
   redeemUrl: https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/oauth2/v2.0/token
   credentials: azureWorkloadIdentity
-  sessionStoreType: redis # redis or cookie
-  redisStore:
-    connectionUrl: rediss://app-session-store.redis.cache.windows.net:6380
+  sessionStoreType: systemManaged # Defaults to cookie, can be systemManaged, redis or cookie
+
+  # Required for sessionStoreType `redis`:
+  # redisStore:
+  #   connectionUrl: rediss://app-session-store.redis.cache.windows.net:6380
   cookieStore:
     minimal: false
   cookie:
@@ -1550,7 +1552,7 @@ spec:
 
 If you use the [`build and deploy`](/guides/build-and-deploy) pipeline to build components or jobs, [`useBuildKit`](#usebuildkit) must be enabled if at least one component or job is configured for `arm64`. Radix will run the **build steps** on nodes with matching architecture, which in most cases mean that you do not have to change anything in the Dockerfile to support the configured architecture. This applies as long as the images defined in the Dockerfile's `FROM <image>` supports this architecture.
 
-For deploy-only components and jobs (with [`image`](#image) property set), make sure that the selected image supports the configured architecture. Many frequently used public images, like [nginx-unprivileged](https://hub.docker.com/r/nginxinc/nginx-unprivileged) and [bitnami/redis](https://hub.docker.com/r/bitnami/redis/tags), includes variants for both `amd64` and `arm64` in the same image. Radix (Kubernetes) will pull the appropriate variant based on the configured architecture.
+For deploy-only components and jobs (with [`image`](#image) property set), make sure that the selected image supports the configured architecture. Many frequently used public images, like [nginx-unprivileged](https://hub.docker.com/r/nginxinc/nginx-unprivileged), includes variants for both `amd64` and `arm64` in the same image. Radix (Kubernetes) will pull the appropriate variant based on the configured architecture.
 
 ### `network`
 
