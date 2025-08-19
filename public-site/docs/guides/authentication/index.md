@@ -56,7 +56,7 @@ When OAuth2 is enabled for a component in [`radixconfig.yaml`](/radix-config/ind
   `setXAuthRequestHeaders` and `setAuthorizationHeader` are set to **true** to include to the upstream request *X-Auth-** headers with claims from the access token, the access token itself, and the *Authorization: Bearer* header with the ID Token.  
   `sessionStoreType` can be set to **systemManaged** or **redis** instead of using the default of **cookie**. `connectionUrl` defines the address to the Redis server.
 
-  It is recommended to use `systemManaged` for development, or `redis` with [Azure Cache for Redis](https://azure.microsoft.com/nb-no/services/cache/) in production as session store instead of cookie because of [knows issues](#known-issues) with refreshing the access token and updating the session cookie's Expires attribute.  
+  It is recommended to use `systemManaged` for development, or `redis` with [Azure Cache for Redis](https://azure.microsoft.com/nb-no/services/cache/) in production as session store instead of cookie because of [known issues](#known-issues) with refreshing the access token and updating the session cookie's Expires attribute.  
   
   If you select `redis` add configuration for `connectionUrl` in the `redisStore` section. After redeploying find the secrets for Oauth2 Service in Radix Web Console and update the `REDIS_SECRET`. See more in [Radix Config](/radix-config/#oauth2)
 
