@@ -58,7 +58,7 @@ When OAuth2 is enabled for a component in [`radixconfig.yaml`](/radix-config/ind
 
   It is recommended to use `systemManaged` for development, or `redis` with [Azure Cache for Redis](https://azure.microsoft.com/nb-no/services/cache/) in production as session store instead of cookie because of [knows issues](#known-issues) with refreshing the access token and updating the session cookie's Expires attribute.  
   
-  If you select `redis`, make sure to configure the `REDIS_SECRET` in the Oauth2 Service secrets and configure the url in `redisStore.connectionUrl`. See more in [Radix Config](/radix-config/#oauth2)
+  If you select `redis` add configuration for `connectionUrl` in the `redisStore` section. After redeploying find the secrets for Oauth2 Service in Radix Web Console and update the `REDIS_SECRET`. See more in [Radix Config](/radix-config/#oauth2)
 
 
 - Build the application in Radix.
