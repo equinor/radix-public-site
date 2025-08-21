@@ -6,6 +6,10 @@ title: What's new
 
 ## 2025
 
+### 2025-08-21 New `proxyRequestBuffering` endpoint configuration option
+We have added `proxyRequestBuffering` setting to [radixconfig](/radix-config#network-1) to enable or disable request buffering in our proxy (enabled by default).
+
+
 ### 2025-07-17 Command and args in Radix jobs and batches
 Added `command` and `args` properties to be optionally configurable when create Radix jobs and batches. Read [more](/guides/jobs/job-manager-and-job-api#parameters).
 
