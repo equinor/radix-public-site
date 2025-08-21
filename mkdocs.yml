@@ -1,11 +1,10 @@
 site_name: Omnia Radix
-repo_url: https://github.com/equinor/radix-public-site
 copyright: Equinor ASA @ 2025
 site_description: >-
   Radix is a platform for building and running applications in the cloud,
   designed to simplify the development and deployment process.
-theme:
-  name: 'material'
+docs_dir: public-site/docs
+
 plugins:
   - techdocs-core
 
