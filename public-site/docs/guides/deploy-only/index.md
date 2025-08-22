@@ -64,11 +64,6 @@ spec:
           imageTagName: master-latest
         - environment: prod
           imageTagName: release-39f1a082
-    - name: redis
-      image: bitnami/redis:7.2
-      ports:
-        - name: redis
-          port: 6379
   privateImageHubs:
     ghcr.io:
       username: <some GitHub user name>

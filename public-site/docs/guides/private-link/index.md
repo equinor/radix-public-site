@@ -4,6 +4,10 @@ title: Private Links
 
 The creation of Private Endpoints in Radix is a semi automated process, and the destination subscription must be part of Omnia Standalone.
 
+:::warning
+**All private links are shared across the cluster**. In other words, a private link does not replace authentication. However, it helps improve security and reduce network latency by avoiding internet traffic and routing data through private channels.
+:::
+
 ## Prerequisite
 
 The destination subscription must be whitelisted in an Azure policy managed by [Solum](https://github.com/equinor/Solum). The policy allows the creation of Private Endpoints Connections only to Private Link Services in a list of whitelisted subscriptions.

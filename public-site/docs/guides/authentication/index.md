@@ -44,32 +44,24 @@ When OAuth2 is enabled for a component in [`radixconfig.yaml`](/radix-config/ind
           scope: openid profile email offline_access
           setXAuthRequestHeaders: true
           setAuthorizationHeader: true
-          sessionStoreType: redis
-          redisStore:
-            connectionUrl: redis://redis:6379
+          sessionStoreType: systemManaged
       ports:
         - name: http
           port: 5005
       publicPort: http
-    - name: redis
-      image: bitnami/redis:latest
-      secrets:
-        - REDIS_PASSWORD
-      ports:
-        - name: redis
-          port: 6379
   ```  
 
   `clientId` is the application ID for the application registration in Azure AD.  
   `scope` is configured to include **offline_access**. With **offline_access** included, the OAuth2 service receives a long lived refresh token that is used to get a new access token as the old one expires. Read more about Microsoft Identity Platform scopes [here](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#openid-connect-scopes).  
   `setXAuthRequestHeaders` and `setAuthorizationHeader` are set to **true** to include to the upstream request *X-Auth-** headers with claims from the access token, the access token itself, and the *Authorization: Bearer* header with the ID Token.  
-  `sessionStoreType` can be set to **redis** instead of using the default of **cookie**. `connectionUrl` defines the address to the Redis server.
-  It is recommended to use [Redis](../../docs/topic-redis/index.md) as session store instead of cookie because of [knows issues](#known-issues) with refreshing the access token and updating the session cookie's Expires attribute.  
-  The Redis server can be hosted as a Radix component, or an external Redis service like [Azure Cache for Redis](https://azure.microsoft.com/nb-no/services/cache/). In this example, Redis is hosted as a Radix component.
+  `sessionStoreType` can be set to **systemManaged** or **redis** instead of using the default of **cookie**. `connectionUrl` defines the address to the Redis server.
 
-- Build the application in Radix and open the Radix Web Console to set REDIS_PASSWORD for the `redis` component, and required secrets for the OAuth service used by the `web` component.
-  - Open the `redis` component and set a password for connecting to the Redis server in the REDIS_PASSWORD secret.  
-      ![Redis Password](./redis-password.png "Redis Password")
+  It is recommended to use `systemManaged` for development, or `redis` with [Azure Cache for Redis](https://azure.microsoft.com/nb-no/services/cache/) in production as session store instead of cookie because of [known issues](#known-issues) with refreshing the access token and updating the session cookie's Expires attribute.  
+  
+  If you select `redis` add configuration for `connectionUrl` in the `redisStore` section. After redeploying find the secrets for Oauth2 Service in Radix Web Console and update the `REDIS_PASSWORD`. See more in [Radix Config](/radix-config/#oauth2)
+
+
+- Build the application in Radix.
   - Register the OAuth2 service's callback URLs in the Azure AD application registration. The default path is **/oauth2/callback**, and is composed of the value in `proxyPrefix` (default **/oauth2**) and suffixed with **/callback**.
     ![Register Redirect URL](./aad-register-callback.png "Register Redirect URL")
   - Open the `web` component configure secrets required by the OAuth service.  
