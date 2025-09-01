@@ -58,8 +58,8 @@ const TeamCardList: Card[] = [
     ),
   },
   {
-    name: 'Sergey Smolnikov',
-    image: 'images/radix-sergey-smolnikov.jpg',
+    name: 'Jacob Solberg Holm',
+    image: 'images/radix-jacob-solberg-holm.jpg',
     description: (
       <>
           Developer
