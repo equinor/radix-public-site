@@ -13,16 +13,52 @@ The creation of Private Endpoints in Radix is a semi automated process, and the 
 The destination subscription must be whitelisted in an Azure policy managed by [Solum](https://github.com/equinor/Solum). The policy allows the creation of Private Endpoints Connections only to Private Link Services in a list of whitelisted subscriptions.
 
 :::tip Check if the subscription is whitelisted
-`Important:` If the target subscription are in this list [for Platform and Platform2](https://github.com/equinor/Solum/blob/master/src/platform/policyConfig/policy-assignments/S940_OP-Allow-PLS-Sub.json) or [for Playground](https://github.com/equinor/Solum/blob/master/src/platform/policyConfig/policy-assignments/S941_OP-Allow-PLS-Sub.json) the requirments are met.
+**Important:** If the target subscription is in the exemption list `Allow S940 external endpoints` (for Platform and Platform2) or `Allow S941 external endpoints` (for Playground) in the [OPS-Deny-PE-Cross-Subs policy](https://github.com/equinor/Solum/blob/master/src/platform/policyConfig/policysets/OPS-Deny-PE-Cross-Subs.json#L101), the requirements are met.
 :::
 
 ### How to add whitelist for your subscription
 
-1. Create a Pull Request in the repo
+1. Create a Pull Request in the Solum repo
 
-Fork the Solum repo, and update the following file 
-/src/platform/policyConfig/policy-assignments/S940_OP-Allow-PLS-Sub.json - for Radix Platform
-/src/platform/policyConfig/policy-assignments/S941_OP-Allow-PLS-Sub.json - for Radix Playground
+Fork [the Solum repo](https://github.com/equinor/Solum), and add your subscription to appropriate exemption list in `/src/platform/policyConfig/policysets/OPS-Deny-PE-Cross-Subs.json`.
+
+**For Radix Platform:**
+
+```json showLineNumbers=100 {3,14}
+{
+  "policyDefinitionId": "/providers/Microsoft.Management/managementgroups/Omnia/providers/Microsoft.Authorization/policyDefinitions/OP-Allow-PrivateEndpoint-To-These-Subs",
+  "policyDefinitionReferenceId": "Allow S940 external endpoints",
+  "parameters": {
+    "subscriptionId": {
+      "value": "ded7ca41-37c8-4085-862f-b11d21ab341a"
+    },
+    "externalSubscriptionIds": {
+      "value": [
+        "<subscriptionId>",
+        "<subscriptionId>",
+        "<subscriptionId>",
+        ...,
+        "<your subscriptionId>",
+```
+
+**For Radix Playground:**
+
+```json showLineNumbers=175 {3,14}
+{
+  "policyDefinitionId": "/providers/Microsoft.Management/managementgroups/Omnia/providers/Microsoft.Authorization/policyDefinitions/OP-Allow-PrivateEndpoint-To-These-Subs",
+  "policyDefinitionReferenceId": "Allow S941 external endpoints",
+  "parameters": {
+    "subscriptionId": {
+      "value": "16ede44b-1f74-40a5-b428-46cca9a5741b"
+    },
+    "externalSubscriptionIds": {
+      "value": [
+        "<subscriptionId>",
+        "<subscriptionId>",
+        "<subscriptionId>",
+        ...,
+        "<your subscriptionId>",
+```
 
 Commit and add the PR, including this information:
 "This PR needs to be approved by Technical owner  `githubuser` and the `name`"
@@ -38,7 +74,7 @@ When the pull request has been approved and merged, the policy will be updated.
 
 ## Request the Private Link/Endpoint
 
-Create an issue in the main Radix repo,[request a new private link](https://github.com/equinor/radix/issues/new?template=privatelink.yaml)
+Create an issue in the main Radix repo, [request a new private link](https://github.com/equinor/radix/issues/new?template=privatelink.yaml)
 
 ```
 - [x] Confirm target subscription are whitelisted by Solum (as described above)  - or -
