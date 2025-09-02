@@ -12,17 +12,14 @@ Radix will only report the measured uptime for the Radix platform, and not the o
 |-|---------------------------------------|
 | Service monitored: | `https://canary.radix.equinor.com` |
 |Timeperiod: | Rolling last 90 days |
-|Monitoring tool: | Dynatrace |
+|Monitoring tool: | Prometheus |
 |Availability calculation %: | Uptime / (Uptime + Downtime) x 100 |
 
 The [Uptime/Availability report](https://console.radix.equinor.com/about), will be an indication of future reliability of Radix Platform.  
 
-:::tip  
-The monitoring has not been active for 90 days yet, so the current report will show the availability % for the number of days it has been running.
-:::
 
 - **Planned maintenance:** We will announce, in our main Slack channel - [#omnia_radix](https://equinor.slack.com/archives/C8U7XGGAJ), planned maintenance at least 2 business days in advance. Downtime during planned maintenance does not affect uptime goals
-- **Disaster Recovery:** A Disaster Recovery Procedure is in place and the procedure is executed on a weekly basis. Estimated time to recover a cluster is 15 minutes, estimated time to rebuild and recover a complete cluster is 1 hour. (A backup of all resources in the Kubernetes cluster is done every 1 hour, and is the main ingredient of the recovery recipe)  
+- **Disaster Recovery:** A Disaster Recovery Procedure is in place and the procedure is executed on a weekly basis. Estimated time to recover a cluster less than an hour, estimated time to rebuild and recover a complete cluster is 4 hours. (A backup of all resources in the Kubernetes cluster is done every 1 hour, and is the main ingredient of the recovery recipe)  
 
 ## Platform cluster availability and services
 
@@ -47,6 +44,26 @@ Schedule for Radix DevOps/Support team - 08:00 - 16:00 CET/CEST on Norwegian wor
 
 - No incident management beyond schedule "Norway - default" - i.e. no support after 16:00 CET/CEST on Norwegian working days
 - Infrastructure downtime despite robust, high-availability infrastructure
+
+### Application lifecycle policy
+
+To ensure efficient resource usage and good platform hygiene, Radix enforces the following lifecycle policy for applications:
+
+#### Inactive Applications
+An application is considered inactive if it meets any of the following criteria:
+
+- Configuration Status: The associated (CI) configuration item in the CMDB is marked as Retired.
+- Source Code Repository: The GitHub repository linked to the application has been archived.
+- Deployment Activity: The application has not been updated or deployed in the last 12 months.
+
+#### Lifecycle actions
+
+- Inactive Applications: Applications that are no longer maintained or actively used will be stopped
+- Deletion Timeline: If no action is taken, stopped applications will be automatically deleted after 30 days
+- Notification: Owners will be notified prior to deletion to allow time for reactivation
+
+We encourage teams to regularly review their applications and repositories to ensure they remain active and aligned with current business needs.
+
 
 ### Uptime risk management
 
