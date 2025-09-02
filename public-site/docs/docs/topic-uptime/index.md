@@ -52,7 +52,7 @@ To ensure efficient resource usage, minimize unmaintained vulnerabilities and go
 #### Inactive Applications
 An application is considered inactive if it meets any of the following criteria:
 
-- **Configuration Status:** The associated (CI) configuration item (AppId) in the CMDB is marked as **Retired**
+- **Configuration Status:** The associated configuration item (CI, or ServiceNow AppId) in the CMDB is marked as **Retired**
 - **Source Code Repository:** The GitHub repository linked to the application has been **archived**
 - **Deployment Activity:** The application has not been updated or deployed in the last **12 months**
 
