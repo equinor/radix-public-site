@@ -47,22 +47,22 @@ Schedule for Radix DevOps/Support team - 08:00 - 16:00 CET/CEST on Norwegian wor
 
 ### Application lifecycle policy
 
-To ensure efficient resource usage and good platform hygiene, Radix enforces the following lifecycle policy for applications:
+To ensure efficient resource usage, minimize unmaintained vulnerabilities and good platform hygiene, Radix enforces the following lifecycle policy for applications:
 
 #### Inactive Applications
 An application is considered inactive if it meets any of the following criteria:
 
-- Configuration Status: The associated (CI) configuration item in the CMDB is marked as Retired.
-- Source Code Repository: The GitHub repository linked to the application has been archived.
-- Deployment Activity: The application has not been updated or deployed in the last 12 months.
+- **Configuration Status:** The associated (CI) configuration item (AppId) in the CMDB is marked as **Retired**
+- **Source Code Repository:** The GitHub repository linked to the application has been **archived**
+- **Deployment Activity:** The application has not been updated or deployed in the last **12 months**
 
 #### Lifecycle actions
 
-- Inactive Applications: Applications that are no longer maintained or actively used will be stopped
-- Deletion Timeline: If no action is taken, stopped applications will be automatically deleted after 30 days
-- Notification: Owners will be notified prior to deletion to allow time for reactivation
+- **Inactive Applications:** Applications that are no longer maintained or actively used will be stopped
+- **Deletion Timeline:** If no action is taken, stopped applications will be automatically deleted after **30 days**
+- **Notification:** Owners will be notified prior to deletion to allow time for reactivation
 
-We encourage teams to regularly review their applications and repositories to ensure they remain active and aligned with current business needs.
+We encourage teams to regularly review and update their applications and repositories to ensure they remain active and aligned with current business needs.
 
 
 ### Uptime risk management
