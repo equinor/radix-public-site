@@ -1529,9 +1529,9 @@ The `nodeType` property in `runtime` defines the particular Kubernetes cluster n
   * Memory: 1946 GB
   * GPU: n/a
 * `gpu-nvidia-1-v1` 
-  * CPU: AMD EPYC 7V13 (Milan) [x86-64], 24 cores
-  * Memory: 220 GB
-  * GPU: 1 x Nvidia PCIe A100 GPU, 80 GB of memory 
+  * CPU: AMD EPYC (Genoa) [x86-64], 40 cores
+  * Memory: 320 GB
+  * GPU: 1 x Nvidia PCIe H100 GPU, 94 GB of memory 
 :::warning
 Nodes, available with `nodeType` property are usually much more expensive than default nodes. Please use them only when needed, preferable with jobs, as these nodes automatically scaled up on started component or jobs (which can take up to 5 minutes) and scaled down (within minutes) when the job is finished.
 :::
