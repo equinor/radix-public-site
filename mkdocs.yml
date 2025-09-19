@@ -1,3 +1,5 @@
+# This file is (at the moment) used to test how the Radix docs can be build for Varia (Backstage). 
+# Backstage doesn't support Docusaurus at the moment, only MkDocs. Docusaurus is still the main docs builder for Radix.
 site_name: Omnia Radix
 copyright: Equinor ASA @ 2025
 site_description: >-
