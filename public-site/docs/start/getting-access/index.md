@@ -11,7 +11,7 @@ Request access by applying for the role [**Radix Playground Users**](https://acc
 
 ### :100: Platform Clusters
 
-Search for [**Radix Platform Users**](https://accessit.equinor.com/Search/Search?term=Radix+Platform+Users+%28OMNIA+RADIX%29) and choose one of the following options:  
+Search for [**Radix Platform Users**](https://accessit.equinor.com/Search/Search?term=Radix+Platform+Users+%28OMNIA+RADIX%29) and request the option(s) that suits you:  
 
 - **Radix Platform Users** → Access with your standard Entra ID account  
 - **Radix Platform Users with Adminkey (AZ-key)** → Access with your AZ account  
