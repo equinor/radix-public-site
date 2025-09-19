@@ -1529,9 +1529,9 @@ The `nodeType` property in `runtime` defines the particular Kubernetes cluster n
   * Memory: 1946 GB
   * GPU: n/a
 * `gpu-nvidia-1-v1` 
-  * CPU: AMD EPYC 7V13 (Milan) [x86-64], 24 cores
-  * Memory: 220 GB
-  * GPU: 1 x Nvidia PCIe A100 GPU, 80 GB of memory 
+  * CPU: AMD EPYC (Genoa) [x86-64], 40 cores
+  * Memory: 320 GB
+  * GPU: 1 x Nvidia PCIe H100 GPU, 94 GB of memory 
 :::warning
 Nodes, available with `nodeType` property are usually much more expensive than default nodes. Please use them only when needed, preferable with jobs, as these nodes automatically scaled up on started component or jobs (which can take up to 5 minutes) and scaled down (within minutes) when the job is finished.
 :::
@@ -1571,6 +1571,7 @@ spec:
             proxyReadTimeout: 5
             proxySendTimeout: 10
             proxyBufferSize: 16k
+            proxyRequestBuffering: true
             allow:
               - 100.1.1.1
               - 110.1.1.1/30
@@ -1583,6 +1584,7 @@ spec:
                 proxyReadTimeout: 30
                 proxySendTimeout: 30
                 proxyBufferSize: 8k
+                proxyRequestBuffering: false
                 allow: []
         - environment: qa
           network:
@@ -1603,6 +1605,7 @@ spec:
 - `proxyReadTimeout`: Defines a timeout, in seconds, for reading a response from the proxied server. The timeout is set only between two successive read operations, not for the transmission of the whole response. If the proxied server does not transmit anything within this time, the connection is closed. The default is 60 seconds.
 - `proxySendTimeout`: Defines a timeout, in seconds, for transmitting a request to the proxied server. The timeout is set only between two successive write operations, not for the transmission of the whole request. If the proxied server does not receive anything within this time, the connection is closed. The default is 60 seconds.
 - `proxyBufferSize`: Sets the size of the buffer used for reading the first part of the response received from the proxied server. The size must be large enough to hold the response headers. Sizes can be specified in bytes, kilobytes (suffixes k and K), megabytes (suffixes m and M), or gigabytes (suffixes g and G) for example, "1024", "64k", "32m", "2g". If the response headers exceed the buffer size, the 502 (Bad Gateway) error is returned to the client. The default is `16k`.
+- `proxyRequestBuffering`: Enable or disable buffering of the request body before sending it to your backend. Enabled by default. Disable this to get the request faster to your server when uploading, or streaming data to your API.
 
 :::warning Caution
 Setting `proxyBodySize` to "0", or an unnecessary high value, can lead to instability/denial of service or increased cost, depending on how the request body is processed by the backend, e.g. when buffering to memory or storing the content to disk, either locally or remotely. Never set the value to "0" unless the backend component is configured to enforce a limit.
