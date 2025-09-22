@@ -2280,7 +2280,7 @@ Reserved aliases (not allowed):
 
 Example: The `frontend` component in `prod` becomes reachable at 
 
- - `myapp.radix.equinor.com` if hosted in the Plaform cluster (North Europe)
+ - `myapp.radix.equinor.com` if hosted in the Platform cluster (North Europe)
  - `myapp.c2.radix.equinor.com` if hosted in the Platform 2 cluster (West Europe)
 
 ## `dnsExternalAlias`
