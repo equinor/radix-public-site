@@ -2245,9 +2245,18 @@ spec:
     component: frontend
 ```
 
-As a convenience for nicer URLs, `dnsAppAlias` creates a DNS alias in the form of `<app-name>.app.<cluster-dns-zone>` (`<cluster-dns-zone>` depends on which [Radix cluster](../start/radix-clusters/) is hosting the application) for the specified environment and component.
+Creates a short, predictable DNS name for a single component in a single environment. The alias format is:
 
-In the example above, if the application is host in the **Platform (North Europe)** cluster, the component **frontend** in environment **prod** will be accessible from `myapp.app.radix.equinor.com`, in addition to automatically allocated [domain names](../docs/topic-domain-names/).
+`<app-name>.app.<cluster-dns-zone>`   
+
+- `<cluster-dns-zone>` depends on the Radix cluster where the app is deployed (see [Radix clusters](../start/radix-clusters/)).
+- The alias is added in addition to Radix's automatically assigned domain names.
+
+Example: The `frontend` component in `prod` becomes reachable at 
+
+ - `myapp.app.radix.equinor.com` if hosted in the Platform cluster (North Europe)
+ - `myapp.app.c2.radix.equinor.com` if hosted in the Platform 2 cluster (West Europe)
+ - `myapp.app.playground.radix.equinor.com` if hosted in the Playground cluster
 
 ## `dnsAlias`
 
@@ -2259,11 +2268,20 @@ spec:
       component: frontend
 ```
 
-`dnsAlias` creates one or several DNS aliases in the form of `<alias>.<cluster-dns-zone>` (`<cluster-dns-zone>` depends on which [Radix cluster](../start/radix-clusters/) is hosting the application) for the specified environment and component. There are few reserved aliases which cannot be used: 
+Define your own aliases for a component in a specific environment. Each entry produces an alias with this format:
 
-`www`, `app`, `api`, `console`, `webhook`, `playground`, `dev`, `grafana`, `prometheus`, `canary`, `cost-api`. 
+`<alias>.<cluster-dns-zone>` 
 
-In the example above, if the application is host in the **Platform (North Europe)** cluster, the component **frontend** in environment **prod** will be accessible from `myapp.radix.equinor.com`, in addition to automatically allocated [domain names](../docs/topic-domain-names/).
+:::info  Observe the following
+Aliases are scoped to the specified environment and component.
+Reserved aliases (not allowed):  
+  `www`, `app`, `api`, `console`, `webhook`, `playground`, `dev`, `grafana`, `prometheus`, `canary`, `cost-api`.
+:::
+
+Example: The `frontend` component in `prod` becomes reachable at 
+
+ - `myapp.radix.equinor.com` if hosted in the Platform cluster (North Europe)
+ - `myapp.c2.radix.equinor.com` if hosted in the Platform 2 cluster (West Europe)
 
 ## `dnsExternalAlias`
 
@@ -2280,13 +2298,16 @@ spec:
       useCertificateAutomation: [false|true]
 ```
 
-It is possible to have multiple custom DNS aliases (i.e. to choose your own custom domains) for the application. The `dnsExternalAlias` needs to point to a component marked as public. It can be any domain name, which can in turn be used for public URLs to access the application. 
+Attach one or more custom (external) domains to a public component. Requirements and behavior:
 
-In the example above, the component **frontend** hosted in environment **prod** will be accessible from both `some.alias.com` and `another.alias.com`, as long as the correct certificate has been set.
+- Each alias must point to a component that is public (has a public port).
+- Provide a domain name that you control; configure your DNS (CNAME/A) to point to the Radix-managed hostname as described in the [external alias guide](/guides/external-alias/)
+- TLS:
+  - `useCertificateAutomation: true` — Radix obtains and renews the TLS certificate automatically
+  - `useCertificateAutomation: false` — you must upload a valid certificate and private key for the alias
 
-The `useCertificateAutomation` property defines how the TLS certificate for the alias is issued. When set to `true`, certificate issuing and renewal is automatically handled by Radix, and when set to `false`, the application administrator is responsible for providing a valid certificate and private key. If the value is toggled, Radix deletes the existing certificate and private key. This will cause a TLS error when accessing the external DNS alias until a new certificate and private key is set.
+For setup steps and DNS/TLS details see the external alias [guide](/guides/external-alias/)
 
-There is a [detailed guide](/guides/external-alias/) on how to set up external aliases.
 
 ## `privateImageHubs`
 
