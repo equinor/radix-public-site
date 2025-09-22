@@ -3,7 +3,6 @@ title: Getting access
 ---
 
 Access to Radix is managed through **Access IT**.  
-To get started, decide whether you want to experiment in the **Playground cluster** or go directly to one of the **Platform clusters**.  
 
 ### :circus_tent: Playground Cluster
 
