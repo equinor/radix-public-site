@@ -2306,9 +2306,6 @@ Attach one or more custom (external) domains to a public component. Requirements
   - `useCertificateAutomation: true` — Radix obtains and renews the TLS certificate automatically
   - `useCertificateAutomation: false` — you must upload a valid certificate and private key for the alias
 
-:::info Be aware
-Changing useCertificateAutomation for an alias causes Radix to delete any existing certificate and private key for that alias. This may cause a TLS outage until a new certificate (or automation-issued certificate) is in place.
-:::
 For setup steps and DNS/TLS details see the external alias [guide](/guides/external-alias/)
 
 
