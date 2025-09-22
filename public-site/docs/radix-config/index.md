@@ -2254,7 +2254,7 @@ Creates a short, predictable DNS name for a single component in a single environ
 
 Example: The `frontend` component in `prod` becomes reachable at 
 
- - `myapp.app.radix.equinor.com` if hosted in the Plaform cluster (North Europe)
+ - `myapp.app.radix.equinor.com` if hosted in the Platform cluster (North Europe)
  - `myapp.app.c2.radix.equinor.com` if hosted in the Platform 2 cluster (West Europe)
  - `myapp.app.playground.radix.equinor.com` if hosted in the Playground cluster
 
