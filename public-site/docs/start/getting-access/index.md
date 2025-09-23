@@ -2,18 +2,30 @@
 title: Getting access
 ---
 
-## Getting access
+Access to Radix is managed through **Access IT**.  
 
-Access to Radix is managed in Access IT. To get started, decide if you want to try the Playground cluster or go straight to one of the Platform clusters. You will have access to register, build, deploy and maintain applications in that cluster.
+### :circus_tent: Playground Cluster
 
-- :circus_tent: **Playground cluster**: Request the role "[Radix Playground Users](https://accessit.equinor.com/Search/Search?term=Radix+Playground+Users+%28OMNIA+RADIX%29)"
+Request access by applying for the role [**Radix Playground Users**](https://accessit.equinor.com/Search/Search?term=Radix+Playground+Users+%28OMNIA+RADIX%29)
 
-- :100: **Platform clusters**: Request the role "[Radix Platform Users](https://accessit.equinor.com/Search/Search?term=Radix+Platform+Users+%28OMNIA+RADIX%29)"
+### :100: Platform Clusters
 
-When the request is approved, you can access the clusters using Radix Web Console, Radix API or [Radix CLI](../../docs/topic-radix-cli/).
+Search for [**Radix Platform Users**](https://accessit.equinor.com/Search/Search?term=Radix+Platform+Users+%28OMNIA+RADIX%29) and request the option(s) that suits you:  
 
-You can register your app in Playground first, and then again in Platform; there is no special "migrate to platform" process. If you have questions, [speak with us on Slack](https://equinor.slack.com/messages/CBKM6N2JY) and we'll help.
+- **Radix Platform Users** → Access with your standard Entra ID account  
+- **Radix Platform Users with Adminkey (AZ-key)** → Access with your AZ account  
 
-:::tip
-Refer to [Radix clusters](../radix-clusters/) for a list of available clusters.
+### After Access is Approved
+
+You can connect to the clusters using:  
+- **Radix Web Console**  
+- [**Radix CLI**](../../docs/topic-radix-cli/)  
+- **Radix API**  
+
+You may register your app in the Playground first and then again in the Platform cluster — there’s no dedicated “migration” process.  
+
+If you have questions, reach out on Slack: [#radix-support](https://equinor.slack.com/messages/CBKM6N2JY) — we’re here to help.  
+
+:::tip Radix clusters
+See [Radix Clusters](../radix-clusters/) for a full list of available clusters.
 :::
