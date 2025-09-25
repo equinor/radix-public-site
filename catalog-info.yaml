@@ -10,4 +10,5 @@ metadata:
 spec:
   type: documentation
   lifecycle: production
-  owner: omnia-radix-adm
+  owner: omnia-radix
+  system: Radix
