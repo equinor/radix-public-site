@@ -8,11 +8,20 @@ site_description: >-
 docs_dir: public-site/docs
 theme:
   name: material
+  features:
+    - content.code.copy
 markdown_extensions:
   - admonition
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences      
 nav:
   - Getting started:
       - Welcome: start/index.md
