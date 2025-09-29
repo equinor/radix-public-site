@@ -1,0 +1,54 @@
+name: Build TechDocs
+
+on:
+  push:
+    branches:
+      - docs/backstage-add-mkdocs
+
+jobs:
+  techdocs:
+    runs-on: ubuntu-latest
+
+    env:
+      STORAGE_ACCOUNT_NAME: variatdstprod
+      STORAGE_ACCOUNT_KEY: ${{ secrets.STORAGE_ACCOUNT_KEY }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install techdocs-cli
+        run: npm install -g @techdocs/cli
+
+      - name: Install mkdocs plugins
+        run: pip install mkdocs-material mkdocs-techdocs-core==1.*
+
+      - name: Convert Docusaurus admonitions to MkDocs format
+        run: |
+          echo "Converting admonitions from Docusaurus format to MkDocs format..."
+          python ./scripts/convert_admonitions.py
+          echo "Conversion complete"
+
+      - name: Generate docs site
+        run: techdocs-cli generate --no-docker
+
+      - name: Publish to blob storage
+        run: |
+          techdocs-cli publish \
+            --publisher-type azureBlobStorage \
+            --azureAccountName $STORAGE_ACCOUNT_NAME \
+            --azureAccountKey $STORAGE_ACCOUNT_KEY \
+            --storage-name techdocs \
+            --entity default/system/radix
