@@ -27,23 +27,23 @@ def create_test_file(test_content):
 test_cases = [
     {
         "name": "Basic tip admonition",
-        "input": "# Test Document\n\n:::tip\nThis is a tip\n:::\n\nMore content",
-        "expected": "# Test Document\n\n!!! tip\n    This is a tip\n\nMore content"
+        "input": "# Test Document\n\n:::tip\nThis is a tip\n:::\n\nMore content\n",
+        "expected": "# Test Document\n\n!!! tip\n    This is a tip\n\nMore content\n"
     },
     {
         "name": "Admonition with title",
-        "input": ":::note Custom Title\nThis is a note with a title\n:::",
-        "expected": "!!! note \"Custom Title\"\n    This is a note with a title"
+        "input": ":::note Custom Title\nThis is a note with a title\n:::\n",
+        "expected": "!!! note \"Custom Title\"\n    This is a note with a title\n"
     },
     {
         "name": "Multiple admonitions",
-        "input": ":::tip\nTip content\n:::\n\n:::info\nInfo content\n:::\n\n:::caution\nCaution content\n:::",
-        "expected": "!!! tip\n    Tip content\n\n!!! info\n    Info content\n\n!!! warning\n    Caution content"
+        "input": ":::tip\nTip content\n:::\n\n:::info\nInfo content\n:::\n\n:::caution\nCaution content\n:::\n",
+        "expected": "!!! tip\n    Tip content\n\n!!! info\n    Info content\n\n!!! warning\n    Caution content\n"
     },
     {
         "name": "Admonition with multiple paragraphs",
-        "input": ":::info\nParagraph 1\n\nParagraph 2\n:::",
-        "expected": "!!! info\n    Paragraph 1\n    \n    Paragraph 2"
+        "input": ":::info\nParagraph 1\n\nParagraph 2\n:::\n",
+        "expected": "!!! info\n    Paragraph 1\n    \n    Paragraph 2\n"
     }
 ]
 
@@ -62,9 +62,9 @@ def run_tests():
             # Run conversion
             convert_file(test_file_path)
             
-            # Read the result
+            # Read the result - don't strip trailing newlines
             with open(test_file_path, 'r') as f:
-                result = f.read().rstrip()
+                result = f.read()
             
             # Compare with expected
             expected = test_case["expected"]

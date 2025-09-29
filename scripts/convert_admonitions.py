@@ -20,8 +20,8 @@ import argparse
 from pathlib import Path
 
 # Regular expression patterns to find Docusaurus admonitions
-ADMONITION_START_PATTERN = re.compile(r'^:::(\w+)(?:\s+(.+?))?$')
-ADMONITION_END_PATTERN = re.compile(r'^:::$')
+ADMONITION_START_PATTERN = re.compile(r'^(\s*):::(\w+)(?:\s+(.+?))?$')
+ADMONITION_END_PATTERN = re.compile(r'^(\s*):::$')
 
 def convert_file(file_path):
     """
@@ -29,10 +29,33 @@ def convert_file(file_path):
     
     Args:
         file_path: Path to the markdown file to convert
+        
+    Returns:
+        bool: True if the file was modified, False otherwise
     """
     print(f"Processing {file_path}")
     
+    # Check if the file ends with a newline
+    ends_with_newline = True  # Default assumption
+    try:
+        with open(file_path, 'rb') as f:
+            # Get file size
+            f.seek(0, 2)  # Seek to the end
+            file_size = f.tell()
+            
+            if file_size > 0:  # Make sure file is not empty
+                f.seek(-1, 2)  # Go to the last byte
+                last_byte = f.read(1)
+                ends_with_newline = last_byte == b'\n'
+    except (OSError, IOError) as e:
+        print(f"Warning: Couldn't check if file ends with newline: {e}")
+        # Assume it does end with newline in case of error
+    
+    # Read the file content
     with open(file_path, 'r', encoding='utf-8') as f:
+        original_content = f.read()
+        # Reset file pointer and read lines
+        f.seek(0)
         lines = f.readlines()
     
     new_lines = []
@@ -41,6 +64,7 @@ def convert_file(file_path):
     admonition_content = []
     current_admonition_type = None
     current_admonition_title = None
+    has_admonitions = False  # Flag to track if we found any admonitions
     
     while i < len(lines):
         line = lines[i].rstrip('\n')
@@ -49,8 +73,11 @@ def convert_file(file_path):
             # Look for the start of an admonition
             start_match = ADMONITION_START_PATTERN.match(line)
             if start_match:
+                has_admonitions = True  # Found at least one admonition
                 in_admonition = True
-                admonition_type = start_match.group(1)
+                
+                indent = start_match.group(1) or ''  # Capture indentation (if any)
+                admonition_type = start_match.group(2)
                 
                 # Map Docusaurus admonition types to MkDocs types
                 # MkDocs uses: tip, note, info, warning, danger, etc.
@@ -58,9 +85,9 @@ def convert_file(file_path):
                     admonition_type = 'warning'
                 
                 current_admonition_type = admonition_type
-                current_admonition_title = start_match.group(2)
+                current_admonition_title = start_match.group(3)
                 
-                # Add the MkDocs-style admonition line
+                # Add the MkDocs-style admonition line - MkDocs requires admonitions to start at the beginning of the line
                 if current_admonition_title:
                     new_lines.append(f'!!! {admonition_type} "{current_admonition_title}"')
                 else:
@@ -72,6 +99,7 @@ def convert_file(file_path):
             end_match = ADMONITION_END_PATTERN.match(line)
             if end_match:
                 # Add all collected content with proper indentation
+                # MkDocs requires 4-space indentation for admonition content, regardless of original indentation
                 for content_line in admonition_content:
                     new_lines.append(f'    {content_line}')
                 
@@ -91,9 +119,25 @@ def convert_file(file_path):
         for content_line in admonition_content:
             new_lines.append(f'    {content_line}')
     
-    # Write the modified content back to the file
-    with open(file_path, 'w', encoding='utf-8') as f:
-        f.write('\n'.join(new_lines))
+    # Only write back to the file if we found admonitions and made changes
+    if has_admonitions:
+        # Generate new content
+        new_content = '\n'.join(new_lines)
+        if ends_with_newline:
+            new_content += '\n'
+            
+        # Check if content actually changed
+        if new_content != original_content:
+            print(f"  File was modified - writing changes")
+            with open(file_path, 'w', encoding='utf-8') as f:
+                f.write(new_content)
+            return True
+        else:
+            print(f"  File had admonitions but content didn't change - skipping write")
+            return False
+    else:
+        print(f"  No admonitions found - skipping file")
+        return False
 
 def convert_directory(docs_dir):
     """
@@ -101,19 +145,32 @@ def convert_directory(docs_dir):
     
     Args:
         docs_dir: Path to the documentation directory
+        
+    Returns:
+        tuple: (total_files, modified_files) counts
     """
     # Process all markdown files in the directory and subdirectories
     md_files = glob.glob(f"{docs_dir}/**/*.md", recursive=True)
     
-    print(f"Found {len(md_files)} markdown files to process")
+    total_files = len(md_files)
+    modified_files = 0
+    
+    print(f"Found {total_files} markdown files to process")
     
     for file_path in md_files:
-        convert_file(file_path)
+        if convert_file(file_path):
+            modified_files += 1
     
-    print("Conversion complete!")
+    print(f"Conversion complete! Modified {modified_files} out of {total_files} files.")
+    return total_files, modified_files
 
 def main():
-    """Main entry point for the script."""
+    """
+    Main entry point for the script.
+    
+    Returns:
+        int: Exit code - 0 for success, 1 for error
+    """
     parser = argparse.ArgumentParser(
         description='Convert Docusaurus-style admonitions to MkDocs-style admonitions'
     )
@@ -122,9 +179,19 @@ def main():
         default='./public-site/docs',
         help='Path to the documentation directory (default: ./public-site/docs)'
     )
+    parser.add_argument(
+        '--exit-code-on-change',
+        action='store_true',
+        help='Exit with code 1 if any files were modified, 0 otherwise'
+    )
     
     args = parser.parse_args()
-    convert_directory(args.docs_dir)
+    total_files, modified_files = convert_directory(args.docs_dir)
+    
+    if args.exit_code_on_change and modified_files > 0:
+        return 1
+    return 0
 
 if __name__ == '__main__':
-    main()
+    import sys
+    sys.exit(main())
