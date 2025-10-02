@@ -7,13 +7,12 @@ and then checks that the result is what we expect.
 
 import os
 import tempfile
-import subprocess
 import sys
 from pathlib import Path
 
 # Import the conversion script
-sys.path.append(str(Path(__file__).parent))
-from convert_admonitions import convert_file
+sys.path.append(str(Path(__file__).parent.parent))
+from convert_admonitions import process_file_content
 
 # Create a temporary test file with Docusaurus admonitions
 def create_test_file(test_content):
@@ -56,30 +55,31 @@ def run_tests():
         print(f"\nRunning test: {test_case['name']}")
         
         # Create test file
-        test_file_path = create_test_file(test_case["input"])
+        # test_file_path = create_test_file(test_case["input"])
         
-        try:
-            # Run conversion
-            convert_file(test_file_path)
-            
-            # Read the result - don't strip trailing newlines
-            with open(test_file_path, 'r') as f:
-                result = f.read()
-            
-            # Compare with expected
-            expected = test_case["expected"]
-            if result == expected:
-                print(f"✅ PASS: {test_case['name']}")
-                passed += 1
-            else:
-                print(f"❌ FAIL: {test_case['name']}")
-                print(f"Expected:\n{expected}")
-                print(f"Got:\n{result}")
-                failed += 1
+        # try:
+        # Run conversion
+        file_content = test_case["input"].splitlines()
+        processed_file_content, has_admonitions = process_file_content(file_content)
+        
+        # Read the result - don't strip trailing newlines
+        # with open(test_file_path, 'r') as f:
+        #     result = f.read()
+        
+        # Compare with expected
+        expected = test_case["expected"].splitlines()
+        if processed_file_content == expected:
+            print(f"✅ PASS: {test_case['name']}")
+            passed += 1
+        else:
+            print(f"❌ FAIL: {test_case['name']}")
+            print(f"Expected:\n{expected}")
+            print(f"Got:\n{processed_file_content}")
+            failed += 1
                 
-        finally:
-            # Clean up
-            os.unlink(test_file_path)
+        # finally:
+        #     # Clean up
+        #     os.unlink(test_file_path)
     
     print(f"\nTest results: {passed} passed, {failed} failed")
     return failed == 0

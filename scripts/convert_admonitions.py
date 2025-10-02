@@ -13,33 +13,15 @@ Conversion examples:
 It also handles custom titles and properly indents content.
 """
 
-import os
 import re
 import glob
 import argparse
-from pathlib import Path
 
 # Regular expression patterns to find Docusaurus admonitions
 ADMONITION_START_PATTERN = re.compile(r'^(\s*):::(\w+)(?:\s+(.+?))?$')
 ADMONITION_END_PATTERN = re.compile(r'^(\s*):::$')
 
-def convert_file(file_path):
-    """
-    Convert Docusaurus admonitions to MkDocs admonitions in a single file.
-    
-    Args:
-        file_path: Path to the markdown file to convert
-       
-    """
-    print(f"Processing {file_path}")
-    
-    # Read the file content
-    with open(file_path, 'r', encoding='utf-8') as f:
-        original_content = f.read()
-        # Reset file pointer and read lines
-        f.seek(0)
-        lines = f.readlines()
-    
+def process_file_content(lines):
     new_lines = []
     i = 0
     in_admonition = False
@@ -97,6 +79,27 @@ def convert_file(file_path):
     if in_admonition:
         for content_line in admonition_content:
             new_lines.append(f'    {content_line}')
+    return new_lines,has_admonitions
+
+
+def convert_file(file_path):
+    """
+    Convert Docusaurus admonitions to MkDocs admonitions in a single file.
+    
+    Args:
+        file_path: Path to the markdown file to convert
+       
+    """
+    print(f"Processing {file_path}")
+    
+    # Read the file content
+    with open(file_path, 'r', encoding='utf-8') as f:
+        original_content = f.read()
+        # Reset file pointer and read lines
+        f.seek(0)
+        lines = f.readlines()
+    
+    new_lines, has_admonitions = process_file_content(lines)
     
     # Only write back to the file if we found admonitions and made changes
     if has_admonitions:

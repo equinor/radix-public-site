@@ -31,14 +31,14 @@ The script processes all Markdown files in the specified directory and its subdi
 3. It properly handles titles and content indentation
 4. It maps Docusaurus admonition types to their MkDocs equivalents
 
-## `test_admonition_conversion.py`
+## `test_convert_admonitions.py`
 
 Tests that the `convert_admonitions.py` script works correctly.
 
 ### Usage
 
 ```bash
-python scripts/test_admonition_conversion.py
+python scripts/test_convert_admonitions.py
 ```
 
 This script creates temporary files with various test cases of Docusaurus admonitions, runs the conversion script on them, and verifies that the output matches what's expected.
