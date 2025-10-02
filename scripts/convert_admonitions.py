@@ -29,27 +29,9 @@ def convert_file(file_path):
     
     Args:
         file_path: Path to the markdown file to convert
-        
-    Returns:
-        bool: True if the file was modified, False otherwise
+       
     """
     print(f"Processing {file_path}")
-    
-    # Check if the file ends with a newline
-    ends_with_newline = True  # Default assumption
-    try:
-        with open(file_path, 'rb') as f:
-            # Get file size
-            f.seek(0, 2)  # Seek to the end
-            file_size = f.tell()
-            
-            if file_size > 0:  # Make sure file is not empty
-                f.seek(-1, 2)  # Go to the last byte
-                last_byte = f.read(1)
-                ends_with_newline = last_byte == b'\n'
-    except (OSError, IOError) as e:
-        print(f"Warning: Couldn't check if file ends with newline: {e}")
-        # Assume it does end with newline in case of error
     
     # Read the file content
     with open(file_path, 'r', encoding='utf-8') as f:
@@ -62,7 +44,6 @@ def convert_file(file_path):
     i = 0
     in_admonition = False
     admonition_content = []
-    current_admonition_type = None
     current_admonition_title = None
     has_admonitions = False  # Flag to track if we found any admonitions
     
@@ -84,7 +65,6 @@ def convert_file(file_path):
                 if admonition_type == 'caution':
                     admonition_type = 'warning'
                 
-                current_admonition_type = admonition_type
                 current_admonition_title = start_match.group(3)
                 
                 # Add the MkDocs-style admonition line - MkDocs requires admonitions to start at the beginning of the line
@@ -106,7 +86,6 @@ def convert_file(file_path):
                 # Reset for the next admonition
                 in_admonition = False
                 admonition_content = []
-                current_admonition_type = None
                 current_admonition_title = None
             else:
                 # Collect admonition content
@@ -123,46 +102,35 @@ def convert_file(file_path):
     if has_admonitions:
         # Generate new content
         new_content = '\n'.join(new_lines)
-        if ends_with_newline:
-            new_content += '\n'
             
         # Check if content actually changed
         if new_content != original_content:
             print(f"  File was modified - writing changes")
             with open(file_path, 'w', encoding='utf-8') as f:
                 f.write(new_content)
-            return True
+            return
         else:
             print(f"  File had admonitions but content didn't change - skipping write")
-            return False
     else:
         print(f"  No admonitions found - skipping file")
-        return False
 
-def convert_directory(docs_dir):
+def convert_files_in_directory(docs_dir):
     """
     Convert all markdown files in a directory and its subdirectories.
     
     Args:
         docs_dir: Path to the documentation directory
-        
-    Returns:
-        tuple: (total_files, modified_files) counts
     """
     # Process all markdown files in the directory and subdirectories
     md_files = glob.glob(f"{docs_dir}/**/*.md", recursive=True)
     
     total_files = len(md_files)
-    modified_files = 0
     
     print(f"Found {total_files} markdown files to process")
     
     for file_path in md_files:
-        if convert_file(file_path):
-            modified_files += 1
-    
-    print(f"Conversion complete! Modified {modified_files} out of {total_files} files.")
-    return total_files, modified_files
+        convert_file(file_path)
+   
 
 def main():
     """
@@ -186,10 +154,8 @@ def main():
     )
     
     args = parser.parse_args()
-    total_files, modified_files = convert_directory(args.docs_dir)
+    convert_files_in_directory(args.docs_dir)
     
-    if args.exit_code_on_change and modified_files > 0:
-        return 1
     return 0
 
 if __name__ == '__main__':
