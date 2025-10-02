@@ -8,9 +8,9 @@ def copy_images_for_mkdocs():
     # Define source and target directories
     project_root = Path(__file__).parent.parent
     source_dirs = [
-        project_root / "public-site" / "static" / "images"
+        project_root / "static" / "images"
     ]
-    target_dir = project_root / "public-site" / "docs" / "images"
+    target_dir = project_root / "docs" / "images"
     
     # Create target directory if it doesn't exist
     target_dir.mkdir(parents=True, exist_ok=True)

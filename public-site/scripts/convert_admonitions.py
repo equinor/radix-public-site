@@ -147,8 +147,8 @@ def main():
     )
     parser.add_argument(
         '--docs-dir', 
-        default='./public-site/docs',
-        help='Path to the documentation directory (default: ./public-site/docs)'
+        default='./docs',
+        help='Path to the documentation directory (default: ./docs)'
     )
     parser.add_argument(
         '--exit-code-on-change',

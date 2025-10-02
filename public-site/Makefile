@@ -15,9 +15,9 @@ prod-down:
 	docker compose --profile prod down
 
 varia-techdocs:
-	python ./scripts/copy_images.py
-	python ./scripts/convert_admonitions.py
-	sed -i -e '/<RadixTeam \/>/r public-site/docs/community/RadixTeam.md' -e '/<RadixTeam \/>/d' public-site/docs/community/index.md
+	python3 ./scripts/copy_images.py
+	python3 ./scripts/convert_admonitions.py
+	sed -i -e '/<RadixTeam \/>/r docs/community/RadixTeam.md' -e '/<RadixTeam \/>/d' docs/community/index.md
 
 techdocs-serve: varia-techdocs
 	techdocs-cli serve --no-docker -v

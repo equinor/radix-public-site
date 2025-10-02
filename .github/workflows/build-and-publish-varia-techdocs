@@ -38,13 +38,13 @@ jobs:
       - name: Pre-process step 1 - Copy images for MkDocs
         run: |
           echo "Copying images to correct locations..."
-          python ./scripts/copy_images.py
+          python ./public-site/scripts/copy_images.py
           echo "Image copying complete"
 
       - name: Pre-process step 2 - Convert Docusaurus admonitions to MkDocs format
         run: |
           echo "Converting admonitions from Docusaurus format to MkDocs format..."
-          python ./scripts/convert_admonitions.py
+          python ./public-site/scripts/convert_admonitions.py
           echo "Conversion complete"
 
       - name: Pre-process step 3 - Replace RadixTeam component in community page
