@@ -48,6 +48,11 @@ jobs:
           python ./scripts/convert_admonitions.py
           echo "Conversion complete"
 
+      - name: Replace RadixTeam component in community page
+        run: |
+          echo "Replacing <RadixTeam /> tag in community/index.md ..."
+          sed -i -e '/<RadixTeam \/>/r public-site/docs/community/RadixTeam.md' -e '/<RadixTeam \/>/d' public-site/docs/community/index.md
+          echo "RadixTeam component replaced"
       - name: Generate docs site
         run: techdocs-cli generate --no-docker
 
