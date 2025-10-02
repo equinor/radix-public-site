@@ -10,7 +10,7 @@ def copy_images_for_mkdocs():
     source_dirs = [
         project_root / "public-site" / "static" / "images"
     ]
-    target_dir = project_root / "docs" / "images"
+    target_dir = project_root / "public-site" / "docs" / "images"
     
     # Create target directory if it doesn't exist
     target_dir.mkdir(parents=True, exist_ok=True)
