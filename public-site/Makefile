@@ -13,3 +13,14 @@ prod-up:
 .PHONY: prod-down
 prod-down:
 	docker compose --profile prod down
+
+varia-techdocs:
+	python ./scripts/copy_images.py
+	python ./scripts/convert_admonitions.py
+	sed -i -e '/<RadixTeam \/>/r public-site/docs/community/RadixTeam.md' -e '/<RadixTeam \/>/d' public-site/docs/community/index.md
+
+techdocs-serve: varia-techdocs
+	techdocs-cli serve --no-docker -v
+
+techdocs-generate: varia-techdocs
+	techdocs-cli generate --no-docker -v
