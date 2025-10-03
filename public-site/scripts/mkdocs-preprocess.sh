@@ -6,6 +6,6 @@ echo "Copying images for MkDocs..."
 cp -r public-site/static/images/ public-site/docs/
 
 echo "Replace the <RadixTeam /> tag in community/index.md ..."
-sed -i -e '/<RadixTeam \/>/r public-site/docs/community/RadixTeam.md' -e '/<RadixTeam \/>/d' public-site/docs/community/index.md
+sed -i -e '/<RadixTeam \/>/r public-site/scripts/RadixTeam.md' -e '/<RadixTeam \/>/d' public-site/docs/community/index.md
 
 echo "MkDocs preprocessing complete."
