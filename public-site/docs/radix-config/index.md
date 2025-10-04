@@ -116,7 +116,7 @@ spec:
 ```
 `variables` - (optional, available only in [sub-pipelines](/guides/sub-pipeline)) environment variables names and values, provided for all build Radix environments in [sub-pipelines](/guides/sub-pipeline). These common environment variables can be overridden by environment-specific environment variables with the same names.
 
-#### `identity`
+#### `identity` {#build-identity}
 ```yaml
 spec:
   build:
@@ -125,7 +125,7 @@ spec:
         azure:
           clientId: 12345678-a263-abcd-8993-683cc6123456
 ```
-When `identity.azure.clientId` option is set, the environment variable `AZURE_CLIENT_ID` with its value is automatically added to the running pipeline, and it can be used in this pipeline tasks. Read more about the identity in the [component identity](/radix-config/#identity-1) option and about using it in the sub-pipeline in the [Pipeline with Azure workload identity](/guides/sub-pipeline/example-pipeline-with-azure-workload-identity.md) example.
+When `identity.azure.clientId` option is set, the environment variable `AZURE_CLIENT_ID` with its value is automatically added to the running pipeline, and it can be used in this pipeline tasks. Read more about the identity in the [component identity](/radix-config/#component-identity) option and about using it in the sub-pipeline in the [Pipeline with Azure workload identity](/guides/sub-pipeline/example-pipeline-with-azure-workload-identity.md) example.
 
 ## `environments`
 
@@ -268,7 +268,7 @@ spec:
 ```
 Sub-pipeline environment variables names and values, provided for specific build Radix environment in [sub-pipelines](/guides/sub-pipeline). These variables will be combined with [subPipeline environment variables](/radix-config/index.md#variables) (if present).
 
-#### `identity`
+#### `identity` {#component-identity}
 ```yaml
 spec:
   environments:
@@ -278,7 +278,7 @@ spec:
           azure:
             clientId: 12345678-a263-abcd-8993-683cc6123456
 ```
-The `identity` section enables identity for a specific environment. Read mode about [build identity](/radix-config/index.md#identity).
+The `identity` section enables identity for a specific environment. Read mode about [build identity](/radix-config/index.md#build-identity).
 * It can remove the common [identity](/radix-config/index.md#identity) with `{}` empty object for a specific environment
 ```yaml
 spec:
