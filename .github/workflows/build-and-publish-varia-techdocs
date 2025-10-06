@@ -37,16 +37,16 @@ jobs:
 
       - name: Pre-processing for MkDocs
         working-directory: ./public-site
-        run: ./scripts/mkdocs-preprocess.sh
+        run: uv run ./scripts/mkdocs-preprocess.sh
 
       - name: Generate docs site
         working-directory: ./public-site
-        run: techdocs-cli generate --no-docker
+        run: uv run techdocs-cli generate --no-docker
 
       - name: Publish to blob storage
         working-directory: ./public-site
         run: |
-          uv techdocs-cli publish \
+          uv run techdocs-cli publish \
             --publisher-type azureBlobStorage \
             --azureAccountName $STORAGE_ACCOUNT_NAME \
             --azureAccountKey $STORAGE_ACCOUNT_KEY \
