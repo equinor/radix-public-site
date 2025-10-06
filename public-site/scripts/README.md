@@ -25,12 +25,12 @@ python scripts/convert_admonitions.py --docs-dir ./public-site/docs
 #### Examples of conversions:
 
 | Docusaurus Syntax | MkDocs Syntax |
-|-------------------|---------------|
-| `:::tip` | `!!! tip` |
-| `:::note` | `!!! note` |
-| `:::info` | `!!! info` |
-| `:::caution` | `!!! warning` |
-| `:::danger` | `!!! danger` |
+| ----------------- | ------------- |
+| `:::tip`          | `!!! tip`     |
+| `:::note`         | `!!! note`    |
+| `:::info`         | `!!! info`    |
+| `:::caution`      | `!!! warning` |
+| `:::danger`       | `!!! danger`  |
 
 ### How it works
 
@@ -52,3 +52,11 @@ python scripts/test_convert_admonitions.py
 ```
 
 This script creates temporary files with various test cases of Docusaurus admonitions, runs the conversion script on them, and verifies that the output matches what's expected.
+
+### Setup
+
+These scripts uses `uv` (Python Package Manager) to manage dependencies. 
+
+Install `uv` (https://docs.astral.sh/uv/getting-started/installation):
+- Linux/MacOs: `curl -LsSf https://astral.sh/uv/install.sh | sh`
+- Windows: `winget install --id=astral-sh.uv  -e`

@@ -1,0 +1,67 @@
+name: Build TechDocs
+
+on:
+  push:
+    branches:
+      - main
+      - docs/backstage-add-mkdocs
+      - varia-makefile
+  workflow_dispatch:
+
+jobs:
+  techdocs:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@d0cc045d04ccac9d8b7881df0226f9e82c39688e # @v6.8.0
+
+      - name: Install techdocs-cli
+        run: npm install -g @techdocs/cli
+
+      - name: Pre-processing for MkDocs
+        working-directory: ./public-site
+        run: uv run ./scripts/mkdocs-preprocess.sh
+
+      - name: Generate docs site
+        working-directory: ./public-site
+        run: uv run techdocs-cli generate --no-docker
+
+      - name: "Az login"
+        uses: azure/login@v2
+        with:
+          client-id: 1fee4604-0e5f-4b2a-9481-e466bbec1cea
+          tenant-id: 3aa4a235-b6e2-48d5-9195-7fcf05b459b0
+          allow-no-subscriptions: true
+
+      - name: Publish to blob storage
+        working-directory: ./public-site
+        env:
+          STORAGE_ACCOUNT_NAME: variatdstprod
+          BACKSTAGE_ENTITY_KIND: system
+          BACKSTAGE_ENTITY_NAME: radix
+        run: |
+          az storage blob upload-batch \
+            --account-name ${STORAGE_ACCOUNT_NAME} \
+            --auth-mode login \
+            --source site \
+            --destination techdocs/default/${BACKSTAGE_ENTITY_KIND}/${BACKSTAGE_ENTITY_NAME} \
+            --overwrite true

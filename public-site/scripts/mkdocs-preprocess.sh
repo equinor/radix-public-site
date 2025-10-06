@@ -2,18 +2,18 @@
 # Preprocess markdown files for MkDocs
 
 echo "Converting admonitions from Docusaurus format to MkDocs format..."
-python ./public-site/scripts/convert_admonitions.py --docs-dir ./public-site/docs
+python ./scripts/convert_admonitions.py --docs-dir ./docs
 
 echo "Fix urls ending with '/' to make them valid in MkDocs..."
-python ./public-site/scripts/fix_doc_links.py --docs-path ./public-site/docs
+python ./scripts/fix_doc_links.py --docs-path ./docs
 
 echo "Copying images for MkDocs..."
-cp -r public-site/static/images/ public-site/docs/
+cp -r ./static/images/ ./docs/
 
 echo "Copy MkDocs variant homepage to docs folder..."
-cp public-site/scripts/md-files/docs_index.md public-site/docs/index.md
+cp ./scripts/md-files/docs_index.md ./docs/index.md
 
 echo "Replace the <RadixTeam /> tag in community/index.md ..."
-sed -i -e '/<RadixTeam \/>/r public-site/scripts/md-files/RadixTeam.md' -e '/<RadixTeam \/>/d' public-site/docs/community/index.md
+sed -i -e '/<RadixTeam \/>/r ./scripts/md-files/RadixTeam.md' -e '/<RadixTeam \/>/d' ./docs/community/index.md
 
 echo "MkDocs preprocessing complete."
