@@ -58,7 +58,5 @@ This script creates temporary files with various test cases of Docusaurus admoni
 These scripts uses `uv` (Python Package Manager) to manage dependencies. 
 
 Install `uv` with `pip install uv` (https://docs.astral.sh/uv/getting-started/installation)
-- `curl -LsSf https://astral.sh/uv/install.sh | sh`
-- `winget install --id=astral-sh.uv  -e`
-
-Install the tool `techdocs-cli`: `npm install -g @techdocs/cli`
+- Linux/MacOs: `curl -LsSf https://astral.sh/uv/install.sh | sh`
+- Windows: `winget install --id=astral-sh.uv  -e`
