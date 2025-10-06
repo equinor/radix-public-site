@@ -4,14 +4,12 @@ on:
   push:
     branches:
       - main
+      - docs/backstage-add-mkdocs
+      - varia-makefile
 
 jobs:
   techdocs:
     runs-on: ubuntu-latest
-
-    env:
-      STORAGE_ACCOUNT_NAME: variatdstprod
-      STORAGE_ACCOUNT_KEY: ${{ secrets.STORAGE_ACCOUNT_KEY }}
 
     steps:
       - name: Checkout code
@@ -35,6 +33,13 @@ jobs:
       - name: Install techdocs-cli
         run: npm install -g @techdocs/cli
 
+      - name: "Az login"
+        uses: azure/login@v2
+        with:
+          client-id: 1fee4604-0e5f-4b2a-9481-e466bbec1cea
+          tenant-id: 3aa4a235-b6e2-48d5-9195-7fcf05b459b0
+          subscription-id: 16ede44b-1f74-40a5-b428-46cca9a5741b
+
       - name: Pre-processing for MkDocs
         working-directory: ./public-site
         run: uv run ./scripts/mkdocs-preprocess.sh
@@ -52,3 +57,16 @@ jobs:
             --azureAccountKey $STORAGE_ACCOUNT_KEY \
             --storage-name techdocs \
             --entity default/system/radix
+
+      - name: Publish to blob storage
+        env:
+          STORAGE_ACCOUNT_NAME: variatdstprod
+          BACKSTAGE_ENTITY_KIND: system
+          BACKSTAGE_ENTITY_NAME: radix
+        run: |
+          az storage blob upload-batch \
+            --account-name ${STORAGE_ACCOUNT_NAME} \
+            --auth-mode login \
+            --source site \
+            --destination techdocs/default/${BACKSTAGE_ENTITY_KIND}/${BACKSTAGE_ENTITY_NAME} \
+            --overwrite true
