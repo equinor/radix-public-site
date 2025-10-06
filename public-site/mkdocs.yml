@@ -6,25 +6,25 @@ site_description: >-
     Radix is a platform for building and running applications in the cloud,
     designed to simplify the development and deployment process.
 docs_dir: docs
-# theme:
-#     name: material
-#     features:
-#         - content.code.copy
+theme:
+    name: material
+    features:
+        - content.code.copy
 markdown_extensions:
     - admonition
     - md_in_html
     - def_list
     - attr_list
-    # - pymdownx.emoji:
-    #       emoji_index: !!python/name:material.extensions.emoji.twemoji
-    #       emoji_generator: !!python/name:material.extensions.emoji.to_svg
-    # - pymdownx.highlight:
-    #       anchor_linenums: true
-    #       line_spans: __span
-    #       pygments_lang_class: true
-    # - pymdownx.inlinehilite
-    # - pymdownx.snippets
-    # - pymdownx.superfences
+    - pymdownx.emoji:
+          emoji_index: !!python/name:material.extensions.emoji.twemoji
+          emoji_generator: !!python/name:material.extensions.emoji.to_svg
+    - pymdownx.highlight:
+          anchor_linenums: true
+          line_spans: __span
+          pygments_lang_class: true
+    - pymdownx.inlinehilite
+    - pymdownx.snippets
+    - pymdownx.superfences
 validation:
     links:
         absolute_links: relative_to_docs

@@ -29,6 +29,9 @@ jobs:
         with:
           python-version: "3.13"
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
       - name: Install techdocs-cli
         run: npm install -g @techdocs/cli
 
@@ -43,7 +46,7 @@ jobs:
       - name: Publish to blob storage
         working-directory: ./public-site
         run: |
-          techdocs-cli publish \
+          uv techdocs-cli publish \
             --publisher-type azureBlobStorage \
             --azureAccountName $STORAGE_ACCOUNT_NAME \
             --azureAccountKey $STORAGE_ACCOUNT_KEY \
