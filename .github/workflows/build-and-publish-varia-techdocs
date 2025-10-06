@@ -3,7 +3,7 @@ name: Build TechDocs
 on:
   push:
     branches:
-      - main
+      - docs/backstage-add-mkdocs
 
 jobs:
   techdocs:
