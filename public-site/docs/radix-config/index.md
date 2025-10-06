@@ -278,7 +278,7 @@ spec:
           azure:
             clientId: 12345678-a263-abcd-8993-683cc6123456
 ```
-The `identity` section enables identity for a specific environment. Read mode about [build identity](/radix-config/index.md#build-identity).
+The `identity` section enables identity for a specific environment. Read more about [build identity](/radix-config/index.md#build-identity).
 * It can remove the common [identity](/radix-config/index.md#identity) with `{}` empty object for a specific environment
 ```yaml
 spec:

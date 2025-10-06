@@ -1,5 +1,5 @@
 <!--
-This file is for mkdocs. It is recrating the Docusaurus <RadixTeam> tag in mkdocs by replacing the tag with the content of this file
+This file is for mkdocs. It is recreating the Docusaurus <RadixTeam> tag in mkdocs by replacing the tag with the content of this file
 -->
 <div class="grid cards" style="grid-template-columns: repeat(3, minmax(0, 1fr));" markdown>
 
