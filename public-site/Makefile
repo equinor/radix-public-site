@@ -18,7 +18,7 @@ varia-techdocs:
 	uv run ./scripts/mkdocs-preprocess.sh
 
 techdocs-serve: varia-techdocs
-	uv npx @techdocs/cli@1.9.8 serve --no-docker -v -c ./mkdocs.yml
+	uv run npx @techdocs/cli@1.9.8 serve --no-docker -v -c ./mkdocs.yml
 
 techdocs-generate: varia-techdocs
-	uv npx @techdocs/cli@1.9.8 generate --no-docker -v
+	uv run npx @techdocs/cli@1.9.8 generate --no-docker -v
