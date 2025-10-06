@@ -51,15 +51,6 @@ jobs:
 
       - name: Publish to blob storage
         working-directory: ./public-site
-        run: |
-          uv run techdocs-cli publish \
-            --publisher-type azureBlobStorage \
-            --azureAccountName $STORAGE_ACCOUNT_NAME \
-            --azureAccountKey $STORAGE_ACCOUNT_KEY \
-            --storage-name techdocs \
-            --entity default/system/radix
-
-      - name: Publish to blob storage
         env:
           STORAGE_ACCOUNT_NAME: variatdstprod
           BACKSTAGE_ENTITY_KIND: system
