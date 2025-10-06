@@ -6,6 +6,7 @@ on:
       - main
       - docs/backstage-add-mkdocs
       - varia-makefile
+  workflow_dispatch:
 
 jobs:
   techdocs:
