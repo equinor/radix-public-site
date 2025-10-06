@@ -1,0 +1,11 @@
+[project]
+name = "public-site"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "mkdocs>=1.6.1",
+    "mkdocs-material-extensions>=1.3.1",
+    "pymdownx-inline-blocks>=0.1.2",
+]
