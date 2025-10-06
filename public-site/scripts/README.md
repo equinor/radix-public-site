@@ -1,6 +1,16 @@
 # Documentation Conversion Scripts
 
-This directory contains scripts for converting between different documentation formats.
+This directory contains scripts for converting documentation format from Docusaurus to MkDocs. 
+
+## `mkdocs-preprocess.py`
+
+Does all conversions as a pre-process step in a GitHub Actions workflow. Can also be used when testing locally.
+
+
+## `fix_doc_links.py`
+
+Fix urls ending with '/' to make them valid in MkDocs.
+
 
 ## `convert_admonitions.py`
 

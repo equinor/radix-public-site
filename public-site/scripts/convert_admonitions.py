@@ -22,6 +22,12 @@ ADMONITION_START_PATTERN = re.compile(r'^(\s*):::(\w+)(?:\s+(.+?))?$')
 ADMONITION_END_PATTERN = re.compile(r'^(\s*):::$')
 
 def process_file_content(lines):
+    """
+    Convert Docusaurus admonitions to MkDocs admonitions in the given file content (lines).
+    
+    Args:
+        lines: List of strings representing the lines of the markdown file
+    """
     new_lines = []
     i = 0
     in_admonition = False
@@ -39,7 +45,6 @@ def process_file_content(lines):
                 has_admonitions = True  # Found at least one admonition
                 in_admonition = True
                 
-                indent = start_match.group(1) or ''  # Capture indentation (if any)
                 admonition_type = start_match.group(2)
                 
                 # Map Docusaurus admonition types to MkDocs types
@@ -150,12 +155,6 @@ def main():
         default='./docs',
         help='Path to the documentation directory (default: ./docs)'
     )
-    parser.add_argument(
-        '--exit-code-on-change',
-        action='store_true',
-        help='Exit with code 1 if any files were modified, 0 otherwise'
-    )
-    
     args = parser.parse_args()
     convert_files_in_directory(args.docs_dir)
     

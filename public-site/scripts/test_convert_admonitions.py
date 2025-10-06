@@ -54,17 +54,8 @@ def run_tests():
     for test_case in test_cases:
         print(f"\nRunning test: {test_case['name']}")
         
-        # Create test file
-        # test_file_path = create_test_file(test_case["input"])
-        
-        # try:
-        # Run conversion
         file_content = test_case["input"].splitlines()
         processed_file_content, has_admonitions = process_file_content(file_content)
-        
-        # Read the result - don't strip trailing newlines
-        # with open(test_file_path, 'r') as f:
-        #     result = f.read()
         
         # Compare with expected
         expected = test_case["expected"].splitlines()
@@ -77,10 +68,6 @@ def run_tests():
             print(f"Got:\n{processed_file_content}")
             failed += 1
                 
-        # finally:
-        #     # Clean up
-        #     os.unlink(test_file_path)
-    
     print(f"\nTest results: {passed} passed, {failed} failed")
     return failed == 0
 
