@@ -2,7 +2,7 @@
 
 This directory contains scripts for converting documentation format from Docusaurus to MkDocs. 
 
-## `mkdocs-preprocess.py`
+## `mkdocs-preprocess.sh`
 
 Does all conversions as a pre-process step in a GitHub Actions workflow. Can also be used when testing locally.
 
@@ -55,8 +55,8 @@ This script creates temporary files with various test cases of Docusaurus admoni
 
 ### Setup
 
-These scripts uses `uv` (Python Package Manager) to manage dependencies. 
+These scripts use `uv` (Python Package Manager) to manage dependencies. 
 
 Install `uv` (https://docs.astral.sh/uv/getting-started/installation):
-- Linux/MacOs: `curl -LsSf https://astral.sh/uv/install.sh | sh`
+- Linux/MacOS: `curl -LsSf https://astral.sh/uv/install.sh | sh`
 - Windows: `winget install --id=astral-sh.uv  -e`
