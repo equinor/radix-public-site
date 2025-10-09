@@ -6,3 +6,4 @@ build
 .jekyll-metadata
 **/.DS_Store
 **/node_modules
+site

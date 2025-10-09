@@ -4,6 +4,7 @@ metadata:
   name: Radix
   annotations:
     github.com/project-slug: equinor/radix-public-site
+    backstage.io/techdocs-ref: dir:./public-site
   links:
     - url: "https://console.radix.equinor.com/"
       title: "Web console"
@@ -11,4 +12,3 @@ spec:
   type: documentation
   lifecycle: production
   owner: omnia-radix
-  system: Radix
