@@ -4,7 +4,7 @@ metadata:
   name: Radix
   annotations:
     github.com/project-slug: equinor/radix-public-site
-    backstage.io/techdocs-ref: dir:./public-site
+    backstage.io/techdocs-ref: dir:.
   links:
     - url: "https://console.radix.equinor.com/"
       title: "Web console"

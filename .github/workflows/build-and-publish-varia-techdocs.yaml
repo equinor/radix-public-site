@@ -37,12 +37,7 @@ jobs:
       - name: Install techdocs-cli
         run: npm install -g @techdocs/cli
 
-      - name: Pre-processing for MkDocs
-        working-directory: ./public-site
-        run: uv run ./scripts/mkdocs-preprocess.sh
-
       - name: Generate docs site
-        working-directory: ./public-site
         run: uv run techdocs-cli generate --no-docker
 
       - name: "Az login"
@@ -53,7 +48,6 @@ jobs:
           allow-no-subscriptions: true
 
       - name: Publish to blob storage
-        working-directory: ./public-site
         env:
           STORAGE_ACCOUNT_NAME: variatdstprod
           BACKSTAGE_ENTITY_KIND: system

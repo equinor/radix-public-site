@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "public-site"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "material>=0.1",
+    "mkdocs>=1.6.1",
+    "mkdocs-material>=9.5.0",
+    "mkdocs-material-extensions>=1.3.1",
+    "mkdocs-techdocs-core>=1.6.0",
+    "pymdownx-inline-blocks>=0.1.2",
+]
+
+[tool.setuptools.packages.find]
+include = ["scripts*"]
+
+[project.entry-points."mkdocs.plugins"]
+docosaurus = "scripts.plugin:DocusaurusPlugin"
