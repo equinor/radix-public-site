@@ -45,10 +45,14 @@ You provide your code and a Dockerfile to build it, and Radix will take it from 
 </div>
 <br />
 <br />
-<div id="radixFeaturesLinks" className="grid">
-    <a className="md-button" href="start/index.md">Get started</a>
-    <a className="md-button" href="docs/index.md">Read the docs</a>
-    <a className="md-button" href="community/index.md">Our community</a>
+<div id="radixFeaturesLinks" className="" markdown>
+
+[Get started](start/index.md)
+
+[Read the docs](docs/index.md)
+
+[Our community](community/index.md)
+
 </div>
 
 </div>

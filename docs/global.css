@@ -265,22 +265,23 @@ figure {
 	justify-content: center;
 	align-items: baseline;
 	gap: 2rem;
-}
 
-.md-button {
-	text-decoration: none;
-	padding: 0.75em 1em;
-	cursor: pointer;
-
-	background: var(--eds_interactive_primary__resting);
-	border: 1px solid var(--eds_interactive_primary__resting);
-	border-radius: var(--eds_shape_button_border_radius);
-	color: var(--eds_text_static_icons__primary_white);
-
-	&:hover {
+	& a {
 		text-decoration: none;
-		background: var(--eds_interactive_primary__hover);
-		border: 1px solid var(--eds_interactive_primary__hover);
+		padding: 0.75em 1em;
+		cursor: pointer;
+		margin: 4px;
+
+		background: var(--eds_interactive_primary__resting);
+		border: 1px solid var(--eds_interactive_primary__resting);
+		border-radius: var(--eds_shape_button_border_radius);
 		color: var(--eds_text_static_icons__primary_white);
+
+		&:hover {
+			text-decoration: none;
+			background: var(--eds_interactive_primary__hover);
+			border: 1px solid var(--eds_interactive_primary__hover);
+			color: var(--eds_text_static_icons__primary_white);
+		}
 	}
 }
