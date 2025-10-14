@@ -19,7 +19,7 @@ Converts Docusaurus-style admonitions to MkDocs-style admonitions in Markdown fi
 ### Usage
 
 ```bash
-python scripts/convert_admonitions.py --docs-dir ./public-site/docs
+python scripts/convert_admonitions.py --docs-dir ./docs
 ```
 
 #### Examples of conversions:

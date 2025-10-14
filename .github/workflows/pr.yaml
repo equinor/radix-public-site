@@ -1,31 +1,29 @@
-
 name: radix-public-site-pr
 on:
   pull_request:
     branches:
-    - main
+      - main
 jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: Build docker image
-      working-directory: public-site
-      env:
-        REF: ${{ github.sha }}
-      run: docker build -t radix-public-site:${REF##*/} .
+      - uses: actions/checkout@v4
+      - name: Build docker image
+        env:
+          REF: ${{ github.sha }}
+        run: docker build -t radix-public-site:${REF##*/} .
 
   validate-radixconfig:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: equinor/radix-github-actions@v2
-      - name: 'Validate public-site'
+      - name: "Validate public-site"
         run: rx validate radix-config --config-file radixconfig.yaml
-      - name: 'Validate oauth example radix-app'
+      - name: "Validate oauth example radix-app"
         run: rx validate radix-config --config-file examples/radix-example-oauth-proxy/radixconfig.yaml
-      - name: 'Validate keda service bus example radix-app'
+      - name: "Validate keda service bus example radix-app"
         run: rx validate radix-config --config-file examples/radix-example-keda-servicebus/radixconfig.yaml
-      - name: 'Validate keda event hub example radix-app'
+      - name: "Validate keda event hub example radix-app"
         run: rx validate radix-config --config-file examples/radix-example-keda-eventhub/radixconfig.yaml
