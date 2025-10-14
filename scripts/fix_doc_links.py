@@ -108,7 +108,7 @@ def process_markdown_file(file_path: Path) -> Dict:
 
 def main():
     parser = argparse.ArgumentParser(description='Fix internal doc links by appending index.md')
-    parser.add_argument('--docs-path', default='public-site/docs', help='Path to docs directory (default: public-site/docs)')
+    parser.add_argument('--docs-path', default='docs', help='Path to docs directory (default: docs)')
     parser.add_argument('--dry-run', action='store_true', help='Show what would be changed without modifying files')
     
     args = parser.parse_args()
