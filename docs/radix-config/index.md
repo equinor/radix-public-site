@@ -1,5 +1,6 @@
 ---
 title: The radixconfig.yaml file
+displayed_sidebar: radixConfigSidebar
 ---
 
 # Radix Config

@@ -80,6 +80,7 @@ const config: Config = {
 				"bash", // also includes shell and sh styles
 			],
 		},
+		
 	} satisfies Preset.ThemeConfig,
 	themes: [
 		[

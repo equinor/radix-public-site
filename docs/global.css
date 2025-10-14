@@ -222,38 +222,34 @@
 	--docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
 
-#radixTeamCards {
-	& ul {
-		display: grid;
-		align-items: center;
-		padding: 2rem 0;
-		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-		gap: 2rem;
+/* MkDocs styles */
 
-		& li {
-			list-style: none;
-			text-align: center;
-		}
-	}
+.grid {
+	grid-gap: 0.4rem;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+	margin: 1em 0;
+}
+figure {
+	display: flow-root;
+	margin: 1em auto;
+	max-width: 100%;
+	text-align: center;
+	width: fit-content;
+}
+.md-grid {
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 61rem;
 }
 
-#radixFeatures {
-	& ul {
-		display: grid;
-		justify-content: center;
-		padding: 2rem 0;
-		grid-template-columns: repeat(auto-fit, minmax(200px, 250px));
-		gap: 2rem;
-
-		& li {
-			list-style: none;
-			text-align: center;
-
-			& p img {
-				height: 80px;
-			}
-		}
-	}
+.md-container {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+}
+.middle {
+	vertical-align: middle;
 }
 
 #welcomeToRadixBody {
@@ -262,31 +258,29 @@
 
 	margin-top: calc(var(--eds_spacing_large));
 	text-align: center;
+}
 
-	#radixFeaturesLinks ul {
-		display: flex;
-		justify-content: center;
-		align-items: baseline;
-		gap: 2rem;
+#radixFeaturesLinks {
+	display: flex;
+	justify-content: center;
+	align-items: baseline;
+	gap: 2rem;
+}
 
-		& li {
-			list-style: none;
-			text-align: center;
-			& a {
-				text-decoration: none;
-				padding: 0.75em 1em;
-				cursor: pointer;
+.md-button {
+	text-decoration: none;
+	padding: 0.75em 1em;
+	cursor: pointer;
 
-				background: var(--eds_interactive_primary__resting);
-				border: 1px solid var(--eds_interactive_primary__resting);
-				border-radius: var(--eds_shape_button_border_radius);
-				color: var(--eds_text_static_icons__primary_white);
+	background: var(--eds_interactive_primary__resting);
+	border: 1px solid var(--eds_interactive_primary__resting);
+	border-radius: var(--eds_shape_button_border_radius);
+	color: var(--eds_text_static_icons__primary_white);
 
-				&:hover {
-					background: var(--eds_interactive_primary__hover);
-					border: 1px solid var(--eds_interactive_primary__hover);
-				}
-			}
-		}
+	&:hover {
+		text-decoration: none;
+		background: var(--eds_interactive_primary__hover);
+		border: 1px solid var(--eds_interactive_primary__hover);
+		color: var(--eds_text_static_icons__primary_white);
 	}
 }

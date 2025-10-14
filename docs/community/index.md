@@ -37,43 +37,50 @@ Check out what's new in the [Release register](/docs/topic-releases/index.md)
 
 ## The Radix team
 
-<div id="radixTeamCards" className="grid cards" markdown="markdown">
+<div className="grid" markdown>
 
-- ![Atle Wilson](../images/radix-atle.jpg)
+<figure markdown className="md-post__authors">
+![Atle Wilson](../images/radix-atle.jpg)
 
-    **Atle Wilson**
+**Atle Wilson**
 
-    Product Owner
+Product Owner
+</figure>
+<figure markdown className="md-post__authors">
+![Richard Hagen](../images/radix-richard.jpg)
 
-- ![Richard Hagen](../images/radix-richard.jpg)
+**Richard Hagen**
 
-    **Richard Hagen**
+Developer
+</figure>
+<figure markdown className="md-post__authors">
+![Svein-Petter Johnsen](../images/radix-svein-petter-johnsen.jpg)
 
-    Developer
+**Svein-Petter Johnsen**
 
-- ![Svein-Petter Johnsen](../images/radix-svein-petter-johnsen.jpg)
+Infrastructure
+</figure>
+<figure markdown className="md-post__authors">
+![Nils Gustav Stråbø](../images/radix-nils-gustav-strabo.jpg)
 
-    **Svein-Petter Johnsen**
+**Nils Gustav Stråbø**
 
-    Infrastructure
+Developer
+</figure>
+<figure markdown className="md-post__authors">
+![Elsa Mäyrä Irgens](../images/radix-elsa-mayra-irgens.jpg)
 
-- ![Nils Gustav Stråbø](../images/radix-nils-gustav-strabo.jpg)
+**Elsa Mäyrä Irgens**
 
-    **Nils Gustav Stråbø**
+Team Leader
+</figure>
+<figure markdown className="md-post__authors">
+![Jacob Solberg Holm](../images/radix-jacob-solberg-holm.jpg)
 
-    Developer
+**Jacob Solberg Holm**
 
-- ![Elsa Mäyrä Irgens](../images/radix-elsa-mayra-irgens.jpg)
-
-    **Elsa Mäyrä Irgens**
-
-    Team Leader
-
-- ![Jacob Solberg Holm](../images/radix-jacob-solberg-holm.jpg)
-
-    **Jacob Solberg Holm**
-
-    Developer
-
+Developer
+</figure>
 
 </div>
+
