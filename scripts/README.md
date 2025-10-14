@@ -1,6 +1,6 @@
-# MkDocs DocosaurusPlugin 
+# MkDocs DocusaurusPlugin 
 
-converts docosaurus markdown files to MkDocs
+converts docusaurus markdown files to MkDocs
 
 ### Usage
 
