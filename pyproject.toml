@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "public-site"
 version = "0.1.0"
@@ -12,3 +16,9 @@ dependencies = [
     "mkdocs-techdocs-core>=1.6.0",
     "pymdownx-inline-blocks>=0.1.2",
 ]
+
+[tool.setuptools.packages.find]
+include = ["scripts*"]
+
+[project.entry-points."mkdocs.plugins"]
+docosaurus = "scripts.plugin:DocusaurusPlugin"
