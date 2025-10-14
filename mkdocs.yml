@@ -7,13 +7,13 @@ docs_dir: docs
 extra_css:
   - global.css
 theme:
-  name: material
-  features:
-    - content.code.copy
+    name: material
+    features:
+        - content.code.copy
 plugins:
-  - search
-  - docosaurus
-  - techdocs-core
+    - search
+    - docusaurus
+    - techdocs-core
 markdown_extensions:
   - admonition
   - md_in_html

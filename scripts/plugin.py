@@ -1,5 +1,5 @@
 """
-MkDocs Docosaurus plugin hooks for preprocessing content
+MkDocs Docusaurus plugin hooks for preprocessing content
 """
 
 import re

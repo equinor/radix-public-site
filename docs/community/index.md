@@ -37,7 +37,7 @@ Check out what's new in the [Release register](/docs/topic-releases/index.md)
 
 ## The Radix team
 
-<div className="radixTeamCards" markdown="markdown">
+<div id="radixTeamCards" className="grid cards" markdown="markdown">
 
 - ![Atle Wilson](../images/radix-atle.jpg)
 

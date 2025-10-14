@@ -38,7 +38,7 @@ const config: Config = {
 					routeBasePath: "",
 				},
 				theme: {
-					customCss: "docs/global.css",
+					customCss: "./docs/global.css",
 				},
 			} satisfies Preset.Options,
 		],
