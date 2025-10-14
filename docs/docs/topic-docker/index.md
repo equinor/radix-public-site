@@ -48,11 +48,11 @@ The ID of the group and user can be anything in the range 1000-65535.
 `useradd` command follows the syntax `useradd -S -u [USER_ID] -g [GROUP_NAME] [USER_NAME]`
 
 :::tip Be aware
-[The syntax for add user and group](/guides/docker-useradd/) can be different for the distribution of images
+[The syntax for add user and group](../../guides/docker-useradd/index.md) can be different for the distribution of images
 :::
 
 ### ReadOnly file system for buildKit
-When the configuration option [useBuildKit](/radix-config/index.md#usebuildkit) is `true`, pipeline build jobs run within the Radix cluster with read-only file system, only few specific folders are writable. If it is necessary Dockerfile directives can use writeble folders `/tmp`, `/var` (exluding the reserved `/var/tmp`).
+When the configuration option [useBuildKit](../../radix-config/index.md#usebuildkit) is `true`, pipeline build jobs run within the Radix cluster with read-only file system, only few specific folders are writable. If it is necessary Dockerfile directives can use writeble folders `/tmp`, `/var` (exluding the reserved `/var/tmp`).
 
 ### Read more about securing docker images
 There are many great articles on securing docker images. See [Snyk](https://res.cloudinary.com/snyk/image/upload/v1551798390/Docker_Image_Security_Best_Practices_.pdf).

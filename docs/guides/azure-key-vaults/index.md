@@ -4,7 +4,7 @@ title: Azure Key Vault
 
 # Configuring Azure Key Vaults
 
-Azure Key Vault secrets, keys and certificates can be used in Radix, configured in the property `secretRefs.azureKeyVaults` of the [radixconfig.yaml](/radix-config/index.md#secretrefs) file. It is implemented with Azure Key Vault Provider for Secrets Store CSI Driver for Kubernetes. Read [more](https://github.com/Azure/secrets-store-csi-driver-provider-azure) about the driver.
+Azure Key Vault secrets, keys and certificates can be used in Radix, configured in the property `secretRefs.azureKeyVaults` of the [radixconfig.yaml](../../radix-config/index.md#secretrefs) file. It is implemented with Azure Key Vault Provider for Secrets Store CSI Driver for Kubernetes. Read [more](https://github.com/Azure/secrets-store-csi-driver-provider-azure) about the driver.
 
 ## Configuration
 
@@ -17,7 +17,7 @@ Azure Key Vault secrets, keys and certificates can be used in Radix, configured 
   ![Add Azure Key Vault secrets](./add-key-vault-access-policy-secrets.png)
   ![Add Azure Key Vault secrets](./add-second-key-vault-access-policy-secrets.png)
 
-- Define properties of the Azure Key Vaults in the [`radixconfig.yaml`](/radix-config/index.md#secretrefs) property `secretRefs.azureKeyVaults`
+- Define properties of the Azure Key Vaults in the [`radixconfig.yaml`](../../radix-config/index.md#secretrefs) property `secretRefs.azureKeyVaults`
 - `secretRefs.azureKeyVaults` properties `name` and `path` should be unique within one Radix application component and its environment (different environments can have the same `name` and `path`).
   - Examples of correct configurations in component and `environmentConfig` (if exists) sections
 
@@ -205,8 +205,8 @@ There are two options for authentication to Azure Key Vault from a Radix applica
     ![Set secrets](./set-key-vault-secrets-in-radix-console-qa.png)
 
 ### Authentication with Azure Workload Identity
-- Enable [Workload Identity](../workload-identity/#configure-workload-identity-in-radix) for the component or job.
-- Configure Workload Identity authentication for the Azure Key Vault by setting `useAzureIdentity: true` in the [azureKeyVault](/radix-config/index.md#azurekeyvault) section in [radixconfig.yaml](/radix-config/index.md)
+- Enable [Workload Identity](../workload-identity/index.md#configure-workload-identity-in-radix) for the component or job.
+- Configure Workload Identity authentication for the Azure Key Vault by setting `useAzureIdentity: true` in the [azureKeyVault](../../radix-config/index.md#azurekeyvault) section in [radixconfig.yaml](../../radix-config/index.md)
 
 An option `useAzureIdentity` on a component level, defined or left default `false`, can be overridden on an `environmentConfig` level.
 
@@ -238,11 +238,11 @@ For job component the dialog show information which job or batch uses secret ver
 
 When a certificate is created in an Azure Key Vault, secret and key [are created implicitly](https://docs.microsoft.com/en-us/azure/aks/csi-secrets-store-driver#obtain-certificates-and-keys) with the same names:
 
-|Object|Return value|Returns entire certificate chain|
-|-|-|---------------------|
-|`key`|The public key, in Privacy Enhanced Mail (PEM) format|N/A|
-|`cert`|The certificate, in PEM format|No|
-|`secret`|The private key and certificate, in PEM format|Yes|
+| Object   | Return value                                          | Returns entire certificate chain |
+| -------- | ----------------------------------------------------- | -------------------------------- |
+| `key`    | The public key, in Privacy Enhanced Mail (PEM) format | N/A                              |
+| `cert`   | The certificate, in PEM format                        | No                               |
+| `secret` | The private key and certificate, in PEM format        | Yes                              |
 
 Use `alias` property to get all these three items in Radix application component. Example to use certificate and its keys `cert1` as three files in the component replicas:
 

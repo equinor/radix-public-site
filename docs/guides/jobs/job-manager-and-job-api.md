@@ -7,7 +7,7 @@ next: notifications
 ## Job Manager and job API
 
 The Job Manager, aka "job-scheduler", is a web API service, that you use to create, delete and monitor the state of jobs.
-Radix creates one job-scheduler per job defined in [`radixconfig.yaml`](/radix-config/index.md#jobs). A job-scheduler will listen to the port defined by `schedulerPort` and host name equal to the `name` of the job. The job-scheduler API can only be accessed by components running in the same environment, and it is not exposed to the Internet. No authentication is required.
+Radix creates one job-scheduler per job defined in [`radixconfig.yaml`](../../radix-config/index.md#jobs). A job-scheduler will listen to the port defined by `schedulerPort` and host name equal to the `name` of the job. The job-scheduler API can only be accessed by components running in the same environment, and it is not exposed to the Internet. No authentication is required.
 
 The Job Manager exposes the following methods for managing jobs:
 - `GET /api/v1/jobs` Get states (with names and statuses) for all jobs
@@ -73,19 +73,19 @@ The Job Manager exposes the following methods for managing jobs:
 `payload`, `jobId`, `image`, `imageTagName`, `timeLimitSeconds`, `backoffLimit`, `failurePolicy`, `resources`, `runtime`, `variables`, `command`, `args` are optional fields and any of them can be omitted in the request.
 
 #### image
-`image` field allows to alter specific job's [`image`](/radix-config/index.md#image-2)
+`image` field allows to alter specific job's [`image`](../../radix-config/index.md#image-2)
 #### imageTagName
-`imageTagName` field allows to replace an image tag for specific job - it is not necessary to configure `{imageTagName}` in the [`radixconfig.yaml`](/radix-config/index.md#imagetagname) for it.
+`imageTagName` field allows to replace an image tag for specific job - it is not necessary to configure `{imageTagName}` in the [`radixconfig.yaml`](../../radix-config/index.md#imagetagname) for it.
 #### variables
-`variables` can add or override for a specific job [variables](/radix-config/#variables-common-1) configured for a job component. It can be used to pass arguments to the job instead of `payload`.
+`variables` can add or override for a specific job [variables](../../radix-config/index.md#variables-common-1) configured for a job component. It can be used to pass arguments to the job instead of `payload`.
 #### command
-`command` - sets or overrides [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint) directive array in a docker image. It can also override the job-component's `command` if it exists. Read more about [command](/radix-config/#command)
+`command` - sets or overrides [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint) directive array in a docker image. It can also override the job-component's `command` if it exists. Read more about [command](../../radix-config/index.md#command)
 
 When `command` is set and a Dockerfile used by the job-component has [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive (having a shell command or arguments to a command defined in [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint)), this [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive will be ignored.
 
 When `command` field is set to an empty array `[]`, it will suppress `command` on the job-component or its `environmentConfig` level if exists, an [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint) directive in the Dockerfile will be used if defined.
 #### args
-`args` - sets or overrides [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive array in a docker image. It can also override the job-component's `args` if it exists. Read more about [args](/radix-config/#args)
+`args` - sets or overrides [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive array in a docker image. It can also override the job-component's `args` if it exists. Read more about [args](../../radix-config/index.md#args)
 
 When `args` field is set to an empty array `[]`, it will suppress `args` on the job-component or its `environmentConfig` level if exists, an [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive in the Dockerfile will be used if defined.
 
@@ -168,7 +168,7 @@ When `args` field is set to an empty array `[]`, it will suppress `args` on the 
 Parameters are the same as described in the [Create a single job](#parameters) section, with the following differences:
 * Parameters can be defined in both `defaultRadixJobComponentConfig` and `jobScheduleDescriptions` items, individually for each job configuration 
 * A parameter defined in a `jobScheduleDescriptions` item overrides the same parameter in `defaultRadixJobComponentConfig` and on a job component or its `environmentConfig` levels.
-* `variables` defined in `defaultRadixJobComponentConfig` and/or in `jobScheduleDescriptions` items are combined and add or override [variables](/radix-config/#variables-common-1) configured for a job component.
+* `variables` defined in `defaultRadixJobComponentConfig` and/or in `jobScheduleDescriptions` items are combined and add or override [variables](../../radix-config/index.md#variables-common-1) configured for a job component.
 * When final `command` is set to an empty array `[]` in an `jobScheduleDescriptions` item and `defaultRadixJobComponentConfig`, for this batch or a specific job it suppresses `command` defined on a job-component or its `environmentConfig` level if exists, an [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint) directive in the Dockerfile will be used if defined.
 * When final `args` is set to an empty array `[]` in an `jobScheduleDescriptions` item and `defaultRadixJobComponentConfig`, for this batch or a specific job it suppresses `args` defined on a job-component or its `environmentConfig` level if exists, an [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive in the Dockerfile will be used if defined.
 
@@ -478,7 +478,7 @@ To get state for a specific batch, e.g. `batch-compute-20220302155333-hrwl53mw`,
 }
 ```
 
-If the job's replica failed and job-component has [backoffLimit](/radix-config/index.md#backofflimit) greater then `0`, `podStatus` contains `exitCode` and `reason` for failed pods. `podIndex` gives an order of pod statuses (starting from `0`)
+If the job's replica failed and job-component has [backoffLimit](../../radix-config/index.md#backofflimit) greater then `0`, `podStatus` contains `exitCode` and `reason` for failed pods. `podIndex` gives an order of pod statuses (starting from `0`)
 
 ```json
 {

@@ -169,7 +169,7 @@ volumeMounts:
 ```
 
 ## Private endpoint
-When [requesting a private link](/guides/private-link/#request-the-private-linkendpoint) to connect to the Azure storage account:
+When [requesting a private link](../private-link/index.md#request-the-private-linkendpoint) to connect to the Azure storage account:
 * in case `useAdls: false` - request `SubResource: blob`.
 * in case `useAdls: true` - request `SubResource: dfs` (Distributed File System).
 

@@ -5,7 +5,7 @@ title: Overview
 # Horizontal Scaling
 Scale your components replicas up and down based on resources (CPU, memory) or external metrics (CRON, Azure Service Bus, etc.).
 
-[horizontalScaling](/radix-config/#horizontalscaling) can be overridden in application environments - Radix will merge `minReplicas`, `maxReplicas`, `pollingInterval` and `cooldownPeriod`. If any triggers are defined in the environment, they will replace _all_ triggers on the component level.
+[horizontalScaling](../../radix-config/index.md#horizontalscaling) can be overridden in application environments - Radix will merge `minReplicas`, `maxReplicas`, `pollingInterval` and `cooldownPeriod`. If any triggers are defined in the environment, they will replace _all_ triggers on the component level.
 
 
 ## External metrics triggers

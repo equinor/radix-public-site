@@ -24,7 +24,7 @@ The user has access to a front-end client, but needs to acquire an authenticatio
 
 Radix has built-in support for OAuth2 code flow authentication with OIDC.
 
-When OAuth2 is enabled for a component in [`radixconfig.yaml`](/radix-config/index.md#oauth2), Radix creates an OAuth2 service and configures this service to verify if incoming requests are authorized or not, handle the authorization code flow, and manage session state for an authorized user.
+When OAuth2 is enabled for a component in [`radixconfig.yaml`](../../radix-config/index.md#oauth2), Radix creates an OAuth2 service and configures this service to verify if incoming requests are authorized or not, handle the authorization code flow, and manage session state for an authorized user.
 
 ![Diagram](./oauth2.png "OAuth2 Sequence Diagram")
 
@@ -58,7 +58,7 @@ When OAuth2 is enabled for a component in [`radixconfig.yaml`](/radix-config/ind
 
   It is recommended to use `systemManaged` for development, or `redis` with [Azure Cache for Redis](https://azure.microsoft.com/nb-no/services/cache/) in production as session store instead of cookie because of [known issues](#known-issues) with refreshing the access token and updating the session cookie's Expires attribute.  
   
-  If you select `redis` add configuration for `connectionUrl` in the `redisStore` section. After redeploying find the secrets for Oauth2 Service in Radix Web Console and update the `REDIS_PASSWORD`. See more in [Radix Config](/radix-config/#oauth2)
+  If you select `redis` add configuration for `connectionUrl` in the `redisStore` section. After redeploying find the secrets for Oauth2 Service in Radix Web Console and update the `REDIS_PASSWORD`. See more in [Radix Config](../../radix-config/index.md#oauth2)
 
 
 - Build the application in Radix.
@@ -81,7 +81,7 @@ Information required for setting up the trust relationship between a workload an
 
     ![OAuth2 Federation Trust Information](./oauth2-federation-trust-information.png)
 
-- Configure Workload Identity authentication for the OAuth2 proxy by setting `credentials: azureWorkloadIdentity` in the [oauth2](/radix-config#oauth2) section in [radixconfig.yaml](/radix-config/index.md)
+- Configure Workload Identity authentication for the OAuth2 proxy by setting `credentials: azureWorkloadIdentity` in the [oauth2](../../radix-config/index.md#oauth2) section in [radixconfig.yaml](../../radix-config/index.md)
 - The `authentication.oauth2.cliendId` can be different from the `identity.azure.clientId` - they are independent.
 
 An option `credentials` on a component level, defined or left default `secret`, can be overridden on an `environmentConfig` level.

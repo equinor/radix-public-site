@@ -5,7 +5,7 @@ displayed_sidebar: docsSidebar
 
 ## The basics
 
-- Understanding [Radix concepts](/start/radix-concepts/index.md)
+- Understanding [Radix concepts](../start/radix-concepts/index.md)
 - The application [runtime environment](topic-runtime-env)
 - [Domain names](topic-domain-names) for your components
 
@@ -23,6 +23,6 @@ displayed_sidebar: docsSidebar
 
 ## Reference
 
-- [The `radixconfig.yaml` file](/radix-config/index.md)
-- [Code editor integration](/docs/topic-code-editor-integration/index.md)
-- [Private Link](/docs/topic-private-link/index.md)
+- [The `radixconfig.yaml` file](../radix-config/index.md)
+- [Code editor integration](topic-code-editor-integration/index.md)
+- [Private Link](topic-private-link/index.md)

@@ -33,7 +33,7 @@ We also monitor a common mailbox, so if this is an option for you to reach out, 
 
 New features are publicly announced in the [Omnia Radix Slack channel](https://equinor.slack.com/messages/C8U7XGGAJ), and added to the release register page.  
 
-Check out what's new in the [Release register](/docs/topic-releases/index.md)
+Check out what's new in the [Release register](../docs/topic-releases/index.md)
 
 ## The Radix team
 

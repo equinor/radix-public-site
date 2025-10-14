@@ -4,7 +4,7 @@ title: Update Git submodules in a pipeline job
 
 # Update Git submodules in a pipeline job
 
-[Submodules](/guides/git-submodules/index.md) are mapped to a Git repository within a folder. This is an example of a Radix app with a submodule, located in the external private or internal Git repository.
+[Submodules](index.md) are mapped to a Git repository within a folder. This is an example of a Radix app with a submodule, located in the external private or internal Git repository.
 
 ## Radix application repository structure
 ```sh

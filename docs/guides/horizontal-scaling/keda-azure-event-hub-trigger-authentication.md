@@ -3,8 +3,11 @@ title: Authentication
 ---
 
 # Azure Event Hub authentication
-* [Authenticate with Workload Identity](#authenticate-with-workload-identity)
-* [Authenticate with connection string](#authenticate-with-connection-string)
+- [Azure Event Hub authentication](#azure-event-hub-authentication)
+  - [Authenticate with Workload Identity](#authenticate-with-workload-identity)
+  - [Authenticate with connection string](#authenticate-with-connection-string)
+    - [Namespace connection string](#namespace-connection-string)
+    - [Instance connection string](#instance-connection-string)
 
 ## Authenticate with Workload Identity
 :::warning
@@ -42,7 +45,7 @@ spec:
                   azure:
                     clientId: 00000000-0000-0000-0000-000000000000
 ````
-Read more about [Azure workload identity](/guides/workload-identity/)
+Read more about [Azure workload identity](../workload-identity/index.md)
 
 ## Authenticate with connection string
 ````yaml
@@ -63,8 +66,11 @@ spec:
               storageConnectionFromEnv: STORAGE_CONNECTION
 ````
 `storageConnectionFromEnv` - Name of the environment variable your deployment uses to get the connection string of the Azure Event Hub namespace. This connection string can be Event Hub namespace or instance scope.
-* [Get connection string for Azure Event Hub namespace](#namespace-connection-string)
-* [Get connection string for Azure Event Hub instance](#instance-connection-string)
+- [Azure Event Hub authentication](#azure-event-hub-authentication)
+  - [Authenticate with Workload Identity](#authenticate-with-workload-identity)
+  - [Authenticate with connection string](#authenticate-with-connection-string)
+    - [Namespace connection string](#namespace-connection-string)
+    - [Instance connection string](#instance-connection-string)
 ### Namespace connection string
 To get the connection string for your Event Hub namespace, follow these steps:
 * Go to the [Azure portal](https://portal.azure.com/).
@@ -72,7 +78,7 @@ To get the connection string for your Event Hub namespace, follow these steps:
 * In the left-hand menu, select "Shared access policies".
 * Select the policy to be used or create a new one with required claims: Manage, Send and/or Listen.
 * Copy the "Primary Connection String" or "Secondary Connection String".
-* Store the connection string in a [Radix secret](/radix-config#secrets-1) or [Azure Key Vault](/radix-config#azurekeyvault) secret of a component, e.g. `EVENT_HUB_CONNECTION`.
+* Store the connection string in a [Radix secret](../../radix-config/index.md#secrets-1) or [Azure Key Vault](../../radix-config/index.md#azurekeyvault) secret of a component, e.g. `EVENT_HUB_CONNECTION`.
 
    This connection string has the following format:
 
@@ -96,7 +102,7 @@ To get the connection string for an Event Hub instance, follow these steps:
 
 ![Shared access policy for event hub instance connection string](./shared-access-policy-for-event-hub-instance-connection.png)
 
-* Store the connection string in a [Radix secret](/radix-config#secrets-1) or [Azure Key Vault](/radix-config#azurekeyvault) secret of a component, e.g. `EVENT_HUB_CONNECTION`.
+* Store the connection string in a [Radix secret](../../radix-config/index.md#secrets-1) or [Azure Key Vault](../../radix-config/index.md#azurekeyvault) secret of a component, e.g. `EVENT_HUB_CONNECTION`.
 
 This connection string has the following format:
 

@@ -9,13 +9,13 @@ In Radix, our development workflow can be modelled to match our needs. It is pos
 
 If we **map** a git branch to an environment, commits to that branch will trigger a build and deployment to the specified environment. For instance, a `dev` environment might be built and deployed from `master` branch, while a `prod` environment can be built and deployed from the `production` branch. Branches and environments that are not mapped are ignored and do not trigger automatic builds or deployments.
 
-A common strategy is to use [promotion](/guides/deployment-promotion/) to control how deployments end up in production environments.
+A common strategy is to use [promotion](../../guides/deployment-promotion/index.md) to control how deployments end up in production environments.
 
 **Promotion** allows us to take an existing deployment in an environment, and deploy it in another. For instance, take what is currently running in the `preprod` environment and place it in `prod`. It is also possible to promote previous non-active deployment of the same environment - a "rollback" feature.
 
 It is fine to combine these features to produce the workflow that we want. For instance, we can automatically build and deploy `master` branch to the `dev` environment, and the `release` branch to `preprod` environment. We can then manually promote the deployment in `preprod` environment to the `prod` environment.
 
-📖 [`radixconfig.yaml`](/radix-config/index.md) reference.
+📖 [`radixconfig.yaml`](../../radix-config/index.md) reference.
 
 ![Dev and QA workflow](./workflow-dev-qa.png)
 

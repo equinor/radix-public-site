@@ -4,7 +4,7 @@ title: Onboarding
 
 # Onboarding
 
-[Radix team](/community/index.md) offer onboard support for teams or projects, where we walk through your application and togheter try to find out if Radix is a good fit for you. Contact us on [slack](https://equinor.slack.com/archives/C8U7XGGAJ) for more information.
+[Radix team](../../community/index.md) offer onboard support for teams or projects, where we walk through your application and togheter try to find out if Radix is a good fit for you. Contact us on [slack](https://equinor.slack.com/archives/C8U7XGGAJ) for more information.
 
 You should have a basic understanding of some technologies are required for working efficient with Radix.
 

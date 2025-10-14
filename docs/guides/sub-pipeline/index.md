@@ -4,10 +4,10 @@ title: Sub-pipeline
 
 # Sub-pipeline
 
-In the [Radix pipeline](/start/radix-concepts/index.md#pipeline), optionally a sub-pipeline can be run. It is run after "Build components step" (if components need to be built) or after "Prepare pipeline" step.  This sub-pipeline is based on the [Tekton CI/CD framework](https://tekton.dev/docs/getting-started/).
+In the [Radix pipeline](../../start/radix-concepts/index.md#pipeline), optionally a sub-pipeline can be run. It is run after "Build components step" (if components need to be built) or after "Prepare pipeline" step.  This sub-pipeline is based on the [Tekton CI/CD framework](https://tekton.dev/docs/getting-started/).
 
 :::tip
-Note on nomenclature! The content in this guide concerns a [Tekton pipeline](https://tekton.dev/docs/getting-started/) which is defined as a *pipeline within* a parent [Radix pipeline](/start/radix-concepts/index.md#pipeline). In the context of the Radix platform, a Tekton pipeline is referred to as a *sub-pipeline* or *Tekton pipeline*, while the parent Radix pipeline is referred to as a *pipeline* or *Radix pipeline*.
+Note on nomenclature! The content in this guide concerns a [Tekton pipeline](https://tekton.dev/docs/getting-started/) which is defined as a *pipeline within* a parent [Radix pipeline](../../start/radix-concepts/index.md#pipeline). In the context of the Radix platform, a Tekton pipeline is referred to as a *sub-pipeline* or *Tekton pipeline*, while the parent Radix pipeline is referred to as a *pipeline* or *Radix pipeline*.
 :::
 
 ## Configure sub-pipeline
@@ -16,7 +16,7 @@ Sub-pipeline is configured with file `pipeline.yaml`. This file will in turn hav
 
 ### Pipeline and task files
 
-* Default folder for sub-pipeline is `tekton`, next to the [Radix configuration file](/radix-config/index.md) of the application.
+* Default folder for sub-pipeline is `tekton`, next to the [Radix configuration file](../../radix-config/index.md) of the application.
 * Default name for the sub-pipeline is `pipeline.yaml`.
 * Files with sub-pipeline task configurations should be located next to the file `pipeline.yaml`.
 
@@ -56,7 +56,7 @@ Follow the [Tekton documentation](https://tekton.dev/docs/) to configure a sub-p
 In Radix platform, the following limitations are applied to sub-pipelines:
 * sub-pipeline does not support [workspaces](https://tekton.dev/docs/pipelines/workspaces/). However, it is possible to use [volumes](./example-pipeline-with-multiple-task-steps) in sub-pipeline tasks.
 * sub-pipeline Task step cannot mount secrets as volumes, with some exceptions:
-  * the secret to access [private image repository](/radix-config/index.md#privateimagehubs), which is mounted automatically
+  * the secret to access [private image repository](../../radix-config/index.md#privateimagehubs), which is mounted automatically
   * [build secrets](./example-pipeline-with-build-secrets.md)
 * sub-pipeline Task step cannot run as a privileged container (e.g. cannot run as root) or with a host network
   * if a container image used in a step is configured to run as a root, this user can (and should) be changed to a non-root user with a field `securityContext.runAsUser` in the step definition, `securityContext.runAsGroup` is also supported. `runAsUser` and `runAsGroup` cannot have value `0` (= `root` user).

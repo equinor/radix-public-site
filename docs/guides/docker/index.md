@@ -8,4 +8,4 @@ Even if you do not use Radix, it is recommended that you learn how to use Docker
 
 [What is a container](https://www.youtube.com/watch?v=EnJ7qX9fkcU) and [Benefits of containers](https://www.youtube.com/watch?v=cCTLjAdIQho) are both good videos to explain what and why containers.  
 
-[Best practice](/docs/topic-docker/) contains references to other relevant resources.
+[Best practice](../../docs/topic-docker/index.md) contains references to other relevant resources.

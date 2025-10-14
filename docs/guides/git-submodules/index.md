@@ -11,7 +11,7 @@ title: Git submodules
 As of December 2022, Radix only supports a single SSH key for authenticating to remote git repositories. This means that a Radix repository's submodules must be either public or accessible using the same deploy key as the main repository. Because GitHub globally prohibits reuse of a single deploy key across multiple repositories, it's not possible to use submodules which point to private GitHub repositories.
 
 :::info Note
-There is an option to update submodule within the pipeline job. Please look [at the example](/guides/git-submodules/update-submodule-in-pipeline-job.md).
+There is an option to update submodule within the pipeline job. Please look [at the example](update-submodule-in-pipeline-job.md).
 :::
 
 ### Trigger build of main app with commit to submodule
