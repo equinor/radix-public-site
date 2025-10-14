@@ -14,11 +14,11 @@ prod-up:
 prod-down:
 	docker compose --profile prod down
 
-varia-techdocs:
-	uv run ./scripts/mkdocs-preprocess.sh
+docusaurus-serve:
+	./node_modules/.bin/docusaurus start --port 8000 --host 0.0.0.0
 
-techdocs-serve: varia-techdocs
-	uv run npx @techdocs/cli@1.9.8 serve --no-docker -v -c ./mkdocs.yml
+techdocs-serve:
+	uv run npx @techdocs/cli@1.9.8 serve --no-docker -v -c ./mkdocs.yml --mkdocs-port 8001
 
-techdocs-generate: varia-techdocs
+techdocs-generate:
 	uv run npx @techdocs/cli@1.9.8 generate --no-docker -v

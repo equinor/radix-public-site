@@ -1,20 +1,6 @@
-# Documentation Conversion Scripts
+# MkDocs DocusaurusPlugin 
 
-This directory contains scripts for converting documentation format from Docusaurus to MkDocs. 
-
-## `mkdocs-preprocess.sh`
-
-Does all conversions as a pre-process step in a GitHub Actions workflow. Can also be used when testing locally.
-
-
-## `fix_doc_links.py`
-
-Fix urls ending with '/' to make them valid in MkDocs.
-
-
-## `convert_admonitions.py`
-
-Converts Docusaurus-style admonitions to MkDocs-style admonitions in Markdown files.
+converts docusaurus markdown files to MkDocs
 
 ### Usage
 

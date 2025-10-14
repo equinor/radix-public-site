@@ -2,7 +2,6 @@
 title: Community
 displayed_sidebar: communitySidebar
 ---
-import RadixTeam from '../../src/components/RadixTeam/index.tsx'
 
 # Community
 
@@ -14,7 +13,7 @@ Of course, Radix is developed and maintained by Equinor developers as well. That
 We are based in Forus Øst - A2 in Stavanger. If you see us on the corridor, say hello!  
 :::
 
- ![radix team](/images/Toppbilde.jpg)
+ ![radix team](../images/Toppbilde.jpg)
 
 ## On Slack
 
@@ -38,4 +37,43 @@ Check out what's new in the [Release register](/docs/topic-releases/index.md)
 
 ## The Radix team
 
-<RadixTeam />
+<div id="radixTeamCards" className="grid cards" markdown="markdown">
+
+- ![Atle Wilson](../images/radix-atle.jpg)
+
+    **Atle Wilson**
+
+    Product Owner
+
+- ![Richard Hagen](../images/radix-richard.jpg)
+
+    **Richard Hagen**
+
+    Developer
+
+- ![Svein-Petter Johnsen](../images/radix-svein-petter-johnsen.jpg)
+
+    **Svein-Petter Johnsen**
+
+    Infrastructure
+
+- ![Nils Gustav Stråbø](../images/radix-nils-gustav-strabo.jpg)
+
+    **Nils Gustav Stråbø**
+
+    Developer
+
+- ![Elsa Mäyrä Irgens](../images/radix-elsa-mayra-irgens.jpg)
+
+    **Elsa Mäyrä Irgens**
+
+    Team Leader
+
+- ![Jacob Solberg Holm](../images/radix-jacob-solberg-holm.jpg)
+
+    **Jacob Solberg Holm**
+
+    Developer
+
+
+</div>
