@@ -21,4 +21,4 @@ dependencies = [
 include = ["scripts*"]
 
 [project.entry-points."mkdocs.plugins"]
-docosaurus = "scripts.plugin:DocusaurusPlugin"
+docusaurus = "scripts.plugin:DocusaurusPlugin"

@@ -12,7 +12,7 @@ theme:
         - content.code.copy
 plugins:
     - search
-    - docosaurus
+    - docusaurus
     - techdocs-core
 markdown_extensions:
     - admonition
