@@ -215,9 +215,64 @@ When deploy pipeline job has been run with `component` option, Radix console wil
 _Component **component1** keeps deployment commit @b57c551_ 
 
 Where _commit @b57c551_ will be shown only when the previous deployment of the component has this `CommitID` specified
+
 ##### Pipeline job
+
 ![Deploy job with specific component](./deploy-job-with-specific-component.png)
+
 ##### Deployment
+
 ![Deployment with specific component](./deployment-with-specific-component.png)
+
 ##### Environment
+
 ![Environment with specific deployed component](./environment-with-specific-deployed-component.png)
+
+## Radix Github Actions
+
+Example of an github action that triggers a deployment job
+
+This examples requires a Azure User Assigned Managed Identity that has access to your application, and it must have a federated credentials mapped to your github repository and branch that will execute the workflow.
+Read more about [Azure and Github Federated Credentials](https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure-openid-connect)
+
+```yaml
+name: Deploy on Radix # Authenticate with Federated Credentials
+
+on:
+  workflow_dispatch:
+  push:
+    tags: 
+      - 'v*.*.*'
+
+permissions:
+  contents: read
+  id-token: write # required to get a GitHub federated credential
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set RELEASE_VERSION
+      run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
+    - uses: equinor/radix-github-actions@v2
+      with:
+        azure_client_id: "00000000-0000-0000-0000-000000000000"
+        # azure_client_secret: ${{ secrets.AZURE_CLIENT_SECRET }} # Available if you do not use Federated Credentials
+
+    - run: rx create pipeline-job deploy
+       --application application-name
+       --environment qa
+       --image-tag-name component=docker.io/bash:${{ env.RELEASE_VERSION }}
+       --image-tag-name component2=docker.io/redis:${{ env.RELEASE_VERSION }}
+       --follow
+```
+
+See [Migrating from v1. to v2 here](./migrating-radix-github-action-v1-to-v2.md)
+
+
+## Exampls
+
+- [GitHub action to create a deploy pipeline job](./example-github-action-to-create-radix-deploy-pipeline-job.md)
+- [Using AD service principal to get access to a Radix application in a GitHub action](./example-github-action-using-ad-service-principal-access-token.md)
