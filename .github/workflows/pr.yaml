@@ -51,5 +51,7 @@ jobs:
         uses: astral-sh/setup-uv@d0cc045d04ccac9d8b7881df0226f9e82c39688e # @v6.8.0
 
       - name: Run plugin tests
-        run: |
-          uv run python ./scripts/test_plugin.py
+        run:  uv run python ./scripts/test_plugin.py
+
+      - name: validate mkdocs urls
+        run:  uv run mkdocs build --strict

@@ -48,9 +48,12 @@ spec:
     secrets:
       - SECRET_1
       - SECRET_2
-    variables:
-      VAR1: val1    
-      CONNECTION_STRING: "Provider=MySQLProv;Data Source=mydb;"
+
+    # variables: Deprecated, use subPipeline.variables instead
+    subPipeline:
+      variables:    
+        VAR1: val1    
+        CONNECTION_STRING: "Provider=MySQLProv;Data Source=mydb;"
 ```
 
 The `build` section of the spec contains configuration used during the build process of the components and jobs.
@@ -83,7 +86,7 @@ In such (or other) cases the build cache can be refreshed within a `build` or `b
 Make sure you never store secrets or confidential information in any intermediate layer, multistage image, or in your final container image.
 :::
 
-### `secrets` {#secrets-1}
+### `secrets` (build)
 ```yaml
 spec:
   build:
@@ -114,7 +117,7 @@ spec:
 ```
 `variables` - (optional, available only in [sub-pipelines](../guides/sub-pipeline/index.md)) environment variables names and values, provided for all build Radix environments in [sub-pipelines](../guides/sub-pipeline/index.md). These common environment variables can be overridden by environment-specific environment variables with the same names.
 
-#### `identity` {#build-identity}
+#### `identity` (build)
 ```yaml
 spec:
   build:
@@ -144,7 +147,7 @@ The `environments` section of the spec lists the environments for the applicatio
 
 The name of the environment. Can be `dev`, `qa`, `production` etc.
 
-### `build` {#build-1}
+#### `build` environment
 
 `from` specifies which branch or git tag each environment will build from. If `from` is not specified for the environment, no automatic builds or deployments will be created. This configuration is useful for a promotion-based [workflow](../start/workflows/index.md#promotion).
 
@@ -154,7 +157,9 @@ Wildcard branch or git tag mapping is also support, using `*` and `?`. Examples:
 - `feature-?`
 - `hotfix/**/*`
 
-`variables` - environment variable names and values (currently available only in [sub-pipelines](../guides/sub-pipeline/index.md)), provided for specific environments. They override common environment variables with the same names, if specified in the `spec.build.variables`.  
+**subPipeline:**
+Environment specific variables will override common variables. 
+Deprecated: `spec.build.variables` is deprecated. Use `spec.build.subPipeline.variables` instead. 
 
 A text input field, will be available to put a full branch name for a build environment.  
 
@@ -163,16 +168,21 @@ Example:
 ```yaml
 spec:
   build:
-    variables:
-      VAR1: val1
-      CONNECTION_STRING: "Provider=MySQLProv;Data Source=prodDb;"
+    #  variables: Deprecated. Use subPipeline.variables instead.
+    subPipeline:
+      variables:
+        VAR1: val1
+        CONNECTION_STRING: "Provider=MySQLProv;Data Source=prodDb;"
+    
   environments:
     - name: dev
       build:
         from: main
-        variables:
-          VAR1: "val1-for-dev"  #overrides common env-var VAR1 in the "dev" external pipeline
-          CONNECTION_STRING: "Provider=MySQLProv;Data Source=devDb;" #overrides common env-var CONNECTION_STRING in the "dev" custom sub-pipeline
+        # variables: Deprecated. Use subPipeline.variables instead
+        subPipeline:
+          variables:
+            VAR1: "val1-for-dev"  #overrides common env-var VAR1 in the "dev" external pipeline
+            CONNECTION_STRING: "Provider=MySQLProv;Data Source=devDb;" #overrides common env-var CONNECTION_STRING in the "dev" custom sub-pipeline
     - name: prod
       build:
         from: release
@@ -247,7 +257,7 @@ If your application uses a custom OAuth2 implementation, outbound access to Micr
 ### `subPipeline`
 `subPipeline` - (optional, available only in [sub-pipelines](../guides/sub-pipeline/index.md)) configuration of sub-pipeline options for specific environment. 
 * It can override common [subPipeline](#subpipeline) or combine with it (if present) for a specific environment.
-* It can remove the common Sub-Pipeline [identity](#identity) (if present) with `{}` (empty object) for a specific environment
+* It can remove the common Sub-Pipeline [identity](#build-identity) (if present) with `{}` (empty object) for a specific environment
 ```yaml
 spec:
   environments:
@@ -266,7 +276,7 @@ spec:
 ```
 Sub-pipeline environment variables names and values, provided for specific build Radix environment in [sub-pipelines](../guides/sub-pipeline/index.md). These variables will be combined with [subPipeline environment variables](#variables) (if present).
 
-#### `identity` {#component-identity}
+#### `identity` (component)
 ```yaml
 spec:
   environments:
@@ -276,8 +286,8 @@ spec:
           azure:
             clientId: 12345678-a263-abcd-8993-683cc6123456
 ```
-The `identity` section enables identity for a specific environment. Read more about [build identity](#build-identity).
-* It can remove the common [identity](#identity) with `{}` empty object for a specific environment
+The `identity` section enables identity for a specific environment. Read more about [build identity](#identity-build).
+* It can remove the common [identity](#identity-component) with `{}` empty object for a specific environment
 ```yaml
 spec:
   environments:
@@ -286,12 +296,13 @@ spec:
         identity:
           azure: {}
 ```
+See [identity](#identity-detailed) for more information.
 
 ## `components`
 
 This is where you specify the various components for your application - it needs at least one. Each component needs a `name`; this will be used for building the Docker images (appName-componentName). Source for the component can be; a folder in the repository, a dockerfile or an image.
 
-### `src`
+### `src` (detailed)
 
 ```yaml
 spec:
@@ -311,7 +322,7 @@ spec:
 `src` defines the folder, relative to the repository root, to use as [build context](https://docs.docker.com/build/concepts/context/) when building the `Dockerfile`, defined by [`dockerfileName`](#dockerfilename), in [Build and deploy](../guides/build-and-deploy/index.md) pipeline jobs.  
 The default value is `.` (root of the repository).
 
-For Radix environment specific `src`, refer to [environmentConfig src](#src-1).
+For Radix environment specific `src`, refer to [environmentConfig.src](#environmentconfig).
 
 :::info
 The [`image`](#image) option takes precedence over `src` and `dockerfilename`.
@@ -347,7 +358,7 @@ spec:
 ```
 `dockerfileName` defines the name and path, relative to [`src`](#src), of the `Dockerfile` to build in [Build and deploy](../guides/build-and-deploy/index.md) pipeline jobs.
 
-For Radix environment specific `dockerfileName`, refer to [environmentConfig image](#dockerfilename-1).
+For Radix environment specific `dockerfileName`, refer to [environmentConfig dockerfileName](#dockerfilename-detailed).
 
 :::info
 The [`image`](#image) option takes precedence over `src` and `dockerfilename`.
@@ -380,7 +391,7 @@ spec:
 - When an image is not publicly available, it is required to provide an authentication information. Please read more about [privateImageHubs](./#privateimagehubs) option.
 :::
 
-For Radix environment specific `image`, refer to [environmentConfig image](#image-1).
+For Radix environment specific `image`, refer to [environmentConfig image](#image-detailed).
 ### `replicas`
 
 ```yaml
@@ -420,7 +431,7 @@ spec:
       publicPort: http
 ```
 
-The `publicPort` field of a component, if set to `<PORT_NAME>`, is used to make the component accessible on the internet by generating a public endpoint. By default, the public endpoint can be accessed from all public IP addresses. You can restrict access to the public endpoints by configuring a list of IP address ranges in `network.ingress.public.allow`, see [network](#network) for more information.
+The `publicPort` field of a component, if set to `<PORT_NAME>`, is used to make the component accessible on the internet by generating a public endpoint. By default, the public endpoint can be accessed from all public IP addresses. You can restrict access to the public endpoints by configuring a list of IP address ranges in `network.ingress.public.allow`, see [network (details)](#network-detailed) for more information.
 
 A component without `publicPort: <PORT_NAME>` can only be accessed from another component in the app. If specified, the `<PORT_NAME>` should exist in the `ports` field.
 
@@ -493,7 +504,7 @@ spec:
 ```
 :::
 
-### `monitoring` {#monitoring-1}
+### `monitoring` (detailed)
 
 ```yaml
 spec:
@@ -526,7 +537,7 @@ The `monitoringConfig` field of a component can be used to override the default 
 If overriding `portName` it will have to match one of the defined ports in the component.
 :::
 
-### `horizontalScaling` {#horizontalscaling-1}
+### `horizontalScaling` (detailed)
 Configure automatic scaling of the component. This field is optional, and if set, it will override the `replicas` value of the component. If no triggers are defined, Radix will configure a default CPU trigger with a target of 80% average usage.
 
 One exception is when the `replicas` value is set to `0` (i.e. the component is stopped), the `horizontalScaling` config will not be used.
@@ -547,6 +558,15 @@ spec:
         maxReplicas: 6
         pollingInterval: 15
         cooldownPeriod: 120
+        # resources: # Deprecated, replaced by triggers below
+        
+        triggers:
+        - name: cpu
+          cpu:
+            value: 85
+        - name: memory
+          memory:
+            value: 75
 ```
 * `minReplicas` - (optional, default `1`) The minimum number of replicas to scale down to. Valid minimum value depend on trigger type. If only CPU or memory trigger is defined, the default and minimum value is `1`. If other types of triggers are defined, the minimum value can be `0`.
 * `maxReplicas` - the maximum number of replicas to scale up to by any combination of triggers.
@@ -557,37 +577,11 @@ Read [more](https://keda.sh/docs/2.14/concepts/scaling-deployments/#scaledobject
 
 #### `cpu` and `memory` triggers
 Scale applications based on CPU and/or memory metrics.
-```yaml
-spec:
-  components:
-    - name: backend
-      horizontalScaling:
-        minReplicas: 1
-        maxReplicas: 6
-        triggers:
-        - name: cpu
-          cpu:
-            value: 85
-        - name: memory
-          memory:
-            value: 75
-```
+
 * `minReplicas` - (optional) The minimum number of replicas to scale down to. If only CPU or memory trigger is defined, the default and minimum value is `1`. If other types of triggers are defined, the minimum value can be `0`.
 * `cpu` - (optional) The target average CPU usage (in percents) across all replicas. If the average CPU usage is above this value, KEDA will scale up the component. Read [more](https://keda.sh/docs/2.17/scalers/cpu/)
 * `memory` - (optional) The target average memory usage (in percents) across all replicas. If the average memory usage is above this value, KEDA will scale up the component. Read [more](https://keda.sh/docs/2.17/scalers/memory/).
 
-:::tip Deprecated
-* Legacy resources will be rewritten as triggers by Radix.
-* It is not allowed to mix resources with triggers.
-```yaml
- #Deprecated
- resources:
-     memory:
-       averageUtilization: 75
-     cpu:
-       averageUtilization: 85
-```
-:::
 #### `cron` trigger
 Scale applications based on a cron schedule. 
 
@@ -763,7 +757,7 @@ The `imageTagName` allows for flexible configuration of fixed images, built outs
 See [this](../guides/deploy-only/index.md) guide on how make use of `imageTagName` in a deploy-only scenario.
 :::
 
-### `volumeMounts` {#volumemounts-1}
+### `volumeMounts` (detailed)
 
 ```yaml
 spec:
@@ -854,7 +848,7 @@ The **blobFuse2** volume type adds support for mounting Azure storage account bl
 - `uid` (optional) - Defines the ID of the user that will own the mounted files and directories. Currently, the blobfuse2 driver does no honor this setting.
 - `gid` (optional) - Defines the ID of the group that will own the mounted files and directories. Currently, the blobfuse2 driver does no honor this setting.
 - `useAdls` (optional, default `false`) - When Azure storage account has enabled [HNS](https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-namespace) (hierarchical namespace, available in [Azure Data Lake Gen2 storage](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-overview#about-azure-data-lake-storage-gen2)), ADLS (Azure Data Lake Storage) can be used instead of Blob Storage. When `adls: true` - folder hierarchy, folder operations (create, delete, etc.) and ACL (access control list) can be used on blob data in a Radix component pod's container, within `path`. Read about [private endpoint and ADLS](../guides/volume-mounts/index.md#private-endpoint).
-- `useAzureIdentity` (optional, default `false`) - Enables [Azure Workload Identity](../guides/volume-mounts/index.md#azure-workload-identity) credentials using the service principal configured in [identity.azure](#identity-2) for accessing the Azure Storage. If omitted or set to `false`, [Azure storage account keys](../guides/volume-mounts/index.md#access-keys) is used for authentication.
+- `useAzureIdentity` (optional, default `false`) - Enables [Azure Workload Identity](../guides/volume-mounts/index.md#azure-workload-identity) credentials using the service principal configured in [identity.azure](#identity-detailed) for accessing the Azure Storage. If omitted or set to `false`, [Azure storage account keys](../guides/volume-mounts/index.md#access-keys) is used for authentication.
 - `storageAccount` (optional) - Name of the Azure storage account. Required when `useAzureIdentity` is `true`.
 - `resourceGroup` (optional) - Name of the Azure resource group for the Azure storage account. Required when `useAzureIdentity` is `true`.
 - `subscriptionId` (optional) - Azure subscription ID for the Azure storage account. Required when `useAzureIdentity` is `true`.
@@ -930,7 +924,7 @@ The opposite is also true, if a memory limit is set, but no requests, we will se
 [Read more](https://kubernetes.io/blog/2021/11/26/qos-memory-resources/) about memory resources and QoS.
 [More details](../guides/resource-request/index.md) about `resources` and about [default resources](../guides/resource-request/index.md#default-resources).
 
-### `variables` (common) {#variables-common-1}
+### `variables` (common)
 
 ```yaml
 spec:
@@ -948,9 +942,9 @@ Environment variables [can be changed](../guides/environment-variables/index.md)
 
 The `environmentConfig` section is to set environment-specific settings for each component.
 
-#### `src` {#src-1}
+#### `src`
 
-Overrides the [`src`](#src) option defined on the component level.
+Overrides the [`src` (detailed)](#src-detailed) option defined on the component level.
 
 If the [`image`](#image) option is specified on the component level, this `image` option will be ignored and this component will be built for this environment with that specified `src`. An example of such configuration:
 
@@ -977,7 +971,7 @@ In this example:
 * The `backend` component in the `dev` environment will be built from the `backend` folder of the GitHub repo, and from a root folder (used by default) for other environments. Both docker-files expected to be `Dockerfile` as `dockerfileName` option is not specified.
 * The `api` component in the `dev` environment will be built from the `api` folder. This option in the environment overrides an `image` option on the component level, which value `ghcr.io/my-repo/my-app/api:v1.10` will be used to deploy this component in other environments. The docker-file expected to be `Dockerfile` as `dockerfileName` option is not specified.
 
-#### `dockerfileName` {#dockerfilename-1}
+#### `dockerfileName` (detailed)
 
 Overrides the [`dockerfileName`](#dockerfilename) option defined on the component level.
 
@@ -1007,7 +1001,7 @@ In this example:
 * The `backend` component in the `dev` environment will be built with the `Dockerfile.dev` docker-file, and with a `Dockerfile` docker-file (a name, used by default) for other environments. Both docker-files expected to be in the `backend` folder in the root of the GitHub repo.
 * The `api` component in the `dev` environment will be built with the `Dockerfile` docker-file. This option in the environment overrides an `image` option on the component level, which value `ghcr.io/my-repo/my-app/api:v1.10` will be used to deploy this component in other environments. The docker-file expected to be in the root of the GitHub repo as `src` option is not specified.
 
-#### `image` {#image-1}
+#### `image` (detailed)
 
 When a component needs a different docker image in a particular application environment, this image can be specified in the `image` option of the `environmentConfig` section for this environment. An example of such configuration:
 
@@ -1105,7 +1099,7 @@ spec:
 ```
 
 When the `monitoring` field of a component environment config is set to `true`, is used to expose custom application metrics for the specific environment.
-See [monitoring](#monitoring) for more information.
+See [monitoring](#monitoring-detailed) for more information.
 
 #### `resources`
 
@@ -1159,16 +1153,13 @@ spec:
       environmentConfig:
         - environment: prod
           horizontalScaling:
-            resources:
-                memory:
-                  averageUtilization: 75
-                cpu:
-                  averageUtilization: 85
             minReplicas: 2
             maxReplicas: 6
 ```
 
-The `horizontalScaling` field of a component environment config adds automatic scaling of the component in the environment, or it combines or overrides a component `imageTagName` if it is defined.
+The `horizontalScaling` field of a component environment config adds automatic scaling of the component in the environment, or it combines or overrides a component `imageTagName` if it is defined. It scales on 80% CPU Usage by default.
+
+See [`horizontalScaling` (detailed)](#horizontalscaling-detailed) for more information
 
 #### `healthChecks`
 
@@ -1240,7 +1231,7 @@ spec:
 
 The `volumeMounts` field configures volume mounts within the component running in the specific environment. EnvironmentConfig `volumeMounts` combine or override a component `volumeMounts` if they are defined.
 
-See [volumeMounts](#volumemounts) for more information.
+See [volumeMounts (detailed)](#volumemounts-detailed) for more information.
 
 #### `readOnlyFileSystem`
 
@@ -1253,7 +1244,7 @@ spec:
           readOnlyFileSystem: true|false
 ```
 
-See [readOnlyFileSystem](#readonlyfilesystem-1) for more information.
+See [readOnlyFileSystem (detailed)](#readonlyfilesystem-detailed) for more information.
 
 #### `runtime`
 
@@ -1267,7 +1258,7 @@ spec:
             architecture: amd64|arm64
 ```
 
-See [runtime](#runtime-1) for more information.
+See [runtime](#runtime-detailed) for more information.
 
 #### `network`
 
@@ -1285,7 +1276,7 @@ spec:
                   - 100.2.2.2/30
 ```
 
-See [network](#network) for more information.
+See [network (detailed)](#network-detailed) for more information.
 
 ### `authentication`
 
@@ -1441,7 +1432,7 @@ Read more details in the [guide](../guides/enable-and-disable-components/index.m
 
 [Job](./#jobs) components can be disabled similar way.
 
-### `identity` {#identity-2}
+### `identity` (detailed)
 
 ```yaml
 spec:
@@ -1467,7 +1458,7 @@ The following environment variables are added to the replicas automatically when
 
 See [guide](../guides/workload-identity/index.md) for more information.
 
-### `readOnlyFileSystem` {#readonlyfilesystem-1}
+### `readOnlyFileSystem` (detailed)
 
 ```yaml
 spec:
@@ -1483,9 +1474,9 @@ Mounts the container's root filesystem as read-only. Setting `readOnlyFileSystem
 
 Read-only filesystems will prevent the application from writing to disk. This is desirable in the event of an intrusion as the attacker will not be able to tamper with the filesystem or write foreign executables to disk. Without a writable filesystem the attack surface is dramatically reduced.
 
-There may be a requirement for temporary files or local caching, in which case one or more writable [`emptyDir`](#volumemounts) volumes can be mounted.
+There may be a requirement for temporary files or local caching, in which case one or more writable [`emptyDir`](#volumemounts-detailed) volumes can be mounted.
 
-### `runtime` {#runtime-1}
+### `runtime` (detailed)
 The `runtime` section can be configured on the component/job level and in `environmentConfig` for a specific environment. `environmentConfig` takes precedence over component/job level configuration.
 `runtime` can be optionally re-defined for individual Radix [batch jobs](../guides/jobs/job-manager-and-job-api.md#create-a-batch-of-jobs) or [single jobs](../guides/jobs/job-manager-and-job-api.md#create-a-single-job). 
 #### `architecture`
@@ -1552,7 +1543,7 @@ If you use the [`build and deploy`](../guides/build-and-deploy/index.md) pipelin
 
 For deploy-only components and jobs (with [`image`](#image) property set), make sure that the selected image supports the configured architecture. Many frequently used public images, like [nginx-unprivileged](https://hub.docker.com/r/nginxinc/nginx-unprivileged), includes variants for both `amd64` and `arm64` in the same image. Radix (Kubernetes) will pull the appropriate variant based on the configured architecture.
 
-### `network` {#network-1}
+### `network` (detailed)
 
 ```yaml
 spec:
@@ -1626,7 +1617,7 @@ spec:
       schedulerPort: 8000
 ```
 
-See [src](#src) for a component for more information.
+See [src](#src-detailed) for a component for more information.
 
 ### `dockerfileName`
 
@@ -1638,9 +1629,9 @@ spec:
       schedulerPort: 8000
 ```
 
-See [dockerfileName](#dockerfilename) for a component for more information.
+See [dockerfileName](#dockerfilename-dockerfilename-1) for a component for more information.
 
-### `image` {#image-2}
+### `image` (job)
 
 ```yaml
 spec:
@@ -1702,7 +1693,7 @@ spec:
 
 `webhook` is an optional URL to the Radix application component or job component which will be called when any of the job-component's running jobs or batches changes states. Only changes are sent by POST method with a `application/json` `ContentType` in a [batch event format](../guides/jobs/notifications.md#radix-batch-event). Read [more](../guides/jobs/notifications.md)
 
-### `batchStatusRules` {#batchstatusrules-1}
+### `batchStatusRules` (detailed)
 
 ```yaml
 spec:
@@ -1737,7 +1728,7 @@ If `batchStatusRules` are not defined or no rules match a batch status is set by
 
 Batch statuses, default or defined by rules, are the same in the Radix console, returned by [job notifications](../guides/jobs/notifications.md) and [Job Manager API](../guides/jobs/job-manager-and-job-api.md). If rules are changed, they will be applied on next deployment of an application environment, also affecting already existing batches statuses in this environment.
 
-`batchStatusRules` [can be overridden](#batchstatusrules-1) for individual environments.
+`batchStatusRules` [can be overridden](#batchstatusrules) for individual environments.
 
 ### `monitoring`
 
@@ -1922,7 +1913,7 @@ spec:
 
 The `volumeMounts` field configures volume mounts within the job-component.
 
-See [volumeMounts](#volumemounts) for more information.
+See [volumeMounts (detailed)](#volumemounts-detailed) for more information.
 
 ### `imageTagName`
 
@@ -2005,7 +1996,7 @@ spec:
               batchStatus: Succeeded
 ```
 When `batchStatusRules` is defined for an environment it fully overrides the job's `batchStatusRules`.
-See [batchStatusRules](#batchstatusrules) for a job for more information.
+See [batchStatusRules](#batchstatusrules-detailed) for a job for more information.
 
 #### `monitoring`
 
@@ -2093,7 +2084,7 @@ spec:
 
 The `volumeMounts` field configures volume mounts within the job-component running in the specific environment. EnvironmentConfig `volumeMounts` combine or override a job-component `volumeMounts` if they are defined.
 
-See [volumeMounts](#volumemounts) for more information.
+See [volumeMounts (detailed)](#volumemounts-detailed) for more information.
 
 #### `timeLimitSeconds`
 
@@ -2159,7 +2150,7 @@ spec:
           readOnlyFileSystem: true|false
 ```
 
-See [readOnlyFileSystem](#readonlyfilesystem-1) for more information.
+See [readOnlyFileSystem (detailed)](#readonlyfilesystem-detailed) for more information.
 
 #### `runtime`
 
@@ -2186,9 +2177,9 @@ spec:
           runtime:
             nodeType: memory-optimized-2-v1
 ```
-See [runtime](#runtime-1) for more information.
+See [runtime](#runtime-detailed) for more information.
 
-### `identity`
+### `identity` (job)
 
 ```yaml
 spec:
@@ -2202,7 +2193,7 @@ spec:
           identity: ...
 ```
 
-See [identity](#identity) for more information.
+See [identity](#identity-detailed) for more information.
 
 ### `readOnlyFileSystem`
 
@@ -2216,7 +2207,7 @@ spec:
           readOnlyFileSystem: true|false
 ```
 
-See [readOnlyFileSystem](#readonlyfilesystem-1) for more information.
+See [readOnlyFileSystem (detailed)](#readonlyfilesystem-detailed) for more information.
 
 ### `runtime`
 
@@ -2232,7 +2223,7 @@ spec:
             architecture: amd64|arm64
 ```
 
-See [runtime](#runtime-1) for more information.
+See [runtime](#runtime-detailed) for more information.
 
 ## `dnsAppAlias`
 

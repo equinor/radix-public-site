@@ -3,9 +3,7 @@ title: Authentication
 ---
 
 # Azure Service Bus authentication
-- [Azure Service Bus authentication](#azure-service-bus-authentication)
-  - [Authenticate with Workload Identity](#authenticate-with-workload-identity)
-  - [Authenticate with connection string](#authenticate-with-connection-string)
+
 ## Authenticate with Workload Identity
 :::warning
 When access to your Service Bus is provided to Keda, _any_ other Radix applications can scale their components based on your queue! Use authentication with [connection string](#authenticate-with-connection-string) to avoid this.

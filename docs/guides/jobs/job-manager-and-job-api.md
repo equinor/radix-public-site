@@ -73,7 +73,7 @@ The Job Manager exposes the following methods for managing jobs:
 `payload`, `jobId`, `image`, `imageTagName`, `timeLimitSeconds`, `backoffLimit`, `failurePolicy`, `resources`, `runtime`, `variables`, `command`, `args` are optional fields and any of them can be omitted in the request.
 
 #### image
-`image` field allows to alter specific job's [`image`](../../radix-config/index.md#image-2)
+`image` field allows to alter specific job's [`image`](../../radix-config/index.md#image-job)
 #### imageTagName
 `imageTagName` field allows to replace an image tag for specific job - it is not necessary to configure `{imageTagName}` in the [`radixconfig.yaml`](../../radix-config/index.md#imagetagname) for it.
 #### variables

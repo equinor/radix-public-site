@@ -17,6 +17,9 @@ prod-down:
 docusaurus-serve:
 	./node_modules/.bin/docusaurus start --port 8000 --host 0.0.0.0
 
+docusaurus-generate:
+	./node_modules/.bin/docusaurus build
+
 techdocs-serve:
 	uv run npx @techdocs/cli@1.9.8 serve --no-docker -v -c ./mkdocs.yml --mkdocs-port 8001
 

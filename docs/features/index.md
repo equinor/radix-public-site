@@ -36,7 +36,7 @@ Radix provides built-in configuration for adding OAuth2 authorization with OIDC 
 
 This driver allows Kubernetes to access Azure Storage - Blobs.
 
-[Guide](../guides/volume-mounts/index.md) - [Radix config reference](../radix-config/index.md#volumemounts)
+[Guide](../guides/volume-mounts/index.md) - [Radix config reference](../radix-config/index.md#volumemounts-detailed)
 
 ## Azure Key Vault integration
 
@@ -58,7 +58,7 @@ Autorotation of secrets
 Some workloads (component or job replicas) running in Radix require credentials (JWT access tokens) for an Azure AD app registration or user-assigned managed identity to access Azure AD protected resources, like MS Graph, Key Vaults, Storage Accounts or Azure SQL Databases. Credentials for such workloads can be acquired using the OAuth 2.0 client credentials flow. The client credentials flow permits a workload to use its own credentials to access protected resources instead of impersonating a user. Credentials can be acquired by using either a shared secret, a certificate or with federated credentials.
 
 [Guide](../guides/workload-identity/index.md) -
-[Radix config reference](../radix-config/index.md#identity)
+[Radix config reference](../radix-config/index.md#identity-detailed)
 
 ## Backup
 
@@ -110,7 +110,7 @@ It is easy to rollback to an earlier version, using the promote pipeline (yes, i
 
 Named values, entered in the Radix console, passed as arguments to a Dockerfile build operation.
 
-[Guide](../guides/build-secrets/index.md) -  [Radix config reference](../radix-config/index.md#secrets)
+[Guide](../guides/build-secrets/index.md) -  [Radix config reference](../radix-config/index.md#secrets-build-secrets)
 
 ## Certificates, SSL certificates
 

@@ -4,7 +4,7 @@ title: Docker & containers
 
 # Docker & containers
 
-For a general understanding of what Docker and Container is, have a look at [What is a Container](https://www.docker.com/resources/what-container) or a more in-depth presentation from the Stavanger [playground](https://github.com/equinor/playground-stavanger/tree/master/docker-basic).
+For a general understanding of what Docker and Container is, have a look at [What is a Container](https://www.docker.com/resources/what-container).
 
 Other resources could be the official [Docker documentation](https://docs.docker.com/).
 
@@ -63,7 +63,7 @@ An immutable root filesystem prevents applications from writing to the local dis
 
 The container's root filesystem should be treated as a *golden image* by using Docker run's `--read-only` option. This prevents any writes to the container's root filesystem at container runtime and enforces the principle of immutable infrastructure.
 
-The Radix equivalent to Docker's `--read-only` is the [`readOnlyFileSystem`](../../radix-config/#readonlyfilesystem-1) property in `radixconfig.yaml`.
+The Radix equivalent to Docker's `--read-only` is the [`readOnlyFileSystem` (detailed)](../../radix-config/#readonlyfilesystem-detailed) property in `radixconfig.yaml`.
 
 ## Best-practice `Dockerfile`
 

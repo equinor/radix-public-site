@@ -36,7 +36,7 @@ Hierarchical Namespace:
 
 ## Authentication
 
-The **blob-csi-driver** uses access key credentials when accessing the Azure storage account. The access key can be set manually in [Radix Web Console](https://console.radix.equinor.com/), or it can be read by the driver from the Azure storage account using [Azure workload identity](https://www.radix.equinor.com/guides/workload-identity/#configure-workload-identity-in-radix) if `useAzureIdentity` is set to `true`.
+The **blob-csi-driver** uses access key credentials when accessing the Azure storage account. The access key can be set manually in [Radix Web Console](https://console.radix.equinor.com/), or it can be read by the driver from the Azure storage account using [Azure workload identity](../workload-identity/index.md#configure-workload-identity-in-radix) if `useAzureIdentity` is set to `true`.
 
 ### Access Keys
 
@@ -66,7 +66,7 @@ volumeMounts:
 
 When `useAzureIdentity` is set to `true`, the driver will connect to the Azure storage account using the [Azure Workload Identity](../workload-identity/#configure-workload-identity-in-radix) configured for the compopnent or job, to acquire an access key to use when accessing data in a blob container.
 
-In order for the driver to successfully acquire an access key, the service principal configured in [`identity.azure.clientId`](../../radix-config/index.md#identity-2) must be granted the [**Microsoft.Storage/storageAccounts/listkeys/action**](https://learn.microsoft.com/en-us/azure/storage/blobs/authorize-data-operations-portal#use-the-account-access-key) permission on the Azure storage account.
+In order for the driver to successfully acquire an access key, the service principal configured in [`identity.azure.clientId`](../../radix-config/index.md#identity-detailed) must be granted the [**Microsoft.Storage/storageAccounts/listkeys/action**](https://learn.microsoft.com/en-us/azure/storage/blobs/authorize-data-operations-portal#use-the-account-access-key) permission on the Azure storage account.
 
 The following `blobFuse2` settings are required, and is used by the driver when acquiring the access key.
 - `storageAccount` - Name of the Azure storage account.
@@ -180,7 +180,7 @@ Indication that sub-resource is `blob` but it need to be `dfs` is events with fa
 Error: failed to initialize new pipeline [failed to authenticate credentials for azstorage]
 ````
 
-## Deprecated Options {#deprecated-options}
+## Deprecated Options
 
 The `streaming` section in `blobFuse2` is deprecated in favor of `cacheMode`. To prevent breaking changes to existing configurations, Radix will implicitly use [File](#file-cache) as `cacheMode` when `streaming.enabled` is set to `false`, and [Block](#block-cache) when `streaming.enabled` is set to `true`. The `streaming` section is ignored when `cacheMode` is set.
 

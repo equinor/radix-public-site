@@ -26,7 +26,7 @@ Supported scale Radix application components based on [Azure Event Hub events](.
 Added `command` and `args` properties to components and job-components in [radixconfig](../../radix-config/index.md).
 
 ### 2025-05-26 fromType build options
-Added `fromType` to the [`environments.build`](../../radix-config/index.md#build) section in [radixconfig](../../radix-config/index.md).
+Added `fromType` to the [`environments.build`](../../radix-config/index.md#fromtype) section in [radixconfig](../../radix-config/index.md).
 
 ### 2025-05-14 Radix GitHub Actions v2.0.0
 Released Radix GitHub Actions v2.0.0 with breaking changes.
@@ -41,13 +41,13 @@ Read details about the migrations here: [Migrating Radix Github Actions v1 to v2
 Added an option to refresh build cache. It is applicable when a radixconfig.yaml property `useBuildKit` is set to `true`. Read more in [radixconfig](../../radix-config/index.md#refresh-build-cache).
 
 ### 2025-05-10 Supported custom node types
-Added `nodeType` to the [`runtime`](../../radix-config/index.md#runtime-1) section in [radixconfig](../../radix-config/index.md).
+Added `nodeType` to the [`runtime`](../../radix-config/index.md#runtime-detailed) section in [radixconfig](../../radix-config/index.md).
 
 ### 2025-04-25 Configurable webhookEnabled build option
-Added `webhookEnabled` to the [`environments.build`](../../radix-config/index.md#webhookenabled) section in [radixconfig](../../radix-config/index.md):
+Added `webhookEnabled` to the [`spec.build`](../../radix-config/index.md#webhookenabled) section in [radixconfig](../../radix-config/index.md):
 
 ### 2025-04-08 Configurable proxyBufferSize option
-Added `proxyBufferSize` to the [`network.ingress.public`](../../radix-config/index.md#network-1) section in [radixconfig](../../radix-config/index.md):
+Added `proxyBufferSize` to the [`network.ingress.public`](../../radix-config/index.md#network-detailed) section in [radixconfig](../../radix-config/index.md):
 
 `proxyBufferSize` defines the size of the buffer used for reading the first part of the response received from the proxied server. The size must be large enough to hold the response headers.
 
@@ -126,7 +126,7 @@ This means to you are no longer required to use private links from Radix to Post
 It is now an option to run your application in the West Europe data centre. This can be a good option if your data also is located in the same data centre. You will now find two platforms in the Radix, named Platform (North Europe)🇮🇪 and Platform 2 (West Europe)🇳🇱
 
 ### 2024-10-09 Public endpoint configuration options 
-We have added three setting to [radixconfig](../../radix-config/index.md#network-1) for configuration of limits for public endpoints:
+We have added three setting to [radixconfig](../../radix-config/index.md#network-detailed) for configuration of limits for public endpoints:
 
 `proxyReadTimeout`: Defines a timeout, in seconds, for reading a response from the proxied server. The timeout is set only between two successive read operations, not for the transmission of the whole response. Default is 60 seconds.
 
@@ -145,7 +145,7 @@ You can now add service principals (App Registration or Managed Identity) to the
 The drop-down will search for groups and service principals when you start typing. Groups and service principals are grouped in the result list, showing groups first and service principals last. See attached screen recording.
 
 ### 2024-09-27 Restrict access to public components by IP address or CIDR
-You can restrict access to the public endpoints for a component by configuring a list of IP addresses or CIDRs in the ``network.ingress.public.allow`` field in [radixconfig](../../radix-config/index.md#network-1).
+You can restrict access to the public endpoints for a component by configuring a list of IP addresses or CIDRs in the ``network.ingress.public.allow`` field in [radixconfig](../../radix-config/index.md#network-detailed).
 
 When this field is set, only IP addresses matching items in the list can access the public endpoints for the component. Unauthorized IP addresses will receive a 403 response.
 
@@ -205,13 +205,13 @@ horizontalScaling:
 
 ### 2024-05-06 New option in radixconfig.yaml - sub-pipeline
 
-[radixconfig.yaml](../../radix-config/index.md) has new option subPipeline in ``build`` and ``environments`` properties. Currently it has [variables](../../radix-config/index.md#variables) (handovers from ``build.variables`` and ``environments.variables`` for sub-pipelines, backward compatible) and [identity](../../radix-config/index.md#identity) (also in environments).  
+[radixconfig.yaml](../../radix-config/index.md) has new option subPipeline in ``build`` and ``environments`` properties. Currently it has [variables](../../radix-config/index.md#subpipeline) (handovers from ``build.variables`` and ``environments.variables`` for sub-pipelines, backward compatible) and [identity (detailed)](../../radix-config/index.md#identity-detailed) (also in environments).  
 
 When this ``subPipeline``'s ``identity.azure.clientId`` option is set, the environment variable ``AZURE_CLIENT_ID`` with its value is automatically added to the running pipeline, and it can be used in this pipeline tasks. Read more about the identity in the [component identity](../../radix-config/index.md#component-identity) option and about using it in the sub-pipeline in the [Pipeline with Azure workload identity](../../guides/sub-pipeline/example-pipeline-with-azure-workload-identity.md) example.
 
 ### 2024-04-19 New pipeline job type: apply-config
 
-Sometimes radixconfig.yaml has properties, which does not require a re-deploy of components. The ``apply-config`` pipeline workflow perform these changes without re-deploying components or jobs. Currently it apply changes in : [DNS alias](../../radix-config/index.md#dnsalias), [build secrets](../../radix-config/index.md#secrets), [environments](../../radix-config/index.md#environments) (create new or soft-delete existing environments).  
+Sometimes radixconfig.yaml has properties, which does not require a re-deploy of components. The ``apply-config`` pipeline workflow perform these changes without re-deploying components or jobs. Currently it apply changes in : [DNS alias](../../radix-config/index.md#dnsalias), [build secrets](../../radix-config/index.md#secrets-build-secrets), [environments](../../radix-config/index.md#environments) (create new or soft-delete existing environments).  
 
 It is available in Radix CLI 1.17.0 and in the [Radix GitHub action](https://github.com/equinor/radix-github-actions).  
 
@@ -228,12 +228,12 @@ This [extension](../../guides/jobs/notifications.md#radix-batch-event) is also i
 
 ### 2024-04-16 Environment specific options now available on component level
 
-In Radixconfig the properties [monitoring](../../radix-config/index.md#monitoring-1), [horizontalScaling](../../radix-config/index.md#horizontalscaling-1) and [volumeMounts](../../radix-config/index.md#volumemounts-1) could only be set in [environmentConfig](../../radix-config/index.md#environmentconfig) . Now these properties is supported in radixconfig on component (and job) level (monitoring, horizontalScaling and volumeMounts), in environments they can be overridden/altered or new can be added. Configurations in existing applications are still valid, no changes required (if not needed).
+In Radixconfig the properties [monitoring (detailed)](../../radix-config/index.md#monitoring-detailed), [horizontalScaling](../../radix-config/index.md#horizontalscaling-detailed) and [volumeMounts (detailed)](../../radix-config/index.md#volumemounts-detailed) could only be set in [environmentConfig](../../radix-config/index.md#environmentconfig) . Now these properties is supported in radixconfig on component (and job) level (monitoring, horizontalScaling and volumeMounts), in environments they can be overridden/altered or new can be added. Configurations in existing applications are still valid, no changes required (if not needed).
 
 ### 2024-04-12 Read-only root filesystem
 
 ``Containers should run with read-only root filesystem``  
-In our Radix cluster a new security option has been enabled (but not enforced). However we encourage all teams to look into this and [opt in for the configuration](../../radix-config/index.md#readonlyfilesystem-1).
+In our Radix cluster a new security option has been enabled (but not enforced). However we encourage all teams to look into this and [opt in for the configuration](../../radix-config/index.md#readonlyfilesystem-detailed).
 An immutable root filesystem prevents applications from writing to the local disk. This is desirable, in case of an intrusion from the attacker will not be able to tamper with the filesystem or write foreign executables to disk.  
 
 The [container's](../topic-docker/index.md) **root filesystem** should be treated as not usable. This prevents any writes to the container's root filesystem at container runtime and enforces the principle of immutable infrastructure. Read about read-only filesystems in Kubernetes for more info.
@@ -263,7 +263,7 @@ So far a component could be built from for all environments from the same ``src`
 
 Now these options can be different for individual environments of one component. Motivation was to allow building the component for one environment, but keep other environments being deployed from pre-built images (and vice-versa).  
 
-Please read more about ``environmentConfig`` with [src](../../radix-config/index.md#src-1), [dockerfileName](../../radix-config/index.md#dockerfilename-1) and [image](../../radix-config/index.md#image-1).  
+Please read more about ``environmentConfig`` with [src](../../radix-config/index.md#src-detailed), [dockerfileName (detailed)](../../radix-config/index.md#dockerfilename-detailed) and [image](../../radix-config/index.md#image-detailed).  
 
 ### 2024-03-06 automatic issuance of Digicert (equinor.com) certificates
 
@@ -566,7 +566,7 @@ Radix now provides Request and Limit resources for component replicas and schedu
 
 ### 2023-01-18 Custom branch name for wildcard branch mapping
 
-Radix now provides a text input field to put a full branch name for a build environment with [wildcard branch mappings](../../radix-config/index.md#build-1)
+Radix now provides a text input field to put a full branch name for a build environment with [wildcard branch mappings](../../radix-config/index.md#build-environment)
 
 ### 2023-01-17 Machine user tokens deprecated
 
@@ -705,7 +705,7 @@ For `read-write` acces, we recommend to set it to `ReadWriteMany`.
       accessMode: ReadWriteMany
 ```
 
-Radix will soon get an update to set Blob volumes `accessMode` as `ReadOnlyMany` by default, when `accessMode` is not specified explicitly in the [radixconfig.yaml](../../radix-config/index.md#volumemounts). If a Radix application needs a read-only access to the Azure blob volume mount, please specify it explicitly  
+Radix will soon get an update to set Blob volumes `accessMode` as `ReadOnlyMany` by default, when `accessMode` is not specified explicitly in the [radixconfig.yaml](../../radix-config/index.md#volumemounts-detailed). If a Radix application needs a read-only access to the Azure blob volume mount, please specify it explicitly  
 **accessMode: ReadOnlyMany**
 
 ### 2022-06-20 Introducing sub-pipeline concept (Tekton)
@@ -871,7 +871,7 @@ If by any circumstance the pod running your app restarts, for instance due to la
 
 The Blobfuse FlexVolume driver has been deprecated by Microsoft. Radix has decided to replace it with the Azure Blob Storage CSI driver (particularly azure-storage-fuse), which is the recommended option.  
 FlexVolume will be supported in Radix during transition periods for projects that still uses it.  
-[Volume mounts documentation](../../radix-config/index.md#volumemounts)
+[Volume mounts documentation](../../radix-config/index.md#volumemounts-detailed)
 
 ```yaml
 environmentConfig:

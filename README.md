@@ -16,6 +16,18 @@ platform. It is a static site built with [Docusaurus](https://docusaurus.io/).
 > [!IMPORTANT] 
 > This page is rendered by both Docosarus at https://radix.equinor.com **and** by mkdocs at https://varia.equinor.com/docs/default/system/radix. Make sure it works nice in both by running `make docusaurus-serve` to test the Docosaurus build, and `make techdocs-serve` to test mkdocs. 
 
+## Notes
+
+Do not overide ids in headers like this:
+
+```markdown
+## Header {#override-header-id}
+
+Some content
+```
+
+Because vscode, docusaurus and mkdocs handles them slighly different.
+
 ## Running, building
 
 ### The easy way
@@ -39,7 +51,7 @@ You can also build and run the container image intended for production environme
 
 ### The other way
 
-You can also run docusurus locally. All that is needed is NodeJS and NPM. In the root folder of the project run `npm i` to fetch dependencies followed by `npm run start` to start serving the development environment of the Public Site. The disadvantage is that you will not catch errors caused by the security headers set by NGINX.
+You can also run docusurus locally. All that is needed is NodeJS and NPM. In the root folder of the project run `npm i` to fetch dependencies followed by `make docusaurus-serve` and/or `techdocs-serve` to start serving the development environment of the Public Site. The disadvantage is that you will not catch errors caused by the security headers set by NGINX.
 
 ## Files and folder structure
 

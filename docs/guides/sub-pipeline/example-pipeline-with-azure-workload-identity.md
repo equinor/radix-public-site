@@ -37,7 +37,7 @@ For a Radix application named `my-radix-app` in the `dev` environment, the `Serv
 
 This task will run two steps, one enabled for workload identity and one disabled for workload identity.
 Radix will automatically inject credentials prepared for workload identity and set the corresponding environment variable `AZURE_FEDERATED_TOKEN_FILE` to the path of the token file.
-Radix will also provide `AZURE_TENANT_ID` and `AZURE_AUTHORITY_HOST`. `Client ID` from the previous step need to be provided as the environment variable `AZURE_CLIENT_ID` to steps of the task. It can be provided explicitly in step scripts [as shown below](#azure_client_id-explicitly-set-in-the-task-step), of configured in the [identity](../../radix-config/index.md#identity) option, which will automatically add `AZURE_CLIENT_ID` parameter to the running pipeline, and it can be used in this pipeline tasks:
+Radix will also provide `AZURE_TENANT_ID` and `AZURE_AUTHORITY_HOST`. `Client ID` from the previous step need to be provided as the environment variable `AZURE_CLIENT_ID` to steps of the task. It can be provided explicitly in step scripts [as shown below](#azure_client_id-explicitly-set-in-the-task-step), of configured in the [identity (detailed)](../../radix-config/index.md#identity-detailed) option, which will automatically add `AZURE_CLIENT_ID` parameter to the running pipeline, and it can be used in this pipeline tasks:
 
 #### Fragment from radixconfig.yaml
 ```yaml 
