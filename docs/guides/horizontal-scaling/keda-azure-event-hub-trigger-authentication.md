@@ -93,7 +93,7 @@ To get the connection string for an Event Hub instance, follow these steps:
 
 ![Shared access policy for event hub instance connection string](./shared-access-policy-for-event-hub-instance-connection.png)
 
-* Store the connection string in a [Radix secret](../../radix-config/index.md#secrets-detailed) or [Azure Key Vault](../../radix-config/index.md#azurekeyvault) secret of a component, e.g. `EVENT_HUB_CONNECTION`.
+* Store the connection string in a [Radix secret](../../radix-config/index.md#secrets) or [Azure Key Vault](../../radix-config/index.md#azurekeyvault) secret of a component, e.g. `EVENT_HUB_CONNECTION`.
 
 This connection string has the following format:
 

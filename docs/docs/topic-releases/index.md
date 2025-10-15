@@ -207,11 +207,11 @@ horizontalScaling:
 
 [radixconfig.yaml](../../radix-config/index.md) has new option subPipeline in ``build`` and ``environments`` properties. Currently it has [variables](../../radix-config/index.md#subpipeline) (handovers from ``build.variables`` and ``environments.variables`` for sub-pipelines, backward compatible) and [identity (detailed)](../../radix-config/index.md#identity-detailed) (also in environments).  
 
-When this ``subPipeline``'s ``identity.azure.clientId`` option is set, the environment variable ``AZURE_CLIENT_ID`` with its value is automatically added to the running pipeline, and it can be used in this pipeline tasks. Read more about the identity in the [component identity](../../radix-config/index.md#component-identity) option and about using it in the sub-pipeline in the [Pipeline with Azure workload identity](../../guides/sub-pipeline/example-pipeline-with-azure-workload-identity.md) example.
+When this ``subPipeline``'s ``identity.azure.clientId`` option is set, the environment variable ``AZURE_CLIENT_ID`` with its value is automatically added to the running pipeline, and it can be used in this pipeline tasks. Read more about the identity in the [component identity](../../radix-config/index.md#identity-component) option and about using it in the sub-pipeline in the [Pipeline with Azure workload identity](../../guides/sub-pipeline/example-pipeline-with-azure-workload-identity.md) example.
 
 ### 2024-04-19 New pipeline job type: apply-config
 
-Sometimes radixconfig.yaml has properties, which does not require a re-deploy of components. The ``apply-config`` pipeline workflow perform these changes without re-deploying components or jobs. Currently it apply changes in : [DNS alias](../../radix-config/index.md#dnsalias), [build secrets](../../radix-config/index.md#secrets-build-secrets), [environments](../../radix-config/index.md#environments) (create new or soft-delete existing environments).  
+Sometimes radixconfig.yaml has properties, which does not require a re-deploy of components. The ``apply-config`` pipeline workflow perform these changes without re-deploying components or jobs. Currently it apply changes in : [DNS alias](../../radix-config/index.md#dnsalias), [build secrets](../../radix-config/index.md#secrets-build), [environments](../../radix-config/index.md#environments) (create new or soft-delete existing environments).  
 
 It is available in Radix CLI 1.17.0 and in the [Radix GitHub action](https://github.com/equinor/radix-github-actions).  
 

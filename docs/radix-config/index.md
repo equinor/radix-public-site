@@ -126,7 +126,7 @@ spec:
         azure:
           clientId: 12345678-a263-abcd-8993-683cc6123456
 ```
-When `identity.azure.clientId` option is set, the environment variable `AZURE_CLIENT_ID` with its value is automatically added to the running pipeline, and it can be used in this pipeline tasks. Read more about the identity in the [component identity](#component-identity) option and about using it in the sub-pipeline in the [Pipeline with Azure workload identity](../guides/sub-pipeline/example-pipeline-with-azure-workload-identity.md) example.
+When `identity.azure.clientId` option is set, the environment variable `AZURE_CLIENT_ID` with its value is automatically added to the running pipeline, and it can be used in this pipeline tasks. Read more about the identity in the [component identity](#identity-component) option and about using it in the sub-pipeline in the [Pipeline with Azure workload identity](../guides/sub-pipeline/example-pipeline-with-azure-workload-identity.md) example.
 
 ## `environments`
 
@@ -257,7 +257,7 @@ If your application uses a custom OAuth2 implementation, outbound access to Micr
 ### `subPipeline`
 `subPipeline` - (optional, available only in [sub-pipelines](../guides/sub-pipeline/index.md)) configuration of sub-pipeline options for specific environment. 
 * It can override common [subPipeline](#subpipeline) or combine with it (if present) for a specific environment.
-* It can remove the common Sub-Pipeline [identity](#build-identity) (if present) with `{}` (empty object) for a specific environment
+* It can remove the common Sub-Pipeline [identity](#identity-build) (if present) with `{}` (empty object) for a specific environment
 ```yaml
 spec:
   environments:
@@ -1629,7 +1629,7 @@ spec:
       schedulerPort: 8000
 ```
 
-See [dockerfileName](#dockerfilename-dockerfilename-1) for a component for more information.
+See [dockerfileName](#dockerfilename-detailed) for a component for more information.
 
 ### `image` (job)
 
@@ -1824,7 +1824,7 @@ spec:
 
 See [resources](#resources-common) for a component for more information.
 
-### `variables` (common)
+### `variables` (job)
 
 ```yaml
 spec:
@@ -2031,7 +2031,7 @@ spec:
 
 See [resources](#resources) for a component for more information.
 
-#### `variables`
+#### `variables` (env. job override)
 
 ```yaml
 spec:
@@ -2356,7 +2356,7 @@ secretRefs:
 - `azureKeyVaults` - list of Azure Key Vault configurations.
 - `name` - Name of the Key Vault resource in an Azure subscription. Radix supports capital letters in the name, but not spaces.
 - `path` - Folder path in running replica container, where secrets, keys and/or certificate contents are available as files (with file names, corresponding to their names in the Azure Key Vault). This field is optional. If set, it overrides default path: `/mnt/azure-key-vault/<azure-key-vault-name>`.
-- `useAzureIdentity` - If set to `true`, Radix will use [Azure Workload Identity](../guides/workload-identity/index.md) to acquire credentials for accessing Azure Key Vault using the service principal configured in [identity.azure](#identity). This field is optional, with default value `false`. If omitted or set to `false`, credentials are acquired using [Azure Service Principal Client ID and Client Secret](../guides/azure-key-vaults/index.md#authentication-with-azure-service-principal-client-id-and-client-secret).
+- `useAzureIdentity` - If set to `true`, Radix will use [Azure Workload Identity](../guides/workload-identity/index.md) to acquire credentials for accessing Azure Key Vault using the service principal configured in [identity.azure](#identity-detailed). This field is optional, with default value `false`. If omitted or set to `false`, credentials are acquired using [Azure Service Principal Client ID and Client Secret](../guides/azure-key-vaults/index.md#authentication-with-azure-service-principal-client-id-and-client-secret).
 - `items` - list of secrets, keys and/or certificates with corresponding environment variable names.
   - `name` - name of secret, key or certificate in an Azure Key Vault.
   - `type` - Type of the item in the Azure Key Vault. Possible values: `secret`, `key`, `cert`. This field is optional, by default it is `secret`.
