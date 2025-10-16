@@ -4,7 +4,7 @@ hide:
 hide_table_of_contents: true
 ---
 
-<div id="welcomeToRadixBody" markdown>
+<div id="welcomeToRadixBody" markdown="markdown">
 
 # Welcome to Radix
 
@@ -12,9 +12,9 @@ hide_table_of_contents: true
 
 <br />
 
-<div className="grid" markdown>
+<div className="grid" markdown="markdown">
 
-<figure markdown>
+<figure markdown="markdown">
 ![Build](./images/icons/fig_tools_icon.svg)
 
 **Build**
@@ -22,7 +22,7 @@ hide_table_of_contents: true
 Commit code to trigger a build ⚙️, run tests ✅ and check dependencies 🌲
 </figure>
 
-<figure markdown>
+<figure markdown="markdown">
 ![Build](./images/icons/fig_rocket_icon.svg)
 
 **Deploy**
@@ -30,7 +30,7 @@ Commit code to trigger a build ⚙️, run tests ✅ and check dependencies 🌲
 Place your app in the cloud ☁️ in multiple environments 🌏 and let it grow 🌱
 </figure>
 
-<figure markdown>
+<figure markdown="markdown">
 ![Build](./images/icons/fig_screen_icon.svg)
 
 **Monitor**
@@ -40,12 +40,12 @@ Track usage to find problems 💣 and get insight💡
 
 </div>
 
-<div markdown>
+<div markdown="markdown">
 You provide your code and a Dockerfile to build it, and Radix will take it from there.
 </div>
 <br />
 <br />
-<div id="radixFeaturesLinks" className="" markdown>
+<div id="radixFeaturesLinks" className="" markdown="markdown">
 
 [Get started](start/index.md)
 

@@ -37,44 +37,44 @@ Check out what's new in the [Release register](../docs/topic-releases/index.md)
 
 ## The Radix team
 
-<div className="grid" markdown>
+<div className="grid" markdown="markdown">
 
-<figure markdown className="md-post__authors">
+<figure markdown="markdown" className="md-post__authors">
 ![Atle Wilson](../images/radix-atle.jpg)
 
 **Atle Wilson**
 
 Product Owner
 </figure>
-<figure markdown className="md-post__authors">
+<figure markdown="markdown" className="md-post__authors">
 ![Richard Hagen](../images/radix-richard.jpg)
 
 **Richard Hagen**
 
 Developer
 </figure>
-<figure markdown className="md-post__authors">
+<figure markdown="markdown" className="md-post__authors">
 ![Svein-Petter Johnsen](../images/radix-svein-petter-johnsen.jpg)
 
 **Svein-Petter Johnsen**
 
 Infrastructure
 </figure>
-<figure markdown className="md-post__authors">
+<figure markdown="markdown" className="md-post__authors">
 ![Nils Gustav Stråbø](../images/radix-nils-gustav-strabo.jpg)
 
 **Nils Gustav Stråbø**
 
 Developer
 </figure>
-<figure markdown className="md-post__authors">
+<figure markdown="markdown" className="md-post__authors">
 ![Elsa Mäyrä Irgens](../images/radix-elsa-mayra-irgens.jpg)
 
 **Elsa Mäyrä Irgens**
 
 Team Leader
 </figure>
-<figure markdown className="md-post__authors">
+<figure markdown="markdown" className="md-post__authors">
 ![Jacob Solberg Holm](../images/radix-jacob-solberg-holm.jpg)
 
 **Jacob Solberg Holm**
