@@ -272,7 +272,7 @@ jobs:
 See [Migrating from v1. to v2 here](./migrating-radix-github-action-v1-to-v2.md)
 
 
-## Exampls
+## Examples
 
 - [GitHub action to create a deploy pipeline job](./example-github-action-to-create-radix-deploy-pipeline-job.md)
 - [Using AD service principal to get access to a Radix application in a GitHub action](./example-github-action-using-ad-service-principal-access-token.md)
