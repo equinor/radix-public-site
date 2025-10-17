@@ -7,7 +7,7 @@
 
 # Radix Public Site
 
-[![Logo](logo/Banner%20energy%20red@2x.png)](https://radix.equinor.com)  
+[![Logo](./static/images/logos/Banner%20energy%20red@2x.png)](https://radix.equinor.com)  
 radix.equinor.com (public site)  
 
 This is the public site for promoting, documenting & showcasing the Radix
