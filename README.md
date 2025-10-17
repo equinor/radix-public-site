@@ -18,6 +18,8 @@ platform. It is a static site built with [Docusaurus](https://docusaurus.io/).
 
 ## Notes
 
+### Do not use custom header-id
+
 Do not overide ids in headers like this:
 
 ```markdown
@@ -27,6 +29,14 @@ Some content
 ```
 
 Because vscode, docusaurus and mkdocs handles them slighly different.
+
+### Avoid using custom css
+
+TechDocs does not allow using custom css (read more [here](https://github.com/backstage/backstage/issues/13856#issuecomment-1284222765)).
+
+So most of the styles are copied from stylesheets available in TechDocs, like `.md-grid` or `.grid`. Using custom id selectors like `#welcomeToRadixBody` will not work, so make sure it looks okay without them in TechDocs as well.
+
+Priority is Docusaurus looks **good**, while TechDocs must look okay.
 
 ## Running, building
 
