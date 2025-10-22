@@ -14,7 +14,7 @@ More information can be found in the [Azure documentation](https://learn.microso
 
 ## Create a Private Endpoint
 
-In order to establish a Private Endpoint from Radix to your external resource, follow instructions in the [Private Link Guide](/guides/private-link/).
+In order to establish a Private Endpoint from Radix to your external resource, follow instructions in the [Private Link Guide](../../guides/private-link/index.md).
 
 The following information is needed:
 

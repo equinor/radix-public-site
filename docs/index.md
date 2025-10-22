@@ -4,7 +4,7 @@ hide:
 hide_table_of_contents: true
 ---
 
-<div id="welcomeToRadixBody" markdown>
+<div id="welcomeToRadixBody" markdown="markdown">
 
 # Welcome to Radix
 
@@ -12,37 +12,47 @@ hide_table_of_contents: true
 
 <br />
 
-<div id="radixFeatures" className="grid cards" markdown>
+<div className="grid" markdown="markdown">
 
-- ![Build](./images/icons/fig_tools_icon.svg)
+<figure markdown="markdown">
+![Build](./images/icons/fig_tools_icon.svg)
 
-    **Build**
+**Build**
 
-    Commit code to trigger a build ⚙️, run tests ✅ and check dependencies 🌲
+Commit code to trigger a build ⚙️, run tests ✅ and check dependencies 🌲
+</figure>
 
-- ![Build](./images/icons/fig_rocket_icon.svg)
+<figure markdown="markdown">
+![Build](./images/icons/fig_rocket_icon.svg)
 
-    **Deploy**
+**Deploy**
 
-    Place your app in the cloud ☁️ in multiple environments 🌏 and let it grow 🌱
+Place your app in the cloud ☁️ in multiple environments 🌏 and let it grow 🌱
+</figure>
 
-- ![Build](./images/icons/fig_screen_icon.svg)
+<figure markdown="markdown">
+![Build](./images/icons/fig_screen_icon.svg)
 
-    **Monitor**
+**Monitor**
 
-    Track usage to find problems 💣 and get insight💡
+Track usage to find problems 💣 and get insight💡
+</figure>
 
 </div>
 
-<div markdown>
+<div markdown="markdown">
 You provide your code and a Dockerfile to build it, and Radix will take it from there.
 </div>
 <br />
 <br />
-<div id="radixFeaturesLinks" markdown>
-- [Get started](start/index.md)
-- [Read the docs](docs/index.md)
-- [Our community](community/index.md)
+<div id="radixFeaturesLinks" className="" markdown="markdown">
+
+[Get started](start/index.md)
+
+[Read the docs](docs/index.md)
+
+[Our community](community/index.md)
+
 </div>
 
 </div>

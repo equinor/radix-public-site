@@ -27,6 +27,4 @@ Readers have the privilege to access logs associated with the application's repl
 
 It is important to understand that **application authentication is not handled by Radix**. The application endpoints will be public. Each team managing an application hosted on Radix is responsible for authenticating their users.
 
-To help with this, Radix allows to configure build in [authentication component](/radix-config#authentication). Please look at the [Authentication](/guides/authentication/) guide for more information. However, this component does not provide authentication for the application itself, the access needs to be configured by a team (e.g. limiting access to particular Microsoft Entra ID groups or users, etc.).
-
-
+To help with this, Radix allows to configure build in [authentication component](../../radix-config/index.md#authentication). Please look at the [Authentication](../../guides/authentication/index.md) guide for more information. However, this component does not provide authentication for the application itself, the access needs to be configured by a team (e.g. limiting access to particular Microsoft Entra ID groups or users, etc.).

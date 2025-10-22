@@ -36,7 +36,7 @@ Hierarchical Namespace:
 
 ## Authentication
 
-The **blob-csi-driver** uses access key credentials when accessing the Azure storage account. The access key can be set manually in [Radix Web Console](https://console.radix.equinor.com/), or it can be read by the driver from the Azure storage account using [Azure workload identity](https://www.radix.equinor.com/guides/workload-identity/#configure-workload-identity-in-radix) if `useAzureIdentity` is set to `true`.
+The **blob-csi-driver** uses access key credentials when accessing the Azure storage account. The access key can be set manually in [Radix Web Console](https://console.radix.equinor.com/), or it can be read by the driver from the Azure storage account using [Azure workload identity](../workload-identity/index.md#configure-workload-identity-in-radix) if `useAzureIdentity` is set to `true`.
 
 ### Access Keys
 
@@ -66,7 +66,7 @@ volumeMounts:
 
 When `useAzureIdentity` is set to `true`, the driver will connect to the Azure storage account using the [Azure Workload Identity](../workload-identity/#configure-workload-identity-in-radix) configured for the compopnent or job, to acquire an access key to use when accessing data in a blob container.
 
-In order for the driver to successfully acquire an access key, the service principal configured in [`identity.azure.clientId`](../../radix-config/index.md#identity-2) must be granted the [**Microsoft.Storage/storageAccounts/listkeys/action**](https://learn.microsoft.com/en-us/azure/storage/blobs/authorize-data-operations-portal#use-the-account-access-key) permission on the Azure storage account.
+In order for the driver to successfully acquire an access key, the service principal configured in [`identity.azure.clientId`](../../radix-config/index.md#identity-detailed) must be granted the [**Microsoft.Storage/storageAccounts/listkeys/action**](https://learn.microsoft.com/en-us/azure/storage/blobs/authorize-data-operations-portal#use-the-account-access-key) permission on the Azure storage account.
 
 The following `blobFuse2` settings are required, and is used by the driver when acquiring the access key.
 - `storageAccount` - Name of the Azure storage account.
@@ -124,11 +124,11 @@ volumeMounts:
 `blockSize` defines the size of a block to be downloaded as a unit from the Azure storage account. Increasing this value can improved the transfer rate when reading large files.
 
 The following table shows the transfer rate when reading a 3GB file using different values for `blockSize`:
-| Block Size  | Transfer Rate |
-| ----------: | ------------: |
-| 4           | 220 MB/s      |
-| 8           | 350 MB/s      |
-| 16          | 440 MB/s      |
+| Block Size | Transfer Rate |
+| ---------: | ------------: |
+|          4 |      220 MB/s |
+|          8 |      350 MB/s |
+|         16 |      440 MB/s |
 
 `poolSize` defines the total size of the memory pool that the driver will use for caching data blocks. The default value is set to `blockSize` + `prefetchCount` * `blockSize`, which is the minimum allowed value. If set to a lower value, Radix will automatically adjust it at runtime.
 
@@ -169,7 +169,7 @@ volumeMounts:
 ```
 
 ## Private endpoint
-When [requesting a private link](/guides/private-link/#request-the-private-linkendpoint) to connect to the Azure storage account:
+When [requesting a private link](../private-link/index.md#request-the-private-linkendpoint) to connect to the Azure storage account:
 * in case `useAdls: false` - request `SubResource: blob`.
 * in case `useAdls: true` - request `SubResource: dfs` (Distributed File System).
 

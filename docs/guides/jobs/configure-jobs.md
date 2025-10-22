@@ -6,7 +6,7 @@ next: job-manager-and-job-api
 
 ## Job configuration
 
-Jobs are configured in [`radixconfig.yaml`](/radix-config/index.md#jobs), similar to how components are configured.
+Jobs are configured in [`radixconfig.yaml`](../../radix-config/index.md#jobs), similar to how components are configured.
 
 ```yaml
 spec:

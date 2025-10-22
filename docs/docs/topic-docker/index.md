@@ -4,7 +4,7 @@ title: Docker & containers
 
 # Docker & containers
 
-For a general understanding of what Docker and Container is, have a look at [What is a Container](https://www.docker.com/resources/what-container) or a more in-depth presentation from the Stavanger [playground](https://github.com/equinor/playground-stavanger/tree/master/docker-basic).
+For a general understanding of what Docker and Container is, have a look at [What is a Container](https://www.docker.com/resources/what-container).
 
 Other resources could be the official [Docker documentation](https://docs.docker.com/).
 
@@ -48,11 +48,8 @@ The ID of the group and user can be anything in the range 1000-65535.
 `useradd` command follows the syntax `useradd -S -u [USER_ID] -g [GROUP_NAME] [USER_NAME]`
 
 :::tip Be aware
-[The syntax for add user and group](/guides/docker-useradd/) can be different for the distribution of images
+[The syntax for add user and group](../../guides/docker-useradd/index.md) can be different for the distribution of images
 :::
-
-### ReadOnly file system for buildKit
-When the configuration option [useBuildKit](/radix-config/index.md#usebuildkit) is `true`, pipeline build jobs run within the Radix cluster with read-only file system, only few specific folders are writable. If it is necessary Dockerfile directives can use writeble folders `/tmp`, `/var` (exluding the reserved `/var/tmp`).
 
 ### Read more about securing docker images
 There are many great articles on securing docker images. See [Snyk](https://res.cloudinary.com/snyk/image/upload/v1551798390/Docker_Image_Security_Best_Practices_.pdf).
@@ -63,7 +60,7 @@ An immutable root filesystem prevents applications from writing to the local dis
 
 The container's root filesystem should be treated as a *golden image* by using Docker run's `--read-only` option. This prevents any writes to the container's root filesystem at container runtime and enforces the principle of immutable infrastructure.
 
-The Radix equivalent to Docker's `--read-only` is the [`readOnlyFileSystem`](../../radix-config/#readonlyfilesystem-1) property in `radixconfig.yaml`.
+The Radix equivalent to Docker's `--read-only` is the [`readOnlyFileSystem` (detailed)](../../radix-config/#readonlyfilesystem-detailed) property in `radixconfig.yaml`.
 
 ## Best-practice `Dockerfile`
 

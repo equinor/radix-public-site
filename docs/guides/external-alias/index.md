@@ -4,14 +4,14 @@ title: DNS Alias and certificate
 # Configure External DNS Alias and automatically get Equinor certificate 
 
 
-An application can be configured to use external DNS aliases, in addition to the automatically generated [domain names](/docs/topic-domain-names), provided you register the DNS record and optionally bring the corresponding TLS certificate into Radix. Traffic routing is configured in [`dnsExternalAlias`](/radix-config/index.md#dnsexternalalias) in `radixconfig.yaml`.
+An application can be configured to use external DNS aliases, in addition to the automatically generated [domain names](../../docs/topic-domain-names/index.md), provided you register the DNS record and optionally bring the corresponding TLS certificate into Radix. Traffic routing is configured in [`dnsExternalAlias`](../../radix-config/index.md#dnsexternalalias) in `radixconfig.yaml`.
 
-An application can be configured to use external DNS aliases, in addition to the automatically generated [domain names](/docs/topic-domain-names), provided you register the DNS record and bring the corresponding TLS certificate into Radix. Traffic routing is configured in [`dnsExternalAlias`](/radix-config/index.md#dnsexternalalias) in `radixconfig.yaml`.
+An application can be configured to use external DNS aliases, in addition to the automatically generated [domain names](../../docs/topic-domain-names/index.md), provided you register the DNS record and bring the corresponding TLS certificate into Radix. Traffic routing is configured in [`dnsExternalAlias`](../../radix-config/index.md#dnsexternalalias) in `radixconfig.yaml`.
 
-The external DNS record must point to the [public name](/docs/topic-domain-names/#public-name) of a component, to the [app default alias](/docs/topic-domain-names/#app-default-alias) or to the [app alias](/docs/topic-domain-names/#app-alias).
+The external DNS record must point to the [public name](../../docs/topic-domain-names/index.md#public-name) of a component, to the [app default alias](../../docs/topic-domain-names/index.md#app-default-alias) or to the [app alias](../../docs/topic-domain-names/index.md#app-alias).
 
 
-`useCertificateAutomation` in [`dnsExternalAlias`](/radix-config/index.md#dnsexternalalias) controls if the TLS certificate is automatically managed by Radix, or manually by you.
+`useCertificateAutomation` in [`dnsExternalAlias`](../../radix-config/index.md#dnsexternalalias) controls if the TLS certificate is automatically managed by Radix, or manually by you.
 
 ## Acquire a DNS record in the equinor.com zone
 
@@ -22,7 +22,7 @@ The process for setting up the DNS record depends on the service used to registe
 1. In `Where should the DNS record be added, changed or deleted?`, select if you only need `Internal DNS Service` (accessible only from Equinor internal network) or `Internal and external DNS service` (accessible from both Equinor internal network and Internet).
 1. Enter the host name in `Host name` (exclude `.equinor.com` suffix).
 1. Select `CNAME` in the `Type` drop down.
-1. In the `Data (IP or FQDN)` field, enter the [public name](/docs/topic-domain-names/#public-name), [app default alias](/docs/topic-domain-names/#app-default-alias) or [app alias](/docs/topic-domain-names/#app-alias) for which the new DNS record should point to.  
+1. In the `Data (IP or FQDN)` field, enter the [public name](../../docs/topic-domain-names/index.md#public-name), [app default alias](../../docs/topic-domain-names/index.md#app-default-alias) or [app alias](../../docs/topic-domain-names/index.md#app-alias) for which the new DNS record should point to.  
 
 :::tip Example
 

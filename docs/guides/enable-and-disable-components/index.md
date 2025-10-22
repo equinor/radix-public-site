@@ -4,7 +4,7 @@ title: Enable and disable components
 
 # Enable and disable components
 
-* Component can be [disabled or enabled](/radix-config/index.md#enabled) for all or specific environment configurations.
+* Component can be [disabled or enabled](../../radix-config/index.md#enabled) for all or specific environment configurations.
 
     ```yaml
     spec:

@@ -17,10 +17,10 @@ site
 # Generated files
 .docusaurus
 .cache-loader
-public_site.egg-info
 
 # Python cache
 __pycache__/
+public_site.egg-info
 
 # Misc
 .DS_Store

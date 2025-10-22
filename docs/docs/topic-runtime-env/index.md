@@ -10,9 +10,9 @@ Running an application in Radix is not much different to running Docker containe
 
 ### Traffic
 
-Only HTTPS traffic is allowed into the application. There is no protocol restriction on outbound traffic. SSL certificates are automatically managed by Radix, [external aliases](/guides/external-alias/) can also be managed by Radix, i.e. automatically refreshed.
+Only HTTPS traffic is allowed into the application. There is no protocol restriction on outbound traffic. SSL certificates are automatically managed by Radix, [external aliases](../../guides/external-alias/index.md) can also be managed by Radix, i.e. automatically refreshed.
 
-Internally - within the same environment/namespace, [components](/start/radix-concepts/index.md#component) can communicate with each other using other protocols and [ports](/radix-config/index.md#components), provided they use TCP.
+Internally - within the same environment/namespace, [components](../../start/radix-concepts/index.md#component) can communicate with each other using other protocols and [ports](../../radix-config/index.md#components), provided they use TCP.
 
 ### Internal DNS
 
@@ -39,21 +39,21 @@ Requests reaching your components from outside Radix are routed, and will have s
 
 ## Storage
 
-Radix **does not** support persistent storage. Any files written to the filesystem will be lost when a component restarts or is redeployed. If you need persistence, cloud-based systems like [Azure storage](https://docs.microsoft.com/en-us/azure/storage/common/storage-introduction) are recommended, these can be [mounted as volumes](/guides/volume-mounts/index.md).
+Radix **does not** support persistent storage. Any files written to the filesystem will be lost when a component restarts or is redeployed. If you need persistence, cloud-based systems like [Azure storage](https://docs.microsoft.com/en-us/azure/storage/common/storage-introduction) are recommended, these can be [mounted as volumes](../../guides/volume-mounts/index.md).
 
 ## Multiple copies
 
-Although you can configure the number of [replicas](/start/radix-concepts/index.md#replica) for a component, Radix will occasionally run a different number of these. For instance, a component that has been configured to run with just one replica (this is the default) might momentarily have two replicas running during a Radix cluster migration.
+Although you can configure the number of [replicas](../../start/radix-concepts/index.md#replica) for a component, Radix will occasionally run a different number of these. For instance, a component that has been configured to run with just one replica (this is the default) might momentarily have two replicas running during a Radix cluster migration.
 
 This is a common characteristic of high-availability cloud-based environments. Your application should be written in a way that can cope with multiple running copies of a component (or the whole application), even if momentarily.
 
 ## Environment variables
 
-In addition to [variables defined in `radixconfig.yaml`](/radix-config/index.md#variables-common), Radix will automatically set the following variables
+In addition to [variables defined in `radixconfig.yaml`](../../radix-config/index.md#variables-common), Radix will automatically set the following variables
 
 - `RADIX_ACTIVE_CLUSTER_EGRESS_IPS`: IP address range of the current cluster
 - `RADIX_APP`: The name of the Radix application
-- `RADIX_CANONICAL_DOMAIN_NAME`: The [canonical domain name](/docs/topic-domain-names/#canonical-name) of the component
+- `RADIX_CANONICAL_DOMAIN_NAME`: The [canonical domain name](../topic-domain-names/index.md#canonical-name) of the component
 - `RADIX_CLUSTERNAME`: The canonical name of the Radix cluster (e.g. "eu-8")
 - `RADIX_CLUSTER_TYPE`: The type of cluster ("production", "playground", "development")
 - `RADIX_COMPONENT`: Name of the current component
@@ -64,4 +64,4 @@ In addition to [variables defined in `radixconfig.yaml`](/radix-config/index.md#
 - `RADIX_GIT_TAGS`: Space-separated list of git tags which point to `$RADIX_GIT_COMMIT_HASH` at the time of container image build.
 - `RADIX_PORTS`: Space-separated list of open ports, enclosed in parentheses. E.g. (8888) and (8888 8889)
 - `RADIX_PORT_NAMES`: List of open ports (names; only if set)
-- `RADIX_PUBLIC_DOMAIN_NAME`: [Public domain name](/docs/topic-domain-names/#public-name) of the component (if the component has been made public)
+- `RADIX_PUBLIC_DOMAIN_NAME`: [Public domain name](../topic-domain-names/index.md#public-name) of the component (if the component has been made public)

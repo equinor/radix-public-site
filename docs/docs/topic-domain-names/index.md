@@ -4,7 +4,7 @@ title: Domain names
 
 # Domain names
 
-Radix supports several domain names for each [application component](/start/radix-concepts/index.md#component). Each domain name uses details from your application and the [Radix cluster](../../start/radix-clusters/) hosting it.
+Radix supports several domain names for each [application component](../../start/radix-concepts/index.md#component). Each domain name uses details from your application and the [Radix cluster](../../start/radix-clusters/index.md) hosting it.
 
 **Domain name elements:**
 
@@ -43,7 +43,7 @@ Format:
 The app default alias provides a simple, shareable domain name for your application. It points to a specific component and environment.
 
 - One per application
-- Set in [`radixconfig.yaml`](/radix-config/index.md#dnsappalias)
+- Set in [`radixconfig.yaml`](../../radix-config/index.md#dnsappalias)
 
 **Examples:**
 - `oneapp.app.radix.equinor.com`
@@ -62,7 +62,7 @@ Format:
 App aliases let you choose a custom subdomain within the cluster DNS zone. Most names are available on a first-come, first-served basis.
 
 - Multiple aliases allowed per component
-- Set in [`radixconfig.yaml`](/radix-config/index.md#dnsalias)
+- Set in [`radixconfig.yaml`](../../radix-config/index.md#dnsalias)
 
 **Examples:**
 - `oneapp.radix.equinor.com`
@@ -78,10 +78,10 @@ Format:
 [a valid external DNS name]
 ```
 
-Use an external alias to bring your own domain name to Radix. See the [external alias guide](/guides/external-alias/) for setup instructions.
+Use an external alias to bring your own domain name to Radix. See the [external alias guide](../../guides/external-alias/index.md) for setup instructions.
 
 - Multiple aliases allowed per component
-- Set in [`radixconfig.yaml`](/radix-config/index.md#dnsexternalalias)
+- Set in [`radixconfig.yaml`](../../radix-config/index.md#dnsexternalalias)
 - Requires external DNS management
 - Use your own TLS certificate or [let Radix manage it](../../guides/external-alias/index.md#configure-certificate-automation-service)
 

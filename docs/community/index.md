@@ -33,47 +33,54 @@ We also monitor a common mailbox, so if this is an option for you to reach out, 
 
 New features are publicly announced in the [Omnia Radix Slack channel](https://equinor.slack.com/messages/C8U7XGGAJ), and added to the release register page.  
 
-Check out what's new in the [Release register](/docs/topic-releases/index.md)
+Check out what's new in the [Release register](../docs/topic-releases/index.md)
 
 ## The Radix team
 
-<div id="radixTeamCards" className="grid cards" markdown="markdown">
+<div className="grid" markdown="markdown">
 
-- ![Atle Wilson](../images/radix-atle.jpg)
+<figure markdown="markdown" className="md-post__authors">
+![Atle Wilson](../images/radix-atle.jpg)
 
-    **Atle Wilson**
+**Atle Wilson**
 
-    Product Owner
+Product Owner
+</figure>
+<figure markdown="markdown" className="md-post__authors">
+![Richard Hagen](../images/radix-richard.jpg)
 
-- ![Richard Hagen](../images/radix-richard.jpg)
+**Richard Hagen**
 
-    **Richard Hagen**
+Developer
+</figure>
+<figure markdown="markdown" className="md-post__authors">
+![Svein-Petter Johnsen](../images/radix-svein-petter-johnsen.jpg)
 
-    Developer
+**Svein-Petter Johnsen**
 
-- ![Svein-Petter Johnsen](../images/radix-svein-petter-johnsen.jpg)
+Infrastructure
+</figure>
+<figure markdown="markdown" className="md-post__authors">
+![Nils Gustav Stråbø](../images/radix-nils-gustav-strabo.jpg)
 
-    **Svein-Petter Johnsen**
+**Nils Gustav Stråbø**
 
-    Infrastructure
+Developer
+</figure>
+<figure markdown="markdown" className="md-post__authors">
+![Elsa Mäyrä Irgens](../images/radix-elsa-mayra-irgens.jpg)
 
-- ![Nils Gustav Stråbø](../images/radix-nils-gustav-strabo.jpg)
+**Elsa Mäyrä Irgens**
 
-    **Nils Gustav Stråbø**
+Team Leader
+</figure>
+<figure markdown="markdown" className="md-post__authors">
+![Jacob Solberg Holm](../images/radix-jacob-solberg-holm.jpg)
 
-    Developer
+**Jacob Solberg Holm**
 
-- ![Elsa Mäyrä Irgens](../images/radix-elsa-mayra-irgens.jpg)
-
-    **Elsa Mäyrä Irgens**
-
-    Team Leader
-
-- ![Jacob Solberg Holm](../images/radix-jacob-solberg-holm.jpg)
-
-    **Jacob Solberg Holm**
-
-    Developer
-
+Developer
+</figure>
 
 </div>
+

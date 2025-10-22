@@ -5,7 +5,7 @@ converts docusaurus markdown files to MkDocs
 ### Usage
 
 ```bash
-python scripts/convert_admonitions.py --docs-dir ./docs
+python scripts/convert_admonitions.py --docs-dir ./public-site/docs
 ```
 
 #### Examples of conversions:

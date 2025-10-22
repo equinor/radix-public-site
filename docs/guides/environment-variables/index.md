@@ -4,7 +4,7 @@ title: Environment Variables
 
 # Configure environment variables
 
-[Environment variables](/radix-config/index.md#variables-common) can be configured in the [radixconfig.yaml](/radix-config/index.md). Additionally Radix will add some environment variables prefixed with `RADIX_` and `RADIXOPERATOR_` - these prefixes should not be used for environment variables.
+[Environment variables](../../radix-config/index.md#variables-common) can be configured in the [radixconfig.yaml](../../radix-config/index.md). Additionally Radix will add some environment variables prefixed with `RADIX_` and `RADIXOPERATOR_` - these prefixes should not be used for environment variables.
 
 Environment variables can be overridden in the Radix Console, excluding those marked with the `RADIX_` and `RADIXOPERATOR_` prefix.  
 

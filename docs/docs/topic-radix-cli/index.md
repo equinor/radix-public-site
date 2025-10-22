@@ -70,9 +70,9 @@ jobs:
 ```
 
 More details can be found in guidelines and examples:
-* [Guideline to run "Deploy Only" pipeline job](/guides/deploy-only/)
-* [Example of using GitHub action to create a Radix deploy pipeline job](/guides/deploy-only/example-github-action-to-create-radix-deploy-pipeline-job.md)
-* [Migration guide from radix-github-actions v1 to v2](/guides/deploy-only/migrating-radix-github-action-v1-to-v2.md)
+* [Guideline to run "Deploy Only" pipeline job](../../guides/deploy-only/index.md)
+* [Example of using GitHub action to create a Radix deploy pipeline job](../../guides/deploy-only/example-github-action-to-create-radix-deploy-pipeline-job.md)
+* [Migration guide from radix-github-actions v1 to v2](../../guides/deploy-only/migrating-radix-github-action-v1-to-v2.md)
 
 ### Commands
 

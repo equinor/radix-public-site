@@ -10,4 +10,4 @@ title: Limitations / Known Issues
 
 ## File Cache
 
-- Ensure that [Attribute Cache](index.md#attribute-cache) is disabled when using file cache, as an issue/bug with the driver prevents eviction of cached data when the file is opened more frequently than the defined `timeout`.
+- Ensure that [Attribute Cache](./index.md#attribute-cache) is disabled when using file cache, as an issue/bug with the driver prevents eviction of cached data when the file is opened more frequently than the defined `timeout`.
