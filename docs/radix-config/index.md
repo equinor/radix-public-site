@@ -1246,6 +1246,19 @@ spec:
 
 See [readOnlyFileSystem (detailed)](#readonlyfilesystem-detailed) for more information.
 
+#### `runAsUser`
+
+```yaml
+spec:
+  components:
+    - name: backend
+      environmentConfig:
+        - environment: prod
+          runAsUser: 1000
+```
+
+See [runAsUser (detailed)](#runasuser-detailed) for more information.
+
 #### `runtime`
 
 ```yaml
@@ -1475,6 +1488,25 @@ Mounts the container's root filesystem as read-only. Setting `readOnlyFileSystem
 Read-only filesystems will prevent the application from writing to disk. This is desirable in the event of an intrusion as the attacker will not be able to tamper with the filesystem or write foreign executables to disk. Without a writable filesystem the attack surface is dramatically reduced.
 
 There may be a requirement for temporary files or local caching, in which case one or more writable [`emptyDir`](#volumemounts-detailed) volumes can be mounted.
+
+### `runAsUser` (detailed)
+
+```yaml
+spec:
+  components:
+    - name: backend
+      runAsUser: 1000
+      environmentConfig:
+        - environment: prod
+          runAsUser: 1001
+```
+
+Specifies the user ID that the container process should run as. Setting `runAsUser` in `environmentConfig` overrides the value configured on component or job level. If not specified, the container runs as the user defined in the Docker image.
+
+This can be useful when running upstream images where you do not have control of which user has been set in the image.
+Running containers as non-root users significantly improves security by following the principle of least privilege. This reduces the attack surface in case of container compromise, as the process will have limited system permissions.
+
+When using `runAsUser`, ensure your container image has proper file permissions for the specified user ID, and that any required directories or files are accessible by that user.
 
 ### `runtime` (detailed)
 The `runtime` section can be configured on the component/job level and in `environmentConfig` for a specific environment. `environmentConfig` takes precedence over component/job level configuration.
@@ -2152,6 +2184,19 @@ spec:
 
 See [readOnlyFileSystem (detailed)](#readonlyfilesystem-detailed) for more information.
 
+#### `runAsUser`
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      environmentConfig:
+        - environment: prod
+          runAsUser: 1000
+```
+
+See [runAsUser (detailed)](#runasuser-detailed) for more information.
+
 #### `runtime`
 
 ##### `architecture`
@@ -2208,6 +2253,20 @@ spec:
 ```
 
 See [readOnlyFileSystem (detailed)](#readonlyfilesystem-detailed) for more information.
+
+### `runAsUser`
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      runAsUser: 1000
+      environmentConfig:
+        - environment: prod
+          runAsUser: 1001
+```
+
+See [runAsUser (detailed)](#runasuser-detailed) for more information.
 
 ### `runtime`
 
