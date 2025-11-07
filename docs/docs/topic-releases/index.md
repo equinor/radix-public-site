@@ -6,6 +6,10 @@ title: What's new
 
 ## 2025
 
+### 2025-11-06 Run an image as a given user
+It is now possible to set runAsUser in the radix config file.
+Read [more](../../radix-config/index.md#runasuser-detailed).
+
 ### 2025-08-21 New `proxyRequestBuffering` endpoint configuration option
 We have added `proxyRequestBuffering` setting to [radixconfig](../../radix-config/index.md#network) to enable or disable request buffering in our proxy (enabled by default).
 
