@@ -17,9 +17,9 @@ Cluster Issuer URL: https://northeurope.oic.prod-aks.azure.com/00000000-0000-000
 Namespace: keda
 Service Account: keda-operator
 ```
-`Cluster Issuer URL` - current value can be found in Radix console [About page](https://console.radix.equinor.com/about) in the environment variable `CLUSTER_OIDC_ISSUER_URL`.
+`Cluster Issuer URL` - current values can be found in Radix console [About page](https://console.radix.equinor.com/about) in the `Cluster OIDC Issuer URLs` property.
 
-Cluster Issuer URL can be changed during cluster migration, please watch the Slack channel `#omnia_radix` for updates.
+Cluster Issuer URLs can be changed during cluster migration, please watch the Slack channel `#omnia_radix` for updates.
 
 ````yaml
 spec:
