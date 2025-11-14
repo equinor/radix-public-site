@@ -22,7 +22,7 @@ We will notify as early as possible when this happens in the **#omnia_radix** sl
 :::
 
 1. Go to Radix Console and click the `i` icon in the top right corner of the cluster you want to use.
-2. Copy the one URL from the `Cluster OIDC Issuer URLs` values. This is the credentials issuer in Radix Cluster.
+2. Copy one of the URLs from the `Cluster OIDC Issuer URLs` values. This is the credentials issuer in Radix Cluster.
 3. The `Namespace` has the format of `<application name>-app`, for the application `my-radix-app` the namespace will be `my-radix-app-app`.
 4. The `Service Account` has the format of `subpipeline-<environment>-sa`, for the environment `dev` the service account will be `subpipeline-dev-sa`.
 5. On the Managed Identity overview page and take a note of your `Client ID`. This is the `AZURE_CLIENT_ID` you will need to provide in the next step.
