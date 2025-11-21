@@ -55,4 +55,14 @@ You provide your code and a Dockerfile to build it, and Radix will take it from 
 
 </div>
 
+<br />
+
+<div id="additionalResources" markdown="markdown">
+
+### Additional Resources
+
+[Omnia Docs](https://docs.omnia.equinor.com/) | [Varia](https://varia.equinor.com/home) | [Equinor Design System (EDS)](https://eds.equinor.com/) | [AppSec](https://appsec.equinor.com/)
+
+</div>
+
 </div>
