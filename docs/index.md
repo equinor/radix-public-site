@@ -12,7 +12,7 @@ hide_table_of_contents: true
 
 <br />
 
-<div className="grid" markdown="markdown">
+<div id="radixMainIcons" className="grid" markdown="markdown">
 
 <figure markdown="markdown">
 ![Build](./images/icons/fig_tools_icon.svg)
