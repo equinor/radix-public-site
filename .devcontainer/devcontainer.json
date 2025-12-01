@@ -15,6 +15,7 @@
 		}
 	},
 	"mounts": [
+		// Copy your signing public key to ~/.gitsign to enable git commit signing
 		"type=bind,source=${localEnv:HOME}${localEnv:USERPROFILE}/.gitsign,target=${localEnv:HOME}${localEnv:USERPROFILE}/.gitsign,readonly"
 	],
 
