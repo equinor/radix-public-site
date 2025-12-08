@@ -12,7 +12,7 @@ hide_table_of_contents: true
 
 <br />
 
-<div className="grid" markdown="markdown">
+<div id="radixMainIcons" className="grid" markdown="markdown">
 
 <figure markdown="markdown">
 ![Build](./images/icons/fig_tools_icon.svg)
@@ -52,6 +52,16 @@ You provide your code and a Dockerfile to build it, and Radix will take it from 
 [Read the docs](docs/index.md)
 
 [Our community](community/index.md)
+
+</div>
+
+<br />
+
+<div id="additionalResources" markdown="markdown">
+
+### Additional Resources
+
+[Omnia Docs](https://docs.omnia.equinor.com/) | [Varia](https://varia.equinor.com/home) | [Equinor Design System (EDS)](https://eds.equinor.com/) | [AppSec](https://appsec.equinor.com/)
 
 </div>
 

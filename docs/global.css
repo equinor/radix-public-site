@@ -231,11 +231,23 @@
 	margin: 1em 0;
 }
 figure {
-	display: flow-root;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	margin: 1em auto;
 	max-width: 100%;
 	text-align: center;
 	width: fit-content;
+}
+figure img {
+	height: 100px;
+	width: auto;
+	object-fit: contain;
+	margin-bottom: 1rem;
+	display: block;
+}
+figure strong {
+	display: block;
 }
 .md-grid {
 	margin-left: auto;
@@ -257,7 +269,25 @@ figure {
 	font-size: 1.125rem;
 
 	margin-top: calc(var(--eds_spacing_large));
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 1200px;
 	text-align: center;
+}
+
+#radixMainIcons {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 3rem;
+	margin-top: 2rem;
+	margin-bottom: 2rem;
+
+	& figure {
+		flex: 1;
+		width: 100%;
+		justify-content: center;
+	}
 }
 
 #radixFeaturesLinks {
@@ -283,6 +313,30 @@ figure {
 			background: var(--eds_interactive_primary__hover);
 			border: 1px solid var(--eds_interactive_primary__hover);
 			color: var(--eds_text_static_icons__primary_white);
+		}
+	}
+}
+
+#additionalResources {
+	margin-top: 2rem;
+	text-align: center;
+	font-size: 0.9rem;
+	color: var(--eds_text_static_icons__secondary);
+
+	& h3 {
+		font-size: 1rem;
+		font-weight: 400;
+		margin-bottom: 0.5rem;
+		color: var(--eds_text_static_icons__secondary);
+	}
+
+	& a {
+		color: var(--eds_interactive_secondary__resting);
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+			color: var(--eds_interactive_secondary__link_hover);
 		}
 	}
 }
