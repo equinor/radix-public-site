@@ -9,6 +9,21 @@ metadata:
     - url: "https://console.radix.equinor.com/"
       title: "Web console"
 spec:
-  type: documentation
+  type: system
   lifecycle: production
   owner: omnia-radix
+
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: radix-public-site
+  description: "Radix Public site - Documentation"
+  annotations:
+    github.com/project-slug: equinor/radix-public-site
+spec:
+  type: website
+  lifecycle: production
+  owner: omnia-radix
+  system: Radix
