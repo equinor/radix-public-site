@@ -17,7 +17,7 @@ displayed_sidebar: docsSidebar
 
 ## About the platform
 
-- Service, support and availability [Uptime](./topic-uptime/index.md)
+- Service, support and availability [Uptime](../start/uptime/index.md)
 - [Rolling updates](./topic-rollingupdate/index.md) in Radix
 - [Cost](./topic-cost/index.md) calculation principles
 

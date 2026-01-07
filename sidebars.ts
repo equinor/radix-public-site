@@ -25,9 +25,11 @@ const sidebars: SidebarsConfig = {
       'start/workflows/index',
       'start/radix-clusters/index',
       'start/onboarding/index',
-      'start/examples/index',
+      'start/responsibility/index',
       'start/not-radix/index',
-    
+      'start/uptime/index',
+      'start/examples/index',
+
   ],
   guidesSidebar: [
       'guides/index',
@@ -150,7 +152,6 @@ const sidebars: SidebarsConfig = {
       'docs/topic-private-link/index',
       'docs/topic-cost/index',
       'docs/topic-rollingupdate/index',
-      'docs/topic-uptime/index',
       'docs/topic-radix-cli/index',
       'docs/topic-code-editor-integration/index',
       'docs/topic-dynatrace-int/index',

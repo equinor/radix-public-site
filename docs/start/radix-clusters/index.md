@@ -3,7 +3,7 @@ title: Radix clusters
 ---
 # The Radix clusters
 
-Your application(s) will run in a *Kubernetes cluster*. Radix currently have three clusters: **Platform (North Europe)**, **Platform 2 (West Europe)** and **Playground**. Use Playground for testing Radix and see if it's a good fit for your needs. When your project and team are happy with Radix, you should register your application to one of the **Platform** clusters, which provides [specific guarantees](../../docs/topic-uptime/index.md).
+Your application(s) will run in a *Kubernetes cluster*. Radix currently have three clusters: **Platform (North Europe)**, **Platform 2 (West Europe)** and **Playground**. Use Playground for testing Radix and see if it's a good fit for your needs. When your project and team are happy with Radix, you should register your application to one of the **Platform** clusters, which provides [specific guarantees](../uptime/index.md).
 
 | Cluster                      | Azure Region | DNS Zone                     |                     Web Console                      |                   Radix API (Swagger UI)                    |
 | ---------------------------- | ------------ | ---------------------------- | :--------------------------------------------------: | :---------------------------------------------------------: |
