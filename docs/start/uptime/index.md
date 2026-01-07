@@ -11,7 +11,7 @@ Radix will only report the measured uptime for the Radix platform, and not the o
 | | |
 |-|---------------------------------------|
 | Service monitored: | `https://canary.radix.equinor.com` |
-|Timeperiod: | Rolling last 90 days |
+| Time period: | Rolling last 90 days |
 |Monitoring tool: | Prometheus |
 |Availability calculation %: | Uptime / (Uptime + Downtime) x 100 |
 
