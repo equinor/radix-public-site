@@ -46,6 +46,7 @@ nav:
       - Radix clusters: start/radix-clusters/index.md
       - Onboarding: start/onboarding/index.md
       - Examples: start/examples/index.md
+      - Service, support, uptime and availability: start/uptime/index.md
       - When not to use Radix: start/not-radix/index.md
   - Docs:
       - Docs: docs/index.md
@@ -60,7 +61,6 @@ nav:
       - Private Link / Endpoint: docs/topic-private-link/index.md
       - Radix cost: docs/topic-cost/index.md
       - Rolling updates: docs/topic-rollingupdate/index.md
-      - Service, support, uptime and availability: docs/topic-uptime/index.md
       - Radix CLI: docs/topic-radix-cli/index.md
       - Code editor integrations: docs/topic-code-editor-integration/index.md
       - Integrate Dynatrace in a Radix app: docs/topic-dynatrace-int/index.md

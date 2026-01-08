@@ -555,7 +555,7 @@ The Radix Github Action is used by many Radixians to execute rx CLI commands in 
 
 ### 2023-01-31 Radix Playground lifecycle policy
 
-We will now implement a stricter [lifecycle policy](../topic-uptime/index.md#automatic-cleanup-in-playground-cluster) for using Radix Playground.  
+We will now implement a stricter [lifecycle policy](../../start/uptime/index.md#automatic-cleanup-in-playground-cluster) for using Radix Playground.  
 Any application which has not been  
 a - deployed - or  
 b - restarted  

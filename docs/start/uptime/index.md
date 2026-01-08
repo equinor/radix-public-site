@@ -11,7 +11,7 @@ Radix will only report the measured uptime for the Radix platform, and not the o
 | | |
 |-|---------------------------------------|
 | Service monitored: | `https://canary.radix.equinor.com` |
-|Timeperiod: | Rolling last 90 days |
+| Time period: | Rolling last 90 days |
 |Monitoring tool: | Prometheus |
 |Availability calculation %: | Uptime / (Uptime + Downtime) x 100 |
 
@@ -29,7 +29,8 @@ The Radix Platform should be used when your team has chosen Radix as PaaS (Platf
 | ---------------------------- | ------------------------------------------- | :-------------: | :---------: |
 | **Platform (North Europe)**  | Apps under development or in production | Every ~6 months | Yes         |
 | **Platform 2 (West Europe)** | Apps under development or in production | Every ~6 months | Yes         |
-| **Playground**               | Testing and experimenting with Radix        |                 | Best-effort |
+| **Platform 3 (Central Sweden)** | Apps under development or in production | Every ~6 months | Yes         |
+| [**Playground**](#radix-playground-services) | Testing and experimenting with Radix        |                 | Best-effort |
 
 ### Support
 
@@ -93,7 +94,10 @@ We are working hard to mitigate as much of these as possible.
 
 ## Radix Playground services
 
-Use Playground for testing Radix, see if it’s a good fit for your projects, and provide feedback (e.g. using the button "Give us feedback" on the application list page). When you are ready to commit, register your application in the Radix Platform, even if your application still is development stage. The Radix Platform has improved services.
+Use Playground for testing Radix, see if it’s a good fit for your projects, and provide feedback (e.g. using the button "Give us feedback" on the application list page). The Playground cluster may have some limitations compared to the Platform clusters, e.g. external certificate service is not available.
+
+
+When you are ready to commit, register your application in any of the Radix Platform clusters, even if your application still is in the **development stage**. The Radix Platforms has improved services.
 
 - **Support channels:** Same as for Radix Platform (see above). Help will be provided when team has capacity
 
