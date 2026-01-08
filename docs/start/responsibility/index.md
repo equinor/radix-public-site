@@ -45,7 +45,7 @@ Radix keeps the platform safe and up-to-date; App Teams keep their apps secure, 
 - **Implement health checks and observability** - logs, metrics, alerts
 - **Keep apps maintained** - patch vulnerabilities and update regularly
 - **Respond to app incidents promptly**
-- **Tune application resouce requirements** - the resources are shared, do not reserve more than necessary
+- **Tune application resource requirements** - the resources are shared, do not reserve more than necessary
 
 ## What does Radix provide
 
