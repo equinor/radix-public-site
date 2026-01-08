@@ -22,16 +22,15 @@ Currently, there is no automated process of moving an application between cluste
 #### Register the Application
 
 - [ ] Create the application in the target Radix cluster using radix-cli or Radix Web Console
-- [ ] Ensure the radixconfig.yaml is correct and uploaded
 
 #### Run Initial Build/Deploy Pipeline
 
 - [ ] Trigger a CI/CD pipeline to build and deploy all environments (dev, QA, prod)
 - [ ] Validate that images are built and components are available in Web Console
 
-#### Update Workload Identity
+#### Update workload identity
 
-- [ ] Configure App Registration or Managed Identity for the new cluster
+- [ ] Configure [App Registration or Managed Identity](../../guides/workload-identity/) for the new cluster
 - [ ] Update workload identity settings in Azure AD
 
 #### Update Environment Variables & Secrets
