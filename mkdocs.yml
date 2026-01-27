@@ -81,7 +81,8 @@ nav:
       - Build Secrets: guides/build-secrets/index.md
       - Environment Variables: guides/environment-variables/index.md
       - Authentication:
-          - OAuth 2.0 Authentication: guides/authentication/index.md
+          - OAuth 2.0 Authenticationtest: guides/authentication/index.md
+          - OAuth 2.0 Header Migration Guide: guides/oauth-header-migration-guide/index.md
           - Azure Workload Identity: guides/workload-identity/index.md
       - Azure Key Vault: guides/azure-key-vaults/index.md
       - External DNS Alias:
