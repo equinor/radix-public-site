@@ -40,7 +40,7 @@ metadata:
    radix.equinor.com/preview-oauth2-proxy-mode: "dev,qa"
 ```
 
-After adding the annotation you need to deploy your application to the affected again.
+After adding the annotation you need to deploy your application to the affected environments again.
 
 # What to expect during the switch
 There may be a couple of seconds of downtime during the switch.
