@@ -1384,7 +1384,13 @@ oauth2:
 - `clientId` Required - The client ID of the application, e.g. the application ID of an application registration in Azure AD.
 
 - `scope` Optional. Default **openid profile email** - List of OIDC scopes and identity platform specific scopes. More information about scopes when using the Microsoft Identity Platform can be found [here](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent).
-- `setXAuthRequestHeaders` Optional. Default **false** - Adds claims from the access token to the _X-Auth-Request-User_, _X-Auth-Request-Groups_, _X-Auth-Request-Email_ and _X-Auth-Request-Preferred-Username_ request headers. The Access Token is added to the _X-Auth-Request-Access-Token_ header.
+- `setXAuthRequestHeaders` Optional. Default **false** - Adds claims from the access token to the _X-Forwarded-User_, _X-Forwarded-Groups_, _X-Forwarded-Email_ and _X-Forwarded-Preferred-Username_ request headers. The Access Token is added to the _X-Forwarded-Access-Token_ header.
+
+:::important
+_X-Auth-Request-*_ headers have been deprecated in favor of _X-Forwarded-*_ headers.
+A guide on how to migrate can be found [here](../guides/oauth-header-migration-guide/index.md)
+:::
+
 - `setAuthorizationHeader` Optional. Default **false** - Adds the OIDC ID Token in the _Authorization: Bearer_ request header.
 - `proxyPrefix` Optional. Default **/oauth2** - The root path that the OAuth2 proxy should be nested under. The OAuth2 proxy exposes various [endpoints](https://oauth2-proxy.github.io/oauth2-proxy/docs/features/endpoints) from this root path.
 - `oidc` OIDC configuration
