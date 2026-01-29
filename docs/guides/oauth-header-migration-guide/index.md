@@ -37,7 +37,7 @@ kind: RadixApplication
 metadata:
   name: my-app
   annotations:
-   radix.equinor.com/preview-oauth2-proxy-mode: "dev,qa"
+    radix.equinor.com/preview-oauth2-proxy-mode: "dev,qa"
 ```
 
 After adding the annotation you need to deploy your application to the affected environments again.
