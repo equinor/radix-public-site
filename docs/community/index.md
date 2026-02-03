@@ -2,7 +2,8 @@
 title: Community
 displayed_sidebar: communitySidebar
 ---
-
+import './team.css'
+import {Team} from './team-function'
 # Community
 
 Radix aims to be _the_ platform to build and deploy code within Equinor. It can only be that if it helps Equinor developers — that's you — succeed.
@@ -37,50 +38,18 @@ Check out what's new in the [Release register](../docs/topic-releases/index.md)
 
 ## The Radix team
 
+<br/>
+
+<div className="img-row">
+    <Team image="../images/radix-jonas-sorensen.jpg" name="Jonas Peter Sørensen" role="Product Responsible" />
+    <Team image="../images/radix-elsa-mayra-irgens.jpg" name="Elsa Mäyrä Irgens" role="Team Lead" />
+    <Team image="../images/radix-richard.jpg" name="Richard Hagen" role="Developer" />
+    <Team image="../images/radix-svein-petter-johnsen.jpg" name="Svein Petter Johnsen" role="Infrastructure" />
+    <Team image="../images/radix-nils-gustav-strabo.jpg" name="Nils Gustav Stråbø" role="Developer / Tech lead" />
+    <Team image="../images/radix-jacob-solberg-holm.jpg" name="Jacob Solberg Holm" role="Developer / App Sec" />
+</div>
+
+
 <div className="grid" markdown="markdown">
 
-<figure markdown="markdown" className="md-post__authors">
-![Jonas Peter Sørensen](../images/radix-jonas-sorensen.jpg)
-
-**Jonas Peter Sørensen**
-
-Product Responsible
-</figure>
-<figure markdown="markdown" className="md-post__authors">
-![Richard Hagen](../images/radix-richard.jpg)
-
-**Richard Hagen**
-
-Developer
-</figure>
-<figure markdown="markdown" className="md-post__authors">
-![Svein-Petter Johnsen](../images/radix-svein-petter-johnsen.jpg)
-
-**Svein-Petter Johnsen**
-
-Infrastructure
-</figure>
-<figure markdown="markdown" className="md-post__authors">
-![Nils Gustav Stråbø](../images/radix-nils-gustav-strabo.jpg)
-
-**Nils Gustav Stråbø**
-
-Developer
-</figure>
-<figure markdown="markdown" className="md-post__authors">
-![Elsa Mäyrä Irgens](../images/radix-elsa-mayra-irgens.jpg)
-
-**Elsa Mäyrä Irgens**
-
-Team Leader
-</figure>
-<figure markdown="markdown" className="md-post__authors">
-![Jacob Solberg Holm](../images/radix-jacob-solberg-holm.jpg)
-
-**Jacob Solberg Holm**
-
-Developer
-</figure>
-
-</div>
 
