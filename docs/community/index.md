@@ -40,11 +40,11 @@ Check out what's new in the [Release register](../docs/topic-releases/index.md)
 <div className="grid" markdown="markdown">
 
 <figure markdown="markdown" className="md-post__authors">
-![Atle Wilson](../images/radix-atle.jpg)
+![Jonas Peter Sørensen](../images/jonas-sorensen.jpg)
 
-**Atle Wilson**
+**Jonas Peter Sørensen**
 
-Product Owner
+Product Responsible
 </figure>
 <figure markdown="markdown" className="md-post__authors">
 ![Richard Hagen](../images/radix-richard.jpg)
