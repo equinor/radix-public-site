@@ -40,7 +40,7 @@ Check out what's new in the [Release register](../docs/topic-releases/index.md)
 <div className="grid" markdown="markdown">
 
 <figure markdown="markdown" className="md-post__authors">
-![Jonas Peter Sørensen](../images/jonas-sorensen.jpg)
+![Jonas Peter Sørensen](../images/radix-jonas-sorensen.jpg)
 
 **Jonas Peter Sørensen**
 
