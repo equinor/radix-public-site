@@ -31,6 +31,10 @@ Currently both header formats exist (with the same values), so you can safely te
 You choose when to switch by adding the `radix.equinor.com/preview-oauth2-proxy-mode` annotation to your _radixconfig.yaml_ file.
 The value for this annotation is a comma-separated list of environments where you want to enable proxy mode. You can also set a wildcard (`*`) to cover all environments.
 
+:::danger Important
+After adding the annotation you need to deploy your application to the affected environments again.
+:::
+
 ```yaml
 apiVersion: radix.equinor.com/v1
 kind: RadixApplication
@@ -40,7 +44,6 @@ metadata:
     radix.equinor.com/preview-oauth2-proxy-mode: "dev,qa"
 ```
 
-After adding the annotation you need to deploy your application to the affected environments again.
 
 # What to expect during the switch
 There may be a couple of seconds of downtime during the switch.
