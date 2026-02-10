@@ -2,6 +2,7 @@ apiVersion: backstage.io/v1alpha1
 kind: System
 metadata:
   name: Radix
+  title: Radix (110327)
   annotations:
     github.com/project-slug: equinor/radix-public-site
     backstage.io/techdocs-ref: dir:.
