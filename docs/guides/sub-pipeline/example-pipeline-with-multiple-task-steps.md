@@ -4,8 +4,6 @@ title: "Sub-pipeline with multiple task steps"
 
 # Sub-pipeline example: Pipeline with multiple task steps
 
-[Source code](https://github.com/equinor/radix-sub-pipeline-example/tree/pipeline-with-multiple-task-steps) for this example.
-
 * In the Radix application repository create a folder `tekton`. This folder need to be in the configuration branch and in the same folder, where `radixconfig.yaml` file is located (by default it is a root of the repository).
 * The sub-pipeline in this example runs a task, which has two steps.
 * Create a file `process-repo-task.yaml` for the task `process`. This task has two steps:

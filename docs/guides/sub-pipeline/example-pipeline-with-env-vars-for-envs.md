@@ -4,8 +4,6 @@ title: "Sub-pipeline with environment variables"
 
 # Sub-pipeline example: Pipeline with environment variables for environments
 
-[Source code](https://github.com/equinor/radix-sub-pipeline-example/tree/pipeline-example-with-env-vars-for-envs) for this example.
-
 * This example extends the example [Sub-pipeline with environment variables](./example-pipeline-with-env-vars.md). The differences are following:
 * In the task below:
   * There is two more parameters with names `CONNECTION_STRING` - mandatory, no default value, and `PROD_USER` - optional, set default value if it is not passed from the sub-pipeline.

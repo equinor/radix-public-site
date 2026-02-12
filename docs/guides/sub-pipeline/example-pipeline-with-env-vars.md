@@ -4,8 +4,6 @@ title: "Sub-pipeline with environment variables"
 
 # Sub-pipeline example: Pipeline with environment variables
 
-[Source code](https://github.com/equinor/radix-sub-pipeline-example/tree/pipeline-example-with-env-vars) for this example.
-
 * In the Radix application repository create a folder `tekton`. This folder need to be in the configuration branch and in the same folder, where `radixconfig.yaml` file is located (by default it is a root of the repository).
 * The sub-pipeline in this example runs one task.
 * Create a file `env-vars-list-task.yaml` for the task `env-vars-list`. This task has one step "show-env-vars-list", which runs in the container with Alpine Linux.
