@@ -147,7 +147,7 @@ We have not investigated using oauth-proxy when you need to call multiple API, w
 
 A single-page application (SPA) is a web application or web site that interacts with the user by dynamically rewriting the current page rather than loading entire new pages from a server. Web browser JavaScript frameworks, such as React, AngularJS, Vue.js, Ember.js, and ExtJS have adopted SPA principles. Most of these applications live entirely in the browser, which is an unsafe environment.
 
-Microsoft has a set of examples in their [documentation](https://docs.microsoft.com/en-us/azure/active-directory/develop/authentication-flows-app-scenarios#application-scenarios) or on [github](https://github.com/Azure-Samples?utf8=%E2%9C%93&q=active-directory&type=&language=) for how to authenticate a client from different languages using [MSAL](https://docs.microsoft.com/en-us/azure/active-directory/develop/msal-overview). Equinor also have a [template](https://github.com/equinor/videx-react-template) for developing SPA ReactJS applications. This is currently used and maintained by an Omnia team.
+Microsoft has a set of examples in their [documentation](https://docs.microsoft.com/en-us/azure/active-directory/develop/authentication-flows-app-scenarios#application-scenarios) or on [github](https://github.com/Azure-Samples?utf8=%E2%9C%93&q=active-directory&type=&language=) for how to authenticate a client from different languages using [MSAL](https://docs.microsoft.com/en-us/azure/active-directory/develop/msal-overview).
 
 Pro
 
