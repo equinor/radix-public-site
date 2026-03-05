@@ -74,7 +74,7 @@ When the pull request has been approved and merged, the policy will be updated.
 
 ## Request the Private Link/Endpoint
 
-Create an issue in the Radix Internal repo, [request a new private link](https://github.com/equinor/radix-internal/issues/new?template=privatelink.yaml)
+Create an issue in the Radix internal repo, [request a new private link](https://github.com/equinor/radix-internal/issues/new?template=privatelink.yaml)
 
 ```
 - [x] Confirm target subscription are whitelisted by Solum (as described above)  - or -
