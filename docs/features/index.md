@@ -1,9 +1,9 @@
 ---
-title: Features in Omnia Radix
+title: Features in Radix
 displayed_sidebar: featuresSidebar
 ---
 
-# Features in Omnia Radix
+# Features in Radix
 
 Sorted sort of alphabeticly.
 

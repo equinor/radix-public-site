@@ -3,7 +3,7 @@ import type { Config } from "@docusaurus/types";
 import { themes as prismThemes } from "prism-react-renderer";
 
 const config: Config = {
-	title: "Omnia Radix",
+	title: "Radix",
 	tagline: "Radix makes your app develop",
 	favicon: "images/logos/logo.svg",
 
@@ -49,9 +49,9 @@ const config: Config = {
 		// image: 'img/docusaurus-social-card.jpg',
 
 		navbar: {
-			title: "Omnia Radix",
+			title: "Radix",
 			logo: {
-				alt: "Omnia Radix Logo",
+				alt: "Radix Logo",
 				src: "images/logos/logo.svg",
 			},
 			items: [
