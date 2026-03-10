@@ -5,7 +5,7 @@ displayed_sidebar: featuresSidebar
 
 # Features in Radix
 
-Sorted sort of alphabeticly.
+Sorted alphabetically.
 
 
 ## Alerting and notification
