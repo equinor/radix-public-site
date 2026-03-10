@@ -12,5 +12,5 @@ Scale your components replicas up and down based on resources (CPU, memory) or e
 * [Azure Service Bus trigger](./keda-azure-service-bus-trigger-overview.md)
 * [Azure Event Hub trigger](./keda-azure-event-hub-trigger-overview.md)
 
-Other trigger types can be found at https://keda.sh/docs/latest/scalers/ , their support can be implemented in Radix with feature requests in https://github.com/equinor/radix-internal/issues
+Other trigger types can be found at https://keda.sh/docs/latest/scalers/, their support can be implemented in Radix with feature requests in https://github.com/equinor/radix-internal/issues
 
