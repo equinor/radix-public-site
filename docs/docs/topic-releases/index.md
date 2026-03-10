@@ -56,7 +56,7 @@ Added `proxyBufferSize` to the [`network.ingress.public`](../../radix-config/ind
 `proxyBufferSize` defines the size of the buffer used for reading the first part of the response received from the proxied server. The size must be large enough to hold the response headers.
 
 ### 2025-03-17 Improved volume mount cache
-- Fixed [issue](https://github.com/equinor/radix/issues/348) with stale files when mounting Azure storage account blob containers.
+- Fixed an issue with stale files when mounting Azure storage account blob containers.
 - Add block cache support, and used as default [options](../../guides/volume-mounts/index.md#block-cache), for [blobFuse2](../../radix-config/index.md#blobfuse2). See [guide](../../guides/volume-mounts/index.md) for details.
 
 ### 2025-03-03 Radix CLI gets and stops scheduled batches and jobs

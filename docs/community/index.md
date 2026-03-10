@@ -17,13 +17,13 @@ We are based in Forus Øst - A2 in Stavanger. If you see us on the corridor, say
 
 ## On Slack
 
-If you'd like to discuss the platform, features or improvements, head on to the main [Omnia Radix channel](https://equinor.slack.com/messages/C8U7XGGAJ). Stuck? App not building? Don't understand the docs? the place to ask is in [the support channel](https://equinor.slack.com/messages/CBKM6N2JY).
+If you'd like to discuss the platform, features or improvements, head on to the main [Radix channel](https://equinor.slack.com/messages/C8U7XGGAJ). Stuck? App not building? Don't understand the docs? the place to ask is in [the Radix support channel](https://equinor.slack.com/messages/CBKM6N2JY).
 
 Let us together build the Radix community!..
 
 ## On GitHub
 
-If you think you found a bug, or you have a concrete proposal, [log an issue](https://github.com/equinor/radix/issues) on GitHub. We have multiple repositories, but all issues are tracked in **radix repo**.
+If you think you found a bug, or you have a concrete proposal, [log an issue](https://github.com/equinor/radix-internal/issues) on GitHub. We have multiple repositories, but all issues are tracked in **radix repo**.
 
 ## eMail
 
@@ -31,7 +31,7 @@ We also monitor a common mailbox, so if this is an option for you to reach out, 
 
 ## Release register
 
-New features are publicly announced in the [Omnia Radix Slack channel](https://equinor.slack.com/messages/C8U7XGGAJ), and added to the release register page.  
+New features are publicly announced in the [Radix Slack channel](https://equinor.slack.com/messages/C8U7XGGAJ), and added to the release register page.  
 
 Check out what's new in the [Release register](../docs/topic-releases/index.md)
 

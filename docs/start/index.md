@@ -5,12 +5,12 @@ displayed_sidebar: gettingStartedSidebar
 
 # What is Radix
 
-Omnia Radix is a Platform-as-a-Service ("PaaS", if you like buzzwords). It builds, deploys, and monitors applications, automating the boring stuff and letting developers focus on code. Applications run in  ☁️ the cloud as 🐳 Docker containers, in environments that you define.
+Radix is a Platform-as-a-Service ("PaaS", if you like buzzwords). It builds, deploys, and monitors applications, automating the boring stuff and letting developers focus on code. Applications run in  ☁️ the cloud as 🐳 Docker containers, in environments that you define.
 
 You can use Radix just to run code, but the main functionality is to integrate with a code repository so that it can continuously build, test, and deploy applications. For instance, Radix can react to a `git push` event, automatically start a new build, and push it to the `test` environment, ready to be tested by users.
 
 :::tip
-To help improve Radix poke around in our **open sourced** repositories. We track **issues and feature requests** in the [radix](https://github.com/equinor/radix/issues) repo. Please log those! 🙂
+To help improve Radix poke around in our **open sourced** repositories. We track **issues and feature requests** in the [radix](https://github.com/equinor/radix-internal/issues) repo. Please log those! 🙂
 :::
 
 ## Hosting/Infrastructure
