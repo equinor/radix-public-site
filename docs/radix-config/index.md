@@ -857,6 +857,10 @@ The **blobFuse2** volume type adds support for mounting Azure storage account bl
 
 ### `ingressConfiguration`
 
+:::warning Deprecated with Istio and Gateway API
+`websocketfriendly` and `stickysessions` depend on ingress-nginx-specific behavior. `websocketfriendly` is no longer needed with Istio, and `stickysessions` is not currently supported by Istio for Gateway API. See [Ingress migration to Istio and Gateway API](../guides/ingress-nginx-to-istio/index.md).
+:::
+
 ```yaml
 spec:
   components:
@@ -1315,6 +1319,10 @@ Note that the environment config will override the component config for that spe
 
 #### `clientCertificate`
 
+:::warning Deprecated with Istio and Gateway API
+`clientCertificate` configures nginx client certificate authentication and will stop working after the migration to Istio and Gateway API. Replace this with application-level IP filtering based on trusted proxy handling and `X-Forwarded-For`. See [Ingress migration to Istio and Gateway API](../guides/ingress-nginx-to-istio/index.md).
+:::
+
 ```yaml
 clientCertificate:
   verification: "optional_no_ca"
@@ -1326,6 +1334,7 @@ clientCertificate:
 :::tip
 Note that the Client Certificate configuration will be omitted if the component does not have a public port.
 :::
+
 - `verification` Specifies type of verification of client certificates. Possible values are:
   - `off`: Don't request client certificates and don't do client certificate verification. (default)
   - `on`: Request a client certificate that must be signed by a certificate that is included in the secret key ca.crt of the secret specified by `nginx.ingress.kubernetes.io/auth-tls-secret: secretName`. Failed certificate verification will result in a status code 400 (Bad Request).
@@ -1582,6 +1591,10 @@ If you use the [`build and deploy`](../guides/build-and-deploy/index.md) pipelin
 For deploy-only components and jobs (with [`image`](#image) property set), make sure that the selected image supports the configured architecture. Many frequently used public images, like [nginx-unprivileged](https://hub.docker.com/r/nginxinc/nginx-unprivileged), includes variants for both `amd64` and `arm64` in the same image. Radix (Kubernetes) will pull the appropriate variant based on the configured architecture.
 
 ### `network` (detailed)
+
+:::warning Deprecated with Istio and Gateway API
+`network.ingress.public` settings were introduced for ingress-nginx and are being deprecated as Radix moves to Istio and Gateway API. In particular, `allow` must be implemented in the application using trusted proxy handling and `X-Forwarded-For`. The `proxyBodySize`, `proxyReadTimeout`, `proxySendTimeout`, `proxyBufferSize`, and `proxyRequestBuffering` options are no longer needed because Istio does not enforce those nginx-specific defaults. See [Ingress migration to Istio and Gateway API](../guides/ingress-nginx-to-istio/index.md).
+:::
 
 ```yaml
 spec:
