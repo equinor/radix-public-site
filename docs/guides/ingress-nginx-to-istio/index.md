@@ -6,15 +6,15 @@ title: Ingress-NGINX Migration to Istio and Gateway API
 
 Ingress-NGINX, our current ingress controller, is being retired. To move to a supported platform, Radix is migrating from the Kubernetes Ingress API to the Gateway API and replacing [Ingress-NGINX](https://github.com/kubernetes/ingress-NGINX) with [Istio](https://istio.io/). This removes Ingress-NGINX-specific behavior from the platform and aligns public ingress with the technology Radix will support going forward.
 
-Some existing Radix features depend on Ingress-NGINX-specific behavior, or on capabilities that are not currently available in the Gateway API and Istio setup used by Radix. Those features should therefore be treated as deprecated and replaced in application code or application architecture.
+Some existing Radix features depend on Ingress-NGINX-specific behavior, or on capabilities that are not currently available in the Gateway API and Istio setup used by Radix. Those features will be removed and should be replaced in application code or application architecture.
 
 ## TL;DR
 
-- Breaking changes and deprecated features:
+- Breaking changes and features that will be removed:
 	- [External DNS A records](#external-dns-a-records) pointing directly to an Ingress-NGINX IP must be updated to the corresponding Istio IP.
-	- [`clientCertificate`](#client-certificate-authentication) is deprecated and must be replaced in application code.
-	- [`ingressConfiguration`](#ingressconfiguration) is deprecated, including `stickysessions` and `websocketfriendly`.
-	- [`spec.components.network.ingress.public`](#public-ingress-configuration) is deprecated for public ingress settings. The `allow` list must be moved into application code, and the `proxy*` settings no longer have any effect after migration. See [IP filtering examples](#ip-filtering-examples).
+	- [`clientCertificate`](#client-certificate-authentication) will be removed and must be replaced in application code.
+	- [`ingressConfiguration`](#ingressconfiguration) will be removed, including `stickysessions` and `websocketfriendly`.
+	- [`spec.components.network.ingress.public`](#public-ingress-configuration) will be removed for public ingress settings. The `allow` list must be moved into application code, and the `proxy*` settings no longer have any effect after migration. See [IP filtering examples](#ip-filtering-examples).
 - How to test:
 	- Follow [Test traffic through Istio](#test-traffic-through-istio) and add the `radix.equinor.com/preview-gateway-mode` annotation in `radixconfig.yaml` with a comma-separated list of environments, for example `dev,qa`.
 	- Use `*` as the value to route all environments through Istio.
@@ -26,7 +26,7 @@ Some existing Radix features depend on Ingress-NGINX-specific behavior, or on ca
 
 Phase 1 ends on Friday, April 10.
 
-Applications that use deprecated features must:
+Applications that use features that will be removed must:
 
 - implement the recommended fixes
 - test the application using the `radix.equinor.com/preview-gateway-mode` annotation in `radixconfig.yaml`
@@ -100,7 +100,7 @@ The exception is an apex record, which must remain an A record.
 
 ### Client certificate authentication
 
-The [`clientCertificate`](../../radix-config/index.md#clientcertificate) section configures NGINX client certificate authentication for a public component. This is deprecated because the Gateway API does not currently support this capability in the way Radix used it with Ingress-NGINX.
+The [`clientCertificate`](../../radix-config/index.md#clientcertificate) section configures NGINX client certificate authentication for a public component. This feature will be removed because the Gateway API does not currently support this capability in the way Radix used it with Ingress-NGINX.
 
 If you rely on this for access control, replace it with an IP allow list in your application code. Because requests arrive through trusted proxies, configure your application to trust the proxy chain and inspect the [`X-Forwarded-For`](../../docs/topic-runtime-env/index.md#request-headers) header to determine the original client IP before applying the allow list.
 
@@ -108,11 +108,11 @@ See the [NGINX example](#nginx-ip-filtering-example) and [ASP.NET example](#aspn
 
 ### ingressConfiguration
 
-The [`ingressConfiguration`](../../radix-config/index.md#ingressconfiguration) section is deprecated. These settings were implemented for Ingress-NGINX and do not carry over to the Gateway API migration.
+The [`ingressConfiguration`](../../radix-config/index.md#ingressconfiguration) section will be removed. These settings were implemented for Ingress-NGINX and do not carry over to the Gateway API migration.
 
 #### stickysessions
 
-The `stickysessions` option is deprecated. Session persistence is defined in the Gateway API, but it is not currently supported by Istio for Radix public ingress.
+The `stickysessions` option will be removed. Session persistence is defined in the Gateway API, but it is not currently supported by Istio for Radix public ingress.
 
 In practice this is usually only required when using SignalR with negotiate enabled, which is the default. The preferred workaround is to disable negotiate and always use WebSockets, since modern browsers support WebSockets. If that is not possible, consider using Azure SignalR Service.
 
@@ -124,7 +124,7 @@ Istio does not define a default request timeout for this path, so Radix no longe
 
 ### Public ingress configuration
 
-The [`spec.components.network.ingress.public`](../../radix-config/index.md#network-detailed) section is deprecated. These public ingress settings were implemented for Ingress-NGINX and do not carry over to the Gateway API migration.
+The [`spec.components.network.ingress.public`](../../radix-config/index.md#network-detailed) section will be removed. These public ingress settings were implemented for Ingress-NGINX and do not carry over to the Gateway API migration.
 
 All settings in this section can be safely disregarded, except `allow`. This includes the following Ingress-NGINX-specific override settings:
 
