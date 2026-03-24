@@ -153,8 +153,6 @@ Replace the example allowed client ranges with values that match your setup.
 
 ```csharp
 using System.Net;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -164,15 +162,15 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
 	options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
 
 	// Trust Istio proxies in Radix.
-	options.KnownNetworks.Add(new IPNetwork(IPAddress.Parse("10.0.0.0"), 8));
+	options.KnownIPNetworks.Add(new System.Net.IPNetwork(IPAddress.Parse("10.0.0.0"), 8));
 });
 
 var app = builder.Build();
 
 var allowedNetworks = new[]
 {
-	new IPNetwork(IPAddress.Parse("203.0.113.10"), 32),
-	new IPNetwork(IPAddress.Parse("143.97.110.1"), 24),
+	new System.Net.IPNetwork(IPAddress.Parse("203.0.113.10"), 32),
+	new System.Net.IPNetwork(IPAddress.Parse("143.97.110.1"), 24),
 };
 
 app.UseForwardedHeaders();
