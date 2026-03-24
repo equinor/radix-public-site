@@ -47,6 +47,24 @@ metadata:
     radix.equinor.com/preview-gateway-mode: "*"
 ```
 
+## Network configuration
+
+The clusters currently run with both Ingress-NGINX and Istio. Ingress-NGINX and Istio use different load balancer IP addresses.
+
+| Cluster | Region | Ingress-NGINX IP | Istio IP |
+| --- | --- | --- | --- |
+| Platform | North Europe | `20.223.122.1` | `20.223.122.2` |
+| Platform 2 | West Europe | `20.61.119.160` | `20.61.119.163` |
+| Platform 3 | Sweden Central | `51.12.145.16` | `51.12.145.17` |
+
+When all applications have been migrated to Istio, Ingress-NGINX will be removed from the clusters. At that point, the Ingress-NGINX load balancer and its IP addresses will also be removed.
+
+## External DNS A records
+
+If you have A records in another DNS zone that point directly to the Ingress-NGINX IP address, you need to update those records to point to the corresponding Istio IP address instead.
+
+This is especially important for custom DNS records that are not managed by Radix. If those records continue to point to the Ingress-NGINX load balancer, traffic will not follow the Istio path after migration.
+
 ## Client certificate authentication
 
 The [`clientCertificate`](../../radix-config/index.md#clientcertificate) section configures NGINX client certificate authentication for a public component. This is deprecated because the Gateway API does not currently support this capability in the way Radix used it with Ingress-NGINX.
