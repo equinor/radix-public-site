@@ -8,6 +8,23 @@ Ingress-NGINX, our current ingress controller, is being retired. To move to a su
 
 Some existing Radix features depend on Ingress-NGINX-specific behavior, or on capabilities that are not currently available in the Gateway API and Istio setup used by Radix. Those features should therefore be treated as deprecated and replaced in application code or application architecture.
 
+## Migration plan
+
+### Phase 1
+
+Phase 1 ends on Friday, April 10.
+
+Applications that use deprecated features must:
+
+- implement the recommended fixes
+- test the application using the `radix.equinor.com/preview-gateway-mode` annotation in `radixconfig.yaml`
+
+### Phase 2
+
+Phase 2 runs from April 13 to April 18.
+
+During this period, the Radix team will gradually migrate applications so that traffic is routed through Istio.
+
 ## Test traffic through Istio
 
 You can test routing traffic through Istio before switching fully by adding the `radix.equinor.com/preview-gateway-mode` annotation to your `radixconfig.yaml` file.
