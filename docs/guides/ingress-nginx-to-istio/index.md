@@ -152,7 +152,7 @@ These examples are illustrative only. In most cases they will need to be modifie
 
 If your application is fronted by NGINX, configure NGINX to trust the `10.0.0.0/8` private range, derive the client IP from `X-Forwarded-For`, and deny requests that are not in the allowed ranges.
 
-This is safe because only Istio is allowed to connect to containers in an application's environment.
+This is safe because only Istio and Ingress-NGINX are allowed to connect to containers in an application's environment.
 
 Replace the example allowed client ranges with values that match your setup.
 
@@ -180,7 +180,7 @@ server {
 
 If your application is built with ASP.NET Core, configure forwarded headers so the application trusts the `10.0.0.0/8` private range used by Istio in Radix, then apply IP filtering in middleware.
 
-This is safe because only Istio is allowed to connect to containers in an application's environment.
+This is safe because only Istio and Ingress-NGINX are allowed to connect to containers in an application's environment.
 
 Replace the example allowed client ranges with values that match your setup.
 
