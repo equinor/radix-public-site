@@ -82,7 +82,9 @@ When all applications have been migrated to Istio, Ingress-NGINX will be removed
 
 If you have A records in another DNS zone that point directly to the Ingress-NGINX IP address, you need to update those records to point to the corresponding Istio IP address instead.
 
-This is especially important for custom DNS records that are not managed by Radix. If those records continue to point to the Ingress-NGINX load balancer, traffic will not follow the Istio path after migration.
+Where possible, change those records to CNAME records that point to the Radix-specific DNS name for the application instead of pointing directly to a load balancer IP address. This makes the record follow future platform changes automatically.
+
+The exception is an apex record, which must remain an A record.
 
 ### Client certificate authentication
 
@@ -216,7 +218,7 @@ app.Run();
 
 ## Migration checklist
 
-- Update any external DNS A records that point to an Ingress-NGINX load balancer IP so they point to the corresponding Istio IP instead.
+- Update any external DNS A records that point to an Ingress-NGINX load balancer IP.
 - Remove reliance on client certificate authentication.
 - Replace `allow` IP filtering with application-level filtering based on trusted proxy handling and `X-Forwarded-For`.
 - Remove reliance on `stickysessions`; for SignalR, prefer WebSocket-only transport or Azure SignalR Service.
