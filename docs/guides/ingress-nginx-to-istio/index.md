@@ -4,7 +4,7 @@ title: Ingress-NGINX Migration to Istio and Gateway API
 
 # Ingress-NGINX migration to Istio and Gateway API
 
-Ingress-NGINX, our current ingress controller, is being retired. To move to a supported platform, Radix is migrating from the Kubernetes Ingress API to the Gateway API and replacing [Ingress-NGINX](https://github.com/kubernetes/ingress-NGINX) with [Istio](https://istio.io/). This removes NGINX-specific behavior from the platform and aligns public ingress with the technology Radix will support going forward.
+Ingress-NGINX, our current ingress controller, is being retired. To move to a supported platform, Radix is migrating from the Kubernetes Ingress API to the Gateway API and replacing [Ingress-NGINX](https://github.com/kubernetes/ingress-NGINX) with [Istio](https://istio.io/). This removes Ingress-NGINX-specific behavior from the platform and aligns public ingress with the technology Radix will support going forward.
 
 Some existing Radix features depend on Ingress-NGINX-specific behavior, or on capabilities that are not currently available in the Gateway API and Istio setup used by Radix. Those features should therefore be treated as deprecated and replaced in application code or application architecture.
 
@@ -76,13 +76,15 @@ The clusters currently run with both Ingress-NGINX and Istio. Ingress-NGINX and 
 
 When all applications have been migrated to Istio, Ingress-NGINX will be removed from the clusters. At that point, the Ingress-NGINX load balancer and its IP addresses will also be removed.
 
-## External DNS A records
+## Breaking changes
+
+### External DNS A records
 
 If you have A records in another DNS zone that point directly to the Ingress-NGINX IP address, you need to update those records to point to the corresponding Istio IP address instead.
 
 This is especially important for custom DNS records that are not managed by Radix. If those records continue to point to the Ingress-NGINX load balancer, traffic will not follow the Istio path after migration.
 
-## Client certificate authentication
+### Client certificate authentication
 
 The [`clientCertificate`](../../radix-config/index.md#clientcertificate) section configures NGINX client certificate authentication for a public component. This is deprecated because the Gateway API does not currently support this capability in the way Radix used it with Ingress-NGINX.
 
@@ -90,23 +92,23 @@ If you rely on this for access control, replace it with an IP allow list in your
 
 See the [NGINX example](#nginx-ip-filtering-example) and [ASP.NET example](#aspnet-ip-filtering-example) at the bottom of this document.
 
-## ingressConfiguration
+### ingressConfiguration
 
 The [`ingressConfiguration`](../../radix-config/index.md#ingressconfiguration) section is deprecated. These settings were implemented for Ingress-NGINX and do not carry over to the Gateway API migration.
 
-### `stickysessions`
+#### stickysessions
 
 The `stickysessions` option is deprecated. Session persistence is defined in the Gateway API, but it is not currently supported by Istio for Radix public ingress.
 
 In practice this is usually only required when using SignalR with negotiate enabled, which is the default. The preferred workaround is to disable negotiate and always use WebSockets, since modern browsers support WebSockets. If that is not possible, consider using Azure SignalR Service.
 
-### `websocketfriendly`
+#### websocketfriendly
 
 The `websocketfriendly` option is no longer needed. It existed to override Ingress-NGINX defaults by increasing the connection timeout to one hour for long-lived connections.
 
 Istio does not define a default request timeout for this path, so Radix no longer needs a special ingress override for this scenario. If your application still requires explicit timeouts, implement them in the application itself.
 
-## Public ingress configuration
+### Public ingress configuration
 
 The [`spec.components.network.ingress.public`](../../radix-config/index.md#network-detailed) section is deprecated. These public ingress settings were implemented for Ingress-NGINX and do not carry over to the Gateway API migration.
 
@@ -214,6 +216,7 @@ app.Run();
 
 ## Migration checklist
 
+- Update any external DNS A records that point to an Ingress-NGINX load balancer IP so they point to the corresponding Istio IP instead.
 - Remove reliance on client certificate authentication.
 - Replace `allow` IP filtering with application-level filtering based on trusted proxy handling and `X-Forwarded-For`.
 - Remove reliance on `stickysessions`; for SignalR, prefer WebSocket-only transport or Azure SignalR Service.
