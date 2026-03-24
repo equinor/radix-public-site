@@ -8,6 +8,18 @@ Ingress-NGINX, our current ingress controller, is being retired. To move to a su
 
 Some existing Radix features depend on Ingress-NGINX-specific behavior, or on capabilities that are not currently available in the Gateway API and Istio setup used by Radix. Those features should therefore be treated as deprecated and replaced in application code or application architecture.
 
+## TL;DR
+
+- Breaking changes and deprecated features:
+	- [External DNS A records](#external-dns-a-records) pointing directly to an Ingress-NGINX IP must be updated to the corresponding Istio IP.
+	- [`clientCertificate`](#client-certificate-authentication) is deprecated and must be replaced in application code.
+	- [`ingressConfiguration`](#ingressconfiguration) is deprecated, including `stickysessions` and `websocketfriendly`.
+	- [`spec.components.network.ingress.public`](#public-ingress-configuration) is deprecated for public ingress settings. The `allow` list must be moved into application code, and the `proxy*` settings no longer have any effect after migration. See [IP filtering examples](#ip-filtering-examples).
+- How to test:
+	- Follow [Test traffic through Istio](#test-traffic-through-istio) and add the `radix.equinor.com/preview-gateway-mode` annotation in `radixconfig.yaml` with a comma-separated list of environments, for example `dev,qa`.
+	- Use `*` as the value to route all environments through Istio.
+	- After enabling it, wait for DNS to update before verifying traffic. See [Network configuration](#network-configuration).
+
 ## Migration plan
 
 ### Phase 1
