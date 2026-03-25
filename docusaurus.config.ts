@@ -83,10 +83,26 @@ const config: Config = {
 	} satisfies Preset.ThemeConfig,
 	themes: [
 		[
-			require.resolve("docusaurus-lunr-search"),
+			require.resolve("@easyops-cn/docusaurus-search-local"),
 			{
-				maxHits: 10,
-				highlightResult: true,
+				hashed: true,
+				indexDocs: true,
+				indexPages: true,
+				highlightSearchTermsOnTargetPage: true,
+				searchResultContextMaxLength: 50,
+
+				// Language and content
+				language: ["en"],
+				removeDefaultStopWordFilter: false,
+
+				// UI customization
+				searchBarShortcut: true,
+				searchBarShortcutHint: true,
+				searchBarPosition: "right",
+
+				// Performance
+				explicitSearchResultPath: false,
+				searchContextByPaths: [],
 			},
 		],
 	],
