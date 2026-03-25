@@ -30,7 +30,7 @@ You can continue using the same FQDN to access the remote resource after the Pri
 
 ## A word about On-Premise
 
-If your resource type has a Private DNS Zone in Omnia Classic, you **cannot** create private endpoints to Omnia Radix.
+If your resource type has a Private DNS Zone in Omnia Classic, you **cannot** create private endpoints to Radix.
 
 If you do so, devices on-premise will fail to resolve to the correct IP and will stop working. 
 This applies to Blob Storage for Azure Storage Accounts and SQL Server among many others.
@@ -38,11 +38,11 @@ This applies to Blob Storage for Azure Storage Accounts and SQL Server among man
 It is relatively easy to test:
 
 1. Create the Private endpoint using Radix Issue workflow linked above.
-2. Approve the private endpoint (this will create the required DNS records in Omnia Radix).
+2. Approve the private endpoint (this will create the required DNS records in Radix).
 3. Verify connectivity in On-Premise devices.
 4. **If they fail**, just remove the private endpoint in your resource's network pane in Azure Portal (this will remove any broken DNS records).
 
-For any surprises, notify Radix in **#omnia-radix-support** and we can update this document.
+For any surprises, notify Radix in **[#radix-support](https://equinor.slack.com/messages/CBKM6N2JY)** and we can update this document.
 
 ## A word about Omnia Classic
 

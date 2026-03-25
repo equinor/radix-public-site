@@ -1,11 +1,11 @@
 ---
-title: Features in Omnia Radix
+title: Features in Radix
 displayed_sidebar: featuresSidebar
 ---
 
-# Features in Omnia Radix
+# Features in Radix
 
-Sorted sort of alphabeticly.
+Sorted alphabetically.
 
 
 ## Alerting and notification
@@ -20,6 +20,10 @@ Radix can send alerts about failing pipeline jobs, components or jobs to Slack u
 [Radix config reference](../radix-config/index.md#authentication)
 
 ### Client certificates
+
+:::warning Deprecated with Istio and Gateway API
+`clientCertificate` configures nginx client certificate authentication and will stop working after the migration to Istio and Gateway API. Replace this with application-level IP filtering based on trusted proxy handling and `X-Forwarded-For`. See [Ingress migration to Istio and Gateway API](../guides/ingress-nginx-to-istio/index.md).
+:::
 
 ClientCertificates, which can be configured for a component or a specific environment.
 
