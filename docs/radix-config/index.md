@@ -1911,6 +1911,20 @@ spec:
 
 Defines the number of times a job will be restarted if its container exits in error. Once the `backoffLimit` has been reached the job will be marked as `Failed`. The default value is `0`.
 
+### `safeToRestart`
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      schedulerPort: 8000
+      safeToRestart: true
+```
+
+Indicates whether a job is safe to restart during maintenance or node draining. When set to `true`, the platform may restart the job if the node it is running on needs to be drained or replaced. When set to `false`, the platform will not restart the job and it may be terminated.
+
+If `safeToRestart` is not explicitly set, its default depends on `timeLimitSeconds`: if `timeLimitSeconds` is greater than or equal to 3 days (259200 seconds), `safeToRestart` defaults to `true`; if `timeLimitSeconds` is less than 3 days, `safeToRestart` defaults to `false`. When `timeLimitSeconds` itself is not set, it defaults to `43200` seconds (12 hours), which is below the 3-day threshold, so `safeToRestart` then defaults to `false`.
+
 ### `failurePolicy`
 
 ```yaml
@@ -2162,6 +2176,19 @@ spec:
 ```
 
 See [backoffLimit](#backofflimit) for more information.
+
+#### `safeToRestart`
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      environmentConfig:
+        - environment: prod
+          safeToRestart: false
+```
+
+See [safeToRestart](#safetorestart) for more information.
 
 #### `failurePolicy`
 

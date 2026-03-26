@@ -30,6 +30,7 @@ spec:
       schedulerPort: 9000
       timeLimitSeconds: 100
       backoffLimit: 5
+      safeToRestart: true
       failurePolicy:
         rules:
           - action: FailJob
