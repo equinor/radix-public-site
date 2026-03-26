@@ -63,7 +63,7 @@ jobs:
     name: Build and Deploy
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
             
       - name: Build image tags
         id: metadata
