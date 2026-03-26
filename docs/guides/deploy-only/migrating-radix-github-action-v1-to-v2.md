@@ -24,7 +24,7 @@ jobs:
       - name: 'Get Azure principal token for Radix'
         run: |
           echo "APP_SERVICE_ACCOUNT_TOKEN=hello-world" >> $GITHUB_ENV
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: 'Validate public-site'
         uses: equinor/radix-github-actions@v1
         with:
@@ -46,7 +46,7 @@ jobs:
   validate-radixconfig:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: equinor/radix-github-actions@v2
       - name: 'Validate public-site'
         run: rx validate radix-config --config-file radixconfig.yaml
@@ -109,7 +109,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
     - uses: equinor/radix-github-actions@v2
       with:
         azure_client_id: "00000000-0000-0000-0000-000000000000"
