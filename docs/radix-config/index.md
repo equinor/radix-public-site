@@ -1923,7 +1923,7 @@ spec:
 
 Indicates whether a job is safe to restart during maintenance or node draining. When set to `true`, the platform may restart the job if the node it is running on needs to be drained or replaced. When set to `false`, the platform will not restart the job and it may be terminated.
 
-If `safeToRestart` is not explicitly set, it defaults to `true` if `timeLimitSeconds` is above 3 days (defaults to 12 hours).
+If `safeToRestart` is not explicitly set, its default depends on `timeLimitSeconds`: if `timeLimitSeconds` is greater than or equal to 3 days (259200 seconds), `safeToRestart` defaults to `true`; if `timeLimitSeconds` is less than 3 days, `safeToRestart` defaults to `false`. When `timeLimitSeconds` itself is not set, it defaults to `43200` seconds (12 hours), which is below the 3-day threshold, so `safeToRestart` then defaults to `false`.
 
 ### `failurePolicy`
 

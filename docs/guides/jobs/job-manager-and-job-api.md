@@ -90,7 +90,7 @@ When `command` field is set to an empty array `[]`, it will suppress `command` o
 
 When `args` field is set to an empty array `[]`, it will suppress `args` on the job-component or its `environmentConfig` level if exists, an [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive in the Dockerfile will be used if defined.
 #### safeToRestart
-`safeToRestart` - indicates whether a job is safe to restart during maintenance or node draining. When set to `true`, the platform may restart the job if the node it is running on needs to be drained. Defaults to `true` if not set and `timeLimitSeconds` is equal or above 3 days (defaults to 12 hours). Read more about [safeToRestart](../../radix-config/index.md#safetorestart)
+`safeToRestart` - indicates whether a job is safe to restart during maintenance or node draining. When set to `true`, the platform may restart the job if the node it is running on needs to be drained. Defaults to `true` if not set and `timeLimitSeconds` exceeds 3 days; otherwise defaults to `false`. If `timeLimitSeconds` is not set, it defaults to 12 hours. Read more about [safeToRestart](../../radix-config/index.md#safetorestart)
 
 ## Create a batch of jobs
 
