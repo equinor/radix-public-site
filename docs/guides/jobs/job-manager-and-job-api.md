@@ -34,6 +34,7 @@ The Job Manager exposes the following methods for managing jobs:
   "imageTagName": "1.0.0",
   "timeLimitSeconds": 120,
   "backoffLimit": 10,
+  "safeToRestart": true,
   "failurePolicy": {
     "rules": [
       {
@@ -70,7 +71,7 @@ The Job Manager exposes the following methods for managing jobs:
 }
 ```
 ### Parameters
-`payload`, `jobId`, `image`, `imageTagName`, `timeLimitSeconds`, `backoffLimit`, `failurePolicy`, `resources`, `runtime`, `variables`, `command`, `args` are optional fields and any of them can be omitted in the request.
+`payload`, `jobId`, `image`, `imageTagName`, `timeLimitSeconds`, `backoffLimit`, `safeToRestart`, `failurePolicy`, `resources`, `runtime`, `variables`, `command`, `args` are optional fields and any of them can be omitted in the request.
 
 #### image
 `image` field allows to alter specific job's [`image`](../../radix-config/index.md#image-job)
@@ -88,6 +89,8 @@ When `command` field is set to an empty array `[]`, it will suppress `command` o
 `args` - sets or overrides [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive array in a docker image. It can also override the job-component's `args` if it exists. Read more about [args](../../radix-config/index.md#args)
 
 When `args` field is set to an empty array `[]`, it will suppress `args` on the job-component or its `environmentConfig` level if exists, an [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive in the Dockerfile will be used if defined.
+#### safeToRestart
+`safeToRestart` - indicates whether a job is safe to restart during maintenance or node draining. When set to `true`, the platform may restart the job if the node it is running on needs to be drained. Defaults to `true` if not set and `timeLimitSeconds` is equal or above 3 days (defaults to 12 hours). Read more about [safeToRestart](../../radix-config/index.md#safetorestart)
 
 ## Create a batch of jobs
 
@@ -100,6 +103,7 @@ When `args` field is set to an empty array `[]`, it will suppress `args` on the 
     "imageTagName": "1.0.0",
     "timeLimitSeconds": 200,
     "backoffLimit": 5,
+    "safeToRestart": true,
     "resources": {
       "limits": {
         "memory": "200Mi",
@@ -322,6 +326,7 @@ Default [parameters](#parameters) for jobs can be defined within `DefaultRadixJo
     "imageTagName": "1.0.0",
     "timeLimitSeconds": 200,
     "backoffLimit": 5,
+    "safeToRestart": true,
     "resources": {
       "limits": {
         "memory": "200Mi",
