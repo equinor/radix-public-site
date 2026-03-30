@@ -77,19 +77,19 @@ jobs:
           echo "repo=${repo}" >> $GITHUB_OUTPUT 
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd
 
       # Login, build and push the image to your preffered registry
 
       - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }} # Use the default GITHUB_TOKEN for ghcr.io
           
       - name: Build and push docker image
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294
         with:
           push: true
             ghcr.io/${{ steps.metadata.outputs.repo }}:latest
