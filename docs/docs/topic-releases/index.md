@@ -4,6 +4,11 @@ title: What's new
 
 # What's new
 
+## 2026
+
+### 2026-03-26 New `safeToRestart` flag for jobs
+Added `safeToRestart` option for job components in [radixconfig](../../radix-config/index.md#safetorestart) and the [job scheduler API](../../guides/jobs/job-manager-and-job-api.md#safetorestart). When set to `true`, the platform may restart a job during node maintenance or draining. Defaults to `true` if not set and `timeLimitSeconds` is equal to or above 3 days.
+
 ## 2025
 
 ### 2025-11-06 Run an image as a given user
