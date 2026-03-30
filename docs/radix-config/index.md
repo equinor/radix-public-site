@@ -1923,7 +1923,17 @@ spec:
 
 Indicates whether a job is safe to restart during maintenance or node draining. When set to `true`, the platform may restart the job if the node it is running on needs to be drained or replaced. When set to `false`, the platform will not restart the job and it may be terminated.
 
-If `safeToRestart` is not explicitly set, its default depends on `timeLimitSeconds`: if `timeLimitSeconds` is greater than or equal to 3 days (259200 seconds), `safeToRestart` defaults to `true`; if `timeLimitSeconds` is less than 3 days, `safeToRestart` defaults to `false`. When `timeLimitSeconds` itself is not set, it defaults to `43200` seconds (12 hours), which is below the 3-day threshold, so `safeToRestart` then defaults to `false`.
+If `safeToRestart` is not explicitly set, the default depends on `timeLimitSeconds`:
+
+- `timeLimitSeconds` >= 3 days (`259200`) -> `safeToRestart: true`
+- `timeLimitSeconds` < 3 days -> `safeToRestart: false`
+- `timeLimitSeconds` not set -> defaults to `43200` (12 hours), so `safeToRestart: false`
+
+:::tip
+When a pod is being terminated (for example during node drain or maintenance), Kubernetes sends a `SIGTERM` signal to the process and waits up to 30 seconds before forcefully killing the container with `SIGKILL`.
+
+To make restarts safer, handle `SIGTERM` in your application and exit with a dedicated non-zero code (for example `143`) after graceful shutdown, then configure [`failurePolicy`](#failurepolicy) to `Ignore` that exit code so it does not count towards [`backoffLimit`](#backofflimit).
+:::
 
 ### `failurePolicy`
 
