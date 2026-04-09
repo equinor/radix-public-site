@@ -59,14 +59,14 @@ spec:
 The `build` section of the spec contains configuration used during the build process of the components and jobs.
 
 ### `useBuildKit`
-`useBuildKit` - (optional, default `false` for backwards compatibility) builds components and jobs using [Buildah](https://www.redhat.com/en/topics/containers/what-is-buildah). This option provides several benefits over the default Radix build engine:
-- Secure handling of [**build secrets**](../guides/build-secrets/index.md#build-secrets-with-buildkit).
+`useBuildKit` - builds components and jobs using [Buildah](https://www.redhat.com/en/topics/containers/what-is-buildah). **This should always be set to `true`.** Benefits over the legacy build engine include:
+- **More secure** handling of [**build secrets**](../guides/build-secrets/index.md#build-secrets-with-buildkit), and enables further security improvements not possible with the legacy method.
 - Caching support that can reduce build time, see [`useBuildCache`](#usebuildcache).
 - Use images from protected container registries defined in [`privateImageHubs`](#privateimagehubs), in the Dockerfile's `FROM` instructions.
-- Faster builds due to less steps involved and higher performance nodes.
+- **Faster builds** due to fewer steps involved and higher performance nodes.
 
-:::tip
-`useBuildKit` is the recommended way to build containers and will be the default in the future.
+:::warning Deprecated: `useBuildKit: false` (or not set)
+Not setting `useBuildKit` to `true` is **deprecated** and will be removed in a future release. This primarily affects users who use [**build secrets**](../guides/build-secrets/index.md) — if you rely on build secrets with the legacy method (`useBuildKit: false` or unset), you should migrate to `useBuildKit: true` as soon as possible. See the [build secrets guide](../guides/build-secrets/index.md#build-secrets-with-buildkit) for migration instructions.
 :::
 
 ### `useBuildCache`
@@ -97,8 +97,8 @@ spec:
 `secrets` - (optional) Defines secrets to be used in Dockerfiles or [sub-pipelines](../guides/sub-pipeline/index.md). Secrets values must be set in Radix Web Console. `build-deploy` jobs will fail if not all secret values are set.
 
 :::tip
-* When an option `useBuildKit: false`, to ensure that multiline build secrets are handled correct by the build, **all** build secrets are passed as `ARG`-s during container build, base-64 encoded (they need to be decoded before use).
-* When an option `useBuildKit: true`, build secrets are not available as `ARG`-s during container build, but they can be mounted as files. Secret values are not base-64 encoded in these files.
+* When `useBuildKit: true`, build secrets are not available as `ARG`-s during container build, but they can be mounted as files. Secret values are not base-64 encoded in these files.
+* **(Deprecated)** When `useBuildKit: false` or not set, build secrets are passed as `ARG`-s during container build, base-64 encoded. This method is deprecated — migrate to `useBuildKit: true`.
 
 Read the [build secrets](../guides/build-secrets/index.md) guide to see how to use build secrets in a Dockerfile.
 :::

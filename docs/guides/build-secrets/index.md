@@ -3,11 +3,20 @@ title: Build Secrets
 ---
 
 # Build secrets
-* [With an option `useBuildKit: false`](./#build-secrets-without-buildkit)
-* [With an option `useBuildKit: true`](./#build-secrets-with-buildkit)
 
+:::warning Deprecated: Build secrets without BuildKit
+The legacy build secret method (`useBuildKit: false` or not set) is **deprecated**. If you are using build secrets with the legacy method, you should migrate to `useBuildKit: true` as soon as possible. `useBuildKit: true` is more secure, enables further security improvements not possible with the legacy method, and is faster in many cases. See [Build secrets with BuildKit](./#build-secrets-with-buildkit) for the recommended approach.
+:::
 
-## Build secrets without BuildKit  
+* [With `useBuildKit: true` **(recommended)**](./#build-secrets-with-buildkit)
+* [With `useBuildKit: false` **(deprecated)**](./#build-secrets-without-buildkit)
+
+## Build secrets without BuildKit (deprecated) {#build-secrets-without-buildkit}
+
+:::danger Deprecated
+This method is deprecated and will be removed in a future release. Migrate to [`useBuildKit: true`](../../radix-config/index.md#usebuildkit).
+:::
+
 With an option `spec.build.useBuildKit: false`, to ensure that multiline build secrets are handled correct by the build, **all** [Build secrets](../../radix-config/index.md#secrets) are passed as `ARG`-s during container build, base-64 encoded (they need to be decoded before use).
 
 ```dockerfile
@@ -45,8 +54,8 @@ FROM mcr.microsoft.com/dotnet/aspnet:5.0
 ARG SECRET1
 #.....
 ```
-## Build secrets with BuildKit  
-With an option `spec.build.useBuildKit: true`, build secrets are not available as `ARG`-s during container build. [Build secrets](../../radix-config/index.md#secrets) can be mounted as files within the `RUN` directive. BuildKit is an improved backend to replace the legacy builder. Read [more](https://docs.docker.com/build/buildkit/).
+## Build secrets with BuildKit (recommended) {#build-secrets-with-buildkit}
+With `spec.build.useBuildKit: true`, build secrets are not available as `ARG`-s during container build. [Build secrets](../../radix-config/index.md#secrets) can be mounted as files within the `RUN` directive. BuildKit is an improved backend to replace the legacy builder. Read [more](https://docs.docker.com/build/buildkit/).
 
 :::tip
 Docker build workflow has some differences for the command `docker build`, for example how [ARG](https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact) with BuildKit [persists across build stages](https://github.com/moby/buildkit/issues/1977).
