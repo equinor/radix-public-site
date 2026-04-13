@@ -59,15 +59,31 @@ spec:
 The `build` section of the spec contains configuration used during the build process of the components and jobs.
 
 ### `useBuildKit`
-`useBuildKit` - builds components and jobs using [Buildah](https://www.redhat.com/en/topics/containers/what-is-buildah). **This should always be set to `true`.** Benefits over the legacy build engine include:
+
+`useBuildKit` controls how Radix builds components and jobs.
+
+All applications must have `useBuildKit: true` set in `radixconfig.yaml`. This is the default behavior in Radix.
+
+```yaml
+useBuildKit: true
+```
+When enabled, Radix builds components and jobs using  **Buildah**. This replaces the legacy build method entirely.
+
+#### Benefits
+Compared to the legacy build engine, BuildKit provides:
+
 - **More secure** handling of [**build secrets**](../guides/build-secrets/index.md#build-secrets-with-buildkit), and enables further security improvements not possible with the legacy method.
-- Caching support that can reduce build time, see [`useBuildCache`](#usebuildcache).
-- Use images from protected container registries defined in [`privateImageHubs`](#privateimagehubs), in the Dockerfile's `FROM` instructions.
-- **Faster builds** due to fewer steps involved and higher performance nodes.
+- Support for build caching to reduce build time, see [`useBuildCache`](#usebuildcache).
+- Support for using images from protected container registries defined in privateImageHubs in Dockerfile FROM instructions.
+- **Faster builds** due to fewer steps involved and higher performance build nodes.
 
 :::warning Deprecated: `useBuildKit: false` (or not set)
-Not setting `useBuildKit` to `true` is **deprecated** and will be removed in a future release. This primarily affects users who use [**build secrets**](../guides/build-secrets/index.md) — if you rely on build secrets with the legacy method (`useBuildKit: false` or unset), you should migrate to `useBuildKit: true` as soon as possible. See the [build secrets guide](../guides/build-secrets/index.md#build-secrets-with-buildkit) for migration instructions.
+Using the legacy build engine (`useBuildKit: false` or leaving `useBuildKit` unset) is deprecated and will be removed in a future Radix release.
+This primarily affects users who use [**build secrets**](../guides/build-secrets/index.md). Applications relying on build secrets with the legacy build engine must migrate to useBuildKit: true as soon as possible.
+As a temporary measure, applications using build secrets must explicitly set, using: `useBuildKit: false`
 :::
+
+See the [build secrets guide](../guides/build-secrets/index.md#build-secrets-with-buildkit) documentation for guidance on migrating build secrets to BuildKit. 
 
 ### `useBuildCache`
 `useBuildCache` - (optional, defaults to `true`) pushes all layers to cache, and uses it in future builds when possible. Requires `useBuildKit` to be enabled. Internally Radix sets `--cache-to`, `--cache-from` and `--layers` in Buildah. Read more at [Buildahs Documentation](https://github.com/containers/buildah/blob/main/docs/buildah-build.1.md)
