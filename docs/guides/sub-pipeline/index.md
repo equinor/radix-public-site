@@ -76,7 +76,7 @@ Radix provides a small set of runtime values that can be referenced directly in 
 ## Limitations
 
 In Radix platform, the following limitations are applied to sub-pipelines:
-* sub-pipeline does not support [workspaces](https://tekton.dev/docs/pipelines/workspaces/). However, it is possible to use [volumes](./example-pipeline-with-multiple-task-steps) in sub-pipeline tasks.
+* sub-pipeline does not support [workspaces](https://tekton.dev/docs/pipelines/workspaces/). However, it is possible to use [volumes](./example-pipeline-with-deploy-keys) in sub-pipeline tasks.
 * sub-pipeline Task step cannot mount secrets as volumes, with some exceptions:
   * the secret to access [private image repository](../../radix-config/index.md#privateimagehubs), which is mounted automatically
   * [build secrets](./example-pipeline-with-build-secrets.md)

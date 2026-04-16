@@ -21,16 +21,12 @@ metadata:
   name: test-github
 spec:
   stepTemplate:
-    image: alpine/git
-    volumeMounts:
-      - name: source-volume
-        mountPath: /var/source
     securityContext:
       runAsUser: 65534 # nobody
 
   steps:
-    - image: alpine
-      name: print-context
+    - name: print-context
+      image: alpine
       script: |
         #!/usr/bin/env sh
         echo "Pipeline type: $(params.radix.pipeline-type)"
@@ -39,9 +35,12 @@ spec:
         echo "Git commit: $(params.radix.git-commit)"
         :
     - name: git-clone
+      image: alpine/git
       volumeMounts:
         - name: $(radix.git-deploy-key) # <-- This volume is created by Radix and available where you mount it.
           mountPath: /.ssh
+        - name: source-volume
+          mountPath: /var/source
       script: |
         #!/usr/bin/env sh
         git clone "$(params.radix.git-ssh-url)" /var/source/app
@@ -49,6 +48,10 @@ spec:
         git checkout "$(params.radix.git-commit)"
 
     - name: list-contents
+      image: alpine
+      volumeMounts:
+        - name: source-volume
+          mountPath: /var/source
       script: |
         #!/usr/bin/env sh
         ls -la /var/source/app
