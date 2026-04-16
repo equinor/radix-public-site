@@ -33,7 +33,7 @@ spec:
         echo "Environment: $(params.radix.environment)"
         echo "Git ref: $(params.radix.git-ref)"
         echo "Git commit: $(params.radix.git-commit)"
-        :
+
     - name: git-clone
       image: alpine/git
       volumeMounts:

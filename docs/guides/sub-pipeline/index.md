@@ -53,7 +53,7 @@ Follow the [Tekton documentation](https://tekton.dev/docs/) to configure a sub-p
 
 ### Custom values supplied by Radix
 
-Radix provides a small set of runtime values that can be referenced directly in sub-pipeline definitions. These values are resolved by Radix when the sub-pipeline runs, so they should be used as-is.
+Radix provides a set of runtime values that can be referenced directly in sub-pipeline definitions.
 
 * `$(radix.git-deploy-key)` is the placeholder of a read-only volume created by Radix. Mount this volume in a task step when the step needs SSH credentials for Git operations, such as cloning the application's repository. Refer to example [Sub-pipeline with GitHub deploy keys](./example-pipeline-with-deploy-keys.md) for usage.
 * `$(radix.build-secrets)` is the placeholder for the application's configured build secrets. Use it when you want to expose build secrets to a task step through `env`, `envFrom`, or mounted files. Refer to example [Sub-pipeline with build secrets](./example-pipeline-with-build-secrets.md) for usage.
