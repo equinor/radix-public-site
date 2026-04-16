@@ -51,6 +51,28 @@ Errors in stage (3) can be caused by:
 
 Follow the [Tekton documentation](https://tekton.dev/docs/) to configure a sub-pipeline and its tasks, particularly [Tekton pipeline](https://tekton.dev/docs/pipelines/pipelines/) and [task](https://tekton.dev/docs/pipelines/tasks/) documentation.
 
+### Custom values supplied by Radix
+
+Radix provides a small set of runtime values that can be referenced directly in sub-pipeline definitions. These values are resolved by Radix when the sub-pipeline runs, so they should be used as-is.
+
+* `$(radix.git-deploy-key)` is the placeholder of a read-only volume created by Radix. Mount this volume in a task step when the step needs SSH credentials for Git operations, such as cloning the application's repository. Refer to example [Sub-pipeline with GitHub deploy keys](./example-pipeline-with-deploy-keys.md) for usage.
+* `$(radix.build-secrets)` is the placeholder for the application's configured build secrets. Use it when you want to expose build secrets to a task step through `env`, `envFrom`, or mounted files. Refer to example [Sub-pipeline with build secrets](./example-pipeline-with-build-secrets.md) for usage.
+* `$(params.radix)` is a reserved parameter injected by Radix into the sub-pipeline and automatically forwarded to every task. Do not define a parameter named `radix` yourself in the pipeline or task files. Refer to example [Sub-pipeline with GitHub deploy keys](./example-pipeline-with-deploy-keys.md) for usage.
+
+  You can reference individual properties with the syntax `$(params.radix.<property-name>)`, for example `$(params.radix.git-commit)`.
+
+  The following properties are available on `$(params.radix)`:
+
+  | Property | Description |
+  | --- | --- |
+  | `pipeline-type` | Type of the parent Radix pipeline that is running the sub-pipeline, for example `build`, `build-deploy`, or `deploy`. |
+  | `environment` | Name of the target environment for the current sub-pipeline run. |
+  | `git-ssh-url` | SSH clone URL for the application repository. Use this together with `$(radix.git-deploy-key)` when a task needs to clone the repository over SSH. |
+  | `git-ref` | Git branch or tag for the pipeline run. |
+  | `git-ref-type` | Type of `git-ref`. The value is `branch` or `tag`. |
+  | `git-commit` | Resolved Git commit SHA for the pipeline run. |
+  | `git-tags` | Space-separated list of Git tags that point to `git-commit`. This value is empty when the commit has no matching tags. |
+
 ## Limitations
 
 In Radix platform, the following limitations are applied to sub-pipelines:
@@ -131,54 +153,10 @@ In Radix platform, the following limitations are applied to sub-pipelines:
           :
     ```
 
-## Custom values supplied by Radix
-
-Radix provides a small set of runtime values that can be referenced directly in sub-pipeline definitions. These values are resolved by Radix when the sub-pipeline runs, so they should be used as-is.
-
-* `$(radix.git-deploy-key)` is the placeholder of a read-only volume created by Radix. Mount this volume in a task step when the step needs SSH credentials for Git operations, such as cloning the application's repository. See [Sub-pipeline with GitHub deploy keys](./example-pipeline-with-deploy-keys.md).
-* `$(radix.build-secrets)` is the placeholder for the application's configured build secrets. Use it when you want to expose build secrets to a task step through `env`, `envFrom`, or mounted files. See [Sub-pipeline with build secrets](./example-pipeline-with-build-secrets.md).
-* `$(params.radix)` is a reserved parameter injected by Radix into the sub-pipeline and automatically forwarded to every task. Do not define a parameter named `radix` yourself in the pipeline or task files.  
-
-  You can reference individual properties with the syntax `$(params.radix.<property-name>)`, for example `$(params.radix.git-commit)`.
-
-  The following properties are available on `$(params.radix)`:
-
-  | Property | Description |
-  | --- | --- |
-  | `pipeline-type` | Type of the parent Radix pipeline that is running the sub-pipeline, for example `build`, `build-deploy`, or `deploy`. |
-  | `environment` | Name of the target environment for the current sub-pipeline run. |
-  | `git-ssh-url` | SSH clone URL for the application repository. Use this together with `$(radix.git-deploy-key)` when a task needs to clone the repository over SSH. |
-  | `git-ref` | Git branch or tag for the pipeline run. |
-  | `git-ref-type` | Type of `git-ref`. The value is `branch` or `tag`. |
-  | `git-commit` | Resolved Git commit SHA for the pipeline run. |
-  | `git-tags` | Space-separated list of Git tags that point to `git-commit`. This value is empty when the commit has no matching tags. |
-  <details>
-  <summary>Example</summary>
-  
-  ```yaml
-  apiVersion: tekton.dev/v1
-  kind: Task
-  metadata:
-    name: show-radix-context
-  spec:
-    steps:
-      - image: alpine
-        name: print-context
-        script: |
-          #!/usr/bin/env sh
-          echo "Pipeline type: $(params.radix.pipeline-type)"
-          echo "Environment: $(params.radix.environment)"
-          echo "Git ref: $(params.radix.git-ref)"
-          echo "Git commit: $(params.radix.git-commit)"
-          :
-  ```
-  </details>
-
 ## Examples
 
 * [Simple sub-pipeline](./example-simple-pipeline.md)
 * [Sub-pipeline with multiple tasks](./example-pipeline-with-multiple-tasks.md)
-* [Sub-pipeline with multiple task steps](./example-pipeline-with-multiple-task-steps.md)
 * [Sub-pipeline with build environment variables](./example-pipeline-with-env-vars.md)
 * [Sub-pipeline with build environment variables for environments](./example-pipeline-with-env-vars-for-envs.md)
 * [Sub-pipeline with build secrets](./example-pipeline-with-build-secrets.md)
