@@ -60,7 +60,6 @@ const sidebars: SidebarsConfig = {
         label: 'Authentication',
         items: [
           'guides/authentication/index',
-          'guides/oauth-header-migration-guide/index',
           'guides/workload-identity/index',
         ]
       },
