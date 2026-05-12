@@ -6,11 +6,11 @@ Access to Radix is managed through **Access IT**.
 
 ### :circus_tent: Playground Cluster
 
-Request access by applying for the role [**Radix Playground Users**](https://accessit.equinor.com/Search/Search?term=Radix+Playground+Users+%28OMNIA+RADIX%29)
+Request access by applying for the role [**Radix Playground Users**](https://accessit.equinor.com/Search/Search?term=radix+playground+users)
 
 ### :100: Platform Clusters
 
-Search for [**Radix Platform Users**](https://accessit.equinor.com/Search/Search?term=Radix+Platform+Users+%28OMNIA+RADIX%29) and request the option(s) that suits you:  
+Search for [**Radix Platform Users**](https://accessit.equinor.com/Search/Search?term=radix+platform+users) and request the option(s) that suits you:  
 
 - **Radix Platform Users** → Access with your standard Entra ID account  
 - **Radix Platform Users with Adminkey (AZ-key)** → Access with your AZ account  
