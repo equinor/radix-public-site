@@ -63,15 +63,41 @@ Radix provides a set of runtime values that can be referenced directly in sub-pi
 
   The following properties are available on `$(params.radix)`:
 
-  | Property | Description |
-  | --- | --- |
-  | `pipeline-type` | Type of the parent Radix pipeline that is running the sub-pipeline, for example `build`, `build-deploy`, or `deploy`. |
-  | `environment` | Name of the target environment for the current sub-pipeline run. |
-  | `git-ssh-url` | SSH clone URL for the application repository. Use this together with `$(radix.git-deploy-key)` when a task needs to clone the repository over SSH. |
-  | `git-ref` | Git branch or tag for the pipeline run. |
-  | `git-ref-type` | Type of `git-ref`. The value is `branch` or `tag`. |
-  | `git-commit` | Resolved Git commit SHA for the pipeline run. |
-  | `git-tags` | Space-separated list of Git tags that point to `git-commit`. This value is empty when the commit has no matching tags. |
+  | Property        | Description                                                                                                                                        |
+  | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+  | `pipeline-type` | Type of the parent Radix pipeline that is running the sub-pipeline, for example `build`, `build-deploy`, or `deploy`.                              |
+  | `environment`   | Name of the target environment for the current sub-pipeline run.                                                                                   |
+  | `git-ssh-url`   | SSH clone URL for the application repository. Use this together with `$(radix.git-deploy-key)` when a task needs to clone the repository over SSH. |
+  | `git-ref`       | Git branch or tag for the pipeline run.                                                                                                            |
+  | `git-ref-type`  | Type of `git-ref`. The value is `branch` or `tag`.                                                                                                 |
+  | `git-commit`    | Resolved Git commit SHA for the pipeline run.                                                                                                      |
+  | `git-tags`      | Space-separated list of Git tags that point to `git-commit`. This value is empty when the commit has no matching tags.                             |
+
+* `$(params.radix-image.<component-name>)` references the fully qualified image built by Radix for a specific component or job. Use this in a task step's `image` field to run the step using the same image as the named component or job, without hardcoding registry paths or image tags.
+
+  Replace `<component-name>` with the name of the component or job as defined in `radixconfig.yaml`. The parameter is injected automatically by Radix and forwarded to every task in the sub-pipeline.
+
+  This is useful for tasks that should run inside the application's own container, such as database migrations, schema validation, or smoke tests:
+
+  ```yaml
+  apiVersion: tekton.dev/v1
+  kind: Task
+  metadata:
+    name: run-migrations
+  spec:
+    steps:
+      - image: $(params.radix-image.server)
+        name: run-db-migrations
+        securityContext:
+          runAsUser: 1000
+        script: /bin/some-binary migrate-database
+  ```
+
+  In this example, `server` is the name of a component defined in `radixconfig.yaml`. The step runs using that component's image, which was built earlier in the same Radix pipeline run.
+
+  :::tip
+  The `$(params.radix-image.<component-name>)` parameter is available in `build`, `build-deploy`, and `promote` pipeline runs. It is not available in `deploy`-only pipeline runs.
+  :::
 
 ## Limitations
 
