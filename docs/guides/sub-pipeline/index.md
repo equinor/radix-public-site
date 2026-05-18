@@ -65,7 +65,7 @@ Radix provides a set of runtime values that can be referenced directly in sub-pi
 
   | Property        | Description                                                                                                                                        |
   | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-  | `pipeline-type` | Type of the parent Radix pipeline that is running the sub-pipeline, for example `build`, `build-deploy`, or `deploy`.                              |
+  | `pipeline-type` | Type of the parent Radix pipeline that is running the sub-pipeline, for example `deploy`, `build-deploy`, or `promote`.                            |
   | `environment`   | Name of the target environment for the current sub-pipeline run.                                                                                   |
   | `git-ssh-url`   | SSH clone URL for the application repository. Use this together with `$(radix.git-deploy-key)` when a task needs to clone the repository over SSH. |
   | `git-ref`       | Git branch or tag for the pipeline run.                                                                                                            |
