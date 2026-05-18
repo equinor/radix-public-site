@@ -88,15 +88,13 @@ Radix provides a set of runtime values that can be referenced directly in sub-pi
     steps:
       - image: $(params.radix-image.server)
         name: run-db-migrations
-        securityContext:
-          runAsUser: 1000
         script: /bin/some-binary migrate-database
   ```
 
   In this example, `server` is the name of a component defined in `radixconfig.yaml`. The step runs using that component's image, which was built earlier in the same Radix pipeline run.
 
   :::tip
-  The `$(params.radix-image.<component-name>)` parameter is available in `build`, `build-deploy`, and `promote` pipeline runs. It is not available in `deploy`-only pipeline runs.
+  The `$(params.radix-image.<component-name>)` parameter is available in `build-deploy`, and `promote` pipeline runs.
   :::
 
 ## Limitations
