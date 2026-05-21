@@ -1,6 +1,6 @@
 services:
   docusaurus:
-    image: docker.io/node:22.21-alpine3.23
+    image: docker.io/node:24.15.0-alpine3.23
     container_name: docusaurus
     working_dir: /app
     command: ["sh", "-c", "npm run start"]
@@ -16,7 +16,7 @@ services:
         target: /app
 
   proxy:
-    image: docker.io/nginxinc/nginx-unprivileged:1.29.5-alpine3.23
+    image: docker.io/nginxinc/nginx-unprivileged:1.31.0-alpine3.23
     container_name: proxy
     profiles:
       - dev
