@@ -3,7 +3,7 @@ services:
     image: docker.io/node:24.15.0-alpine3.23
     container_name: docusaurus
     working_dir: /app
-    command: ["sh", "-c", "npm run start"]
+    command: ["sh", "-c", "npm ci && npm run start"]
     profiles:
       - dev
     networks:
