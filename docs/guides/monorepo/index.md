@@ -27,9 +27,9 @@ Example:
     :::
 * When an application is registered, GitHub webhook with a secret can be added to the repository to run Radix pipeline jobs, when changes are pushed to the repository. Because each application has a unique webhook secret, the webhook URL has an argument with an application name to validate GitHub event signature with a webhook secret of this particular application. Example:
   * Webhook URL for the application "radix-app-1"
-  `https://webhook.playground.radix.equinor.com/events/github?appName=radix-app-1`
+  `https://api.playground.radix.equinor.com/events/github?appName=radix-app-1`
   * Webhook URL for the application "radix-app-2"
-  `https://webhook.playground.radix.equinor.com/events/github?appName=radix-app-2`
+  `https://api.playground.radix.equinor.com/events/github?appName=radix-app-2`
   :::tip
   Newly introduced webhook URL argument `appName` does not exist in webhooks of already registered applications. If repositories of such applications will be used in another applications, these existing webhook need to get this argument with their application names. Otherwise, Radix pipeline is not able to validate GitHub events from webhooks of multiple applications.
   :::
