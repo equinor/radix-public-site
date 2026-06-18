@@ -48,7 +48,7 @@ Components can further be configured independently on each environment. Besides 
 
 ## Job
 
-A [job](../../guides/jobs/index.md) represents an on-demand and short lived container/process, running within an [environment](#environment), that performs a set of tasks and exits when it is done. Jobs are defined in the [`radixconfig.yaml`](../../radix-config/index.md#jobs). They share the same configuration as a component with a few exceptions; a job does not have publicPort, ingressConfiguration, replicas, horizontalScaling and alwaysPullImageOnDeploy. A job has two extra configuration options: [`schedulerPort`](../../radix-config/index.md#schedulerport) (required), which is the port the [job-scheduler](../../guides/jobs/job-manager-and-job-api.md) will listen to, and [`payload`](../../radix-config/index.md#payload) (optional), which is a directory in the container where the payload, sent via the job-scheduler, is mounted.
+A [job](../../guides/jobs/index.md) represents an on-demand and short lived container/process, running within an [environment](#environment), that performs a set of tasks and exits when it is done. Jobs are defined in the [`radixconfig.yaml`](../../radix-config/index.md#jobs). They share the same configuration as a component with a few exceptions; a job does not have publicPort, replicas, horizontalScaling and alwaysPullImageOnDeploy. A job has two extra configuration options: [`schedulerPort`](../../radix-config/index.md#schedulerport) (required), which is the port the [job-scheduler](../../guides/jobs/job-manager-and-job-api.md) will listen to, and [`payload`](../../radix-config/index.md#payload) (optional), which is a directory in the container where the payload, sent via the job-scheduler, is mounted.
 
 Radix creates a [job-scheduler](../../guides/jobs/job-manager-and-job-api.md) service for each job defined in [`radixconfig.yaml`](../../radix-config/index.md#jobs). The job-scheduler is a web API that you use to create, delete and monitor containers from the Docker image built or defined for the job. HTTP requests to the job-scheduler can only be sent by components running in the same application and environment.
 
@@ -109,6 +109,7 @@ Used to apply config without re-building or re-deploying components in environme
 ### Cleanup of pipeline Jobs
 
 Number of pipeline jobs may accumulate in time for a Radix application, cluttering the job list. Following rules are used to clean them up when a new pipeline job is created for a Radix application:
+
 * Pipeline jobs preserved in the job history:
   * All successful jobs for which there is a Radix deployment they created
   * Up to 5 jobs per each environment and status type (Successful, Failed, etc.)

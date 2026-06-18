@@ -121,7 +121,7 @@ Don't hesitate to contact the Radix team if you have any questions.
 :omniaradix: Action needed: OAuth2 Header Migration :omniaradix:
 @channel
 
-As part of Radix platform upgrade, we are migrating away from ingress-nginx. This change impacts the OAuth2 feature.
+As part of Radix platform upgrade, we are migrating away from solution-x. This change impacts the OAuth2 feature.
 
 If your application uses the OAuth2 feature, and have set the setXAuthRequestHeaders property to true in radixconfig.yaml, you need to update the application.
 

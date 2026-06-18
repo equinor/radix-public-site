@@ -19,16 +19,6 @@ Radix can send alerts about failing pipeline jobs, components or jobs to Slack u
 [Guide](../guides/authentication/index.md) -
 [Radix config reference](../radix-config/index.md#authentication)
 
-### Client certificates
-
-:::warning Deprecated with Istio and Gateway API
-`clientCertificate` configures nginx client certificate authentication and will stop working after the migration to Istio and Gateway API. Replace this with application-level IP filtering based on trusted proxy handling and `X-Forwarded-For`. See [Ingress migration to Istio and Gateway API](../guides/ingress-nginx-to-istio/index.md).
-:::
-
-ClientCertificates, which can be configured for a component or a specific environment.
-
-[Radix config reference](../radix-config/index.md#clientcertificate)
-
 ### OAuth service
 
 Radix provides built-in configuration for adding OAuth2 authorization with OIDC to the component. Common `oauth2` settings can be configured at component level and/or in the component's `environmentConfig` section.
