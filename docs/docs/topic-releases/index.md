@@ -15,10 +15,6 @@ Added `safeToRestart` option for job components in [radixconfig](../../radix-con
 It is now possible to set runAsUser in the radix config file.
 Read [more](../../radix-config/index.md#runasuser-detailed).
 
-### 2025-08-21 New `proxyRequestBuffering` endpoint configuration option
-We have added `proxyRequestBuffering` setting to [radixconfig](../../radix-config/index.md#network) to enable or disable request buffering in our proxy (enabled by default).
-
-
 ### 2025-07-17 Command and args in Radix jobs and batches
 Added `command` and `args` properties to be optionally configurable when create Radix jobs and batches. Read [more](../../guides/jobs/job-manager-and-job-api.md#parameters).
 
@@ -54,9 +50,6 @@ Added `nodeType` to the [`runtime`](../../radix-config/index.md#runtime-detailed
 
 ### 2025-04-25 Configurable webhookEnabled build option
 Added `webhookEnabled` to the [`spec.build`](../../radix-config/index.md#webhookenabled) section in [radixconfig](../../radix-config/index.md):
-
-### 2025-04-08 Configurable proxyBufferSize option
-Added `proxyBufferSize` to the [`network.ingress.public`](../../radix-config/index.md#network-detailed) section in [radixconfig](../../radix-config/index.md):
 
 `proxyBufferSize` defines the size of the buffer used for reading the first part of the response received from the proxied server. The size must be large enough to hold the response headers.
 
@@ -134,32 +127,11 @@ This means to you are no longer required to use private links from Radix to Post
 ### 2024-10-14 Radix - new platform location
 It is now an option to run your application in the West Europe data centre. This can be a good option if your data also is located in the same data centre. You will now find two platforms in the Radix, named Platform (North Europe)🇮🇪 and Platform 2 (West Europe)🇳🇱
 
-### 2024-10-09 Public endpoint configuration options 
-We have added three setting to [radixconfig](../../radix-config/index.md#network-detailed) for configuration of limits for public endpoints:
-
-`proxyReadTimeout`: Defines a timeout, in seconds, for reading a response from the proxied server. The timeout is set only between two successive read operations, not for the transmission of the whole response. Default is 60 seconds.
-
-`proxySendTimeout`: Defines a timeout, in seconds, for transmitting a request to the proxied server. The timeout is set only between two successive write operations, not for the transmission of the whole request: Defaults to 60 seconds.
-
-`proxyBodySize`: Sets the maximum allowed size of the client request body. Default is 100M.
-
-:::warning Caution
-Setting `proxyBodySize` to "0", or an unnecessary high value, can lead to instability/denial of service or increased cost, depending on how the request body is processed by the backend, e.g. when buffering to memory or storing the content to disk, either locally or remotely. Never set the value to "0" unless the backend component is configured to enforce a limit.
-:::
-
 ### 2024-09-27 Add service principals to the application's administrators/readers list in Radix Web Console
 
 You can now add service principals (App Registration or Managed Identity) to the Administrators or Readers list in the application configuration page. You no longer have to go via a group.
 
 The drop-down will search for groups and service principals when you start typing. Groups and service principals are grouped in the result list, showing groups first and service principals last. See attached screen recording.
-
-### 2024-09-27 Restrict access to public components by IP address or CIDR
-You can restrict access to the public endpoints for a component by configuring a list of IP addresses or CIDRs in the ``network.ingress.public.allow`` field in [radixconfig](../../radix-config/index.md#network-detailed).
-
-When this field is set, only IP addresses matching items in the list can access the public endpoints for the component. Unauthorized IP addresses will receive a 403 response.
-
-The component page in Radix Web Console will show information when IP filtering is active, or if all IPs are allowed.
-
 
 ### 2024-09-18  Fix for docker.io rate limit during build 
 This fix will resolve docker.io rate limit errors during the build step for applications using [useBuildKit](../../radix-config/index.md#usebuildkit).
@@ -901,12 +873,6 @@ We have added support for generating badges that shows the status of the latest 
 A common place to add a status badge is in the README.md file of your repository, but it can be added to any web page you'd like.  
 
 Read more about Pipeline Badges here: [Pipeline Badge](../../guides/pipeline-badge/index.md)
-
-### 2021-06-07 Support for ClientCertificate authentication
-
-We have added support for ClientCertificates, which can be configured for a component or a specific environment.  
-
-Read more about ClientCertificates here: [ClientCertificate](../../radix-config/index.md#clientcertificate)
 
 ### 2021-04-19 Running on-demand jobs in Radix
 

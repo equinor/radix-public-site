@@ -138,7 +138,6 @@ const sidebars: SidebarsConfig = {
           'guides/monorepo/index',
         ]
       },
-      'guides/ingress-nginx-to-istio/index',
   ],
   docsSidebar: [
       'docs/index',

@@ -447,7 +447,7 @@ spec:
       publicPort: http
 ```
 
-The `publicPort` field of a component, if set to `<PORT_NAME>`, is used to make the component accessible on the internet by generating a public endpoint. By default, the public endpoint can be accessed from all public IP addresses. You can restrict access to the public endpoints by configuring a list of IP address ranges in `network.ingress.public.allow`, see [network (details)](#network-detailed) for more information.
+The `publicPort` field of a component, if set to `<PORT_NAME>`, is used to make the component accessible on the internet by generating a public endpoint. By default, the public endpoint can be accessed from all public IP addresses.
 
 A component without `publicPort: <PORT_NAME>` can only be accessed from another component in the app. If specified, the `<PORT_NAME>` should exist in the `ports` field.
 
@@ -871,32 +871,6 @@ The **blobFuse2** volume type adds support for mounting Azure storage account bl
 - `tenantId` (optional, defaults to the Equinor tenant) - Azure tenant ID for the Azure storage account. Applicable when `useAzureIdentity` is `true`.
 - `streaming` (deprecated) - Streaming is deprecated by the blobfuse2 driver, and is replaced with block caching. To prevent breaking changes for applications that have explicitly disabled streaming, by setting `streaming.enabled` to `false`, in order to use file caching, this behavior is preserved as long as `cacheMode` is not set.
 
-### `ingressConfiguration`
-
-:::warning Deprecated with Istio and Gateway API
-`websocketfriendly` and `stickysessions` depend on ingress-nginx-specific behavior. `websocketfriendly` is no longer needed with Istio, and `stickysessions` is not currently supported by Istio for Gateway API. See [Ingress migration to Istio and Gateway API](../guides/ingress-nginx-to-istio/index.md).
-:::
-
-```yaml
-spec:
-  components:
-    - name: frontend
-      ingressConfiguration:
-        - websocketfriendly
-```
-
-The `ingressConfiguration` field of a component will add extra configuration by [annotations](https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/) to the Nginx ingress, useful for a particular scenario.
-
-:::tip
-Note that the settings affect the connections with the public component, not between a public and a private component.
-:::
-
-- `websocketfriendly` will change connection timeout to 1 hour for the component.
-- `stickysessions` will change load balancing of the ingress to route to a single replica.
-- `leastconnectedlb` will try to route connection to the replica with least amount of load
-
-See [this](https://github.com/equinor/radix-operator/blob/b828195f1b3c718d5a48e31d0bafe0435857f5bf/charts/radix-operator/values.yaml#L58) for more information on what annotations will be put on the ingress, given the configuration. See [nginx documentation](https://docs.nginx.com/nginx/admin-guide/load-balancer/http-load-balancer/#choosing-a-load-balancing-method) for details about how the native nginx load balancing methods work.
-
 ### `alwaysPullImageOnDeploy`
 
 ```yaml
@@ -1293,24 +1267,6 @@ spec:
 
 See [runtime](#runtime-detailed) for more information.
 
-#### `network`
-
-```yaml
-spec:
-  components:
-    - name: backend
-      environmentConfig:
-        - environment: prod
-          network:
-            ingress:
-              public:
-                allow:
-                  - 100.1.1.1
-                  - 100.2.2.2/30
-```
-
-See [network (detailed)](#network-detailed) for more information.
-
 ### `authentication`
 
 ```yaml
@@ -1318,12 +1274,10 @@ spec:
   components:
     - name: frontend
       authentication:
-        clientCertificate: ...
         oauth2: ...
       environmentConfig:
         - environment: dev
           authentication:
-            clientCertificate: ...
             oauth2: ...
 ```
 
@@ -1333,35 +1287,6 @@ The `authentication` section can be used to configure an authentication option f
 Note that the environment config will override the component config for that specific environment.
 :::
 
-#### `clientCertificate`
-
-:::warning Deprecated with Istio and Gateway API
-`clientCertificate` configures nginx client certificate authentication and will stop working after the migration to Istio and Gateway API. Replace this with application-level IP filtering based on trusted proxy handling and `X-Forwarded-For`. See [Ingress migration to Istio and Gateway API](../guides/ingress-nginx-to-istio/index.md).
-:::
-
-```yaml
-clientCertificate:
-  verification: "optional_no_ca"
-  passCertificateToUpstream: true
-```
-
-`clientCertificate` is a subsection of [authentication](#authentication) and may be used to configure the Nginx Client Certificate Authentication.
-
-:::tip
-Note that the Client Certificate configuration will be omitted if the component does not have a public port.
-:::
-
-- `verification` Specifies type of verification of client certificates. Possible values are:
-  - `off`: Don't request client certificates and don't do client certificate verification. (default)
-  - `on`: Request a client certificate that must be signed by a certificate that is included in the secret key ca.crt of the secret specified by `nginx.ingress.kubernetes.io/auth-tls-secret: secretName`. Failed certificate verification will result in a status code 400 (Bad Request).
-  - `optional`: Do optional client certificate validation against the CAs from auth-tls-secret. The request fails with status code 400 (Bad Request) when a certificate is provided that is not signed by the CA. When no or an otherwise invalid certificate is provided, the request does not fail, but instead the verification result is sent to the upstream service.
-  - `optional_no_ca`: Do optional client certificate validation, but do not fail the request when the client certificate is not signed by the CAs from `auth-tls-secret`. Certificate verification result is sent to the upstream service.
-
-- `passCertificateToUpstream` Indicates if the received certificates should be passed or not to the upstream server in the header ssl-client-cert. `verification` will have to be set to something other than `off` for the certificate to be passed upstream. Possible values are `true` or `false` (default).
-
-:::tip
-If `verification` has been set to something other than `off` or `passCertificateToUpstream` is set to `true`, a valid certificate will need to be applied in the `Radix Console` for the affected environment(s). This can be found under `Environments\[environmentName]\[componentName]\[componentName]-clientcertca` in the `Radix Console` for your application.
-:::
 #### `oauth2`
 
 Configuration for adding OAuth2 authorization with OIDC to the component.
@@ -1600,67 +1525,6 @@ spec:
 If you use the [`build and deploy`](../guides/build-and-deploy/index.md) pipeline to build components or jobs, [`useBuildKit`](#usebuildkit) must be enabled if at least one component or job is configured for `arm64`. Radix will run the **build steps** on nodes with matching architecture, which in most cases mean that you do not have to change anything in the Dockerfile to support the configured architecture. This applies as long as the images defined in the Dockerfile's `FROM <image>` supports this architecture.
 
 For deploy-only components and jobs (with [`image`](#image) property set), make sure that the selected image supports the configured architecture. Many frequently used public images, like [nginx-unprivileged](https://hub.docker.com/r/nginxinc/nginx-unprivileged), includes variants for both `amd64` and `arm64` in the same image. Radix (Kubernetes) will pull the appropriate variant based on the configured architecture.
-
-### `network` (detailed)
-
-:::warning Deprecated with Istio and Gateway API
-`network.ingress.public` settings were introduced for ingress-nginx and are being deprecated as Radix moves to Istio and Gateway API. In particular, `allow` must be implemented in the application using trusted proxy handling and `X-Forwarded-For`. The `proxyBodySize`, `proxyReadTimeout`, `proxySendTimeout`, `proxyBufferSize`, and `proxyRequestBuffering` options are no longer needed because Istio does not enforce those nginx-specific defaults. See [Ingress migration to Istio and Gateway API](../guides/ingress-nginx-to-istio/index.md).
-:::
-
-```yaml
-spec:
-  environment:
-    - name: dev
-    - name: qa
-    - name: prod
-  components:
-    - name: backend
-      network:
-        ingress:
-          public:
-            proxyBodySize: 500m
-            proxyReadTimeout: 5
-            proxySendTimeout: 10
-            proxyBufferSize: 16k
-            proxyRequestBuffering: true
-            allow:
-              - 100.1.1.1
-              - 110.1.1.1/30
-      environmentConfig:
-        - environment: dev
-          network:
-            ingress:
-              public:
-                proxyBodySize: 20m
-                proxyReadTimeout: 30
-                proxySendTimeout: 30
-                proxyBufferSize: 8k
-                proxyRequestBuffering: false
-                allow: []
-        - environment: qa
-          network:
-            ingress:
-              public:
-                proxyBodySize: 100m
-                allow:
-                  - 200.1.1.1
-                  - 200.10.1.1
-        - environment: prod
-```
-
-`network.ingress.public` contains settings used to control the behavior of [public endpoints](../docs/topic-domain-names/). These settings can be configured on the component level and/or in `environmentConfig` for a specific environment. `environmentConfig` takes precedence over component level configuration.
-
-- `allow`: Defines a list of public IP addresses or CIDRs allowed to access the component's public endpoints. Setting `allow` to an empty list allows access from all public IP addresses.  
-**Note**: When `allow` is configured in `environmentConfig`, it will _overwrite_ any values defined on component level. 
-- `proxyBodySize`: Sets the maximum allowed size of the client request body. Sizes can be specified in bytes, kilobytes (suffixes k and K), megabytes (suffixes m and M), or gigabytes (suffixes g and G), for example "1024", "64k", "32m" or "2g". If the size in a request exceeds the configured value, the 413 (Request Entity Too Large) error is returned to the client. Setting this value to "0" disables checking of client request body size. The default is 100m.
-- `proxyReadTimeout`: Defines a timeout, in seconds, for reading a response from the proxied server. The timeout is set only between two successive read operations, not for the transmission of the whole response. If the proxied server does not transmit anything within this time, the connection is closed. The default is 60 seconds.
-- `proxySendTimeout`: Defines a timeout, in seconds, for transmitting a request to the proxied server. The timeout is set only between two successive write operations, not for the transmission of the whole request. If the proxied server does not receive anything within this time, the connection is closed. The default is 60 seconds.
-- `proxyBufferSize`: Sets the size of the buffer used for reading the first part of the response received from the proxied server. The size must be large enough to hold the response headers. Sizes can be specified in bytes, kilobytes (suffixes k and K), megabytes (suffixes m and M), or gigabytes (suffixes g and G) for example, "1024", "64k", "32m", "2g". If the response headers exceed the buffer size, the 502 (Bad Gateway) error is returned to the client. The default is `16k`.
-- `proxyRequestBuffering`: Enable or disable buffering of the request body before sending it to your backend. Enabled by default. Disable this to get the request faster to your server when uploading, or streaming data to your API.
-
-:::warning Caution
-Setting `proxyBodySize` to "0", or an unnecessary high value, can lead to instability/denial of service or increased cost, depending on how the request body is processed by the backend, e.g. when buffering to memory or storing the content to disk, either locally or remotely. Never set the value to "0" unless the backend component is configured to enforce a limit.
-:::
 
 ## `jobs`
 
@@ -2541,9 +2405,6 @@ spec:
       monitoringConfig:
         portName: metrics
         path: /api/my-magic-metrics
-      authentication:
-        clientCertificate:
-          verification: "optional_no_ca"
       enabled: true
       volumeMounts:
         - name: volume-name
@@ -2578,9 +2439,6 @@ spec:
               cpu: "100m"
             limits:
               cpu: "200m"
-          authentication:
-            clientCertificate:
-              passCertificateToUpstream: true
           enabled: false
           identity:
             azure:
@@ -2593,10 +2451,6 @@ spec:
               cpu: "200m"
             limits:
               cpu: "400m"
-          authentication:
-            clientCertificate:
-              verification: "off"
-              passCertificateToUpstream: false
     - name: backend
       src: backend
       ports:
