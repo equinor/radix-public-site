@@ -4,6 +4,12 @@ title: Azure Storage Account
 
 Radix supports mounting [Azure storage account](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview) blob containers with the [`blobFuse2`](../../radix-config/index.md#blobfuse2) volume type in [`radixconfig.yaml`](../../radix-config/index.md), using the [blob-csi-driver](https://github.com/kubernetes-sigs/blob-csi-driver/).
 
+:::warning Use Private Links with BlobFuse2
+
+When you use volume mounts, configure private endpoints to keep file operations off the public internet. Private endpoints route traffic through an internal regional backbone, which improves security and can improve performance by avoiding unnecessary NAT.
+
+:::
+
 ## General Settings
 
 The only required settings in a `blobFuse2` configuration are `container` and `useAdsl`.
@@ -29,6 +35,7 @@ Hierarchical Namespace:
 ![Azure storage account hierarcical namespace](hns-enabled-storage-account.png)
 
 `accessMode` defines if the volume is mounted in **read-only** (default) or **read-write** mode. Valid values are:
+
 - `ReadOnlyMany` (default) - Volume is mounted read-only.
 - `ReadWriteMany` - Volume is mounted with read-write access. Warning: This option can lead to data corruption if multiple replicas write to the same file. Read [this](limitations.md) for more information.
 
@@ -69,11 +76,13 @@ When `useAzureIdentity` is set to `true`, the driver will connect to the Azure s
 In order for the driver to successfully acquire an access key, the service principal configured in [`identity.azure.clientId`](../../radix-config/index.md#identity-detailed) must be granted the [**Microsoft.Storage/storageAccounts/listkeys/action**](https://learn.microsoft.com/en-us/azure/storage/blobs/authorize-data-operations-portal#use-the-account-access-key) permission on the Azure storage account.
 
 The following `blobFuse2` settings are required, and is used by the driver when acquiring the access key.
+
 - `storageAccount` - Name of the Azure storage account.
 - `resourceGroup` - Name of the resource group for the storage account.
 - `subscriptionId` - ID of the subscription for the storage account.
 
 Example configuration:
+
 ```yaml
 volumeMounts:
 - name: myimages
@@ -91,6 +100,7 @@ volumeMounts:
 Caching improves subsequent access times, and can reduce ingress and egress traffic to the Azure storage account, which in turn can lower cost related to data transfer.
 
 `cacheMode` defines how data should be cached:
+
 - `Block` (default) - Improve performance for operations on large files by reading/writing blocks instead of entire files.
 - `File` - Cache entire files for improved subsequent access.
 - `DirectIO` - Disables caching.
@@ -104,6 +114,7 @@ When a file is opened and cached data exist, the driver will check if the source
 The driver also supports using disk a cache for data blocks. This cache has its own timeout defined by `diskTimeout`. Disk caching is disabled by default, and must be enabled by setting `diskSize` (in MB) to the desired disk cache size.
 
 The following settings are available to fine-tune block cache:
+
 ```yaml
 volumeMounts:
 - name: myimages
@@ -124,6 +135,7 @@ volumeMounts:
 `blockSize` defines the size of a block to be downloaded as a unit from the Azure storage account. Increasing this value can improved the transfer rate when reading large files.
 
 The following table shows the transfer rate when reading a 3GB file using different values for `blockSize`:
+
 | Block Size | Transfer Rate |
 | ---------: | ------------: |
 |          4 |      220 MB/s |
@@ -169,13 +181,15 @@ volumeMounts:
 ```
 
 ## Private endpoint
+
 When [requesting a private link](../private-link/index.md#request-the-private-linkendpoint) to connect to the Azure storage account:
-* in case `useAdls: false` - request `SubResource: blob`.
-* in case `useAdls: true` - request `SubResource: dfs` (Distributed File System).
+- in case `useAdls: false` - request `SubResource: blob`.
+- in case `useAdls: true` - request `SubResource: dfs` (Distributed File System).
 
 These different sub-resources use different private link endpoint DNS zones. Read [more](https://learn.microsoft.com/en-us/azure/storage/common/storage-private-endpoints#creating-a-private-endpoint) about Azure Storage private link endpoints.
 
 Indication that sub-resource is `blob` but it need to be `dfs` is events with failure message:
+
 ```shell
 Error: failed to initialize new pipeline [failed to authenticate credentials for azstorage]
 ````
@@ -187,6 +201,7 @@ The `streaming` section in `blobFuse2` is deprecated in favor of `cacheMode`. To
 `streaming` will be removed in a future release, and it is therefore recommended to migrate to use `cacheMode` instead.
 
 Replace implicit **File** cache:
+
 ```yaml
 volumeMounts:
 - name: myimages
@@ -198,6 +213,7 @@ volumeMounts:
 ```
 
 with:
+
 ```yaml
 volumeMounts:
 - name: myimages
@@ -208,6 +224,7 @@ volumeMounts:
 ```
 
 Replace implicit **Block** cache:
+
 ```yaml
 volumeMounts:
 - name: myimages
@@ -219,6 +236,7 @@ volumeMounts:
 ```
 
 with:
+
 ```yaml
 volumeMounts:
 - name: myimages
