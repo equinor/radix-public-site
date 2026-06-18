@@ -10,7 +10,7 @@ Running an application in Radix is not much different to running Docker containe
 
 ### Traffic
 
-Only HTTPS traffic is allowed into the application. There is no protocol restriction on outbound traffic. SSL certificates are automatically managed by Radix, [external aliases](../../guides/external-alias/index.md) can also be managed by Radix, i.e. automatically refreshed.
+Only HTTPS traffic is allowed into the application. There is no protocol restriction on outbound traffic. TLS certificates are automatically managed by Radix, [external aliases](../../guides/external-alias/index.md) can also be managed by Radix, i.e. automatically refreshed.
 
 Internally - within the same environment/namespace, [components](../../start/radix-concepts/index.md#component) can communicate with each other using other protocols and [ports](../../radix-config/index.md#components), provided they use TCP.
 
