@@ -2406,10 +2406,10 @@ spec:
         portName: metrics
         path: /api/my-magic-metrics
       authentication:
-            oauth2:
-              clientId: 00000000-0000-0000-0000-000000000000
-              credentials: azureWorkloadIdentity
-              sessionStoreType: systemManaged
+        oauth2:
+          clientId: 00000000-0000-0000-0000-000000000000
+          credentials: azureWorkloadIdentity
+          sessionStoreType: systemManaged
       enabled: true
       volumeMounts:
         - name: volume-name
