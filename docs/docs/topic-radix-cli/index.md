@@ -293,7 +293,7 @@ rx get vulnerability --application your-app-name \
 
 ### Validate workload identity
 
-Validates workload identity configuration for one application or all applications by comparing expected and existing federated credentials. The command output includes Azure CLI commands to create missing credentials and, unless excluded, delete potentially obsolete credentials.
+Validates workload identity configuration for one application or all applications by comparing expected and existing federated credentials. The command output includes Azure CLI commands to create missing credentials and, unless excluded, Azure CLI commands to delete potentially obsolete credentials.
 
 ```shell
 # Validate workload identity for all applications in current context
