@@ -35,7 +35,7 @@ Information required for setting up the trust relationship between a workload an
 :::warning Multiple Cluster Issuer URLs
 During cluster migrations, the same workload can have multiple `Cluster Issuer URLs`. In that case, create one federated credential per issuer URL for each `Namespace` and `Service Account Name` so authentication works in both clusters. You can validate this and get Azure CLI commands for each missing federated credential with [`rx validate workload-identity`](../../docs/topic-radix-cli/index.md#validate-workload-identity).
 
-![Federation Trust Information](./identity-web-console-multiple-issuers.png "Federation Trust Information")  
+![Federation trust information (multiple cluster issuer URLs)](./identity-web-console-multiple-issuers.png "Federation Trust Information")  
 :::
 
 ## Configure trust relationship in Azure
