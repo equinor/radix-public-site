@@ -6,6 +6,9 @@ title: What's new
 
 ## 2026
 
+### 2026-06-18 Radix CLI command `rx validate workload-identity`
+Radix CLI now includes `rx validate workload-identity` to validate workload identity federated credentials and generate Azure CLI commands for missing or potentially obsolete credentials. Read usage examples in [Radix CLI](../topic-radix-cli/index.md#validate-workload-identity).
+
 ### 2026-03-26 New `safeToRestart` flag for jobs
 Added `safeToRestart` option for job components in [radixconfig](../../radix-config/index.md#safetorestart) and the [job scheduler API](../../guides/jobs/job-manager-and-job-api.md#safetorestart). When set to `true`, the platform may restart a job during node maintenance or draining. Defaults to `true` if not set and `timeLimitSeconds` is equal to or above 3 days.
 

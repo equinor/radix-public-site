@@ -32,6 +32,12 @@ spec:
 Information required for setting up the trust relationship between a workload and the **Azure AD app registration** or **user-assigned managed identity** is available in the component/job page in Radix Web Console.
 ![Federation Trust Information](./identity-web-console.png "Federation Trust Information")  
 
+:::warning Multiple Cluster Issuer URLs
+During cluster migrations, the same workload can have multiple `Cluster Issuer URLs`. In that case, create one federated credential per issuer URL for each `Namespace` and `Service Account Name` so authentication works in both clusters. You can validate this and get Azure CLI commands for each missing federated credential with [`rx validate workload-identity`](../../docs/topic-radix-cli/index.md#validate-workload-identity).
+
+![Federation trust information (multiple cluster issuer URLs)](./identity-web-console-multiple-issuers.png "Federation Trust Information")  
+:::
+
 ## Configure trust relationship in Azure
 
 Create a trust relationship (federated credential) between the workload (component or job) running in Radix and the app registration or user-assigned managed identity in Azure. A trust must be created per environment and workload. In the example above there are two environments (**prod** and **dev**) and one workload (**web**). Two trust relationships need to be created; one for **web** in **dev** environment and one for **web** in **prod** environment.
