@@ -1873,7 +1873,7 @@ spec:
 
 `concurrency` only considers jobs started by `cron` schedules; jobs started manually through the job-scheduler API are not affected.
 
-`cron` [can be overridden](#cron-1) for individual environments.
+`cron` [can be overridden](#cron-env-override) for individual environments.
 
 ### `volumeMounts`
 
@@ -2130,7 +2130,7 @@ spec:
 
 See [failurePolicy](#failurepolicy) for more information.
 
-#### `cron`
+#### `cron` (env. override)
 
 ```yaml
 spec:
