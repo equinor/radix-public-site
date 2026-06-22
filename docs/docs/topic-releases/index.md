@@ -6,6 +6,9 @@ title: What's new
 
 ## 2026
 
+### 2026-06-22 Scheduled jobs with `cron`
+Job components can now be scheduled to run automatically at recurring times using the [`cron`](../../radix-config/index.md#cron) section in [radixconfig](../../radix-config/index.md), without any external call to the job-scheduler. Define one or more cron `schedules`, an optional `timeZone` and a `concurrency` policy. `cron` can be [overridden](../../radix-config/index.md#cron-env-override) for individual environments.
+
 ### 2026-06-18 Radix CLI command `rx validate workload-identity`
 Radix CLI now includes `rx validate workload-identity` to validate workload identity federated credentials and generate Azure CLI commands for missing or potentially obsolete credentials. Read usage examples in [Radix CLI](../topic-radix-cli/index.md#validate-workload-identity).
 
