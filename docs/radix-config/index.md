@@ -1845,7 +1845,35 @@ Possible values for `action` are:
 - `Count`: indicates that the job should be handled the default way. The counter towards [`backoffLimit`](#backofflimit) is incremented.
 
 
-`failurePolicy` can be configured on the job level, or in `environmentConfig` for a specific environment. Configuration in `environmentConfig` will override all rules defined on the job level. 
+`failurePolicy` can be configured on the job level, or in `environmentConfig` for a specific environment. Configuration in `environmentConfig` will override all rules defined on the job level.
+
+### `cron`
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      schedulerPort: 8000
+      cron:
+        timeZone: Europe/Oslo
+        schedule:
+          - "0 6 * * 1-5"
+          - "0 18 * * 1-5"
+        concurrency: Forbid
+```
+
+`cron` schedules the job to run automatically at recurring times, without any external call to the [job-scheduler](../guides/jobs/job-manager-and-job-api.md). On each scheduled occurrence Radix starts a single job, using the configuration defined for the job component in that environment. Scheduled runs do not receive a [`payload`](#payload).
+
+- `schedule` - (required) A list of cron expressions with a limit of 20 expressions. Each entry is a standard five-field cron expression (`minute hour day-of-month month day-of-week`) and triggers a job run when it matches. In the example above the job runs at 06:00 and at 18:00 on weekdays (Monday to Friday).
+- `timeZone` - (optional) The time zone used to evaluate all entries in `schedule`. It must be a value from the [IANA Time Zone Database](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones), for example `Europe/Oslo`. Defaults to `UTC` when omitted.
+- `concurrency` - (required) Controls what happens when a scheduled run is triggered while a previous scheduled run of the same job is still active. One of:
+  - `Allow` - start the new run regardless of any active scheduled run.
+  - `Forbid` - skip the new run if a scheduled run is still active.
+  - `Replace` - stop the active scheduled run, then start the new run.
+
+`concurrency` only considers jobs started by `cron` schedules; jobs started manually through the job-scheduler API are not affected.
+
+`cron` [can be overridden](#cron-1) for individual environments.
 
 ### `volumeMounts`
 
@@ -2101,6 +2129,26 @@ spec:
 ```
 
 See [failurePolicy](#failurepolicy) for more information.
+
+#### `cron`
+
+```yaml
+spec:
+  jobs:
+    - name: compute
+      schedulerPort: 8000
+      environmentConfig:
+        - environment: prod
+          cron:
+            timeZone: Europe/Oslo
+            schedule:
+              - "0 6 * * 1-5"
+            concurrency: Replace
+```
+
+When `cron` is defined for an environment it fully overrides the job's `cron`.
+
+See [cron](#cron) for a job for more information.
 
 #### `readOnlyFileSystem`
 
