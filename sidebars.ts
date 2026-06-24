@@ -117,11 +117,18 @@ const sidebars: SidebarsConfig = {
               },
           ]
       },
-      'guides/private-link/index',
+      {
+        type: 'category',
+        label: 'Networking',
+        items: [
+          'guides/ingress/index',
+          'guides/egress-config/index',
+          'guides/private-link/index',
+        ]
+      },
       'guides/enable-and-disable-components/index',
       'guides/component-start-stop-restart/index',
       'guides/resource-request/index',
-      'guides/egress-config/index',
       {
         type: 'category',
         label: 'Monitoring',
