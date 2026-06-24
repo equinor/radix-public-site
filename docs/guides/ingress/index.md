@@ -10,18 +10,20 @@ Network policies enforce this traffic path. A component replica can receive ingr
 
 ## Gateway proxy headers
 
-Because external traffic always passes through the gateway controller, applications can trust the forwarding headers added by that controller:
+Radix routes all external traffic through the gateway controller before it reaches your component replicas. The gateway controller adds these forwarding headers:
 
 - `X-Forwarded-For` contains the original client IP address chain.
 - `X-Forwarded-Host` contains the original host requested by the client.
 - `X-Forwarded-Port` contains the original port requested by the client.
 - `X-Forwarded-Proto` contains the original protocol, such as `https`.
 
-Configure your application or reverse proxy to trust only the gateway controller as a forwarding proxy. The gateway controller IP address is in the `10.0.0.0/8` range, so use that range when configuring trusted proxies or forwarded headers.
+Configure your application or reverse proxy to trust `10.0.0.0/8` when processing forwarded headers. Gateway controllers and replicas for all applications are assigned IP addresses in this range. It is safe to trust this IP range because network policies blocks all traffic expect from the gateway controller and replicas in the same environment.
 
-Replicas running in the same application environment also receive IP addresses in the `10.0.0.0/8` range and can connect directly to your component replicas. This means another replica in the same environment can spoof `X-Forwarded-*` headers. Treat this as an application environment trust boundary, and don't use forwarded headers as the only protection between replicas in the same environment.
+For ingress traffic, only the gateway controller can connect to your component replicas. Replicas in the same application environment can also connect directly to each other. Other services can't connect directly to your component replicas.
 
-The `X-Forwarded-For` header is especially important when your application needs to apply client IP-based behavior, such as IP filtering, auditing, or rate limiting. Read the trusted forwarded header first, then apply your application logic to the resolved client IP address.
+Because same-environment replicas can connect directly, another replica in the same environment can send its own `X-Forwarded-*` headers. Treat the application environment as the trust boundary, and don't use forwarded headers as the only protection between replicas in the same environment.
+
+Use `X-Forwarded-For` when your application needs the original client IP address for IP filtering, auditing, or rate limiting. Read the trusted forwarded header first, then apply your application logic to the resolved client IP address.
 
 :::note
 These examples are illustrative only. Adjust allowed client ranges, rate limits, proxy targets, and middleware placement to match your application and framework setup.
