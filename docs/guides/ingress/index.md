@@ -119,8 +119,7 @@ http {
 		limit_req_status 429;
 
 		real_ip_header X-Forwarded-For;
-		real_ip_recursive off;
-
+		real_ip_recursive on;
 		# Trust the Radix gateway controller.
 		set_real_ip_from 10.0.0.0/8;
 
