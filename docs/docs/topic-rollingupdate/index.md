@@ -28,10 +28,10 @@ The probe will be used only when a Radix application component has at leas one p
 
 ## Pod lifecycle and Graceful termination
 
-Your process receives the `SIGTERM` signal 30 seconds before being terminated. When you receive this signal, stop processing work and exit as soon as possible. This helps Kubernetes roll out new versions of your code without unnecessary delay.
+Kubernetes sends a `SIGTERM` signal when a pod is terminating and then waits up to 30 seconds (the default `terminationGracePeriodSeconds`) before forcefully killing the container with `SIGKILL`.
 
-By waiting a few seconds after `SIGTERM` is received before you stop accepting new requests, you can avoid terminating your clients' connections and requests mid-flight.
+When you receive `SIGTERM`, stop accepting new requests immediately, allow in-flight requests to complete for a short period, and then exit before the grace period expires. This helps Kubernetes roll out new versions without unnecessary delay.
 
-When a pod (replica) is scheduled for removal, its IP address is first removed from Kubernetes service discovery, and then a `SIGTERM` is sent. If the process is still running after 30 seconds, Kubernetes terminates it.
+When a pod (replica) is scheduled for removal, it is removed from the Service endpoints before `SIGTERM` is sent, so it should stop receiving new traffic shortly after termination starts.
 
 The platform's reverse proxy (Istio and Envoy) stops routing traffic to the pod as soon as possible after its address is removed, but this can take a few seconds when the cluster is under heavy load.
