@@ -25,3 +25,13 @@ The probe will be used only when a Radix application component has at leas one p
 
 - Initial delay seconds where Kubernetes will wait before performing the first probe after the container has started (currently set by Radix to 5 seconds)
 - Period seconds interval where Kubernetes will perform the probes after the initial probe (currently set by Radix to 10 seconds)
+
+## Pod lifecycle
+
+Your process receives the `SIGTERM` signal 30 seconds before being terminated. When you receive this signal, stop processing work and exit as soon as possible. This helps Kubernetes roll out new versions of your code without unnecessary delay.
+
+By waiting a few seconds after `SIGTERM` is received before you stop accepting new requests, you can avoid terminating your clients' connections and requests mid-flight.
+
+When a pod (replica) is scheduled for removal, its IP address is first removed from Kubernetes service discovery, and then a `SIGTERM` is sent. If the process is still running after 30 seconds, Kubernetes terminates it.
+
+Our reverse proxy (currently Istio and Envoy) stops routing traffic to the pod as soon as possible after its address is removed, but this can take a few seconds when the cluster is under heavy load.
