@@ -26,7 +26,7 @@ The probe will be used only when a Radix application component has at leas one p
 - Initial delay seconds where Kubernetes will wait before performing the first probe after the container has started (currently set by Radix to 5 seconds)
 - Period seconds interval where Kubernetes will perform the probes after the initial probe (currently set by Radix to 10 seconds)
 
-## Pod lifecycle and Graceful termination
+## Pod lifecycle and graceful termination
 
 Kubernetes sends a `SIGTERM` signal when a pod is terminating and then waits up to 30 seconds (the default `terminationGracePeriodSeconds`) before forcefully killing the container with `SIGKILL`.
 
