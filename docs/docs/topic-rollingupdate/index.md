@@ -34,4 +34,4 @@ By waiting a few seconds after `SIGTERM` is received before you stop accepting n
 
 When a pod (replica) is scheduled for removal, its IP address is first removed from Kubernetes service discovery, and then a `SIGTERM` is sent. If the process is still running after 30 seconds, Kubernetes terminates it.
 
-Our reverse proxy (currently Istio and Envoy) stops routing traffic to the pod as soon as possible after its address is removed, but this can take a few seconds when the cluster is under heavy load.
+The platform's reverse proxy (Istio and Envoy) stops routing traffic to the pod as soon as possible after its address is removed, but this can take a few seconds when the cluster is under heavy load.
