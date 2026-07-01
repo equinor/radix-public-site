@@ -72,6 +72,23 @@ It is recommended to use a SDK/library (see [SDKs and examples](./#sdks-and-exam
 
 - [MSAL](https://learn.microsoft.com/en-us/azure/active-directory/develop/msal-overview): Acquire access tokens from the Microsoft identity platform. See examples [here](https://azure.github.io/azure-workload-identity/docs/topics/language-specific-examples/msal.html).
 
+- [Microsoft.Identity.Web](https://learn.microsoft.com/en-us/entra/msidweb/overview): Primary authentication library for ASP.Net. Simplifies adding authentication and authorization to applications that integrate with the Microsoft identity platform, including Microsoft Entra ID
+
+To configure the FederatedCredentials for `Microsoft.Identity.Web` using Radix the config needs to use ClientCredentials with the `SourceType`: `SignedAssertionFilePath`. 
+```jsonc
+// appsettings.json
+{
+    "AzureAd": {
+        "ClientCredentials": [
+          {
+            "SourceType": "SignedAssertionFilePath"
+          }
+        ],
+        // Remaining config
+    }
+}
+```
+
 - [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/): Interact with Azure services from the command line. Supports login with workload identity federation:
 
 ```bash
