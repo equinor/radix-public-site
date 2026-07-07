@@ -43,7 +43,6 @@ spec:
 ```yaml
 spec:
   build:
-    useBuildKit: true
     useBuildCache: true
     secrets:
       - SECRET_1
@@ -58,41 +57,16 @@ spec:
 
 The `build` section of the spec contains configuration used during the build process of the components and jobs.
 
-### `useBuildKit`
-
-`useBuildKit` controls how Radix builds components and jobs.
-
-All applications must have `useBuildKit: true` set in `radixconfig.yaml`. This is the default behavior in Radix.
-
-```yaml
-useBuildKit: true
-```
-When enabled, Radix builds components and jobs using  **Buildah**. This replaces the legacy build method entirely.
-
-#### Benefits
-Compared to the legacy build engine, BuildKit provides:
-
-- **More secure** handling of [**build secrets**](../guides/build-secrets/index.md#build-secrets-with-buildkit), and enables further security improvements not possible with the legacy method.
-- Support for build caching to reduce build time, see [`useBuildCache`](#usebuildcache).
-- Support for using images from protected container registries defined in privateImageHubs in Dockerfile FROM instructions.
-- **Faster builds** due to fewer steps involved and higher performance build nodes.
-
-:::warning Deprecated: `useBuildKit: false` (or not set)
-Using the legacy build engine (`useBuildKit: false` or leaving `useBuildKit` unset) is deprecated and will be removed in a future Radix release.
-This primarily affects users who use [**build secrets**](../guides/build-secrets/index.md). Applications relying on build secrets with the legacy build engine must migrate to useBuildKit: true as soon as possible.
-As a temporary measure, applications using build secrets must explicitly set, using: `useBuildKit: false`
-:::
-
-See the [build secrets guide](../guides/build-secrets/index.md#build-secrets-with-buildkit) documentation for guidance on migrating build secrets to BuildKit. 
-
 ### `useBuildCache`
-`useBuildCache` - (optional, defaults to `true`) pushes all layers to cache, and uses it in future builds when possible. Requires `useBuildKit` to be enabled. Internally Radix sets `--cache-to`, `--cache-from` and `--layers` in Buildah. Read more at [Buildahs Documentation](https://github.com/containers/buildah/blob/main/docs/buildah-build.1.md)
+
+`useBuildCache` - (optional, defaults to `true`) pushes all layers to cache, and uses it in future builds when possible. Internally Radix sets `--cache-to`, `--cache-from` and `--layers` in Buildah. Read more at [Buildahs Documentation](https://github.com/containers/buildah/blob/main/docs/buildah-build.1.md)
 
 This option can be overridden in the [Radix CLI command](../docs/topic-radix-cli/index.md#build-and-deploy-pipeline-job) `rx create pipeline-job build-deploy` with an argument `--use-build-cache=true|false` and with the checkbox `Use Build Cache` in the Radix Web Console.
 
 #### Refresh Build Cache
 
 There are cases when cache need to be refreshed explicitly:
+
 * When `useBuildCache` is `true` and there are changes in source code's implicit dependencies or external resources, used by the Dockerfile (e.g. components, referenced to external Git repository or service)
 * When build secrets are changed
 
@@ -103,6 +77,7 @@ Make sure you never store secrets or confidential information in any intermediat
 :::
 
 ### `secrets` (build)
+
 ```yaml
 spec:
   build:
@@ -110,19 +85,15 @@ spec:
       - SECRET_1
       - SECRET_2
 ```
+
 `secrets` - (optional) Defines secrets to be used in Dockerfiles or [sub-pipelines](../guides/sub-pipeline/index.md). Secrets values must be set in Radix Web Console. `build-deploy` jobs will fail if not all secret values are set.
 
-:::tip
-* When `useBuildKit: true`, build secrets are not available as `ARG`-s during container build, but they can be mounted as files. Secret values are not base-64 encoded in these files.
-* **(Deprecated)** When `useBuildKit: false` or not set, build secrets are passed as `ARG`-s during container build, base-64 encoded. This method is deprecated — migrate to `useBuildKit: true`.
-
-Read the [build secrets](../guides/build-secrets/index.md) guide to see how to use build secrets in a Dockerfile.
-:::
-
 ### `subPipeline`
-`subPipeline` - (optional, available only in [sub-pipelines](../guides/sub-pipeline/index.md)) configuration of sub-pipeline options. 
+
+`subPipeline` - (optional, available only in [sub-pipelines](../guides/sub-pipeline/index.md)) configuration of sub-pipeline options.
 
 #### `variables`
+
 ```yaml
 spec:
   build:
@@ -131,9 +102,11 @@ spec:
         VAR1: value1
         VAR2: value2
 ```
+
 `variables` - (optional, available only in [sub-pipelines](../guides/sub-pipeline/index.md)) environment variables names and values, provided for all build Radix environments in [sub-pipelines](../guides/sub-pipeline/index.md). These common environment variables can be overridden by environment-specific environment variables with the same names.
 
 #### `identity` (build)
+
 ```yaml
 spec:
   build:
@@ -142,6 +115,7 @@ spec:
         azure:
           clientId: 12345678-a263-abcd-8993-683cc6123456
 ```
+
 When `identity.azure.clientId` option is set, the environment variable `AZURE_CLIENT_ID` with its value is automatically added to the running pipeline, and it can be used in this pipeline tasks. Read more about the identity in the [component identity](#identity-component) option and about using it in the sub-pipeline in the [Pipeline with Azure workload identity](../guides/sub-pipeline/example-pipeline-with-azure-workload-identity.md) example.
 
 ## `environments`
@@ -169,13 +143,13 @@ The name of the environment. Can be `dev`, `qa`, `production` etc.
 
 Wildcard branch or git tag mapping is also support, using `*` and `?`. Examples:
 
-- `feature/*`
-- `feature-?`
-- `hotfix/**/*`
+* `feature/*`
+* `feature-?`
+* `hotfix/**/*`
 
 **subPipeline:**
-Environment specific variables will override common variables. 
-Deprecated: `spec.build.variables` is deprecated. Use `spec.build.subPipeline.variables` instead. 
+Environment specific variables will override common variables.
+Deprecated: `spec.build.variables` is deprecated. Use `spec.build.subPipeline.variables` instead.
 
 A text input field, will be available to put a full branch name for a build environment.  
 
@@ -231,6 +205,7 @@ spec:
 ```
 
 `fromType` - (optional, default both - branch or tag) controls whether the environment is built and deployed by `build-deploy` pipeline jobs triggered from GitHub webhook:
+
 * `branch` - on commit to a branch
 * `tag` - on created tag
 * not set - both on commit to a branch or on created tag
@@ -271,16 +246,21 @@ If your application uses a custom OAuth2 implementation, outbound access to Micr
 :::
 
 ### `subPipeline`
-`subPipeline` - (optional, available only in [sub-pipelines](../guides/sub-pipeline/index.md)) configuration of sub-pipeline options for specific environment. 
+
+`subPipeline` - (optional, available only in [sub-pipelines](../guides/sub-pipeline/index.md)) configuration of sub-pipeline options for specific environment.
+
 * It can override common [subPipeline](#subpipeline) or combine with it (if present) for a specific environment.
 * It can remove the common Sub-Pipeline [identity](#identity-build) (if present) with `{}` (empty object) for a specific environment
+
 ```yaml
 spec:
   environments:
     - name: dev
       subPipeline: {}
 ```
+
 #### `variables`
+
 ```yaml
 spec:
   environments:
@@ -290,9 +270,11 @@ spec:
           VAR1: value1
           VAR2: value2
 ```
+
 Sub-pipeline environment variables names and values, provided for specific build Radix environment in [sub-pipelines](../guides/sub-pipeline/index.md). These variables will be combined with [subPipeline environment variables](#variables) (if present).
 
 #### `identity` (component)
+
 ```yaml
 spec:
   environments:
@@ -302,8 +284,11 @@ spec:
           azure:
             clientId: 12345678-a263-abcd-8993-683cc6123456
 ```
+
 The `identity` section enables identity for a specific environment. Read more about [build identity](#identity-build).
+
 * It can remove the common [identity](#identity-component) with `{}` empty object for a specific environment
+
 ```yaml
 spec:
   environments:
@@ -312,6 +297,7 @@ spec:
         identity:
           azure: {}
 ```
+
 See [identity](#identity-detailed) for more information.
 
 ## `components`
@@ -372,6 +358,7 @@ spec:
         - name: http
           port: 5000          
 ```
+
 `dockerfileName` defines the name and path, relative to [`src`](#src), of the `Dockerfile` to build in [Build and deploy](../guides/build-and-deploy/index.md) pipeline jobs.
 
 For Radix environment specific `dockerfileName`, refer to [environmentConfig dockerfileName](#dockerfilename-detailed).
@@ -398,16 +385,19 @@ spec:
 ```
 
 :::tip
-- When a container image is from the DockerHub repository, it is enough to specify only the image name. Examples:
-  - `image: redis:latest`
-  - `image: redis:7.0.5`.
-  - When an image is located in another container registry, the image name need to have the container registry URL. Example:
-  - `image: gcr.io/distroless/nodejs18-debian11`.
-  - `image: gcr.io/distroless/nodejs18-debian11:latest`.
-- When an image is not publicly available, it is required to provide an authentication information. Please read more about [privateImageHubs](./#privateimagehubs) option.
+
+* When a container image is from the DockerHub repository, it is enough to specify only the image name. Examples:
+  * `image: redis:latest`
+  * `image: redis:7.0.5`.
+  * When an image is located in another container registry, the image name need to have the container registry URL. Example:
+  * `image: gcr.io/distroless/nodejs18-debian11`.
+  * `image: gcr.io/distroless/nodejs18-debian11:latest`.
+* When an image is not publicly available, it is required to provide an authentication information. Please read more about [privateImageHubs](./#privateimagehubs) option.
+
 :::
 
 For Radix environment specific `image`, refer to [environmentConfig image](#image-detailed).
+
 ### `replicas`
 
 ```yaml
@@ -420,6 +410,7 @@ spec:
 `replicas` can be used to [horizontally scale](https://en.wikipedia.org/wiki/Scalability#Horizontal_and_vertical_scaling) the component. If `replicas` is not set, it defaults to `1`. If `replicas` is set to `0`, the component will not be deployed (i.e. stopped).
 
 ### `ports`
+
 ```yaml
 spec:
   components:
@@ -430,13 +421,15 @@ spec:
         - name: api
           port: 8001
 ```
+
 A component can optionally have one or several ports:
+
 * `name` - internal name of a port, used as a reference within the radixconfig. It needs to be unique within the component `ports` list.
 * `port` - numeric value of a port, in the range between 1024 and 65535. It needs to be unique within the component `ports` list.
 
-A component doesn't need to have ports. If it has at least one port, it has to respond to TCP or HTTP requests, sent to this port. Kubernetes [readiness probe](../docs/topic-rollingupdate/index.md#readiness-probe) will regularly request the first port in the `ports` list to ensure that the component can handle requests. 
+A component doesn't need to have ports. If it has at least one port, it has to respond to TCP or HTTP requests, sent to this port. Kubernetes [readiness probe](../docs/topic-rollingupdate/index.md#readiness-probe) will regularly request the first port in the `ports` list to ensure that the component can handle requests.
 
-When a new component version is deployed, the probe waits until replicas of the new component version start responding to such requests, keeping them in the "Starting" state. When the new replicas respond to these requests, the [rolling update](../docs/topic-rollingupdate/index.md) will remove the replicas of the old component version 
+When a new component version is deployed, the probe waits until replicas of the new component version start responding to such requests, keeping them in the "Starting" state. When the new replicas respond to these requests, the [rolling update](../docs/topic-rollingupdate/index.md) will remove the replicas of the old component version
 
 ### `publicPort`
 
@@ -456,6 +449,7 @@ If no [ports](./#ports) specified for a component, `publicPort` should not be se
 :::
 
 ### `command`
+
 ```yaml
 spec:
   components:
@@ -463,13 +457,15 @@ spec:
       command:
       - ./run.sh
 ```
-`command` - (optional) sets or overrides [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint) directive array in a docker image. [Variable](https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#use-environment-variables-to-define-arguments) references like `$(VAR_NAME)` can be used with the container's environment variables. Read more in [Kubernetes documentation](https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#run-a-command-in-a-shell). `command` can be set or overridden for a specific environment. 
+
+`command` - (optional) sets or overrides [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint) directive array in a docker image. [Variable](https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#use-environment-variables-to-define-arguments) references like `$(VAR_NAME)` can be used with the container's environment variables. Read more in [Kubernetes documentation](https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#run-a-command-in-a-shell). `command` can be set or overridden for a specific environment.
 
 When `command` is set and a Dockerfile used by the job-component has [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive (having a shell command or arguments to a command defined in [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint)), this [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive will be ignored.
 
 When `command` is set to an empty array `[]`, it will be equivalent of empty `command`, no effect on configuration.  
 
 The command can be followed by a list of arguments.
+
 ```yaml
 spec:
   components:
@@ -478,7 +474,9 @@ spec:
         - node
         - server.js
 ```
+
 Array syntax is also supported:
+
 ```yaml
 spec:
   components:
@@ -487,6 +485,7 @@ spec:
 ```
 
 ### `args`
+
 ```yaml
 spec:
   components:
@@ -495,17 +494,20 @@ spec:
       - --port=8000
       - --host=server
 ```
+
 `args` - (optional) sets or overrides [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive array in a docker image. [Variable](https://kubernetes.io/docs/tasks/inject-data-application/define-args-argument-container/#use-environment-variables-to-define-arguments) references like `$(VAR_NAME)` can be used with the container's environment variables. Read more in [Kubernetes documentation](https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#run-a-command-in-a-shell). `args` can be set or overridden for a specific environment.
 
 When `args` is set to an empty array `[]`, it will be equivalent of empty `args`, no effect on configuration.
 
 Array syntax is also supported:
+
 ```yaml
 spec:
   components:
     - name: frontend
       args: ["--port=8000", "--host=server"]
 ```
+
 :::tip
 `command` and `args` can be combined. If both are set, `command` will override the [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint) and `args` will override the [CMD](https://docs.docker.com/reference/dockerfile/#cmd) of the container image.
 
@@ -518,6 +520,7 @@ spec:
       command: ["node", "server.js"]
       args: ["--port=8000", "--host=server"]
 ```
+
 :::
 
 ### `monitoring` (detailed)
@@ -554,6 +557,7 @@ If overriding `portName` it will have to match one of the defined ports in the c
 :::
 
 ### `horizontalScaling` (detailed)
+
 Configure automatic scaling of the component. This field is optional, and if set, it will override the `replicas` value of the component. If no triggers are defined, Radix will configure a default CPU trigger with a target of 80% average usage.
 
 One exception is when the `replicas` value is set to `0` (i.e. the component is stopped), the `horizontalScaling` config will not be used.
@@ -565,6 +569,7 @@ The previous `resources` block have been replaced by `triggers`.
 Radix application components replicas can be scaled up and down based on resources (CPU, memory) or external metrics (cron, Azure Service Bus, etc.). Read [more](../guides/horizontal-scaling/index.md).
 
 #### Scaling options
+
 ```yaml
 spec:
   components:
@@ -584,6 +589,7 @@ spec:
           memory:
             value: 75
 ```
+
 * `minReplicas` - (optional, default `1`) The minimum number of replicas to scale down to. Valid minimum value depend on trigger type. If only CPU or memory trigger is defined, the default and minimum value is `1`. If other types of triggers are defined, the minimum value can be `0`.
 * `maxReplicas` - the maximum number of replicas to scale up to by any combination of triggers.
 * `pollingInterval` - (optional, default `30`) This is the interval in seconds to check each trigger on. Read [more](https://keda.sh/docs/2.14/concepts/scaling-deployments/#pollinginterval).
@@ -592,6 +598,7 @@ spec:
 Read [more](https://keda.sh/docs/2.14/concepts/scaling-deployments/#scaledobject-spec) about other default options.
 
 #### `cpu` and `memory` triggers
+
 Scale applications based on CPU and/or memory metrics.
 
 * `minReplicas` - (optional) The minimum number of replicas to scale down to. If only CPU or memory trigger is defined, the default and minimum value is `1`. If other types of triggers are defined, the minimum value can be `0`.
@@ -599,9 +606,11 @@ Scale applications based on CPU and/or memory metrics.
 * `memory` - (optional) The target average memory usage (in percents) across all replicas. If the average memory usage is above this value, KEDA will scale up the component. Read [more](https://keda.sh/docs/2.17/scalers/memory/).
 
 #### `cron` trigger
-Scale applications based on a cron schedule. 
+
+Scale applications based on a cron schedule.
 
 The example below scales the `backend` component to `2` replicas between 07:00 and 17:00 on weekdays (Monday to Friday) in the Europe/Oslo timezone. Outside this period, the component will scale down to `0` replicas.
+
 ```yaml
 spec:
   components:
@@ -617,6 +626,7 @@ spec:
             end: 0 17 * * 1-5 # 17:00 Monday - Friday
             desiredReplicas: 2
 ```
+
 * `minReplicas` - it need to be set to `0` to allow scaling down to zero replicas outside the cron scheduled period.
 * `maxReplicas` - the maximum number should be equal or great than `desiredReplicas`.
 * `timezone` - (optional) One of the acceptable values from the IANA Time Zone Database. The list of timezones can be found [here](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
@@ -627,7 +637,9 @@ spec:
 Read [more](https://keda.sh/docs/2.17/scalers/cron/)
 
 #### `azureServiceBus` trigger
+
 Scale application components based on [Azure Service Bus](https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-overview) Queues or Topics.
+
 ````yaml
 spec:
   components:
@@ -652,6 +664,7 @@ spec:
                     clientId: 00000000-0000-0000-0000-000000000000
               connectionFromEnv: SERVICE_BUS_CONNECTION
 ````
+
 * `minReplicas` - it need to be set to `0` to allow scaling down to zero replicas.
 * `namespace` - The Azure Service Bus namespace, without the `.servicebus.windows.net` suffix. Required when authenticate to Azure Service Bus using a Managed Identity.
 * `queueName` - (optional) Name of the Azure Service Bus queue to scale on. This cannot be used together with `topicName`.
@@ -665,7 +678,9 @@ spec:
 Read [more](https://keda.sh/docs/2.17/scalers/azure-service-bus/) about the Keda Azure Service Bus scheduler.
 
 #### `azureEventHub` trigger
+
 Scale application components based on [Azure Event Hub](https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-about) events.
+
 ````yaml
 spec:
   components:
@@ -695,6 +710,7 @@ spec:
               eventHubConnectionFromEnv: EVENT_HUB_CONNECTION
               storageConnectionFromEnv: STORAGE_CONNECTION
 ````
+
 * `minReplicas` - it need to be set to `0` to allow scaling down to zero replicas.
 * `eventHubNamespace` - (optional) the Azure Event Hub namespace, without the `.servicebus.windows.net` suffix. Required when authentication is done with Workload Identity.
 * `eventHubNamespaceFromEnv` - (optional) the name of an environment variable that contains the Event Hub namespace. Ignored when `eventHubNamespace` is specified. Required when authentication is done with Workload Identity.
@@ -726,7 +742,6 @@ A **HTTP Get probe** for readiness probe is usually easer to manage than a TCP p
 **TCP Probes** only checks if the port is open or closed. This way its hard to explicitly open or close the port when your component or dependencies are unavailable after startup. This could also disrupt regular requests that might not be affected.
 :::
 
-
 ```yaml
 spec:
   components:
@@ -756,7 +771,7 @@ All probes have all settings (except for successThreshold that is not available 
 :::warning
 Incorrectly configured probes can lead to premature restarts and will affect your uptime.
 
-Read more about probes here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+Read more about probes here: [Configure Liveness, Readiness and Startup Probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
 :::
 
 ### `imageTagName`
@@ -767,6 +782,7 @@ components:
     image: docker.pkg.github.com/equinor/myapp/backend:{imageTagName}
     imageTagName: master-latest
 ```
+
 The `imageTagName` allows for flexible configuration of fixed images, built outside of Radix. It can be configured with separate tag for each environment.
 
 :::tip
@@ -818,16 +834,17 @@ spec:
 
 The `volumeMounts` field configures volume mounts within the running component.
 
-- `name` - The name of the volume. Unique within `volumeMounts` list of a component
-- `path` - The folder inside the running container, where the external storage is mounted.
+* `name` - The name of the volume. Unique within `volumeMounts` list of a component
+* `path` - The folder inside the running container, where the external storage is mounted.
 
 Configure one of the following volume types:
-- `emptyDir` - Mounts a read-write empty volume.
-- `blobFuse2` - Mounts an [Azure storage account](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview) blob container.
+
+* `emptyDir` - Mounts a read-write empty volume.
+* `blobFuse2` - Mounts an [Azure storage account](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview) blob container.
 
 #### `emptyDir`
 
-- `sizeLimit` - The maxiumum capacity for the volume.
+* `sizeLimit` - The maxiumum capacity for the volume.
 
 An `emptyDir` volume mounts a temporary writable volume in the container. Data in an `emptyDir` volume is safe across container crashes for component replicas, but is lost if a job container crashes and restarts. When a component replica is deleted for any reason, the data in `emptyDir` is removed permanently.
 
@@ -835,41 +852,41 @@ An `emptyDir` volume mounts a temporary writable volume in the container. Data i
 
 :::tip Use cases
 
-- scratch space, such as for a disk-based merge sort
-- checkpointing a long computation for recovery from crashes
-- holding files that a content-manager container fetches while a webserver container serves the data
+* scratch space, such as for a disk-based merge sort
+* checkpointing a long computation for recovery from crashes
+* holding files that a content-manager container fetches while a webserver container serves the data
   :::
 
 #### `blobFuse2`
 
 The **blobFuse2** volume type adds support for mounting Azure storage account blob containers. Read the [guide](../guides/volume-mounts/) for detailed information and examples.
 
-- `protocol` (optional, default `fuse2`) - Name of the protocol to be used. Valid values are `fuse2` or `""` (blank).
-- `container` - Name of the blob container in the Azure storage account.
-- `cacheMode` (optional, default `Block`) - Specify how files should be cached. Valid values are `Block`, `File` and `DirectIO`. Read more about the different mode [here](../guides/volume-mounts/index.md#cache-modes).
-- `blockCache` (optional) - Settings for `Block` cache mode.
-  - `blockSize` (optional, default `4`) - Size (in MB) of a block to be downloaded as a unit.
-  - `prefetchCount` (optional, default `11`) - Max number of blocks to prefetch. Value must be `0` or greater than `10`.
-  - `prefetchOnOpen` (optional, default `false`) - Start prefetching on open or wait for first read.
-  - `poolSize` (optional) - Defines the size (in MB) of total memory preallocated for block cache. Must be at least `blockSize` * `prefetchCount`. If `prefetchCount` is set to `0` then the minimum value is 1 * `blockSize`. If this value is set lower than the required minimum, Radix will automatically use minimum to prevent failures.
-  - `diskSize` (optional, default `0`) - Defines the size (in MB) of total disk capacity that block cache can use. `0` disables block caching on disk. Follows the same requirements and behavior as `poolSize` when set to a value greater than `0`.
-  - `diskTimeout` (optional, default `120`) - Timeout (in seconds) for which persisted data on disk cache. Applicable only when `diskSize` greater than `0`.
-  - `parallelism` (optional, default `8`) - Number of worker thread responsible for upload/download jobs.
-- `fileCache` (optional) - Settings for `File` cache mode.
-  - `timeout` (optional, default `120`) - The timeout (in seconds) for which file cache is valid.
-- `attributeCache` (optional) - Settings for file attribute cache.
-  - `timeout` (optional, default `0`) - The timeout (in seconds) for file attribute cache entries.
-- `accessMode` (optional, default `ReadOnlyMany`) - Defines the access mode to the mounted volume. Valid values are `ReadOnlyMany`, `ReadWriteOnce` or `ReadWriteMany`.
-- `requestsStorage` (optional, default `1Mi`) - Defines the requested storage size for the Azure storage account blob container. Currently, this setting has no effect.
-- `uid` (optional) - Defines the ID of the user that will own the mounted files and directories. Currently, the blobfuse2 driver does no honor this setting.
-- `gid` (optional) - Defines the ID of the group that will own the mounted files and directories. Currently, the blobfuse2 driver does no honor this setting.
-- `useAdls` (optional, default `false`) - When Azure storage account has enabled [HNS](https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-namespace) (hierarchical namespace, available in [Azure Data Lake Gen2 storage](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-overview#about-azure-data-lake-storage-gen2)), ADLS (Azure Data Lake Storage) can be used instead of Blob Storage. When `adls: true` - folder hierarchy, folder operations (create, delete, etc.) and ACL (access control list) can be used on blob data in a Radix component pod's container, within `path`. Read about [private endpoint and ADLS](../guides/volume-mounts/index.md#private-endpoint).
-- `useAzureIdentity` (optional, default `false`) - Enables [Azure Workload Identity](../guides/volume-mounts/index.md#azure-workload-identity) credentials using the service principal configured in [identity.azure](#identity-detailed) for accessing the Azure Storage. If omitted or set to `false`, [Azure storage account keys](../guides/volume-mounts/index.md#access-keys) is used for authentication.
-- `storageAccount` (optional) - Name of the Azure storage account. Required when `useAzureIdentity` is `true`.
-- `resourceGroup` (optional) - Name of the Azure resource group for the Azure storage account. Required when `useAzureIdentity` is `true`.
-- `subscriptionId` (optional) - Azure subscription ID for the Azure storage account. Required when `useAzureIdentity` is `true`.
-- `tenantId` (optional, defaults to the Equinor tenant) - Azure tenant ID for the Azure storage account. Applicable when `useAzureIdentity` is `true`.
-- `streaming` (deprecated) - Streaming is deprecated by the blobfuse2 driver, and is replaced with block caching. To prevent breaking changes for applications that have explicitly disabled streaming, by setting `streaming.enabled` to `false`, in order to use file caching, this behavior is preserved as long as `cacheMode` is not set.
+* `protocol` (optional, default `fuse2`) - Name of the protocol to be used. Valid values are `fuse2` or `""` (blank).
+* `container` - Name of the blob container in the Azure storage account.
+* `cacheMode` (optional, default `Block`) - Specify how files should be cached. Valid values are `Block`, `File` and `DirectIO`. Read more about the different mode [here](../guides/volume-mounts/index.md#cache-modes).
+* `blockCache` (optional) - Settings for `Block` cache mode.
+  * `blockSize` (optional, default `4`) - Size (in MB) of a block to be downloaded as a unit.
+  * `prefetchCount` (optional, default `11`) - Max number of blocks to prefetch. Value must be `0` or greater than `10`.
+  * `prefetchOnOpen` (optional, default `false`) - Start prefetching on open or wait for first read.
+  * `poolSize` (optional) - Defines the size (in MB) of total memory preallocated for block cache. Must be at least `blockSize` _`prefetchCount`. If `prefetchCount` is set to `0` then the minimum value is 1_ `blockSize`. If this value is set lower than the required minimum, Radix will automatically use minimum to prevent failures.
+  * `diskSize` (optional, default `0`) - Defines the size (in MB) of total disk capacity that block cache can use. `0` disables block caching on disk. Follows the same requirements and behavior as `poolSize` when set to a value greater than `0`.
+  * `diskTimeout` (optional, default `120`) - Timeout (in seconds) for which persisted data on disk cache. Applicable only when `diskSize` greater than `0`.
+  * `parallelism` (optional, default `8`) - Number of worker thread responsible for upload/download jobs.
+* `fileCache` (optional) - Settings for `File` cache mode.
+  * `timeout` (optional, default `120`) - The timeout (in seconds) for which file cache is valid.
+* `attributeCache` (optional) - Settings for file attribute cache.
+  * `timeout` (optional, default `0`) - The timeout (in seconds) for file attribute cache entries.
+* `accessMode` (optional, default `ReadOnlyMany`) - Defines the access mode to the mounted volume. Valid values are `ReadOnlyMany`, `ReadWriteOnce` or `ReadWriteMany`.
+* `requestsStorage` (optional, default `1Mi`) - Defines the requested storage size for the Azure storage account blob container. Currently, this setting has no effect.
+* `uid` (optional) - Defines the ID of the user that will own the mounted files and directories. Currently, the blobfuse2 driver does no honor this setting.
+* `gid` (optional) - Defines the ID of the group that will own the mounted files and directories. Currently, the blobfuse2 driver does no honor this setting.
+* `useAdls` (optional, default `false`) - When Azure storage account has enabled [HNS](https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-namespace) (hierarchical namespace, available in [Azure Data Lake Gen2 storage](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-overview#about-azure-data-lake-storage-gen2)), ADLS (Azure Data Lake Storage) can be used instead of Blob Storage. When `adls: true` - folder hierarchy, folder operations (create, delete, etc.) and ACL (access control list) can be used on blob data in a Radix component pod's container, within `path`. Read about [private endpoint and ADLS](../guides/volume-mounts/index.md#private-endpoint).
+* `useAzureIdentity` (optional, default `false`) - Enables [Azure Workload Identity](../guides/volume-mounts/index.md#azure-workload-identity) credentials using the service principal configured in [identity.azure](#identity-detailed) for accessing the Azure Storage. If omitted or set to `false`, [Azure storage account keys](../guides/volume-mounts/index.md#access-keys) is used for authentication.
+* `storageAccount` (optional) - Name of the Azure storage account. Required when `useAzureIdentity` is `true`.
+* `resourceGroup` (optional) - Name of the Azure resource group for the Azure storage account. Required when `useAzureIdentity` is `true`.
+* `subscriptionId` (optional) - Azure subscription ID for the Azure storage account. Required when `useAzureIdentity` is `true`.
+* `tenantId` (optional, defaults to the Equinor tenant) - Azure tenant ID for the Azure storage account. Applicable when `useAzureIdentity` is `true`.
+* `streaming` (deprecated) - Streaming is deprecated by the blobfuse2 driver, and is replaced with block caching. To prevent breaking changes for applications that have explicitly disabled streaming, by setting `streaming.enabled` to `false`, in order to use file caching, this behavior is preserved as long as `cacheMode` is not set.
 
 ### `alwaysPullImageOnDeploy`
 
@@ -909,10 +926,10 @@ spec:
           cpu: "1000m"
 ```
 
-The `resources` section specifies how much CPU and memory each component needs, that are shared among all Radix environments in a component. 
+The `resources` section specifies how much CPU and memory each component needs, that are shared among all Radix environments in a component.
 These common resources are overridden by environment-specific resources. The requested quota of memory and cpu must be below the limit.
 
-If no memory limit is set, but a memory request is set, we will set the limit equal to the requested value. 
+If no memory limit is set, but a memory request is set, we will set the limit equal to the requested value.
 The opposite is also true, if a memory limit is set, but no requests, we will sett the requested memory equal to the memory limit.
 
 [Read more](https://kubernetes.io/blog/2021/11/26/qos-memory-resources/) about memory resources and QoS.
@@ -960,7 +977,9 @@ spec:
         - environment: dev
           src: "./api"
 ```
+
 In this example:
+
 * The `frontend` component in the `dev` environment will be built from the `frontend` folder of the GitHub repo, and from a root folder for other environments. Both docker-files expected to be `Dockerfile` as `dockerfileName` option is not specified.
 * The `backend` component in the `dev` environment will be built from the `backend` folder of the GitHub repo, and from a root folder (used by default) for other environments. Both docker-files expected to be `Dockerfile` as `dockerfileName` option is not specified.
 * The `api` component in the `dev` environment will be built from the `api` folder. This option in the environment overrides an `image` option on the component level, which value `ghcr.io/my-repo/my-app/api:v1.10` will be used to deploy this component in other environments. The docker-file expected to be `Dockerfile` as `dockerfileName` option is not specified.
@@ -990,7 +1009,9 @@ spec:
         - environment: dev
           dockerfileName: Dockerfile
 ```
+
 In this example:
+
 * The `frontend` component in the `dev` environment will be built with the `Dockerfile.dev` docker-file, and with a `Dockerfile` docker-file for other environments. Both docker-files expected to be in the root of the GitHub repo as `src` option is not specified.
 * The `backend` component in the `dev` environment will be built with the `Dockerfile.dev` docker-file, and with a `Dockerfile` docker-file (a name, used by default) for other environments. Both docker-files expected to be in the `backend` folder in the root of the GitHub repo.
 * The `api` component in the `dev` environment will be built with the `Dockerfile` docker-file. This option in the environment overrides an `image` option on the component level, which value `ghcr.io/my-repo/my-app/api:v1.10` will be used to deploy this component in other environments. The docker-file expected to be in the root of the GitHub repo as `src` option is not specified.
@@ -1014,7 +1035,9 @@ spec:
         - environment: prod
           image: ghcr.io/my-repo/my-app/web-app:v1.10
 ```
+
 In this example:
+
 * The `redis` component in the `qa` environment will be run on the image `redis:7.2.4`, in other environments it will be run on the default image `redis:5.0-alpine`
 * The `web-app` component in the `prod` environment will be run on the pre-build image `ghcr.io/my-repo/my-app/web-app:v1.10`, in other environments it will be built from the source folder `./app` and the docker-file `Dockerfile.app`
 
@@ -1034,6 +1057,7 @@ spec:
 `replicas` can be used to [horizontally scale](https://en.wikipedia.org/wiki/Scalability#Horizontal_and_vertical_scaling) the component. If `replicas` is not set, it defaults to `1`. If `replicas` is set to `0`, the component will not be deployed (i.e. stopped). This can override the [component level](#replicas) `replicas` value.
 
 #### `command`
+
 ```yaml
 spec:
   components:
@@ -1043,9 +1067,11 @@ spec:
           command:
           - ./run.sh
 ```
+
 `command` - (optional) sets or overrides [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint) directive array in a docker image. It can also override the component's `command` if it exists. Read more about [command](#command)
 
 #### `args`
+
 ```yaml
 spec:
   components:
@@ -1056,13 +1082,15 @@ spec:
           - --port=8000
           - --host=server
 ```
+
 `args` - (optional) sets or overrides [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive array in a docker image. It can also override the component's `args` if it exists. Read more about [args](#args)
 
 :::tip
 `command` and `args` in the component and its `environmentConfig` can be combined.
 Following configuration will run the command:
-* in the `dev` environment container: `node server.js --port=8000 --host=server` 
-* in the `prod` environment container: `node server.js --port=8099 --host=api` 
+
+* in the `dev` environment container: `node server.js --port=8000 --host=server`
+* in the `prod` environment container: `node server.js --port=8099 --host=api`
 
 ```yaml
 spec:
@@ -1079,6 +1107,7 @@ spec:
         - environment: prod
           args: ["--host=api"]
 ```
+
 :::
 
 #### `monitoring`
@@ -1157,7 +1186,7 @@ See [`horizontalScaling` (detailed)](#horizontalscaling-detailed) for more infor
 
 #### `healthChecks`
 
-Health check probes defined here will override probes defined on the component level. 
+Health check probes defined here will override probes defined on the component level.
 
 ```yaml
 spec:
@@ -1199,6 +1228,7 @@ components:
       - environment: prod
         imageTagName: release-39f1a082
 ```
+
 The `imageTagName` can be configured with separate tag for each environment. Environment `imageTagName` overrides a component `imageTagName` if it is also defined.
 See [imageTagName](#imagetagname) for a component for more information.
 
@@ -1331,36 +1361,36 @@ oauth2:
     sameSite: lax
 ```
 
-- `clientId` Required - The client ID of the application, e.g. the application ID of an application registration in Azure AD.
+* `clientId` Required - The client ID of the application, e.g. the application ID of an application registration in Azure AD.
 
-- `scope` Optional. Default **openid profile email** - List of OIDC scopes and identity platform specific scopes. More information about scopes when using the Microsoft Identity Platform can be found [here](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent).
-- `setXAuthRequestHeaders` Optional. Default **false** - Adds claims from the access token to the _X-Forwarded-User_, _X-Forwarded-Groups_, _X-Forwarded-Email_ and _X-Forwarded-Preferred-Username_ request headers. The Access Token is added to the _X-Forwarded-Access-Token_ header.
+* `scope` Optional. Default **openid profile email** - List of OIDC scopes and identity platform specific scopes. More information about scopes when using the Microsoft Identity Platform can be found [here](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent).
+* `setXAuthRequestHeaders` Optional. Default **false** - Adds claims from the access token to the _X-Forwarded-User_, _X-Forwarded-Groups_, _X-Forwarded-Email_ and _X-Forwarded-Preferred-Username_ request headers. The Access Token is added to the _X-Forwarded-Access-Token_ header.
 
-- `setAuthorizationHeader` Optional. Default **false** - Adds the OIDC ID Token in the _Authorization: Bearer_ request header.
-- `proxyPrefix` Optional. Default **/oauth2** - The root path that the OAuth2 proxy should be nested under. The OAuth2 proxy exposes various [endpoints](https://oauth2-proxy.github.io/oauth2-proxy/docs/features/endpoints) from this root path.
-- `oidc` OIDC configuration
-  - `issuerUrl` Optional. Default **&lt;https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/v2.0&gt;** - OIDC issuer URL. The default value is set to the Equinor Azure tenant ID. Read more about Microsoft OIDC issuer URLs [here](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-protocols-oidc#fetch-the-openid-connect-metadata-document).
-  - `jwksUrl` Optional - OIDC JWKS URL for token verification. Required if `skipDiscovery` is set to **true**.
-  - `skipDiscovery` Optional. Default **false** - Skip automatic discovery OIDC endpoints. `jwksURl`, `loginUrl` and `redeemUrl` must be specified if `skipDiscovery` is **true**.
-  - `insecureSkipVerifyNonce` Optional. Default **false**. Skip verifying the OIDC ID Token's nonce claim. Should only be enabled with OIDC providers that does not support the nonce claim.
-- `loginUrl` Optional - The authorization URL. Required if `skipDiscovery` is set to **true**.
-- `redeemUrl` Optional - The URL used to redeem authorization code and refresh token. Required if `skipDiscovery` is set to **true**.
-- `credentials` Optional. Default **secret**. The type of the authentication. When the value of the `credentials` omitted or set to `secret` a Client Secret component or job secrets is required to be set. See details in the [Authentication with Client Secret](../guides/authentication/index.md#authentication-with-client-secret). Supported values:
-  - `secret` - using a client secret to authenticate the OAuth2 proxy.
-  - `azureWorkloadIdentity`- [Azure Workload Identity](../guides/authentication/index.md#authentication-with-azure-workload-identity) to authenticate the OAuth2 proxy using the Microsoft Entra ID application registration with its `ClientID` set to the `oauth2.clientId` field.
-- `sessionStoreType` Optional. Default **cookie**. Allowed values: **cookie**, **redis**, **systemManaged**. Defines where session data shall be stored:
-  - When defined as **cookie**, the session data is stored in cookies.
-  - When defined as **systemManaged**, the session store is managed by Radix and the session data is stored in a Redis cache - a Redis component is automatically configured and deployed within the environment. 
-  - When defined as **redis**, the session data is stored in a Redis cache. Set `redisStore` equal to the URL where Redis is located, and configure the password as a secret in Radix Web Console. This could be a seperate Redis component, or Azure Cache for Redis (recommended for production)`.
-- `redisStore` Redis session store configuration if `sessionStoreType` is **redis**.
-  - `connectionUrl` Connection URL of redis server.
-- `cookieStore` Cookie session store configuration if `sessionStoreType` is **cookie**.
-  - `minimal` Optional. Default **false**. Strips ID token, access token and refresh token from session store cookies. `setXAuthRequestHeaders` and `setAuthorizationHeader` must be set to **false**, and `cookie.refresh` must be set to **0**.
-- `cookie` Session cookie configuration
-  - `name` Optional. Default **_oauth2_proxy**. Name of the session cookie. If `sessionStoreType` is **cookie**, the ID token and access token is stored in cookies prefixed with this name.
-  - `expire` Optional. Default **168h0m0s**. Expire timeframe for session cookies. Controls the _Expires_ cookie attribute.
-  - `refresh` Optional. Default **60m0s**. Refresh interval defines how often the OAuth2 service should redeem the refresh token to get a new access token. The session cookie's _Expires_ is updated after refresh.
-  - `sameSite` Optional. Default **lax**. The _SameSite_ attribute for the session cookie.
+* `setAuthorizationHeader` Optional. Default **false** - Adds the OIDC ID Token in the _Authorization: Bearer_ request header.
+* `proxyPrefix` Optional. Default **/oauth2** - The root path that the OAuth2 proxy should be nested under. The OAuth2 proxy exposes various [endpoints](https://oauth2-proxy.github.io/oauth2-proxy/docs/features/endpoints) from this root path.
+* `oidc` OIDC configuration
+  * `issuerUrl` Optional. Default `https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/v2.0` - OIDC issuer URL. The default value is set to the Equinor Azure tenant ID. Read more about Microsoft OIDC issuer URLs [here](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-protocols-oidc#fetch-the-openid-connect-metadata-document).
+  * `jwksUrl` Optional - OIDC JWKS URL for token verification. Required if `skipDiscovery` is set to **true**.
+  * `skipDiscovery` Optional. Default **false** - Skip automatic discovery OIDC endpoints. `jwksURl`, `loginUrl` and `redeemUrl` must be specified if `skipDiscovery` is **true**.
+  * `insecureSkipVerifyNonce` Optional. Default **false**. Skip verifying the OIDC ID Token's nonce claim. Should only be enabled with OIDC providers that does not support the nonce claim.
+* `loginUrl` Optional - The authorization URL. Required if `skipDiscovery` is set to **true**.
+* `redeemUrl` Optional - The URL used to redeem authorization code and refresh token. Required if `skipDiscovery` is set to **true**.
+* `credentials` Optional. Default **secret**. The type of the authentication. When the value of the `credentials` omitted or set to `secret` a Client Secret component or job secrets is required to be set. See details in the [Authentication with Client Secret](../guides/authentication/index.md#authentication-with-client-secret). Supported values:
+  * `secret` - using a client secret to authenticate the OAuth2 proxy.
+  * `azureWorkloadIdentity`- [Azure Workload Identity](../guides/authentication/index.md#authentication-with-azure-workload-identity) to authenticate the OAuth2 proxy using the Microsoft Entra ID application registration with its `ClientID` set to the `oauth2.clientId` field.
+* `sessionStoreType` Optional. Default **cookie**. Allowed values: **cookie**, **redis**, **systemManaged**. Defines where session data shall be stored:
+  * When defined as **cookie**, the session data is stored in cookies.
+  * When defined as **systemManaged**, the session store is managed by Radix and the session data is stored in a Redis cache - a Redis component is automatically configured and deployed within the environment.
+  * When defined as **redis**, the session data is stored in a Redis cache. Set `redisStore` equal to the URL where Redis is located, and configure the password as a secret in Radix Web Console. This could be a seperate Redis component, or Azure Cache for Redis (recommended for production)`.
+* `redisStore` Redis session store configuration if `sessionStoreType` is **redis**.
+  * `connectionUrl` Connection URL of redis server.
+* `cookieStore` Cookie session store configuration if `sessionStoreType` is **cookie**.
+  * `minimal` Optional. Default **false**. Strips ID token, access token and refresh token from session store cookies. `setXAuthRequestHeaders` and `setAuthorizationHeader` must be set to **false**, and `cookie.refresh` must be set to **0**.
+* `cookie` Session cookie configuration
+  * `name` Optional. Default **_oauth2_proxy**. Name of the session cookie. If `sessionStoreType` is **cookie**, the ID token and access token is stored in cookies prefixed with this name.
+  * `expire` Optional. Default **168h0m0s**. Expire timeframe for session cookies. Controls the _Expires_ cookie attribute.
+  * `refresh` Optional. Default **60m0s**. Refresh interval defines how often the OAuth2 service should redeem the refresh token to get a new access token. The session cookie's _Expires_ is updated after refresh.
+  * `sameSite` Optional. Default **lax**. The _SameSite_ attribute for the session cookie.
 
 :::tip
 See [guide](../guides/authentication/index.md#using-the-radix-oauth2-feature) on how to configure OAuth2 authentication for a component.
@@ -1413,10 +1443,10 @@ spec:
 The `identity` section enables mounting of a JWT (JSON web token) that can be used as a federated credential with the [OAuth2 client credentials flow](https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-client-creds-grant-flow#third-case-access-token-request-with-a-federated-credential) to request an access token for an Azure AD application registration or managed identity.  
 The following environment variables are added to the replicas automatically when `identity` is enabled:
 
-- **AZURE_AUTHORITY_HOST** (`https://login.microsoftonline.com/`)
-- **AZURE_CLIENT_ID** (value from `clientId` in configuration, e.g. `b96d264b-7053-4465-a4a7-32be5b0fec49`)
-- **AZURE_FEDERATED_TOKEN_FILE** (path to the file containg the JWT, e.g. `/var/run/secrets/azure/tokens/azure-identity-token`)
-- **AZURE_TENANT_ID** (e.g. `3aa4a235-b6e2-48d5-9195-7fcf05b459b0`)
+* **AZURE_AUTHORITY_HOST** (`https://login.microsoftonline.com/`)
+* **AZURE_CLIENT_ID** (value from `clientId` in configuration, e.g. `b96d264b-7053-4465-a4a7-32be5b0fec49`)
+* **AZURE_FEDERATED_TOKEN_FILE** (path to the file containg the JWT, e.g. `/var/run/secrets/azure/tokens/azure-identity-token`)
+* **AZURE_TENANT_ID** (e.g. `3aa4a235-b6e2-48d5-9195-7fcf05b459b0`)
 
 `identity` can be configured on the component/job level and/or per environment in the `environmentConfig` section. Configuration in `environmentConfig` overrides configuration on the component/job level.
 
@@ -1460,9 +1490,12 @@ Running containers as non-root users significantly improves security by followin
 When using `runAsUser`, ensure your container image has proper file permissions for the specified user ID, and that any required directories or files are accessible by that user.
 
 ### `runtime` (detailed)
+
 The `runtime` section can be configured on the component/job level and in `environmentConfig` for a specific environment. `environmentConfig` takes precedence over component/job level configuration.
-`runtime` can be optionally re-defined for individual Radix [batch jobs](../guides/jobs/job-manager-and-job-api.md#create-a-batch-of-jobs) or [single jobs](../guides/jobs/job-manager-and-job-api.md#create-a-single-job). 
+`runtime` can be optionally re-defined for individual Radix [batch jobs](../guides/jobs/job-manager-and-job-api.md#create-a-batch-of-jobs) or [single jobs](../guides/jobs/job-manager-and-job-api.md#create-a-single-job).
+
 #### `architecture`
+
 ```yaml
 spec:
   components:
@@ -1474,7 +1507,9 @@ spec:
           runtime:
             architecture: amd64|arm64
 ```
+
 The `architecture` property in `runtime` defines the CPU architecture a component or job should be built and deployed to. Valid values are `amd64` and `arm64`. `amd64` is used if neither is configured. Currently used virtual machines, when `nodeType` is not defined:
+
 * `amd64`
   * CPU: AMD 3rd gen EPYC™ 7763v, 16 cores, architecture: AMD64
   * Memory: 128 GB
@@ -1482,8 +1517,8 @@ The `architecture` property in `runtime` defines the CPU architecture a componen
   * CPU: Arm Ampere® Altra®, 16 cores, architecture: ARM64
   * Memory: 128 GB
 
-
 #### `nodeType`
+
 ```yaml
 spec:
   components:
@@ -1495,21 +1530,25 @@ spec:
           runtime:
             nodeType: gpu-nvidia-1-v1
 ```
+
 The `nodeType` property in `runtime` defines the particular Kubernetes cluster node (virtual machine) in the list of supported by Radix, where a component or job replicas should be running on. Currently supported list of node types:
+
 * `memory-optimized-2-v1`
   * CPU: Intel Xeon 4th Gen Scalable (Sapphire Rapids) [x86-64], 96 cores
   * Memory: 1946 GB
   * GPU: n/a
-* `gpu-nvidia-1-v1` 
+* `gpu-nvidia-1-v1`
   * CPU: AMD EPYC (Genoa) [x86-64], 40 cores
   * Memory: 320 GB
-  * GPU: 1 x Nvidia PCIe H100 GPU, 94 GB of memory 
+  * GPU: 1 x Nvidia PCIe H100 GPU, 94 GB of memory
+
 :::warning
 Nodes, available with `nodeType` property are usually much more expensive than default nodes. Please use them only when needed, preferable with jobs, as these nodes automatically scaled up on started component or jobs (which can take up to 5 minutes) and scaled down (within minutes) when the job is finished.
 :::
 :::note
 Properties `architecture` and `nodeType` cannot be used at the same time, but they can be used one on the component or job level, another on the `environmentConfig` level.
 :::
+
 ```yaml
 spec:
   components:
@@ -1522,7 +1561,7 @@ spec:
             architecture: amd64|arm64
 ```
 
-If you use the [`build and deploy`](../guides/build-and-deploy/index.md) pipeline to build components or jobs, [`useBuildKit`](#usebuildkit) must be enabled if at least one component or job is configured for `arm64`. Radix will run the **build steps** on nodes with matching architecture, which in most cases mean that you do not have to change anything in the Dockerfile to support the configured architecture. This applies as long as the images defined in the Dockerfile's `FROM <image>` supports this architecture.
+If you use the [`build and deploy`](../guides/build-and-deploy/index.md) pipeline to build components or jobs, Radix will run the **build steps** on nodes with matching architecture, which in most cases mean that you do not have to change anything in the Dockerfile to support the configured architecture. This applies as long as the images defined in the Dockerfile's `FROM <image>` supports this architecture.
 
 For deploy-only components and jobs (with [`image`](#image) property set), make sure that the selected image supports the configured architecture. Many frequently used public images, like [nginx-unprivileged](https://hub.docker.com/r/nginxinc/nginx-unprivileged), includes variants for both `amd64` and `arm64` in the same image. Radix (Kubernetes) will pull the appropriate variant based on the configured architecture.
 
@@ -1583,6 +1622,7 @@ The port number that the [job-scheduler](../guides/jobs/job-manager-and-job-api.
 In the example above, the URL for the compute job-scheduler is `http://compute:8000`
 
 ### `command`
+
 ```yaml
 spec:
   jobs:
@@ -1590,11 +1630,13 @@ spec:
       command:
       - ./run.sh
 ```
+
 `command` - (optional) sets or overrides [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint) directive array in a docker image. Read more about [command](#command). It can be overridden for individual job or batch jobs, read [more](../guides/jobs/job-manager-and-job-api.md#parameters).
 
 When `command` in an `environmentConfig` is set to an empty array `[]`, it will suppress `command` on the component or job-component level if exists, an [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint) directive in the Dockerfile will be used if defined.
 
 ### `args`
+
 ```yaml
 spec:
   jobs:
@@ -1603,6 +1645,7 @@ spec:
       - --output=json
       - --log-level=info
 ```
+
 `args` - (optional) sets or overrides [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive array in a docker image. Read more about [args](#args). It can be overridden for individual job or batch jobs, read [more](../guides/jobs/job-manager-and-job-api.md#parameters).
 
 When `args` in an `environmentConfig` is set to an empty array `[]`, it will suppress `args` on the component or job-component level if exists, an [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive in the Dockerfile will be used if defined.
@@ -1639,15 +1682,18 @@ spec:
             - Running
           batchStatus: Completed
 ```
-`batchStatusRules` - Optional rules to define batch statuses by their jobs statuses. 
-- `condition` - `Any`, `All`
-- `operator` - `In`, `NotIn`
-- `jobStatuses` - `Waiting`, `Active`, `Running`, `Succeeded`, `Failed`, `Stopped`
-- `batchStatus` - `Waiting`, `Active`, `Running`, `Succeeded`, `Failed`, `Stopping`, `Stopped`, `Completed`
+
+`batchStatusRules` - Optional rules to define batch statuses by their jobs statuses.
+
+* `condition` - `Any`, `All`
+* `operator` - `In`, `NotIn`
+* `jobStatuses` - `Waiting`, `Active`, `Running`, `Succeeded`, `Failed`, `Stopped`
+* `batchStatus` - `Waiting`, `Active`, `Running`, `Succeeded`, `Failed`, `Stopping`, `Stopped`, `Completed`
 
 Rules are applied in the order from top to bottom in the rules list. When any rule matches, rules following it are ignored.
 
 If `batchStatusRules` are not defined or no rules match a batch status is set by following rules:
+
 * `Waiting` - no jobs are started
 * `Active` - any jobs are in `Active` or `Running` state
 * `Completed` - no jobs are in `Waiting`, `Active` or `Running` states
@@ -1800,9 +1846,9 @@ Indicates whether a job is safe to restart during maintenance or node draining. 
 
 If `safeToRestart` is not explicitly set, the default depends on `timeLimitSeconds`:
 
-- `timeLimitSeconds` >= 3 days (`259200`) -> `safeToRestart: true`
-- `timeLimitSeconds` < 3 days -> `safeToRestart: false`
-- `timeLimitSeconds` not set -> defaults to `43200` (12 hours), so `safeToRestart: false`
+* `timeLimitSeconds` >= 3 days (`259200`) -> `safeToRestart: true`
+* `timeLimitSeconds` < 3 days -> `safeToRestart: false`
+* `timeLimitSeconds` not set -> defaults to `43200` (12 hours), so `safeToRestart: false`
 
 :::tip
 When a pod is being terminated (for example during node drain or maintenance), Kubernetes sends a `SIGTERM` signal to the process and waits up to 30 seconds before forcefully killing the container with `SIGKILL`.
@@ -1840,10 +1886,10 @@ spec:
 `failurePolicy` defines how job container failures should be handled based on the exit code. When a job container exits with a non-zero exit code, it is evaluated against the `rules` in the order they are defined. Once a rule matches the exit code, the remaining rules are ignored, and the defined `action` is performed. When no rule matches the exit code, the default handling is applied.
 
 Possible values for `action` are:
-- `FailJob`: indicates that the job should be marked as `Failed`, even if [`backoffLimit`](#backofflimit) has not been reached.
-- `Ignore`: indicates that the counter towards [`backoffLimit`](#backofflimit) should not be incremented.
-- `Count`: indicates that the job should be handled the default way. The counter towards [`backoffLimit`](#backofflimit) is incremented.
 
+* `FailJob`: indicates that the job should be marked as `Failed`, even if [`backoffLimit`](#backofflimit) has not been reached.
+* `Ignore`: indicates that the counter towards [`backoffLimit`](#backofflimit) should not be incremented.
+* `Count`: indicates that the job should be handled the default way. The counter towards [`backoffLimit`](#backofflimit) is incremented.
 
 `failurePolicy` can be configured on the job level, or in `environmentConfig` for a specific environment. Configuration in `environmentConfig` will override all rules defined on the job level.
 
@@ -1864,12 +1910,12 @@ spec:
 
 `cron` schedules the job to run automatically at recurring times, without any external call to the [job-scheduler](../guides/jobs/job-manager-and-job-api.md). On each scheduled occurrence Radix starts a single job, using the configuration defined for the job component in that environment. Scheduled runs do not receive a [`payload`](#payload).
 
-- `schedules` - (required) A list of cron expressions with a limit of 20 expressions. Each entry is a standard five-field cron expression (`minute hour day-of-month month day-of-week`) and triggers a job run when it matches. In the example above the job runs at 06:00 and at 18:00 on weekdays (Monday to Friday).
-- `timeZone` - (optional) The time zone used to evaluate all entries in `schedules`. It must be a value from the [IANA Time Zone Database](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones), for example `Europe/Oslo`. Defaults to `UTC` when omitted.
-- `concurrency` - (required) Controls what happens when a scheduled run is triggered while a previous scheduled run of the same job is still active. One of:
-  - `Allow` - start the new run regardless of any active scheduled run.
-  - `Forbid` - skip the new run if a scheduled run is still active.
-  - `Replace` - stop the active scheduled run, then start the new run.
+* `schedules` - (required) A list of cron expressions with a limit of 20 expressions. Each entry is a standard five-field cron expression (`minute hour day-of-month month day-of-week`) and triggers a job run when it matches. In the example above the job runs at 06:00 and at 18:00 on weekdays (Monday to Friday).
+* `timeZone` - (optional) The time zone used to evaluate all entries in `schedules`. It must be a value from the [IANA Time Zone Database](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones), for example `Europe/Oslo`. Defaults to `UTC` when omitted.
+* `concurrency` - (required) Controls what happens when a scheduled run is triggered while a previous scheduled run of the same job is still active. One of:
+  * `Allow` - start the new run regardless of any active scheduled run.
+  * `Forbid` - skip the new run if a scheduled run is still active.
+  * `Replace` - stop the active scheduled run, then start the new run.
 
 `concurrency` only considers jobs started by `cron` schedules; jobs started manually through the job-scheduler API are not affected.
 
@@ -1901,6 +1947,7 @@ jobs:
     image: docker.pkg.github.com/equinor/myapp/compute:{imageTagName}
     imageTagName: master-latest
 ```
+
 The `imageTagName` allows for flexible configuration of fixed images, built outside of Radix. It can be configured with separate tag for each environment.
 
 See [imageTagName](#imagetagname) for a component for more information.
@@ -1910,6 +1957,7 @@ See [imageTagName](#imagetagname) for a component for more information.
 The `environmentConfig` section is to set environment-specific settings for each job.
 
 #### `command`
+
 ```yaml
 spec:
   jobs:
@@ -1919,9 +1967,11 @@ spec:
           command:
           - ./run.sh
 ```
+
 `command` - (optional) sets or overrides [ENTRYPOINT](https://docs.docker.com/reference/dockerfile/#entrypoint) directive array in a docker image. It can also override the component's `command` if it exists. Read more about [command](#command). It can be overridden for individual job or batch jobs, read [more](../guides/jobs/job-manager-and-job-api.md#parameters).
 
 #### `args`
+
 ```yaml
 spec:
   jobs:
@@ -1934,6 +1984,7 @@ spec:
           - --output=json
           - --log-level=info
 ```
+
 `args` - (optional) sets or overrides [CMD](https://docs.docker.com/reference/dockerfile/#cmd) directive array in a docker image. It can also override the component's `args` if it exists. Read more about [args](#args). It can be overridden for individual job or batch jobs, read [more](../guides/jobs/job-manager-and-job-api.md#parameters).
 
 #### `notifications`
@@ -1973,6 +2024,7 @@ spec:
                 - Succeeded
               batchStatus: Succeeded
 ```
+
 When `batchStatusRules` is defined for an environment it fully overrides the job's `batchStatusRules`.
 See [batchStatusRules](#batchstatusrules-detailed) for a job for more information.
 
@@ -2040,6 +2092,7 @@ jobs:
       - environment: prod
         imageTagName: release-39f1a082
 ```
+
 The `imageTagName` can be configured with separate tag for each environment. Environment `imageTagName` overrides a job-component `imageTagName` if it is also defined.
 
 See [imageTagName](#imagetagname) for a component for more information.
@@ -2201,6 +2254,7 @@ spec:
           runtime:
             nodeType: memory-optimized-2-v1
 ```
+
 See [runtime](#runtime-detailed) for more information.
 
 ### `identity` (job)
@@ -2274,16 +2328,16 @@ spec:
 
 Creates a short, predictable DNS name for a single component in a single environment. The alias format is:
 
-`<app-name>.app.<cluster-dns-zone>`   
+`<app-name>.app.<cluster-dns-zone>`
 
-- `<cluster-dns-zone>` depends on the Radix cluster where the app is deployed (see [Radix clusters](../start/radix-clusters/)).
-- The alias is added in addition to Radix's automatically assigned domain names.
+* `<cluster-dns-zone>` depends on the Radix cluster where the app is deployed (see [Radix clusters](../start/radix-clusters/)).
+* The alias is added in addition to Radix's automatically assigned domain names.
 
-Example: The `frontend` component in `prod` becomes reachable at 
+Example: The `frontend` component in `prod` becomes reachable at
 
- - `myapp.app.radix.equinor.com` if hosted in the Platform cluster (North Europe)
- - `myapp.app.c2.radix.equinor.com` if hosted in the Platform 2 cluster (West Europe)
- - `myapp.app.playground.radix.equinor.com` if hosted in the Playground cluster
+* `myapp.app.radix.equinor.com` if hosted in the Platform cluster (North Europe)
+* `myapp.app.c2.radix.equinor.com` if hosted in the Platform 2 cluster (West Europe)
+* `myapp.app.playground.radix.equinor.com` if hosted in the Playground cluster
 
 ## `dnsAlias`
 
@@ -2297,7 +2351,7 @@ spec:
 
 Define your own aliases for a component in a specific environment. Each entry produces an alias with this format:
 
-`<alias>.<cluster-dns-zone>` 
+`<alias>.<cluster-dns-zone>`
 
 :::info  Observe the following
 Aliases are scoped to the specified environment and component.
@@ -2305,10 +2359,10 @@ Reserved aliases (not allowed):
   `www`, `app`, `api`, `console`, `webhook`, `playground`, `dev`, `grafana`, `prometheus`, `canary`, `cost-api`.
 :::
 
-Example: The `frontend` component in `prod` becomes reachable at 
+Example: The `frontend` component in `prod` becomes reachable at
 
- - `myapp.radix.equinor.com` if hosted in the Platform cluster (North Europe)
- - `myapp.c2.radix.equinor.com` if hosted in the Platform 2 cluster (West Europe)
+* `myapp.radix.equinor.com` if hosted in the Platform cluster (North Europe)
+* `myapp.c2.radix.equinor.com` if hosted in the Platform 2 cluster (West Europe)
 
 ## `dnsExternalAlias`
 
@@ -2327,14 +2381,13 @@ spec:
 
 Attach one or more custom (external) domains to a public component. Requirements and behavior:
 
-- Each alias must point to a component that is public (has a public port).
-- Provide a domain name that you control; configure your DNS (CNAME/A) to point to the Radix-managed hostname as described in the [external alias guide](../guides/external-alias/index.md)
-- TLS:
-  - `useCertificateAutomation: true` — Radix obtains and renews the TLS certificate automatically
-  - `useCertificateAutomation: false` — you must upload a valid certificate and private key for the alias
+* Each alias must point to a component that is public (has a public port).
+* Provide a domain name that you control; configure your DNS (CNAME/A) to point to the Radix-managed hostname as described in the [external alias guide](../guides/external-alias/index.md)
+* TLS:
+  * `useCertificateAutomation: true` — Radix obtains and renews the TLS certificate automatically
+  * `useCertificateAutomation: false` — you must upload a valid certificate and private key for the alias
 
 For setup steps and DNS/TLS details see the external alias [guide](../guides/external-alias/index.md)
-
 
 ## `privateImageHubs`
 
@@ -2349,12 +2402,12 @@ spec:
       email: radix@statoilsrm.onmicrosoft.com
 ```
 
-It is possible to pull images from private image hubs during deployment for an application. This means that you can add a reference to a private image hub in radixconfig.yaml file using the `image:` tag. See example above. 
+It is possible to pull images from private image hubs during deployment for an application. This means that you can add a reference to a private image hub in radixconfig.yaml file using the `image:` tag. See example above.
 
-With the `useBuildKit: true` setting in your `radixconfig.yaml`, you can also use privateImageHub credentials within the Dockerfile `FROM` instruction. 
 ```dockerfile
 FROM myappacr.azurecr.io/myapp-base:latest
 ```
+
 A `password` for these must be set via the Radix Web Console (under Configuration -&gt; Private image hubs).
 
 To get more information on how to connect to a private Azure container registry (ACR), see the following [guide](https://thorsten-hans.com/how-to-use-private-azure-container-registry-with-kubernetes). The chapter `Provisioning an Azure Container Registry` provide information on how to get service principle `username` and `password`. It is also possible to create a Service Principle in Azure AD, and then manually grant it access to your ACR.
@@ -2391,15 +2444,15 @@ secretRefs:
           envVar: CERT1
 ```
 
-- `azureKeyVaults` - list of Azure Key Vault configurations.
-- `name` - Name of the Key Vault resource in an Azure subscription. Radix supports capital letters in the name, but not spaces.
-- `path` - Folder path in running replica container, where secrets, keys and/or certificate contents are available as files (with file names, corresponding to their names in the Azure Key Vault). This field is optional. If set, it overrides default path: `/mnt/azure-key-vault/<azure-key-vault-name>`.
-- `useAzureIdentity` - If set to `true`, Radix will use [Azure Workload Identity](../guides/workload-identity/index.md) to acquire credentials for accessing Azure Key Vault using the service principal configured in [identity.azure](#identity-detailed). This field is optional, with default value `false`. If omitted or set to `false`, credentials are acquired using [Azure Service Principal Client ID and Client Secret](../guides/azure-key-vaults/index.md#authentication-with-azure-service-principal-client-id-and-client-secret).
-- `items` - list of secrets, keys and/or certificates with corresponding environment variable names.
-  - `name` - name of secret, key or certificate in an Azure Key Vault.
-  - `type` - Type of the item in the Azure Key Vault. Possible values: `secret`, `key`, `cert`. This field is optional, by default it is `secret`.
-  - `envVar` - Name of an environment variable, which will contain specified secret, key or certificate. This field is optional - environment variable is not created if it is not specified, only file exist (see the property `path`).
-  - `alias` - Alias of the file (see the property `path`). This field is optional. Default value is the same as `name`.
+* `azureKeyVaults` - list of Azure Key Vault configurations.
+* `name` - Name of the Key Vault resource in an Azure subscription. Radix supports capital letters in the name, but not spaces.
+* `path` - Folder path in running replica container, where secrets, keys and/or certificate contents are available as files (with file names, corresponding to their names in the Azure Key Vault). This field is optional. If set, it overrides default path: `/mnt/azure-key-vault/<azure-key-vault-name>`.
+* `useAzureIdentity` - If set to `true`, Radix will use [Azure Workload Identity](../guides/workload-identity/index.md) to acquire credentials for accessing Azure Key Vault using the service principal configured in [identity.azure](#identity-detailed). This field is optional, with default value `false`. If omitted or set to `false`, credentials are acquired using [Azure Service Principal Client ID and Client Secret](../guides/azure-key-vaults/index.md#authentication-with-azure-service-principal-client-id-and-client-secret).
+* `items` - list of secrets, keys and/or certificates with corresponding environment variable names.
+  * `name` - name of secret, key or certificate in an Azure Key Vault.
+  * `type` - Type of the item in the Azure Key Vault. Possible values: `secret`, `key`, `cert`. This field is optional, by default it is `secret`.
+  * `envVar` - Name of an environment variable, which will contain specified secret, key or certificate. This field is optional - environment variable is not created if it is not specified, only file exist (see the property `path`).
+  * `alias` - Alias of the file (see the property `path`). This field is optional. Default value is the same as `name`.
 
 `secretRefs` can be configured for entire component, for component environments or only for specific component environments. Configuration in component environments overrides similar component properties.
 

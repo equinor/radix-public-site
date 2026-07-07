@@ -14,13 +14,14 @@ When **commitID** is specified for the pipeline job, Radix will run a `git diff`
 
 **commitID** is always specified when a pipline job is triggered from a `Github Webhook`, and can optionally be specified when using [`Radix CLI`](../../docs/topic-radix-cli/index.md#build-and-deploy-pipeline-job) with the `--commitID` flag. Pipeline jobs triggered from `Radix Web Console` will not set this value, causing all components and jobs to be built.  
 
-By default, the container image is built and deployed for `amd64` CPU architecture, but can be configured to use `arm64` in the [`runtime`](../../radix-config/index.md#runtime-detailed) section in [`radixconfig.yaml`](../../radix-config/index.md). Building `arm64` requires [`useBuildKit`](../../radix-config/index.md#usebuildkit) to be enabled.
+By default, the container image is built and deployed for `amd64` CPU architecture, but can be configured to use `arm64` in the [`runtime`](../../radix-config/index.md#runtime-detailed) section in [`radixconfig.yaml`](../../radix-config/index.md).
 
 The log from the `Orchestrating pipeline` step prints decisions made by Radix whether to build new images, reuse images from current deployment, or use images from [`image`](../../radix-config/index.md#image) property in [`radixconfig.yaml`](../../radix-config/index.md).
 
 #### Log examples
 
 Component `server` was changed, and a new container image is built. `compute` and `compute2` are unchanged, and images from active deployment are used. Image for `redis` is configured in `image` property in `radixconfig`:
+
 ```
 time="2023-11-13T14:44:31Z" level=info msg="Component image source in environments:"
 time="2023-11-13T14:44:31Z" level=info msg="  qa:"
@@ -31,6 +32,7 @@ time="2023-11-13T14:44:31Z" level=info msg="    - compute2 from active deploymen
 ```
 
 Changed `radixconfig`, requiring all components to be built:
+
 ```
 time="2023-11-13T14:42:56Z" level=info msg="RadixApplication updated since last deployment to environment qa"
 time="2023-11-13T14:42:56Z" level=info msg="Component image source in environments:"
@@ -42,6 +44,7 @@ time="2023-11-13T14:42:56Z" level=info msg="    - compute2 (arch: amd64) from bu
 ```
 
 Changed `build secret` values, requiring all components to be built:
+
 ```
 time="2023-11-13T14:37:44Z" level=info msg="Build secrets updated since last deployment to environment dev"
 time="2023-11-13T14:37:44Z" level=info msg="Component image source in environments:"
@@ -92,6 +95,7 @@ spec:
 Components `foo` and `bar` are configured with different directories for their Dockerfiles. We assume that an active deployment already exist, created from a `build-deploy` pipeline that built and deployed images named `foo:tag1` and `bar:tag1` for the `foo` and `bar` components respectively.
 
 The application developer performs the following actions:
+
 1. Pushes a new file, `/foo/images/header.jpg`, to the repository:
     - A new `build-deploy` pipeline is created by the Github webook.
     - Radix compares the commit ID received from the webhook with the commit ID of the current deployment, and detects that directory `/foo/images` has changed. This directory is a child of `/foo`, the path to the Dockerfile for component `foo`.
@@ -158,8 +162,8 @@ spec:
 
 #### More examples
 
-* [One component with the source in a sub-folder](./example-single-component-application-with-source-in-subfolder.md)
-* [One component with the source in the root](./example-single-component-application-with-source-in-root.md)
-* [Multiple components with the code in sub-folders](./example-multiple-components-application-with-source-in-subfolders.md)
-* [Multiple components in the root](./example-multiple-components-application-with-source-in-root.md)
-* [Multiple Radix applications with the source in the same GitHub repository](./example-monorepo-for-multiple-applications-with-same-repository.md)
+- [One component with the source in a sub-folder](./example-single-component-application-with-source-in-subfolder.md)
+- [One component with the source in the root](./example-single-component-application-with-source-in-root.md)
+- [Multiple components with the code in sub-folders](./example-multiple-components-application-with-source-in-subfolders.md)
+- [Multiple components in the root](./example-multiple-components-application-with-source-in-root.md)
+- [Multiple Radix applications with the source in the same GitHub repository](./example-monorepo-for-multiple-applications-with-same-repository.md)
