@@ -172,7 +172,7 @@ The drop-down will search for groups and service principals when you start typin
 
 ### 2024-09-18  Fix for docker.io rate limit during build
 
-This fix will resolve docker.io rate limit errors during the build step for applications using [useBuildKit](../../radix-config/index.md#usebuildkit).
+This fix will resolve docker.io rate limit errors during the build step for applications using `useBuildKit`.
 
 If your Dockerfile uses images from docker.io in the FROM instruction, Radix will pull the image as an authenticated used instead of as anonymous. This increases the rate limit to 5000 pulls per day, instead of 100 per 6 hours.
 
