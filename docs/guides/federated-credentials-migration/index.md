@@ -49,14 +49,14 @@ It also provides an Azure CLI command you can run locally to add each missing cr
 ### Add the new issuer
 Run the supplied commands in green from the previous step to add the new credentials.
 
-:::tip
+:::danger Important
 Do not remove the old ones until after migration is complete.
 :::
 
 ### Verify new federated credential
 To verify that the new federated credentials were added you can run the Radix CLI command again.
 
-:::tip
+:::warning
 Azure might take up to 30 seconds before registering the new federated credentials.
 :::
 
