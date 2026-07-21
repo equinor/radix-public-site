@@ -70,4 +70,4 @@ No. Remove it only after the communicated decommission date.
 No. It affects only workloads that use Azure Workload Identity.
 
 ## Support
-If you need help, please don't hesitate contact us on Slack.
+If you need help, please don't hesitate contact us on Slack (#radix-support).
