@@ -1,3 +1,7 @@
+---
+title: Federated Credentials Migration
+---
+
 # Migration guide: New cluster OIDC issuer for federated credentials
 
 ## Action required
