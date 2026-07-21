@@ -56,7 +56,7 @@ Do not remove the old ones until after migration is complete.
 ### Verify new federated credential
 To verify that the new federated credentials were added you can run the Radix CLI command again.
 
-:::warning
+:::tip
 Azure might take up to 30 seconds before registering the new federated credentials.
 :::
 
