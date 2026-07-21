@@ -49,7 +49,7 @@ It also provides an Azure CLI command you can run locally to add each missing cr
 ### Add the new issuer
 Run the supplied commands in green from the previous step to add the new credentials.
 
-:::tip
+:::danger Important
 Do not remove the old ones until after migration is complete.
 :::
 
