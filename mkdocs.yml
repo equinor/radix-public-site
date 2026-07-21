@@ -92,6 +92,7 @@ nav:
       - GitHub:
           - Git submodules: guides/git-submodules/index.md
           - Monorepo: guides/monorepo/index.md
+      - Federated credentials migration: guides/federated-credentials-migration/index.md
   - Features: features/index.md
   - Community: community/index.md
   - Web Console: https://console.radix.equinor.com/
