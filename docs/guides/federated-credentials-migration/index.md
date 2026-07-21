@@ -17,11 +17,12 @@ So before migration, any workload that relies on federated credentials needs a m
 We are moving to new clusters to introduce Cilium and improve the platform foundation for networking, security, and operations.
 
 ## Who is affected
-You are affected if any component uses federated credentials with Azure Workload Identity.
+You are affected if your app is hosted in Platform (North Europe) or Platform 2 (West Europe) and any of its components use federated credentials with Azure Workload Identity.
 
 You are not affected if your app authenticates only with client secrets or certificates and does not use federated credentials.
+You are also not affected if your app is hosted in Playground or Platform 3 (Sweden Central).
 
-If unsure, follow the detection steps in [Check whether your app is affected](#check-whether-your-app-is-affected).
+If you are unsure, follow the detection steps in [Check whether your app is affected](#check-whether-your-app-is-affected).
 
 ## Migration details
 
