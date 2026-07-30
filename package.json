@@ -49,7 +49,7 @@
   "overrides": {
     "webpack-dev-server": "^5.2.1",
     "serialize-javascript": "^7.0.3",
-    "serve-handler" : {
+    "serve-handler": {
       "minimatch": "10.2.6"
     },
     "sockjs": {
