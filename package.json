@@ -17,8 +17,8 @@
   "dependencies": {
     "@docusaurus/core": "^3.9.2",
     "@docusaurus/preset-classic": "^3.9.2",
+    "@easyops-cn/docusaurus-search-local": "^0.55.3",
     "@mdx-js/react": "^3.1.1",
-    "@easyops-cn/docusaurus-search-local": "0.55.1",
     "clsx": "^2.1.1",
     "prism-react-renderer": "^2.4.1",
     "react": "^19.2.0",
@@ -48,6 +48,12 @@
   },
   "overrides": {
     "webpack-dev-server": "^5.2.1",
-    "serialize-javascript": "^7.0.3"
+    "serialize-javascript": "^7.0.3",
+    "serve-handler": {
+      "minimatch": "10.2.6"
+    },
+    "sockjs": {
+      "uuid": "^11.1.1"
+    }
   }
 }
