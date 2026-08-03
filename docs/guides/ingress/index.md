@@ -10,15 +10,12 @@ Network policies enforce this traffic path. A component replica can receive ingr
 
 ## HTTP protocol requirements
 
-When clients access public endpoints, the minimum supported protocol version is `HTTP/1.1`.
+The Radix gateway controller supports a minimum of `HTTP/1.1` for incoming client requests. This means clients must connect to your public endpoints using at least `HTTP/1.1`.
 
-Configure any reverse proxy in front of your application to use `HTTP/1.1` or newer when proxying requests.
+If you use a reverse proxy to access a public Radix endpoint, configure it to send requests using `HTTP/1.1` or newer. These requests pass through the gateway controller, so the minimum protocol requirement applies.
 
-:::tip
-When you use NGINX as a reverse proxy, versions earlier than `1.29.7` default to `HTTP/1.0` for proxied requests, while `1.29.7` and later default to `HTTP/1.1`.
+The requirement doesn't apply when a component connects directly to another component in the same application environment, for example at `http://mycomponent:3002`. Radix routes this traffic directly between components without passing it through the gateway controller.
 
-You can set the protocol version explicitly with [`proxy_http_version`](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_http_version).
-:::
 
 ## Gateway proxy headers
 
