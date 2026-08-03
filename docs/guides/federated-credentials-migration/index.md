@@ -70,7 +70,7 @@ If this is not completed before the migration, token exchange to Azure AD (Entra
 ## FAQ
 
 ### Will my application experience downtime?
-No downtime. Any configuration changes you make in the old cluster after the migration starts will not be carried over, for example deployments, new or updated secrets and other configuration changes.
+No downtime. Any changes you make in the old cluster after migration starts will not be carried over, for example deployments, new or updated secrets, and other configuration changes.
 We will let you know when migration starts well in advance, so that you can avoid changes during that window.
 
 ### Will multiple instances of my application run during migration?
