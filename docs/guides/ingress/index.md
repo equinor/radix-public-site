@@ -10,7 +10,7 @@ Network policies enforce this traffic path. A component replica can receive ingr
 
 ## HTTP protocol requirements
 
-The minimum supported protocol version for ingress traffic is `HTTP/1.1`.
+When clients access public endpoints, the minimum supported protocol version is `HTTP/1.1`.
 
 Configure any reverse proxy in front of your application to use `HTTP/1.1` or newer when proxying requests.
 
