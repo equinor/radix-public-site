@@ -69,8 +69,18 @@ If this is not completed before the migration, token exchange to Azure AD (Entra
 
 ## FAQ
 
-### Will my applicaton experience downtime?
-No. We will simply redirect traffic to the new clusters after migration has been completed.
+### Will my application experience downtime?
+No downtime. Any changes you make in the old cluster after migration starts will not be carried over, for example deployments, new or updated secrets, and other configuration changes.
+We will let you know when migration starts well in advance, so that you can avoid changes during that window.
+
+### Will multiple instances of my application run during migration?
+Yes. After migration completes and until the old clusters are decommissioned, your application runs in both the old and new cluster at the same time.
+
+:::warning
+If your application expects only a single instance to run at any given time, be aware that this will not be the case during this window. Plan accordingly for workloads that are sensitive to running concurrently, such as scheduled jobs.
+
+If your application cannot handle this, or you are unsure how to proceed, contact us on Slack (#radix-support) and we will find a solution together.
+:::
 
 ### Should I remove the old issuer immediately?
 No. Remove it only after the communicated decommission date.
