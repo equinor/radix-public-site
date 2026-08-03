@@ -29,7 +29,7 @@ Radix routes all external traffic through the gateway controller before it reach
 - `X-Forwarded-Port` contains the original port requested by the client.
 - `X-Forwarded-Proto` contains the original protocol, such as `https`.
 
-Configure your application or reverse proxy to trust `10.0.0.0/8` when processing forwarded headers. Gateway controllers and replicas for all applications are assigned IP addresses in this range. It is safe to trust this IP range because network policies block all traffic except from the gateway controller and replicas in the same environment.
+Configure your application or reverse proxy to trust `10.0.0.0/8` when processing forwarded headers. Gateway controllers and replicas for all applications are assigned IP addresses in this range. It is safe to trust this IP range because network policies block all traffic except traffic from the gateway controller and replicas in the same environment.
 
 For ingress traffic, only the gateway controller can connect to your component replicas. Replicas in the same application environment can also connect directly to each other. Other services can't connect directly to your component replicas.
 
