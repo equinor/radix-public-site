@@ -70,7 +70,7 @@ If this is not completed before the migration, token exchange to Azure AD (Entra
 ## FAQ
 
 ### Will my application experience downtime?
-No downtime, but migration copies your data to the new clusters. Changes made in the old cluster after the backup starts are lost, for example new or updated secrets, persistent volume data, and manual changes to running components.
+No downtime. Any configuration changes you make in the old clusters after the backup starts will not be carried over, for example deploys, new or updated secrets and other configuration changes.
 We will let you know when migration starts well in advance, so that you can avoid changes during that window.
 
 ### Should I remove the old issuer immediately?
