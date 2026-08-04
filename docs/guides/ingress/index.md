@@ -8,6 +8,12 @@ Ingress traffic is external traffic that reaches a public Radix component. Radix
 
 Network policies enforce this traffic path. A component replica can receive ingress traffic only from the gateway controller, with one exception: other replicas running in the same application environment can connect directly to it. External clients can't connect directly to component replicas.
 
+## HTTP protocol requirements
+
+Requests to a public Radix endpoint must use `HTTP/1.1` or newer when connecting to the Radix gateway controller. If a reverse proxy sits in front of the endpoint, configure the proxy to use `HTTP/1.1` or newer for this upstream connection.
+
+This requirement doesn't apply to direct connections between components in the same application environment, for example, `http://mycomponent:3002`. Radix routes this traffic directly between components without passing it through the gateway controller.
+
 ## Gateway proxy headers
 
 Radix routes all external traffic through the gateway controller before it reaches your component replicas. The gateway controller adds these forwarding headers:
@@ -17,7 +23,7 @@ Radix routes all external traffic through the gateway controller before it reach
 - `X-Forwarded-Port` contains the original port requested by the client.
 - `X-Forwarded-Proto` contains the original protocol, such as `https`.
 
-Configure your application or reverse proxy to trust `10.0.0.0/8` when processing forwarded headers. Gateway controllers and replicas for all applications are assigned IP addresses in this range. It is safe to trust this IP range because network policies blocks all traffic expect from the gateway controller and replicas in the same environment.
+Configure your application or reverse proxy to trust `10.0.0.0/8` when processing forwarded headers. Gateway controllers and replicas for all applications are assigned IP addresses in this range. It is safe to trust this IP range because network policies allow connections only from the gateway controller and replicas in the same environment.
 
 For ingress traffic, only the gateway controller can connect to your component replicas. Replicas in the same application environment can also connect directly to each other. Other services can't connect directly to your component replicas.
 
@@ -25,11 +31,11 @@ Because same-environment replicas can connect directly, another replica in the s
 
 Use `X-Forwarded-For` when your application needs the original client IP address for IP filtering, auditing, or rate limiting. Read the trusted forwarded header first, then apply your application logic to the resolved client IP address.
 
+## IP filtering with NGINX
+
 :::note
 These examples are illustrative only. Adjust allowed client ranges, rate limits, proxy targets, and middleware placement to match your application and framework setup.
 :::
-
-## IP filtering with NGINX
 
 If your application is fronted by NGINX, configure NGINX to trust the `10.0.0.0/8` private range, derive the client IP from `X-Forwarded-For`, and deny requests that are not in the allowed ranges.
 
