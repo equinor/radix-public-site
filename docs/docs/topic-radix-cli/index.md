@@ -185,11 +185,11 @@ An option `job` of commands `create`, `get logs` is replaced with `pipeline-job`
     rx get logs component -a your-app-name -e your-env-name --component your-component-name -p
     ```
 * Get logs for your OAuth2 resource of a component
-    ```shell  
-    rx get logs component oauth2 -application your-app-name --environment your-env-name --component your-component-name --since 72h 
-    rx get logs component oauth2-session application your-app-name --environment your-env-name --component your-component-name--since 72h  
-    
-    rx get logs component oauth2 -application your-app-name --environment your-env-name --component your-component-name --previous 
+    ```shell
+    rx get logs component oauth2 --application your-app-name --environment your-env-name --component your-component-name --since 72h
+    rx get logs component oauth2-session --application your-app-name --environment your-env-name --component your-component-name --since 72h
+
+    rx get logs component oauth2 --application your-app-name --environment your-env-name --component your-component-name --previous
     ```
     
 ### Scale, stop, restart components
