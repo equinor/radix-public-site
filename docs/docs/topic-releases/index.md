@@ -6,7 +6,7 @@ title: What's new
 
 ## 2026
 
-### 2026-08-13 New `--azure-cli-shell-format` flag for Radix CLI `validate workload-identity` command
+### 2026-08-13 New `--azure-cli-shell-format` flag for Radix CLI command `rx validate workload-identity`
 
 Radix CLI v1.39.1 adds the `--azure-cli-shell-format` flag to the `rx validate workload-identity` command. Use it to generate Azure CLI commands that work in a shell or terminal other than the operating system default, such as PowerShell on Windows. Read more in [Radix CLI](../topic-radix-cli/index.md#validate-workload-identity).
 
