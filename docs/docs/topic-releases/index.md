@@ -6,6 +6,10 @@ title: What's new
 
 ## 2026
 
+### 2026-08-13 New `--azure-cli-shell-format` flag for Radix CLI command `rx validate workload-identity`
+
+Radix CLI v1.39.1 adds the `--azure-cli-shell-format` flag to the `rx validate workload-identity` command. Use it to generate Azure CLI commands that work in a shell or terminal other than the operating system default, such as PowerShell on Windows. Read more in [Radix CLI](../topic-radix-cli/index.md#validate-workload-identity).
+
 ### 2026-06-22 Scheduled jobs with `cron`
 
 Job components can now be scheduled to run automatically at recurring times using the [`cron`](../../radix-config/index.md#cron) section in [radixconfig](../../radix-config/index.md), without any external call to the job-scheduler. Define one or more cron `schedules`, an optional `timeZone` and a `concurrency` policy. `cron` can be [overridden](../../radix-config/index.md#cron-env-override) for individual environments.
