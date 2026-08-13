@@ -303,6 +303,8 @@ rx get vulnerability --application your-app-name \
 
 Validates workload identity configuration for one application or all applications by comparing expected and existing federated credentials. The command output includes Azure CLI commands to create missing credentials and, unless excluded, Azure CLI commands to delete potentially obsolete credentials.
 
+By default, Radix CLI formats the generated Azure CLI commands for the current operating system: `posix` on Unix-like systems and `windows` on Windows. Use `--azure-cli-shell-format` to generate commands that work in a different shell or terminal than the operating system default. For example, use `--azure-cli-shell-format windows-powershell` to generate commands for PowerShell on Windows.
+
 ```shell
 # Validate workload identity for all applications in current context
 rx validate workload-identity
@@ -315,4 +317,7 @@ rx validate workload-identity --application your-app-name --output json
 
 # Exclude potentially obsolete federated credentials from output
 rx validate workload-identity --application your-app-name --exclude-obsolete
+
+# Generate Azure CLI commands for PowerShell on Windows
+rx validate workload-identity --application your-app-name --azure-cli-shell-format windows-powershell
 ```
