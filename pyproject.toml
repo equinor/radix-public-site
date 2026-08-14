@@ -22,3 +22,10 @@ include = ["scripts*"]
 
 [project.entry-points."mkdocs.plugins"]
 docusaurus = "scripts.plugin:DocusaurusPlugin"
+
+[tool.uv]
+override-dependencies = [
+    "pymdown-extensions>=11.0.1",
+    "pygments>=2.20.0",
+    "click>=8.3.3"
+]
