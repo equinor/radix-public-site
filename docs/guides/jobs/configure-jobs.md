@@ -55,7 +55,6 @@ spec:
           batchStatus: Failed
     - name: recurring
       src: recurring
-      schedulerPort: 10000
       cron:
         timeZone: "Europe/Oslo"
         schedules:
