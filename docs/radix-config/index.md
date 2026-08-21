@@ -1569,6 +1569,8 @@ For deploy-only components and jobs (with [`image`](#image) property set), make 
 
 This is where you specify the various [jobs](../guides/jobs/index.md) for your application.
 
+Jobs have three job-specific configuration options: [`schedulerPort`](#schedulerport) configures the job-scheduler API, [`payload`](#payload) configures where API-provided payloads are mounted, and [`cron`](#cron) configures recurring scheduled runs.
+
 ### `src`
 
 ```yaml
@@ -1750,6 +1752,11 @@ The data type of the `payload` value is string, and it can therefore contain any
 
 In the example above, a payload sent to the job-scheduler will be mounted as file `/compute/args/payload`
 
+:::tip
+Cron scheduled jobs do not support the payload parameter.
+If passed it will simply be ignored.
+:::
+
 ### `resources`
 
 ```yaml
@@ -1910,7 +1917,21 @@ spec:
 
 `cron` schedules the job to run automatically at recurring times, without any external call to the [job-scheduler](../guides/jobs/job-manager-and-job-api.md). On each scheduled occurrence Radix starts a single job, using the configuration defined for the job component in that environment. Scheduled runs do not receive a [`payload`](#payload).
 
-* `schedules` - (required) A list of cron expressions with a limit of 20 expressions. Each entry is a standard five-field cron expression (`minute hour day-of-month month day-of-week`) and triggers a job run when it matches. In the example above the job runs at 06:00 and at 18:00 on weekdays (Monday to Friday).
+* `schedules` - (required) A list of up to 20 schedules. Each entry triggers a job run when it matches and supports one of these formats:
+  * Standard five-field cron expression (`minute hour day-of-month month day-of-week`), for example `0 6 * * 1-5` to run at 06:00 on weekdays (Monday to Friday).
+  * Predefined schedule, for example `@daily` to run every day at midnight.
+  * Interval in the format `@every <duration>`, for example `@every 1h30m10s` to run 1 hour, 30 minutes, and 10 seconds after the schedule is added and after each subsequent interval.
+
+:::tip Predefined schedules
+| Entry | Description | Equivalent to |
+| --- | --- | --- |
+| `@yearly` or `@annually` | Run once a year at midnight on January 1 | `0 0 1 1 *` |
+| `@monthly` | Run once a month at midnight on the first day | `0 0 1 * *` |
+| `@weekly` | Run once a week at midnight between Saturday and Sunday | `0 0 * * 0` |
+| `@daily` or `@midnight` | Run once a day at midnight | `0 0 * * *` |
+| `@hourly` | Run once an hour at the beginning of the hour | `0 * * * *` |
+:::
+
 * `timeZone` - (optional) The time zone used to evaluate all entries in `schedules`. It must be a value from the [IANA Time Zone Database](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones), for example `Europe/Oslo`. Defaults to `UTC` when omitted.
 * `concurrency` - (required) Controls what happens when a scheduled run is triggered while a previous scheduled run of the same job is still active. One of:
   * `Allow` - start the new run regardless of any active scheduled run.
