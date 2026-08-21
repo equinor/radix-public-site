@@ -48,11 +48,22 @@ Components can further be configured independently on each environment. Besides 
 
 ## Job
 
-A [job](../../guides/jobs/index.md) represents an on-demand and short lived container/process, running within an [environment](#environment), that performs a set of tasks and exits when it is done. Jobs are defined in the [`radixconfig.yaml`](../../radix-config/index.md#jobs). They share the same configuration as a component with a few exceptions; a job does not have publicPort, replicas, horizontalScaling and alwaysPullImageOnDeploy. A job has two extra configuration options: [`schedulerPort`](../../radix-config/index.md#schedulerport) (required), which is the port the [job-scheduler](../../guides/jobs/job-manager-and-job-api.md) will listen to, and [`payload`](../../radix-config/index.md#payload) (optional), which is a directory in the container where the payload, sent via the job-scheduler, is mounted.
+A [job](../../guides/jobs/index.md) represents an on-demand and short lived container/process, running within an [environment](#environment), that performs a set of tasks and exits when it is done. Jobs are defined in the [`radixconfig.yaml`](../../radix-config/index.md#jobs). They share the same configuration as a component with a few exceptions; a job does not have publicPort, replicas, horizontalScaling and alwaysPullImageOnDeploy.
+
+Jobs have three job-specific configuration options:
+
+* [`schedulerPort`](../../radix-config/index.md#schedulerport) defines the port where the [job-scheduler](../../guides/jobs/job-manager-and-job-api.md) listens for requests.
+* [`payload`](../../radix-config/index.md#payload) is optional. When specified, its `path` defines a directory in the container where the payload, sent via the job-scheduler, is mounted.
+* [`cron`](../../radix-config/index.md#cron) is optional. When specified, it defines recurring schedules that start the job automatically.
 
 Radix creates a [job-scheduler](../../guides/jobs/job-manager-and-job-api.md) service for each job defined in [`radixconfig.yaml`](../../radix-config/index.md#jobs). The job-scheduler is a web API that you use to create, delete and monitor containers from the Docker image built or defined for the job. HTTP requests to the job-scheduler can only be sent by components running in the same application and environment.
 
 When creating a new job, a payload with arbitrary arguments can be specified in the body of the HTTP request to the job-scheduler. The payload is a string and can therefore contain any type of data (text, json, binary) as long as you encode it as a string, e.g. base64, when sending the request to the job-scheduler, and decode it when reading it from the file in the container where the payload is mounted.
+
+:::tip
+Cron scheduled jobs do not support the payload parameter.
+If passed it will simply be ignored.
+:::
 
 Multiple job containers can run simultaneously. Each container is assigned a unique name that can be used to monitor the state of the job through the job-scheduler API. This name is also the internal DNS name that you can use to communicate with a specific job if it exposes any ports, e.g. a custom metrics HTTP endpoint.
 
