@@ -1619,7 +1619,9 @@ spec:
       schedulerPort: 8000
 ```
 
-The port number that the [job-scheduler](../guides/jobs/job-manager-and-job-api.md) will listen to for HTTP requests to manage jobs. schedulerPort is a **required** field.
+The port number that the [job-scheduler](../guides/jobs/job-manager-and-job-api.md) will listen to for HTTP requests to manage jobs.
+
+`schedulerPort` is **required**, unless the job is triggered only by [`cron`](#cron) schedules. When a job defines `cron` schedules, the job-scheduler still runs the scheduled jobs even without `schedulerPort`; omitting it only means the job-scheduler management API is not exposed.
 
 In the example above, the URL for the compute job-scheduler is `http://compute:8000`
 
@@ -1906,7 +1908,6 @@ Possible values for `action` are:
 spec:
   jobs:
     - name: compute
-      schedulerPort: 8000
       cron:
         timeZone: Europe/Oslo
         schedules:
@@ -1915,7 +1916,7 @@ spec:
         concurrency: Forbid
 ```
 
-`cron` schedules the job to run automatically at recurring times, without any external call to the [job-scheduler](../guides/jobs/job-manager-and-job-api.md). On each scheduled occurrence Radix starts a single job, using the configuration defined for the job component in that environment. Scheduled runs do not receive a [`payload`](#payload).
+`cron` schedules the job to run automatically at recurring times, without any external call to the [job-scheduler](../guides/jobs/job-manager-and-job-api.md). On each scheduled occurrence Radix starts a single job, using the configuration defined for the job component in that environment. Scheduled runs do not receive a [`payload`](#payload). When a job is triggered only by `cron` schedules, [`schedulerPort`](#schedulerport) can be omitted.
 
 * `schedules` - (required) A list of up to 20 schedules. Each entry triggers a job run when it matches and supports one of these formats:
   * Standard five-field cron expression (`minute hour day-of-month month day-of-week`), for example `0 6 * * 1-5` to run at 06:00 on weekdays (Monday to Friday).
@@ -1923,13 +1924,13 @@ spec:
   * Interval in the format `@every <duration>`, for example `@every 1h30m10s` to run 1 hour, 30 minutes, and 10 seconds after the schedule is added and after each subsequent interval.
 
 :::tip Predefined schedules
-| Entry | Description | Equivalent to |
-| --- | --- | --- |
-| `@yearly` or `@annually` | Run once a year at midnight on January 1 | `0 0 1 1 *` |
-| `@monthly` | Run once a month at midnight on the first day | `0 0 1 * *` |
-| `@weekly` | Run once a week at midnight between Saturday and Sunday | `0 0 * * 0` |
-| `@daily` or `@midnight` | Run once a day at midnight | `0 0 * * *` |
-| `@hourly` | Run once an hour at the beginning of the hour | `0 * * * *` |
+| Entry                    | Description                                             | Equivalent to |
+| ------------------------ | ------------------------------------------------------- | ------------- |
+| `@yearly` or `@annually` | Run once a year at midnight on January 1                | `0 0 1 1 *`   |
+| `@monthly`               | Run once a month at midnight on the first day           | `0 0 1 * *`   |
+| `@weekly`                | Run once a week at midnight between Saturday and Sunday | `0 0 * * 0`   |
+| `@daily` or `@midnight`  | Run once a day at midnight                              | `0 0 * * *`   |
+| `@hourly`                | Run once an hour at the beginning of the hour           | `0 * * * *`   |
 :::
 
 * `timeZone` - (optional) The time zone used to evaluate all entries in `schedules`. It must be a value from the [IANA Time Zone Database](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones), for example `Europe/Oslo`. Defaults to `UTC` when omitted.
