@@ -77,7 +77,7 @@ Radix provides a set of runtime values that can be referenced directly in sub-pi
 
   Replace `<component-name>` with the name of the component or job as defined in `radixconfig.yaml`. The parameter is injected automatically by Radix and forwarded to every task in the sub-pipeline.
 
-  This is useful for tasks that should run inside the application's own container, such as database migrations, schema validation, or smoke tests:
+  This is useful for tasks that need to execute code that is part of your application such as database migrations, schema validation or smoke tests. The step runs the exact image being deployed, with the app's runtime and tooling already present.
 
   ```yaml
   apiVersion: tekton.dev/v1
