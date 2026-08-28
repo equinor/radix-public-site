@@ -77,7 +77,7 @@ Radix provides a set of runtime values that can be referenced directly in sub-pi
 
   Replace `<component-name>` with the name of the component or job as defined in `radixconfig.yaml`. The parameter is injected automatically by Radix and forwarded to every task in the sub-pipeline.
 
-  This is useful for tasks that should run inside the application's own container, such as database migrations, schema validation, or smoke tests:
+  This is useful for tasks that need to execute code that is part of your application such as database migrations, schema validation or smoke tests. The step runs the exact image being deployed, with the app's runtime and tooling already present.
 
   ```yaml
   apiVersion: tekton.dev/v1
@@ -159,12 +159,12 @@ In Radix platform, the following limitations are applied to sub-pipelines:
     ```
 
 * It is not important in which order to put tasks in the sub-pipeline - tasks can run in parallel or in sequences, defined by fields [runAfter](https://tekton.dev/docs/pipelines/pipelines/#using-the-runafter-field), [conditions](https://tekton.dev/docs/pipelines/pipelines/#guard-task-execution-using-conditions), [from](https://tekton.dev/docs/pipelines/pipelines/#using-the-from-field).
-* If a task has a field `runAfter` - it will be started on;yy when all tasks, referenced in the field `runAfter` are complete.
+* If a task has a field `runAfter` - it will be started only when all tasks, referenced in the field `runAfter` are complete.
 * Task details:
   * Each sub-pipeline task runs in its own Kubernetes pod (replica).
   * Task step runs in its own container of this task's pod.
   * Task step [can be configured individually](https://tekton.dev/docs/pipelines/tasks/#defining-steps): which container image and how many resources to use, how to proceed [on an error](https://tekton.dev/docs/pipelines/tasks/#specifying-onerror-for-a-step), specify a [timeout](https://tekton.dev/docs/pipelines/tasks/#specifying-a-timeout), if the task runs script - is it [bash](https://tekton.dev/docs/pipelines/tasks/#running-scripts-within-steps) or [PowerShell](https://tekton.dev/docs/pipelines/tasks/#windows-scripts) script, etc.
-  * When task step uses `script` - it would be recommended to finish this script with the `no-op` command: put `:` (column) on the last new line of the script. It will help to avoid some irrelevant errors (e.g. in the example below: run of this task raises an error, when the command `printenv|grep "DB"` is on the last line of the script and there are no environment variables with a fragment "DB" in names). Or just put a command like `echo ""`
+  * When task step uses `script` - it would be recommended to finish this script with the `no-op` command: put `:` (colon) on the last new line of the script. It will help to avoid some irrelevant errors (e.g. in the example below: run of this task raises an error, when the command `printenv|grep "DB"` is on the last line of the script and there are no environment variables with a fragment "DB" in names). Or just put a command like `echo ""`
 
     ```yaml
     spec:
