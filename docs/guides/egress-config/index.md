@@ -8,7 +8,7 @@ Egress traffic has two aspects: what external addresses a component is allowed t
 
 ## Public egress addresses
 
-When a component connects out to an external service, the service sees the connection coming from one of a pool of public IP addresses assigned to the cluster, not from the component itself. This is the component's public egress address, sometimes referred to as a frontend IP.
+When a component connects out to an external service, the service sees the connection coming from one of the cluster's public egress IP addresses (source IP), not from the component itself.
 
 Each Radix cluster has its own set of egress addresses. You can find them on the **About** page in Radix Web Console for the cluster where your application is running.
 
