@@ -43,7 +43,7 @@ However, if an application uses a custom OAuth2 implementation, you must allow t
 
 #### Use Private Link
 
-To create a stable egress rule that allows traffic to an Azure SaaS service, use a [Private Link from the Radix cluster](../../docs/topic-private-link/index.md) to the SaaS service. A Private Link provides a stable IPv4 address from the RFC1918 range which will not change during the lifetime of the Private Link. This address can be safely referred to in egress rules in the radixconfig file.
+To create a stable egress rule that allows traffic to an Azure SaaS service, use a [Private Link from the Radix cluster](../../docs/topic-private-link/index.md) to the SaaS service. A Private Link provides a stable IPv4 address from the RFC1918 range which will not change during the lifetime of the Private Link. This address can be safely referred to in egress rules in `radixconfig.yaml`.
 
 #### Allow traffic to public IP
 
