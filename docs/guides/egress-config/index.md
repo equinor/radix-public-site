@@ -10,7 +10,7 @@ Egress traffic has two aspects: what external addresses a component is allowed t
 
 When a component connects out to an external service, the service sees the connection coming from one of a pool of public IP addresses assigned to the cluster, not from the component itself. This is the component's public egress address, sometimes referred to as a frontend IP.
 
-Each Radix cluster has its own set of egress addresses. You can find them on the **About** page in Radix Web Console, for example [https://console.radix.equinor.com/about](https://console.radix.equinor.com/about) for the Platform cluster.
+Each Radix cluster has its own set of egress addresses. You can find them on the **About** page in Radix Web Console for the cluster where your application is running.
 
 Use these addresses to configure firewall rules on external services, allowing traffic from applications running in Radix. Since the addresses are shared by every application in the cluster, a firewall rule that allows traffic from them permits traffic from any Radix application in that cluster, not just yours.
 
