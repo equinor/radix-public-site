@@ -23,7 +23,7 @@ Use the [egress configuration](../../radix-config/index.md#egress) in `radixconf
 Radix applies two built-in egress rules to every application environment:
 
 1. TCP and UDP port 53 to the internal Radix DNS service
-1. all TCP and UDP ports to all jobs and components in the same [Radix application environment](../../start/radix-concepts/index.md#environment)
+1. All TCP and UDP ports to all jobs and components in the same [Radix application environment](../../start/radix-concepts/index.md#environment)
 
 ### Limitations
 
