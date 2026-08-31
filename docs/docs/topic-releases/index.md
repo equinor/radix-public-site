@@ -831,10 +831,6 @@ Two new validation rules now apply to radixconfig.
 
 ## 2021
 
-### 2021-12-09 Active cluster IPs as environment variable
-
-The IPs actively assigned the the cluster of which an application is deployed to are now added to the Radix environment variable RADIX_ACTIVE_CLUSTER_EGRESS_IPS. This environment variable contains a list of IPs which are used for outgoing traffic from the cluster and is added to every component.  
-
 ### 2021-11-23 Cluster IPs
 
 Cluster IPs are now visible in the `About Pages` in Radix Web Console.
