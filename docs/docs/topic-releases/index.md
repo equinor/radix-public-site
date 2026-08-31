@@ -833,7 +833,7 @@ Two new validation rules now apply to radixconfig.
 
 ### 2021-11-23 Cluster IPs
 
-Cluster IPs are now visible in the `About Pages` in Radix Web Console.
+Cluster IPs are now visible on the **About** page in Radix Web Console.
 
 - [Radix Platform](https://console.radix.equinor.com/about)
 - [Radix Playground](https://console.playground.radix.equinor.com/about)
