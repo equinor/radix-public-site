@@ -43,11 +43,11 @@ However, if an application uses a custom OAuth2 implementation, you must allow t
 
 #### Use Private Link
 
-To create a stable egress rule that allows traffic to an Azure SaaS service, use a [Private Link from the Radix cluster](../../docs/topic-private-link/index.md) to the SaaS service. A Private Link provides a stable IPv4 address from the RFC1918 range which will not change during the lifetime of the Private Link. This address can be safely referred to in egress rules in `radixconfig.yaml`.
+To create a stable egress rule that allows traffic to an Azure resource, use a [Private Link from the Radix cluster](../../docs/topic-private-link/index.md) to the SaaS service. A Private Link provides a stable IPv4 address from the RFC1918 range which will not change during the lifetime of the Private Link. This address can be safely referred to in egress rules in `radixconfig.yaml`.
 
 #### Allow traffic to public IP
 
-If a Radix application needs outbound access to an Azure SaaS service without a static IP, you can use the IP ranges defined in [Azure service tags](https://docs.microsoft.com/en-us/azure/virtual-network/service-tags-overview). A mapping between service tags and IP ranges [can be downloaded in JSON format](https://docs.microsoft.com/en-us/azure/virtual-network/service-tags-overview#discover-service-tags-by-using-downloadable-json-files).
+If a Radix application needs outbound access to an Azure resource without a static IP, you can use the IP ranges defined in [Azure service tags](https://docs.microsoft.com/en-us/azure/virtual-network/service-tags-overview). A mapping between service tags and IP ranges [can be downloaded in JSON format](https://docs.microsoft.com/en-us/azure/virtual-network/service-tags-overview#discover-service-tags-by-using-downloadable-json-files).
 
 Example: suppose an application needs to connect to an Azure SQL server in the North Europe Azure region. The public IP address of this server is guaranteed to be within the IP ranges of the `Sql.NorthEurope` service tag. As an illustration, this service tag corresponded to the following IPv4 ranges in February 2022 — treat this as a historical example only, and always [download the current ranges](https://docs.microsoft.com/en-us/azure/virtual-network/service-tags-overview#discover-service-tags-by-using-downloadable-json-files) before configuring a rule:
 
