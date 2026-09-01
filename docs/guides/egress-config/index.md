@@ -18,6 +18,8 @@ Use these addresses to configure firewall rules on external services, allowing t
 
 Use the [egress configuration](../../radix-config/index.md#egress) in `radixconfig.yaml` to define what a component is allowed to connect to.
 
+If an environment doesn't define `egress`, all outbound traffic is allowed. Once you define `egress` for an environment, only the built-in rules and the traffic explicitly allowed by your `rules` are permitted — everything else is blocked.
+
 ### Built-in rules
 
 Radix applies two built-in egress rules to every application environment:
