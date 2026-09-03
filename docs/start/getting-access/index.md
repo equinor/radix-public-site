@@ -18,7 +18,7 @@ Search for [**Radix Platform Users**](https://accessit.equinor.com/Search/Search
 ### After Access is Approved
 
 You can connect to the clusters using:  
-- **Radix Web Console**  
+- [**Radix Web Console**](https://console.radix.equinor.com/)  
 - [**Radix CLI**](../../docs/topic-radix-cli/)  
 - **Radix API**  
 

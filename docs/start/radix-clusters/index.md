@@ -7,10 +7,10 @@ Your application(s) will run in a *Kubernetes cluster*. Radix currently have thr
 
 | Cluster                      | Azure Region | DNS Zone                     |                      Radix API (Swagger UI)                    |
 | ---------------------------- | ------------ | ---------------------------- | :-----------------------------------------------------: |
-| **Platform (North Europe)**     | North Europe    |  radix.equinor.com      |  [Link](https://api.radix.equinor.com/swaggerui/)       |
-| **Platform 2 (West Europe)**    | West Europe     | c2.radix.equinor.com    |  [Link](https://api.c2.radix.equinor.com/swaggerui/)     |
-| **Platform 3 (Sweden Central)** | Sweden Central  | c2.radix.equinor.com    |  [Link](https://api.c3.radix.equinor.com/swaggerui/)     |
-| **Playground**                  | North Europe    | playground.radix.equinor.com | [Link](https://api.playground.radix.equinor.com/swaggerui/) |
+| **Platform (North Europe)**     | North Europe    | [radix.equinor.com](https://console.radix.equinor.com/)      |  [Link](https://api.radix.equinor.com/swaggerui/)       |
+| **Platform 2 (West Europe)**    | West Europe     | [c2.radix.equinor.com](https://console.c2.radix.equinor.com/)    |  [Link](https://api.c2.radix.equinor.com/swaggerui/)     |
+| **Platform 3 (Sweden Central)** | Sweden Central  | [c3.radix.equinor.com](https://console.c3.radix.equinor.com/)    |  [Link](https://api.c3.radix.equinor.com/swaggerui/)     |
+| **Playground**                  | North Europe    | [playground.radix.equinor.com](https://console.playground.radix.equinor.com/) | [Link](https://api.playground.radix.equinor.com/swaggerui/) |
 
 
 :::info Moving applications between clusters
