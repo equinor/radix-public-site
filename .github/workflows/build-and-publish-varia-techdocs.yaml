@@ -36,7 +36,10 @@ jobs:
         uses: astral-sh/setup-uv@cec208311dfd045dd5311c1add060b2062131d57 # v8.0.0
 
       - name: Install techdocs-cli
-        run: npm install -g @techdocs/cli
+        run: |
+          npm install -g @techdocs/cli
+          echo "-----------------------------"
+          techdocs-cli -V          
 
       - name: Generate docs site
         run: uv run techdocs-cli generate --no-docker
