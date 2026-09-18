@@ -130,7 +130,7 @@ In Radix platform, the following limitations are applied to sub-pipelines:
 
 ## Step memory limit
 
-Radix applies a default memory limit of `500Mi` to every task step. A step that exceeds this limit is terminated with an out-of-memory error.
+Radix applies a default memory limit of `500Mi` to every task step. A step that exceeds this limit is terminated with an out-of-memory (OOMKilled) error.
 
 If a step needs more memory, set your own values with the `computeResources` property in the step definition:
 
