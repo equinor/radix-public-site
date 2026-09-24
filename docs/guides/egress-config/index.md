@@ -43,6 +43,19 @@ However, if an application uses a custom OAuth2 implementation, you must allow t
 
 ### Allow traffic to Azure service
 
+### Private Link preferred option
+
+Private Links are the preferred way to connect a Radix application to an Azure SaaS service. Create a [Private Link from the Radix cluster](../../docs/topic-private-link/index.md) to the SaaS service, then use the private IPv4 address in your egress rules. A Private Link provides a stable IPv4 address from the RFC1918 range, and that address will not change during the lifetime of the Private Link. You can safely refer to it in egress rules in `radixconfig.yaml`.
+
+#### Firewall rules
+
+If the target service also needs to allow traffic from the Radix cluster, find the cluster's outbound IP addresses in Radix Web Console. Click the `i` icon in the top right corner for the cluster you use, and check the About page. These IP addresses are specific to each cluster, so use the values shown for the cluster where your application runs. 
+
+### Allow traffic to public IP
+
+If a Radix application needs outbound access to an Azure SaaS service without Private Link or another static IP, it may be possible to use the IP ranges defined in [Azure service tags](https://docs.microsoft.com/en-us/azure/virtual-network/service-tags-overview). A mapping between service tags and IP ranges [can be downloaded in JSON format](https://docs.microsoft.com/en-us/azure/virtual-network/service-tags-overview#discover-service-tags-by-using-downloadable-json-files).
+
+Example: suppose an application needs to connect to an Azure SQL server in the North Europe Azure region. The public IP address of this server is guaranteed to be within the IP ranges of the `Sql.NorthEurope` service tag. 
 #### Use Private Link
 
 To create a stable egress rule that allows traffic to an Azure resource, use a [Private Link from the Radix cluster](../../docs/topic-private-link/index.md) to the SaaS service. A Private Link provides a stable IPv4 address from the RFC1918 range which will not change during the lifetime of the Private Link. This address can be safely referred to in egress rules in `radixconfig.yaml`.
