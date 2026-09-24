@@ -210,7 +210,6 @@ def generate_html(data: dict, auto_refresh: bool = False, skill_name: str = "") 
     for h in history:
         iteration = h.get("iteration", "?")
         train_total = h.get("train_total", h.get("total", 0))
-        test_passed = h.get("test_passed")
         test_total = h.get("test_total")
         description = h.get("description", "")
         train_results = h.get("train_results", h.get("results", []))
