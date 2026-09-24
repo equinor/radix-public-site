@@ -153,7 +153,6 @@ def generate_html(data: dict, auto_refresh: bool = False, skill_name: str = "") 
 
     # Summary section
     best_test_score = data.get('best_test_score')
-    best_train_score = data.get('best_train_score')
     html_parts.append(f"""
     <div class="summary">
         <p><strong>Original:</strong> {html.escape(data.get('original_description', 'N/A'))}</p>
