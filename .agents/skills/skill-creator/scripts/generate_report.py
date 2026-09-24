@@ -209,7 +209,6 @@ def generate_html(data: dict, auto_refresh: bool = False, skill_name: str = "") 
     # Add rows for each iteration
     for h in history:
         iteration = h.get("iteration", "?")
-        train_passed = h.get("train_passed", h.get("passed", 0))
         train_total = h.get("train_total", h.get("total", 0))
         test_passed = h.get("test_passed")
         test_total = h.get("test_total")
