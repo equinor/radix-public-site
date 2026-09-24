@@ -29,19 +29,19 @@ However, if an application uses a custom OAuth2 implementation, it is necessary 
 
 ## Allow traffic to Azure service
 
-### Use Private Link
+### Private Link preferred option
 
-In order to create a stable egress rule which allows traffic to an Azure SaaS service, it is best practice to make a [Private Link from the Radix cluster](../../docs/topic-private-link/index.md) to the SaaS service. A Private Link provides a stable IPv4 address from the RFC1918 range which will not change during the lifetime of the Private Link. This address can be safely referred to in egress rules in the radixconfig file.
+Private Links are the preferred way to connect a Radix application to an Azure SaaS service. Create a [Private Link from the Radix cluster](../../docs/topic-private-link/index.md) to the SaaS service, then use the private IPv4 address in your egress rules. A Private Link provides a stable IPv4 address from the RFC1918 range, and that address will not change during the lifetime of the Private Link. You can safely refer to it in egress rules in `radixconfig.yaml`.
+
+#### Firewall rules
+
+If the target service also needs to allow traffic from the Radix cluster, find the cluster's outbound IP addresses in Radix Web Console. Click the `i` icon in the top right corner for the cluster you use, and check the About page. These IP addresses are specific to each cluster, so use the values shown for the cluster where your application runs. 
 
 ### Allow traffic to public IP
 
-If a Radix application needs outbound access to some Azure SaaS service without a static IP, it may be possible to use the IP ranges defined in [Azure service tags](https://docs.microsoft.com/en-us/azure/virtual-network/service-tags-overview). A mapping between service tags and IP ranges [can be downloaded in JSON format](https://docs.microsoft.com/en-us/azure/virtual-network/service-tags-overview#discover-service-tags-by-using-downloadable-json-files).
+If a Radix application needs outbound access to an Azure SaaS service without Private Link or another static IP, it may be possible to use the IP ranges defined in [Azure service tags](https://docs.microsoft.com/en-us/azure/virtual-network/service-tags-overview). A mapping between service tags and IP ranges [can be downloaded in JSON format](https://docs.microsoft.com/en-us/azure/virtual-network/service-tags-overview#discover-service-tags-by-using-downloadable-json-files).
 
-Example: suppose an application needs to connect to an Azure SQL server in the North Europe Azure region. The public IP address of this server is guaranteed to be within the IP ranges of the `Sql.NorthEurope` service tag. As of February 2022, this service tag corresponds to the following IPv4 ranges
-
-:::tip
-13.69.224.0/26, 13.69.224.192/26, 13.69.225.0/26, 13.69.225.192/26, 13.69.233.136/29, 13.69.239.128/26, 13.74.104.64/26, 13.74.104.128/26, 13.74.105.0/26, 13.74.105.128/26, 13.74.105.192/29, 20.50.73.32/27, 20.50.73.64/26, 20.50.81.0/26, 23.102.16.130/32, 23.102.52.155/32, 40.85.102.50/32, 40.113.14.53/32, 40.113.16.190/32, 40.113.93.91/32, 40.127.128.10/32, 40.127.137.209/32, 40.127.141.194/32, 40.127.177.139/32, 52.138.224.0/26, 52.138.224.128/26, 52.138.225.0/26, 52.138.225.128/26, 52.138.229.72/29, 52.146.133.128/25, 65.52.225.245/32, 65.52.226.209/32, 104.41.202.30/32, 191.235.193.75/32, 191.235.193.139/32, 191.235.193.140/31
-:::
+Example: suppose an application needs to connect to an Azure SQL server in the North Europe Azure region. The public IP address of this server is guaranteed to be within the IP ranges of the `Sql.NorthEurope` service tag. 
 
 An appropriate egress rule could be to allow outbound traffic to these IPv4 ranges on TCP port 1433. Be wary of allowing traffic to service tags which can comprise IP addresses belonging to arbitrary services controlled by malicious actors. E.g., one can argue that a rule which allows traffic to the `AzureCloud.NorthEurope` service tag introduces greater risk than a rule which merely allows the `Sql.NorthEurope` tag.
 
