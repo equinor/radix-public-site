@@ -109,6 +109,7 @@ def build_run(root: Path, run_dir: Path) -> dict | None:
                     if match:
                         prompt = match.group(1).strip()
                 except OSError:
+                    # Best-effort fallback: ignore unreadable transcript files and continue searching.
                     pass
                 if prompt:
                     break
