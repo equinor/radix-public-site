@@ -10,8 +10,8 @@ When editing `.md` or `.mdx` files, always apply the radix-docs skill to review 
 
 ## Skills
 
-| Skill              | Path                                        | Description                                                                                            |
-| ------------------ | ------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| maintain-agents-md | `.agent/skills/maintain-agents-md/SKILL.md` | Sync AGENTS.md when skills are added, removed, or modified.                                            |
-| radix-docs         | `.agent/skills/radix-docs/SKILL.md`         | Write and review Radix platform documentation (style, tone, American English, no internal policies).   |
-| radix-notification | `.agent/skills/radix-notification/SKILL.md` | Write Radix platform Slack notifications (announcements, deprecations, maintenance, breaking changes). |
+| Skill              | Path                                         | Description                                                                                            |
+| ------------------ | -------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| maintain-agents-md | `.agents/skills/maintain-agents-md/SKILL.md` | Sync AGENTS.md when skills are added, removed, or modified.                                            |
+| radix-docs         | `.agents/skills/radix-docs/SKILL.md`         | Write and review Radix platform documentation (style, tone, American English, no internal policies).   |
+| radix-notification | `.agents/skills/radix-notification/SKILL.md` | Write Radix platform Slack notifications (announcements, deprecations, maintenance, breaking changes). |

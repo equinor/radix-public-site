@@ -2,13 +2,12 @@
 title: Integrate Dynatrace in a Radix app
 ---
 
-# Integrate Dynatrace in a Radix app
-
 Adding Dynatrace as your monitoring tool can be done by adding the Dynatrace agent to your build. See the sample below.
 
 This method adds DynaTrace OneAgent to the container, and uses RadixConfig to manipulate environment.
 
 :::tip TLDR
+
 - Always use pre-production image in dockerfile.
 - Add `spa-equinor.kanari.com` to `privateImageHubs` in your `radixconfig.yaml` file.
 - Override `DT_TENANT`, `DT_TENANTTOKEN` and `DT_CONNECTION_POINT` with Radix Secrets.
@@ -19,7 +18,7 @@ This method adds DynaTrace OneAgent to the container, and uses RadixConfig to ma
 
 :::
 
-### Dockerfile sample
+## Dockerfile sample
 
 ```dockerfile
 # Always use Dynatrace pre-production image
@@ -52,7 +51,7 @@ USER 1001
 ENTRYPOINT ["dotnet", "api.dll", "--urls=http://0.0.0.0:5000"]
 ```
 
-To build this dockerfile you must use a private build image secret 
+To build this dockerfile you must use a private build image secret
 Then Update your `radixconfig.yaml` with these arguments:
 
 ```yaml
@@ -68,9 +67,6 @@ spec:
     spa-equinor.kanari.com:
       # always use Dynatrace pre-production image
       username: eddaec99-38b1-4a9c-9f4c-9148921efa10
-  build:
-    # usBuildKit is required to use private image hubs when building
-    useBuildKit: true
   components:
     - name: web
       # Get secrets from Dynatrace json api:
@@ -80,8 +76,9 @@ spec:
         - DT_CONNECTION_POINT # formattedCommunicationEndpoints from response
 ```
 
-After changing your `radixconfig.yaml` file and pushing the changes, you must open the application's configuration page in [Web Console](https://console.radix.equinor.com) and paste in the PaaS-Token in **Private image hubs** under **App Secrets**. 
+After changing your `radixconfig.yaml` file and pushing the changes, you must open the application's configuration page in [Web Console](https://console.radix.equinor.com) and paste in the PaaS-Token in **Private image hubs** under **App Secrets**.
 You must then update environment secrets in each component with corresponding Dynatrace configuration: `DT_TENANT`, `DT_TENANTTOKEN` (`tenantToken`) and `DT_CONNECTION_POINT` (`formattedCommunicationEndpoints`).
+
 ```request
 GET https://spa-equinor.kanari.com/e/<DT_TENANT>/api/v1/deployment/installer/agent/connectioninfo
 accept: application/json

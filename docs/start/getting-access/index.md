@@ -15,14 +15,14 @@ Search for [**Radix Platform Users**](https://accessit.equinor.com/Search/Search
 - **Radix Platform Users** → Access with your standard Entra ID account  
 - **Radix Platform Users with Adminkey (AZ-key)** → Access with your AZ account  
 
-### After Access is Approved
+### After access is approved
 
 You can connect to the clusters using:  
-- **Radix Web Console**  
+- [**Radix Web Console**](https://console.radix.equinor.com/)  
 - [**Radix CLI**](../../docs/topic-radix-cli/)  
 - **Radix API**  
 
-You may register your app in the Playground first and then again in the Platform cluster — there’s no dedicated “migration” process.  
+You may register your app in the [Playground](https://console.playground.radix.equinor.com/) first and then again in the [Platform](https://console.radix.equinor.com/) cluster — there’s no dedicated “migration” process.  
 
 If you have questions, reach out on Slack: [#radix-support](https://equinor.slack.com/messages/CBKM6N2JY) — we’re here to help.  
 

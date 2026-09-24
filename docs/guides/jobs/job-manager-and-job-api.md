@@ -188,6 +188,11 @@ To start a new single job, send a `POST` request to `http://compute:8000/api/v1/
 }
 ```
 
+:::tip
+Cron scheduled jobs do not support the payload parameter.
+If passed it will simply be ignored.
+:::
+
 The job-scheduler creates a new job and mounts the payload from the request body to a file named `payload` in the directory `/compute/args`.
 Once the job has been created successfully, the `job-scheduler` responds to `backend` with a job state object
 

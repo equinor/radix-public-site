@@ -10,7 +10,7 @@ Running an application in Radix is not much different to running Docker containe
 
 ### Traffic
 
-Only HTTPS traffic is allowed into the application. There is no protocol restriction on outbound traffic. SSL certificates are automatically managed by Radix, [external aliases](../../guides/external-alias/index.md) can also be managed by Radix, i.e. automatically refreshed.
+Only HTTPS traffic is allowed into the application. There is no protocol restriction on outbound traffic. TLS certificates are automatically managed by Radix, [external aliases](../../guides/external-alias/index.md) can also be managed by Radix, i.e. automatically refreshed.
 
 Internally - within the same environment/namespace, [components](../../start/radix-concepts/index.md#component) can communicate with each other using other protocols and [ports](../../radix-config/index.md#components), provided they use TCP.
 
@@ -26,16 +26,15 @@ For external requests there is an upload limit of 100MB. If your application nee
 
 ### Request headers
 
-Requests reaching your components from outside Radix are routed, and will have some extra HTTP headers with information about the original request
+Requests reaching your components from outside Radix are routed through the Radix gateway controller, which adds HTTP headers with information about the original request.
 
-- `X-Forwarded-For`: List of IP addresses that have proxied the request (leftmost is original requester)
-- `X-Forwarded-Host`: Hostname requested
-- `X-Forwarded-Port`: Port requested (usually `443`)
-- `X-Forwarded-Proto`: Protocol used (usually `https`)
-- `X-Original-URI`: Path of original requested (e.g. `/item/widget`)
-- `X-Real-IP`: Source IP seen by Radix (depending on client-side proxies, this can be different from `X-Forwarded-For`)
+- `X-Forwarded-For`: Contains the original client IP address chain.
+- `X-Forwarded-Host`: Contains the original host requested by the client.
+- `X-Forwarded-Port`: Contains the original port requested by the client.
+- `X-Forwarded-Proto`: Contains the original protocol, such as `https`.
 - `X-Request-ID`: A unique random ID for the request; can be used for [correlation tracking](https://theburningmonk.com/2015/05/a-consistent-approach-to-track-correlation-ids-through-microservices/)
-- `X-Scheme`: Same as `X-Forwarded-Proto`
+
+See the [Ingress guide](../../guides/ingress/index.md#gateway-proxy-headers) for details about trusted forwarding headers and the gateway controller trust boundary.
 
 ## Storage
 

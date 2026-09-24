@@ -19,16 +19,6 @@ Radix can send alerts about failing pipeline jobs, components or jobs to Slack u
 [Guide](../guides/authentication/index.md) -
 [Radix config reference](../radix-config/index.md#authentication)
 
-### Client certificates
-
-:::warning Deprecated with Istio and Gateway API
-`clientCertificate` configures nginx client certificate authentication and will stop working after the migration to Istio and Gateway API. Replace this with application-level IP filtering based on trusted proxy handling and `X-Forwarded-For`. See [Ingress migration to Istio and Gateway API](../guides/ingress-nginx-to-istio/index.md).
-:::
-
-ClientCertificates, which can be configured for a component or a specific environment.
-
-[Radix config reference](../radix-config/index.md#clientcertificate)
-
 ### OAuth service
 
 Radix provides built-in configuration for adding OAuth2 authorization with OIDC to the component. Common `oauth2` settings can be configured at component level and/or in the component's `environmentConfig` section.
@@ -116,11 +106,11 @@ Named values, entered in the Radix console, passed as arguments to a Dockerfile 
 
 [Guide](../guides/build-secrets/index.md) -  [Radix config reference](../radix-config/index.md#secrets-build)
 
-## Certificates, SSL certificates
+## Certificates, TLS certificates
 
-Only HTTPS traffic is allowed in and out of the application. SSL certificates are automatically managed by Radix, except for custom external aliases.
+Only HTTPS traffic is allowed in to the application. TLS certificates are automatically managed by Radix, except for custom external aliases.
 
-[Doc](../docs/topic-runtime-env/index.md#traffic) - [Radix config reference](../radix-config/index.md#clientcertificate)
+[Doc](../docs/topic-runtime-env/index.md#traffic)
 
 ### Custom certificate
 

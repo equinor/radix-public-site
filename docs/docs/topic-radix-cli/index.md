@@ -184,6 +184,14 @@ An option `job` of commands `create`, `get logs` is replaced with `pipeline-job`
     rx get logs component --application your-app-name --environment your-env-name --component your-component-name --previous
     rx get logs component -a your-app-name -e your-env-name --component your-component-name -p
     ```
+* Get logs for OAuth2 resources in a component
+    ```shell
+    rx get logs component oauth2 --application your-app-name --environment your-env-name --component your-component-name --since 72h
+    rx get logs component oauth2-session --application your-app-name --environment your-env-name --component your-component-name --since 72h
+
+    rx get logs component oauth2 --application your-app-name --environment your-env-name --component your-component-name --previous
+    ```
+    
 ### Scale, stop, restart components
 * Scale, stop, restart or reset a Radix application component
     ```shell
@@ -289,4 +297,27 @@ rx get vulnerability --application your-app-name \
                      --output json \
                      --fail-on-critical
 
+```
+
+### Validate workload identity
+
+Validates workload identity configuration for one application or all applications by comparing expected and existing federated credentials. The command output includes Azure CLI commands to create missing credentials and, unless excluded, Azure CLI commands to delete potentially obsolete credentials.
+
+By default, Radix CLI formats the generated Azure CLI commands for the current operating system: `posix` on Unix-like systems and `windows` on Windows. Use `--azure-cli-shell-format` to generate commands that work in a different shell or terminal than the operating system default. For example, use `--azure-cli-shell-format windows-powershell` to generate commands for PowerShell on Windows.
+
+```shell
+# Validate workload identity for all applications in current context
+rx validate workload-identity
+
+# Validate workload identity for one application
+rx validate workload-identity --application your-app-name
+
+# Print result as JSON
+rx validate workload-identity --application your-app-name --output json
+
+# Exclude potentially obsolete federated credentials from output
+rx validate workload-identity --application your-app-name --exclude-obsolete
+
+# Generate Azure CLI commands for PowerShell on Windows
+rx validate workload-identity --application your-app-name --azure-cli-shell-format windows-powershell
 ```

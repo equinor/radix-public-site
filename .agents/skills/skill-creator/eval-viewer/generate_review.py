@@ -95,8 +95,10 @@ def build_run(root: Path, run_dir: Path) -> dict | None:
                 prompt = metadata.get("prompt", "")
                 eval_id = metadata.get("eval_id")
             except (json.JSONDecodeError, OSError):
+
                 # Metadata is optional; ignore unreadable/invalid files and continue
                 # searching other sources (e.g., transcript fallback) for prompt data.
+
                 pass
             if prompt:
                 break
@@ -111,7 +113,9 @@ def build_run(root: Path, run_dir: Path) -> dict | None:
                     if match:
                         prompt = match.group(1).strip()
                 except OSError:
+
                     # Best-effort fallback: ignore unreadable transcript files and continue searching.
+
                     pass
                 if prompt:
                     break

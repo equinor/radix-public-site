@@ -16,6 +16,8 @@ The job-scheduler does not require any authentication since it is not exposed to
 
 A job can be run as a single job or as a batch of jobs.
 
+A job can also be started automatically on a recurring schedule, without any call to the job-scheduler API, by configuring a [`cron`](../../radix-config/index.md#cron) schedule for the job component. On each scheduled occurrence Radix starts a single job, using the configuration defined for the job component in that environment. The `cron` configuration also controls what happens when a scheduled run is triggered while a previous scheduled run is still active. See [`cron`](../../radix-config/index.md#cron) for details.
+
 A max of 10 single completed jobs remains in the history of a job component. When a single job started - the oldest of 10 existing single jobs is deleted. The same applies for batched jobs - its history is independent of single jobs history. A max of 10 completed batched jobs remain in the batch history, with all their jobs.
 
 * [Configure jobs](./configure-jobs.md)

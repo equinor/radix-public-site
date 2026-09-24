@@ -1,0 +1,92 @@
+---
+title: Federated Credentials Migration
+---
+
+# Migration guide: New cluster OIDC issuer for federated credentials
+
+## Action required
+If your Radix application uses [Azure Workload Identity](../workload-identity/index.md), you must add new federated credential entries that use the new cluster OIDC issuer URL.
+
+Azure Workload Identity can be used either in your own code, through an [OAuth2 proxy](../authentication/index.md), or for horizontal scaling with [Azure Service Bus](../horizontal-scaling/keda-azure-service-bus-trigger-authentication.md) or [Event Hub](../horizontal-scaling/keda-azure-event-hub-trigger-authentication.md).
+
+- Action required by: 2026-08-31
+
+## Summary
+Radix is introducing Cilium networking, which means we're commissioning new clusters and moving existing applications onto them.
+
+Each cluster has its own OIDC issuer URL, and Azure binds federated credential trust to that issuer value.
+So before migration, any workload that relies on federated credentials needs a matching federated credential for the new issuer.
+
+## Why we are doing this
+We are moving to new clusters to introduce Cilium and improve the platform foundation for networking, security, and operations.
+
+## Who is affected
+You are affected if your app is hosted in Platform (North Europe) or Platform 2 (West Europe) and any of its components use federated credentials with Azure Workload Identity.
+
+You are not affected if your app authenticates only with client secrets or certificates and does not use federated credentials.
+You are also not affected if your app is hosted in Playground or Platform 3 (Sweden Central).
+
+If you are unsure, follow the detection steps in [Check whether your app is affected](#check-whether-your-app-is-affected).
+
+## Migration details
+
+### Check whether your app is affected
+Use the Radix CLI [rx validate workload-identity](../../docs/topic-radix-cli/index.md#validate-workload-identity) command.
+
+For example:
+
+```bash
+rx validate workload-identity --application your-app-name
+```
+
+The output looks similar to this:
+
+![rx CLI: app configuration showing missing federated credentials](./rx-cli-federated-credentials.png)
+
+The output lists components within the application that are missing federated credentials.
+It also provides an Azure CLI command you can run locally to add each missing credential.
+
+### Add the new issuer
+Run the supplied commands in green from the previous step to add the new credentials.
+
+:::danger Important
+Do not remove the old ones until after migration is complete.
+:::
+
+### Verify new federated credential
+To verify that the new federated credentials were added you can run the Radix CLI command again.
+
+:::tip
+Azure might take up to 30 seconds before registering the new federated credentials.
+:::
+
+### Remove old issuer credentials after migration
+Once we have migrated all applications to the new clusters, and the old ones have been decomissioned, we will let you know.
+You can then remove the old federated credentials by running the Radix CLI command once more.
+
+## What happens if you do nothing
+If this is not completed before the migration, token exchange to Azure AD (Entra ID) will fail for affected workloads. This will most likely break the application.
+
+## FAQ
+
+### Will my application experience downtime?
+No downtime. Any changes you make in the old cluster after migration starts will not be carried over, for example deployments, new or updated secrets, and other configuration changes.
+We will let you know when migration starts well in advance, so that you can avoid changes during that window.
+
+### Will multiple instances of my application run during migration?
+Yes. After migration completes and until the old clusters are decommissioned, your application runs in both the old and new cluster at the same time.
+
+:::warning
+If your application expects only a single instance to run at any given time, be aware that this will not be the case during this window. Plan accordingly for workloads that are sensitive to running concurrently, such as scheduled jobs.
+
+If your application cannot handle this, or you are unsure how to proceed, contact us on Slack (#radix-support) and we will find a solution together.
+:::
+
+### Should I remove the old issuer immediately?
+No. Remove it only after the communicated decommission date.
+
+### Does this affect all applications?
+No. It affects only workloads that use Azure Workload Identity.
+
+## Support
+If you need help, please don't hesitate contact us on Slack (#radix-support).

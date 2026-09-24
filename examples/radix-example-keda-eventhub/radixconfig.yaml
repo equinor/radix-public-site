@@ -3,8 +3,6 @@ kind: RadixApplication
 metadata:
   name: radix-example-keda-eventhub
 spec:
-  build:
-    useBuildKit: true
   environments:
     - name: dev
       build:

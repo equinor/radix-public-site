@@ -53,4 +53,13 @@ spec:
           jobStatuses:
             - Failed
           batchStatus: Failed
+    - name: recurring
+      src: recurring
+      cron:
+        timeZone: "Europe/Oslo"
+        schedules:
+          - "45 12 * * *"
+          - "*/1 * * * *"
+          - "@daily"
+        concurrency: "Replace"
 ```
