@@ -145,7 +145,6 @@ const sidebars: SidebarsConfig = {
           'guides/monorepo/index',
         ]
       },
-      'guides/federated-credentials-migration/index',
   ],
   docsSidebar: [
       'docs/index',
