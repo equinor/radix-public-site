@@ -26,7 +26,7 @@ After installation, ask GitHub Copilot questions or give it tasks related to Rad
 - "Deploy this application with the Radix CLI."
 - "Help me troubleshoot this failed Radix deployment."
 
-The package includes skills for onboarding an application, working with the `rx` CLI, and handling common Radix configuration and deployment tasks. The skills inspect the context of your repository and use the relevant Radix guidance when responding.
+The package includes skills for onboarding an application, working with `radix-cli`, and handling common Radix configuration and deployment tasks. The skills inspect the context of your repository and use the relevant Radix guidance when responding.
 
 Review generated configuration and commands before applying them. The [Radix configuration reference](../../radix-config/index.md) remains the source of truth for `radixconfig.yaml`.
 
