@@ -160,6 +160,7 @@ const sidebars: SidebarsConfig = {
       'docs/topic-cost/index',
       'docs/topic-rollingupdate/index',
       'docs/topic-radix-cli/index',
+      'docs/topic-radix-ai/index',
       'docs/topic-code-editor-integration/index',
       'docs/topic-dynatrace-int/index',
       'docs/topic-redis/index',
