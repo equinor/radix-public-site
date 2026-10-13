@@ -10,11 +10,12 @@ displayed_sidebar: docsSidebar
 After [installing APM](https://microsoft.github.io/apm/getting-started/installation/), run:
 
 ```bash
-apm init
-apm install equinor/radix-ai --target copilot
+apm init                                       # initializes APM in the repo
+apm install equinor/radix-ai --target copilot  # installs radix-ai primitives
 ```
 
-The first command initializes APM in the repository. The second installs the Radix skills and supporting instructions for GitHub Copilot.
+- `apm init` initializes APM and creates its configuration in the current repository. It will create an `apm.yml` file in your directory. If your project already has an `apm.yml`, skip `apm init` and install directly the package. 
+- `apm install equinor/radix-ai --target copilot` downloads the Radix AI package and generates the skills and instructions used by GitHub Copilot. The `--target copilot` option selects the GitHub Copilot file format.
 
 Commit the generated files so everyone working in the repository gets the same Radix guidance.
 
