@@ -45,13 +45,13 @@ frontend-myapp-prod.radix.equinor.com
 
 :::
 
-## Configure certificate automation service 
+## Configure certificate automation service
 
 ### Configure `dnsExternalAlias` in radixonfig.yaml
 
 Add the alias to `dnsExternalAlias` in [radixconfig.yaml](../../radix-config/index.md#dnsexternalalias). You can add multiple entries as long as the `alias` value is unique. The referenced environment must be re-deployed in order for the changes to take effect.
 
-If `useCertificateAutomation` is `true`, the external DNS record must be created in order for Radix to start the automatic certificate issuing process. `digicert.com` must also be authorized (from [CAA](https://en.wikipedia.org/wiki/DNS_Certification_Authority_Authorization) records) to issue certificates to the `alias`. You can use an online tool like [UptimeRobot CAA Lookup](https://uptimerobot.com/free-tools/caa-lookup/) to check this.
+If `useCertificateAutomation` is `true`, the external DNS record must be created in order for Radix to start the automatic certificate issuing process. When using `digicert` issuer, `digicert.com` must also be authorized (from [CAA](https://en.wikipedia.org/wiki/DNS_Certification_Authority_Authorization) records) to issue certificates to the `alias`. After some grace period, we will default the `issuer` to `letsencrypt`. Take special care if you have a subdomain `my-sub-domain.my-domain.equinor.com`, under `my-domain.equinor.com`, with a CAA record. You can use an online tool like [UptimeRobot CAA Lookup](https://uptimerobot.com/free-tools/caa-lookup/) to check this.
 
 ``` yaml
 apiVersion: radix.equinor.com/v1
@@ -65,6 +65,8 @@ spec:
       component: frontend
       environment: prod
       useCertificateAutomation: false|true
+      certificateAutomation:
+        issuer: [digicert|letsencrypt]
 ```
 
 You can also add and maintain the [certificates manually](../external-alias-certificate/)
