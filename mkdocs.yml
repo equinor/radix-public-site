@@ -102,7 +102,6 @@ theme:
     - content.code.copy
 plugins:
   - search
-  - docusaurus
   - techdocs-core
 markdown_extensions:
   - admonition

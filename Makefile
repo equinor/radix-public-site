@@ -1,3 +1,7 @@
+# techdocs-cli rejects symlinks pointing outside the source dir, so the uv venv must live outside the repo
+UV_PROJECT_ENVIRONMENT ?= $(HOME)/.cache/radix-public-site/venv
+export UV_PROJECT_ENVIRONMENT
+
 .PHONY: dev-up
 dev-up:
 	docker compose --profile dev up --build
