@@ -1,8 +1,8 @@
 ---
-title: Example of using AD service principal to get access to a Radix application in a GitHub action
+title: Example of using Entra ID service principal to get access to a Radix application in a GitHub action
 ---
 
-# Example of using AD service principal to get access to a Radix application in a GitHub action
+# Example of using Entra ID service principal to get access to a Radix application in a GitHub action
 
 To create a GitHub Actions you need to create a workflow file in the folder `.github/workflows`.
 

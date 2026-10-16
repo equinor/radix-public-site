@@ -4,7 +4,7 @@ title: Example of using GitHub action to create a Radix deploy pipeline job
 
 # Example of using GitHub action to create a Radix deploy pipeline job
 
-To use GitHub Actions, create a workflow file under `.github/workflows`. In the sample workflow below, we will build new images for the `api` component for the `main` branch and deploy to the `prod` environment.
+To use GitHub Actions, create a workflow file under `.github/workflows`. In the sample workflow below, a push to the `master` branch builds the `api` component with the static tag `master-latest` and deploys it to the `qa` environment. A push to the `release` branch builds it with a dynamic tag (`release-` followed by the commit SHA) and deploys it to the `prod` environment.
 
 Make sure your radixconfig.yaml file is in the root of your repository. The workflow will read the application name from the radixconfig.yaml file (the argument `--from-config`), or you can specify it with `--application` option.
 
@@ -19,6 +19,7 @@ metadata:
   name: YOUR-APP-NAME # Must match the registerd app in Radix Console
 spec:
   environments:
+    - name: qa
     - name: prod
   privateImageHubs:
     ghcr.io:
@@ -27,21 +28,27 @@ spec:
     - name: api
       image: ghcr.io/YOUR-ORG/YOUR-REPO-NAME/api:{imageTagName}
       imagePullSecret: latest
+      alwaysPullImageOnDeploy: true # Pull the image on every deployment, needed for the static tag in qa
       ports:
         - name: http
           port: 8000
       publicPort: http
+      environmentConfig:
+        - environment: qa
+          imageTagName: master-latest # prod has no imageTagName, the workflow sets it with --image-tag-name
 ```
 
 
 Steps in the example:
 
-* Build image tags
+* Set default image tag
+* Override image tag for prod environment
 * Set up Docker Buildx
-* Authenticate to Github Container Registry
-* Build and push docker image
-* Install RX and Authenticate
-* Deploy your component on Radix
+* Log in to GitHub Container Registry
+* Build and push API component
+* Get environment from branch
+* Install RX and authenticate
+* Deploy API on Radix
 
 Read more about permissions in GitHub Actions [here](https://docs.github.com/en/actions/using-jobs/assigning-permissions-to-jobs)
 
@@ -51,7 +58,8 @@ name: CI
 on:
   push:
     branches:
-      - main
+      - master
+      - release
 
 permissions:
   id-token: write # Required to authenticate with Azure Entra ID
@@ -64,22 +72,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-            
-      - name: Build image tags
-        id: metadata
+
+      - name: Set default image tag
         run: |
-          sha=${GITHUB_SHA::8}
-          ts=$(date +%s)
-          tag=${GITHUB_REF_NAME}-${sha}-${ts}
-          repo=${GITHUB_REPOSITORY@L} # @L is bash syntax that converts REPO to lowercase
-          
-          echo "tag=${tag}" >> $GITHUB_OUTPUT
-          echo "repo=${repo}" >> $GITHUB_OUTPUT 
+          echo "REPO=${GITHUB_REPOSITORY@L}" >> $GITHUB_ENV # @L is bash syntax that converts REPO to lowercase
+          echo "IMAGE_TAG=master-latest" >> $GITHUB_ENV # Static tag used by the qa environment
+
+      - name: Override image tag for prod environment
+        if: github.ref_name == 'release'
+        run: echo "IMAGE_TAG=release-${GITHUB_SHA::8}" >> $GITHUB_ENV # Dynamic tag, unique for every commit
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd
-
-      # Login, build and push the image to your preffered registry
 
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2
@@ -87,14 +91,21 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }} # Use the default GITHUB_TOKEN for ghcr.io
-          
-      - name: Build and push docker image
+
+      - name: Build and push API component
         uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294
         with:
           push: true
-            ghcr.io/${{ steps.metadata.outputs.repo }}:latest
-            ghcr.io/${{ steps.metadata.outputs.repo }}:${{ steps.metadata.outputs.tag }}
-  
+          tags: ghcr.io/${{ env.REPO }}/api:${{ env.IMAGE_TAG }}
+
+      - name: Get environment from branch
+        id: environment
+        run: |
+          case "${GITHUB_REF_NAME}" in
+            master) echo "name=qa" >> $GITHUB_OUTPUT ;;
+            release) echo "name=prod" >> $GITHUB_OUTPUT ;;
+          esac
+
       # Radix
       # - Install rx cli and authenticate
       # - Create a pipeline job to deploy the application
@@ -103,13 +114,13 @@ jobs:
         uses: equinor/radix-github-actions@v2
         with:
           azure_client_id: "00000000-0000-0000-0000-000000000000" # App Registration Application ID or Managed Identity Client ID
-          
+
       - name: 'Deploy API on Radix'
         run: rx create pipeline-job deploy
             --context playground
             --from-config # Read application name from radixconfig.yaml in the root of the repository. Or use `--application your-app-name` to specify the application name
-            --environment prod
-            --image-tag-name api=${{ steps.metadata.outputs.tag }} # Specify the component name and image tag
+            --environment ${{ steps.environment.outputs.name }}
+            --image-tag-name api=${IMAGE_TAG} # Specify the component name and image tag
             --commitID ${{ github.sha }} # GitHub commit hash can be specified from the workflow context
             --follow
 ```
@@ -120,8 +131,8 @@ Following are last steps for "Build and deploy" pipeline workflow (e.g. when som
         run: rx create pipeline-job deploy
           --context playground
           --from-config
-          --environment prod
-          --image-tag-name api=${{ steps.metadata.outputs.tag }}
+          --environment ${{ steps.environment.outputs.name }}
+          --image-tag-name api=${IMAGE_TAG}
           --follow
 ```
 An option `--context playground` is used if a Radix application is registered in the Playground cluster, otherwise remove this line - Platform cluster is used by default
@@ -132,4 +143,4 @@ An option `--context playground` is used if a Radix application is registered in
     permissions:
       id-token: write
     ```
-* Error `No matching federated identity record found for presented assertion` - make sure that the [AD Service principal access token is set](./#ad-service-principal-access-token)
+* Error `No matching federated identity record found for presented assertion` - make sure that the [Entra ID Service principal access token is set](./index.md#entra-id-service-principal)
