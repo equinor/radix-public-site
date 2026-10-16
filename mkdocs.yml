@@ -103,6 +103,7 @@ theme:
 plugins:
   - search
   - techdocs-core
+  - docusaurus
 markdown_extensions:
   - admonition
   - md_in_html
