@@ -164,15 +164,9 @@ Give the token the privileges to read and write packages:
 
 ![ReadAndWritePackages](./ReadAndWritePackages.png)
 
-### The workflow
+### Example: deploying with static and dynamic tags
 
-The [example workflow](./example-github-action-to-create-radix-deploy-pipeline-job.md) has these steps:
-
-- `Set default image tag`<br/>Sets the default tag for the `qa` environment, or for any other environment that uses a static tag. In this example, `qa` has a static tag (`master-latest`) and `prod` has a dynamic tag.
-- `Override image tag for prod environment`<br/>Sets a dynamic image tag for `prod`, which the workflow passes to the deploy pipeline job with `--image-tag-name`.
-- `Build and push API component`<br/>Builds the image outside of Radix and pushes it to the GitHub Container Registry.
-- `Get environment from branch`<br/>Determines the target environment for the current branch and passes it to the next step.
-- `Deploy API on Radix`<br/>Calls the Radix CLI, which starts the deploy pipeline through the Radix API. The step uses the output of the previous step to select the environment. The `development` context sends the call to the API in the development cluster, and `playground` sends it to the playground cluster. If you omit the context, it defaults to `production`.
+The [example workflow](./example-github-action-to-create-radix-deploy-pipeline-job.md) shows how to deploy with both tagging strategies. It deploys `master` to `qa` with a static tag and `release` to `prod` with a dynamic tag. The example page describes each step in the workflow.
 
 ## Configure Radix to use GitHub Container Registry
 
