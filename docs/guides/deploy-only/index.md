@@ -112,17 +112,15 @@ See [Connect GitHub and Azure](https://learn.microsoft.com/en-us/azure/developer
 
 Your pipeline job can call Radix in one of these ways:
 
-- **Radix GitHub Actions**<br/>The preferred option if you use GitHub Actions for CI. [Radix GitHub Actions](https://github.com/equinor/radix-github-actions) signs in as the service principal and makes it easy to call Radix from your workflow.
+- **Radix GitHub Actions**<br/>The preferred option if you use GitHub Actions for CI. [Radix GitHub Actions](https://github.com/equinor/radix-github-actions) signs in as the service principal and makes it easy to call Radix from your workflow. See the [migration guide from v1 to v2](./migrating-radix-github-action-v1-to-v2.md).
 - **Radix CLI**<br/>Sign in as the service principal with one of the supported `rx login` options, then use the [Radix CLI](https://github.com/equinor/radix-cli) to call Radix. This works with any CI tool.
-- **Radix API**<br/>Request an access token for the service principal and call the API directly, passing the token as a bearer token, for example `curl -X GET --header "Authorization: Bearer $token" <url>`. See the [example of using an access token in a GitHub action](./example-github-action-using-ad-service-principal-access-token.md).
+- **Radix API**<br/>Request an access token for the service principal and call the API directly, passing the token as a bearer token, for example `curl -X GET --header "Authorization: Bearer $token" <url>`.
 
 :::warning
 An access token is valid for one hour and grants every operation an application administrator can perform, including deleting the application and setting secrets. Keep it secret.
 :::
 
-See the [example of using a GitHub action to create a Radix deploy pipeline job](example-github-action-to-create-radix-deploy-pipeline-job.md).
-
-### Updating deployments on static tags
+## Updating deployments on static tags
 
 With a static tag, a new deployment doesn't change the tag, so Radix doesn't pull a new image on its own. During a deployment, Radix reads `radixconfig.yaml` and creates or updates Kubernetes resources from it. If the resources don't change, Kubernetes does nothing, and the existing containers keep running. This is the case with static tags, since `radixconfig.yaml` stays the same between deployments.
 
@@ -154,23 +152,9 @@ You can also put the full image reference in the `imageTagName` property:
 ```
 :::
 
-### Configuring a personal access token
-
-The example workflow pushes images to the GitHub Container Registry (GHCR) with the built-in `GITHUB_TOKEN`. Radix needs a personal access token to pull them. Generate one in the developer settings in GitHub. If your organization uses SSO, authorize the token for it.
-
-![PersonalAccessToken](./PersonalAccessToken.png)
-
-Give the token the privileges to read and write packages:
-
-![ReadAndWritePackages](./ReadAndWritePackages.png)
-
-### Example: deploying with static and dynamic tags
-
-The [example workflow](./example-github-action-to-create-radix-deploy-pipeline-job.md) shows how to deploy with both tagging strategies. It deploys `master` to `qa` with a static tag and `release` to `prod` with a dynamic tag. The example page describes each step in the workflow.
-
 ## Configure Radix to use GitHub Container Registry
 
-On the application `Configuration` page, set the secret for the private image hub to the personal access token you created, which needs permission to read packages. This gives Radix access to pull the packages that `radixconfig.yaml` refers to:
+On the application `Configuration` page, set the secret for the private image hub to the [personal access token](./example-github-action-to-create-radix-deploy-pipeline-job.md#configuring-a-personal-access-token) you created, which needs permission to read packages. This gives Radix access to pull the packages that `radixconfig.yaml` refers to:
 
 ![PrivateImageHubSecret](./private-image-hubs.png)
 
@@ -186,59 +170,18 @@ _Component **component1** keeps deployment commit @b57c551_
 
 The commit (`@b57c551`) is shown only if the previous deployment of the component has a `CommitID`.
 
-##### Pipeline job
+**Pipeline job**
 
 ![Deploy job with specific component](./deploy-job-with-specific-component.png)
 
-##### Deployment
+**Deployment**
 
 ![Deployment with specific component](./deployment-with-specific-component.png)
 
-##### Environment
+**Environment**
 
 ![Environment with specific deployed component](./environment-with-specific-deployed-component.png)
 
-## Radix GitHub Actions
+## Example
 
-The following GitHub action triggers a deploy pipeline job. It requires an Azure managed identity that has access to your application and a federated credential mapped to the GitHub repository and branch (or tag) that runs the workflow. See [Azure and GitHub federated credentials](https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure-openid-connect) for details.
-
-```yaml
-name: Deploy on Radix # Authenticate with Federated Credentials
-
-on:
-  workflow_dispatch:
-  push:
-    tags: 
-      - 'v*.*.*'
-
-permissions:
-  contents: read
-  id-token: write # required to get a GitHub federated credential
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v6
-    - name: Set RELEASE_VERSION
-      run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-
-    - uses: equinor/radix-github-actions@v2
-      with:
-        azure_client_id: "00000000-0000-0000-0000-000000000000"
-        # azure_client_secret: ${{ secrets.AZURE_CLIENT_SECRET }} # Available if you do not use Federated Credentials
-
-    - run: rx create pipeline-job deploy
-       --application application-name
-       --environment qa
-       --image-tag-name component=docker.io/bash:${{ env.RELEASE_VERSION }}
-       --image-tag-name component2=docker.io/redis:${{ env.RELEASE_VERSION }}
-       --follow
-```
-
-See the [migration guide from v1 to v2](./migrating-radix-github-action-v1-to-v2.md).
-
-## Examples
-
-- [GitHub action to create a deploy pipeline job](./example-github-action-to-create-radix-deploy-pipeline-job.md)
-- [Using an Entra ID service principal to get access to a Radix application in a GitHub action](./example-github-action-using-ad-service-principal-access-token.md)
+The [example workflow](./example-github-action-to-create-radix-deploy-pipeline-job.md) shows how to deploy with both tagging strategies. It deploys `master` to `qa` with a static tag and `release` to `prod` with a dynamic tag. The example page describes each step in the workflow.

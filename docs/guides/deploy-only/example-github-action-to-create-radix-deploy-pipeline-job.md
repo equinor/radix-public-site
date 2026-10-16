@@ -10,7 +10,7 @@ Make sure your radixconfig.yaml file is in the root of your repository. The work
 
 It should also use the image tag name `api` for the component, but you can change it to your own component name.
 
-You must also add a Github Personal Access Token to Radix Console for the GitHub Container Registry. Add it to your Application Configuration in Radix Console under Private Image Hubs.
+You must also add a GitHub personal access token to Radix Console for the GitHub Container Registry. Add it to your Application Configuration in Radix Console under Private Image Hubs. See [Configuring a personal access token](#configuring-a-personal-access-token).
 
 ```yaml
 apiVersion: radix.equinor.com/v1
@@ -167,6 +167,17 @@ jobs:
 ```
 
 Use `--application your-app-name` instead of `--from-config` to specify the application name. An option `--context playground` is used if a Radix application is registered in the Playground cluster, otherwise remove this line - Platform cluster is used by default
+
+### Configuring a personal access token
+
+The example workflows push images to the GitHub Container Registry (GHCR) with the built-in `GITHUB_TOKEN`. Radix needs a personal access token to pull them. Generate one in the developer settings in GitHub. If your organization uses SSO, authorize the token for it.
+
+![PersonalAccessToken](./PersonalAccessToken.png)
+
+Give the token the privileges to read and write packages:
+
+![ReadAndWritePackages](./ReadAndWritePackages.png)
+
 ### Troubleshooting
 * Error `response status code does not match any response statuses defined for this endpoint in the swagger spec (status 403): {}` - make sure that in the Radix CLI command it is correctly specified an application name (an option `-a` or `--application`, if used), or context - cluster where the application is registered (an option `-c` or `--context`, if used)
 * Error `Unable to get ACTIONS_ID_TOKEN_REQUEST_URL env variable. Please make sure to give write permissions to id-token in the workflow.` - make sure that the permission is set:
