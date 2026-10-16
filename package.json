@@ -49,6 +49,9 @@
   "overrides": {
     "webpack-dev-server": "^5.2.1",
     "serialize-javascript": "^7.0.3",
+    "tinypool": "^2.2.0",
+    "micromatch": "^4.0.0",
+    "chokidar": "^4.0.0",
     "serve-handler": {
       "minimatch": "10.2.6"
     },

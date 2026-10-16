@@ -17,7 +17,9 @@ spec:
     - name: say-hello
       image: alpine
       command:
-        - echo "Hello"
+        - echo
+      args:
+        - "Hello"
 ```
 
 * Create a file `pipeline.yaml`. Add a task in the `tasks` list: give it a name (it can be any name, unique within this sub-pipeline), in the property `taskRef` ("reference to a task") put the value from the property `metadata.name` of the task, created above:

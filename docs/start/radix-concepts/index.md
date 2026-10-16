@@ -52,7 +52,7 @@ A [job](../../guides/jobs/index.md) represents an on-demand and short lived cont
 
 Jobs have three job-specific configuration options:
 
-* [`schedulerPort`](../../radix-config/index.md#schedulerport) defines the port where the [job-scheduler](../../guides/jobs/job-manager-and-job-api.md) listens for requests.
+* [`schedulerPort`](../../radix-config/index.md#schedulerport) defines the port where the [job-scheduler](../../guides/jobs/job-manager-and-job-api.md) listens for requests. It is required unless the job is triggered only by `cron` schedules.
 * [`payload`](../../radix-config/index.md#payload) is optional. When specified, its `path` defines a directory in the container where the payload, sent via the job-scheduler, is mounted.
 * [`cron`](../../radix-config/index.md#cron) is optional. When specified, it defines recurring schedules that start the job automatically.
 

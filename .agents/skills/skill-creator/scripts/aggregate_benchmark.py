@@ -143,8 +143,9 @@ def load_run_results(benchmark_dir: Path) -> dict:
                             timing_data = json.load(tf)
                         result["time_seconds"] = timing_data.get("total_duration_seconds", 0.0)
                         result["tokens"] = timing_data.get("total_tokens", 0)
-                    except json.JSONDecodeError:
-                        pass
+
+                    except json.JSONDecodeError as e:
+                        print(f"Warning: Invalid JSON in {timing_file}: {e}")
 
                 # Extract metrics if available
                 metrics = grading.get("execution_metrics", {})
