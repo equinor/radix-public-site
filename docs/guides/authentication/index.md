@@ -4,7 +4,7 @@ title: OAuth 2.0 Authentication
 
 # Authentication
 
-By default, Radix exposes application components publicly. To restrict access, application developers must implement authentication in the application or configure the OAuth2 feature provided by Radix.
+Radix application components, marked as public, will be exposed to the entire internet. To restrict access, application developers must implement authentication in the application or configure the OAuth2 feature provided by Radix.
 
 Equinor uses Azure AD for authentication of applications hosted outside the internal network. Azure AD is synced with Equinor internal AD, and contains information on Equinor users and groups.
 
