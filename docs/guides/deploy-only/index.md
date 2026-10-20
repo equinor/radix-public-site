@@ -158,7 +158,7 @@ You can also put the full image reference in the `imageTagName` property:
 
 ## Configure Radix to use an external container registry
 
-On the application `Configuration` page, set the secret for the private image hub to the [personal access token](./example-github-action-to-create-radix-deploy-pipeline-job.md#configuring-a-personal-access-token) you created, which needs permission to read packages. This gives Radix access to pull the packages that `radixconfig.yaml` refers to. You only need this if the images in the registry are private.
+On the application `Configuration` page, set the secret for the private image hub to a password or access token accepted by that registry. For GitHub Container Registry (GHCR), use a [personal access token](./example-github-action-to-create-radix-deploy-pipeline-job.md#configuring-a-personal-access-token) with the `read:packages` scope. See [`privateImageHubs`](../../radix-config/index.md#privateimagehubs) for registry configuration. You only need this if the images in the registry are private.
 
 ![PrivateImageHubSecret](./private-image-hubs.png)
 
