@@ -22,7 +22,7 @@ Even if your not using Radix, we would still recommend you to learn how to use D
 
 ## OAuth 2.0 - Authentication and Authorization
 
-If your API needs to be protected and only accessible for a group of users, understanding of OAuth 2.0 is required. Again this is not bound to Radix, but general knowledge needed when hosting applications in Azure (and cloud). [Radix authentication service](../../guides/authentication/) can be a good place to start.
+Radix application components, marked as public, are exposed to the entire internet. If your API needs to be protected and only accessible for a group of users, understanding of OAuth 2.0 is required. Again this is not bound to Radix, but general knowledge needed when hosting applications in Azure (and cloud). [Radix authentication service](../../guides/authentication/) can be a good place to start.
 
 ## Azure services
 
