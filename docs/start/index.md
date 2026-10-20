@@ -7,6 +7,10 @@ displayed_sidebar: gettingStartedSidebar
 
 Radix is a Platform-as-a-Service ("PaaS", if you like buzzwords). It builds, deploys, and monitors applications, automating the boring stuff and letting developers focus on code. Applications run in  ☁️ the cloud as 🐳 Docker containers, in environments that you define.
 
+:::warning
+It is important to understand that application authentication is not handled by Radix. The application endpoints will be public. Each team managing an application hosted on Radix is responsible for authenticating their users. Consider information management guidelines and read the [authentication guide](https://www.radix.equinor.com/guides/authentication/).
+:::
+
 You can use Radix just to run code, but the main functionality is to integrate with a code repository so that it can continuously build, test, and deploy applications. For instance, Radix can react to a `git push` event, automatically start a new build, and push it to the `test` environment, ready to be tested by users.
 
 :::tip
