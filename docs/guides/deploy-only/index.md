@@ -47,6 +47,10 @@ kind: RadixApplication
 metadata:
   name: my-app
 spec:
+  privateImageHubs:
+    ghcr.io:
+      username: <some GitHub user name>
+      email: <some email>
   environments:
     - name: qa
     - name: prod
@@ -66,10 +70,6 @@ spec:
         - name: http
           port: 8080
       publicPort: http
-  privateImageHubs:
-    ghcr.io:
-      username: <some GitHub user name>
-      email: <some email>
 ```
 
 See the [Radix Config reference](../../radix-config/index.md) for the full `radixconfig.yaml` syntax.

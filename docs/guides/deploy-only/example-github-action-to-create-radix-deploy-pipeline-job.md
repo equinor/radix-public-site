@@ -18,12 +18,12 @@ kind: RadixApplication
 metadata:
   name: YOUR-APP-NAME # Must match the registerd app in Radix Console
 spec:
-  environments:
-    - name: qa
-    - name: prod
   privateImageHubs:
     ghcr.io:
       username: YOUR-GITHUB-USERNAME
+  environments:
+    - name: qa
+    - name: prod
   components:
     - name: api
       image: ghcr.io/YOUR-ORG/YOUR-REPO-NAME/api:{imageTagName}
