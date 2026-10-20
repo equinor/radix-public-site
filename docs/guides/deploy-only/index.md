@@ -35,9 +35,11 @@ This guide uses the second option.
 Radix reads `radixconfig.yaml` only from the branch set as the `Config Branch` in the application configuration form. Radix ignores changes to the file in other branches.
 :::
 
-The main difference between a deploy-only application and a regular Radix application is that the [`image`](../../radix-config/index.md#image) property is set for all components and jobs in `radixconfig.yaml`.
+A deploy-only application differs from a regular Radix application in three ways:
 
-See [Deploying to Radix](#deploying-to-radix) for how to specify the image tag.
+- The [`image`](../../radix-config/index.md#image) property is set for all components and jobs in `radixconfig.yaml`. [Deploying to Radix](#deploying-to-radix) describes how to specify the image tag.
+- The [`privateImageHubs`](../../radix-config/index.md#privateimagehubs) property lets Radix pull images built outside of Radix.
+- Environments have no `build.from` branch mapping. Radix doesn't build a deploy-only application, so a mapping would do nothing. Your CI workflow decides which environment to deploy to.
 
 ```yaml
 apiVersion: radix.equinor.com/v1
@@ -70,17 +72,11 @@ spec:
       email: <some email>
 ```
 
-The [`privateImageHubs`](../../radix-config/index.md#privateimagehubs) property is the second difference from a regular Radix application. It lets Radix pull images built outside of Radix.
-
 See the [Radix Config reference](../../radix-config/index.md) for the full `radixconfig.yaml` syntax.
-
-:::tip
-The example doesn't map branches to environments with `build.from`. Radix never builds a deploy-only application, so a branch mapping has no effect. Your CI workflow decides which environment to deploy to.
-:::
 
 ## Registering the application
 
-Register the application as you would a regular Radix application, but don't add the webhook to GitHub. Without the webhook, a push to the repository doesn't trigger a build and deploy pipeline in Radix. You trigger deployments from your own CI tool instead, as described in the next sections.
+Register the application as you would a regular Radix application, but don't add the webhook to GitHub. With a webhook, every push to the repository would start a build-deploy pipeline job that does nothing, which only adds noise to the job list. You trigger deployments from your own CI tool instead, as described in the next sections.
 
 ## Entra ID service principal
 
@@ -130,9 +126,9 @@ A tag that changes with every build, for example a branch name combined with the
 
 ### Updating a component when the image tag doesn't change
 
-When the tag stays the same between deployments, Radix doesn't pull a new image on its own. During a deployment, Radix reads `radixconfig.yaml` and creates or updates Kubernetes resources from it. If the resources don't change, Kubernetes does nothing, and the existing containers keep running. This is the case when the tag is written in `image` or set with `imageTagName` in `radixconfig.yaml`, since the file stays the same between deployments.
+Radix doesn't pull a new image when the tag is the same as in the previous deployment, even if you've pushed a new image to that tag. On each deployment, Radix creates or updates Kubernetes resources from `radixconfig.yaml`. If those resources are unchanged, Kubernetes leaves the running containers alone. A tag written in `image` or set with `imageTagName` in `radixconfig.yaml` leads to unchanged resources, since the file is identical between deployments.
 
-To make the component run the latest image, restart it manually. Restart it from the component page in the web console, or call the restart endpoint in the [Radix API](https://api.radix.equinor.com/swaggerui/#/component/restartComponent) or [Radix CLI](https://github.com/equinor/radix-cli). The URL of the Radix API depends on which [Radix cluster](../../start/radix-clusters/index.md) hosts the application.
+To run the latest image, restart the component. You can do this from the component page in the web console, or with the restart endpoint in the [Radix API](https://api.radix.equinor.com/swaggerui/#/component/restartComponent) or the [Radix CLI](https://github.com/equinor/radix-cli). Which [Radix cluster](../../start/radix-clusters/index.md) hosts the application determines the URL of the Radix API.
 
 To avoid the manual restart, set `alwaysPullImageOnDeploy` to `true` on the component. Every deployment then changes the underlying Kubernetes resource, which makes Kubernetes pull the latest image from the container registry.
 
