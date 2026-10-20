@@ -38,7 +38,7 @@ Radix reads `radixconfig.yaml` only from the branch set as the `Config Branch` i
 A deploy-only application differs from a regular Radix application in three ways:
 
 - The [`image`](../../radix-config/index.md#image) property is set for all components and jobs in `radixconfig.yaml`. [Deploying to Radix](#deploying-to-radix) describes how to specify the image tag.
-- The [`privateImageHubs`](../../radix-config/index.md#privateimagehubs) property lets Radix pull images built outside of Radix.
+- The [`privateImageHubs`](../../radix-config/index.md#privateimagehubs) property lets Radix pull images from a private container registry. It's not needed if the images are public.
 - Environments have no `build.from` branch mapping. Radix doesn't build a deploy-only application, so a mapping would do nothing. Your CI workflow decides which environment to deploy to.
 
 ```yaml
@@ -158,7 +158,7 @@ You can also put the full image reference in the `imageTagName` property:
 
 ## Configure Radix to use an external container registry
 
-On the application `Configuration` page, set the secret for the private image hub to the [personal access token](./example-github-action-to-create-radix-deploy-pipeline-job.md#configuring-a-personal-access-token) you created, which needs permission to read packages. This gives Radix access to pull the packages that `radixconfig.yaml` refers to:
+On the application `Configuration` page, set the secret for the private image hub to the [personal access token](./example-github-action-to-create-radix-deploy-pipeline-job.md#configuring-a-personal-access-token) you created, which needs permission to read packages. This gives Radix access to pull the packages that `radixconfig.yaml` refers to. You only need this if the images in the registry are private.
 
 ![PrivateImageHubSecret](./private-image-hubs.png)
 

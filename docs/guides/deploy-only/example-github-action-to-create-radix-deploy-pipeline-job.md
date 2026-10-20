@@ -10,7 +10,7 @@ Make sure your radixconfig.yaml file is in the root of your repository. The work
 
 It should also use the image tag name `api` for the component, but you can change it to your own component name.
 
-You must also add a GitHub personal access token to Radix Console for the GitHub Container Registry. Add it to your Application Configuration in Radix Console under Private Image Hubs. See [Configuring a personal access token](#configuring-a-personal-access-token).
+If the images in GHCR are private, you must also add a GitHub personal access token to Radix Console so Radix can pull them. Add it to your Application Configuration in Radix Console under Private Image Hubs. See [Configuring a personal access token](#configuring-a-personal-access-token). Public images don't need a token, and you can then leave out `privateImageHubs` in `radixconfig.yaml`.
 
 ```yaml
 apiVersion: radix.equinor.com/v1
@@ -170,13 +170,18 @@ Use `--application your-app-name` instead of `--from-config` to specify the appl
 
 ### Configuring a personal access token
 
-The example workflows push images to the GitHub Container Registry (GHCR) with the built-in `GITHUB_TOKEN`. Radix needs a personal access token to pull them. Generate one in the developer settings in GitHub. If your organization uses SSO, authorize the token for it.
+The example workflows push images to the GitHub Container Registry (GHCR) with the built-in `GITHUB_TOKEN`. If the images are private, Radix needs a personal access token (classic) with the `read:packages` scope to pull them. Skip this section if the images are public. To create a token:
 
-![PersonalAccessToken](./PersonalAccessToken.png)
+1. In GitHub, click your profile picture and select **Settings**.
+2. Scroll down and select **Developer settings** in the left sidebar.
+3. Select **Personal access tokens**, then **Tokens (classic)**.
+4. Select **Generate new token**, then **Generate new token (classic)**.
+5. Enter a name for the token in the **Token name** field, and choose an expiration.
+6. Under **Select scopes**, check `read:packages`.
+7. Select **Generate token** and copy the token. GitHub shows it only once.
+8. If your organization uses SSO, select **Configure SSO** next to the token and authorize it for the organization that owns the packages.
 
-Give the token the privileges to read and write packages:
-
-![ReadAndWritePackages](./ReadAndWritePackages.png)
+Then add the token as the secret for the private image hub in the Radix Console, as described above.
 
 ### Troubleshooting
 * Error `response status code does not match any response statuses defined for this endpoint in the swagger spec (status 403): {}` - make sure that in the Radix CLI command it is correctly specified an application name (an option `-a` or `--application`, if used), or context - cluster where the application is registered (an option `-c` or `--context`, if used)
