@@ -4,7 +4,7 @@ title: Example of using GitHub action to create a Radix deploy pipeline job
 
 # Example of using GitHub action to create a Radix deploy pipeline job
 
-To use GitHub Actions, create a workflow file under `.github/workflows`. In the sample workflows below, a push to the `master` branch builds the `api` component with the static tag `master-latest` and deploys it to the `qa` environment. A push to the `release` branch builds it with a dynamic tag (`release-` followed by the commit SHA) and deploys it to the `prod` environment. Each environment has its own workflow.
+To use GitHub Actions, create a workflow file under `.github/workflows`. In the sample workflows below, a push to the `master` branch builds the `api` component with the tag `master-latest` and deploys it to the `qa` environment. A push to the `release` branch builds it with the tag `release-` followed by the commit SHA and deploys it to the `prod` environment. Each environment has its own workflow.
 
 Make sure your radixconfig.yaml file is in the root of your repository. The workflow will read the application name from the radixconfig.yaml file (the argument `--from-config`), or you can specify it with `--application` option.
 
@@ -27,7 +27,7 @@ spec:
   components:
     - name: api
       image: ghcr.io/YOUR-ORG/YOUR-REPO-NAME/api:{imageTagName}
-      alwaysPullImageOnDeploy: true # Pull the image on every deployment, needed for the static tag in qa
+      alwaysPullImageOnDeploy: true # Pull the image on every deployment, needed since the tag in qa never changes
       ports:
         - name: http
           port: 8000
@@ -40,7 +40,7 @@ spec:
 
 Steps in the example:
 
-- `Set image tag`<br/>Sets the image tag for the build and stores the repository name in lowercase, as required for image names. The `qa` workflow uses the static tag `master-latest`, which `radixconfig.yaml` already specifies with `imageTagName`. The `prod` workflow uses a dynamic tag, `release-` followed by the commit SHA, which it passes to the deploy pipeline job with `--image-tag-name` since `prod` has no `imageTagName` in `radixconfig.yaml`.
+- `Set image tag`<br/>Sets the image tag for the build and stores the repository name in lowercase, as required for image names. The `qa` workflow uses the tag `master-latest`, which `radixconfig.yaml` already specifies with `imageTagName`. The `prod` workflow uses `release-` followed by the commit SHA, which it passes to the deploy pipeline job with `--image-tag-name` since `prod` has no `imageTagName` in `radixconfig.yaml`.
 - `Set up Docker Buildx`<br/>Prepares Docker Buildx for building the image.
 - `Log in to GitHub Container Registry`<br/>Logs in to GHCR with the built-in `GITHUB_TOKEN`.
 - `Build and push API component`<br/>Builds the image outside of Radix and pushes it to GHCR with the tag from `Set image tag`.
@@ -74,7 +74,7 @@ jobs:
       - name: Set image tag
         run: |
           echo "REPO=${GITHUB_REPOSITORY@L}" >> $GITHUB_ENV # @L is bash syntax that converts REPO to lowercase
-          echo "IMAGE_TAG=master-latest" >> $GITHUB_ENV # Static tag, matches imageTagName for qa in radixconfig.yaml
+          echo "IMAGE_TAG=master-latest" >> $GITHUB_ENV # Matches imageTagName for qa in radixconfig.yaml
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd
@@ -132,7 +132,7 @@ jobs:
       - name: Set image tag
         run: |
           echo "REPO=${GITHUB_REPOSITORY@L}" >> $GITHUB_ENV # @L is bash syntax that converts REPO to lowercase
-          echo "IMAGE_TAG=release-${GITHUB_SHA::8}" >> $GITHUB_ENV # Dynamic tag, unique for every commit
+          echo "IMAGE_TAG=release-${GITHUB_SHA::8}" >> $GITHUB_ENV # Unique for every commit
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd

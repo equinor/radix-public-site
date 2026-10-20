@@ -306,7 +306,7 @@ Radix documentation website has been migrated to the framework [Docusaurus](http
 
 ### 2024-01-25 Option "component" added to deploy-only pipeline job
 
-One or several components can be specified for a [deploy pipeline workflow](../../guides/deploy-only/index.md#deploy-only-specific-component) with the new option ``component`` for [Radix CLI](../topic-radix-cli/index.md#deploy-pipeline-job), [Radix GitHub action](https://github.com/equinor/radix-github-actions) and [Radix API](https://api.radix.equinor.com/swaggerui/).
+One or several components can be specified for a [deploy pipeline workflow](../../guides/deploy-only/index.md#deploy-only-specific-components) with the new option ``component`` for [Radix CLI](../topic-radix-cli/index.md#deploy-pipeline-job), [Radix GitHub action](https://github.com/equinor/radix-github-actions) and [Radix API](https://api.radix.equinor.com/swaggerui/).
 
 ### Custom DNS for your application - within radix.equinor.com
 

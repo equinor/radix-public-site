@@ -898,7 +898,7 @@ spec:
       alwaysPullImageOnDeploy: false
 ```
 
-Only relevant for teams that uses another CI tool than Radix and static tags. See [deploy-only](../guides/deploy-only/index.md#updating-deployments-on-static-tags) for more information.
+Only relevant for teams that uses another CI tool than Radix and static tags. See [deploy-only](../guides/deploy-only/index.md#updating-a-component-when-the-image-tag-doesnt-change) for more information.
 
 ### `secrets`
 

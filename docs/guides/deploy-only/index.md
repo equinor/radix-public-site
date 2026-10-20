@@ -37,7 +37,7 @@ Radix reads `radixconfig.yaml` only from the branch set as the `Config Branch` i
 
 The main difference between a deploy-only application and a regular Radix application is that the [`image`](../../radix-config/index.md#image) property is set for all components and jobs in `radixconfig.yaml`.
 
-When `image` contains the [`{imageTagName}`](../../radix-config/index.md#imagetagname) placeholder, the Radix `deploy` pipeline replaces it with the `imageTagName` of the environment in `radixconfig.yaml`, or with the value of the `--image-tag-name` flag in the [Radix CLI](../../docs/topic-radix-cli/index.md#commands). If an environment has no `imageTagName`, you must set it with `--image-tag-name`. If you specify both, `--image-tag-name` takes precedence.
+See [Deploying to Radix](#deploying-to-radix) for how to specify the image tag.
 
 ```yaml
 apiVersion: radix.equinor.com/v1
@@ -69,15 +69,6 @@ spec:
       username: <some GitHub user name>
       email: <some email>
 ```
-
-This `radixconfig.yaml` uses two tagging strategies:
-
-- **Static tag**<br/>The tag is fixed in `radixconfig.yaml`, either with a predefined `imageTagName` or by specifying the tag directly in `image`. In the example, the `api` component has `imageTagName: master-latest` in the `qa` environment, and the `frontend` component specifies `latest` directly in `image`.
-- **Dynamic tag**<br/>The environment has no `imageTagName` in `radixconfig.yaml`, and the CI pipeline specifies the tag with `--image-tag-name` when it starts the deploy pipeline job. In the example, the `api` component has no `imageTagName` in the `prod` environment, so the pipeline must set it, for example with `--image-tag-name api=release-39f1a082`.
-
-A dynamic tag typically changes with every build, for example by combining a prefix like the branch name with the commit SHA of the build. Dynamic tags give you better control over what runs in an environment, and they let you promote an older deployment if you need to roll back.
-
-With a static tag, Radix doesn't pull a new image on its own after a deployment. See [Updating deployments on static tags](#updating-deployments-on-static-tags) for how to handle this.
 
 The [`privateImageHubs`](../../radix-config/index.md#privateimagehubs) property is the second difference from a regular Radix application. It lets Radix pull images built outside of Radix.
 
@@ -120,9 +111,26 @@ Your pipeline job can call Radix in one of these ways:
 An access token is valid for one hour and grants every operation an application administrator can perform, including deleting the application and setting secrets. Keep it secret.
 :::
 
-## Updating deployments on static tags
+## Deploying to Radix
 
-With a static tag, a new deployment doesn't change the tag, so Radix doesn't pull a new image on its own. During a deployment, Radix reads `radixconfig.yaml` and creates or updates Kubernetes resources from it. If the resources don't change, Kubernetes does nothing, and the existing containers keep running. This is the case with static tags, since `radixconfig.yaml` stays the same between deployments.
+Every deployment needs a full image reference for each component and job. You specify the image tag in the `image` property in one of two ways:
+
+- **Directly in `image`**<br/>Write the tag as part of the image reference, for example `ghcr.io/my-repo/my-app/frontend:latest`. The component uses the same tag in every environment and every deployment.
+- **With `{imageTagName}`**<br/>Put the [`{imageTagName}`](../../radix-config/index.md#imagetagname) placeholder where the tag goes, for example `ghcr.io/my-repo/my-app/api:{imageTagName}`. The `deploy` pipeline replaces the placeholder with the tag you configure, as described below.
+
+With `{imageTagName}`, you can set the tag per environment with the `imageTagName` property under `environmentConfig`, or override it when you start the deploy pipeline job with the `--image-tag-name` flag in the [Radix CLI](../../docs/topic-radix-cli/index.md#commands). The flag takes precedence over `radixconfig.yaml`. If an environment has no `imageTagName`, you must set the tag with `--image-tag-name`.
+
+In the [example `radixconfig.yaml`](#the-radixconfigyaml-file), `frontend` uses `latest` in every environment. The `api` component uses `master-latest` in `qa`, as set by `imageTagName`. It has no `imageTagName` in `prod`, so the deploy pipeline job must set it:
+
+```bash
+rx create pipeline-job deploy --application my-app --environment prod --image-tag-name api=release-39f1a082
+```
+
+A tag that changes with every build, for example a branch name combined with the commit SHA, gives you better control over what runs in an environment. It also lets you promote an older deployment if you need to roll back.
+
+### Updating a component when the image tag doesn't change
+
+When the tag stays the same between deployments, Radix doesn't pull a new image on its own. During a deployment, Radix reads `radixconfig.yaml` and creates or updates Kubernetes resources from it. If the resources don't change, Kubernetes does nothing, and the existing containers keep running. This is the case when the tag is written in `image` or set with `imageTagName` in `radixconfig.yaml`, since the file stays the same between deployments.
 
 To make the component run the latest image, restart it manually. Restart it from the component page in the web console, or call the restart endpoint in the [Radix API](https://api.radix.equinor.com/swaggerui/#/component/restartComponent) or [Radix CLI](https://github.com/equinor/radix-cli). The URL of the Radix API depends on which [Radix cluster](../../start/radix-clusters/index.md) hosts the application.
 
@@ -152,7 +160,7 @@ You can also put the full image reference in the `imageTagName` property:
 ```
 :::
 
-## Configure Radix to use GitHub Container Registry
+## Configure Radix to use an external container registry
 
 On the application `Configuration` page, set the secret for the private image hub to the [personal access token](./example-github-action-to-create-radix-deploy-pipeline-job.md#configuring-a-personal-access-token) you created, which needs permission to read packages. This gives Radix access to pull the packages that `radixconfig.yaml` refers to:
 
@@ -184,4 +192,4 @@ The commit (`@b57c551`) is shown only if the previous deployment of the componen
 
 ## Example
 
-The [example workflow](./example-github-action-to-create-radix-deploy-pipeline-job.md) shows how to deploy with both tagging strategies. It deploys `master` to `qa` with a static tag and `release` to `prod` with a dynamic tag. The example page describes each step in the workflow.
+The [example workflow](./example-github-action-to-create-radix-deploy-pipeline-job.md) deploys `master` to `qa` with the tag set by `imageTagName` in `radixconfig.yaml`, and `release` to `prod` with a tag set by `--image-tag-name`. The example page describes each step in the workflow.
