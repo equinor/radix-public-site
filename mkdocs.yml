@@ -101,8 +101,8 @@ theme:
     - content.code.copy
 plugins:
   - search
-  - docusaurus
   - techdocs-core
+  - docusaurus
 markdown_extensions:
   - admonition
   - md_in_html

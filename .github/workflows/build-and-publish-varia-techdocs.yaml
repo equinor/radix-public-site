@@ -41,13 +41,16 @@ jobs:
           echo "-----------------------------"
           techdocs-cli -V          
 
+      # techdocs-cli rejects symlinks pointing outside the source dir, so the uv venv must live outside the repo
       - name: Generate docs site
+        env:
+          UV_PROJECT_ENVIRONMENT: ${{ runner.temp }}/techdocs-venv
         run: uv run techdocs-cli generate --no-docker
 
       - name: "Az login"
         uses: azure/login@a641126d1b8aa4d1fa005f4f92df94a3a4c4c906 # v3.1.0
         with:
-          client-id: 1fee4604-0e5f-4b2a-9481-e466bbec1cea
+          client-id: 5b03f246-caca-45ce-98b9-a8151b08dd8f # radix-id-varia-doc
           tenant-id: 3aa4a235-b6e2-48d5-9195-7fcf05b459b0
           allow-no-subscriptions: true
 
