@@ -2395,10 +2395,14 @@ spec:
       environment: prod
       component: frontend
       useCertificateAutomation: [false|true]
+      certificateAutomation:
+        issuer: [digicert|letsencrypt]
     - alias: another.alias.com
       environment: prod
       component: frontend
       useCertificateAutomation: [false|true]
+      certificateAutomation:
+        issuer: [digicert|letsencrypt]
 ```
 
 Attach one or more custom (external) domains to a public component. Requirements and behavior:
@@ -2406,7 +2410,7 @@ Attach one or more custom (external) domains to a public component. Requirements
 * Each alias must point to a component that is public (has a public port).
 * Provide a domain name that you control; configure your DNS (CNAME/A) to point to the Radix-managed hostname as described in the [external alias guide](../guides/external-alias/index.md)
 * TLS:
-  * `useCertificateAutomation: true` — Radix obtains and renews the TLS certificate automatically
+  * `useCertificateAutomation: true` — Radix obtains and renews the TLS certificate automatically. If you want to override the default issuer, then specify `certificateAutomation` `issuer`. For more information on switching to LetsEncrypt certificate issuer see [this announcement](https://equinor.slack.com/archives/C02132Z6X3J/p1790846720478059)
   * `useCertificateAutomation: false` — you must upload a valid certificate and private key for the alias
 
 For setup steps and DNS/TLS details see the external alias [guide](../guides/external-alias/index.md)
