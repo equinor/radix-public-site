@@ -6,6 +6,10 @@ title: What's new
 
 ## 2026
 
+### 2026-10-23 Added support for LetsEncrypt certificate issuer
+
+This is relevant for teams with `useCertificateAutomation` set. Switching to Let's Encrypt provides significant cost savings for Equinor. See [this](https://equinor.slack.com/archives/C02132Z6X3J/p1790846720478059) announcement for details. During a grace period, DigiCert remains the default issuer. Once enough teams have switched over, we'll make Let's Encrypt the default for new deployments using certificate automation. For more info see [radix config](../../radix-config/index.md#dnsexternalalias)
+
 ### 2026-08-13 New `--azure-cli-shell-format` flag for Radix CLI command `rx validate workload-identity`
 
 Radix CLI v1.39.1 adds the `--azure-cli-shell-format` flag to the `rx validate workload-identity` command. Use it to generate Azure CLI commands that work in a shell or terminal other than the operating system default, such as PowerShell on Windows. Read more in [Radix CLI](../topic-radix-cli/index.md#validate-workload-identity).
