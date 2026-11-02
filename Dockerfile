@@ -5,7 +5,7 @@ COPY . .
 RUN npm install --ignore-scripts
 RUN npm run build
 
-FROM docker.io/nginxinc/nginx-unprivileged:1.31.3-alpine3.24
+FROM docker.io/nginx/nginx-unprivileged:1.31.8-alpine3.24
 WORKDIR /site
 COPY --from=builder /site/build /site
 COPY /proxy/server.conf /etc/nginx/conf.d/default.conf
