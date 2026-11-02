@@ -16,7 +16,7 @@ services:
         target: /app
 
   proxy:
-    image: docker.io/nginxinc/nginx-unprivileged:1.31.3-alpine3.24
+    image: docker.io/nginx/nginx-unprivileged:1.31.8-alpine3.24
     container_name: proxy
     profiles:
       - dev
