@@ -1359,6 +1359,9 @@ oauth2:
     expire: 168h0m0s
     refresh: 60m0s
     sameSite: lax
+  skipAuthRoutes:
+    - GET=^/healthz$
+    - POST=^/api/public-entity/?$
 ```
 
 * `clientId` Required - The client ID of the application, e.g. the application ID of an application registration in Azure AD.
@@ -1391,6 +1394,7 @@ oauth2:
   * `expire` Optional. Default **168h0m0s**. Expire timeframe for session cookies. Controls the _Expires_ cookie attribute.
   * `refresh` Optional. Default **60m0s**. Refresh interval defines how often the OAuth2 service should redeem the refresh token to get a new access token. The session cookie's _Expires_ is updated after refresh.
   * `sameSite` Optional. Default **lax**. The _SameSite_ attribute for the session cookie.
+* `skipAuthRoutes` Optional - A list of routes that bypass authentication, so the OAuth2 proxy passes matching requests straight to the component. Each entry is a regular expression, optionally prefixed with an HTTP method and `=` to restrict the rule to that method, for example `GET=^/healthz$`. Prefix the pattern with `!=` to negate it. Anchor each pattern with `^` and `$` to match the whole path, and note that a route cannot contain a comma. See the [OAuth2 Proxy skip auth routes documentation](https://oauth2-proxy.github.io/oauth2-proxy/configuration/overview#skip-auth-path-matching) for more details.
 
 :::tip
 See [guide](../guides/authentication/index.md#using-the-radix-oauth2-feature) on how to configure OAuth2 authentication for a component.
