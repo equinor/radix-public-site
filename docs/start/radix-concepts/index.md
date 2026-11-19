@@ -4,6 +4,26 @@ title: Radix concepts
 
 # Radix concepts
 
+## Zones
+
+![Diagram of Radix zones grouped by subscription](./zones-overview.svg "Radix zones")
+
+The production zones C1 (North Europe), C2 (West Europe), and C3 (Sweden Central) provide the same capabilities. Choose a zone based on where your data is located; C3 is the preferred production zone when you have no other location requirement. See [Azure networking general information](https://docs.omnia.equinor.com/cloud-platforms/microsoft-azure/networking/networking-general-information/) for guidance on Azure regions.
+
+Each Radix zone corresponds to one cluster. See [The Radix clusters](../radix-clusters/index.md) for cluster details, including DNS zones and console links.
+
+### Playground
+
+Use Playground for prototyping and early-stage application development. It has a separate [lifecycle policy](../uptime/index.md#automatic-cleanup-in-playground-cluster). The **Configuration Item** and **Administrators** fields are optional when you register an application in Playground; they are required in production. See [Registering your application](../registering-app/index.md) for details.
+
+### Feature availability
+
+Feature availability can differ by zone. The table shows current availability; notes can clarify testing scope or planned changes.
+
+| Feature | Playground | C1 | C2 | C3 | Notes |
+| --- | --- | --- | --- | --- | --- |
+| [Easy Auth](https://learn.microsoft.com/en-us/azure/app-service/overview-authentication-authorization) | Available | Unavailable | Unavailable | Unavailable | Radix-specific documentation is forthcoming. |
+
 ## Application
 
 Applications are the highest level of objects that can be created in Radix — all other objects are contained within them.

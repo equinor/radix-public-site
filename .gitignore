@@ -32,3 +32,6 @@ public_site.egg-info
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# .NET build artifacts
+**/**/obj/Debug/net8.0/**
