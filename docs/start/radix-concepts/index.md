@@ -12,11 +12,11 @@ A zone is a Radix deployment location that maps to a specific Azure region and K
 
 Radix currently provides three production zones:
 
-- C1 - North Europe
-- C2 - West Europe
-- C3 - Sweden Central
+- Platform 1 - North Europe
+- Platform 2 - West Europe
+- Platform 3 - Sweden Central
   
-All production zones provide the same platform capabilities, services, and operational support. Data location and networking requirements should drive your choice of zone. If your application has no regional requirements, choose C3 (Sweden Central).
+All production zones provide the same platform capabilities, services, and operational support. Data location and networking requirements should drive your choice of zone. If your application has no regional requirements, choose Platform 3 (Sweden Central).
 
 For guidance on selecting an Azure region, see [Azure networking general information](https://docs.omnia.equinor.com/cloud-platforms/microsoft-azure/networking/networking-general-information/).
 
@@ -40,7 +40,7 @@ Most Radix features are available across all production zones, but some features
 
 The table below shows current availability for each feature.
 
-| Feature | Playground | C1 | C2 | C3 |
+| Feature | Playground | Platform 1 | Platform 2 | Platform 3 |
 | --- | --- | --- | --- | --- |
 | [Configuration Item (Optional)](../../docs/topic-releases/index.md#2022-11-10-configuration-item-replaces-wbs-and-owner-and-is-now-mandatory) | ✅ Available | ❌ Unavailable | ❌ Unavailable | ❌ Unavailable |
 | [Administrators (Optional)](../../docs/topic-releases/index.md#2022-09-01-select-radix-application-administrator-group-by-name) | ✅ Available | ❌ Unavailable | ❌ Unavailable | ❌ Unavailable |

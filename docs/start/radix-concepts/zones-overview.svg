@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="820" height="380" viewBox="0 0 820 380" role="img" aria-labelledby="title description">
   <title id="title">Radix zones</title>
-  <desc id="description">C1, C2, and C3 are production zones in the Radix production subscription. Playground is a testing zone in the Radix development subscription.</desc>
+  <desc id="description">Platform 1, Platform 2, and Platform 3 are production zones in the Radix production subscription. Playground is a testing zone in the Radix development subscription.</desc>
   <rect x="12" y="12" width="796" height="356" fill="#dce8fb"/>
 
   <g font-family="Verdana, sans-serif" fill="#4d535c">
@@ -11,13 +11,13 @@
     <rect x="218" y="105" width="150" height="190" fill="#ffdfbd" stroke="#e7a12d" stroke-width="1.5"/>
     <rect x="378" y="105" width="150" height="190" fill="#ffdfbd" stroke="#e7a12d" stroke-width="1.5"/>
 
-    <text x="133" y="166" text-anchor="middle" font-size="18" font-weight="bold">C1</text>
+    <text x="133" y="166" text-anchor="middle" font-size="18" font-weight="bold">Platform 1</text>
     <text x="133" y="204" text-anchor="middle" font-size="15">North Europe</text>
 
-    <text x="293" y="166" text-anchor="middle" font-size="18" font-weight="bold">C2</text>
+    <text x="293" y="166" text-anchor="middle" font-size="18" font-weight="bold">Platform 2</text>
     <text x="293" y="204" text-anchor="middle" font-size="15">West Europe</text>
 
-    <text x="453" y="166" text-anchor="middle" font-size="18" font-weight="bold">C3*</text>
+    <text x="453" y="166" text-anchor="middle" font-size="18" font-weight="bold">Platform 3*</text>
     <text x="453" y="204" text-anchor="middle" font-size="15">Sweden Central</text>
 
     <rect x="580" y="52" width="204" height="270" fill="none" stroke="#80a77b" stroke-width="1.5" stroke-dasharray="5 5"/>
