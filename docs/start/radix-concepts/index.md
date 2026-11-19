@@ -38,13 +38,15 @@ You can skip the **Configuration Item** and **Administrators** fields when you [
 
 Most Radix features are available across all production zones, but some features are limited to specific zones while Radix tests, rolls out, or phases them out.
 
-The table below shows current availability for each feature; check the notes column for limitations and rollout status.
+The table below shows current availability for each feature.
 
-| Feature | Playground | C1 | C2 | C3 | Notes |
-| --- | --- | --- | --- | --- | --- |
-| [Easy Auth](https://learn.microsoft.com/en-us/azure/app-service/overview-authentication-authorization) | ✅ Available | ❌ Unavailable | ❌ Unavailable | ❌ Unavailable |  |
-|  Auto cleanup | ✅ Available  | ❌ Unavailable | ❌ Unavailable| ❌ Unavailable| |
-|  Certificates | ❌ Unavailable  | ✅ Available| ✅ Available| ✅ Available| |
+| Feature | Playground | C1 | C2 | C3 |
+| --- | --- | --- | --- | --- |
+| [Configuration Item (Optional)](../../docs/topic-releases/index.md#2022-11-10-configuration-item-replaces-wbs-and-owner-and-is-now-mandatory) | ✅ Available | ❌ Unavailable | ❌ Unavailable | ❌ Unavailable |
+| [Administrators (Optional)](../../docs/topic-releases/index.md#2022-09-01-select-radix-application-administrator-group-by-name) | ✅ Available | ❌ Unavailable | ❌ Unavailable | ❌ Unavailable |
+| [Auto cleanup](https://github.com/equinor/radix-cluster-cleanup) | ✅ Available | ❌ Unavailable | ❌ Unavailable | ❌ Unavailable |
+| [Certificate automation](../../radix-config/index.md#dnsexternalalias) | ❌ Unavailable | ✅ Available | ✅ Available | ✅ Available |
+| [Easy Auth](https://learn.microsoft.com/en-us/azure/app-service/overview-authentication-authorization) | ✅ Available | ❌ Unavailable | ❌ Unavailable | ❌ Unavailable |
 
 :::info Note
 Feature availability changes as Radix introduces, tests, and rolls out new capabilities across zones. Always refer to this table for the current status.
