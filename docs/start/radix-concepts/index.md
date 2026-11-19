@@ -6,23 +6,50 @@ title: Radix concepts
 
 ## Zones
 
+A zone is a Radix deployment location that maps to a specific Azure region and Kubernetes cluster. Zones let you deploy applications close to their data and users while keeping environments isolated from each other.
+
 ![Diagram of Radix zones grouped by subscription](./zones-overview.svg "Radix zones")
 
-The production zones C1 (North Europe), C2 (West Europe), and C3 (Sweden Central) provide the same capabilities. Choose a zone based on where your data is located; C3 is the preferred production zone when you have no other location requirement. See [Azure networking general information](https://docs.omnia.equinor.com/cloud-platforms/microsoft-azure/networking/networking-general-information/) for guidance on Azure regions.
+Radix currently provides three production zones:
 
-Each Radix zone corresponds to one cluster. See [The Radix clusters](../radix-clusters/index.md) for cluster details, including DNS zones and console links.
+- C1 - North Europe
+- C2 - West Europe
+- C3 - Sweden Central
+  
+All production zones provide the same platform capabilities, services, and operational support. Data location and networking requirements should drive your choice of zone. If your application has no regional requirements, choose C3 (Sweden Central).
+
+For guidance on selecting an Azure region, see [Azure networking general information](https://docs.omnia.equinor.com/cloud-platforms/microsoft-azure/networking/networking-general-information/).
+
+Each Radix zone corresponds to a single cluster. Radix provisions your applications, environments, networking, and platform resources in the cluster of the zone you select. See [Radix cluster information](../radix-clusters/index.md) for cluster details, including DNS zones and console links.
+
+:::tip
+Pick the production zone where your application's data and dependent services already live. Moving an application between zones later can mean migrating infrastructure, networking, and data.
+:::
 
 ### Playground
 
-Use Playground for prototyping and early-stage application development. It has a separate [lifecycle policy](../uptime/index.md#automatic-cleanup-in-playground-cluster). The **Configuration Item** and **Administrators** fields are optional when you register an application in Playground; they are required in production. See [Registering your application](../registering-app/index.md) for details.
+Playground is a separate Radix zone. Use it for experimentation, prototyping, and early-stage application development. It provides the same developer experience as production zones but follows a different operational model and [lifecycle policy](../uptime/index.md#automatic-cleanup-in-playground-cluster). Playground also has [limited services](../uptime/index.md#radix-playground-services).
 
-### Feature availability
+Radix automatically removes Playground resources according to the lifecycle policy, so don't run production workloads there.
 
-Feature availability can differ by zone. The table shows current availability; notes can clarify testing scope or planned changes.
+You can skip the **Configuration Item** and **Administrators** fields when you [register an application](../registering-app/index.md) in Playground; production zones require them.
+
+### Zone specific feature availability
+
+Most Radix features are available across all production zones, but some features are limited to specific zones while Radix tests, rolls out, or phases them out.
+
+The table below shows current availability for each feature; check the notes column for limitations and rollout status.
 
 | Feature | Playground | C1 | C2 | C3 | Notes |
 | --- | --- | --- | --- | --- | --- |
-| [Easy Auth](https://learn.microsoft.com/en-us/azure/app-service/overview-authentication-authorization) | Available | Unavailable | Unavailable | Unavailable | Radix-specific documentation is forthcoming. |
+| [Easy Auth](https://learn.microsoft.com/en-us/azure/app-service/overview-authentication-authorization) | ✅ Available | ❌ Unavailable | ❌ Unavailable | ❌ Unavailable |  |
+|  Auto cleanup | ✅ Available  | ❌ Unavailable | ❌ Unavailable| ❌ Unavailable| |
+|  Certificates | ❌ Unavailable  | ✅ Available| ✅ Available| ✅ Available| |
+
+:::info Note
+Feature availability changes as Radix introduces, tests, and rolls out new capabilities across zones. Always refer to this table for the current status.
+:::
+
 
 ## Application
 
