@@ -10,7 +10,11 @@ EasyAuth is currently available in the [Playground](../../start/radix-clusters/i
 
 EasyAuth puts every public component of your application behind a sign-in page with a single annotation in `radixconfig.yaml`. You don't need an app registration, a client ID, a client secret or callback URLs. Radix creates and maintains all of it for you, including rotating the client secret.
 
-Use EasyAuth when you want to make sure only Equinor employees and consultants, or members of specific groups, can reach a web application without writing any authentication code. If your application needs access tokens to call other APIs on behalf of the user, use the [Radix OAuth2 feature](../authentication/index.md#using-the-radix-oauth2-feature) with your own app registration instead.
+Use EasyAuth when you want to make sure only Equinor employees and consultants, or members of specific groups, can reach a web application without writing any authentication code.
+
+:::warning
+EasyAuth doesn't give your application access tokens. If your application needs to call other APIs on behalf of the user, use the [Radix OAuth2 feature](../authentication/index.md#using-the-radix-oauth2-feature) with your own app registration instead.
+:::
 
 ## How it works
 
@@ -98,11 +102,17 @@ The OAuth2 proxy logs every sign-in and every request it passes on to your compo
 
 The Radix Web Console only shows the log of the running proxy replicas, so the entries disappear from the console when the proxy restarts, for example when you deploy a new version or when Radix rotates the client secret. Radix still retains a copy of the log for 30 days, and keeps it in cold storage for another 60 days after that. If you need a record that lasts longer, log the `X-Forwarded-User` or `X-Forwarded-Email` header from your component.
 
+The log contains personal data about everyone who signs in or tries to, and both your team and the Radix platform team can read it. Read more in [GDPR - Personal data in the logs](../authentication/index.md#oauth2-proxy-logs).
+
 ## What EasyAuth changes in your configuration
 
 EasyAuth applies to every public component in the application. It replaces the `authentication.oauth2` section of each public component with a Radix-managed configuration, and it removes `authentication.oauth2` from their `environmentConfig` sections. Radix ignores any OAuth2 settings you've set yourself on public components, including `clientId`, `sessionStoreType` and `skipAuthRoutes`. Private components and jobs stay unchanged.
 
-The managed configuration stores sessions in a Radix-managed Redis cache (`sessionStoreType: systemManaged`) and uses `/oauth2` as `proxyPrefix`. Since `skipAuthRoutes` isn't supported, every path requires sign-in. Keep this in mind if one of your public components is an API that other services call, or if an external uptime monitor checks a health endpoint, because the proxy redirects those requests to the sign-in page too. Radix's own health checks talk to your container directly and aren't affected.
+The managed configuration stores sessions in a Radix-managed Redis cache (`sessionStoreType: systemManaged`) and uses `/oauth2` as `proxyPrefix`.
+
+:::warning
+Since `skipAuthRoutes` isn't supported, every path requires sign-in. If one of your public components is an API that other services call, or an external uptime monitor checks a health endpoint, the proxy redirects those requests to the sign-in page too. Radix's own health checks talk to your container directly and aren't affected.
+:::
 
 ## Client secret rotation
 

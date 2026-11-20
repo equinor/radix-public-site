@@ -153,6 +153,10 @@ To read the log, open the component in an environment in the Radix Web Console, 
 
 If you need a record that lasts longer, for example for auditing, set [`setUserHeaders`](#pass-user-information-to-the-component) and log the _X-Forwarded-User_ or _X-Forwarded-Email_ header from your component. Read more about how Radix stores component logs in [Logs](../../docs/topic-logs/index.md).
 
+:::info GDPR - Personal data in the logs
+The proxy log contains personal data about everyone who signs in or tries to, including their email address, when they signed in and which pages they requested. Anyone with access to your application in the Radix Web Console can read the log of the running proxy replicas, and the Radix platform team can read the retained copy for as long as Radix keeps it. Include this in your application's privacy assessment and in the information you give your users about how you process their data.
+:::
+
 #### Known issues
 
 If **cookie** is used as `sessionStore`, the OAuth2 service fails to update the session data cookies after refresh of the access token. The session state is lost, and a full OAuth2 authorization flow is initiated. To avoid this it is recommended to use **redis** as a session store type.
