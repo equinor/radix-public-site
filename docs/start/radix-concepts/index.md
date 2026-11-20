@@ -46,7 +46,7 @@ The table below shows current availability for each feature.
 | [Administrators](../../docs/topic-releases/index.md#2022-09-01-select-radix-application-administrator-group-by-name) | ❌ Optional | ✅ Required | ✅ Required | ✅ Required |
 | [Auto cleanup (lifecycle policy)](../uptime/index.md#automatic-cleanup-in-playground-cluster) | ✅ Enforced | ❌ Not enforced | ❌ Not enforced | ❌ Not enforced |
 | [Certificate automation](../../radix-config/index.md#dnsexternalalias) | ❌ Unavailable | ✅ Available | ✅ Available | ✅ Available |
-| [Easy Auth](https://learn.microsoft.com/en-us/azure/app-service/overview-authentication-authorization) | ✅ Available | ❌ Unavailable | ❌ Unavailable | ❌ Unavailable |
+| [EasyAuth](../../guides/easyauth/index.md) | ✅ Available | ❌ Unavailable | ❌ Unavailable | ❌ Unavailable |
 
 :::info Note
 Feature availability changes as Radix introduces, tests, and rolls out new capabilities across zones. Always refer to this table for the current status.
