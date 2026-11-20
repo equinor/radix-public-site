@@ -12,9 +12,9 @@ A zone is a Radix deployment location that maps to a specific Azure region and K
 
 Radix currently provides three production zones:
 
-- Platform 1 - North Europe
-- Platform 2 - West Europe
-- Platform 3 - Sweden Central
+- 🇮🇪 Platform 1 - North Europe
+- 🇳🇱 Platform 2 - West Europe - preferred alternative
+- 🇸🇪 Platform 3 - Sweden Central - preferred
   
 All production zones provide the same platform capabilities, services, and operational support. Data location and networking requirements should drive your choice of zone. If your application has no regional requirements, choose Platform 3 (Sweden Central).
 
@@ -42,9 +42,9 @@ The table below shows current availability for each feature.
 
 | Feature | Playground | Platform 1 | Platform 2 | Platform 3 |
 | --- | --- | --- | --- | --- |
-| [Configuration Item (Optional)](../../docs/topic-releases/index.md#2022-11-10-configuration-item-replaces-wbs-and-owner-and-is-now-mandatory) | ✅ Available | ❌ Unavailable | ❌ Unavailable | ❌ Unavailable |
-| [Administrators (Optional)](../../docs/topic-releases/index.md#2022-09-01-select-radix-application-administrator-group-by-name) | ✅ Available | ❌ Unavailable | ❌ Unavailable | ❌ Unavailable |
-| [Auto cleanup](https://github.com/equinor/radix-cluster-cleanup) | ✅ Available | ❌ Unavailable | ❌ Unavailable | ❌ Unavailable |
+| [Configuration Item](../../docs/topic-releases/index.md#2022-11-10-configuration-item-replaces-wbs-and-owner-and-is-now-mandatory) | ❌ Optional | ✅ Required | ✅ Required | ✅ Required |
+| [Administrators](../../docs/topic-releases/index.md#2022-09-01-select-radix-application-administrator-group-by-name) | ❌ Optional | ✅ Required | ✅ Required | ✅ Required |
+| [Auto cleanup (lifecycle policy)](../uptime/index.md#automatic-cleanup-in-playground-cluster) | ✅ Enforced | ❌ Not enforced | ❌ Not enforced | ❌ Not enforced |
 | [Certificate automation](../../radix-config/index.md#dnsexternalalias) | ❌ Unavailable | ✅ Available | ✅ Available | ✅ Available |
 | [Easy Auth](https://learn.microsoft.com/en-us/azure/app-service/overview-authentication-authorization) | ✅ Available | ❌ Unavailable | ❌ Unavailable | ❌ Unavailable |
 
