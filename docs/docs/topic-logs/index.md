@@ -12,6 +12,7 @@ After 30 days they are moved to cold storage for an additional 60 days.
 ## What is Logged
 
 - Application logs (everything written to `stdout` and `stderr`)
+- OAuth2 proxy logs for components that use [OAuth2](../../guides/authentication/index.md#oauth2-proxy-logs) or [EasyAuth](../../guides/easyauth/index.md#see-who-signed-in), including who signed in. Only the running proxy replicas are accessible from Console.
 - Request logs from our Ingress Controller, Nginx, that all public traffic flow trough. Not accessable from CLI or Console.
 - Management logs of all changes made to an application in Radix, like deployments, scaling, etc. Not accessable from CLI or Console.
 

@@ -60,6 +60,7 @@ const sidebars: SidebarsConfig = {
         label: 'Authentication',
         items: [
           'guides/authentication/index',
+          'guides/easyauth/index',
           'guides/workload-identity/index',
         ]
       },
