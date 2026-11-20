@@ -43,7 +43,9 @@ spec:
 
 The annotation turns EasyAuth on for all public components, and gives every Equinor employee and consultant access. Its value must be an empty string (`""`), and Radix rejects the configuration if you give it any other value.
 
-Commit the change to the config branch. Radix picks it up the next time the configuration is applied, either by a [build-deploy](../build-and-deploy/index.md) job or by the [apply-config](../apply-config/index.md) pipeline. You don't need to build or deploy again, because Radix updates the active deployment in every environment as soon as the new configuration is applied.
+Commit the change to the config branch. Radix picks it up the next time the configuration is applied, either by a [build-deploy](../build-and-deploy/index.md) job or by the [apply-config](../apply-config/index.md) pipeline. As soon as the new configuration is applied, Radix adds EasyAuth to the active deployment in every environment, so you don't need to build or deploy again. Every deployment you create or [promote](../deployment-promotion/index.md) after that gets EasyAuth too.
+
+Radix redeploys the public components with the OAuth2 proxy in front of them. Until the proxy has its client secret, the component is briefly unreachable instead of unprotected.
 
 To check that it works, open the public URL of a component in a private browser window. You should land on a sign-in page instead of your application.
 
@@ -59,7 +61,7 @@ metadata:
     easyauth.radix.equinor.com/allowed-identities: "00000000-0000-0000-0000-000000000000,11111111-1111-1111-1111-111111111111" # Group Object IDs
 ```
 
-Your groups replace the default, so only users who are members of at least one of them get access. Don't add spaces around the commas or leave empty entries, since Radix rejects values like `"group-a, group-b"` and `"group-a,,group-b"`. Always use it together with `easyauth.radix.equinor.com`, since Radix rejects a configuration that has `allowed-identities` without it.
+Your groups replace the default, so only users who are members of at least one of them get access. Like the `easyauth.radix.equinor.com` annotation, changes to the list apply to the active deployments as soon as the configuration is applied. Don't add spaces around the commas or leave empty entries, since Radix rejects values like `"group-a, group-b"` and `"group-a,,group-b"`. Always use it together with `easyauth.radix.equinor.com`, since Radix rejects a configuration that has `allowed-identities` without it.
 
 You'll find the object ID of a group on the group's overview page in the Microsoft Entra admin center, or with the Azure CLI:
 
@@ -90,6 +92,12 @@ Your application can use them to show who's signed in or to make finer-grained a
 Only the OAuth2 proxy sets these headers on requests from the internet. Other components and jobs in the same environment can call your component directly and bypass the proxy, so don't trust the headers on requests that don't come through it.
 :::
 
+## See who signed in
+
+The OAuth2 proxy logs every sign-in and every request it passes on to your component, together with the signed-in user. Read more about what the log contains and how to find it in [OAuth2 proxy logs](../authentication/index.md#oauth2-proxy-logs).
+
+The Radix Web Console only shows the log of the running proxy replicas, so the entries disappear from the console when the proxy restarts, for example when you deploy a new version or when Radix rotates the client secret. Radix still retains a copy of the log for 30 days, and keeps it in cold storage for another 60 days after that. If you need a record that lasts longer, log the `X-Forwarded-User` or `X-Forwarded-Email` header from your component.
+
 ## What EasyAuth changes in your configuration
 
 EasyAuth applies to every public component in the application. It replaces the `authentication.oauth2` section of each public component with a Radix-managed configuration, and it removes `authentication.oauth2` from their `environmentConfig` sections. Radix ignores any OAuth2 settings you've set yourself on public components, including `clientId`, `sessionStoreType` and `skipAuthRoutes`. Private components and jobs stay unchanged.
@@ -102,7 +110,11 @@ Radix rotates the client secret every 90 days and restarts the OAuth2 proxy with
 
 ## Disable EasyAuth
 
-Remove `easyauth.radix.equinor.com` and, if you use it, `easyauth.radix.equinor.com/allowed-identities` from `radixconfig.yaml` and commit the change. Radix rejects the configuration if you leave `allowed-identities` behind. The active deployments keep EasyAuth until you deploy a new version to each environment, either with a [build-deploy](../build-and-deploy/index.md) job or by [promoting](../deployment-promotion/index.md) a deployment.
+Remove `easyauth.radix.equinor.com` and, if you use it, `easyauth.radix.equinor.com/allowed-identities` from `radixconfig.yaml` and commit the change. Radix rejects the configuration if you leave `allowed-identities` behind.
+
+Unlike enabling, disabling doesn't change the active deployments. They keep EasyAuth, and sign-in keeps working, until you deploy a new version to each environment with a [build-deploy](../build-and-deploy/index.md) job. This way, your components never become publicly reachable just because the configuration changed. Until you deploy, Radix stops rotating the client secret and no longer registers callback URLs for new aliases.
+
+Deployments created while EasyAuth was enabled still contain the EasyAuth configuration. If you [promote](../deployment-promotion/index.md) one of them after disabling EasyAuth, sign-in stops working in the target environment, so only promote deployments created after you removed the annotations.
 
 :::warning
 Without EasyAuth, your public components are open to the internet unless you've configured [authentication](../authentication/index.md) yourself. Set that up before you remove the annotations.

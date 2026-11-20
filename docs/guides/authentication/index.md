@@ -142,6 +142,17 @@ After successful refresh of the access token, the session cookie is updated with
 
 `refresh` must be less than `expire`, or the OAuth2 service will fail to start.
 
+#### OAuth2 proxy logs
+
+The OAuth2 proxy writes two kinds of entries to its log, and both identify the signed-in user, usually by their email address:
+
+- Authentication entries for every sign-in, with the result `AuthSuccess`, `AuthFailure` or `AuthError`. A user who signs in but isn't a member of any of the `allowedGroups` shows up as a failure.
+- Request entries for every request the proxy passes on to your component, with the host, method, path, status code and response time.
+
+To read the log, open the component in an environment in the Radix Web Console, expand **OAuth2 Service**, and select a replica under **Proxy**. Like the log of a component replica, it shows the last entries of the running replica, and you can download the whole log. The console doesn't show the log of earlier replicas, so the entries disappear from the console when the proxy restarts, for example after a new deployment. Radix still retains a copy of the log for 30 days, and keeps it in cold storage for another 60 days after that.
+
+If you need a record that lasts longer, for example for auditing, set [`setUserHeaders`](#pass-user-information-to-the-component) and log the _X-Forwarded-User_ or _X-Forwarded-Email_ header from your component. Read more about how Radix stores component logs in [Logs](../../docs/topic-logs/index.md).
+
 #### Known issues
 
 If **cookie** is used as `sessionStore`, the OAuth2 service fails to update the session data cookies after refresh of the access token. The session state is lost, and a full OAuth2 authorization flow is initiated. To avoid this it is recommended to use **redis** as a session store type.
