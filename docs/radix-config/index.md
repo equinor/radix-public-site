@@ -1338,6 +1338,7 @@ oauth2:
   scope: openid profile email offline_access 2b06f36c-5a78-45a6-9809-44816f59c1ff/user.read
   setXAuthRequestHeaders: true
   setAuthorizationHeader: true
+  setUserHeaders: true
   proxyPrefix: /oauth2
   oidc:
     issuerUrl: https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/v2.0
@@ -1362,6 +1363,10 @@ oauth2:
   skipAuthRoutes:
     - GET=^/healthz$
     - POST=^/api/public-entity/?$
+  allowedGroups:
+    - 00000000-0000-0000-0000-000000000000
+    - 11111111-1111-1111-1111-111111111111
+  groupClaim: groups
 ```
 
 * `clientId` Required - The client ID of the application, e.g. the application ID of an application registration in Azure AD.
@@ -1370,6 +1375,7 @@ oauth2:
 * `setXAuthRequestHeaders` Optional. Default **false** - Adds claims from the access token to the _X-Forwarded-User_, _X-Forwarded-Groups_, _X-Forwarded-Email_ and _X-Forwarded-Preferred-Username_ request headers. The Access Token is added to the _X-Forwarded-Access-Token_ header.
 
 * `setAuthorizationHeader` Optional. Default **false** - Adds the OIDC ID Token in the _Authorization: Bearer_ request header.
+* `setUserHeaders` Optional - Adds information about the signed-in user to the _X-Forwarded-User_, _X-Forwarded-Email_, _X-Forwarded-Groups_ and _X-Forwarded-Preferred-Username_ request headers. When you leave it out, these headers follow `setXAuthRequestHeaders`. Set it to **true** together with `setXAuthRequestHeaders: false` to pass user information without the access token, or to **false** to pass the access token without the user headers.
 * `proxyPrefix` Optional. Default **/oauth2** - The root path that the OAuth2 proxy should be nested under. The OAuth2 proxy exposes various [endpoints](https://oauth2-proxy.github.io/oauth2-proxy/docs/features/endpoints) from this root path.
 * `oidc` OIDC configuration
   * `issuerUrl` Optional. Default `https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/v2.0` - OIDC issuer URL. The default value is set to the Equinor Azure tenant ID. Read more about Microsoft OIDC issuer URLs [here](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-protocols-oidc#fetch-the-openid-connect-metadata-document).
@@ -1395,6 +1401,8 @@ oauth2:
   * `refresh` Optional. Default **60m0s**. Refresh interval defines how often the OAuth2 service should redeem the refresh token to get a new access token. The session cookie's _Expires_ is updated after refresh.
   * `sameSite` Optional. Default **lax**. The _SameSite_ attribute for the session cookie.
 * `skipAuthRoutes` Optional - A list of routes that bypass authentication, so the OAuth2 proxy passes matching requests straight to the component. Each entry is a regular expression, optionally prefixed with an HTTP method and `=` to restrict the rule to that method, for example `GET=^/healthz$`. Prefix the pattern with `!=` to negate it. Anchor each pattern with `^` and `$` to match the whole path, and note that a route cannot contain a comma. See the [OAuth2 Proxy skip auth routes documentation](https://oauth2-proxy.github.io/oauth2-proxy/configuration/overview#skip-auth-path-matching) for more details.
+* `allowedGroups` Optional - Restricts access to users who are members of at least one of the listed groups. The OAuth2 service reads the user's groups from the ID token claim set in `groupClaim`, and returns _403 Forbidden_ to signed-in users who aren't members of any of the groups. All authenticated users get access when the list is empty or not set. A group can't be empty, contain a comma, or start or end with a space. With Microsoft Entra ID, list the object IDs of the groups, and configure the app registration to include groups in the ID token. Read more in the [guide](../guides/authentication/index.md#restrict-access-to-entra-id-groups).
+* `groupClaim` Optional. Default **groups** - The name of the ID token claim that contains the user's groups. Used by `allowedGroups`.
 
 :::tip
 See [guide](../guides/authentication/index.md#using-the-radix-oauth2-feature) on how to configure OAuth2 authentication for a component.

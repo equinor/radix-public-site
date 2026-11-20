@@ -26,6 +26,12 @@ Radix provides built-in configuration for adding OAuth2 authorization with OIDC 
 [Guide](../guides/authentication/index.md#using-the-radix-oauth2-feature) -
 [Radix config reference](../radix-config/index.md#oauth2)
 
+### EasyAuth
+
+Radix EasyAuth puts all public components behind a sign-in page. By default, all Equinor employees and consultants get access, and you can limit it further to your own groups. You enable it with a single annotation in `radixconfig.yaml`, without an app registration or secrets. EasyAuth is currently available in the Playground cluster.
+
+[Guide](../guides/easyauth/index.md)
+
 ## Azure Blob Storage CSI driver
 
 This driver allows Kubernetes to access Azure Storage - Blobs.

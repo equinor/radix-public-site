@@ -51,6 +51,7 @@ nav:
       - Environment Variables: guides/environment-variables/index.md
       - Authentication:
           - OAuth 2.0 Authentication: guides/authentication/index.md
+          - Radix EasyAuth: guides/easyauth/index.md
           - Azure Workload Identity: guides/workload-identity/index.md
       - Azure Key Vault: guides/azure-key-vaults/index.md
       - External DNS Alias:
