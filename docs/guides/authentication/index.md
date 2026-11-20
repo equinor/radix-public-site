@@ -26,6 +26,10 @@ The user has access to a front-end client, but needs to acquire an authenticatio
 
 Radix has built-in support for OAuth2 code flow authentication with OIDC.
 
+:::tip
+If you only need to restrict a web application to Equinor employees and consultants, or to members of specific groups, [Radix EasyAuth](../easyauth/index.md) sets up authentication for all public components without an app registration or secrets.
+:::
+
 When OAuth2 is enabled for a component in [`radixconfig.yaml`](../../radix-config/index.md#oauth2), Radix creates an OAuth2 service and configures this service to verify if incoming requests are authorized or not, handle the authorization code flow, and manage session state for an authorized user.
 
 ![Diagram](./oauth2.png "OAuth2 Sequence Diagram")
@@ -98,9 +102,28 @@ Example:
           credentials: azureWorkloadIdentity
   ```  
 
-#### Restrict access to AAD group
+#### Restrict access to Entra ID groups
 
-A common requirement in OAuth2 scenarios is to only allow web access for members of a particular AAD group. [This tutorial from Microsoft](https://learn.microsoft.com/en-us/azure/active-directory/manage-apps/add-application-portal-assign-users#assign-a-user-account-to-an-enterprise-application) describes the required steps.
+A common requirement is to only give members of particular groups access to a web application. Set `allowedGroups` to the object IDs of the Microsoft Entra ID groups, and the OAuth2 service returns `403 Forbidden` to signed-in users who aren't members of any of them:
+
+```yaml
+components:
+  - name: web
+    authentication:
+      oauth2:
+        clientId: 5e48ca1f-a2bf-4dec-b96d-bbf8ce69f9f6
+        allowedGroups:
+          - 00000000-0000-0000-0000-000000000000
+          - 11111111-1111-1111-1111-111111111111
+```
+
+The OAuth2 service reads the groups from the `groups` claim of the ID token, which Entra ID only includes when you've configured it on the app registration. Open **Token configuration** for the app registration, select **Add groups claim**, and choose which groups to include. If users can be members of many groups, choose **Groups assigned to the application** and [assign the groups to the enterprise application](https://learn.microsoft.com/en-us/entra/identity/enterprise-apps/assign-user-or-group-access-portal), since Entra ID leaves out the claim when a user is a member of more than 200 groups. Read more about [group claims](https://learn.microsoft.com/en-us/entra/identity-platform/optional-claims#configure-groups-optional-claims) in the Microsoft documentation. If your identity provider uses a different claim name, set it in `groupClaim`.
+
+As an alternative, you can require user assignment on the enterprise application in Entra ID. Entra ID then refuses to sign in users who aren't assigned, either directly or through a group. [This tutorial from Microsoft](https://learn.microsoft.com/en-us/entra/identity/enterprise-apps/assign-user-or-group-access-portal) describes the required steps.
+
+#### Pass user information to the component
+
+Set `setUserHeaders` to **true** to pass information about the signed-in user to your component in the _X-Forwarded-User_, _X-Forwarded-Email_, _X-Forwarded-Groups_ and _X-Forwarded-Preferred-Username_ request headers. By default, these headers follow `setXAuthRequestHeaders`, which also passes the access token. Combine `setUserHeaders: true` with `setXAuthRequestHeaders: false` when your component only needs to know who the user is.
 
 #### Session store types
 

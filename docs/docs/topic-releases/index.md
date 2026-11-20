@@ -6,6 +6,14 @@ title: What's new
 
 ## 2026
 
+### 2026-11-20 Radix EasyAuth available in Playground
+
+Radix EasyAuth puts all public components of an application behind a sign-in page with a single annotation in `radixconfig.yaml`. You don't need an app registration, a client secret or callback URLs, since Radix creates and maintains them for you. By default, all Equinor employees and consultants get access, and you can limit it to your own Entra ID groups. EasyAuth is available in the Playground cluster now, and we'll make it available in the Platform clusters once we've collected feedback. Read more in the [EasyAuth guide](../../guides/easyauth/index.md).
+
+### 2026-11-20 Group access control and user headers in OAuth2
+
+The [`oauth2`](../../radix-config/index.md#oauth2) configuration has three new options. `allowedGroups` limits access to members of the listed groups, and `groupClaim` sets which ID token claim holds the user's groups. `setUserHeaders` passes the signed-in user's name, email and groups to your component without also passing the access token. Read more in the [authentication guide](../../guides/authentication/index.md#restrict-access-to-entra-id-groups).
+
 ### 2026-10-23 Added support for LetsEncrypt certificate issuer
 
 This is relevant for teams with `useCertificateAutomation` set. Switching to Let's Encrypt provides significant cost savings for Equinor. See [this](https://equinor.slack.com/archives/C02132Z6X3J/p1790846720478059) announcement for details. During a grace period, DigiCert remains the default issuer. Once enough teams have switched over, we'll make Let's Encrypt the default for new deployments using certificate automation. For more info see [radix config](../../radix-config/index.md#dnsexternalalias)
