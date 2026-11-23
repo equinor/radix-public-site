@@ -4,6 +4,55 @@ title: Radix concepts
 
 # Radix concepts
 
+## Zones
+
+A zone is a Radix deployment location that maps to a specific Azure region and Kubernetes cluster. Zones let you deploy applications close to their data and users while keeping environments isolated from each other.
+
+![Diagram of Radix zones grouped by subscription](./zones-overview.svg "Radix zones")
+
+Radix currently provides three production zones:
+
+- 🇮🇪 Platform 1 - North Europe
+- 🇳🇱 Platform 2 - West Europe - preferred alternative
+- 🇸🇪 Platform 3 - Sweden Central - preferred
+  
+All production zones provide the same platform capabilities, services, and operational support. Data location and networking requirements should drive your choice of zone. If your application has no regional requirements, choose Platform 3 (Sweden Central).
+
+For guidance on selecting an Azure region, see [Azure networking general information](https://docs.omnia.equinor.com/cloud-platforms/microsoft-azure/networking/networking-general-information/).
+
+Each Radix zone corresponds to a single cluster. Radix provisions your applications, environments, networking, and platform resources in the cluster of the zone you select. See [Radix cluster information](../radix-clusters/index.md) for cluster details, including DNS zones and console links.
+
+:::tip
+Pick the production zone where your application's data and dependent services already live. Moving an application between zones later can mean migrating infrastructure, networking, and data.
+:::
+
+### Playground
+
+Playground is a separate Radix zone. Use it for experimentation, prototyping, and early-stage application development. It provides the same developer experience as production zones but follows a different operational model and [lifecycle policy](../uptime/index.md#automatic-cleanup-in-playground-cluster). Playground also has [limited services](../uptime/index.md#radix-playground-services).
+
+Radix automatically removes Playground resources according to the lifecycle policy, so don't run production workloads there.
+
+You can skip the **Configuration Item** and **Administrators** fields when you [register an application](../registering-app/index.md) in Playground; production zones require them.
+
+### Zone specific feature availability
+
+Most Radix features are available across all production zones, but some features are limited to specific zones while Radix tests, rolls out, or phases them out.
+
+The table below shows current availability for each feature.
+
+| Feature | Playground | Platform 1 | Platform 2 | Platform 3 |
+| --- | --- | --- | --- | --- |
+| [Configuration Item](../../docs/topic-releases/index.md#2022-11-10-configuration-item-replaces-wbs-and-owner-and-is-now-mandatory) | ⚪ Optional | ✅ Required | ✅ Required | ✅ Required |
+| [Administrators](../../docs/topic-releases/index.md#2022-09-01-select-radix-application-administrator-group-by-name) | ⚪ Optional | ✅ Required | ✅ Required | ✅ Required |
+| [Auto cleanup (lifecycle policy)](../uptime/index.md#automatic-cleanup-in-playground-cluster) | ✅ Enforced | ⚪ Not enforced | ⚪ Not enforced | ⚪ Not enforced |
+| [Certificate automation](../../radix-config/index.md#dnsexternalalias) | ❌ Unavailable | ✅ Available | ✅ Available | ✅ Available |
+| [EasyAuth](../../guides/easyauth/index.md) | ✅ Available | ❌ Unavailable | ❌ Unavailable | ❌ Unavailable |
+
+:::info Note
+Feature availability changes as Radix introduces, tests, and rolls out new capabilities across zones. Always refer to this table for the current status.
+:::
+
+
 ## Application
 
 Applications are the highest level of objects that can be created in Radix — all other objects are contained within them.

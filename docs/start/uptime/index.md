@@ -4,9 +4,9 @@ title: Service, support, uptime and availability
 
 # Uptime and availability
     
-Historical uptime is an indicator of the reliability of a service, in our case the Radix Kubernetes cluster. The Radix uptime is measured by sending requests from an external service every 1 minute to an endpoint running in Radix, and recording whether the request completed successfully or not. The uptime number is then calculated as the ratio (percentage) of aggregated time between consecutive successful requests over the length of the measurement period.  
+Historical uptime is an indicator of the reliability of a service, in our case the Radix Kubernetes cluster. We measure Radix uptime by sending requests from an external service every 1 minute to an endpoint running in Radix, and recording whether each request completed successfully. We then calculate the uptime number as the ratio (percentage) of aggregated time between consecutive successful requests over the length of the measurement period.
 
-Radix will only report the measured uptime for the Radix platform, and not the other services provided, i.e. build-deploy pipeline, monitoring, vulnerability scanning. We will use an external service that monitors an application running on the Radix Platform, from outside the Azure tenant, it will calculate availability of the applicable monitored service.  
+Radix only reports the measured uptime for the Radix platform, and not the other services we provide, i.e. build-deploy pipeline, monitoring, vulnerability scanning. We use an external service that monitors an application running on the Radix Platform, from outside the Azure tenant, and it calculates the availability of the monitored service.
 
 | | |
 |-|---------------------------------------|
@@ -15,22 +15,22 @@ Radix will only report the measured uptime for the Radix platform, and not the o
 |Monitoring tool: | Prometheus |
 |Availability calculation %: | Uptime / (Uptime + Downtime) x 100 |
 
-The [Uptime/Availability report](https://console.radix.equinor.com/about), will be an indication of future reliability of Radix Platform.  
+The [Uptime/Availability report](https://console.radix.equinor.com/about) gives an indication of the future reliability of the Radix Platform.
 
 
-- **Planned maintenance:** We will announce, in our main Slack channel - [#omnia_radix](https://equinor.slack.com/archives/C8U7XGGAJ), planned maintenance at least 2 business days in advance. Downtime during planned maintenance does not affect uptime goals
-- **Disaster Recovery:** A Disaster Recovery Procedure is in place and the procedure is executed on a weekly basis. Estimated time to recover a cluster less than an hour, estimated time to rebuild and recover a complete cluster is 4 hours. (A backup of all resources in the Kubernetes cluster is done every 1 hour, and is the main ingredient of the recovery recipe)  
+- **Planned maintenance:** We announce planned maintenance in our main Slack channel, [#omnia_radix](https://equinor.slack.com/archives/C8U7XGGAJ), at least 2 business days in advance. Downtime during planned maintenance does not affect uptime goals
+- **Disaster Recovery:** We have a Disaster Recovery Procedure in place and execute it on a weekly basis. We estimate less than an hour to recover a cluster, and 4 hours to rebuild and recover a complete cluster. (We back up all resources in the Kubernetes cluster every 1 hour, and this backup is the main ingredient of the recovery recipe)
 
 ## Platform cluster availability and services
 
-The Radix Platform should be used when your team has chosen Radix as PaaS (Platform-as-a-Service) for a product under development or in production.
+Use the Radix Platform when your team has chosen Radix as PaaS (Platform-as-a-Service) for a product under development or in production.
 
 | Cluster                      | Purpose                                     | Upgrade         |   Support   |
 | ---------------------------- | ------------------------------------------- | :-------------: | :---------: |
-| **Platform (North Europe)**  | Apps under development or in production | Every ~6 months | Yes         |
-| **Platform 2 (West Europe)** | Apps under development or in production | Every ~6 months | Yes         |
-| **Platform 3 (Central Sweden)** | Apps under development or in production | Every ~6 months | Yes         |
-| [**Playground**](#radix-playground-services) | Testing and experimenting with Radix        |                 | Best-effort |
+| **Platform -  C1 (North Europe)**  | Apps under development or in production with data or resources in same region | Every ~6 months | Yes         |
+| **Platform 2 - C2 (West Europe)** | Apps under development or in production with data or resources in same region | Yes         |
+| **Platform 3 - C3 (Central Sweden)** | Apps under development or in production with data or resources in same region | Every ~6 months | Yes         |
+| [**Playground**](#radix-playground-services) | Experimentation, prototyping, and early-stage application development       |                 | Best-effort |
 
 ### Support
 
@@ -39,7 +39,7 @@ Schedule for Radix DevOps/Support team - 08:00 - 16:00 CET/CEST on Norwegian wor
 - **Support channels:** File issue on [**radix** repo](https://github.com/equinor/radix-internal/issues) or ask on [#radix-support](https://equinor.slack.com/messages/CBKM6N2JY) on Slack
 - **Response time:** As soon as possible within business hours, at least next business day
 - **On-call duty:** No, please contact us to discuss options
-- **Resolution time:** Cannot be guaranteed, but for critical issues work on fixing the problem will start immediately and continue within business hours until resolved
+- **Resolution time:** We can't guarantee a resolution time, but for critical issues we start working on the problem immediately and continue within business hours until we resolve it
 
 ### Associated operational risks
 
@@ -51,30 +51,30 @@ Schedule for Radix DevOps/Support team - 08:00 - 16:00 CET/CEST on Norwegian wor
 To ensure efficient resource usage, minimize unmaintained vulnerabilities and good platform hygiene, Radix enforces the following lifecycle policy for applications:
 
 #### Inactive Applications
-An application is considered inactive if it meets any of the following criteria:
+Radix considers an application inactive if it meets any of the following criteria:
 
-- **Configuration Status:** The associated configuration item (CI, or ServiceNow AppId) in the CMDB is marked as **Retired**
-- **Source Code Repository:** The GitHub repository linked to the application has been **archived**
-- **Deployment Activity:** The application has not been updated or deployed in the last **12 months**
+- **Configuration Status:** The CMDB marks the associated configuration item (CI, or ServiceNow AppId) as **Retired**
+- **Source Code Repository:** The GitHub repository linked to the application is **archived**
+- **Deployment Activity:** Nobody has updated or deployed the application in the last **12 months**
 
 #### Lifecycle actions
 
-- **Inactive Applications:** Applications that are no longer maintained or actively used will be stopped
-- **Deletion Timeline:** If no action is taken, stopped applications will be automatically deleted after **30 days**
-- **Notification:** Owners will be notified prior to deletion to allow time for reactivation
+- **Inactive Applications:** Radix stops applications that nobody maintains or actively uses
+- **Deletion Timeline:** If you take no action, Radix automatically deletes stopped applications after **30 days**
+- **Notification:** Radix notifies owners before deletion to allow time for reactivation
 
 We encourage teams to regularly review and update their applications and repositories to ensure they remain active and aligned with current business needs.
 
 
 ### Uptime risk management
 
-A risk assessment for cluster uptime has been done, and the most critical risk scenarios are identified, and risk mitigation actions have been agreed upon and are implemented as required.
+We have carried out a risk assessment for cluster uptime, identified the most critical risk scenarios, and agreed on risk mitigation actions, which we implement as required.
 
 ### Disaster recovery
 
-Application configuration is backed up every hour using Velero and that backup is stored in the Azure Storage account. We have created a script that can create a new AKS instance and migrate all applications from the affected cluster to the new one.
+Velero backs up application configuration every hour and stores the backup in an Azure Storage account. We have created a script that can create a new AKS instance and migrate all applications from the affected cluster to the new one.
 
-**RTO (Recovery Time Objective)** has been estimated at 20 minutes from the moment the Radix team starts working on it. Keep in mind that the RTO is only an estimate since external factors can also influence the recovery time. For example, this time will increase if there is a high load on Azure REST API or Azure managed Kubernetes API server.
+We estimate the **RTO (Recovery Time Objective)** at 20 minutes from the moment the Radix team starts working on it. Keep in mind that the RTO is only an estimate since external factors can also influence the recovery time. For example, this time increases if there is a high load on the Azure REST API or the Azure managed Kubernetes API server.
 
 Some of the failure events that can take down the service or introduce delays and timeouts:
 
@@ -82,7 +82,7 @@ Some of the failure events that can take down the service or introduce delays an
 - Executing a command in the wrong cluster
 - Resource exhaustion, CPU, Memory, Disk issues
 - Upgrading 3rd party components
-- Azure resources/services are deleted
+- Someone deletes Azure resources/services
 - MS Azure services unavailable
 - Kubernetes bugs
 - Kubernetes API changes
@@ -90,23 +90,23 @@ Some of the failure events that can take down the service or introduce delays an
 - Network issues, DDOS
 - Expired secrets
 
-We are working hard to mitigate as much of these as possible.
+We are working hard to mitigate as many of these as possible.
 
 ## Radix Playground services
 
-Use Playground for testing Radix, see if it’s a good fit for your projects, and provide feedback (e.g. using the button "Give us feedback" on the application list page). The Playground cluster may have some limitations compared to the Platform clusters, e.g. external certificate service is not available.
+Use Playground for testing Radix, see if it's a good fit for your projects, and provide feedback (e.g. using the button "Give us feedback" on the application list page). The Playground cluster has some limitations compared to the Platform clusters, e.g. it doesn't offer the external certificate service.
 
 
-When you are ready to commit, register your application in any of the Radix Platform clusters, even if your application still is in the **development stage**. The Radix Platforms has improved services.
+When you are ready to commit, register your application in any of the Radix Platform clusters, even if your application is still in the **development stage**. The Radix Platform clusters offer improved services.
 
-- **Support channels:** Same as for Radix Platform (see above). Help will be provided when team has capacity
+- **Support channels:** Same as for Radix Platform (see above). We help when the team has capacity
 
-- **Uptime:** "Best-effort", but no guarantee of uptime. Planned maintenance is announced as early as possible
+- **Uptime:** "Best-effort", but we don't guarantee uptime. We announce planned maintenance as early as possible
 
 ### Automatic cleanup in Playground cluster
 
-A stricter lifecycle policy for using Radix Playground is in place, to make sure everybody share the resources and avoid unattended applications using unnecessary resources.
+Radix Playground enforces a stricter lifecycle policy to make sure everybody shares the resources and to avoid unattended applications using unnecessary resources.
 
-Any application which has not been **deployed** or **restarted** in the last `7 days` will be stopped.  
+Radix stops any application that nobody has **deployed** or **restarted** in the last `7 days`.
 
-After further `21 days` of inactivity, all stopped applications will be **deleted**.
+After a further `21 days` of inactivity, Radix **deletes** all stopped applications.
