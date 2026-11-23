@@ -42,9 +42,9 @@ The table below shows current availability for each feature.
 
 | Feature | Playground | Platform 1 | Platform 2 | Platform 3 |
 | --- | --- | --- | --- | --- |
-| [Configuration Item](../../docs/topic-releases/index.md#2022-11-10-configuration-item-replaces-wbs-and-owner-and-is-now-mandatory) | ❌ Optional | ✅ Required | ✅ Required | ✅ Required |
-| [Administrators](../../docs/topic-releases/index.md#2022-09-01-select-radix-application-administrator-group-by-name) | ❌ Optional | ✅ Required | ✅ Required | ✅ Required |
-| [Auto cleanup (lifecycle policy)](../uptime/index.md#automatic-cleanup-in-playground-cluster) | ✅ Enforced | ❌ Not enforced | ❌ Not enforced | ❌ Not enforced |
+| [Configuration Item](../../docs/topic-releases/index.md#2022-11-10-configuration-item-replaces-wbs-and-owner-and-is-now-mandatory) | ⚪ Optional | ✅ Required | ✅ Required | ✅ Required |
+| [Administrators](../../docs/topic-releases/index.md#2022-09-01-select-radix-application-administrator-group-by-name) | ⚪ Optional | ✅ Required | ✅ Required | ✅ Required |
+| [Auto cleanup (lifecycle policy)](../uptime/index.md#automatic-cleanup-in-playground-cluster) | ✅ Enforced | ⚪ Not enforced | ⚪ Not enforced | ⚪ Not enforced |
 | [Certificate automation](../../radix-config/index.md#dnsexternalalias) | ❌ Unavailable | ✅ Available | ✅ Available | ✅ Available |
 | [EasyAuth](../../guides/easyauth/index.md) | ✅ Available | ❌ Unavailable | ❌ Unavailable | ❌ Unavailable |
 
