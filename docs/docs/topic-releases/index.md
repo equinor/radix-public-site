@@ -6,6 +6,10 @@ title: What's new
 
 ## 2026
 
+### 2026-11-26 Absolute paths in `dockerfileName`
+
+[`dockerfileName`](../../radix-config/index.md#dockerfilename) now supports absolute paths from the repository root. A path starting with `/`, like `/docker/api.Dockerfile`, resolves from the repository root regardless of `src`, while relative paths still resolve from `src`. This makes it easier to keep Dockerfiles for several components in a shared folder.
+
 ### 2026-11-20 Radix EasyAuth available in Playground
 
 Radix EasyAuth puts all public components of an application behind a sign-in page with a single annotation in `radixconfig.yaml`. You don't need an app registration, a client secret or callback URLs, since Radix creates and maintains them for you. By default, all Equinor employees and consultants get access, and you can limit it to your own Entra ID groups. EasyAuth is available in the Playground cluster now, and we'll make it available in the Platform clusters once we've collected feedback. Read more in the [EasyAuth guide](../../guides/easyauth/index.md).

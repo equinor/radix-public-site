@@ -121,7 +121,7 @@ components:
     src: "./be"
 ```
 
-Note the `src` property for each component: this is the path to the directory containing the `Dockerfile` for that component. Radix will try to build the image within that directory.
+Note the `src` property for each component: this is the path to the directory containing the `Dockerfile` for that component. Radix will try to build the image within that directory. If your `Dockerfile` lives elsewhere, set [`dockerfileName`](../../radix-config/index.md#dockerfilename) to a path relative to `src`, or to an absolute path from the repository root, like `/docker/frontend.Dockerfile`.
 
 The `Dockerfile` should define - it is strongly recommended, when applicable - a **multi-stage build** in order to speed up the builds and make the resulting image as small as possible  also to avoid running debug versions of the code and servers. Python images usually run as is, but there is a "distroless" image like [these](https://github.com/GoogleContainerTools/distroless#docker) - we did not try them though.
 
