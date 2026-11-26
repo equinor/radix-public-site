@@ -74,7 +74,7 @@ The `dockerfileName` of the `web-app` component refers to the docker file `Docke
 
 The `dockerfileName` of the `api` component refers to the docker file `Dockerfile.backend` of the repository.
 
-For some or all components source folders can be deeper in the folder hierarchy. `Dockerfile`-s need to be in these component folders, defined in the `src`.
+For some or all components source folders can be deeper in the folder hierarchy. A relative `dockerfileName` resolves from the folder defined in `src`, while an absolute `dockerfileName`, starting with `/`, resolves from the repository root.
 
 Example:
 

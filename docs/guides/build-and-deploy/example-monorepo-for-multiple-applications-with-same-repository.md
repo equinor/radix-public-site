@@ -4,7 +4,7 @@ title: Example of multiple Radix applications with the source in the same GitHub
 
 # Example of multiple Radix applications with the source in the same GitHub repository
 
-A multiple Radix applications can have source code the same GitHub repository. Their components can use different or common sub-folders. `Dockerfile`-s of these components also need to be in their sub-folders.
+A multiple Radix applications can have source code the same GitHub repository. Their components can use different or common sub-folders. By default, Radix looks for the `Dockerfile` of each component in its `src` sub-folder. Use [`dockerfileName`](../../radix-config/index.md#dockerfilename) with an absolute path, like `/docker/app1.Dockerfile`, to keep Dockerfiles in a shared folder.
 
 Example:
 

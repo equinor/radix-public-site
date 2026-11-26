@@ -356,10 +356,18 @@ spec:
       dockerfileName: "subfolder/Dockerfile" # Resolved path from repository root: /web/subfolder/Dockerfile
       ports:
         - name: http
-          port: 5000          
+          port: 5000
+    - name: worker
+      src: worker
+      dockerfileName: "/docker/worker.Dockerfile" # Resolved path from repository root: /docker/worker.Dockerfile
+      ports:
+        - name: http
+          port: 5000
 ```
 
-`dockerfileName` defines the name and path, relative to [`src`](#src), of the `Dockerfile` to build in [Build and deploy](../guides/build-and-deploy/index.md) pipeline jobs.
+`dockerfileName` defines the name and path of the `Dockerfile` to build in [Build and deploy](../guides/build-and-deploy/index.md) pipeline jobs. The default value is `Dockerfile`.
+
+A relative path, like `subfolder/Dockerfile` or `../otherfolder/Dockerfile`, resolves relative to [`src`](#src). An absolute path, starting with `/`, resolves from the repository root regardless of `src`. Use an absolute path when you keep your Dockerfiles in a shared folder, separate from the component's build context. The build context is always `src`, so a Dockerfile in a different folder can only `COPY` files from within `src`.
 
 For Radix environment specific `dockerfileName`, refer to [environmentConfig dockerfileName](#dockerfilename-detailed).
 
@@ -1002,7 +1010,7 @@ spec:
       src: "./backend"
       environmentConfig:
         - environment: dev
-          dockerfileName: Dockerfile.dev
+          dockerfileName: /docker/backend.dev.Dockerfile
     - name: api
       image: ghcr.io/my-repo/my-app/api:v1.10
       environmentConfig:
@@ -1013,7 +1021,7 @@ spec:
 In this example:
 
 * The `frontend` component in the `dev` environment will be built with the `Dockerfile.dev` docker-file, and with a `Dockerfile` docker-file for other environments. Both docker-files expected to be in the root of the GitHub repo as `src` option is not specified.
-* The `backend` component in the `dev` environment will be built with the `Dockerfile.dev` docker-file, and with a `Dockerfile` docker-file (a name, used by default) for other environments. Both docker-files expected to be in the `backend` folder in the root of the GitHub repo.
+* The `backend` component in the `dev` environment will be built with the `/docker/backend.dev.Dockerfile` docker-file, resolved from the root of the GitHub repo because the path starts with `/`. Other environments use the `Dockerfile` docker-file (the default name) in the `backend` folder. The build context is the `backend` folder in all environments.
 * The `api` component in the `dev` environment will be built with the `Dockerfile` docker-file. This option in the environment overrides an `image` option on the component level, which value `ghcr.io/my-repo/my-app/api:v1.10` will be used to deploy this component in other environments. The docker-file expected to be in the root of the GitHub repo as `src` option is not specified.
 
 #### `image` (detailed)
